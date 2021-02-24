@@ -1,5 +1,6 @@
 //import { ValidationProvider } from 'vee-validate';
 //import '../../utils/validators';
+import { Boolean } from 'globalthis/implementation';
 import InputMixin from '../../mixins/input';
 export default {
 	name: 'CCheckbox',
@@ -20,6 +21,14 @@ export default {
 		truthValue: {
 			type: String,
 			default: ''
+		},
+		disabled: {
+			type: Boolean,
+			default: true
+		},
+		checked: {
+			type: Boolean,
+			default: false
 		}
 	}
 };

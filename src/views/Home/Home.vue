@@ -30,6 +30,7 @@
 					manual reviews and false positives to increase approval rates and reviews.
 				</p>
 			</div>
+
 			<ValidationObserver v-slot="{ invalid }">
 				<div class="search-wrapper">
 					<v-text-input class="search-input" rules="required" placeholder="Name" name="name" v-model="payload.full_name" />
@@ -43,7 +44,7 @@
 						class="search-input"
 						required
 					></v-select>
-					<button class="btn btn-primary" :disabled="invalid">Search</button>
+					<button class="btn btn-primary" :disabled="invalid" v-on:click="submitSearch">Search</button>
 				</div>
 			</ValidationObserver>
 			<p class="more-filter">More search options</p>
@@ -63,9 +64,13 @@
 							<td class="table__row-item">Events/conferences/Webinars</td>
 							<td class="table__row-item">
 								<label class="toggle"
-									><input type="checkbox" value="events" v-model="payload.contact_search.events" /><span
-										class="toggle-icon"
-									></span
+									><input
+										type="checkbox"
+										value="events"
+										true-value="true"
+										checked
+										false-value="false"
+										v-on:change="onOptionToggle('events', $event)" /><span class="toggle-icon"></span
 								></label>
 							</td>
 							<td class="table__row-item">
@@ -73,11 +78,18 @@
 									class="keywords-input"
 									placeholder="Keywords ( seperated by comma )"
 									name="event-keywords"
-									v-model="eventKeywords"
+									v-model="keywords.events"
+									v-on:change="onKeywordsChange('events', $event)"
 								/>
 							</td>
 							<td class="table__row-item">
-								<v-checkbox class="" name="all" truthValue="all">
+								<v-checkbox
+									class=""
+									name="all"
+									@change="applyAllOptionsToggle"
+									:disabled="disableApplyAll"
+									:v-model="applyAllChecked"
+								>
 									Apply keywords to all
 								</v-checkbox>
 							</td>
@@ -86,9 +98,13 @@
 							<td class="table__row-item">Blogs/Articles</td>
 							<td class="table__row-item">
 								<label class="toggle"
-									><input value="articles" type="checkbox" v-model="payload.contact_search.articles" /><span
-										class="toggle-icon"
-									></span
+									><input
+										value="articles"
+										type="checkbox"
+										checked
+										true-value="true"
+										false-value="false"
+										v-on:change="onOptionToggle('blogs', $event)" /><span class="toggle-icon"></span
 								></label>
 							</td>
 							<td class="table__row-item">
@@ -96,7 +112,8 @@
 									class="keywords-input"
 									placeholder="Keywords ( seperated by comma )"
 									name="blog-keywords"
-									v-model="blogKeywords"
+									v-model="keywords.blogs"
+									v-on:change="onKeywordsChange('blogs', $event)"
 								/>
 							</td>
 							<td class="table__row-item"></td>
@@ -128,15 +145,19 @@ export default {
 				type: Object
 			},
 			company: '',
-			eventKeywords: '',
-			blogKeywords: '',
+			disableApplyAll: true,
+			applyAllChecked: false,
+			keywords: {
+				events: [],
+				blogs: []
+			},
 			payload: {
 				full_name: '',
 				company: '',
 				role: '',
 				contact_search: {
 					events: [],
-					articles: [],
+					blogs: [],
 					podcasts: [],
 					features: [],
 					awards: [],
@@ -169,6 +190,74 @@ export default {
 	methods: {
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
+		},
+		onOptionToggle(optionTitle, event) {
+			const isChecked = event.target.checked;
+			const isValidOption = Object.keys(this.payload.contact_search).includes(optionTitle);
+			let obj = {};
+			if (isValidOption) {
+				if (isChecked) {
+					obj[optionTitle] = this.keywords[optionTitle];
+					this.payload.contact_search = { ...this.payload.contact_search, ...obj };
+					return;
+				}
+				this.payload.contact_search = this.deletePropertyFromObject(optionTitle, this.payload.contact_search);
+			}
+		},
+		onKeywordsChange(optionTitle, event) {
+			const isValidOption = Object.keys(this.keywords).includes(optionTitle);
+			if (isValidOption) {
+				if (optionTitle === 'events' && event.target.value !== '') {
+					this.disableApplyAll = false;
+				}
+
+				if (optionTitle === 'events' && event.target.value === '') {
+					this.disableApplyAll = true;
+					this.payload.contact_search[optionTitle] = [];
+					return;
+				}
+				this.keywords[optionTitle] = event.target.value.split(', ');
+				this.payload.contact_search[optionTitle] = this.keywords[optionTitle];
+			}
+		},
+		applyAllOptionsToggle() {
+			this.applyAllChecked = !this.applyAllChecked;
+		},
+		submitSearch() {
+			console.log('Here is the payload to be send', this.payload.contact_search);
+		},
+		deletePropertyFromObject(property, object) {
+			return Object.keys(object).reduce((obj, key) => {
+				if (key !== property) {
+					obj[key] = object[key];
+				}
+				return obj;
+			}, {});
+		}
+	},
+	watch: {
+		'keywords.events': function (newVal) {
+			if (typeof newVal === 'string' && newVal === '') {
+				this.applyAllChecked = false;
+			}
+		},
+		applyAllChecked: function (newVal) {
+			if (newVal) {
+				Object.keys(this.payload.contact_search).forEach((single) => {
+					this.payload.contact_search[single] = this.payload.contact_search.events;
+					this.keywords[single] = this.payload.contact_search.events;
+				});
+				return;
+			}
+			Object.keys(this.payload.contact_search).forEach((single) => {
+				if (single === 'events') {
+					this.payload.contact_search[single] = this.payload.contact_search.events;
+					this.keywords[single] = this.payload.contact_search.events;
+					return;
+				}
+				this.payload.contact_search[single] = [];
+				this.keywords[single] = [];
+			});
 		}
 	}
 };
