@@ -1,3 +1,4 @@
+@import '../../assets/scss/main.scss';
 .navbar {
 	margin: 32px 0 85px;
 	display: block;
@@ -155,4 +156,35 @@ thead.table__header {
 			background: #0ead69;
 		}
 	}
+}
+@include query(desktop, max){
+    .main{
+        padding: 0 50px;
+    }
+    .search-wrapper{
+        justify-content: flex-start;
+    }
+    .search-input{
+        margin: 0 10px 15px 0;
+    }
+    .more-filter {
+        margin-top: 12px;
+       
+    }
+    .btn{
+        width: 240px;
+    }
+}
+@include query(tablet, max){
+    .main{
+        padding: 0 
+    }
+}
+@include query(mobile, max){
+    .search-input, .btn{
+        width: 100%;
+    }
+    .keywords-input{
+        width: 240px;
+    }
 }

@@ -4,6 +4,7 @@
 
 <script src="./TextInput.js"></script>
 <style lang="scss" scoped>
+@import '../../assets/scss/main.scss';
 .form-input {
 	width: 240px;
 	height: 46px;
@@ -11,6 +12,9 @@
 	border: solid 1px #ebebf2;
 	padding: 0 16px;
 	color: #333758;
+	@include query(mobile, max) {
+		width: 100%;
+	}
 	&::placeholder {
 		color: #989aaa;
 	}

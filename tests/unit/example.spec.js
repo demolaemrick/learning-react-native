@@ -1,12 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import CButton from '@/components/Button';
+import CCheckbox from '@/components/Checkbox';
 
-describe('CButton.vue', () => {
-	it('renders props.label when passed', () => {
-		const label = 'new message';
-		const wrapper = shallowMount(CButton, {
-			propsData: { label }
-		});
-		expect(wrapper.text()).toMatch(label);
+describe('CCheckbox.vue', () => {
+	it('renders isRequired', () => {
+		const wrapper = shallowMount(CCheckbox);
+		expect(wrapper.find('.isRequired').exists()).toBeFalsy();
 	});
 });

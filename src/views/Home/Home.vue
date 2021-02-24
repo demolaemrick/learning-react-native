@@ -31,14 +31,15 @@
 				</p>
 			</div>
 			<div class="search-wrapper">
-				<v-text-input placeholder="Name" name="name" v-model="payload.full_name" />
-				<v-text-input placeholder="Title" name="title" v-model="payload.role" />
+				<v-text-input class="search-input" placeholder="Name" name="name" v-model="payload.full_name" />
+				<v-text-input class="search-input" placeholder="Title" name="title" v-model="payload.role" />
 				<v-select
 					:options="countries"
 					@update="onChildUpdate"
 					placeholder="Select Country"
 					name="company"
 					v-model="company"
+					class="search-input"
 					required
 				></v-select>
 				<button class="btn btn-primary">Search</button>
@@ -66,7 +67,12 @@
 								></label>
 							</td>
 							<td class="table__row-item">
-								<v-text-input placeholder="Keywords ( seperated by comma )" name="event-keywords" v-model="eventKeywords" />
+								<v-text-input
+									class="keywords-input"
+									placeholder="Keywords ( seperated by comma )"
+									name="event-keywords"
+									v-model="eventKeywords"
+								/>
 							</td>
 							<td class="table__row-item">
 								<v-checkbox class="" name="all" truthValue="all">
@@ -84,7 +90,12 @@
 								></label>
 							</td>
 							<td class="table__row-item">
-								<v-text-input placeholder="Keywords ( seperated by comma )" name="blog-keywords" v-model="blogKeywords" />
+								<v-text-input
+									class="keywords-input"
+									placeholder="Keywords ( seperated by comma )"
+									name="blog-keywords"
+									v-model="blogKeywords"
+								/>
 							</td>
 							<td class="table__row-item"></td>
 						</tr>
