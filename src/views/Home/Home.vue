@@ -60,13 +60,22 @@
 							<td class="table__row-item">Events/conferences/Webinars</td>
 							<td class="table__row-item">
 								<label class="toggle"
-									><input type="checkbox" value="events" v-model="payload.contact_search.events" /><span
-										class="toggle-icon"
-									></span
+									><input
+										type="checkbox"
+										value="events"
+										true-value="true"
+										false-value="false"
+										v-model="payload.contact_search.events"
+										v-on:change="onOptionToggle('events', $event)" /><span class="toggle-icon"></span
 								></label>
 							</td>
 							<td class="table__row-item">
-								<v-text-input placeholder="Keywords ( seperated by comma )" name="event-keywords" v-model="eventKeywords" />
+								<v-text-input
+									placeholder="Keywords ( seperated by comma )"
+									name="event-keywords"
+									v-model="keywords.events"
+									v-on:change="onKeywordsChange('events', $event)"
+								/>
 							</td>
 							<td class="table__row-item">
 								<v-checkbox class="" name="all" truthValue="all">
@@ -78,13 +87,22 @@
 							<td class="table__row-item">Blogs/Articles</td>
 							<td class="table__row-item">
 								<label class="toggle"
-									><input value="articles" type="checkbox" v-model="payload.contact_search.articles" /><span
-										class="toggle-icon"
-									></span
+									><input
+										value="articles"
+										type="checkbox"
+										v-model="payload.contact_search.articles"
+										true-value="true"
+										false-value="false"
+										v-on:change="onOptionToggle('blogs', $event)" /><span class="toggle-icon"></span
 								></label>
 							</td>
 							<td class="table__row-item">
-								<v-text-input placeholder="Keywords ( seperated by comma )" name="blog-keywords" v-model="blogKeywords" />
+								<v-text-input
+									placeholder="Keywords ( seperated by comma )"
+									name="blog-keywords"
+									v-model="keywords.blogs"
+									v-on:change="onKeywordsChange('blogs', $event)"
+								/>
 							</td>
 							<td class="table__row-item"></td>
 						</tr>
@@ -113,8 +131,10 @@ export default {
 				type: Object
 			},
 			company: '',
-			eventKeywords: '',
-			blogKeywords: '',
+			keywords: {
+				events: [],
+				blogs: []
+			},
 			payload: {
 				full_name: '',
 				company: '',
@@ -154,6 +174,33 @@ export default {
 	methods: {
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
+		},
+		onOptionToggle(optionTitle, event) {
+			const isChecked = event.target.checked;
+			const isValidOption = Object.keys(this.payload.contact_search).includes(optionTitle);
+			let obj = {};
+			if (isValidOption) {
+				if (isChecked) {
+					obj[optionTitle] = this.keywords[optionTitle];
+					this.payload.contact_search = { ...this.payload.contact_search, ...obj };
+					return;
+				}
+				this.payload.contact_search = this.deleteProperFromObject(optionTitle, this.payload.contact_search);
+			}
+		},
+		onKeywordsChange(optionTitle, event) {
+			const isValidOption = Object.keys(this.keywords).includes(optionTitle);
+			if (isValidOption) {
+				this.keywords[optionTitle] = event.target.value.split(', ');
+			}
+		},
+		deleteProperFromObject(property, object) {
+			return Object.keys(object).reduce((obj, key) => {
+				if (key !== property) {
+					obj[key] = object[key];
+				}
+				return obj;
+			}, {});
 		}
 	}
 };
