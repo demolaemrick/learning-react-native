@@ -30,20 +30,22 @@
 					manual reviews and false positives to increase approval rates and reviews.
 				</p>
 			</div>
-			<div class="search-wrapper">
-				<v-text-input class="search-input" placeholder="Name" name="name" v-model="payload.full_name" />
-				<v-text-input class="search-input" placeholder="Title" name="title" v-model="payload.role" />
-				<v-select
-					:options="countries"
-					@update="onChildUpdate"
-					placeholder="Select Country"
-					name="company"
-					v-model="company"
-					class="search-input"
-					required
-				></v-select>
-				<button class="btn btn-primary">Search</button>
-			</div>
+			<ValidationObserver v-slot="{ invalid }">
+				<div class="search-wrapper">
+					<v-text-input class="search-input" rules="required" placeholder="Name" name="name" v-model="payload.full_name" />
+					<v-text-input class="search-input" rules="required" placeholder="Title" name="title" v-model="payload.role" />
+					<v-select
+						:options="countries"
+						@update="onChildUpdate"
+						placeholder="Select Country"
+						name="company"
+						v-model="company"
+						class="search-input"
+						required
+					></v-select>
+					<button class="btn btn-primary" :disabled="invalid">Search</button>
+				</div>
+			</ValidationObserver>
 			<p class="more-filter">More search options</p>
 			<div class="table__wrapper">
 				<table class="table">
@@ -109,13 +111,15 @@
 <script>
 import VCheckbox from '@/components/Checkbox';
 import VSelect from '@/components/Select';
-import VTextInput from '@/components/TextInput';
+import VTextInput from '@/components/Input';
+import { ValidationObserver } from 'vee-validate';
 export default {
 	name: 'Home',
 	components: {
 		VCheckbox,
 		VSelect,
-		VTextInput
+		VTextInput,
+		ValidationObserver
 	},
 	data() {
 		return {

@@ -1,5 +1,5 @@
 import VFrame from '@/components/Frame.vue';
-import VTextInput from '@/components/TextInput';
+import VTextInput from '@/components/Input';
 //import '@/utils/validators';
 export default {
 	name: 'VSelect',

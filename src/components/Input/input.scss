@@ -1,9 +1,3 @@
-<template>
-	<input :id="name" ref="input" v-model="innerValue" class="form-input" :type="type" :placeholder="placeholder" v-on="$listeners" />
-</template>
-
-<script src="./TextInput.js"></script>
-<style lang="scss" scoped>
 @import '../../assets/scss/main.scss';
 .form-input {
 	width: 240px;
@@ -24,5 +18,19 @@
 		background: #fff;
 		border: solid 1px #5863f8;
 	}
+	
 }
-</style>
+.form-input--error {
+    border-color: #fe6159;
+    color: #fe6159;
+    &:focus,
+    &:focus-within {
+        border-color: #fe6159;
+    }
+}
+
+.input-error--msg {
+    color: #fe6159;
+    display: block;
+    margin-top: 10px;
+}

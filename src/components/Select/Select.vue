@@ -8,6 +8,7 @@
 							placeholder="Company"
 							name="company"
 							v-bind="$props"
+							rules="required"
 							@blur="clearFilter"
 							@keyup="filterOptions"
 							v-model="valueString"

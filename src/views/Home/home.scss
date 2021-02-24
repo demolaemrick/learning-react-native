@@ -46,6 +46,11 @@
 		background: #3b48f7;
 		color: #fff;
 	}
+    &[disabled] {
+        color: grey;
+        border: none;
+        background-color: #f5f5f5;
+    }
 }
 .search-wrapper {
 	display: flex;
