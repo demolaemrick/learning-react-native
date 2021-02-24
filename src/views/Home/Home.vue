@@ -41,7 +41,7 @@
 					v-model="company"
 					required
 				></v-select>
-				<button class="btn btn-primary">Search</button>
+				<button class="btn btn-primary" v-on:click="submitSearch">Search</button>
 			</div>
 			<p class="more-filter">More search options</p>
 			<div class="table__wrapper">
@@ -64,8 +64,8 @@
 										type="checkbox"
 										value="events"
 										true-value="true"
+										checked
 										false-value="false"
-										v-model="payload.contact_search.events"
 										v-on:change="onOptionToggle('events', $event)" /><span class="toggle-icon"></span
 								></label>
 							</td>
@@ -78,7 +78,13 @@
 								/>
 							</td>
 							<td class="table__row-item">
-								<v-checkbox class="" name="all" truthValue="all">
+								<v-checkbox
+									class=""
+									name="all"
+									@change="applyAllOptionsToggle"
+									:disabled="disableApplyAll"
+									:v-model="applyAllChecked"
+								>
 									Apply keywords to all
 								</v-checkbox>
 							</td>
@@ -90,7 +96,7 @@
 									><input
 										value="articles"
 										type="checkbox"
-										v-model="payload.contact_search.articles"
+										checked
 										true-value="true"
 										false-value="false"
 										v-on:change="onOptionToggle('blogs', $event)" /><span class="toggle-icon"></span
@@ -117,6 +123,7 @@
 import VCheckbox from '@/components/Checkbox';
 import VSelect from '@/components/Select';
 import VTextInput from '@/components/TextInput';
+
 export default {
 	name: 'Home',
 	components: {
@@ -131,6 +138,8 @@ export default {
 				type: Object
 			},
 			company: '',
+			disableApplyAll: true,
+			applyAllChecked: false,
 			keywords: {
 				events: [],
 				blogs: []
@@ -141,7 +150,7 @@ export default {
 				role: '',
 				contact_search: {
 					events: [],
-					articles: [],
+					blogs: [],
 					podcasts: [],
 					features: [],
 					awards: [],
@@ -185,22 +194,63 @@ export default {
 					this.payload.contact_search = { ...this.payload.contact_search, ...obj };
 					return;
 				}
-				this.payload.contact_search = this.deleteProperFromObject(optionTitle, this.payload.contact_search);
+				this.payload.contact_search = this.deletePropertyFromObject(optionTitle, this.payload.contact_search);
 			}
 		},
 		onKeywordsChange(optionTitle, event) {
 			const isValidOption = Object.keys(this.keywords).includes(optionTitle);
 			if (isValidOption) {
+				if (optionTitle === 'events' && event.target.value !== '') {
+					this.disableApplyAll = false;
+				}
+
+				if (optionTitle === 'events' && event.target.value === '') {
+					this.disableApplyAll = true;
+					this.payload.contact_search[optionTitle] = [];
+					return;
+				}
 				this.keywords[optionTitle] = event.target.value.split(', ');
+				this.payload.contact_search[optionTitle] = this.keywords[optionTitle];
 			}
 		},
-		deleteProperFromObject(property, object) {
+		applyAllOptionsToggle() {
+			this.applyAllChecked = !this.applyAllChecked;
+		},
+		submitSearch() {
+			console.log('Here is the payload to be send', this.payload.contact_search);
+		},
+		deletePropertyFromObject(property, object) {
 			return Object.keys(object).reduce((obj, key) => {
 				if (key !== property) {
 					obj[key] = object[key];
 				}
 				return obj;
 			}, {});
+		}
+	},
+	watch: {
+		'keywords.events': function (newVal) {
+			if (typeof newVal === 'string' && newVal === '') {
+				this.applyAllChecked = false;
+			}
+		},
+		applyAllChecked: function (newVal) {
+			if (newVal) {
+				Object.keys(this.payload.contact_search).forEach((single) => {
+					this.payload.contact_search[single] = this.payload.contact_search.events;
+					this.keywords[single] = this.payload.contact_search.events;
+				});
+				return;
+			}
+			Object.keys(this.payload.contact_search).forEach((single) => {
+				if (single === 'events') {
+					this.payload.contact_search[single] = this.payload.contact_search.events;
+					this.keywords[single] = this.payload.contact_search.events;
+					return;
+				}
+				this.payload.contact_search[single] = [];
+				this.keywords[single] = [];
+			});
 		}
 	}
 };
