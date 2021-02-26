@@ -43,6 +43,10 @@ const InputMixin = {
 		height: {
 			type: String,
 			default: ''
+		},
+		truthValue: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: () => ({

@@ -19,16 +19,23 @@ export default {
 			default: false
 		},
 		truthValue: {
-			type: String,
+			type: String | Boolean,
 			default: ''
 		},
 		disabled: {
 			type: Boolean,
 			default: true
-		},
+		}
+	},
+	computed: {
 		checked: {
-			type: Boolean,
-			default: false
+			get() {
+				let value = this.truthValue;
+				return value;
+			},
+			set(status) {
+				this.$emit('update:value', status);
+			}
 		}
 	}
 };

@@ -14,7 +14,7 @@
 		}
 	}
 }
-.main {
+.main-section {
 	padding: 0 110px;
 	margin-block: 100px;
 	.hero {
@@ -38,20 +38,6 @@
 		}
 	}
 }
-.btn {
-	height: 46px;
-	padding: 0 58px;
-	border-radius: 1px;
-	&.btn-primary {
-		background: #3b48f7;
-		color: #fff;
-	}
-    &[disabled] {
-        color: grey;
-        border: none;
-        background-color: #f5f5f5;
-    }
-}
 .search-wrapper {
 	display: flex;
 	justify-content: space-between;
@@ -62,7 +48,9 @@
 	color: #3b48f7;
 	letter-spacing: -0.36px;
 	text-decoration: underline;
-	margin: 27px 0 67px;
+	margin: 10px 40% 67px 0;
+    padding: 12px 0;
+    cursor: pointer;
 }
 .table {
 	max-width: 920px;
@@ -186,7 +174,7 @@ thead.table__header {
     }
 }
 @include query(mobile, max){
-    .search-input, .btn{
+    .search-input{
         width: 100%;
     }
     .keywords-input{

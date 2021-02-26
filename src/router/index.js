@@ -1,14 +1,25 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home/Home.vue';
-
+import Search from '../views/Search/Search.vue';
+import SearchResult from '../views/SearchResult/SearchResult.vue';
+import SearchItem from '../views/SearchItem/SearchItem.vue';
 Vue.use(VueRouter);
 
 const routes = [
 	{
 		path: '/',
-		name: 'Home',
-		component: Home
+		name: 'Search',
+		component: Search
+	},
+	{
+		path: '/search-result',
+		name: 'SearchResult',
+		component: SearchResult
+	},
+	{
+		path: '/search-item',
+		name: 'SearchItem',
+		component: SearchItem
 	}
 ];
 
