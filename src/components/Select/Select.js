@@ -1,6 +1,5 @@
 import VFrame from '@/components/Frame.vue';
 import VTextInput from '@/components/Input';
-//import '@/utils/validators';
 export default {
 	name: 'VSelect',
 	components: {
@@ -40,6 +39,9 @@ export default {
 		valueString: '',
 		filteredOptions: []
 	}),
+	created() {
+		this.value !== '' ? (this.valueString = this.value) : null;
+	},
 	computed: {
 		localValue: {
 			get() {

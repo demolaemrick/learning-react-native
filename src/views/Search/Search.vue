@@ -23,12 +23,11 @@
 						:options="companies"
 						@update="onChildUpdate"
 						placeholder="Select Country"
-						name="company"
+						name="company-input"
 						v-model="company"
 						class="search-input"
 						required
 					></v-select>
-					<!-- <button class="btn btn-primary" :disabled="invalid" v-on:click="submitSearch">Search</button> -->
 					<v-button :disabled="invalid" @click="submitSearch">Search </v-button>
 				</div>
 			</ValidationObserver>
@@ -37,6 +36,7 @@
 			</p>
 			<template v-if="showMoreSearch">
 				<div class="table__wrapper mb-3">
+					<!-- Contact search -->
 					<table class="table">
 						<thead class="table__header">
 							<tr>

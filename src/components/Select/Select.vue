@@ -6,7 +6,7 @@
 					<legend class="select__legend">
 						<v-text-input
 							placeholder="Company"
-							name="company"
+							:name="name"
 							v-bind="$props"
 							rules="required"
 							@blur="clearFilter"

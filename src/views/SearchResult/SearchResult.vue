@@ -10,6 +10,7 @@
 					cols="50"
 					name="text"
 					id="textArea"
+					v-model="notepad"
 					placeholder="Write down findings from research."
 				>
 				</textarea>
@@ -35,7 +36,7 @@
 						</toggle-dropdown>
 					</div>
 				</div>
-				<div class="searched-result">
+				<div class="searched-result" @click="$router.push({ name: 'SearchItem' })">
 					<div class="searched__item">
 						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
 						<p class="searched__item-desc">

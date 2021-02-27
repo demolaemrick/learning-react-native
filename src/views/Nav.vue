@@ -1,7 +1,7 @@
 <template>
 	<nav class="nav">
 		<div class="nav-wrapper">
-			<div class="back-wrapper">
+			<div class="back-wrapper" @click="$router.push({ name: 'Search' })">
 				<img src="@/assets/icons/back.svg" svg-inline class="mr-2" />
 				<p class="ls-closer">Back to search results</p>
 			</div>
@@ -14,8 +14,9 @@
 							:options="companies"
 							@update="onChildUpdate"
 							placeholder="Select Country"
-							name="company"
-							v-model="payload.company"
+							name="company-input"
+							v-model="company"
+							:value="company"
 							class="search-input"
 							required
 						></v-select>
@@ -32,6 +33,8 @@ import VButton from '@/components/Button';
 import VSelect from '@/components/Select';
 import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
+import { mapMutations, mapGetters } from 'vuex';
+import companyList from '@/data/companies.json';
 export default {
 	components: {
 		VTextInput,
@@ -41,47 +44,34 @@ export default {
 	},
 	data() {
 		return {
+			company: '',
 			payload: {
-				full_name: '',
-				company: '',
-				role: '',
-				contact_search: {
-					events: [],
-					blogs: [],
-					podcasts: [],
-					features: [],
-					awards: [],
-					linkedin_activity: [],
-					twitter_activity: []
-				},
-				company_search: {
-					job_postings: [],
-					mergers_and_acquisitions: [],
-					ipo: [],
-					product_launch: [],
-					others: []
-				}
-			},
-			companies: [
-				'ICBC',
-				'China Construction Bank',
-				'JPMorgan Chase',
-				'Berkshire Hathawa',
-				'Agricultural Bank of China',
-				'Saudi Arabian Oil Company (Saudi Aramco)',
-				'Ping An Insurance Group',
-				'Bank of America',
-				'Apple',
-				'Bank of China'
-			]
+				type: Object
+			}
 		};
 	},
+	computed: {
+		...mapGetters({
+			getPayload: 'search_services/getPayload'
+		}),
+		companies() {
+			return Object.keys(companyList.companies);
+		}
+	},
+	created() {
+		this.payload = Object.assign({}, this.getPayload);
+		this.company = this.payload.company;
+	},
 	methods: {
+		...mapMutations({
+			saveSearchPayload: 'search_services/saveSearchPayload'
+		}),
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},
 		submitSearch() {
-			console.log('submit');
+			this.saveSearchPayload(this.payload);
+			console.log('submit', this.getPayload);
 		}
 	}
 };
@@ -102,6 +92,9 @@ export default {
 	color: #3b48f7;
 	letter-spacing: -0.36px;
 	text-decoration: underline;
+}
+.back-wrapper {
+	cursor: pointer;
 }
 .search__wrapper-input,
 .back-wrapper {

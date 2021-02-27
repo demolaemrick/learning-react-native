@@ -3,6 +3,8 @@ import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
 import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
+import { mapMutations } from 'vuex';
+import companyList from '@/data/companies.json';
 export default {
 	name: 'Search',
 	components: {
@@ -14,11 +16,8 @@ export default {
 	},
 	data() {
 		return {
-			showMoreSearch: false,
-			search: {
-				type: Object
-			},
 			company: '',
+			showMoreSearch: false,
 			disableApplyAll: true,
 			applyAllChecked: false,
 			disableCompanyAll: true,
@@ -63,26 +62,13 @@ export default {
 					product_launch: [],
 					others: []
 				}
-			},
-
-			companies: [
-				'ICBC',
-				'China Construction Bank',
-				'JPMorgan Chase',
-				'Berkshire Hathawa',
-				'Agricultural Bank of China',
-				'Saudi Arabian Oil Company (Saudi Aramco)',
-				'Ping An Insurance Group',
-				'Bank of America',
-				'Apple',
-				'Bank of China'
-			]
+			}
 		};
 	},
 	methods: {
-		pay() {
-			console.log(this.payload);
-		},
+		...mapMutations({
+			saveSearchPayload: 'search_services/saveSearchPayload'
+		}),
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},
@@ -153,6 +139,8 @@ export default {
 		},
 		submitSearch() {
 			console.log('Here is the payload to be send', this.payload);
+			this.saveSearchPayload(this.payload);
+			this.$router.push({ name: 'SearchResult' });
 		},
 		deletePropertyFromObject(property, object) {
 			return Object.keys(object).reduce((obj, key) => {
@@ -211,6 +199,11 @@ export default {
 				this.payload.company_search[single] = [];
 				this.companyKeywords[single] = [];
 			});
+		}
+	},
+	computed: {
+		companies() {
+			return Object.keys(companyList.companies);
 		}
 	}
 };

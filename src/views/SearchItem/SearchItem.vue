@@ -96,6 +96,7 @@
 						cols="50"
 						name="text"
 						@focus="expandNotepad()"
+						v-model="notepad"
 						id="textArea"
 						placeholder="Write down findings from research."
 					>
@@ -132,33 +133,7 @@
 	</div>
 </template>
 
-<script>
-import VNav from '../Nav.vue';
-import ToggleDropdown from '@/components/ToggleDropdown';
-export default {
-	name: 'SearchResult',
-	components: {
-		VNav,
-		ToggleDropdown
-	},
-	data() {
-		return {
-			hideSearch: false,
-			rows: 1
-		};
-	},
-	watch: {
-		hideSearch(value) {
-			value ? (this.rows = 30) : (this.rows = 1);
-		}
-	},
-	methods: {
-		expandNotepad() {
-			this.hideSearch = true;
-		}
-	}
-};
-</script>
+<script src="./search-item.js"></script>
 
 <style src="../SearchResult/search-result.scss" lang="scss"></style>
 <style lang="scss" scoped>
