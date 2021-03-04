@@ -42,8 +42,8 @@
 									<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 								</template>
 								<template #dropdown-items>
-									<span v-for="(data, i) in response.data[searchType]" :key="i">
-										<li class="dropdown__item" v-if="response.data[searchType][i].length !== 0">
+									<span v-for="(data, i) in getSearchedResult[searchType]" :key="i">
+										<li class="dropdown__item" v-if="getSearchedResult[searchType][i].length !== 0">
 											<d-checkbox v-model="filterValue" inputType="checkbox" :truthValue="i" :name="i">
 												{{ i }}
 											</d-checkbox>
@@ -109,83 +109,5 @@
 
 <script src="./search-item.js"></script>
 
-<style src="../SearchResult/search-result.scss" lang="scss"></style>
-<style lang="scss" scoped>
-.searched__wrapper {
-	border-left: none;
-	border-right: 1px solid #f2f2f2;
-	padding-bottom: 0;
-	&-content {
-		max-height: 500px;
-		overflow-y: scroll;
-	}
-	&-header {
-		.title {
-			display: flex;
-			align-items: center;
-			svg {
-				width: 10px;
-				margin-left: 15px;
-			}
-		}
-	}
-}
-.grey-color {
-	background: #fafafa;
-}
-.item__detail {
-	padding: 40px 0 40px 64px;
-	&-url {
-		letter-spacing: -0.4px;
-		color: #0ead69;
-	}
-	&-title {
-		font-size: 20px;
-		letter-spacing: -0.53px;
-		font-weight: bold;
-		margin: 16px 0;
-	}
-	&-content {
-		margin-top: 32px;
-		line-height: 1.6;
-		letter-spacing: -0.4px;
-		max-width: 742px;
-	}
-	&-date {
-		letter-spacing: -0.4px;
-		opacity: 0.23;
-	}
-}
-.notepad {
-	padding: 15px 0 24px 24px;
-	background-color: #fafafa;
-	.title-wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		svg {
-			cursor: pointer;
-			width: 17px;
-			height: 17px;
-		}
-	}
-	&-input {
-		width: 100%;
-	}
-}
-.filter__tags {
-	display: flex;
-	margin-top: 20px;
-	align-items: flex-start;
-	.tag__badge {
-		margin: 6px 18px 0 0;
-	}
-	.tag {
-		margin: 6px 6px 0 0;
-		&__wrapper {
-			display: flex;
-			flex-wrap: wrap;
-		}
-	}
-}
-</style>
+<style src="../SearchResult/search-result.scss" lang="scss" scoped></style>
+<style lang="scss" src="./search-item.scss" scoped></style>

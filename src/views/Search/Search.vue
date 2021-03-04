@@ -28,7 +28,9 @@
 						class="search-input"
 						required
 					></v-select>
-					<v-button :disabled="invalid" @click="submitSearch">Search </v-button>
+					<v-button :disabled="invalid" @click="submitSearch"
+						><template v-if="!loading">Search</template> <Loader v-else />
+					</v-button>
 				</div>
 			</ValidationObserver>
 			<p class="more-filter" @click="showMoreSearch = !showMoreSearch">

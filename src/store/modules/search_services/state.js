@@ -1,5 +1,6 @@
 export default {
 	searchPayload: {},
 	notepad: '',
-	searchedItem: {}
+	searchedItem: {},
+	searchedResult: {}
 };

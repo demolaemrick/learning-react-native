@@ -8,8 +8,20 @@
 			<div>
 				<ValidationObserver v-slot="{ invalid }">
 					<div class="search__wrapper-input">
-						<v-text-input class="search-input" rules="required" placeholder="Name" name="name" v-model="payload.full_name" />
-						<v-text-input class="search-input" rules="required" placeholder="Title" name="title" v-model="payload.role" />
+						<v-text-input
+							class="search-input"
+							rules="required"
+							placeholder="Name"
+							name="name"
+							v-model="researchedPayload.full_name"
+						/>
+						<v-text-input
+							class="search-input"
+							rules="required"
+							placeholder="Title"
+							name="title"
+							v-model="researchedPayload.role"
+						/>
 						<v-select
 							:options="companies"
 							@update="onChildUpdate"
@@ -20,13 +32,21 @@
 							class="search-input"
 							required
 						></v-select>
-						<v-button :disabled="invalid" @click="submitSearch">Search </v-button>
+						<v-button :disabled="invalid" @click="submitSearch"
+							><template v-if="!loading">Search</template> <Loader v-else />
+						</v-button>
 					</div>
 				</ValidationObserver>
 			</div>
 			<p class="refine-keywords" @click="openModal = !openModal">Refine Keywords</p>
 		</div>
-		<modal v-if="openModal" @close="openModal = !openModal" :payload="payload" />
+		<modal
+			v-if="openModal"
+			@submit="submitSearch"
+			:loading="loading"
+			@close="openModal = !openModal"
+			:researchedPayload="researchedPayload"
+		/>
 	</nav>
 </template>
 <script>
@@ -34,21 +54,26 @@ import VButton from '@/components/Button';
 import VSelect from '@/components/Select';
 import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapGetters } from 'vuex';
+import researchMixin from '@/mixins/research';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import companyList from '@/data/companies.json';
 import Modal from './Modal.vue';
+import Loader from '@/components/Loader';
 export default {
+	mixins: [researchMixin],
 	components: {
 		VTextInput,
 		VButton,
 		VSelect,
 		ValidationObserver,
-		Modal
+		Modal,
+		Loader
 	},
 	data() {
 		return {
+			loading: false,
 			company: '',
-			payload: {
+			researchedPayload: {
 				type: Object
 			},
 			openModal: false
@@ -66,22 +91,54 @@ export default {
 		}
 	},
 	created() {
-		this.payload = Object.assign({}, this.getPayload);
-		this.company = this.payload.company;
+		this.researchedPayload = Object.assign({}, this.getPayload);
+		this.company = this.researchedPayload.company;
 	},
 	methods: {
 		...mapMutations({
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveSearchPayload: 'search_services/saveSearchPayload',
+			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
+		...mapActions({
+			research: 'search_services/research',
+			showAlert: 'showAlert'
+		}),
+		submitSearch() {
+			this.loading = true;
+			this.research(this.researchedPayload)
+				.then(async (response) => {
+					if (response.data.status === 'success') {
+						await this.saveSearchedResult(response.data.data);
+						await this.saveSearchPayload(this.researchedPayload);
+						return true;
+					}
+					this.showAlert({
+						status: 'error',
+						message: 'Something went wrong',
+						showAlert: true
+					});
+				})
+				.catch((error) => {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				})
+				.finally(() => {
+					this.loading = false;
+					this.showAlert({
+						status: 'success',
+						message: 'Research data was fetched successfully',
+						showAlert: true
+					});
+				});
+		},
 		back() {
 			this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }) : this.$router.push({ name: 'Search' });
 		},
 		onChildUpdate(newValue) {
-			this.payload.company = newValue;
-		},
-		submitSearch() {
-			this.saveSearchPayload(this.payload);
-			console.log('submit', this.getPayload);
+			this.researchedPayload.company = newValue;
 		}
 	}
 };

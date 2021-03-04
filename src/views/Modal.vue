@@ -36,7 +36,7 @@
 											type="checkbox"
 											:value="itemKey"
 											true-value="true"
-											:checked="Object.keys(payload.contact_search).includes(itemKey)"
+											:checked="Object.keys(researchedPayload.contact_research).includes(itemKey)"
 											false-value="false"
 											@change="onOptionToggle(itemKey, 'contact', $event)" /><span class="toggle-icon"></span
 									></label>
@@ -95,7 +95,7 @@
 											type="checkbox"
 											value="events"
 											true-value="true"
-											:checked="Object.keys(payload.company_search).includes(itemKey)"
+											:checked="Object.keys(researchedPayload.company_research).includes(itemKey)"
 											false-value="false"
 											@change="onOptionToggle(itemKey, 'company', $event)" /><span class="toggle-icon"></span
 									></label>
@@ -126,7 +126,9 @@
 						</tbody>
 					</table>
 					<div class="modal-btn">
-						<v-button @click="submitSearch" size="small">Apply Changes </v-button>
+						<v-button @click="submitResearch" size="small"
+							><template v-if="!loading">Apply Changes</template> <Loader v-else />
+						</v-button>
 					</div>
 				</div>
 			</main>
@@ -139,16 +141,22 @@ import VCheckbox from '@/components/Checkbox';
 import VButton from '@/components/Button';
 import VTextInput from '@/components/Input';
 import { mapMutations } from 'vuex';
+import Loader from '@/components/Loader';
 export default {
 	name: 'Search',
 	components: {
 		VCheckbox,
 		VTextInput,
-		VButton
+		VButton,
+		Loader
 	},
 	props: {
-		payload: {
+		researchedPayload: {
 			type: Object
+		},
+		loading: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -180,40 +188,51 @@ export default {
 		};
 	},
 	created() {
-		const { company_search, contact_search } = this.payload;
-		this.companyKeywords = { ...this.companyKeywords, ...company_search };
-		this.keywords = { ...this.keywords, ...contact_search };
+		const { company_research, contact_research } = this.researchedPayload;
+		this.companyKeywords = { ...this.companyKeywords, ...company_research };
+		this.keywords = { ...this.keywords, ...contact_research };
+		console.log(this.companyKeywords, this.keywords);
 	},
 	methods: {
 		...mapMutations({
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveSearchresearchedPayload: 'search_services/saveSearchresearchedPayload'
 		}),
 		closeModal() {
 			this.$emit('close');
 		},
+		async submitResearch() {
+			await this.$emit('submit');
+			this.closeModal();
+		},
 		onOptionToggle(optionTitle, searchType, event) {
 			const isChecked = event.target.checked;
 			if (searchType === 'contact') {
-				const isValidOption = Object.keys(this.payload.contact_search).includes(optionTitle);
+				const isValidOption = Object.keys(this.researchedPayload.contact_research).includes(optionTitle);
 				let obj = {};
 				if (isValidOption) {
 					if (isChecked) {
 						obj[optionTitle] = this.keywords[optionTitle];
-						this.payload.contact_search = { ...this.payload.contact_search, ...obj };
+						this.researchedPayload.contact_research = { ...this.researchedPayload.contact_research, ...obj };
 						return;
 					}
-					this.payload.contact_search = this.deletePropertyFromObject(optionTitle, this.payload.contact_search);
+					this.researchedPayload.contact_research = this.deletePropertyFromObject(
+						optionTitle,
+						this.researchedPayload.contact_research
+					);
 				}
 			} else {
-				const isValidOption = Object.keys(this.payload.company_search).includes(optionTitle);
+				const isValidOption = Object.keys(this.researchedPayload.company_research).includes(optionTitle);
 				let obj = {};
 				if (isValidOption) {
 					if (isChecked) {
 						obj[optionTitle] = this.companyKeywords[optionTitle];
-						this.payload.company_search = { ...this.payload.company_search, ...obj };
+						this.researchedPayload.company_research = { ...this.researchedPayload.company_research, ...obj };
 						return;
 					}
-					this.payload.company_search = this.deletePropertyFromObject(optionTitle, this.payload.company_search);
+					this.researchedPayload.company_research = this.deletePropertyFromObject(
+						optionTitle,
+						this.researchedPayload.company_research
+					);
 				}
 			}
 		},
@@ -226,12 +245,12 @@ export default {
 					}
 					if (optionTitle === 'events' && event.target.value === '') {
 						this.disableApplyAll = true;
-						this.payload.contact_search[optionTitle] = [];
+						this.researchedPayload.contact_research[optionTitle] = [];
 						this.applyAllChecked = false;
 						return;
 					}
 					this.keywords[optionTitle] = event.target.value.split(',');
-					this.payload.contact_search[optionTitle] = this.keywords[optionTitle];
+					this.researchedPayload.contact_research[optionTitle] = this.keywords[optionTitle];
 				}
 			} else {
 				const isValidOption = Object.keys(this.companyKeywords).includes(optionTitle);
@@ -241,12 +260,12 @@ export default {
 					}
 					if (optionTitle === 'job_postings' && event.target.value === '') {
 						this.disableCompanyAll = true;
-						this.payload.company_search[optionTitle] = [];
+						this.researchedPayload.company_research[optionTitle] = [];
 						this.AllCompanyChecked = false;
 						return;
 					}
 					this.companyKeywords[optionTitle] = event.target.value.split(',');
-					this.payload.company_search[optionTitle] = this.companyKeywords[optionTitle];
+					this.researchedPayload.company_research[optionTitle] = this.companyKeywords[optionTitle];
 				}
 			}
 		},
@@ -255,11 +274,6 @@ export default {
 		},
 		allCompanyOptionsToggle() {
 			this.AllCompanyChecked = !this.AllCompanyChecked;
-		},
-		submitSearch() {
-			console.log('Here is the payload to be send', this.payload);
-			// this.saveSearchPayload(this.payload);
-			// this.$router.push({ name: 'SearchResult' });
 		},
 		deletePropertyFromObject(property, object) {
 			return Object.keys(object).reduce((obj, key) => {
@@ -274,48 +288,48 @@ export default {
 		'keywords.events': function (newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.applyAllChecked = false;
-				this.payload.contact_search['events'] = [];
+				this.researchedPayload.contact_research['events'] = [];
 			}
 		},
 		applyAllChecked: function (newVal) {
 			if (newVal) {
-				Object.keys(this.payload.contact_search).forEach((single) => {
-					this.payload.contact_search[single] = this.payload.contact_search.events;
-					this.keywords[single] = this.payload.contact_search.events;
+				Object.keys(this.researchedPayload.contact_research).forEach((single) => {
+					this.researchedPayload.contact_research[single] = this.researchedPayload.contact_research.events;
+					this.keywords[single] = this.researchedPayload.contact_research.events;
 				});
 				return;
 			}
-			Object.keys(this.payload.contact_search).forEach((single) => {
+			Object.keys(this.researchedPayload.contact_research).forEach((single) => {
 				if (single === 'events') {
-					this.payload.contact_search[single] = this.payload.contact_search.events;
-					this.keywords[single] = this.payload.contact_search.events;
+					this.researchedPayload.contact_research[single] = this.researchedPayload.contact_research.events;
+					this.keywords[single] = this.researchedPayload.contact_research.events;
 					return;
 				}
-				this.payload.contact_search[single] = [];
+				this.researchedPayload.contact_research[single] = [];
 				this.keywords[single] = [];
 			});
 		},
 		'companyKeywords.job_postings': function (newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.AllCompanyChecked = false;
-				this.payload.company_search['job_postings'] = [];
+				this.researchedPayload.company_research['job_postings'] = [];
 			}
 		},
 		AllCompanyChecked: function (newVal) {
 			if (newVal) {
-				Object.keys(this.payload.company_search).forEach((single) => {
-					this.payload.company_search[single] = this.payload.company_search.job_postings;
-					this.companyKeywords[single] = this.payload.company_search.job_postings;
+				Object.keys(this.researchedPayload.company_research).forEach((single) => {
+					this.researchedPayload.company_research[single] = this.researchedPayload.company_research.job_postings;
+					this.companyKeywords[single] = this.researchedPayload.company_research.job_postings;
 				});
 				return;
 			}
-			Object.keys(this.payload.company_search).forEach((single) => {
+			Object.keys(this.researchedPayload.company_research).forEach((single) => {
 				if (single === 'job_postings') {
-					this.payload.company_search[single] = this.payload.company_search.events;
-					this.companyKeywords[single] = this.payload.company_search.job_postings;
+					this.researchedPayload.company_research[single] = this.researchedPayload.company_research.events;
+					this.companyKeywords[single] = this.researchedPayload.company_research.job_postings;
 					return;
 				}
-				this.payload.company_search[single] = [];
+				this.researchedPayload.company_research[single] = [];
 				this.companyKeywords[single] = [];
 			});
 		}

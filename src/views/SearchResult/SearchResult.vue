@@ -38,8 +38,8 @@
 								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
 							<template #dropdown-items>
-								<span v-for="(data, i) in response.data.contact_research" :key="i">
-									<li class="dropdown__item" v-if="response.data.contact_research[i].length !== 0">
+								<span v-for="(data, i) in getSearchedResult.contact_research" :key="i">
+									<li class="dropdown__item" v-if="getSearchedResult.contact_research[i].length !== 0">
 										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
 											{{ i }}
 										</d-checkbox>
@@ -90,8 +90,8 @@
 								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
 							<template #dropdown-items>
-								<span v-for="(data, i) in response.data.company_research" :key="i">
-									<li class="dropdown__item" v-if="response.data.company_research[i].length !== 0">
+								<span v-for="(data, i) in getSearchedResult.company_research" :key="i">
+									<li class="dropdown__item" v-if="getSearchedResult.company_research[i].length !== 0">
 										<d-checkbox v-model="companyFilter" inputType="checkbox" :truthValue="i" :name="i">
 											{{ i }}
 										</d-checkbox>

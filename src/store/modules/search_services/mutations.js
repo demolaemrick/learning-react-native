@@ -7,5 +7,8 @@ export default {
 	},
 	saveSearchedItem: (state, data) => {
 		state.searchedItem = data;
+	},
+	saveSearchedResult: (state, data) => {
+		state.searchedResult = data;
 	}
 };
