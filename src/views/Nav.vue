@@ -1,7 +1,7 @@
 <template>
 	<nav class="nav">
 		<div class="nav-wrapper">
-			<div class="back-wrapper" @click="$router.push({ name: 'Search' })">
+			<div class="back-wrapper" @click="back">
 				<img src="@/assets/icons/back.svg" svg-inline class="mr-2" />
 				<p class="ls-closer">Back to search results</p>
 			</div>
@@ -24,8 +24,9 @@
 					</div>
 				</ValidationObserver>
 			</div>
-			<p class="refine-keywords">Refine Keywords</p>
+			<p class="refine-keywords" @click="openModal = !openModal">Refine Keywords</p>
 		</div>
+		<modal v-if="openModal" @close="openModal = !openModal" :payload="payload" />
 	</nav>
 </template>
 <script>
@@ -35,19 +36,22 @@ import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
 import { mapMutations, mapGetters } from 'vuex';
 import companyList from '@/data/companies.json';
+import Modal from './Modal.vue';
 export default {
 	components: {
 		VTextInput,
 		VButton,
 		VSelect,
-		ValidationObserver
+		ValidationObserver,
+		Modal
 	},
 	data() {
 		return {
 			company: '',
 			payload: {
 				type: Object
-			}
+			},
+			openModal: false
 		};
 	},
 	computed: {
@@ -56,6 +60,9 @@ export default {
 		}),
 		companies() {
 			return Object.keys(companyList.companies);
+		},
+		currentRoute() {
+			return this.$route.name;
 		}
 	},
 	created() {
@@ -66,6 +73,9 @@ export default {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload'
 		}),
+		back() {
+			this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }) : this.$router.push({ name: 'Search' });
+		},
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},
@@ -93,7 +103,8 @@ export default {
 	letter-spacing: -0.36px;
 	text-decoration: underline;
 }
-.back-wrapper {
+.back-wrapper,
+.refine-keywords {
 	cursor: pointer;
 }
 .search__wrapper-input,

@@ -65,10 +65,14 @@
 .searched__item{
     padding: 42px 0 39px;
     max-width: 450px;
+    cursor: pointer;
     
     &-title{
         letter-spacing: -0.4px;
         color: #4361ee;
+        white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
     }
     &-desc{
         line-height: 1.4;

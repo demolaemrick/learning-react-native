@@ -4,5 +4,8 @@ export default {
 	},
 	saveNotepad: (state, data) => {
 		state.notepad = data;
+	},
+	saveSearchedItem: (state, data) => {
+		state.searchedItem = data;
 	}
 };

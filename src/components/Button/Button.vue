@@ -1,5 +1,5 @@
 <template>
-	<button type="button" class="btn btn-primary" v-on="$listeners">
+	<button type="button" :class="classes" class="btn-primary" v-on="$listeners">
 		<slot />
 		<slot name="icon" />
 	</button>
@@ -11,7 +11,7 @@
 .btn {
 	height: 46px;
 	padding: 0 58px;
-	border-radius: 1px;
+	border-radius: 2px;
 	cursor: pointer;
 	&.btn-primary {
 		background: #3b48f7;
@@ -21,6 +21,10 @@
 		color: grey;
 		border: none;
 		background-color: #f5f5f5;
+	}
+	&-small {
+		padding: 0 20px;
+		width: initial !important;
 	}
 }
 @include query(mobile, max) {

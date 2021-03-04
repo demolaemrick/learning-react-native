@@ -20,67 +20,48 @@
 				<div class="searched__wrapper-header">
 					<h3 class="title">Contact Research</h3>
 					<div class="filter-sort">
-						<toggle-dropdown v-bind="$props">
+						<toggle-dropdown>
 							<template #dropdown-wrapper>
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item">
-									Research type 1
+									Recent
 								</li>
 								<li class="dropdown__item">
-									Research type 2
+									Relevance
 								</li>
 							</template>
 						</toggle-dropdown>
+						<dropdown-checkbox>
+							<template #dropdown-wrapper>
+								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+							</template>
+							<template #dropdown-items>
+								<span v-for="(data, i) in response.data.contact_research" :key="i">
+									<li class="dropdown__item" v-if="response.data.contact_research[i].length !== 0">
+										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
+											{{ i }}
+										</d-checkbox>
+									</li>
+								</span>
+							</template>
+						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result" @click="$router.push({ name: 'SearchItem' })">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
+				<div class="searched-result" v-for="(data, i) in contact_research" :key="i">
+					<div
+						class="searched__item"
+						v-for="(dataItem, j) in data"
+						:key="j"
+						@click="displaySearchItem('contact_research', dataItem)"
+					>
+						<p class="searched__item-title">{{ dataItem.title }}</p>
 						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
+							{{ dataItem.description }}
 						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
+						<a :href="dataItem.url" target="_blank" class="searched__item-url"
+							><img src="@/assets/icons/planet-earth.svg" svg-inline />{{ dataItem.url }}</a
 						>
 					</div>
 				</div>
@@ -91,67 +72,48 @@
 				<div class="searched__wrapper-header">
 					<h3 class="title">Company Research</h3>
 					<div class="filter-sort">
-						<toggle-dropdown v-bind="$props">
+						<toggle-dropdown>
 							<template #dropdown-wrapper>
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item">
-									Research type 1
+									Recent
 								</li>
 								<li class="dropdown__item">
-									Research type 2
+									Relevance
 								</li>
 							</template>
 						</toggle-dropdown>
+						<dropdown-checkbox>
+							<template #dropdown-wrapper>
+								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+							</template>
+							<template #dropdown-items>
+								<span v-for="(data, i) in response.data.company_research" :key="i">
+									<li class="dropdown__item" v-if="response.data.company_research[i].length !== 0">
+										<d-checkbox v-model="companyFilter" inputType="checkbox" :truthValue="i" :name="i">
+											{{ i }}
+										</d-checkbox>
+									</li>
+								</span>
+							</template>
+						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
+				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
+					<div
+						class="searched__item"
+						v-for="(dataItem, j) in data"
+						:key="j"
+						@click="displaySearchItem('company_research', dataItem)"
+					>
+						<p class="searched__item-title">{{ dataItem.title }}</p>
 						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
+							{{ dataItem.description }}
 						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
-						>
-					</div>
-				</div>
-				<div class="searched-result">
-					<div class="searched__item">
-						<p class="searched__item-title">I amsterdam - Your guide to visit, enjoy, live, work & Invest in …</p>
-						<p class="searched__item-desc">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie mauris id orci tempor posuere. Donec
-							dictum felis eu ipsum sollicitudin semper
-						</p>
-						<a href="/" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline /> https://www.iamsterdam.com/</a
+						<a :href="dataItem.url" target="_blank" class="searched__item-url"
+							><img src="@/assets/icons/planet-earth.svg" svg-inline />{{ dataItem.url }}</a
 						>
 					</div>
 				</div>

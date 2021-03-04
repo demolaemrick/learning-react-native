@@ -48,235 +48,51 @@
 						</thead>
 						<tbody>
 							<tr class="table__header-space"></tr>
-							<tr class="table__row">
-								<td class="table__row-item">Events/conferences/Webinars</td>
+							<tr class="table__row" v-for="(keyword, itemKey) in keywords" :key="itemKey">
+								<td class="table__row-item">
+									<template v-if="itemKey === 'events'"> Events/conferences/Webinars</template>
+									<template v-else-if="itemKey === 'blogs'"> Blogs/Articles</template>
+									<template v-else-if="itemKey === 'features'"> Interviews/feature</template>
+									<template v-else-if="itemKey === 'awards'"> Awards</template>
+									<template v-else-if="itemKey === 'linkedin_activity'">Linkedin activity</template>
+									<template v-else-if="itemKey === 'twitter_activity'"> Twitter activity</template>
+									<template v-else-if="itemKey === 'promotion'"> New role/job/promotion</template>
+									<template v-else-if="itemKey === 'videos'">Videos</template>
+									<template v-else>Podcasts</template>
+								</td>
 								<td class="table__row-item">
 									<label class="toggle"
 										><input
 											type="checkbox"
-											value="events"
+											:value="itemKey"
 											true-value="true"
 											checked
 											false-value="false"
-											@change="onOptionToggle('events', 'contact', $event)" /><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'contact', $event)" /><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">
 									<v-text-input
 										class="keywords-input"
 										placeholder="Keywords ( seperated by comma )"
-										name="event-keywords"
-										v-model="keywords.events"
-										@change="onKeywordsChange('events', 'contact', $event)"
+										:name="`${itemKey}-keywords`"
+										v-model="keywords[itemKey]"
+										@change="onKeywordsChange(itemKey, 'contact', $event)"
 									/>
 								</td>
 								<td class="table__row-item">
-									<v-checkbox
-										class=""
-										name="all"
-										@change="applyAllOptionsToggle"
-										:disabled="disableApplyAll"
-										:truthValue="applyAllChecked"
-									>
-										Apply keywords to all
-									</v-checkbox>
+									<template v-if="itemKey === 'events'">
+										<v-checkbox
+											class=""
+											name="all"
+											@change="applyAllOptionsToggle"
+											:disabled="disableApplyAll"
+											:truthValue="applyAllChecked"
+										>
+											Apply keywords to all
+										</v-checkbox>
+									</template>
 								</td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Blogs/Articles</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('blogs', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="blog-keywords"
-										v-model="keywords.blogs"
-										@change="onKeywordsChange('blogs', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Interviews/feature</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('features', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="features-keywords"
-										v-model="keywords.features"
-										@change="onKeywordsChange('features', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Awards</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('awards', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="awards-keywords"
-										v-model="keywords.awards"
-										@change="onKeywordsChange('awards', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">New role/job/promotion</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('promotion', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="promotion-keywords"
-										v-model="keywords.promotion"
-										@change="onKeywordsChange('promotion', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Videos</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('videos', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="videos-keywords"
-										v-model="keywords.videos"
-										@change="onKeywordsChange('videos', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Podcasts</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('podcasts', 'contact', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="podcasts-keywords"
-										v-model="keywords.podcasts"
-										@change="onKeywordsChange('podcasts', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Linkedin activity</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('linkedin_activity', 'contact', $event)" /><span
-											class="toggle-icon"
-										></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="linkedin_activity-keywords"
-										v-model="keywords.linkedin_activity"
-										@change="onKeywordsChange('linkedin_activity', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Twitter activity</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											value="articles"
-											type="checkbox"
-											checked
-											true-value="true"
-											false-value="false"
-											@change="onOptionToggle('twitter_activity', 'contact', $event)" /><span
-											class="toggle-icon"
-										></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="twitter_activity-keywords"
-										v-model="keywords.twitter_activity"
-										@change="onKeywordsChange('twitter_activity', 'contact', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -295,8 +111,14 @@
 						</thead>
 						<tbody>
 							<tr class="table__header-space"></tr>
-							<tr class="table__row">
-								<td class="table__row-item">Job postings</td>
+							<tr class="table__row" v-for="(keyword, itemKey) in companyKeywords" :key="itemKey">
+								<td class="table__row-item">
+									<template v-if="itemKey === 'job_postings'"> Job postings</template>
+									<template v-else-if="itemKey === 'mergers_and_acquisitions'"> Mergers & Acquisitions</template>
+									<template v-else-if="itemKey === 'ipo'"> Fundraise/ IPO</template>
+									<template v-else-if="itemKey === 'product_launch'">New product launch</template>
+									<template v-else>Other news/press releases</template>
+								</td>
 								<td class="table__row-item">
 									<label class="toggle"
 										><input
@@ -305,127 +127,31 @@
 											true-value="true"
 											checked
 											false-value="false"
-											@change="onOptionToggle('job_postings', 'company', $event)" /><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'company', $event)" /><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">
 									<v-text-input
 										class="keywords-input"
 										placeholder="Keywords ( seperated by comma )"
-										name="job_postings-keywords"
-										v-model="companyKeywords.job_postings"
-										@change="onKeywordsChange('job_postings', 'company', $event)"
+										:name="`${itemKey}-keywords`"
+										v-model="companyKeywords[itemKey]"
+										@change="onKeywordsChange(itemKey, 'company', $event)"
 									/>
 								</td>
 								<td class="table__row-item">
-									<v-checkbox
-										class=""
-										name="all-company"
-										@change="allCompanyOptionsToggle"
-										:disabled="disableCompanyAll"
-										:truthValue="AllCompanyChecked"
-									>
-										Apply keywords to all
-									</v-checkbox>
+									<template v-if="itemKey === 'job_postings'">
+										<v-checkbox
+											class=""
+											name="all-company"
+											@change="allCompanyOptionsToggle"
+											:disabled="disableCompanyAll"
+											:truthValue="AllCompanyChecked"
+										>
+											Apply keywords to all
+										</v-checkbox>
+									</template>
 								</td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Mergers & Acquisitions</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											type="checkbox"
-											value="events"
-											true-value="true"
-											checked
-											false-value="false"
-											@change="onOptionToggle('mergers_and_acquisitions', 'company', $event)" /><span
-											class="toggle-icon"
-										></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name="mergers_and_acquisitions-keywords"
-										v-model="companyKeywords.mergers_and_acquisitions"
-										@change="onKeywordsChange('mergers_and_acquisitions', 'company', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Fundraise/ IPO</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											type="checkbox"
-											value="events"
-											true-value="true"
-											checked
-											false-value="false"
-											@change="onOptionToggle('ipo', 'company', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name=" ipo-keywords"
-										v-model="companyKeywords.ipo"
-										@change="onKeywordsChange('ipo', 'company', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">New product launch</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											type="checkbox"
-											value="events"
-											true-value="true"
-											checked
-											false-value="false"
-											@change="onOptionToggle('product_launch', 'company', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name=" product_launch-keywords"
-										v-model="companyKeywords.product_launch"
-										@change="onKeywordsChange('product_launch', 'company', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
-							</tr>
-							<tr class="table__row">
-								<td class="table__row-item">Other news/press releases</td>
-								<td class="table__row-item">
-									<label class="toggle"
-										><input
-											type="checkbox"
-											value="events"
-											true-value="true"
-											checked
-											false-value="false"
-											@change="onOptionToggle('others', 'company', $event)" /><span class="toggle-icon"></span
-									></label>
-								</td>
-								<td class="table__row-item">
-									<v-text-input
-										class="keywords-input"
-										placeholder="Keywords ( seperated by comma )"
-										name=" others-keywords"
-										v-model="companyKeywords.others"
-										@change="onKeywordsChange('others', 'company', $event)"
-									/>
-								</td>
-								<td class="table__row-item"></td>
 							</tr>
 						</tbody>
 					</table>

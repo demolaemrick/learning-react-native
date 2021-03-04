@@ -1,4 +1,5 @@
 export default {
 	searchPayload: {},
-	notepad: ''
+	notepad: '',
+	searchedItem: {}
 };

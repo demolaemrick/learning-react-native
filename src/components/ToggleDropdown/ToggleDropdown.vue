@@ -3,11 +3,13 @@
 		<span class="dropdown__wrapper" @click="showDropdown = !showDropdown">
 			<slot name="dropdown-wrapper"></slot>
 		</span>
-		<div class="dropdown__list-wrapper" v-if="showDropdown">
-			<ul id="dropdown-list" tabindex="-1" class="dropdown__list">
-				<slot name="dropdown-items"></slot>
-			</ul>
-		</div>
+		<template v-if="showDropdown">
+			<div class="dropdown__list-wrapper" id="dropdown__list-wrapper">
+				<ul id="dropdown-list" tabindex="-1" class="dropdown__list">
+					<slot name="dropdown-items"></slot>
+				</ul>
+			</div>
+		</template>
 	</div>
 </template>
 

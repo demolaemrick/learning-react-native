@@ -5,6 +5,11 @@ export default {
 			showDropdown: false
 		};
 	},
+	methods: {
+		onClose() {
+			this.showDropdown = false;
+		}
+	},
 	watch: {
 		showDropdown() {
 			this.$nextTick(() => {
@@ -16,7 +21,6 @@ export default {
 						});
 					});
 				}
-
 				const dropdown = document.getElementById('dropdown-list');
 				if (dropdown) {
 					dropdown.addEventListener('blur', () => {
