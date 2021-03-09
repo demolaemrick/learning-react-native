@@ -1,0 +1,100 @@
+// padding and margin utility classes e.g .p-* && .m-*
+@for $i from 0 through 10 {
+	.p {
+		&-#{$i} {
+			padding: #{$i}rem;
+		}
+		&y-#{$i} {
+			padding-top: #{$i}rem;
+			padding-bottom: #{$i}rem;
+		}
+		&x-#{$i} {
+			padding-left: #{$i}rem;
+			padding-right: #{$i}rem;
+		}
+		&t-#{$i} {
+			padding-top: #{$i}rem;
+		}
+		&b-#{$i} {
+			padding-bottom: #{$i}rem;
+		}
+		&l-#{$i} {
+			padding-left: #{$i}rem;
+		}
+		&r-#{$i} {
+			padding-right: #{$i}rem;
+		}
+	}
+	.m {
+		&-#{$i} {
+			margin: #{$i}rem;
+		}
+		&y-#{$i} {
+			margin-top: #{$i}rem;
+			margin-bottom: #{$i}rem;
+		}
+		&x-#{$i} {
+			margin-left: #{$i}rem;
+			margin-right: #{$i}rem;
+		}
+		&t-#{$i} {
+			margin-top: #{$i}rem;
+		}
+		&b-#{$i} {
+			margin-bottom: #{$i}rem;
+		}
+		&l-#{$i} {
+			margin-left: #{$i}rem;
+		}
+		&r-#{$i} {
+			margin-right: #{$i}rem;
+		}
+	}
+}
+
+.u {
+	&-relative {
+		position: relative;
+	}
+	&-absolute {
+		position: absolute;
+	}
+	&-mobile {
+		&-hidden {
+			@include query(tablet) {
+				display: none;
+			}
+		}
+	}
+}
+.ls-closer {
+	letter-spacing: -0.12px;
+}
+.ls-close {
+	letter-spacing: -0.5px;
+}
+
+.ml-auto {
+	margin-left: auto;
+}
+
+.mr-auto {
+	margin-right: auto;
+}
+.sticky-page{
+	position: fixed;
+}
+@include query(mobile, max) {
+    .grid__layout{
+        .col-md-12 {
+            grid-column: span 12 !important
+        }
+	}
+}
+@include query(tablet, max) {
+    .grid__layout{
+        .col-tb-12 {
+            grid-column: span 12 !important
+        }
+	}
+}
