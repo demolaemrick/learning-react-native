@@ -74,7 +74,7 @@
 				<div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">Notepad</p>
-						<img src="@/assets/icons/close.svg" svg-inline v-if="hideSearch" @click="hideSearch = false" />
+						<img src="@/assets/icons/collapse.svg" svg-inline v-if="hideSearch" @click="hideSearch = false" />
 					</span>
 					<textarea
 						class="notepad-input"

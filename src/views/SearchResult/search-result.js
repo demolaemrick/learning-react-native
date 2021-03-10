@@ -3,7 +3,7 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import { mapMutations, mapGetters } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
-
+import ScreenWidthMixin from '@/mixins/screen-width';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -12,10 +12,12 @@ export default {
 		DCheckbox,
 		DropdownCheckbox
 	},
+	mixins: [ScreenWidthMixin],
 	data() {
 		return {
 			companyFilter: [],
-			contactFilter: []
+			contactFilter: [],
+			searchType: 'contact_research'
 		};
 	},
 	computed: {
@@ -30,6 +32,18 @@ export default {
 			set(value) {
 				this.saveNotepad(value);
 			}
+		},
+		screenType:{
+			get() {
+				if (this.screenWidth > 796) {
+					this.searchType = '';
+					return 'large';
+				}
+				else{
+					return 'small';
+				}
+			}
+			
 		},
 		contact_research: {
 			get() {

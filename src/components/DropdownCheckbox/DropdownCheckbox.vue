@@ -19,4 +19,4 @@
 
 <script src="./dropdown-checkbox.js"></script>
 
-<style lang="scss" src="./dropdown-checkbox.scss"></style>
+<style lang="scss" src="./dropdown-checkbox.scss" scoped></style>

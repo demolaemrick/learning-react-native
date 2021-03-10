@@ -15,4 +15,4 @@
 
 <script src="./toggle-dropdown.js"></script>
 
-<style lang="scss" src="./toggle-dropdown.scss"></style>
+<style lang="scss" src="./toggle-dropdown.scss" scoped></style>
