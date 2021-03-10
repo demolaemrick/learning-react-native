@@ -1,7 +1,7 @@
 @import '../../assets/scss/main.scss';
 .dropdown {
 		&__wrapper {
-             padding: 12px ;
+             padding: 12px 0;
 			display: flex;
 			align-items: center;
 			cursor: pointer;
@@ -37,14 +37,13 @@
   background-color: #ffffff;
 			&-wrapper {
 				position: absolute;
-				// left: -50px;
 				top: 135%;
 				right: 0;
 				z-index: 100;
                 background: #fff;
 				min-width: 100px;
 				@include query(mobile, max) {
-					left: -115%;
+					right: auto;
 				}
 			}
 			&:focus {
