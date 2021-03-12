@@ -91,13 +91,11 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		getYYYYMMDD(dob) {
-			//moment
 			const d = new Date(dob);
 			return new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
 		},
 		fetchContent(){
 			this.loading = true;
-			console.log(this.getContentPayload);
 			this.content(this.getContentPayload)
 				.then(async (response) => {
 					if (response.data.status === 'success') {
