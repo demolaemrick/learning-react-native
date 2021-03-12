@@ -74,7 +74,7 @@
 								class="search-input"
 								required
 							></v-select>
-							<v-button :disabled="invalid" @click="submitSearch"
+							<v-button :disabled="invalid" @click="submitSearch" name="search"
 								><template v-if="!loading">Search</template> <Loader v-else />
 							</v-button>
 						</div>
@@ -169,6 +169,7 @@ export default {
 					if (response.data.status === 'success') {
 						await this.saveSearchedResult(response.data.data);
 						await this.saveSearchPayload(this.researchedPayload);
+						this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }): null
 						return true;
 					}
 					this.showAlert({
