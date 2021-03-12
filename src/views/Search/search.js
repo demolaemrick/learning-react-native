@@ -40,8 +40,7 @@ export default {
 				job_postings: [],
 				mergers_and_acquisitions: [],
 				ipo: [],
-				product_launch: [],
-				others: []
+				product_launch: []
 			},
 			payload: {
 				full_name: '',
@@ -62,8 +61,7 @@ export default {
 					job_postings: [],
 					mergers_and_acquisitions: [],
 					ipo: [],
-					product_launch: [],
-					others: []
+					product_launch: []
 				}
 			}
 		};
@@ -74,7 +72,8 @@ export default {
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
-			research: 'search_services/research'
+			research: 'search_services/research',
+			showAlert: 'showAlert'
 		}),
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;

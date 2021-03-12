@@ -92,14 +92,15 @@
 			<div class="item__detail">
 				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>
 				<p class="item__detail-title">{{ getSearchedItem.item.description }}</p>
-				<p class="item__detail-date">23 February, 2021</p>
+				<p class="item__detail-date">{{new Date(getSearchedItem.item.meta.published) | moment("Do, MMMM  YYYY")}}</p>
 				<div class="filter__tags" v-if="getSearchedItem.item.tags.length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
-						<c-tag v-for="(tag, i) in getSearchedItem.item.tags" :key="i">tag</c-tag>
+						<span v-for="(tag, i) in getSearchedItem.item.tags" :key="i"><c-tag  v-if="tag !== null"  >{{tag}}</c-tag></span>
 					</div>
 				</div>
-				<p class="item__detail-content" v-for="(content, i) in getSearchedItem.item.content" :key="i">
+				<loading-state v-if="loading"/>
+				<p v-else class="item__detail-content" v-for="(content, i) in itemContent" :key="i">
 					{{ content }}
 				</p>
 			</div>
