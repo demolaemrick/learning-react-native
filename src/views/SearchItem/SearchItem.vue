@@ -103,7 +103,14 @@
 				</div>
 				<loading-state v-if="loading" />
 				<template v-else>
-					<iframe v-if="can_render" class="mt-2 iframe-wrapper" id="myframe" width="500" height="500" :src="getSearchedItem.item.url"></iframe>
+					<iframe
+						v-if="can_render"
+						class="mt-2 iframe-wrapper"
+						id="myframe"
+						width="100%"
+						height="500"
+						:src="getSearchedItem.item.url"
+					></iframe>
 
 					<p v-else class="item__detail-content" v-for="(content, i) in itemContent" :key="i">
 						{{ content }}
