@@ -74,8 +74,9 @@
 								class="search-input"
 								required
 							></v-select>
-							<v-button :disabled="invalid" @click="submitSearch" name="search"
-								><template v-if="!loading">Search</template> <Loader v-else />
+							<v-button :disabled="invalid" @click="submitSearch" class="search-nav_btn" name="search"
+								><template v-if="!loading">Search</template>
+								<!-- <Loader v-else /> -->
 							</v-button>
 						</div>
 					</ValidationObserver>
@@ -162,40 +163,73 @@ export default {
 				this.showNav = !this.showNav;
 			}
 		},
-		submitSearch() {
+		async submitSearch() {
 			this.loading = true;
-			this.research(this.researchedPayload)
-				.then(async (response) => {
-					if (response.data.status === 'success') {
-						await this.saveSearchedResult(response.data.data);
-						await this.saveSearchPayload(this.researchedPayload);
-						this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }): null
-						return true;
+			// this.research(this.researchedPayload)
+			// 	.then(async (response) => {
+			// 		if (response.data.status === 'success') {
+			// 			await this.saveSearchedResult(response.data.data);
+			// 			await this.saveSearchPayload(this.researchedPayload);
+			// 			this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }): null
+			// 			return true;
+			// 		}
+			// 		this.showAlert({
+			// 			status: 'error',
+			// 			message: 'Something went wrong',
+			// 			showAlert: true
+			// 		});
+			// 	})
+			// 	.catch((error) => {
+			// 		this.showAlert({
+			// 			status: 'error',
+			// 			message: error.response.data.message,
+			// 			showAlert: true
+			// 		});
+			// 	})
+			// 	.finally(() => {
+			// 		this.loading = false;
+			// 		this.showAlert({
+			// 			status: 'success',
+			// 			message: 'Research data was fetched successfully',
+			// 			showAlert: true
+			// 		});
+			// 	});
+			try {
+				const response = await this.research(this.researchedPayload);
+				console.log('lkj', response);
+				if (response.data.status === 'success') {
+					await this.saveSearchedResult(response.data.data);
+					await this.saveSearchPayload(this.researchedPayload);
+					if (this.currentRoute === 'SearchItem') {
+						this.$router.push({ name: 'SearchResult' }).catch(() => {});
 					}
-					this.showAlert({
-						status: 'error',
-						message: 'Something went wrong',
-						showAlert: true
-					});
-				})
-				.catch((error) => {
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-				})
-				.finally(() => {
-					this.loading = false;
-					this.showAlert({
-						status: 'success',
-						message: 'Research data was fetched successfully',
-						showAlert: true
-					});
+					//this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }).catch(()=>{}): null.catch(()=>{})
+					return true;
+				}
+				this.showAlert({
+					status: 'error',
+					message: 'Something went wrong',
+					showAlert: true
 				});
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+				this.showAlert({
+					status: 'success',
+					message: 'Research data was fetched successfully',
+					showAlert: true
+				});
+			}
 		},
 		back() {
-			this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }) : this.$router.push({ name: 'Search' });
+			this.currentRoute === 'SearchItem'
+				? this.$router.push('/search-result').catch(() => {})
+				: this.$router.push('/').catch(() => {});
 		},
 		onChildUpdate(newValue) {
 			this.researchedPayload.company = newValue;
@@ -304,21 +338,21 @@ export default {
 	.nav-mb {
 		display: block;
 	}
-	.nav-content{
+	.nav-content {
 		background: #fff;
-    	padding: 20px 0;
+		padding: 20px 0;
 	}
 	.search__wrapper-input {
 		padding: 20px 0;
 		max-width: 508px;
 		flex-wrap: wrap;
 	}
-	.search-input{
+	.search-input {
 		margin-bottom: 20px;
 	}
 }
 @include query(tablet, max) {
-	.search-input{
+	.search-input {
 		width: 100%;
 	}
 }

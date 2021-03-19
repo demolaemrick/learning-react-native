@@ -1,5 +1,4 @@
 import api from '../../../services/api/index';
-
 export default {
 	/**
 	 * @param {Object} data - service payload
@@ -13,6 +12,7 @@ export default {
 			const response = await api.post(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
+			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},

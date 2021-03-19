@@ -2,21 +2,16 @@
 	<div class="page__loading">
 		<div class="page__loading-row">
 			<div class="page__loading-left">
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
-				<div class=" mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
+				<div class="mb-1 loading-bottom"></div>
 			</div>
 		</div>
-		<!-- <div class="page__loading-bottom">
-			<div class="first"></div>
-			<div class="second"></div>
-			<div class="third"></div>
-		</div> -->
 	</div>
 </template>
 <script>
@@ -41,7 +36,6 @@ export default {
 	}
 	&-left {
 		.loading-top {
-			// width: 136px;
 			height: 24px;
 		}
 		.loading-bottom {
