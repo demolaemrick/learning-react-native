@@ -191,7 +191,6 @@ export default {
 		const { company_research, contact_research } = this.researchedPayload;
 		this.companyKeywords = { ...this.companyKeywords, ...company_research };
 		this.keywords = { ...this.keywords, ...contact_research };
-		console.log(this.companyKeywords, this.keywords);
 	},
 	methods: {
 		...mapMutations({

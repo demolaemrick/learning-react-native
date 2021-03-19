@@ -33,17 +33,15 @@ export default {
 				this.saveNotepad(value);
 			}
 		},
-		screenType:{
+		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
 					this.searchType = '';
 					return 'large';
-				}
-				else{
+				} else {
 					return 'small';
 				}
 			}
-			
 		},
 		contact_research: {
 			get() {

@@ -4,7 +4,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
-import LoadingState from '@/components/LoadingState'
+import LoadingState from '@/components/LoadingState';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -22,7 +22,8 @@ export default {
 			searchType: '',
 			filterValue: [],
 			itemContent: [],
-			loading: false
+			loading: false,
+			can_render: false
 		};
 	},
 	watch: {
@@ -41,14 +42,14 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult',
 			getPayload: 'search_services/getPayload'
 		}),
-		getContentPayload:{
-			get(){
-				const payload = {}
+		getContentPayload: {
+			get() {
+				const payload = {};
 				payload.company = this.getPayload.company;
 				payload.full_name = this.getPayload.full_name;
 				payload.role = this.getPayload.role;
-				payload.link = this.getSearchedItem.item.url
-				return payload
+				payload.link = this.getSearchedItem.item.url;
+				return payload;
 			}
 		},
 		notepad: {
@@ -83,8 +84,7 @@ export default {
 	methods: {
 		...mapMutations({
 			saveNotepad: 'search_services/saveNotepad',
-			saveSearchedItem: 'search_services/saveSearchedItem',
-			
+			saveSearchedItem: 'search_services/saveSearchedItem'
 		}),
 		...mapActions({
 			content: 'search_services/content',
@@ -94,12 +94,13 @@ export default {
 			const d = new Date(dob);
 			return new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
 		},
-		fetchContent(){
+		fetchContent() {
 			this.loading = true;
 			this.content(this.getContentPayload)
 				.then(async (response) => {
 					if (response.data.status === 'success') {
 						this.itemContent = response.data.data.content;
+						this.can_render = response.data.data.can_render;
 						return true;
 					}
 					this.showAlert({
@@ -122,9 +123,6 @@ export default {
 		expandNotepad() {
 			this.hideSearch = true;
 		},
-		logFilter() {
-			console.log(this.filterValue);
-		},
 		async displaySearchItem(type, item) {
 			const data = {
 				type: type,
@@ -132,6 +130,6 @@ export default {
 			};
 			await this.saveSearchedItem(data);
 			await this.fetchContent();
-		},
+		}
 	}
 };

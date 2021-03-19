@@ -16,25 +16,25 @@
 				</textarea>
 			</div>
 			<!-- contact search -->
-			<div class="contact searched__wrapper " v-if="searchType === 'contact_research' || screenType === 'large'">
+			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Contact Research</h3>
 					<toggle-dropdown v-else>
-							<template #dropdown-wrapper>
-								<h3 class="title">
-									Contact Research
-									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-								</h3>
-							</template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="(searchType = 'company_research')">
-									Company Research
-								</li>
-								<li class="dropdown__item" @click="(searchType = 'contact_research')">
-									Contact Research
-								</li>
-							</template>
-						</toggle-dropdown>
+						<template #dropdown-wrapper>
+							<h3 class="title">
+								Contact Research
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+							</h3>
+						</template>
+						<template #dropdown-items>
+							<li class="dropdown__item" @click="searchType = 'company_research'">
+								Company Research
+							</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">
+								Contact Research
+							</li>
+						</template>
+					</toggle-dropdown>
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
@@ -85,25 +85,25 @@
 			</div>
 
 			<!-- company search -->
-			<div class="contact searched__wrapper " v-if="searchType === 'company_research' || screenType === 'large'">
+			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Company Research</h3>
 					<toggle-dropdown v-else>
-							<template #dropdown-wrapper>
-								<h3 class="title">
-									Company Research
-									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-								</h3>
-							</template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="(searchType = 'company_research')">
-									Company Research
-								</li>
-								<li class="dropdown__item" @click="(searchType = 'contact_research')">
-									Contact Research
-								</li>
-							</template>
-						</toggle-dropdown>
+						<template #dropdown-wrapper>
+							<h3 class="title">
+								Company Research
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+							</h3>
+						</template>
+						<template #dropdown-items>
+							<li class="dropdown__item" @click="searchType = 'company_research'">
+								Company Research
+							</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">
+								Contact Research
+							</li>
+						</template>
+					</toggle-dropdown>
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
@@ -152,7 +152,6 @@
 					</div>
 				</div>
 			</div>
-
 		</main>
 	</div>
 </template>
