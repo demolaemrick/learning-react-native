@@ -76,7 +76,7 @@
 							></v-select>
 							<v-button :disabled="invalid" @click="submitSearch" class="search-nav_btn" name="search"
 								><template v-if="!loading">Search</template>
-								<!-- <Loader v-else /> -->
+								<Loader v-else />
 							</v-button>
 						</div>
 					</ValidationObserver>
@@ -165,45 +165,14 @@ export default {
 		},
 		async submitSearch() {
 			this.loading = true;
-			// this.research(this.researchedPayload)
-			// 	.then(async (response) => {
-			// 		if (response.data.status === 'success') {
-			// 			await this.saveSearchedResult(response.data.data);
-			// 			await this.saveSearchPayload(this.researchedPayload);
-			// 			this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }): null
-			// 			return true;
-			// 		}
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: 'Something went wrong',
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.catch((error) => {
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: error.response.data.message,
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.finally(() => {
-			// 		this.loading = false;
-			// 		this.showAlert({
-			// 			status: 'success',
-			// 			message: 'Research data was fetched successfully',
-			// 			showAlert: true
-			// 		});
-			// 	});
 			try {
 				const response = await this.research(this.researchedPayload);
-				console.log('lkj', response);
 				if (response.data.status === 'success') {
 					await this.saveSearchedResult(response.data.data);
 					await this.saveSearchPayload(this.researchedPayload);
 					if (this.currentRoute === 'SearchItem') {
 						this.$router.push({ name: 'SearchResult' }).catch(() => {});
 					}
-					//this.currentRoute === 'SearchItem' ? this.$router.push({ name: 'SearchResult' }).catch(()=>{}): null.catch(()=>{})
 					return true;
 				}
 				this.showAlert({
@@ -219,11 +188,6 @@ export default {
 				});
 			} finally {
 				this.loading = false;
-				this.showAlert({
-					status: 'success',
-					message: 'Research data was fetched successfully',
-					showAlert: true
-				});
 			}
 		},
 		back() {

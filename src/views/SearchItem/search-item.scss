@@ -76,6 +76,9 @@
 		}
 	}
 }
+.iframe-wrapper{
+	border: 1px solid #f2f2f2
+}
 @include query(tablet, max) {
 	.searched__wrapper{
 		display: none;

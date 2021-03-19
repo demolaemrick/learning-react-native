@@ -5,7 +5,6 @@ import router from '@/router';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-
 const request = {
 	company: '',
 	company_research: {

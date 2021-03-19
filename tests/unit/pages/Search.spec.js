@@ -5,7 +5,6 @@ import { nextTick } from 'vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-
 const request = {
 	company: '',
 	company_research: {
