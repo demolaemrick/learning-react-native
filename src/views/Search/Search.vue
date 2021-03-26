@@ -10,8 +10,7 @@
 			<div class="hero">
 				<h2 class="hero-title">More refined <span>research</span> .</h2>
 				<p class="hero-desc">
-					We provide industry-leading protection for the entire customer journey. Our verification system reduces chargebacks,
-					manual reviews and false positives to increase approval rates and reviews.
+					Aggregated sales research to power your personalized outreach.
 				</p>
 			</div>
 
