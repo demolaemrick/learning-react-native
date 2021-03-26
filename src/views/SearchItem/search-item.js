@@ -21,7 +21,7 @@ export default {
 			rows: 1,
 			searchType: '',
 			filterValue: [],
-			itemContent: [],
+			itemContent: '',
 			loading: false,
 			can_render: false
 		};
@@ -31,9 +31,10 @@ export default {
 			value ? (this.rows = 30) : (this.rows = 1);
 		}
 	},
-	created() {
+	async created() {
 		this.searchType = this.getSearchedItem.type;
-		this.fetchContent();
+		await this.fetchContent();
+		await getFilterKeys();
 	},
 	computed: {
 		...mapGetters({
@@ -90,6 +91,23 @@ export default {
 			content: 'search_services/content',
 			showAlert: 'showAlert'
 		}),
+		sortByRelevance() {
+			for (const key in this.research) {
+				const element = this.research[key];
+				return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
+			}
+		},
+		sortByRecent() {
+			for (const key in this.research) {
+				const element = this.research[key];
+				return element.sort((a, b) => {
+					return (
+						new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
+						new Date(b.meta.published) - new Date(a.meta.published)
+					);
+				});
+			}
+		},
 		getYYYYMMDD(dob) {
 			const d = new Date(dob);
 			return new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
@@ -99,7 +117,8 @@ export default {
 			this.content(this.getContentPayload)
 				.then(async (response) => {
 					if (response.data.status === 'success') {
-						this.itemContent = response.data.data.content;
+						this.itemContent = '';
+						this.itemContent = response.data.data.image_string;
 						this.can_render = response.data.data.can_render;
 						return true;
 					}
@@ -130,6 +149,12 @@ export default {
 			};
 			await this.saveSearchedItem(data);
 			await this.fetchContent();
+		},
+		getFilterKeys() {
+			this.filterValue = [];
+			for (const key in this.getSearchedResult[this.searchType]) {
+				this.filterValue.push(key);
+			}
 		}
 	}
 };

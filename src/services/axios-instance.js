@@ -2,7 +2,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 const instance = axios.create({
 	baseURL: `${process.env.VUE_APP_VOLLEY_API_URL}`,
-	timeout: 36000,
+	timeout: 120000,
 	headers: {},
 	crossdomain: true
 });

@@ -61,6 +61,13 @@
 		width: 100%;
 	}
 }
+.image-placeholder{
+	text-align: center;
+	svg{
+		width: 150px;
+		height: 150px;
+	}
+}
 .filter__tags {
 	display: flex;
 	margin-top: 20px;

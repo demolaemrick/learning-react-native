@@ -19,15 +19,7 @@
 				<div class="search-wrapper">
 					<v-text-input class="search-input" rules="required" placeholder="Name" name="name" v-model="payload.full_name" />
 					<v-text-input class="search-input" rules="required" placeholder="Title" name="title" v-model="payload.role" />
-					<v-select
-						:options="companies"
-						@update="onChildUpdate"
-						placeholder="Select Country"
-						name="company-input"
-						v-model="company"
-						class="search-input"
-						required
-					></v-select>
+					<v-text-input class="search-input" rules="required" placeholder="Company" name="company" v-model="payload.company" />
 					<v-button :disabled="invalid" class="search_btn" @click="submitSearch">
 						<template v-if="!loading">Search</template>
 						<Loader v-else />

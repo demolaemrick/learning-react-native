@@ -151,7 +151,7 @@ thead.table__header {
 	}
 }
 @include query(desktop, max){
-    .main{
+    .main-section{
         padding: 0 50px;
     }
     .search-wrapper{
@@ -169,7 +169,7 @@ thead.table__header {
     }
 }
 @include query(tablet, max){
-    .main{
+    .main-section{
         padding: 0 
     }
 }
