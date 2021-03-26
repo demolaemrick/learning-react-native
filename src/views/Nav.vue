@@ -27,16 +27,13 @@
 							name="title"
 							v-model="researchedPayload.role"
 						/>
-						<v-select
-							:options="companies"
-							@update="onChildUpdate"
-							placeholder="Select Country"
-							name="company-input"
-							v-model="company"
-							:value="company"
+						<v-text-input
 							class="search-input"
-							required
-						></v-select>
+							rules="required"
+							placeholder="Company"
+							name="company"
+							v-model="researchedPayload.company"
+						/>
 						<v-button :disabled="invalid" @click="submitSearch"
 							><template v-if="!loading">Search</template> <Loader v-else />
 						</v-button>
@@ -123,15 +120,15 @@ export default {
 			showNav: false
 		};
 	},
-	watch: {
-		showNav(value) {
-			if (value) {
-				document.querySelector('#app').classList.add('sticky-page');
-			} else {
-				document.querySelector('#app').classList.remove('sticky-page');
-			}
-		}
-	},
+	// watch: {
+	// 	showNav(value) {
+	// 		if (value) {
+	// 			document.querySelector('#app').classList.add('sticky-page');
+	// 		} else {
+	// 			document.querySelector('#app').classList.remove('sticky-page');
+	// 		}
+	// 	}
+	// },
 	computed: {
 		...mapGetters({
 			getPayload: 'search_services/getPayload'
@@ -159,8 +156,10 @@ export default {
 		toggleNav() {
 			if (!this.showNav) {
 				this.showNav = true;
+				document.querySelector('#app').classList.add('sticky-page');
 			} else {
 				this.showNav = !this.showNav;
+				document.querySelector('#app').classList.remove('sticky-page');
 			}
 		},
 		async submitSearch() {

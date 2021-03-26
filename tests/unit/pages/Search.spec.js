@@ -57,18 +57,27 @@ describe('Search.vue', () => {
 		wrapper.vm.onOptionToggle('event', 'contact', event);
 	});
 	it('dispatches an action when a submitSearch is clicked', async () => {
-		const mockStore = { dispatch: jest.fn() };
+		const $store = {
+			dispatch: jest.fn(() => Promise.resolve({ data: {} })),
+			getters: {
+				'search_services/getPayload': (state) => state.searchPayload
+			},
+			state: {
+				searchPayload: request
+			},
+			mutations: {
+				'search_services/saveSearchPayload': (state, data) => {
+					state.searchPayload = data;
+				}
+			}
+		};
 		const wrapper = mount(Search, {
 			mocks: {
-				$store: mockStore
+				$store
 			}
 		});
 		await wrapper.find('.search_btn').trigger('click');
 		await nextTick();
-		expect(mockStore.dispatch).toHaveBeenCalledWith('search_services/research', request);
+		expect($store.dispatch).toHaveBeenCalled();
 	});
-
-	//   it('call submitSearch function', () => {
-	//     wrapper.vm.submitSearch()
-	//   })
 });

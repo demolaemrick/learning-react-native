@@ -46,7 +46,7 @@ describe('Nav.vue', () => {
 		wrapper = mount(Nav, {
 			propsData: {
 				researchedPayload: request,
-				showNav: false
+				showNav: true
 			},
 			attachTo: document.body,
 			localVue,
@@ -58,15 +58,39 @@ describe('Nav.vue', () => {
 	test('Render without errors', () => {
 		expect(wrapper.isVueInstance).toBeTruthy();
 	});
-	test('call toggleNav function', () => {
-		console.log('dss', wrapper.find('#app'));
-		wrapper.vm.toggleNav();
-	});
+	// test('call toggleNav function', () => {
+	// 	expect(wrapper.classes('sticky-page')).toBe(false)
+	// 	wrapper.vm.toggleNav();
+	// });
 	it('call back function', async () => {
 		wrapper.vm.back();
 	});
 
 	test('call onChildUpdate function', () => {
 		wrapper.vm.onChildUpdate(request.company);
+	});
+	it('dispatches an action when a submitSearch is clicked', async () => {
+		const $store = {
+			dispatch: jest.fn(() => Promise.resolve({ data: {} })),
+			getters: {
+				'search_services/getPayload': (state) => state.searchPayload
+			},
+			state: {
+				searchPayload: request
+			},
+			mutations: {
+				'search_services/saveSearchPayload': (state, data) => {
+					state.searchPayload = data;
+				}
+			}
+		};
+
+		const wrapper = mount(Nav, {
+			mocks: {
+				$store
+			}
+		});
+		await wrapper.find('button').trigger('click');
+		expect($store.dispatch).toHaveBeenCalled();
 	});
 });

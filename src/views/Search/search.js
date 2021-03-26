@@ -167,30 +167,6 @@ export default {
 			} finally {
 				this.loading = false;
 			}
-			// this.research(this.payload)
-			// 	.then(async (response) => {
-			// 		if (response.data.status === 'success') {
-			// 			await this.saveSearchedResult(response.data.data);
-			// 			await this.saveSearchPayload(this.payload);
-			// 			this.$router.push({ name: 'SearchResult' });
-			// 			return true;
-			// 		}
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: 'Something went wrong',
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.catch((error) => {
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: error.response.data.message,
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.finally(() => {
-			// 		this.loading = false;
-			// 	});
 		},
 		deletePropertyFromObject(property, object) {
 			return Object.keys(object).reduce((obj, key) => {

@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import Modal from '@/views/Modal.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -32,7 +32,7 @@ const event = {
 	}
 };
 describe('Modal.vue', () => {
-	const wrapper = shallowMount(Modal, {
+	const wrapper = mount(Modal, {
 		propsData: {
 			researchedPayload: request
 		}
@@ -59,19 +59,11 @@ describe('Modal.vue', () => {
 	test('call deletePropertyFromObject function', () => {
 		wrapper.vm.deletePropertyFromObject('event', request.company_research);
 	});
-	test('call onOptionToggle function', () => {
+	test('call onOptionToggle function', async () => {
 		wrapper.vm.onOptionToggle('event', 'contact', event);
 	});
-	// it('dispatches an action when a submitSearch is clicked', async() => {
-	// 	const mockStore = { dispatch: jest.fn() };
-	// 	const wrapper = mount(Search, {
-	// 		mocks: {
-	// 			$store: mockStore
-	// 		}
-	// 	});
-
-	// 	await wrapper.find('.search_btn').trigger('click');
-	//     expect(mockStore.dispatch).toHaveBeenCalledWith('search_services/research', request);
-
-	// });
+	it('dispatches an action when a submitSearch is clicked', async () => {
+		await wrapper.find('button').trigger('click');
+		expect(wrapper.emitted().submit).toBeTruthy();
+	});
 });

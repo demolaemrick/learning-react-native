@@ -29,10 +29,10 @@
 									<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 								</template>
 								<template #dropdown-items>
-									<li class="dropdown__item">
+									<li class="dropdown__item" @click="sortByRecent">
 										Recent
 									</li>
-									<li class="dropdown__item">
+									<li class="dropdown__item" @click="sortByRelevance">
 										Relevance
 									</li>
 								</template>
@@ -92,12 +92,14 @@
 			<div class="item__detail">
 				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>
 				<p class="item__detail-title">{{ getSearchedItem.item.description }}</p>
-				<p class="item__detail-date">{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}</p>
+				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
+					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
+				</p>
 				<div class="filter__tags" v-if="getSearchedItem.item.tags.length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
 						<span v-for="(tag, i) in getSearchedItem.item.tags" :key="i"
-							><c-tag v-if="tag !== null">{{ tag }}</c-tag></span
+							><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
 						>
 					</div>
 				</div>
@@ -112,9 +114,13 @@
 						:src="getSearchedItem.item.url"
 					></iframe>
 
-					<p v-else class="item__detail-content" v-for="(content, i) in itemContent" :key="i">
-						{{ content }}
-					</p>
+					<div v-else class="item__detail-content">
+						<div class="image-placeholder" v-if="itemContent === ''">
+							<img src="@/assets/icons/placeholder.svg" svg-inline />
+							<h4>Cannot render image</h4>
+						</div>
+						<img v-else :src="`data:image/png;base64,${itemContent}`" alt="" />
+					</div>
 				</template>
 			</div>
 		</main>

@@ -41,10 +41,10 @@
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="sortByRecent('contact_research')">
 									Recent
 								</li>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="sortByRelevance('contact_research')">
 									Relevance
 								</li>
 							</template>
@@ -55,6 +55,7 @@
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in getSearchedResult.contact_research" :key="i">
+									<!-- <span v-for="(data, i) in response.data.contact_research" :key="i"> -->
 									<li class="dropdown__item" v-if="getSearchedResult.contact_research[i].length !== 0">
 										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
 											{{ i }}
@@ -110,10 +111,10 @@
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="sortByRecent('company_research')">
 									Recent
 								</li>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="sortByRelevance('company_research')">
 									Relevance
 								</li>
 							</template>
@@ -137,6 +138,7 @@
 				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
 					<div
 						class="searched__item"
+						:id="`searched__item-${j}`"
 						v-for="(dataItem, j) in data"
 						:key="j"
 						@click="displaySearchItem('company_research', dataItem)"

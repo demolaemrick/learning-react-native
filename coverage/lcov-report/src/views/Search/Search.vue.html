@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44% </span>
+                <span class="strong">43.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/100</span>
+                <span class='fraction'>43/99</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.15% </span>
+                <span class="strong">23.08% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/52</span>
+                <span class='fraction'>12/52</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44% </span>
+                <span class="strong">43.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>44/100</span>
+                <span class='fraction'>43/99</span>
             </div>
         
             
@@ -315,16 +315,14 @@
 <a name='L257'></a><a href='#L257'>257</a>
 <a name='L258'></a><a href='#L258'>258</a>
 <a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a>
-<a name='L262'></a><a href='#L262'>262</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L260'></a><a href='#L260'>260</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -467,20 +465,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -724,29 +720,27 @@ export default {
 			this.AllCompanyChecked = !this.AllCompanyChecked;
 		},
 		async submitSearch() {
-			console.log('get here');
 			this.loading = true;
 			try {
 				const response = await this.research(this.payload);
-				if (response.data.status === 'success') {
+<span class="missing-if-branch" title="if path not taken" >I</span>				if (response.data.status === 'success') {
 <span class="cstat-no" title="statement not covered" >					await this.saveSearchedResult(response.data.data);</span>
 <span class="cstat-no" title="statement not covered" >					await this.saveSearchPayload(this.payload);</span>
 <span class="cstat-no" title="statement not covered" >					this.$router.push({ name: 'SearchResult' });</span>
 <span class="cstat-no" title="statement not covered" >					return true;</span>
 				}
-<span class="cstat-no" title="statement not covered" >				this.showAlert({</span>
+				this.showAlert({
 					status: 'error',
 					message: 'Something went wrong',
 					showAlert: true
 				});
 			} catch (error) {
-				this.showAlert({
+<span class="cstat-no" title="statement not covered" >				this.showAlert({</span>
 					status: 'error',
 					message: error.response.data.message,
 					showAlert: true
 				});
-			}
-			finally {
+			} finally {
 				this.loading = false;
 			}
 			// this.research(this.payload)
@@ -846,7 +840,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Mar 19 2021 13:16:20 GMT+0100 (West Africa Standard Time)
+                at Tue Mar 23 2021 15:39:54 GMT+0100 (West Africa Standard Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
