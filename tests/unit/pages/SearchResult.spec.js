@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import {  mount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import SearchResult from '@/views/SearchResult/SearchResult.vue';
 import router from '@/router';
 const localVue = createLocalVue();
