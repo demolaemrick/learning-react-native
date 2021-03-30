@@ -5,6 +5,7 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
+import DotLoader from '@/components/DotLoader.vue';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -13,7 +14,8 @@ export default {
 		DCheckbox,
 		CTag,
 		DropdownCheckbox,
-		LoadingState
+		LoadingState,
+		DotLoader
 	},
 	data() {
 		return {
@@ -23,7 +25,11 @@ export default {
 			filterValue: [],
 			itemContent: '',
 			loading: false,
-			can_render: false
+			can_render: false,
+			loadMore: false,
+			researchedPayload: {
+				type: Object
+			}
 		};
 	},
 	watch: {
@@ -31,10 +37,18 @@ export default {
 			value ? (this.rows = 30) : (this.rows = 1);
 		}
 	},
-	async created() {
+	// async created() {
+	// 	 this.getFilterKeys();
+	// 	this.searchType = this.getSearchedItem.type;
+	// 	await this.fetchContent();
+
+	// },
+	async mounted() {
+		this.getFilterKeys();
 		this.searchType = this.getSearchedItem.type;
 		await this.fetchContent();
-		await getFilterKeys();
+		this.researchedPayload = Object.assign({}, this.getPayload);
+		this.getNextResearch();
 	},
 	computed: {
 		...mapGetters({
@@ -85,12 +99,58 @@ export default {
 	methods: {
 		...mapMutations({
 			saveNotepad: 'search_services/saveNotepad',
-			saveSearchedItem: 'search_services/saveSearchedItem'
+			saveSearchedItem: 'search_services/saveSearchedItem',
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			saveSearchPayload: 'search_services/saveSearchPayload'
 		}),
 		...mapActions({
 			content: 'search_services/content',
+			fetchResearch: 'search_services/research',
 			showAlert: 'showAlert'
 		}),
+		getNextResearch() {
+			const listElm = document.querySelector('#infinite-list');
+			listElm.onscroll = async () => {
+				if (this.researchedPayload.pagination !== 2) {
+					if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+						this.loadMore = true;
+						this.researchedPayload.pagination = 2;
+						try {
+							const response = await this.fetchResearch(this.researchedPayload);
+							if (response.data.status === 'success') {
+								let data = response.data.data;
+								const contact_research = [
+									...this.getSearchedResult.contact_research.others,
+									...response.data.data.contact_research.others
+								];
+								const company_research = [
+									...this.getSearchedResult.company_research.others,
+									...response.data.data.company_research.others
+								];
+								data.contact_research['others'] = contact_research;
+								data.company_research['others'] = company_research;
+								await this.saveSearchedResult(data);
+								await this.saveSearchPayload(this.researchedPayload);
+								return true;
+							}
+							this.showAlert({
+								status: 'error',
+								message: 'Something went wrong',
+								showAlert: true
+							});
+						} catch (error) {
+							this.showAlert({
+								status: 'error',
+								message: error.response.data.message,
+								showAlert: true
+							});
+						} finally {
+							this.loadMore = false;
+						}
+					}
+				}
+			};
+		},
 		sortByRelevance() {
 			for (const key in this.research) {
 				const element = this.research[key];

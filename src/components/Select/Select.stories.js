@@ -207,7 +207,6 @@ export const Default = () => ({
 			'Tajikistan',
 			'Tanzania',
 			'Thailand',
-			'Timor L\'Este',
 			'Togo',
 			'Tonga',
 			'Trinidad &amp; Tobago',

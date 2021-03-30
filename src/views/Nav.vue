@@ -165,8 +165,10 @@ export default {
 		async submitSearch() {
 			this.loading = true;
 			try {
+				this.researchedPayload.pagination = null;
 				const response = await this.research(this.researchedPayload);
 				if (response.data.status === 'success') {
+					console.log(this.researchedPayload);
 					await this.saveSearchedResult(response.data.data);
 					await this.saveSearchPayload(this.researchedPayload);
 					if (this.currentRoute === 'SearchItem') {

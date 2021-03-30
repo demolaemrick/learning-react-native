@@ -3,7 +3,7 @@
 		<v-nav />
 		<main class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
-				<div class="searched__wrapper-content" v-if="!hideSearch">
+				<div class="searched__wrapper-content" v-if="!hideSearch" id="infinite-list">
 					<div class="searched__wrapper-header">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
@@ -62,13 +62,13 @@
 							@click="displaySearchItem('company_research', dataItem)"
 						>
 							<p class="searched__item-title">{{ dataItem.title }}</p>
-							<p class="searched__item-desc">
-								{{ dataItem.description }}
-							</p>
+							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							<a :href="dataItem.url" target="_blank" class="searched__item-url"
-								><img src="@/assets/icons/planet-earth.svg" svg-inline />{{ dataItem.url }}</a
+								><img src="@/assets/icons/planet-earth.svg" svg-inline />
+								<p class="url-text">{{ dataItem.url }}</p></a
 							>
 						</div>
+						<dot-loader v-if="loadMore" />
 					</div>
 				</div>
 				<div class="notepad">
