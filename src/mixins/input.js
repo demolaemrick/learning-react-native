@@ -30,7 +30,7 @@ const InputMixin = {
 		},
 		labelVisible: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		width: {
 			type: String,

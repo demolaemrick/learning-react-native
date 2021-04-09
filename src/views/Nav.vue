@@ -173,7 +173,9 @@ export default {
 					await this.saveSearchPayload(this.researchedPayload);
 					if (this.currentRoute === 'SearchItem') {
 						this.$router.push({ name: 'SearchResult' }).catch(() => {});
+						return true;
 					}
+					this.$router.go()
 					return true;
 				}
 				this.showAlert({

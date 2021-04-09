@@ -1,4 +1,4 @@
-import '@/mixins/directives.js';
+import '../../mixins/directives.js';
 export default {
 	name: 'ToggleDropdown',
 	data() {

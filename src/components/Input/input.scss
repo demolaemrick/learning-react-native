@@ -1,4 +1,15 @@
 @import '../../assets/scss/main.scss';
+.form-label {
+		display: block;
+		margin-bottom: 12px;
+		.required{
+			color: #ff0000;
+		}
+	}
+
+	.form-label--hide {
+		display: none;
+	}
 .form-input {
 	width: 240px;
 	height: 46px;
@@ -28,7 +39,6 @@
         border-color: #fe6159;
     }
 }
-
 .input-error--msg {
     color: #fe6159;
     display: block;

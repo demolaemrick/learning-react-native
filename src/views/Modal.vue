@@ -182,8 +182,7 @@ export default {
 				job_postings: [],
 				mergers_and_acquisitions: [],
 				ipo: [],
-				product_launch: [],
-				others: []
+				product_launch: []
 			}
 		};
 	},

@@ -69,11 +69,15 @@
 					</div>
 				</div>
 				<div class="searched-result" v-for="(data, i) in contact_research" :key="i">
+					<span v-for="(dataItem, j) in data" :key="j">
+
+					
 					<div
 						class="searched__item"
-						v-for="(dataItem, j) in data"
-						:key="j"
+						
+						
 						@click="displaySearchItem('contact_research', dataItem)"
+						v-if="!Object.keys(dataItem).includes('dontRender')"
 					>
 						<p class="searched__item-title">{{ dataItem.title }}</p>
 						<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
@@ -82,6 +86,7 @@
 							<p class="url-text">{{ dataItem.url }}</p></a
 						>
 					</div>
+					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
 			</div>
@@ -137,12 +142,12 @@
 					</div>
 				</div>
 				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
+					<span v-for="(dataItem, j) in data" :key="j">
 					<div
 						class="searched__item"
 						:id="`searched__item-${j}`"
-						v-for="(dataItem, j) in data"
-						:key="j"
 						@click="displaySearchItem('company_research', dataItem)"
+						v-if="!Object.keys(dataItem).includes('dontRender')"
 					>
 						<p class="searched__item-title">{{ dataItem.title }}</p>
 						<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
@@ -151,6 +156,7 @@
 							<p class="url-text">{{ dataItem.url }}</p></a
 						>
 					</div>
+					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
 			</div>

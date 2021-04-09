@@ -46,7 +46,7 @@ export default {
 	async mounted() {
 		this.getFilterKeys();
 		this.searchType = this.getSearchedItem.type;
-		await this.fetchContent();
+		//await this.fetchContent();
 		this.researchedPayload = Object.assign({}, this.getPayload);
 		this.getNextResearch();
 	},
@@ -177,8 +177,8 @@ export default {
 			this.content(this.getContentPayload)
 				.then(async (response) => {
 					if (response.data.status === 'success') {
-						this.itemContent = '';
-						this.itemContent = response.data.data.image_string;
+						// this.itemContent = '';
+						// this.itemContent = response.data.data.image_string;
 						this.can_render = response.data.data.can_render;
 						return true;
 					}
@@ -208,7 +208,7 @@ export default {
 				item: item
 			};
 			await this.saveSearchedItem(data);
-			await this.fetchContent();
+			//await this.fetchContent();
 		},
 		getFilterKeys() {
 			this.filterValue = [];

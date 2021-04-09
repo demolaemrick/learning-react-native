@@ -93,35 +93,79 @@ const response = {
 	}
 };
 describe('SearchResult.vue', () => {
-	const $store = {
-		dispatch: jest.fn(() => Promise.resolve({ data: {} })),
-		getters: {
-			'search_services/getSearchedResult': (state) => state.searchedResult,
-			'search_services/getNotepad': (state) => state.getNotepad,
-			'search_services/getPayload': (state) => state.searchPayload,
-			getSearchedItem: (state) => state.getSearchedItem
-		},
-		state: {
-			searchedResult: {},
-			notepad: '',
-			searchPayload: {},
-			searchedItem: {
-				type: 'company_research',
-				item: response.data.company_research
-			}
-		},
-		mutations: {
-			'search_services/saveSearchedItem': (state, data) => {
-				state.searchedItem = data;
-			},
-			'search_services/saveNotepad': (state, data) => {
-				state.notepad = data;
-			}
-		}
-	};
+	// const $store = {
+	// 	dispatch: jest.fn(() => Promise.resolve({ data: {} })),
+	// 	getters: {
+	// 		'search_services/getSearchedResult': (state) => state.searchedResult,
+	// 		'search_services/getNotepad': (state) => state.getNotepad,
+	// 		'search_services/getPayload': (state) => state.searchPayload,
+	// 		getSearchedItem: (state) => state.getSearchedItem
+	// 	},
+	// 	state: {
+	// 		searchedResult: {},
+	// 		notepad: '',
+	// 		searchPayload: {},
+	// 		searchedItem: {
+	// 			type: 'company_research',
+	// 			item: response.data.company_research
+	// 		}
+	// 	},
+	// 	mutations: {
+	// 		'search_services/saveSearchedItem': (state, data) => {
+	// 			state.searchedItem = data;
+	// 		},
+	// 		'search_services/saveNotepad': (state, data) => {
+	// 			state.notepad = data;
+	// 		}
+	// 	}
+	// };
+    //let $store
+    let state
+  let store
+  let getters
+  let mutations
+    beforeEach(() => {
+        getters = {
+            getSearchedResult: jest.fn(),
+            getNotepad: jest.fn(),
+            getPayload: jest.fn(),
+            getSearchedItem: jest.fn()
+        },
+        // state = {
+        //     searchedResult: {},
+        //     notepad: '',
+        //     searchPayload: {},
+        //     searchedItem: {
+        //         type: 'company_research',
+        //         item: response.data.company_research
+        //     }
+        // },
+        mutations= {
+            saveSearchedItem: jest.fn(),
+            saveNotepad: jest.fn()
+        }
+        //actions = jest.fn(() => Promise.resolve({ data: {} })),
+       
+        store = new Vuex.Store({
+            modules: {
+                search_services: {
+                    state,
+                    mutations,
+                    getters
+                }
+              }
+            
+          })
+      })
+       const $store = {
+            dispatch: jest.fn(() => Promise.resolve({ data: {} })),
+            get: jest.fn(() => Promise.resolve({ data: {} }))
+            
+        };
 	const wrapper = mount(SearchResult, {
 		attachTo: document.body,
 		localVue,
+        store,
 		mocks: {
 			$store
 		},
@@ -135,6 +179,7 @@ describe('SearchResult.vue', () => {
 	it('call back function', async () => {
 		const wrapper = mount(SearchResult, {
 			attachTo: document.body,
+            store,
 			localVue,
 			mocks: {
 				$store
@@ -148,7 +193,9 @@ describe('SearchResult.vue', () => {
 		// const displaySearchItem = jest.fn()
 		// wrapper.setMethods({ displaySearchItem });
 		//const divArray = wrapper.find('#searched__item-0')
-		await wrapper.find('#searched__item-0').trigger('click');
+        const targetSwatch = wrapper.findAll('.searched__item').at(0)
+        targetSwatch.trigger('click')
+		//await wrapper.find('#searched__item-0').trigger('click');
 		//expect(displaySearchItem).toHaveBeenCalled();
 		//expect($store.dispatch).toHaveBeenCalled();
 		// expect($store.state.searchedItem).toEqual(data);
