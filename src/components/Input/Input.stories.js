@@ -39,6 +39,6 @@ WithLabel.args = {
 	type: 'text',
 	name: 'First Name',
 	placeholder: 'John',
-    labelVisible: true,
+	labelVisible: true,
 	rules: 'required'
 };

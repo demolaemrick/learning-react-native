@@ -56,18 +56,18 @@
 
 					<div class="searched-result" v-for="(data, i) in research" :key="i">
 						<span v-for="(dataItem, j) in data" :key="j">
-						<div
-							class="searched__item"
-							v-if="!Object.keys(dataItem).includes('dontRender')"
-							@click="displaySearchItem('company_research', dataItem)"
-						>
-							<p class="searched__item-title">{{ dataItem.title }}</p>
-							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-							<a :href="dataItem.url" target="_blank" class="searched__item-url"
-								><img src="@/assets/icons/planet-earth.svg" svg-inline />
-								<p class="url-text">{{ dataItem.url }}</p></a
+							<div
+								class="searched__item"
+								v-if="!Object.keys(dataItem).includes('dontRender')"
+								@click="displaySearchItem('company_research', dataItem)"
 							>
-						</div>
+								<p class="searched__item-title">{{ dataItem.title }}</p>
+								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									<p class="url-text">{{ dataItem.url }}</p></a
+								>
+							</div>
 						</span>
 						<dot-loader v-if="loadMore" />
 					</div>
@@ -106,8 +106,7 @@
 				</div>
 				<!-- <loading-state v-if="loading" /> -->
 				<template>
-					
-					<div  class="item__detail-content" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
+					<div class="item__detail-content" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
 						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>
 					</div>
 					<iframe
@@ -135,12 +134,17 @@
 <style src="../SearchResult/search-result.scss" lang="scss" scoped></style>
 <style lang="scss" src="./search-item.scss" scoped></style>
 <style lang="scss">
-	.item-content{
-			p{
-				margin-bottom: 15px;
-			}
-			h1,h2,h3,h4,h5,h6{
-				margin-bottom: 10px;
-			}
+.item-content {
+	p {
+		margin-bottom: 15px;
 	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-bottom: 10px;
+	}
+}
 </style>

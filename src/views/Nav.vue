@@ -175,7 +175,7 @@ export default {
 						this.$router.push({ name: 'SearchResult' }).catch(() => {});
 						return true;
 					}
-					this.$router.go()
+					this.$router.go();
 					return true;
 				}
 				this.showAlert({

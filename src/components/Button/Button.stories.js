@@ -6,7 +6,7 @@ export default {
 	argTypes: {
 		size: {
 			control: { type: 'select', options: ['small', 'medium', 'full', 'default', 'modal'] }
-		},
+		}
 	}
 };
 

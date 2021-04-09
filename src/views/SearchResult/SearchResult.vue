@@ -70,22 +70,18 @@
 				</div>
 				<div class="searched-result" v-for="(data, i) in contact_research" :key="i">
 					<span v-for="(dataItem, j) in data" :key="j">
-
-					
-					<div
-						class="searched__item"
-						
-						
-						@click="displaySearchItem('contact_research', dataItem)"
-						v-if="!Object.keys(dataItem).includes('dontRender')"
-					>
-						<p class="searched__item-title">{{ dataItem.title }}</p>
-						<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-						<a :href="dataItem.url" target="_blank" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline />
-							<p class="url-text">{{ dataItem.url }}</p></a
+						<div
+							class="searched__item"
+							@click="displaySearchItem('contact_research', dataItem)"
+							v-if="!Object.keys(dataItem).includes('dontRender')"
 						>
-					</div>
+							<p class="searched__item-title">{{ dataItem.title }}</p>
+							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+							<a :href="dataItem.url" target="_blank" class="searched__item-url"
+								><img src="@/assets/icons/planet-earth.svg" svg-inline />
+								<p class="url-text">{{ dataItem.url }}</p></a
+							>
+						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
@@ -143,19 +139,19 @@
 				</div>
 				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
 					<span v-for="(dataItem, j) in data" :key="j">
-					<div
-						class="searched__item"
-						:id="`searched__item-${j}`"
-						@click="displaySearchItem('company_research', dataItem)"
-						v-if="!Object.keys(dataItem).includes('dontRender')"
-					>
-						<p class="searched__item-title">{{ dataItem.title }}</p>
-						<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-						<a :href="dataItem.url" target="_blank" class="searched__item-url"
-							><img src="@/assets/icons/planet-earth.svg" svg-inline />
-							<p class="url-text">{{ dataItem.url }}</p></a
+						<div
+							class="searched__item"
+							:id="`searched__item-${j}`"
+							@click="displaySearchItem('company_research', dataItem)"
+							v-if="!Object.keys(dataItem).includes('dontRender')"
 						>
-					</div>
+							<p class="searched__item-title">{{ dataItem.title }}</p>
+							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+							<a :href="dataItem.url" target="_blank" class="searched__item-url"
+								><img src="@/assets/icons/planet-earth.svg" svg-inline />
+								<p class="url-text">{{ dataItem.url }}</p></a
+							>
+						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
