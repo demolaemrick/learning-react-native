@@ -165,13 +165,16 @@ export default {
 		async submitSearch() {
 			this.loading = true;
 			try {
+				this.researchedPayload.pagination = null;
 				const response = await this.research(this.researchedPayload);
 				if (response.data.status === 'success') {
 					await this.saveSearchedResult(response.data.data);
 					await this.saveSearchPayload(this.researchedPayload);
 					if (this.currentRoute === 'SearchItem') {
 						this.$router.push({ name: 'SearchResult' }).catch(() => {});
+						return true;
 					}
+					this.$router.go();
 					return true;
 				}
 				this.showAlert({

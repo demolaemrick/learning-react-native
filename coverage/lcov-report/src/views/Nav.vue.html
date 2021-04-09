@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">59.46% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/33</span>
+                <span class='fraction'>22/37</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/10</span>
+                <span class='fraction'>7/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">59.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/33</span>
+                <span class='fraction'>22/37</span>
             </div>
         
             
@@ -381,10 +381,8 @@
 <a name='L323'></a><a href='#L323'>323</a>
 <a name='L324'></a><a href='#L324'>324</a>
 <a name='L325'></a><a href='#L325'>325</a>
-<a name='L326'></a><a href='#L326'>326</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -496,7 +494,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -520,15 +518,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -553,11 +551,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -735,16 +737,13 @@
 							name="title"
 							v-model="researchedPayload.role"
 						/&gt;
-						&lt;v-select
-							:options="companies"
-							@update="onChildUpdate"
-							placeholder="Select Country"
-							name="company-input"
-							v-model="company"
-							:value="company"
+						&lt;v-text-input
 							class="search-input"
-							required
-						&gt;&lt;/v-select&gt;
+							rules="required"
+							placeholder="Company"
+							name="company"
+							v-model="researchedPayload.company"
+						/&gt;
 						&lt;v-button :disabled="invalid" @click="submitSearch"
 							&gt;&lt;template v-if="!loading"&gt;Search&lt;/template&gt; &lt;Loader v-else /&gt;
 						&lt;/v-button&gt;
@@ -844,8 +843,8 @@ export default {
 		...mapGetters({
 			getPayload: 'search_services/getPayload'
 		}),
-		companies() {
-			return Object.keys(companyList.companies);
+<span class="fstat-no" title="function not covered" >		companies() {</span>
+<span class="cstat-no" title="statement not covered" >			return Object.keys(companyList.companies);</span>
 		},
 		currentRoute() {
 			return this.$route.name;
@@ -876,13 +875,17 @@ export default {
 		async submitSearch() {
 			this.loading = true;
 			try {
+				this.researchedPayload.pagination = null;
 				const response = await this.research(this.researchedPayload);
 <span class="missing-if-branch" title="if path not taken" >I</span>				if (response.data.status === 'success') {
+<span class="cstat-no" title="statement not covered" >					console.log(this.researchedPayload);</span>
 <span class="cstat-no" title="statement not covered" >					await this.saveSearchedResult(response.data.data);</span>
 <span class="cstat-no" title="statement not covered" >					await this.saveSearchPayload(this.researchedPayload);</span>
 <span class="cstat-no" title="statement not covered" >					if (this.currentRoute === 'SearchItem') {</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >						this.$router.push({ name: 'SearchResult' }).catch(() =&gt; {});</span></span>
+<span class="cstat-no" title="statement not covered" >						return true;</span>
 					}
+<span class="cstat-no" title="statement not covered" >					this.$router.go()</span>
 <span class="cstat-no" title="statement not covered" >					return true;</span>
 				}
 				this.showAlert({
@@ -1038,7 +1041,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 23 2021 15:39:54 GMT+0100 (West Africa Standard Time)
+                at Wed Mar 31 2021 16:11:13 GMT+0100 (West Africa Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

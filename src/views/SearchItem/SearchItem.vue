@@ -3,7 +3,7 @@
 		<v-nav />
 		<main class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
-				<div class="searched__wrapper-content" v-if="!hideSearch">
+				<div class="searched__wrapper-content" v-if="!hideSearch" id="infinite-list">
 					<div class="searched__wrapper-header">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
@@ -55,20 +55,21 @@
 					</div>
 
 					<div class="searched-result" v-for="(data, i) in research" :key="i">
-						<div
-							class="searched__item"
-							v-for="(dataItem, j) in data"
-							:key="j"
-							@click="displaySearchItem('company_research', dataItem)"
-						>
-							<p class="searched__item-title">{{ dataItem.title }}</p>
-							<p class="searched__item-desc">
-								{{ dataItem.description }}
-							</p>
-							<a :href="dataItem.url" target="_blank" class="searched__item-url"
-								><img src="@/assets/icons/planet-earth.svg" svg-inline />{{ dataItem.url }}</a
+						<span v-for="(dataItem, j) in data" :key="j">
+							<div
+								class="searched__item"
+								v-if="!Object.keys(dataItem).includes('dontRender')"
+								@click="displaySearchItem('company_research', dataItem)"
 							>
-						</div>
+								<p class="searched__item-title">{{ dataItem.title }}</p>
+								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									<p class="url-text">{{ dataItem.url }}</p></a
+								>
+							</div>
+						</span>
+						<dot-loader v-if="loadMore" />
 					</div>
 				</div>
 				<div class="notepad">
@@ -95,32 +96,33 @@
 				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
 					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
 				</p>
-				<div class="filter__tags" v-if="getSearchedItem.item.tags.length > 0">
+				<div class="filter__tags" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
-						<span v-for="(tag, i) in getSearchedItem.item.tags" :key="i"
+						<span v-for="(tag, i) in getSearchedItem.item.meta.content.tag" :key="i"
 							><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
 						>
 					</div>
 				</div>
-				<loading-state v-if="loading" />
-				<template v-else>
+				<!-- <loading-state v-if="loading" /> -->
+				<template>
+					<div class="item__detail-content" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
+						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>
+					</div>
 					<iframe
-						v-if="can_render"
+						v-else
 						class="mt-2 iframe-wrapper"
 						id="myframe"
 						width="100%"
 						height="500"
 						:src="getSearchedItem.item.url"
 					></iframe>
-
-					<div v-else class="item__detail-content">
-						<div class="image-placeholder" v-if="itemContent === ''">
+					<!-- <div v-else class="item__detail-content">
+						<div class="image-placeholder">
 							<img src="@/assets/icons/placeholder.svg" svg-inline />
-							<h4>Cannot render image</h4>
+							<h4>Cannot render content</h4>
 						</div>
-						<img v-else :src="`data:image/png;base64,${itemContent}`" alt="" />
-					</div>
+					</div> -->
 				</template>
 			</div>
 		</main>
@@ -131,3 +133,18 @@
 
 <style src="../SearchResult/search-result.scss" lang="scss" scoped></style>
 <style lang="scss" src="./search-item.scss" scoped></style>
+<style lang="scss">
+.item-content {
+	p {
+		margin-bottom: 15px;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-bottom: 10px;
+	}
+}
+</style>

@@ -1,5 +1,8 @@
 <template>
 	<input-wrapper v-slot="{ errors, ariaInput }" v-bind="$props">
+		<label :class="{ 'form-label--hide': !labelVisible }" :for="name" class="form-label"
+			>{{ name }} <span v-if="rules === 'required'" class="required">*</span></label
+		>
 		<input
 			:id="name"
 			ref="input"
