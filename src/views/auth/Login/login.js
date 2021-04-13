@@ -4,7 +4,7 @@ import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import PasswordInput from '@/components/Input/PasswordInput';
 import Loader from '@/components/Loader';
-import Logo from '@/components/Logo'
+import Logo from '@/components/Logo';
 export default {
 	name: 'Login',
 	data() {
@@ -62,7 +62,7 @@ export default {
 			// 	.finally(() => {
 			// 		this.loading = false;
 			// 	});
-		},
+		}
 		// verifyUser(token) {
 		// 	this.verify(token)
 		// 		.then((response) => {

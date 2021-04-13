@@ -10,7 +10,7 @@ export default {
 		buttonType: {
 			type: String,
 			default: 'muted',
-			validator: function(value) {
+			validator: function (value) {
 				return ['primary', 'outline', 'secondary', 'link', 'muted', 'error'].indexOf(value) !== -1;
 			}
 		}

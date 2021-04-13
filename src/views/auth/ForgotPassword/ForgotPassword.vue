@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<header class="header">
-			<logo/>
+			<logo />
 		</header>
 		<main class="main">
 			<div class="auth">
@@ -21,19 +21,17 @@
 								name="Email Address"
 								placeholder="yourmail@email.com"
 							/>
-							
-							
+
 							<c-button class="" :disabled="invalid" size="full" buttonType="primary">
 								<template v-if="!loading">Recover Password</template>
 								<Loader v-else />
 							</c-button>
-                            <div class="forgot-password text-center">
+							<div class="forgot-password text-center">
 								<router-link to="/login">Return to Login</router-link>
 							</div>
 						</div>
 					</ValidationObserver>
 				</form>
-				
 			</div>
 		</main>
 	</div>

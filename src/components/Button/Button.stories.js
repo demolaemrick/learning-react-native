@@ -5,9 +5,9 @@ export default {
 	component: { VButton },
 	argTypes: {
 		size: {
-			control: { type: 'select', options: ['small','full', 'default'] }
+			control: { type: 'select', options: ['small', 'full', 'default'] }
 		},
-        buttonType: {
+		buttonType: {
 			control: { type: 'select', options: ['primary', 'outline', 'secondary', 'link', 'muted'] }
 		}
 	}

@@ -19,7 +19,7 @@
 	}
 	&-secondary {
 		background: rgba(59, 72, 247, 0.08);
-		color: #3B48F7;
+		color: #3b48f7;
 	}
 	&[disabled] {
 		color: grey;

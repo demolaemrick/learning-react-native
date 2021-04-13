@@ -16,8 +16,8 @@ const routes = [
 	{
 		path: '*',
 		name: 'not-found',
-		component: NotFound,
-	  },
+		component: NotFound
+	},
 	{
 		path: '/login',
 		name: 'Login',

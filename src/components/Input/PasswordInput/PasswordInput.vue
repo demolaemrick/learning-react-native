@@ -20,7 +20,6 @@
 				<img v-if="show_password" svg-inline src="../../../assets/icons/visibility-on.svg" />
 				<img v-if="!show_password" svg-inline src="../../../assets/icons/visibility-off.svg" />
 			</span>
-			
 		</span>
 	</input-wrapper>
 </template>

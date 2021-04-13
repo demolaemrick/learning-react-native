@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<header class="header">
-			<logo/>
+			<logo />
 		</header>
 		<main class="main">
 			<div class="auth">
@@ -40,7 +40,6 @@
 						</div>
 					</ValidationObserver>
 				</form>
-				
 			</div>
 		</main>
 	</div>

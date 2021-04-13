@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<header class="header">
-			<logo/>
+			<logo />
 		</header>
 		<main class="main">
 			<div class="auth">
@@ -21,7 +21,7 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-                            <password-input
+							<password-input
 								type="password"
 								v-model="confirm_password"
 								rules="required"
@@ -37,7 +37,6 @@
 						</div>
 					</ValidationObserver>
 				</form>
-				
 			</div>
 		</main>
 	</div>

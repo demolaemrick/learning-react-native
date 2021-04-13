@@ -1,5 +1,5 @@
 import Tabs from './';
-import Tab from './Tab.vue'
+import Tab from './Tab.vue';
 export default {
 	title: 'Library/Tabs',
 	component: Tabs

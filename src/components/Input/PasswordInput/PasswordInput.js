@@ -10,6 +10,5 @@ export default {
 		return {
 			show_password: false
 		};
-	},
-	
+	}
 };

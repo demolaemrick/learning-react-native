@@ -3,7 +3,7 @@ import { ValidationObserver } from 'vee-validate';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import Loader from '@/components/Loader';
-import Logo from '@/components/Logo'
+import Logo from '@/components/Logo';
 export default {
 	name: 'Login',
 	data() {
@@ -16,12 +16,10 @@ export default {
 			loading: false
 		};
 	},
-	created() {
-	},
-	computed: {
-	},
+	created() {},
+	computed: {},
 	methods: {
-		submit() {},
+		submit() {}
 	},
 	components: {
 		ValidationObserver,
