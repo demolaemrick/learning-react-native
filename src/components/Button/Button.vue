@@ -13,9 +13,13 @@
 	padding: 0 58px;
 	border-radius: 2px;
 	cursor: pointer;
-	&.btn-primary {
+	&-primary {
 		background: #3b48f7;
 		color: #fff;
+	}
+	&-secondary {
+		background: rgba(59, 72, 247, 0.08);
+		color: #3B48F7;
 	}
 	&[disabled] {
 		color: grey;
@@ -25,6 +29,10 @@
 	&-small {
 		padding: 0 20px;
 		width: initial !important;
+	}
+	&-full {
+		width: 100%;
+		text-align: center;
 	}
 }
 @include query(mobile, max) {

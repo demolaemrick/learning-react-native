@@ -1,7 +1,7 @@
 @import '../../assets/scss/main.scss';
 .form-label {
 		display: block;
-		margin-bottom: 12px;
+		margin-bottom: 12px !important;
 		.required{
 			color: #ff0000;
 		}
