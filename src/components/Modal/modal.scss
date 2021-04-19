@@ -1,0 +1,84 @@
+.modal{
+
+&-overlay {
+	position: fixed;
+	left:0;
+	top: 0;
+	height: 100%;
+	overflow-y: auto;
+	background-color: rgba(13, 15, 17, .3);
+	backdrop-filter: blur(2px);
+	width:100%;
+	z-index: 2;
+	-webkit-animation: fadeIn 0.3s;
+	animation: fadeIn 0.3s;
+}
+&-body{
+	max-width: 496px;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    margin-top: 15%;
+    padding: 33px;
+    background: #fff;
+    -webkit-animation: fadeIn 0.3s;
+	animation: fadeIn 0.3s;
+}
+}
+
+
+
+
+
+
+@-webkit-keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+
+.fadeIn {
+	-webkit-animation-name: fadeIn !important;
+	animation-name: fadeIn !important;
+}
+
+.fadeOut {
+	-webkit-animation-name: fadeOut !important;
+	animation-name: fadeOut !important;
+	animation-fill-mode: forwards !important;
+}
