@@ -8,7 +8,7 @@ import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 export default {
-	name: 'Search',
+	name: 'SearchSettings',
 	components: {
 		VCheckbox,
 		VSelect,
@@ -240,12 +240,6 @@ export default {
 				this.payload.company_research[single] = [];
 				this.companyKeywords[single] = [];
 			});
-		},
-		$route: {
-			immediate: true,
-			handler: function (newVal, oldVal) {
-				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
-			}
 		}
 	},
 	computed: {

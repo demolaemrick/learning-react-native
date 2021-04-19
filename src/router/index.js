@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import SearchResult from '../views/SearchResult/SearchResult.vue';
 import SearchItem from '../views/SearchItem/SearchItem.vue';
+import SettingsView from '../views/Settings/Settings.vue';
 
 const NotFound = () => import(/* webpackChunkName: 'login' */ '../views/NotFound.vue');
 const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login');
@@ -41,7 +42,18 @@ const routes = [
 	{
 		path: '/',
 		name: 'Search',
-		component: Search
+		component: Search,
+		children: [
+			{
+				path: '/settings',
+				name: 'SearchSettings',
+				component: SettingsView,
+				props: true,
+				meta: {
+					showMoreSearchSettings: true
+				  }
+			}
+		  ]
 	},
 	{
 		path: '/search-result',
