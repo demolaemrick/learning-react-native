@@ -3,7 +3,7 @@
 	margin: 32px 0 85px;
 	display: block;
 	display: flex;
-    justify-content: space-between;
+	justify-content: space-between;
 	align-items: center;
 }
 .nav-item {
@@ -19,22 +19,22 @@
 }
 .nav__menu__right {
 	display: flex;
-    justify-content: space-between;
+	justify-content: space-between;
 	align-items: center;
-.search__icon__wrapper {
-	margin-right: 25px;
-}
-.user__menu__wrapper {
-	display: flex;
-    justify-content: space-between;
-	align-items: center;
-	margin-left: 5px;
-	.user__dropdown__menu {
-		.dropdown__list-wrapper {
-			top: 100%;
+	.search__icon__wrapper {
+		margin-right: 25px;
+	}
+	.user__menu__wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-left: 5px;
+		.user__dropdown__menu {
+			.dropdown__list-wrapper {
+				top: 100%;
+			}
 		}
 	}
-}
 }
 .main-section {
 	padding: 0 110px;
@@ -80,6 +80,11 @@
 	&__wrapper {
 		overflow: hidden;
 		overflow-x: auto;
+	}
+	&__inpage {
+		table {
+			margin: 0 auto;
+		}
 	}
 }
 thead.table__header {
