@@ -1,8 +1,11 @@
 import VCheckbox from '@/components/Checkbox';
 import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
-import VModal from '@/components/Modal';
 import VTextInput from '@/components/Input';
+import VModal from '@/components/Modal';
+import VTabs from '@/components/Tabs';
+import VTab from '@/components/Tabs/Tab';
+import VToggleDropdown from '@/components/ToggleDropdown';
 import { ValidationObserver } from 'vee-validate';
 import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
@@ -15,6 +18,9 @@ export default {
 		VTextInput,
 		VButton,
 		VModal,
+		VTab,
+		VTabs,
+		VToggleDropdown,
 		ValidationObserver,
 		Loader
 	},
@@ -188,8 +194,18 @@ export default {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
 		},
+		closeMoreSearchSettings() {
+			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			this.$router.push('/');
+		},
 		closeConfigModal() {
 			this.showConfigModal = !this.showConfigModal;
+		},
+		btnApplyChanges() {
+			this.closeMoreSearchSettings()
+		},
+		showSearchPreference() {
+			
 		}
 	},
 	watch: {

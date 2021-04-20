@@ -1,6 +1,6 @@
 <template>
-<div>
-			<div class="table__wrapper">
+	<div>
+		<div class="table__wrapper">
 			<!-- Contact search -->
 			<table class="table">
 				<thead class="table__header">
@@ -64,7 +64,7 @@
 		</div>
 
 		<!-- company search -->
-		<div class="table__wrapper">
+		<!-- <div class="table__wrapper">
 			<table class="table">
 				<thead class="table__header">
 					<tr>
@@ -120,8 +120,8 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-</div>
+		</div> -->
+	</div>
 </template>
 
 <script src="./settings.js"></script>
