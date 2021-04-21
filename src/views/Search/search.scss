@@ -80,10 +80,46 @@
 	&__wrapper {
 		overflow: hidden;
 		overflow-x: auto;
+
+		.table__wrapper__header {
+			display: flex;
+			justify-content: space-between;
+			max-width: 920px;
+			margin-bottom: 2em;
+			.text__content {
+				font-family: Karla;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 32px;
+				line-height: 50px;
+				letter-spacing: -0.761905px;
+				color: #333758;
+			}
+			.table__wrapper__header__btn__wrapper {
+				.table__wrapper__btn__close {
+					outline: none;
+					background: none;
+					padding: 0;
+					.btn__content__wrapper {
+						.text {
+							outline: none;
+							background: none;
+							font-family: Karla;
+							font-style: normal;
+							font-weight: normal;
+							font-size: 15px;
+							line-height: 18px;
+							letter-spacing: -0.4px;
+							color: #333758;
+						}
+					}
+				}
+			}
+		}
 	}
 	&__inpage {
 		table {
-			margin: 0 auto;
+			// margin: 0 auto;
 		}
 	}
 }
@@ -312,3 +348,73 @@ thead.table__header {
 	}
 }
 // showMoreSearch
+
+.additional__option__wrapper {
+	margin-top: 3em;
+	max-width: 920px;
+	.additional__option__label {
+		font-family: Karla;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 20px;
+		line-height: 34px;
+		letter-spacing: -0.3px;
+		color: #333758;
+	}
+	textarea {
+		width: 100%;
+		margin-top: 1em;
+		min-height: 197px;
+		font-family: Karla;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 15px;
+		line-height: 24px;
+		color: #989aaa;
+		padding: 1em;
+	}
+	.secondary__search__btn__wrapper {
+		margin-top: 3em;
+		display: flex;
+		justify-content: flex-end;
+		.secondary__search__btn {
+			text-align: right;
+		}
+	}
+}
+
+.upload__wrapper {
+	min-height: 140px;
+	border: 2px dashed #d1d5db;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&:hover {
+		cursor: pointer;
+	}
+	.upload__placeholder__content {
+		.text__content {
+			p {
+				font-family: Karla;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 20px;
+				letter-spacing: -0.002em;
+				color: #333758;
+				.link {
+					color: #3b48f7;
+				}
+			}
+		}
+		.text__desc {
+			font-family: Karla;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 16px;
+			text-align: center;
+			color: #989aaa;
+		}
+	}
+}

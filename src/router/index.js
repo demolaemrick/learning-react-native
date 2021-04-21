@@ -4,6 +4,7 @@ import Search from '../views/Search/Search.vue';
 import SearchResult from '../views/SearchResult/SearchResult.vue';
 import SearchItem from '../views/SearchItem/SearchItem.vue';
 import SettingsView from '../views/Settings/Settings.vue';
+import ContactResearch from '../views/ContactResearch/ContactResearch.vue';
 
 const NotFound = () => import(/* webpackChunkName: 'login' */ '../views/NotFound.vue');
 const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login');
@@ -51,9 +52,9 @@ const routes = [
 				props: true,
 				meta: {
 					showMoreSearchSettings: true
-				  }
+				}
 			}
-		  ]
+		]
 	},
 	{
 		path: '/search-result',
@@ -64,6 +65,11 @@ const routes = [
 		path: '/search-item',
 		name: 'SearchItem',
 		component: SearchItem
+	},
+	{
+		path: '/contact-research',
+		name: 'ContactResearch',
+		component: ContactResearch
 	}
 ];
 

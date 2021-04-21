@@ -6,6 +6,7 @@ import VModal from '@/components/Modal';
 import VTabs from '@/components/Tabs';
 import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
+import VTable from '@/components/Table';
 import { ValidationObserver } from 'vee-validate';
 import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
@@ -13,7 +14,7 @@ import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 
 export default {
-	name: 'Search',
+	name: 'ContactResearch',
 	components: {
 		VCheckbox,
 		VSelect,
@@ -23,6 +24,7 @@ export default {
 		VTab,
 		VTabs,
 		VToggleDropdown,
+		VTable,
 		ValidationObserver,
 		Loader,
 		FileUpload
@@ -79,7 +81,131 @@ export default {
 			showConfigModal: false,
 			accept: 'csv',
 			extensions: 'csv',
-			activeTab: 'manual_search'
+			activeTab: 'manual_search',
+			tableHeaders: [
+				{
+					name: '',
+					// sortable: true
+				},
+				{
+					name: 'Name',
+					// sortable: true
+				},
+				{
+					name: 'Company',
+					// sortable: true
+				},
+				{
+					name: 'Title',
+					// sortable: false
+				},
+				{
+					name: 'Linkedin',
+					// sortable: false
+				},
+				{
+					name: 'Research Score',
+					// sortable: true
+				},
+				{
+					name: 'Last updated',
+					// sortable: true
+				},
+				{
+					name: 'Research Status',
+					// sortable: true
+				}
+			],
+			tableData : [
+				{
+					name: 'Kingsley Omin',
+					company: 'Apple',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Dianne Russell',
+					company: 'Face Book',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Pending',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'Amazon',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'Apple',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'Drop Box',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Pending',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'Netflix',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'MIT',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				},
+				{
+					name: 'Kingsley Omin',
+					company: 'Hopkins Hospital',
+					title: 'Design Manager',
+					linkedin: 'www.amsterdam...',
+					research_score: 'Type/score/amount',
+					last_updated: '1h',
+					research_status: 'Done',
+					email: 'kingsley@apple.com',
+					initials: 'KO'
+				}
+			]
 		};
 	},
 	methods: {
