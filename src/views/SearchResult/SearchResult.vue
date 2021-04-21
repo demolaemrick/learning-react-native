@@ -138,10 +138,13 @@
 						>
 							<p class="searched__item-title">{{ dataItem.title }}</p>
 							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-							<a :href="dataItem.url" target="_blank" class="searched__item-url"
-								><img src="@/assets/icons/planet-earth.svg" svg-inline />
-								<p class="url-text">{{ dataItem.url }}</p></a
-							>
+							<div class="url__bookmark__group">
+								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									<p class="url-text">{{ dataItem.url }}</p></a
+								>
+								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+							</div>
 						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
@@ -208,10 +211,13 @@
 						>
 							<p class="searched__item-title">{{ dataItem.title }}</p>
 							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-							<a :href="dataItem.url" target="_blank" class="searched__item-url"
-								><img src="@/assets/icons/planet-earth.svg" svg-inline />
-								<p class="url-text">{{ dataItem.url }}</p></a
-							>
+							<div class="url__bookmark__group">
+								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									<p class="url-text">{{ dataItem.url }}</p></a
+								>
+								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+							</div>
 						</div>
 					</span>
 					<dot-loader v-if="loadMore" />

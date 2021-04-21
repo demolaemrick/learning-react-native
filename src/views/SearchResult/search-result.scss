@@ -57,13 +57,22 @@
 	padding: 3px 0 3px 33px;
 }
 .searched-result {
-	padding-left: 24px;
+	// padding-left: 24px;
+	// padding-left: 24px;
 	border-bottom: solid 2px #f2f2f2;
 }
 .searched__item {
 	padding: 42px 0 39px;
 	max-width: 450px;
 	cursor: pointer;
+    // padding-left: 24px;
+    padding: 1em 1.5em;
+
+	&:hover {
+	border: 1px solid #3B48F7;
+	border-radius: 2px;
+	}
+
 
 	&-title {
 		letter-spacing: -0.4px;
@@ -86,12 +95,17 @@
 			margin-right: 8px;
 		}
 		.url-text {
-			max-width: 370px;
+			max-width: 270px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 	}
+}
+.url__bookmark__group {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 // .mobile__wrapper{
 //     display: none;
@@ -129,7 +143,9 @@
 
 .aside__left {
 	width: 300px;
-	padding: 2em;
+	// padding: 2em;
+	padding-right: 1em;
+	padding-top: 1em;
 	.section {
 		// padding: 2em;
 	}
