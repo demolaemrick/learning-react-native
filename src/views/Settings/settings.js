@@ -1,31 +1,22 @@
 import VCheckbox from '@/components/Checkbox';
 import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
-import VTextInput from '@/components/Input';
 import VModal from '@/components/Modal';
-import VTabs from '@/components/Tabs';
-import VTab from '@/components/Tabs/Tab';
-import VToggleDropdown from '@/components/ToggleDropdown';
+import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
 import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
-import FileUpload from 'vue-upload-component';
-
 export default {
-	name: 'Search',
+	name: 'SearchSettings',
 	components: {
 		VCheckbox,
 		VSelect,
 		VTextInput,
 		VButton,
 		VModal,
-		VTab,
-		VTabs,
-		VToggleDropdown,
 		ValidationObserver,
-		Loader,
-		FileUpload
+		Loader
 	},
 	data() {
 		return {
@@ -76,10 +67,7 @@ export default {
 					product_launch: []
 				}
 			},
-			showConfigModal: false,
-			accept: 'csv',
-			extensions: 'csv',
-			activeTab: 'manual_search'
+			showConfigModal: false
 		};
 	},
 	methods: {
@@ -200,26 +188,8 @@ export default {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
 		},
-		closeMoreSearchSettings() {
-			this.showMoreSearchSettings = !this.showMoreSearchSettings;
-			this.$router.push('/');
-		},
 		closeConfigModal() {
 			this.showConfigModal = !this.showConfigModal;
-		},
-		btnApplyChanges() {
-			this.closeMoreSearchSettings();
-		},
-		showSearchPreference() {},
-		setActiveTab(evt) {
-			switch (evt) {
-				case 'manual_search':
-					this.activeTab = evt;
-					break;
-				case 'import_contacts':
-					this.activeTab = evt;
-					break;
-			}
 		}
 	},
 	watch: {
@@ -270,12 +240,6 @@ export default {
 				this.payload.company_research[single] = [];
 				this.companyKeywords[single] = [];
 			});
-		},
-		$route: {
-			immediate: true,
-			handler: function (newVal, oldVal) {
-				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
-			}
 		}
 	},
 	computed: {

@@ -1,6 +1,7 @@
 import VNav from '../Nav.vue';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
+import VHeader from '@/components/Header/searchResult/Header';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
@@ -13,7 +14,8 @@ export default {
 		ToggleDropdown,
 		DCheckbox,
 		DropdownCheckbox,
-		DotLoader
+		DotLoader,
+		VHeader
 	},
 	mixins: [ScreenWidthMixin],
 	data() {

@@ -2,9 +2,6 @@
 .navbar {
 	margin: 32px 0 85px;
 	display: block;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 }
 .nav-item {
 	&.logo {
@@ -14,25 +11,6 @@
 			line-height: 1.25;
 			letter-spacing: -0.57px;
 			font-size: 24px;
-		}
-	}
-}
-.nav__menu__right {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	.search__icon__wrapper {
-		margin-right: 25px;
-	}
-	.user__menu__wrapper {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-left: 5px;
-		.user__dropdown__menu {
-			.dropdown__list-wrapper {
-				top: 100%;
-			}
 		}
 	}
 }
@@ -80,47 +58,9 @@
 	&__wrapper {
 		overflow: hidden;
 		overflow-x: auto;
-
-		.table__wrapper__header {
-			display: flex;
-			justify-content: space-between;
-			max-width: 920px;
-			margin-bottom: 2em;
-			.text__content {
-				font-family: Karla;
-				font-style: normal;
-				font-weight: normal;
-				font-size: 32px;
-				line-height: 50px;
-				letter-spacing: -0.761905px;
-				color: #333758;
-			}
-			.table__wrapper__header__btn__wrapper {
-				.table__wrapper__btn__close {
-					outline: none;
-					background: none;
-					padding: 0;
-					.btn__content__wrapper {
-						.text {
-							outline: none;
-							background: none;
-							font-family: Karla;
-							font-style: normal;
-							font-weight: normal;
-							font-size: 15px;
-							line-height: 18px;
-							letter-spacing: -0.4px;
-							color: #333758;
-						}
-					}
-				}
-			}
-		}
-	}
-	&__inpage {
-		table {
-			// margin: 0 auto;
-		}
+		display: flex;
+		justify-content: center;
+		background: #fff;
 	}
 }
 thead.table__header {
@@ -269,6 +209,7 @@ thead.table__header {
 						color: #333758;
 					}
 					.icon {
+
 					}
 				}
 			}
@@ -299,122 +240,3 @@ thead.table__header {
 	}
 }
 // Modal End
-
-// showMoreSearch
-.more__settings__modal__wrapper {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	// background: rgba($color: #000000, $alpha: 0.5);
-	background: #fff;
-	overflow-y: scroll;
-	padding: 1em 0;
-	.more__settings__modal__content {
-		overflow-y: scroll;
-		padding: 1em 0;
-	}
-	.more__settings__modal__header {
-		.more__settings__modal__header__btn__wrapper {
-			display: flex;
-			justify-content: flex-start;
-			.config__btn__close {
-				padding: 1em;
-				border: 0;
-				background: 0;
-				outline: none;
-				.btn__content__wrapper {
-					.text {
-						font-family: Karla;
-						font-style: normal;
-						font-weight: normal;
-						font-size: 15px;
-						letter-spacing: -0.4px;
-						color: #333758;
-					}
-					.icon {
-					}
-				}
-			}
-		}
-	}
-
-	.more__settings__modal__footer {
-		max-width: 920px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: flex-end;
-	}
-}
-// showMoreSearch
-
-.additional__option__wrapper {
-	margin-top: 3em;
-	max-width: 920px;
-	.additional__option__label {
-		font-family: Karla;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 20px;
-		line-height: 34px;
-		letter-spacing: -0.3px;
-		color: #333758;
-	}
-	textarea {
-		width: 100%;
-		margin-top: 1em;
-		min-height: 197px;
-		font-family: Karla;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 15px;
-		line-height: 24px;
-		color: #989aaa;
-		padding: 1em;
-	}
-	.secondary__search__btn__wrapper {
-		margin-top: 3em;
-		display: flex;
-		justify-content: flex-end;
-		.secondary__search__btn {
-			text-align: right;
-		}
-	}
-}
-
-.upload__wrapper {
-	min-height: 140px;
-	border: 2px dashed #d1d5db;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	&:hover {
-		cursor: pointer;
-	}
-	.upload__placeholder__content {
-		.text__content {
-			p {
-				font-family: Karla;
-				font-style: normal;
-				font-weight: normal;
-				font-size: 16px;
-				line-height: 20px;
-				letter-spacing: -0.002em;
-				color: #333758;
-				.link {
-					color: #3b48f7;
-				}
-			}
-		}
-		.text__desc {
-			font-family: Karla;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 12px;
-			line-height: 16px;
-			text-align: center;
-			color: #989aaa;
-		}
-	}
-}
