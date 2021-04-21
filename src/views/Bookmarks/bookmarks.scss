@@ -1,6 +1,8 @@
 @import '@/assets/scss/main.scss';
 .main {
-	display: flex;
+	// display: flex;
+	display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 .notepad {
 	padding: 38px 48px 38px 0;
@@ -63,7 +65,7 @@
 }
 .searched__item {
 	padding: 42px 0 39px;
-	max-width: 450px;
+	// max-width: 450px;
 	cursor: pointer;
     // padding-left: 24px;
     padding: 1em 1.5em;

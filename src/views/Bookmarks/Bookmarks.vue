@@ -3,81 +3,6 @@
 		<!-- <v-nav /> -->
 		<v-header />
 		<main class="main container container--lg">
-			<!-- <div class="notepad">
-				<p class="notepad-title">Notepad</p>
-				<textarea
-					class="notepad-input"
-					rows="20"
-					cols="50"
-					name="text"
-					id="textArea"
-					v-model="notepad"
-					placeholder="Write down findings from research."
-				>
-				</textarea>
-			</div> -->
-
-			<div class="aside__left">
-				<div class="section section__1">
-					<div class="title">
-						<div class="text">Contact Details</div>
-						<div class="icon">
-							<img src="@/assets/icons/carret-left.svg" svg-inline />
-						</div>
-					</div>
-					<div class="contact__details">
-						<div class="text__initials">KO</div>
-						<div class="text__name__role">
-							<div class="name">Kingsley Omin</div>
-							<div class="role">VP Analytics</div>
-						</div>
-					</div>
-				</div>
-				<div class="section section__2">
-					<div class="contact__address">
-						<div class="title">Email Address</div>
-						<div class="text">kingsley@applehq.com</div>
-					</div>
-					<div class="contact__address">
-						<div class="title">Company</div>
-						<div class="text">Microsoft</div>
-					</div>
-					<div class="contact__icon__group">
-						<img src="@/assets/icons/twitter-icon.svg" svg-inline />
-						<img src="@/assets/icons/linkedin-icon.svg" svg-inline />
-						<img src="@/assets/icons/world-icon.svg" svg-inline />
-					</div>
-				</div>
-				<div class="section__3">
-					<div class="title__text">Are you done with the research?</div>
-					<div class="input__group">
-						<input type="checkbox" />
-						<div class="input__label__text">Yes Done</div>
-					</div>
-				</div>
-				<div class="section__4">
-					<div class="text">Bookmarked 2</div>
-					<div class="link">See All</div>
-				</div>
-				<div class="section__5 bookmarks">
-					<div class="title">Your guide to visit, enjoy, live, work …</div>
-					<div class="content">
-						Lorem ipsum dolor sit amet, dictum consectetur adipiscing elit. Nullam dictum felis eu ipsum sollicitudin semper.
-					</div>
-				</div>
-				<div class="section__6">
-					<div class="text">Notes</div>
-					<div class="link"></div>
-				</div>
-				<div class="section__7">
-					<div class="title">Your guide to visit, enjoy, live, work …</div>
-					<div class="content">
-						Lorem ipsum dolor sit amet, dictum consectetur adipiscing elit.
-					</div>
-				</div>
-			</div>
-			<!-- <div class="d-flex"> -->
-
 			<!-- contact search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
@@ -229,5 +154,5 @@
 	</div>
 </template>
 
-<script src="./search-result.js"></script>
-<style lang="scss" scoped src="./search-result.scss"></style>
+<script src="./bookmarks.js"></script>
+<style lang="scss" scoped src="./bookmarks.scss"></style>

@@ -6,6 +6,7 @@ import SearchResult from '../views/SearchResult/SearchResult.vue';
 import SearchItem from '../views/SearchItem/SearchItem.vue';
 import SettingsView from '../views/Settings/Settings.vue';
 import ContactResearch from '../views/ContactResearch/ContactResearch.vue';
+import Bookmarks from '../views/Bookmarks/Bookmarks.vue';
 
 const NotFound = () => import(/* webpackChunkName: 'login' */ '../views/NotFound.vue');
 const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login');
@@ -86,6 +87,11 @@ const routes = [
 		path: '/contact-research',
 		name: 'ContactResearch',
 		component: ContactResearch
+	},
+	{
+		path: '/bookmarks',
+		name: 'Bookmarks',
+		component: Bookmarks
 	}
 ];
 
