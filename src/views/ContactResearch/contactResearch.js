@@ -84,39 +84,39 @@ export default {
 			activeTab: 'manual_search',
 			tableHeaders: [
 				{
-					name: '',
+					name: ''
 					// sortable: true
 				},
 				{
-					name: 'Name',
+					name: 'Name'
 					// sortable: true
 				},
 				{
-					name: 'Company',
+					name: 'Company'
 					// sortable: true
 				},
 				{
-					name: 'Title',
+					name: 'Title'
 					// sortable: false
 				},
 				{
-					name: 'Linkedin',
+					name: 'Linkedin'
 					// sortable: false
 				},
 				{
-					name: 'Research Score',
+					name: 'Research Score'
 					// sortable: true
 				},
 				{
-					name: 'Last updated',
+					name: 'Last updated'
 					// sortable: true
 				},
 				{
-					name: 'Research Status',
+					name: 'Research Status'
 					// sortable: true
 				}
 			],
-			tableData : [
+			tableData: [
 				{
 					name: 'Kingsley Omin',
 					company: 'Apple',
@@ -399,7 +399,7 @@ export default {
 		},
 		$route: {
 			immediate: true,
-			handler: function (newVal, oldVal) {
+			handler: function (newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
 			}
 		}

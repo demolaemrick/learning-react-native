@@ -2,8 +2,8 @@
 	<header>
 		<nav class="navbar">
 			<div class="nav-item logo">
-			<img src="@/assets/icons/arrow-back.svg" svg-inline />
-			<div>Back to contact list</div>
+				<img src="@/assets/icons/arrow-back.svg" svg-inline />
+				<div>Back to contact list</div>
 			</div>
 			<div class="nav__menu__right">
 				<div class="search__icon__wrapper">
@@ -33,5 +33,5 @@
 <script>
 export default {
 	name: 'searchResultHeader'
-}
+};
 </script>

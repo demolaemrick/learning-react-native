@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-//import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import PasswordInput from '@/components/Input/PasswordInput';
@@ -11,8 +11,7 @@ export default {
 		return {
 			form: {
 				email: null,
-				password: null,
-				isNotify: false
+				password: null
 			},
 			loading: false
 		};
@@ -29,39 +28,38 @@ export default {
 		// })
 	},
 	methods: {
-		// ...mapMutations({
-		// 	saveUserSession: 'auth/loginSuccess'
-		// }),
-		// ...mapActions({
-		// 	login: 'auth/login',
-		// 	verify: 'auth/verifyUser',
-		// 	showAlert: 'showAlert'
-		// }),
+		...mapMutations({
+			saveUserSession: 'auth/loginSuccess'
+		}),
+		...mapActions({
+			login: 'auth/login',
+			showAlert: 'showAlert'
+		}),
 		submit() {
-			// this.loading = true;
-			// this.login(this.form)
-			// 	.then((response) => {
-			// 		if (response.data.status === 'success') {
-			// 			this.saveUserSession(response.data.data);
-			// 			this.$router.push({ name: 'Overview' });
-			// 			return true;
-			// 		}
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: 'Something went wrong',
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.catch((error) => {
-			// 		this.showAlert({
-			// 			status: 'error',
-			// 			message: error.response.data.message,
-			// 			showAlert: true
-			// 		});
-			// 	})
-			// 	.finally(() => {
-			// 		this.loading = false;
-			// 	});
+			this.loading = true;
+			this.login(this.form)
+				.then((response) => {
+					if (response.data.status === 'success') {
+						this.saveUserSession(response.data.data);
+						this.$router.push({ name: 'Search' });
+						return true;
+					}
+					this.showAlert({
+						status: 'error',
+						message: 'Something went wrong',
+						showAlert: true
+					});
+				})
+				.catch((error) => {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				})
+				.finally(() => {
+					this.loading = false;
+				});
 		}
 		// verifyUser(token) {
 		// 	this.verify(token)

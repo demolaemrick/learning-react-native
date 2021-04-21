@@ -31,8 +31,7 @@
 			<div class="hero">
 				<h2 class="hero-title">More refined <span>research</span> .</h2>
 				<p class="hero-desc">
-					We provide industry-leading protection for the entire customer journey. Our verification system reduces chargebacks,
-					manual reviews and false positives to increase approval rates and reviews.
+					Aggregated sales research to power your personalized outreach.
 				</p>
 			</div>
 			<v-tabs>
@@ -63,7 +62,14 @@
 				</v-tab>
 				<v-tab title="Import Contacts" @getData="setActiveTab('import_contacts')">
 					<div class="upload__wrapper">
-						<file-upload :drop="true" ref="upload" :extensions="extensions" :accept="accept">
+						<file-upload
+							:drop="true"
+							ref="upload"
+							:extensions="extensions"
+							:accept="accept"
+							@input-file="inputFile"
+							v-model="files"
+						>
 							<template>
 								<div class="upload__placeholder__content">
 									<img class="mr-1" src="@/assets/icons/upload-icon.svg" svg-inline />
@@ -327,8 +333,8 @@
 		}
 		label {
 			&:hover {
-			cursor: pointer;
-		}
+				cursor: pointer;
+			}
 		}
 	}
 }

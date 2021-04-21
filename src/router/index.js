@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { noAuthOnly, requireAuth } from '../utils/auth';
 import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import SearchResult from '../views/SearchResult/SearchResult.vue';
@@ -23,27 +24,32 @@ const routes = [
 	{
 		path: '/login',
 		name: 'Login',
-		component: Login
+		component: Login,
+		beforeEnter: noAuthOnly
 	},
 	{
 		path: '/forgot-password',
 		name: 'ForgotPassword',
-		component: ForgotPassword
+		component: ForgotPassword,
+		beforeEnter: noAuthOnly
 	},
 	{
 		path: '/check-inbox',
 		name: 'CheckInbox',
-		component: CheckInbox
+		component: CheckInbox,
+		beforeEnter: noAuthOnly
 	},
 	{
 		path: '/reset-password',
 		name: 'ResetPassword',
-		component: ResetPassword
+		component: ResetPassword,
+		beforeEnter: noAuthOnly
 	},
 	{
 		path: '/',
 		name: 'Search',
 		component: Search,
+		beforeEnter: requireAuth,
 		children: [
 			{
 				path: '/settings',
@@ -53,19 +59,29 @@ const routes = [
 				meta: {
 					showMoreSearchSettings: true
 				}
+			},
+			{
+				path: '/result',
+				name: 'SearchResult',
+				component: SearchResult
+			},
+			{
+				path: '/result/item',
+				name: 'SearchItem',
+				component: SearchItem
 			}
 		]
 	},
-	{
-		path: '/search-result',
-		name: 'SearchResult',
-		component: SearchResult
-	},
-	{
-		path: '/search-item',
-		name: 'SearchItem',
-		component: SearchItem
-	},
+	// {
+	// 	path: '/search-result',
+	// 	name: 'SearchResult',
+	// 	component: SearchResult
+	// },
+	// {
+	// 	path: '/search-item',
+	// 	name: 'SearchItem',
+	// 	component: SearchItem
+	// },
 	{
 		path: '/contact-research',
 		name: 'ContactResearch',

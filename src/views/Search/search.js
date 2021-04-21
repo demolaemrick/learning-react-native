@@ -11,7 +11,6 @@ import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
-
 export default {
 	name: 'Search',
 	components: {
@@ -79,6 +78,7 @@ export default {
 			showConfigModal: false,
 			accept: 'csv',
 			extensions: 'csv',
+			files: [],
 			activeTab: 'manual_search'
 		};
 	},
@@ -91,6 +91,50 @@ export default {
 			research: 'search_services/research',
 			showAlert: 'showAlert'
 		}),
+		csvJSON(csv) {
+			var lines = csv.split('\n');
+
+			var result = [];
+
+			// NOTE: If your columns contain commas in their values, you'll need
+			// to deal with those before doing the next step
+			// (you might convert them to &&& or something, then covert them back later)
+			// jsfiddle showing the issue https://jsfiddle.net/
+			var headers = lines[0].split(',');
+
+			for (var i = 1; i < lines.length; i++) {
+				var obj = {};
+				var currentline = lines[i].split(',');
+
+				for (var j = 0; j < headers.length; j++) {
+					obj[headers[j]] = currentline[j];
+				}
+
+				result.push(obj);
+			}
+
+			//return result; //JavaScript object
+			console.log(JSON.parse(JSON.stringify(result)));
+			return JSON.stringify(result); //JSON
+		},
+
+		inputFile(newFile, oldFile) {
+			const readFile = (event) => {
+				const csvFilePath = event.target.result;
+				this.csvJSON(csvFilePath);
+			};
+			var file = newFile.file;
+			var reader = new FileReader();
+			reader.addEventListener('load', readFile);
+			reader.readAsText(file);
+
+			// Automatically activate upload
+			if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
+				if (this.uploadAuto && !this.$refs.upload.active) {
+					this.$refs.upload.active = true;
+				}
+			}
+		},
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},
@@ -273,7 +317,7 @@ export default {
 		},
 		$route: {
 			immediate: true,
-			handler: function (newVal, oldVal) {
+			handler: function (newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
 			}
 		}
