@@ -60,38 +60,32 @@ const routes = [
 				meta: {
 					showMoreSearchSettings: true
 				}
-			},
-			{
-				path: '/result',
-				name: 'SearchResult',
-				component: SearchResult
-			},
-			{
-				path: '/result/item',
-				name: 'SearchItem',
-				component: SearchItem
 			}
 		]
 	},
-	// {
-	// 	path: '/search-result',
-	// 	name: 'SearchResult',
-	// 	component: SearchResult
-	// },
-	// {
-	// 	path: '/search-item',
-	// 	name: 'SearchItem',
-	// 	component: SearchItem
-	// },
+	{
+		path: '/search-result/:rowId?',
+		name: 'SearchResult',
+		component: SearchResult,
+		beforeEnter: requireAuth
+	},
+	{
+		path: '/search-item',
+		name: 'SearchItem',
+		component: SearchItem,
+		beforeEnter: requireAuth
+	},
 	{
 		path: '/contact-research',
 		name: 'ContactResearch',
-		component: ContactResearch
+		component: ContactResearch,
+		beforeEnter: requireAuth
 	},
 	{
 		path: '/bookmarks',
 		name: 'Bookmarks',
-		component: Bookmarks
+		component: Bookmarks,
+		beforeEnter: requireAuth
 	}
 ];
 

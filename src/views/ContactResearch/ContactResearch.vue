@@ -46,48 +46,65 @@
 				</div>
 			</div>
 			<div class="contact__research__table__wrapper">
-				<v-table :tableHeaders="tableHeaders" :tableData="tableData" theme="contact__research">
-					<template name="table-row" slot-scope="{ item }">
+				<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research">
+					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td class="table__row-item">
-							<input type="checkbox" />
+							<input
+								type="checkbox"
+								:value="item"
+								v-model="checkedContacts"
+								:disabled="item.status.statusCode === 'IN_PROGRESS' || item.status.statesCode === 'IN_PROGRESS'"
+							/>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__name">
-								<div class="initials__logo">{{ item.initials }}</div>
+								<div class="initials__logo">
+									{{
+										item.full_name
+											.match(/\b(\w)/g)
+											.join('')
+											.toUpperCase()
+									}}
+								</div>
 								<div class="name__email__wrapper">
-									<div class="text__name">{{ item.name }}</div>
+									<div class="text__name">{{ item.full_name }}</div>
 									<div class="text__email">{{ item.email }}</div>
 								</div>
 							</div>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.company }}
 						</td>
-						<td class="table__row-item">
-							{{ item.title }}
+						<td class="table__row-item" @click="clickResearch(item)">
+							<template v-if="!item.role">No Data</template>
+							<template v-else>{{ item.role }}</template>
 						</td>
-						<td class="table__row-item">
-							<a class="table__td__link" :href="item.linkedin" target="_blank"> {{ item.linkedin }} </a>
+						<td class="table__row-item row-link" @click="clickResearch(item)">
+							<template v-if="!item.linkedin">No Data</template>
+							<template v-else
+								><a class="table__td__link" :href="item.linkedin" target="_blank"> {{ item.linkedin }} </a></template
+							>
 						</td>
-						<td class="table__row-item">
-							{{ item.research_score }}
+						<td class="table__row-item" @click="clickResearch(item)">
+							<template v-if="!item.research_score">No Data</template>
+							<template v-else>{{ item.research_score }}</template>
 						</td>
-						<td class="table__row-item">
-							{{ item.last_updated }}
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.createdAt | moment('from', 'now') }}
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
-								<span class="status_done" v-if="item.research_status === 'Done'">
+								<span class="status_done" v-if="item.status.statusCode === 'READY' || item.status.statusCode === 'DONE'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
-									<span class="text">{{ item.research_status }}</span>
+									<span class="text">{{ item.status.message }}</span>
 								</span>
 								<span class="status_pending" v-else>
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
-									<span class="text">{{ item.research_status }}</span>
+									<span class="text">{{ item.status.message }}</span>
 								</span>
 							</div>
 						</td>
@@ -145,6 +162,10 @@
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
+			cursor: pointer;
+		}
+		.disable-row {
+			cursor: not-allowed;
 		}
 	}
 }

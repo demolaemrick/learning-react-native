@@ -27,13 +27,25 @@ export default {
 			researchedPayload: {
 				type: Object
 			},
-			loadMore: false
+			loadMore: false,
+			searchedResult: {},
+			loading: false
 		};
 	},
-	mounted() {
-		this.getFilterKeys();
-		this.researchedPayload = Object.assign({}, this.getPayload);
-		this.getNextResearch();
+	async mounted() {
+		if (this.$route.query.rowId) {
+			await this.getResult();
+			await this.getFilterKeys();
+		} else if (Object.keys(this.getSearchedResult).length > 0) {
+			this.searchedResult = this.getSearchedResult;
+			await this.getFilterKeys();
+			this.researchedPayload = Object.assign({}, this.getPayload);
+		} else {
+			this.$router.push({ name: 'Search' });
+		}
+		// console.log(this.$route.query.rowId);
+		// this.researchedPayload = Object.assign({}, this.getPayload);
+		//this.getNextResearch();
 	},
 	computed: {
 		...mapGetters({
@@ -41,6 +53,16 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult',
 			getPayload: 'search_services/getPayload'
 		}),
+		socials: {
+			get() {
+				if (this.searchedResult.socials) {
+					return this.searchedResult.socials.filter((x) => {
+						return !Object.values(x).every((i) => i === null);
+					});
+				}
+			}
+		},
+
 		notepad: {
 			get() {
 				return this.getNotepad;
@@ -62,8 +84,7 @@ export default {
 		contact_research: {
 			get() {
 				let newObj = {};
-				const data = this.getSearchedResult.contact_research;
-
+				const data = this.searchedResult.contact_research;
 				//const data = this.response.data.contact_research
 				// if (this.contactFilter.length === 0) {
 				// 	for (const key in data) {
@@ -79,7 +100,6 @@ export default {
 					const element = Object.keys(data).includes(value) ? data[value] : null;
 					newObj[value] = element;
 				});
-
 				//}
 				return newObj;
 			}
@@ -87,13 +107,12 @@ export default {
 		company_research: {
 			get() {
 				let newObj = {};
-				const data = this.getSearchedResult.company_research;
+				const data = this.searchedResult.company_research;
 				//const data = this.response.data.company_research
 				this.companyFilter.map((value) => {
 					const element = Object.keys(data).includes(value) ? data[value] : null;
 					newObj[value] = element;
 				});
-
 				return newObj;
 			}
 		}
@@ -107,9 +126,25 @@ export default {
 		}),
 		...mapActions({
 			research: 'search_services/research',
+			researchedResult: 'search_services/researchedResult',
 			showAlert: 'showAlert'
 		}),
+		async getResult() {
+			this.loading = true;
+			let response;
+			try {
+				this.$route.query.rowId
+					? (response = await this.researchedResult(this.$route.query.rowId))
+					: (response = await this.researchedResult());
+				this.searchedResult = response.data.data;
 
+				return true;
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
+		},
 		getNextResearch() {
 			window.onscroll = async () => {
 				if (this.researchedPayload.pagination !== 2) {
@@ -202,11 +237,11 @@ export default {
 		getFilterKeys() {
 			this.contactFilter = [];
 			this.companyFilter = [];
-			for (const key in this.getSearchedResult.contact_research) {
+			for (const key in this.searchedResult.contact_research) {
 				//for (const key in this.response.data.contact_research) {
 				this.contactFilter.push(key);
 			}
-			for (const key in this.getSearchedResult.company_research) {
+			for (const key in this.searchedResult.company_research) {
 				//for (const key in this.response.data.company_research) {
 				this.companyFilter.push(key);
 			}

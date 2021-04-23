@@ -35,31 +35,22 @@ export default {
 			login: 'auth/login',
 			showAlert: 'showAlert'
 		}),
-		submit() {
+		async submit() {
 			this.loading = true;
-			this.login(this.form)
-				.then((response) => {
-					if (response.data.status === 'success') {
-						this.saveUserSession(response.data.data);
-						this.$router.push({ name: 'Search' });
-						return true;
-					}
-					this.showAlert({
-						status: 'error',
-						message: 'Something went wrong',
-						showAlert: true
-					});
-				})
-				.catch((error) => {
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-				})
-				.finally(() => {
-					this.loading = false;
+			try {
+				const response = await this.login(this.form);
+				this.saveUserSession(response.data.data);
+				this.$router.push({ name: 'Search' });
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
 				});
+			} finally {
+				this.loading = false;
+			}
 		}
 		// verifyUser(token) {
 		// 	this.verify(token)

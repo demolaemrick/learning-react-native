@@ -12,7 +12,6 @@ import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
-
 export default {
 	name: 'ContactResearch',
 	components: {
@@ -114,6 +113,10 @@ export default {
 				{
 					name: 'Research Status'
 					// sortable: true
+				},
+				{
+					name: ' '
+					// sortable: true
 				}
 			],
 			tableData: [
@@ -205,8 +208,21 @@ export default {
 					email: 'kingsley@apple.com',
 					initials: 'KO'
 				}
-			]
+			],
+			limit: 10,
+			page: 1,
+			total: 0,
+			history: [],
+			interval: null,
+			checkedContacts: []
+			//stillPending: false,
 		};
+	},
+	mounted() {
+		this.getHistory();
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
 	},
 	methods: {
 		...mapMutations({
@@ -215,8 +231,66 @@ export default {
 		}),
 		...mapActions({
 			research: 'search_services/research',
+			research_history: 'search_services/research_history',
+			subscribeResearch: 'search_services/subscribeResearch',
 			showAlert: 'showAlert'
 		}),
+		async subscribe() {
+			try {
+				const response = await this.subscribeResearch();
+				if (response.status === 200) {
+					await this.history.map((data) => {
+						if (data.rowId === response.data.done.rowId) {
+							data.status = response.data.done.status;
+						}
+						return data;
+					});
+					this.checkPendngStatus();
+				}
+				if (response.status >= 500) {
+					this.getHistory();
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+		async getHistory() {
+			try {
+				const response = await this.research_history({ page: this.page, limit: this.limit });
+				this.history = response.data.data.history;
+				this.checkPendngStatus();
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		async checkPendngStatus() {
+			let pendingStatus = await this.history.filter((data) => {
+				return data.status.statusCode === 'IN_PROGRESS';
+			});
+			if (pendingStatus.length > 0) {
+				this.subscribe();
+			}
+		},
+		clickResearch(item) {
+			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
+				this.$router.push({ name: 'SearchResult', query: { rowId: item.rowId } });
+			} else {
+				console.log('no');
+			}
+		},
+
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},

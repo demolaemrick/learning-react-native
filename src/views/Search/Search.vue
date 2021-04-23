@@ -6,9 +6,9 @@
 				<h3 class="ml-1 logo-text">Volley App</h3>
 			</div>
 			<div class="nav__menu__right">
-				<div class="search__icon__wrapper">
+				<!-- <div class="search__icon__wrapper">
 					<img src="@/assets/icons/search-icon.svg" svg-inline />
-				</div>
+				</div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -19,7 +19,7 @@
 							<li class="dropdown__item">
 								Settings
 							</li>
-							<li class="dropdown__item">
+							<li class="dropdown__item" @click="logoutUser">
 								Logout
 							</li>
 						</template>

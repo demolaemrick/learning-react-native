@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-//import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import PasswordInput from '@/components/Input/PasswordInput';
@@ -9,15 +9,54 @@ export default {
 	name: 'Login',
 	data() {
 		return {
+			form: {
+				token: null,
+				password: null
+			},
 			confirm_password: null,
 			new_password: null,
 			loading: false
 		};
 	},
-	created() {},
-	computed: {},
+	created() {
+		const token = this.$route.query.token;
+		if (token) {
+			this.form.token = token;
+		}
+	},
 	methods: {
-		submit() {}
+		...mapActions({
+			resetPassword: 'auth/resetPassword',
+			showAlert: 'showAlert'
+		}),
+		async changePassword() {
+			this.loading = true;
+			try {
+				const response = await this.resetPassword(this.form);
+				if (response.data.status === 'success') {
+					this.showAlert({
+						status: 'success',
+						message: 'Successfully reset password',
+						showAlert: true
+					});
+					this.$router.push({ name: 'Login' });
+					return true;
+				}
+				this.showAlert({
+					status: 'error',
+					message: 'Something went wrong',
+					showAlert: true
+				});
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		}
 	},
 	components: {
 		ValidationObserver,

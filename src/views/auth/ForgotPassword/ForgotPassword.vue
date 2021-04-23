@@ -22,7 +22,7 @@
 								placeholder="yourmail@email.com"
 							/>
 
-							<c-button class="" :disabled="invalid" size="full" buttonType="primary">
+							<c-button class="" :disabled="invalid" size="full" buttonType="primary" @click.native.prevent="submit">
 								<template v-if="!loading">Recover Password</template>
 								<Loader v-else />
 							</c-button>

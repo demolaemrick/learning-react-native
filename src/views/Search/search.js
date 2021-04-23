@@ -75,6 +75,10 @@ export default {
 					product_launch: []
 				}
 			},
+			csvImport: {
+				contacts: null,
+				is_csv: true
+			},
 			showConfigModal: false,
 			accept: 'csv',
 			extensions: 'csv',
@@ -85,12 +89,18 @@ export default {
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			logout: 'auth/logout'
 		}),
 		...mapActions({
 			research: 'search_services/research',
+			bulk_research: 'search_services/bulk_research',
 			showAlert: 'showAlert'
 		}),
+		logoutUser() {
+			this.logout();
+			this.$router.push('/login');
+		},
 		csvJSON(csv) {
 			var lines = csv.split('\n');
 
@@ -114,25 +124,46 @@ export default {
 			}
 
 			//return result; //JavaScript object
-			console.log(JSON.parse(JSON.stringify(result)));
-			return JSON.stringify(result); //JSON
+
+			// this.csvImport.contact = JSON.parse(JSON.stringify(result));
+			// console.log(this.csvImport);
+			return JSON.parse(JSON.stringify(result));
 		},
 
 		inputFile(newFile, oldFile) {
-			const readFile = (event) => {
+			const readFile = async (event) => {
 				const csvFilePath = event.target.result;
-				this.csvJSON(csvFilePath);
+				this.csvImport.contacts = await this.csvJSON(csvFilePath);
+				this.uploadBulkResearch();
+				console.log(this.csvImport);
 			};
 			var file = newFile.file;
 			var reader = new FileReader();
-			reader.addEventListener('load', readFile);
 			reader.readAsText(file);
+			reader.addEventListener('load', readFile);
 
 			// Automatically activate upload
 			if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
 				if (this.uploadAuto && !this.$refs.upload.active) {
 					this.$refs.upload.active = true;
 				}
+			}
+		},
+		async uploadBulkResearch() {
+			this.loading = true;
+			try {
+				const response = await this.bulk_research(this.csvImport);
+				console.log(response.data);
+				this.$router.push({ name: 'ContactResearch' });
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		onChildUpdate(newValue) {
@@ -207,17 +238,10 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.research(this.payload);
-				if (response.data.status === 'success') {
-					await this.saveSearchedResult(response.data.data);
-					await this.saveSearchPayload(this.payload);
-					this.$router.push({ name: 'SearchResult' });
-					return true;
-				}
-				this.showAlert({
-					status: 'error',
-					message: 'Something went wrong',
-					showAlert: true
-				});
+				await this.saveSearchedResult(response.data.data);
+				await this.saveSearchPayload(this.payload);
+				this.$router.push({ name: 'SearchResult' });
+				return true;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',

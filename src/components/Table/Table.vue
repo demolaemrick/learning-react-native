@@ -3,7 +3,17 @@
 		<table class="table" :class="`table--${theme}`">
 			<c-table-header :class="`table__header--${theme}`" :headers="tableHeaders" @sortTable="sortBy = $event" />
 			<tbody>
-				<tr class="table__row" v-for="(item, index) in sortedData" :key="index">
+				<tr
+					class="table__row"
+					:class="{
+						'disable-row':
+							item.status.statusCode === 'IN_PROGRESS' ||
+							item.status.statesCode === 'IN_PROGRESS' ||
+							item.status.statusCode === 'NO_RESULT'
+					}"
+					v-for="(item, index) in sortedData"
+					:key="index"
+				>
 					<slot slot:table-row :item="item"></slot>
 				</tr>
 			</tbody>

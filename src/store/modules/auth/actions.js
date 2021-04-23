@@ -17,7 +17,7 @@ export default {
 		}
 	},
 	forgotPassword: async ({ commit }, data) => {
-		const url = '/merchant/auth/forgot-password';
+		const url = 'user/password/forget';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
@@ -28,7 +28,7 @@ export default {
 		}
 	},
 	resetPassword: async ({ commit }, data) => {
-		const url = '/merchant/auth/reset/password';
+		const url = 'user/password/reset';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
