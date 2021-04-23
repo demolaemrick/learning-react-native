@@ -77,7 +77,9 @@ export default {
 		}),
 		...mapActions({
 			research: 'search_services/research',
-			showAlert: 'showAlert'
+			userSettings: 'user/settings',
+			showAlert: 'showAlert',
+			getSettings: 'user/getSettings'
 		}),
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
@@ -147,14 +149,16 @@ export default {
 		allCompanyOptionsToggle() {
 			this.AllCompanyChecked = !this.AllCompanyChecked;
 		},
-		async submitSearch() {
+		async submitForm() {
 			this.loading = true;
 			try {
-				const response = await this.research(this.payload);
-				if (response.data.status === 'success') {
-					await this.saveSearchedResult(response.data.data);
-					await this.saveSearchPayload(this.payload);
-					this.$router.push({ name: 'SearchResult' });
+				const response = await this.userSettings(this.payload);
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
 					return true;
 				}
 				this.showAlert({
@@ -163,9 +167,14 @@ export default {
 					showAlert: true
 				});
 			} catch (error) {
+				// this.showAlert({
+				// 	status: 'error',
+				// 	message: error.response.data.message,
+				// 	showAlert: true
+				// });
 				this.showAlert({
 					status: 'error',
-					message: error.response.data.message,
+					message: 'An error occurred',
 					showAlert: true
 				});
 			} finally {
@@ -190,6 +199,41 @@ export default {
 		},
 		closeConfigModal() {
 			this.showConfigModal = !this.showConfigModal;
+		},
+		toggleBodyClass(addRemoveClass, className) {
+			const el = document.body;
+
+			if (addRemoveClass === 'addClass') {
+				el.classList.add(className);
+			} else {
+				el.classList.remove(className);
+			}
+		},
+		closeMoreSearchSettings() {
+			this.$emit('routerEvent', 'closeMoreSearchSettings');
+		},
+		async getUserSettings() {
+			this.loading = false;
+			try {
+				const {status, statusText, data} = await this.getSettings();
+				if (status === 200 && statusText === 'OK') {
+					const { data : {contact_research} } = data
+					if (contact_research) {
+						this.payload.contact_research = contact_research
+						this.keywords = contact_research
+					}
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'An error occurred',
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		
+			
 		}
 	},
 	watch: {
@@ -246,5 +290,15 @@ export default {
 		companies() {
 			return Object.keys(companyList.companies);
 		}
+	},
+	async created() {
+		this.showMoreSearchSettings = false;
+		 await this.getUserSettings();
+	},
+	mounted() {
+		this.toggleBodyClass('addClass', 'no__scroll');
+	},
+	destroyed() {
+		this.toggleBodyClass('removeClass', 'no__scroll');
 	}
 };

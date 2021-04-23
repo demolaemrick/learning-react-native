@@ -240,3 +240,54 @@ thead.table__header {
 	}
 }
 // Modal End
+
+.more__settings__modal__wrapper {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	// background: rgba($color: #000000, $alpha: 0.5);
+	background: #fff;
+	overflow-y: scroll;
+	padding: 1em 0;
+	.more__settings__modal__content {
+		overflow-y: scroll;
+		padding: 1em 0;
+	}
+	.more__settings__modal__header {
+		.more__settings__modal__header__btn__wrapper {
+			display: flex;
+			justify-content: flex-start;
+			// max-width: 920px;
+			// margin: 0 auto;
+			// display: flex;
+			// justify-content: flex-end;
+			.config__btn__close {
+				padding: 1em;
+				border: 0;
+				background: 0;
+				outline: none;
+				.btn__content__wrapper {
+					.text {
+						font-family: Karla;
+						font-style: normal;
+						font-weight: normal;
+						font-size: 15px;
+						letter-spacing: -0.4px;
+						color: #333758;
+					}
+					.icon {
+					}
+				}
+			}
+		}
+	}
+
+	.more__settings__modal__footer {
+		max-width: 920px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: flex-end;
+	}
+}
