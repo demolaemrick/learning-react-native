@@ -8,7 +8,10 @@
 				:key="header.name"
 			>
 				{{ header.name }}
-				<span class="table__header-icon" @click="$emit('sortTable', header.name)" v-if="header.sortable">
+				<template v-if="header.elementSlot">
+					<input class="check-input" type="checkbox" @change="$emit('change', $event)" />
+				</template>
+				<span class="table__header-icon" @click="$emit('sortTable', header.sortHeader)" v-if="header.sortable">
 					<svg width="13" height="9" xmlns="http://www.w3.org/2000/svg">
 						<g transform="translate(-1 -3)" fill="none" fill-rule="evenodd">
 							<path d="M0 0h15v15H0z" />
@@ -51,3 +54,8 @@
 </template>
 
 <script src="./table-header.js"></script>
+<style scoped>
+.check-input {
+	margin-left: 7px;
+}
+</style>

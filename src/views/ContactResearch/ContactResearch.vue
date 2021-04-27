@@ -2,13 +2,12 @@
 	<div class="container container--lg">
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<img src="@/assets/icons/logo.svg" svg-inline />
-				<h3 class="ml-1 logo-text">Volley App</h3>
+				<logo />
 			</div>
 			<div class="nav__menu__right">
-				<div class="search__icon__wrapper">
+				<!-- <div class="search__icon__wrapper">
 					<img src="@/assets/icons/search-icon.svg" svg-inline />
-				</div>
+				</div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -34,7 +33,7 @@
 				</div>
 				<div class="action__group">
 					<div class="btn__wrapper">
-						<v-button disabled class="btn__export__csv" @click="submitSearch">
+						<v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
 							Export CSV
 						</v-button>
 					</div>
@@ -46,12 +45,18 @@
 				</div>
 			</div>
 			<div class="contact__research__table__wrapper">
-				<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research">
+				<v-table
+					:tableHeaders="tableHeaders"
+					:tableData="history"
+					theme="contact__research"
+					:loading="pageLoading"
+					@checkAll="checkAll"
+				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td class="table__row-item">
 							<input
 								type="checkbox"
-								:value="item"
+								:value="item.rowId"
 								v-model="checkedContacts"
 								:disabled="item.status.statusCode === 'IN_PROGRESS' || item.status.statesCode === 'IN_PROGRESS'"
 							/>
@@ -131,24 +136,27 @@
 						</td>
 					</template>
 				</v-table>
-				<div class="table__pagination__wrapper">
+				<div class="table__pagination__wrapper" v-if="!pageLoading">
 					<div class="title__left">
 						<span>Showing Page</span>
-						<span>1-10</span>
-						<span>of</span>
-						<span>20</span>
-					</div>
-					<div class="page__left">
-						<span>Prev</span>
-						<span class="active">1</span>
-						<span>2</span>
-						<span>3</span>
 						<span>
-							<img src="@/assets/icons/moredot3.svg" class="ml-1" svg-inline />
+							<template v-if="currentPage === 1">{{ 10 * 0 + 1 }} -{{ (0 + 1) * 10 }}</template>
+							<template v-else>{{ 10 * currentPage + 1 }} -{{ (currentPage + 1) * 10 }}</template>
 						</span>
-						<span>10</span>
-						<span>Next</span>
+						<span>of</span>
+						<span>{{ count }}</span>
 					</div>
+
+					<paginate
+						:page-count="total"
+						:margin-pages="2"
+						:click-handler="clickCallback"
+						:prev-text="'Prev'"
+						:next-text="'Next'"
+						:container-class="'pagination__list'"
+						:page-class="'pagination__list-item'"
+					>
+					</paginate>
 				</div>
 			</div>
 		</main>
@@ -166,6 +174,22 @@
 		}
 		.disable-row {
 			cursor: not-allowed;
+		}
+	}
+}
+.pagination__list {
+	display: flex;
+	align-items: center;
+	li {
+		margin-left: 0.5em;
+		font-size: 16px;
+		a {
+			color: #333758;
+		}
+		&.active {
+			background: rgba(47, 46, 128, 0.1);
+			border-radius: 2px;
+			padding: 5px 10px;
 		}
 	}
 }

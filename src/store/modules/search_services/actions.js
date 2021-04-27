@@ -74,5 +74,17 @@ export default {
 			console.log('err', error);
 			return Promise.reject(error);
 		}
+	},
+	export_history: async ({ commit }, data) => {
+		console.log(data);
+		const url = 'research/export';
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, data);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

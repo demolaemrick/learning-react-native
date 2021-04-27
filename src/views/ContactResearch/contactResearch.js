@@ -12,6 +12,7 @@ import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
+import Logo from '@/components/Logo';
 export default {
 	name: 'ContactResearch',
 	components: {
@@ -26,10 +27,14 @@ export default {
 		VTable,
 		ValidationObserver,
 		Loader,
-		FileUpload
+		FileUpload,
+		Logo
 	},
 	data() {
 		return {
+			limit: 10,
+			page: 1,
+			total: 0,
 			loading: false,
 			company: '',
 			showMoreSearch: false,
@@ -83,12 +88,13 @@ export default {
 			activeTab: 'manual_search',
 			tableHeaders: [
 				{
-					name: ''
-					// sortable: true
+					name: '',
+					elementSlot: true
 				},
 				{
-					name: 'Name'
-					// sortable: true
+					name: 'Name',
+					sortable: true,
+					sortHeader: 'full_name'
 				},
 				{
 					name: 'Company'
@@ -119,107 +125,18 @@ export default {
 					// sortable: true
 				}
 			],
-			tableData: [
-				{
-					name: 'Kingsley Omin',
-					company: 'Apple',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Dianne Russell',
-					company: 'Face Book',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Pending',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'Amazon',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'Apple',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'Drop Box',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Pending',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'Netflix',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'MIT',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				},
-				{
-					name: 'Kingsley Omin',
-					company: 'Hopkins Hospital',
-					title: 'Design Manager',
-					linkedin: 'www.amsterdam...',
-					research_score: 'Type/score/amount',
-					last_updated: '1h',
-					research_status: 'Done',
-					email: 'kingsley@apple.com',
-					initials: 'KO'
-				}
-			],
-			limit: 10,
-			page: 1,
-			total: 0,
+			count: 0,
+			currentPage: 0,
 			history: [],
 			interval: null,
-			checkedContacts: []
+			checkedContacts: [],
+			pageLoading: false
 			//stillPending: false,
 		};
 	},
-	mounted() {
-		this.getHistory();
+	async mounted() {
+		this.pageLoading = true;
+		await this.getHistory();
 	},
 	beforeDestroy() {
 		clearInterval(this.interval);
@@ -233,8 +150,45 @@ export default {
 			research: 'search_services/research',
 			research_history: 'search_services/research_history',
 			subscribeResearch: 'search_services/subscribeResearch',
+			export_history: 'search_services/export_history',
 			showAlert: 'showAlert'
 		}),
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
+						this.checkedContacts.push(item.rowId);
+						return item.rowId;
+					}
+					return item.rowId;
+				});
+			} else {
+				this.checkedContacts = [];
+			}
+		},
+		clickCallback(page) {
+			this.page = page;
+			this.getHistory();
+		},
+		async exportCSV() {
+			try {
+				const response = await this.export_history({ rows: this.checkedContacts });
+				let csvContent = 'data:text/csv;charset=utf-8,';
+				csvContent += [response.data];
+
+				const data = encodeURI(csvContent);
+				const link = document.createElement('a');
+				link.setAttribute('href', data);
+				link.setAttribute('download', 'export.csv');
+				link.click();
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
 		async subscribe() {
 			try {
 				const response = await this.subscribeResearch();
@@ -263,6 +217,9 @@ export default {
 			try {
 				const response = await this.research_history({ page: this.page, limit: this.limit });
 				this.history = response.data.data.history;
+				this.count = response.data.data.count;
+				this.currentPage = response.data.data.currentPage;
+				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.checkPendngStatus();
 				return true;
 			} catch (error) {
@@ -272,7 +229,7 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				this.loading = false;
+				this.pageLoading = false;
 			}
 		},
 		async checkPendngStatus() {
@@ -286,8 +243,6 @@ export default {
 		clickResearch(item) {
 			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
 				this.$router.push({ name: 'SearchResult', query: { rowId: item.rowId } });
-			} else {
-				console.log('no');
 			}
 		},
 

@@ -1,7 +1,18 @@
 <template>
 	<div class="table__wrapper">
-		<table class="table" :class="`table--${theme}`">
-			<c-table-header :class="`table__header--${theme}`" :headers="tableHeaders" @sortTable="sortBy = $event" />
+		<div class="table__loading" v-if="loading">
+			<div class="table__loading-header"></div>
+			<div class="table__loading-row" v-for="i in 4" :key="i">
+				<div class="table__loading-item" v-for="j in 7" :key="j"></div>
+			</div>
+		</div>
+		<table class="table" :class="`table--${theme}`" v-else>
+			<c-table-header
+				:class="`table__header--${theme}`"
+				:headers="tableHeaders"
+				@sortTable="sortBy = $event"
+				@change="$emit('checkAll', $event)"
+			/>
 			<tbody>
 				<tr
 					class="table__row"

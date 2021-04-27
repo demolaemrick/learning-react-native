@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-nav />
+		<v-header />
 		<main class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content" v-if="!hideSearch" id="infinite-list">
@@ -58,7 +58,7 @@
 						<span v-for="(dataItem, j) in data" :key="j">
 							<div
 								class="searched__item"
-								v-if="!Object.keys(dataItem).includes('dontRender')"
+								v-if="!Object.keys(dataItem).includes('dontRender') || dataItem.dontRender === null"
 								@click="displaySearchItem('company_research', dataItem)"
 							>
 								<p class="searched__item-title">{{ dataItem.title }}</p>
@@ -107,7 +107,7 @@
 						>
 					</div>
 				</div>
-				<!-- <loading-state v-if="loading" /> -->
+
 				<template>
 					<div class="item__detail-content" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
 						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>

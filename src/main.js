@@ -7,6 +7,7 @@ import store from './store';
 import axios from './services/axios-instance';
 import { clearSession, setSession } from './utils/auth';
 import { mapActions, mapMutations } from 'vuex';
+const Paginate = require('vuejs-paginate');
 
 const options = {
 	persist: true
@@ -14,6 +15,7 @@ const options = {
 
 Vue.use(VueSession, options);
 Vue.use(require('vue-moment'));
+Vue.component('paginate', Paginate);
 Vue.config.productionTip = false;
 
 new Vue({

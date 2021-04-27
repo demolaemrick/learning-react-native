@@ -11,6 +11,7 @@ import { mapMutations, mapActions } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
+import Logo from '@/components/Logo';
 export default {
 	name: 'Search',
 	components: {
@@ -24,7 +25,8 @@ export default {
 		VToggleDropdown,
 		ValidationObserver,
 		Loader,
-		FileUpload
+		FileUpload,
+		Logo
 	},
 	data() {
 		return {
@@ -105,11 +107,6 @@ export default {
 			var lines = csv.split('\n');
 
 			var result = [];
-
-			// NOTE: If your columns contain commas in their values, you'll need
-			// to deal with those before doing the next step
-			// (you might convert them to &&& or something, then covert them back later)
-			// jsfiddle showing the issue https://jsfiddle.net/
 			var headers = lines[0].split(',');
 
 			for (var i = 1; i < lines.length; i++) {
@@ -123,14 +120,26 @@ export default {
 				result.push(obj);
 			}
 
-			//return result; //JavaScript object
-
-			// this.csvImport.contact = JSON.parse(JSON.stringify(result));
-			// console.log(this.csvImport);
 			return JSON.parse(JSON.stringify(result));
 		},
 
-		inputFile(newFile, oldFile) {
+		inputFile(newFile) {
+			if (newFile.size > 10485760) {
+				this.showAlert({
+					status: 'error',
+					message: 'file size is is more that 10MB',
+					showAlert: true
+				});
+				return true;
+			}
+			if (newFile.name.split('.').pop() !== 'csv') {
+				this.showAlert({
+					status: 'error',
+					message: 'file type is not csv',
+					showAlert: true
+				});
+				return true;
+			}
 			const readFile = async (event) => {
 				const csvFilePath = event.target.result;
 				this.csvImport.contacts = await this.csvJSON(csvFilePath);
@@ -138,22 +147,15 @@ export default {
 				console.log(this.csvImport);
 			};
 			var file = newFile.file;
+
 			var reader = new FileReader();
 			reader.readAsText(file);
 			reader.addEventListener('load', readFile);
-
-			// Automatically activate upload
-			if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
-				if (this.uploadAuto && !this.$refs.upload.active) {
-					this.$refs.upload.active = true;
-				}
-			}
 		},
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
-				const response = await this.bulk_research(this.csvImport);
-				console.log(response.data);
+				await this.bulk_research(this.csvImport);
 				this.$router.push({ name: 'ContactResearch' });
 				return true;
 			} catch (error) {

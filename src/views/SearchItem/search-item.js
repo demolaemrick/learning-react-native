@@ -1,4 +1,5 @@
-import VNav from '../Nav.vue';
+//import VNav from '../Nav.vue';
+import VHeader from '@/components/Header/searchResult/Header';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
@@ -9,7 +10,8 @@ import DotLoader from '@/components/DotLoader.vue';
 export default {
 	name: 'SearchResult',
 	components: {
-		VNav,
+		// VNav,
+		VHeader,
 		ToggleDropdown,
 		DCheckbox,
 		CTag,
@@ -48,7 +50,8 @@ export default {
 		this.searchType = this.getSearchedItem.type;
 		//await this.fetchContent();
 		this.researchedPayload = Object.assign({}, this.getPayload);
-		this.getNextResearch();
+		console.log(this.research);
+		//this.getNextResearch();
 	},
 	computed: {
 		...mapGetters({

@@ -1,14 +1,14 @@
 <template>
 	<header>
 		<nav class="navbar">
-			<div class="nav__back">
+			<div class="nav__back" @click="$router.go(-1)">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to contact list</div>
 			</div>
 			<div class="nav__menu__right">
-				<div class="search__icon__wrapper">
+				<!-- <div class="search__icon__wrapper">
 					<img src="@/assets/icons/search-icon.svg" svg-inline />
-				</div>
+				</div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -53,6 +53,7 @@ export default {
 .nav__back {
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 	.text {
 		margin-left: 0.5em;
 		font-family: Karla;

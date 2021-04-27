@@ -13,6 +13,9 @@ export default {
 		theme: {
 			type: String,
 			default: ''
+		},
+		loading: {
+			default: false
 		}
 	},
 	data() {
@@ -28,7 +31,7 @@ export default {
 	watch: {
 		sortBy(newValue) {
 			if (newValue) {
-				const id = newValue.toLowerCase() === 'transaction id' ? 'txn_id' : newValue.toLowerCase();
+				const id = newValue.toLowerCase();
 				this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
 			}
 		}

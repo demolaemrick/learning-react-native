@@ -233,10 +233,11 @@ thead.table__header {
 	}
 }
 .row-link{
-	width: 136px;
+	max-width: 136px;
 	white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: #0ead69;
 }
 .table__td__link {
 	font-family: Karla;
@@ -340,4 +341,5 @@ thead.table__header {
 			padding: 5px 10px;
 		}
 	}
+	
 }

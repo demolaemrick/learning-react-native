@@ -52,13 +52,13 @@
 						</div>
 						<div class="contact__icon__group">
 							<span v-for="(social, i) in socials" :key="i">
-								<a v-if="social.twitter" :href="social.twitter" target="_blank"
+								<a v-if="social.twitter && social.twitter.length !== 0" :href="social.twitter" target="_blank"
 									><img src="@/assets/icons/twitter-icon.svg" svg-inline
 								/></a>
-								<a v-if="social.linkedin" :href="social.linkedin" target="_blank"
+								<a v-if="social.linkedin && social.linkedin.length !== 0" :href="social.linkedin" target="_blank"
 									><img src="@/assets/icons/linkedin-icon.svg" svg-inline
 								/></a>
-								<a v-if="social.website" :href="social.website" target="_blank"
+								<a v-if="social.website && social.website.length !== 0" :href="`https://${social.website}`" target="_blank"
 									><img src="@/assets/icons/world-icon.svg" svg-inline
 								/></a>
 							</span>

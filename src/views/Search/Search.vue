@@ -2,8 +2,9 @@
 	<div class="container container--lg">
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<img src="@/assets/icons/logo.svg" svg-inline />
-				<h3 class="ml-1 logo-text">Volley App</h3>
+				<logo />
+				<!-- <img src="@/assets/icons/logo.svg" svg-inline />
+				<h3 class="ml-1 logo-text">Volley App</h3> -->
 			</div>
 			<div class="nav__menu__right">
 				<!-- <div class="search__icon__wrapper">

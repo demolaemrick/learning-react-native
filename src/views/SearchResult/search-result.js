@@ -131,13 +131,10 @@ export default {
 		}),
 		async getResult() {
 			this.loading = true;
-			let response;
 			try {
-				this.$route.query.rowId
-					? (response = await this.researchedResult(this.$route.query.rowId))
-					: (response = await this.researchedResult());
+				const response = await this.researchedResult(this.$route.query.rowId);
 				this.searchedResult = response.data.data;
-
+				await this.saveSearchedResult(response.data.data);
 				return true;
 			} catch (error) {
 				console.log(error);
