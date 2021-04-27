@@ -303,6 +303,9 @@
 	}
 	.section__5 {
 		border-bottom: 1px solid #eaebeb;
+		&:hover {
+			cursor: pointer;
+		}
 		.title {
 			font-family: Karla;
 			font-style: normal;

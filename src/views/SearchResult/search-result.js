@@ -29,10 +29,12 @@ export default {
 			},
 			loadMore: false,
 			searchedResult: {},
-			loading: false
+			loading: false,
+			userBookmarks: null,
+			bookmarkLoading: true
 		};
 	},
-	async mounted() {
+	async created() {
 		if (this.$route.query.rowId) {
 			await this.getResult();
 			await this.getFilterKeys();
@@ -46,6 +48,7 @@ export default {
 		// console.log(this.$route.query.rowId);
 		// this.researchedPayload = Object.assign({}, this.getPayload);
 		//this.getNextResearch();
+		await this.initUserBookmarks();
 	},
 	computed: {
 		...mapGetters({
@@ -115,6 +118,36 @@ export default {
 				});
 				return newObj;
 			}
+		},
+		userBookmarksCount() {
+			let total = 0;
+			if (this.userBookmarks) {
+				const { company_research, contact_research } = this.userBookmarks;
+				if (company_research && contact_research) {
+					total = company_research.length + contact_research.length;
+				}
+			}
+			return total
+		},
+		showFirstBookmark() {
+			let result = {
+				contact_research: '',
+				company_research: ''
+			};
+
+			if (this.userBookmarks) {
+				const { company_research, contact_research } = this.userBookmarks;
+				if (company_research && company_research.length) {
+					const { type, description } = company_research[0];
+					result[type] = { type, description };
+				}
+
+				if (contact_research && contact_research.length) {
+					const { type, description } = contact_research[0];
+					result[type] = { type, description };
+				}
+			}
+			return result;
 		}
 	},
 	methods: {
@@ -127,8 +160,25 @@ export default {
 		...mapActions({
 			research: 'search_services/research',
 			researchedResult: 'search_services/researchedResult',
-			showAlert: 'showAlert'
+			showAlert: 'showAlert',
+			getUserBookmarks: 'user/getBookmarks'
 		}),
+		async initUserBookmarks() {
+			try {
+				const userBookmarks = await this.getUserBookmarks();
+				const { status, data, statusText } = userBookmarks;
+				if (status === 200 && statusText === 'OK') {
+					this.userBookmarks = data.response;
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.bookmarkLoading = false;
+			}
+		},
+		btnBookmarkClick() {
+			this.$router.push('/bookmarks')
+		},
 		async getResult() {
 			this.loading = true;
 			try {

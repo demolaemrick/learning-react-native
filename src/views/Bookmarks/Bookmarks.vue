@@ -4,7 +4,7 @@
 		<v-header />
 		<main class="main container container--lg">
 			<!-- contact search -->
-			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
+			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Contact Research</h3>
 					<toggle-dropdown v-else>
@@ -26,7 +26,7 @@
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('contact_research')">
@@ -54,19 +54,18 @@
 						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in contact_research" :key="i">
-					<span v-for="(dataItem, j) in data" :key="j">
+				<div class="searched-result" v-for="(data, i) in allBookMarks['contact_research']" :key="i">
+					<span>
 						<div
 							class="searched__item"
-							@click="displaySearchItem('contact_research', dataItem)"
-							v-if="!Object.keys(dataItem).includes('dontRender')"
+							@click="displaySearchItem('contact_research', data)"
 						>
-							<p class="searched__item-title">{{ dataItem.title }}</p>
-							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+							<p class="searched__item-title">{{ data.title || '' }}</p>
+							<p class="searched__item-desc" >{{data.description}}</p>
 							<div class="url__bookmark__group">
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+								<a :href="data.url" target="_blank" class="searched__item-url"
 									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
+									<p class="url-text">{{ data.url }}</p></a
 								>
 								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
 							</div>
@@ -77,7 +76,7 @@
 			</div>
 
 			<!-- company search -->
-			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
+			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Company Research</h3>
 					<toggle-dropdown v-else>
@@ -99,7 +98,7 @@
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('company_research')">
@@ -126,20 +125,19 @@
 						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
-					<span v-for="(dataItem, j) in data" :key="j">
+				<div class="searched-result" v-for="(data, i) in companyResearch" :key='i'>
+					<span>
 						<div
 							class="searched__item"
-							:id="`searched__item-${j}`"
-							@click="displaySearchItem('company_research', dataItem)"
-							v-if="!Object.keys(dataItem).includes('dontRender')"
+							:id="`searched__item-${i}`"
+							@click="displaySearchItem('company_research', data)"
 						>
-							<p class="searched__item-title">{{ dataItem.title }}</p>
-							<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+							<p class="searched__item-title">{{ data.title }}</p>
+							<p class="searched__item-desc" >{{data.description}}</p>
 							<div class="url__bookmark__group">
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
+								<a :href="data.url" target="_blank" class="searched__item-url"
 									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
+									<p class="url-text">{{ data.url }}</p></a
 								>
 								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
 							</div>

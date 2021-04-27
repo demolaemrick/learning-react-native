@@ -25,5 +25,17 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	getBookmarks: async ({ commit}) => {
+		const url = 'research/bookmark';
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+
 	}
 };

@@ -242,7 +242,7 @@ export default {
 				const response = await this.research(this.payload);
 				await this.saveSearchedResult(response.data.data);
 				await this.saveSearchPayload(this.payload);
-				// this.$router.push({ name: 'SearchResult' });
+				this.$router.push({ name: 'SearchResult' });
 				return true;
 			} catch (error) {
 				this.showAlert({

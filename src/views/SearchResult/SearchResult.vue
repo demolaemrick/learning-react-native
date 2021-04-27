@@ -72,16 +72,23 @@
 						</div>
 					</div>
 					<div class="section__4">
-						<div class="text">Bookmarked 2</div>
-						<div class="link">See All</div>
+						<div class="text">Bookmarked {{userBookmarksCount}}</div>
+						<div @click="btnBookmarkClick()" class="link">See All</div>
 					</div>
-					<div class="section__5 bookmarks">
-						<div class="title">Your guide to visit, enjoy, live, work …</div>
+				<div @click="btnBookmarkClick()" class="section__5 bookmarks">
+						<div class="">
+						<div class="title">Contact Research</div>
 						<div class="content">
-							Lorem ipsum dolor sit amet, dictum consectetur adipiscing elit. Nullam dictum felis eu ipsum sollicitudin
-							semper.
+							{{showFirstBookmark["contact_research"].description || ''}}
 						</div>
 					</div>
+						<div class="">
+						<div class="title">Company Research</div>
+						<div class="content">
+							{{showFirstBookmark["company_research"].description || ''}}
+						</div>
+					</div>
+				</div>
 					<div class="section__6">
 						<div class="text">Notes</div>
 						<div class="link"></div>
