@@ -7,7 +7,7 @@ import VTabs from '@/components/Tabs';
 import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
@@ -92,7 +92,7 @@ export default {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
 			saveSearchedResult: 'search_services/saveSearchedResult',
-			logout: 'auth/logout'
+			logout: 'auth/logout',
 		}),
 		...mapActions({
 			research: 'search_services/research',
@@ -242,7 +242,7 @@ export default {
 				const response = await this.research(this.payload);
 				await this.saveSearchedResult(response.data.data);
 				await this.saveSearchPayload(this.payload);
-				this.$router.push({ name: 'SearchResult' });
+				// this.$router.push({ name: 'SearchResult' });
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -272,7 +272,17 @@ export default {
 		},
 		closeMoreSearchSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
-			this.$router.push('/');
+			// this.$router.push('/');
+			const hasHistory =  window.history.length > 2
+			if (hasHistory) {
+				this.$router.go(-1)
+			}
+			else {
+				this.$router.push('/')
+			}
+		},
+		routerEventHandler(evtName) {
+			this[evtName]()
 		},
 		closeConfigModal() {
 			this.showConfigModal = !this.showConfigModal;
@@ -290,7 +300,7 @@ export default {
 					this.activeTab = evt;
 					break;
 			}
-		}
+		},
 	},
 	watch: {
 		'keywords.events': function (newVal) {
@@ -345,12 +355,27 @@ export default {
 			immediate: true,
 			handler: function (newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
+				if (this.showMoreSearchSettings) {
+					this.showConfigModal = false;
+				}
+				else if (this.userDetails && this.userDetails.is_settings) {
+					this.showConfigModal = false;
+				}
+				else {
+					this.showConfigModal = true;
+				}
 			}
 		}
 	},
 	computed: {
+		...mapGetters({
+			userDetails:'auth/getLoggedUser'
+		}),
 		companies() {
 			return Object.keys(companyList.companies);
 		}
+	},
+	created() {
+		// this.openConfigModal()
 	}
 };

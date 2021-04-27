@@ -17,7 +17,7 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item">
+							<li class="dropdown__item"  @click="gotoSettings">
 								Settings
 							</li>
 							<li class="dropdown__item" @click="logoutUser">
@@ -86,12 +86,12 @@
 			</v-tabs>
 
 			<template v-if="activeTab === 'manual_search'">
-				<p class="more-filter" @click="openConfigModal()">
-					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
-				</p>
-				<!-- <p class="more-filter" @click="showMoreSearch = !showMoreSearch">
+				<!-- <p class="more-filter" @click="openConfigModal()">
 					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
 				</p> -->
+				<p class="more-filter" @click="showMoreSearch = !showMoreSearch">
+					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
+				</p>
 			</template>
 			<!-- CONFIG MODAL -->
 			<template v-if="showConfigModal">
@@ -280,7 +280,7 @@
 			<!-- __inpage END -->
 		</main>
 		<template v-if="showMoreSearchSettings">
-			<div class="more__settings__modal__wrapper">
+			<!-- <div class="more__settings__modal__wrapper">
 				<div class="more__settings__modal__header">
 					<div class="more__settings__modal__header__btn__wrapper">
 						<v-button class="config__btn__close" @click="closeMoreSearchSettings()">
@@ -293,19 +293,19 @@
 						</v-button>
 					</div>
 				</div>
-				<div class="more__settings__modal__content">
-					<router-view></router-view>
-				</div>
+				<div class="more__settings__modal__content"> -->
+					<router-view @routerEvent="routerEventHandler"></router-view>
+				<!-- </div>
 				<div class="more__settings__modal__footer">
 					<div class="more__settings__modal__footer__btn__wrapper">
 						<v-button class="config__btn__close" @click="btnApplyChanges()">
 							<div class="btn__content__wrapper">
-								<span class="text">Apply Changes</span>
+								<span class="text">Save Changes</span>
 							</div>
 						</v-button>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</template>
 	</div>
 </template>

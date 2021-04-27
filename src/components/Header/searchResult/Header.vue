@@ -16,10 +16,10 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item">
+							<li class="dropdown__item" @click="gotoSettings">
 								Settings
 							</li>
-							<li class="dropdown__item">
+							<li class="dropdown__item" @click="logoutUser">
 								Logout
 							</li>
 						</template>
@@ -32,11 +32,25 @@
 
 <script>
 import VToggleDropdown from '@/components/ToggleDropdown';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
 	components: {
 		VToggleDropdown
+	},
+	methods: {
+		...mapMutations({
+			logout: 'auth/logout'
+		}),
+		gotoSettings() {
+			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			this.$router.push('/settings');
+		},
+		logoutUser() {
+			this.logout();
+			this.$router.push('/login');
+		}
 	}
 };
 </script>
