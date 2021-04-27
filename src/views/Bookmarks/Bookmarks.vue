@@ -56,18 +56,17 @@
 				</div>
 				<div class="searched-result" v-for="(data, i) in allBookMarks['contact_research']" :key="i">
 					<span>
-						<div
-							class="searched__item"
-							@click="displaySearchItem('contact_research', data)"
-						>
-							<p class="searched__item-title">{{ data.title || '' }}</p>
-							<p class="searched__item-desc" >{{data.description}}</p>
+						<div class="searched__item" >
+						<div @click="displaySearchItem('contact_research', data)">
+								<p class="searched__item-title">{{ data.title || '' }}</p>
+							<p class="searched__item-desc">{{ data.description }}</p>
+						</div>
 							<div class="url__bookmark__group">
 								<a :href="data.url" target="_blank" class="searched__item-url"
 									><img src="@/assets/icons/planet-earth.svg" svg-inline />
 									<p class="url-text">{{ data.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								<img @click="btnRemoveFromBookMarks(data)" src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
 							</div>
 						</div>
 					</span>
@@ -125,21 +124,19 @@
 						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in companyResearch" :key='i'>
+				<div class="searched-result" v-for="(data, i) in companyResearch" :key="i">
 					<span>
-						<div
-							class="searched__item"
-							:id="`searched__item-${i}`"
-							@click="displaySearchItem('company_research', data)"
-						>
-							<p class="searched__item-title">{{ data.title }}</p>
-							<p class="searched__item-desc" >{{data.description}}</p>
+						<div class="searched__item" :id="`searched__item-${i}`">
+							<div @click="displaySearchItem('company_research', data)">
+								<p class="searched__item-title">{{ data.title }}</p>
+								<p class="searched__item-desc">{{ data.description }}</p>
+							</div>
 							<div class="url__bookmark__group">
 								<a :href="data.url" target="_blank" class="searched__item-url"
 									><img src="@/assets/icons/planet-earth.svg" svg-inline />
 									<p class="url-text">{{ data.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								<img @click="btnRemoveFromBookMarks(data)" src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
 							</div>
 						</div>
 					</span>

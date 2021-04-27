@@ -196,8 +196,8 @@ export default {
 				const { status, data, statusText } = userNote;
 				if (status === 200 && statusText === 'OK') {
 					if (data.data && data.data.length) {
-						this.userNote = data.data[0];
-						this.notepadTXT = data.data[0].note;
+						this.userNote = data.data;
+						this.notepadTXT = data.data.note;
 					}
 				}
 			} catch (error) {
@@ -205,15 +205,14 @@ export default {
 			} finally {
 				this.noteLoading = false;
 			}
-			console.log('USER NOTE => ', this.userNote);
 		},
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
-			console.log('on the outside');
 			try {
 				await this.updateUserNote({
 					rowId: this.rowId,
-					note: this.notepadTXT
+					note: this.notepadTXT,
+					title: ''
 				});
 				this.userNote = this.notepadTXT;
 				this.showAlert({
@@ -347,15 +346,17 @@ export default {
 			}
 		},
 		async btnAddToBookMarks(dataItem) {
-			console.log(dataItem);
 			await this.addToBookmarks({
 				rowId: this.rowId,
 				url: dataItem.url,
 				type: dataItem.type,
 				description: dataItem.description,
 				relevance_score: dataItem.meta.relevanceScore,
-				// title: dataItem.title
+				title: dataItem.title
 			});
+			const searchResultClone = {...this.getSearchedResult}
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true
+			await this.saveSearchedResult(searchResultClone)
 			this.showAlert({
 				status: 'success',
 				message: 'Added to bookmarks',
@@ -363,10 +364,12 @@ export default {
 			});
 		},
 		async btnRemoveFromBookMarks(dataItem) {
-			// console.log(dataItem);
 			await this.removeFromBookmarks({
 				url: dataItem.url
 			});
+			const searchResultClone = {...this.getSearchedResult}
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false
+			await this.saveSearchedResult(searchResultClone)
 			this.showAlert({
 				status: 'success',
 				message: 'Removed from bookmarks',

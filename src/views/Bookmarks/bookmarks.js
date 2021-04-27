@@ -29,6 +29,9 @@ export default {
 	await this.initUserBookmarks()
 	},
 	computed: {
+		...mapGetters({
+			getSearchedResult: 'search_services/getSearchedResult',
+		}),
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
@@ -81,9 +84,13 @@ export default {
 		}
 	},
 	methods: {
+		...mapMutations({
+			saveSearchedResult: 'search_services/saveSearchedResult',
+		}),
 		...mapActions({
 			getUserBookmarks: 'user/getBookmarks',
-			showAlert: 'showAlert'
+			showAlert: 'showAlert',
+			removeFromBookmarks: 'user/removeFromBookmarks',
 		}),
 
 		async initUserBookmarks() {
@@ -99,5 +106,17 @@ export default {
 				this.bookmarkLoading = false;
 			}
 		},
+		async btnRemoveFromBookMarks(dataItem) {
+			console.log(dataItem)
+			await this.removeFromBookmarks({
+				url: dataItem.url
+			});
+			await this.initUserBookmarks()
+			this.showAlert({
+				status: 'success',
+				message: 'Removed from bookmarks',
+				showAlert: true
+			});
+		}
 	}
 };
