@@ -31,7 +31,11 @@ export default {
 			searchedResult: {},
 			loading: false,
 			userBookmarks: null,
-			bookmarkLoading: true
+			bookmarkLoading: true,
+			editNote: false,
+			rowId: null,
+			userNote: null,
+			notepadTXT: null
 		};
 	},
 	async created() {
@@ -48,7 +52,9 @@ export default {
 		// console.log(this.$route.query.rowId);
 		// this.researchedPayload = Object.assign({}, this.getPayload);
 		//this.getNextResearch();
+		this.getRowID();
 		await this.initUserBookmarks();
+		await this.initUserNote(this.rowId);
 	},
 	computed: {
 		...mapGetters({
@@ -127,7 +133,7 @@ export default {
 					total = company_research.length + contact_research.length;
 				}
 			}
-			return total
+			return total;
 		},
 		showFirstBookmark() {
 			let result = {
@@ -161,8 +167,16 @@ export default {
 			research: 'search_services/research',
 			researchedResult: 'search_services/researchedResult',
 			showAlert: 'showAlert',
-			getUserBookmarks: 'user/getBookmarks'
+			getUserBookmarks: 'user/getBookmarks',
+			getUserNote: 'user/getNote',
+			updateUserNote: 'user/updateNote',
+			addToBookmarks: 'user/addToBookmarks',
+			removeFromBookmarks: 'user/removeFromBookmarks',
 		}),
+		getRowID() {
+			const { rowId } = this.getSearchedResult;
+			this.rowId = rowId;
+		},
 		async initUserBookmarks() {
 			try {
 				const userBookmarks = await this.getUserBookmarks();
@@ -176,8 +190,47 @@ export default {
 				this.bookmarkLoading = false;
 			}
 		},
+		async initUserNote(rowID) {
+			try {
+				const userNote = await this.getUserNote(rowID);
+				const { status, data, statusText } = userNote;
+				if (status === 200 && statusText === 'OK') {
+					if (data.data && data.data.length) {
+						this.userNote = data.data[0];
+						this.notepadTXT = data.data[0].note;
+					}
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.noteLoading = false;
+			}
+			console.log('USER NOTE => ', this.userNote);
+		},
+		async handleTextareaBlur() {
+			this.editNote = !this.editNote;
+			console.log('on the outside');
+			try {
+				await this.updateUserNote({
+					rowId: this.rowId,
+					note: this.notepadTXT
+				});
+				this.userNote = this.notepadTXT;
+				this.showAlert({
+					status: 'success',
+					message: 'Note updated successfully',
+					showAlert: true
+				});
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'error updating note',
+					showAlert: true
+				});
+			}
+		},
 		btnBookmarkClick() {
-			this.$router.push('/bookmarks')
+			this.$router.push('/bookmarks');
 		},
 		async getResult() {
 			this.loading = true;
@@ -292,6 +345,33 @@ export default {
 				//for (const key in this.response.data.company_research) {
 				this.companyFilter.push(key);
 			}
+		},
+		async btnAddToBookMarks(dataItem) {
+			console.log(dataItem);
+			await this.addToBookmarks({
+				rowId: this.rowId,
+				url: dataItem.url,
+				type: dataItem.type,
+				description: dataItem.description,
+				relevance_score: dataItem.meta.relevanceScore,
+				// title: dataItem.title
+			});
+			this.showAlert({
+				status: 'success',
+				message: 'Added to bookmarks',
+				showAlert: true
+			});
+		},
+		async btnRemoveFromBookMarks(dataItem) {
+			// console.log(dataItem);
+			await this.removeFromBookmarks({
+				url: dataItem.url
+			});
+			this.showAlert({
+				status: 'success',
+				message: 'Removed from bookmarks',
+				showAlert: true
+			});
 		}
 	}
 };
