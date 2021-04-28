@@ -29,7 +29,7 @@
 
 <script>
 import VToggleDropdown from '@/components/ToggleDropdown';
-import { mapMutations} from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
