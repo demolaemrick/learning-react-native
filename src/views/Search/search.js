@@ -2,10 +2,17 @@ import VCheckbox from '@/components/Checkbox';
 import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
 import VTextInput from '@/components/Input';
+import VModal from '@/components/Modal';
+import VTabs from '@/components/Tabs';
+import VTab from '@/components/Tabs/Tab';
+import VToggleDropdown from '@/components/ToggleDropdown';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
+import FileUpload from 'vue-upload-component';
+import Logo from '@/components/Logo';
+import VHeader from '@/components/Header/search/Header';
 export default {
 	name: 'Search',
 	components: {
@@ -13,14 +20,22 @@ export default {
 		VSelect,
 		VTextInput,
 		VButton,
+		VModal,
+		VTab,
+		VTabs,
+		VToggleDropdown,
 		ValidationObserver,
-		Loader
+		Loader,
+		FileUpload,
+		Logo,
+		VHeader
 	},
 	data() {
 		return {
 			loading: false,
 			company: '',
 			showMoreSearch: false,
+			showMoreSearchSettings: false,
 			disableApplyAll: true,
 			applyAllChecked: false,
 			disableCompanyAll: true,
@@ -63,18 +78,122 @@ export default {
 					ipo: [],
 					product_launch: []
 				}
-			}
+			},
+			csvImport: {
+				contacts: null,
+				is_csv: true
+			},
+			showConfigModal: false,
+			accept: 'csv',
+			extensions: 'csv',
+			files: [],
+			activeTab: 'manual_search'
 		};
 	},
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			logout: 'auth/logout'
 		}),
 		...mapActions({
 			research: 'search_services/research',
+			bulk_research: 'search_services/bulk_research',
+			getSettings: 'user/getSettings',
 			showAlert: 'showAlert'
 		}),
+		async getUserSettings() {
+			try {
+				const { status, statusText, data } = await this.getSettings();
+				if (status === 200 && statusText === 'OK') {
+					const {
+						data: { contact_research, company_research }
+					} = data;
+					if (contact_research) {
+						this.payload.contact_research = contact_research;
+						this.keywords = contact_research;
+					}
+					if (company_research) {
+						this.payload.company_research = company_research;
+						this.companyKeywords = company_research;
+					}
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'An error occurred',
+					showAlert: true
+				});
+			}
+		},
+		logoutUser() {
+			this.logout();
+			this.$router.push('/login');
+		},
+		csvJSON(csv) {
+			var lines = csv.split('\n');
+
+			var result = [];
+			var headers = lines[0].split(',');
+
+			for (var i = 1; i < lines.length; i++) {
+				var obj = {};
+				var currentline = lines[i].split(',');
+
+				for (var j = 0; j < headers.length; j++) {
+					obj[headers[j]] = currentline[j];
+				}
+
+				result.push(obj);
+			}
+
+			return JSON.parse(JSON.stringify(result));
+		},
+
+		inputFile(newFile) {
+			if (newFile.size > 10485760) {
+				this.showAlert({
+					status: 'error',
+					message: 'file size is is more that 10MB',
+					showAlert: true
+				});
+				return true;
+			}
+			if (newFile.name.split('.').pop() !== 'csv') {
+				this.showAlert({
+					status: 'error',
+					message: 'file type is not csv',
+					showAlert: true
+				});
+				return true;
+			}
+			const readFile = async (event) => {
+				const csvFilePath = event.target.result;
+				this.csvImport.contacts = await this.csvJSON(csvFilePath);
+				this.uploadBulkResearch();
+			};
+			var file = newFile.file;
+
+			var reader = new FileReader();
+			reader.readAsText(file);
+			reader.addEventListener('load', readFile);
+		},
+		async uploadBulkResearch() {
+			this.loading = true;
+			try {
+				await this.bulk_research(this.csvImport);
+				this.$router.push({ name: 'ContactResearch' });
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
 		onChildUpdate(newValue) {
 			this.payload.company = newValue;
 		},
@@ -147,17 +266,10 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.research(this.payload);
-				if (response.data.status === 'success') {
-					await this.saveSearchedResult(response.data.data);
-					await this.saveSearchPayload(this.payload);
-					this.$router.push({ name: 'SearchResult' });
-					return true;
-				}
-				this.showAlert({
-					status: 'error',
-					message: 'Something went wrong',
-					showAlert: true
-				});
+				await this.saveSearchedResult(response.data.data);
+				await this.saveSearchPayload(this.payload);
+				this.$router.push({ name: 'SearchResult' });
+				return true;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -175,6 +287,43 @@ export default {
 				}
 				return obj;
 			}, {});
+		},
+		openConfigModal() {
+			this.showConfigModal = !this.showConfigModal;
+		},
+		gotoSettings() {
+			this.closeConfigModal();
+			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			this.$router.push('/settings');
+		},
+		closeMoreSearchSettings() {
+			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			// this.$router.push('/');
+			const hasHistory = window.history.length > 2;
+			if (hasHistory) {
+				this.$router.go(-1);
+			} else {
+				this.$router.push('/');
+			}
+		},
+		routerEventHandler(evtName) {
+			this[evtName]();
+		},
+		closeConfigModal() {
+			this.showConfigModal = !this.showConfigModal;
+		},
+		btnApplyChanges() {
+			this.closeMoreSearchSettings();
+		},
+		setActiveTab(evt) {
+			switch (evt) {
+				case 'manual_search':
+					this.activeTab = evt;
+					break;
+				case 'import_contacts':
+					this.activeTab = evt;
+					break;
+			}
 		}
 	},
 	watch: {
@@ -225,11 +374,31 @@ export default {
 				this.payload.company_research[single] = [];
 				this.companyKeywords[single] = [];
 			});
+		},
+		$route: {
+			immediate: true,
+			handler: function (newVal) {
+				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
+				if (this.showMoreSearchSettings) {
+					this.showConfigModal = false;
+				} else if (this.userDetails && this.userDetails.is_settings) {
+					this.showConfigModal = false;
+				} else {
+					this.showConfigModal = true;
+				}
+			}
 		}
 	},
 	computed: {
+		...mapGetters({
+			userDetails: 'auth/getLoggedUser'
+		}),
 		companies() {
 			return Object.keys(companyList.companies);
 		}
+	},
+	created() {
+		this.getUserSettings();
+		// this.openConfigModal()
 	}
 };

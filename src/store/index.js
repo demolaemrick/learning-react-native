@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import search_services from './modules/search_services/index';
+import auth from './modules/auth/index';
+import user from './modules/user/index';
 Vue.use(Vuex);
 
 const vuexPersistence = new VuexPersistence({
@@ -67,7 +69,9 @@ export default new Vuex.Store({
 		}
 	},
 	modules: {
-		search_services
+		search_services,
+		auth,
+		user
 	},
 	plugins: [vuexPersistence.plugin]
 });
