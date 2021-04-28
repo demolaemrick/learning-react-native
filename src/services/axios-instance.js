@@ -5,9 +5,6 @@ const instance = axios.create({
 	timeout: 120000,
 	headers: {},
 	crossdomain: true
-	// headers: {
-	// 	"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwN2VhMWJmOTY1YmJlNjQxNGMwMGIxMyIsImVtYWlsIjoiYWJhc3NAZW55YXRhLmNvbSIsImlhdCI6MTYxOTAwMTczNSwiZXhwIjoxNjE5MDA4OTM1fQ.HidmWQTJoAnzdxHpc_K41hPIz0Tvwi22QdHIqcF-kr8"
-	// }
 });
 
 instance.interceptors.request.use((config) => {

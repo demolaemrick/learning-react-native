@@ -5,10 +5,7 @@ export default {
 	component: { VButton },
 	argTypes: {
 		size: {
-			control: { type: 'select', options: ['small', 'full', 'default'] }
-		},
-		buttonType: {
-			control: { type: 'select', options: ['primary', 'outline', 'secondary', 'link', 'muted'] }
+			control: { type: 'select', options: ['small', 'medium', 'full', 'default', 'modal'] }
 		}
 	}
 };
@@ -33,11 +30,7 @@ export const Full = Template.bind({});
 Full.args = {
 	size: 'full'
 };
-export const primary = Template.bind({});
-primary.args = {
-	buttonType: 'primary'
-};
-export const secondary = Template.bind({});
-secondary.args = {
-	buttonType: 'secondary'
+export const Modal = Template.bind({});
+Modal.args = {
+	size: 'modal'
 };

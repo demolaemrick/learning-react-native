@@ -1,5 +1,4 @@
-//import VNav from '../Nav.vue';
-import VHeader from '@/components/Header/searchResult/Header';
+import VNav from '../Nav.vue';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
@@ -7,12 +6,10 @@ import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
 import DotLoader from '@/components/DotLoader.vue';
-
 export default {
 	name: 'SearchResult',
 	components: {
-		// VNav,
-		VHeader,
+		VNav,
 		ToggleDropdown,
 		DCheckbox,
 		CTag,
@@ -50,27 +47,26 @@ export default {
 		this.getFilterKeys();
 		this.searchType = this.getSearchedItem.type;
 		//await this.fetchContent();
-		//this.researchedPayload = Object.assign({}, this.getPayload);
-		console.log('ge', this.getSearchedItem);
-		//this.getNextResearch();
+		this.researchedPayload = Object.assign({}, this.getPayload);
+		this.getNextResearch();
 	},
 	computed: {
 		...mapGetters({
 			getNotepad: 'search_services/getNotepad',
 			getSearchedItem: 'search_services/getSearchedItem',
-			getSearchedResult: 'search_services/getSearchedResult'
-			//getPayload: 'search_services/getPayload'
+			getSearchedResult: 'search_services/getSearchedResult',
+			getPayload: 'search_services/getPayload'
 		}),
-		// getContentPayload: {
-		// 	get() {
-		// 		const payload = {};
-		// 		payload.company = this.getPayload.company;
-		// 		payload.full_name = this.getPayload.full_name;
-		// 		payload.role = this.getPayload.role;
-		// 		payload.link = this.getSearchedItem.item.url;
-		// 		return payload;
-		// 	}
-		// },
+		getContentPayload: {
+			get() {
+				const payload = {};
+				payload.company = this.getPayload.company;
+				payload.full_name = this.getPayload.full_name;
+				payload.role = this.getPayload.role;
+				payload.link = this.getSearchedItem.item.url;
+				return payload;
+			}
+		},
 		notepad: {
 			get() {
 				return this.getNotepad;
@@ -83,7 +79,6 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.getSearchedResult[this.searchType];
-				console.log(data);
 				if (this.filterValue.length === 0) {
 					for (const key in data) {
 						if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
@@ -97,7 +92,6 @@ export default {
 						newObj[value] = element;
 					});
 				}
-				console.log(newObj);
 				return newObj;
 			}
 		}
