@@ -29,10 +29,16 @@ export default {
 			},
 			loadMore: false,
 			searchedResult: {},
-			loading: false
+			loading: false,
+			userBookmarks: null,
+			bookmarkLoading: true,
+			editNote: false,
+			rowId: null,
+			userNote: null,
+			notepadTXT: null
 		};
 	},
-	async mounted() {
+	async created() {
 		if (this.$route.query.rowId) {
 			await this.getResult();
 			await this.getFilterKeys();
@@ -46,6 +52,9 @@ export default {
 		// console.log(this.$route.query.rowId);
 		// this.researchedPayload = Object.assign({}, this.getPayload);
 		//this.getNextResearch();
+		this.getRowID();
+		await this.initUserBookmarks();
+		await this.initUserNote(this.rowId);
 	},
 	computed: {
 		...mapGetters({
@@ -115,6 +124,36 @@ export default {
 				});
 				return newObj;
 			}
+		},
+		userBookmarksCount() {
+			let total = 0;
+			if (this.userBookmarks) {
+				const { company_research, contact_research } = this.userBookmarks;
+				if (company_research && contact_research) {
+					total = company_research.length + contact_research.length;
+				}
+			}
+			return total;
+		},
+		showFirstBookmark() {
+			let result = {
+				contact_research: '',
+				company_research: ''
+			};
+
+			if (this.userBookmarks) {
+				const { company_research, contact_research } = this.userBookmarks;
+				if (company_research && company_research.length) {
+					const { type, description } = company_research[0];
+					result[type] = { type, description };
+				}
+
+				if (contact_research && contact_research.length) {
+					const { type, description } = contact_research[0];
+					result[type] = { type, description };
+				}
+			}
+			return result;
 		}
 	},
 	methods: {
@@ -127,8 +166,71 @@ export default {
 		...mapActions({
 			research: 'search_services/research',
 			researchedResult: 'search_services/researchedResult',
-			showAlert: 'showAlert'
+			showAlert: 'showAlert',
+			getUserBookmarks: 'user/getBookmarks',
+			getUserNote: 'user/getNote',
+			updateUserNote: 'user/updateNote',
+			addToBookmarks: 'user/addToBookmarks',
+			removeFromBookmarks: 'user/removeFromBookmarks'
 		}),
+		getRowID() {
+			const { rowId } = this.getSearchedResult;
+			this.rowId = rowId;
+		},
+		async initUserBookmarks() {
+			try {
+				const userBookmarks = await this.getUserBookmarks();
+				const { status, data, statusText } = userBookmarks;
+				if (status === 200 && statusText === 'OK') {
+					this.userBookmarks = data.response;
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.bookmarkLoading = false;
+			}
+		},
+		async initUserNote(rowID) {
+			try {
+				const userNote = await this.getUserNote(rowID);
+				const { status, data, statusText } = userNote;
+				if (status === 200 && statusText === 'OK') {
+					if (data.data && data.data.length) {
+						this.userNote = data.data;
+						this.notepadTXT = data.data.note;
+					}
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.noteLoading = false;
+			}
+		},
+		async handleTextareaBlur() {
+			this.editNote = !this.editNote;
+			try {
+				await this.updateUserNote({
+					rowId: this.rowId,
+					note: this.notepadTXT,
+					title: ''
+				});
+				this.userNote = this.notepadTXT;
+				this.showAlert({
+					status: 'success',
+					message: 'Note updated successfully',
+					showAlert: true
+				});
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'error updating note',
+					showAlert: true
+				});
+			}
+		},
+		btnBookmarkClick() {
+			this.$router.push('/bookmarks');
+		},
 		async getResult() {
 			this.loading = true;
 			try {
@@ -250,6 +352,37 @@ export default {
 			} else {
 				return `https://${link}`;
 			}
+		},
+		async btnAddToBookMarks(dataItem) {
+			await this.addToBookmarks({
+				rowId: this.rowId,
+				url: dataItem.url,
+				type: dataItem.type,
+				description: dataItem.description,
+				relevance_score: dataItem.meta.relevanceScore,
+				title: dataItem.title
+			});
+			const searchResultClone = { ...this.getSearchedResult };
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
+			await this.saveSearchedResult(searchResultClone);
+			this.showAlert({
+				status: 'success',
+				message: 'Added to bookmarks',
+				showAlert: true
+			});
+		},
+		async btnRemoveFromBookMarks(dataItem) {
+			await this.removeFromBookmarks({
+				url: dataItem.url
+			});
+			const searchResultClone = { ...this.getSearchedResult };
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
+			await this.saveSearchedResult(searchResultClone);
+			this.showAlert({
+				status: 'success',
+				message: 'Removed from bookmarks',
+				showAlert: true
+			});
 		}
 	}
 };

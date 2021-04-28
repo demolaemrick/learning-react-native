@@ -5,7 +5,6 @@ import VHeader from '@/components/Header/searchResult/Header';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
-import { response } from '@/data/response.json';
 import DotLoader from '@/components/DotLoader.vue';
 export default {
 	name: 'Bookmarks',
@@ -20,35 +19,18 @@ export default {
 	mixins: [ScreenWidthMixin],
 	data() {
 		return {
-			companyFilter: [],
-			contactFilter: [],
-			searchType: 'contact_research',
-			response: response,
-			researchedPayload: {
-				type: Object
-			},
-			loadMore: false
+			loadMore: false,
+			bookmarkLoading: true,
+			userBookmarks: null
 		};
 	},
-	mounted() {
-		this.getFilterKeys();
-		this.researchedPayload = Object.assign({}, this.getPayload);
-		this.getNextResearch();
+	async created() {
+		await this.initUserBookmarks();
 	},
 	computed: {
 		...mapGetters({
-			getNotepad: 'search_services/getNotepad',
-			getSearchedResult: 'search_services/getSearchedResult',
-			getPayload: 'search_services/getPayload'
+			getSearchedResult: 'search_services/getSearchedResult'
 		}),
-		notepad: {
-			get() {
-				return this.getNotepad;
-			},
-			set(value) {
-				this.saveNotepad(value);
-			}
-		},
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
@@ -59,157 +41,81 @@ export default {
 				}
 			}
 		},
-		contact_research: {
-			get() {
-				let newObj = {};
-				const data = this.getSearchedResult.contact_research;
+		allBookMarks() {
+			let result = {
+				contact_research: '',
+				company_research: ''
+			};
 
-				//const data = this.response.data.contact_research
-				// if (this.contactFilter.length === 0) {
-				// 	for (const key in data) {
-				// 		if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
-				// 			const element = data[key];
+			if (this.userBookmarks) {
+				const { company_research, contact_research } = this.userBookmarks;
+				if (company_research && company_research.length) {
+					const { type } = company_research[0];
+					result[type] = { ...company_research };
+				}
 
-				// 			newObj[key] = element;
-				// 		}
-				// 	}
-				// } else {
-
-				this.contactFilter.map((value) => {
-					const element = Object.keys(data).includes(value) ? data[value] : null;
-					newObj[value] = element;
-				});
-
-				//}
-				return newObj;
+				if (contact_research && contact_research.length) {
+					const { type } = contact_research[0];
+					result[type] = { ...contact_research };
+				}
 			}
+			return result;
 		},
-		company_research: {
-			get() {
-				let newObj = {};
-				const data = this.getSearchedResult.company_research;
-				//const data = this.response.data.company_research
-				this.companyFilter.map((value) => {
-					const element = Object.keys(data).includes(value) ? data[value] : null;
-					newObj[value] = element;
-				});
-
-				return newObj;
+		contactResearch() {
+			let result = {};
+			if (this.userBookmarks) {
+				const { contact_research } = this.userBookmarks;
+				if (contact_research && contact_research.length) {
+					result = { ...contact_research };
+				}
 			}
+			return result;
+		},
+		companyResearch() {
+			let result = {};
+			if (this.userBookmarks) {
+				const { company_research } = this.userBookmarks;
+				if (company_research && company_research.length) {
+					result = { ...company_research };
+				}
+			}
+			return result;
 		}
 	},
 	methods: {
 		...mapMutations({
-			saveNotepad: 'search_services/saveNotepad',
-			saveSearchedItem: 'search_services/saveSearchedItem',
-			saveSearchedResult: 'search_services/saveSearchedResult',
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
-			research: 'search_services/research',
-			showAlert: 'showAlert'
+			getUserBookmarks: 'user/getBookmarks',
+			showAlert: 'showAlert',
+			removeFromBookmarks: 'user/removeFromBookmarks'
 		}),
 
-		getNextResearch() {
-			window.onscroll = async () => {
-				if (this.researchedPayload.pagination !== 2) {
-					let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-					if (bottomOfWindow) {
-						this.loadMore = true;
-						this.researchedPayload.pagination = 2;
-						try {
-							const response = await this.research(this.researchedPayload);
-							if (response.data.status === 'success') {
-								let data = response.data.data;
-								const contact_research = [
-									...this.getSearchedResult.contact_research.others,
-									...response.data.data.contact_research.others
-								];
-								const company_research = [
-									...this.getSearchedResult.company_research.others,
-									...response.data.data.company_research.others
-								];
-								data.contact_research['others'] = contact_research;
-								data.company_research['others'] = company_research;
-								await this.saveSearchedResult(data);
-								await this.saveSearchPayload(this.researchedPayload);
-								return true;
-							}
-							this.showAlert({
-								status: 'error',
-								message: 'Something went wrong',
-								showAlert: true
-							});
-						} catch (error) {
-							this.showAlert({
-								status: 'error',
-								message: error.response.data.message,
-								showAlert: true
-							});
-						} finally {
-							this.loadMore = false;
-						}
-					}
+		async initUserBookmarks() {
+			try {
+				const userBookmarks = await this.getUserBookmarks();
+				const { status, data, statusText } = userBookmarks;
+				if (status === 200 && statusText === 'OK') {
+					this.userBookmarks = data.response;
 				}
-			};
-		},
-		sortByRelevance(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.bookmarkLoading = false;
 			}
 		},
-		sortByRecent(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
-		},
-		displaySearchItem(type, item) {
-			const data = {
-				type: type,
-				item: item
-			};
-			this.saveSearchedItem(data);
-			this.$router.push({ name: 'SearchItem' });
-		},
-		getFilterKeys() {
-			this.contactFilter = [];
-			this.companyFilter = [];
-			for (const key in this.getSearchedResult.contact_research) {
-				//for (const key in this.response.data.contact_research) {
-				this.contactFilter.push(key);
-			}
-			for (const key in this.getSearchedResult.company_research) {
-				//for (const key in this.response.data.company_research) {
-				this.companyFilter.push(key);
-			}
+		async btnRemoveFromBookMarks(dataItem) {
+			console.log(dataItem);
+			await this.removeFromBookmarks({
+				url: dataItem.url
+			});
+			await this.initUserBookmarks();
+			this.showAlert({
+				status: 'success',
+				message: 'Removed from bookmarks',
+				showAlert: true
+			});
 		}
 	}
 };

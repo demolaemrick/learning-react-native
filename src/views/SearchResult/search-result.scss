@@ -302,6 +302,9 @@
 	}
 	.section__5 {
 		border-bottom: 1px solid #eaebeb;
+		&:hover {
+			cursor: pointer;
+		}
 		.title {
 			font-family: Karla;
 			font-style: normal;
@@ -330,6 +333,9 @@
 		justify-content: space-between;
 		padding: 1em 0;
 		border-bottom: 1px solid #eaebeb;
+		&:hover {
+			cursor: pointer;
+		}
 		.text {
 			font-family: Karla;
 			font-style: normal;
@@ -351,6 +357,9 @@
 		}
 	}
 	.section__7 {
+		&:hover {
+			
+		}
 		border-bottom: 1px solid #eaebeb;
 		.title {
 			font-family: Karla;

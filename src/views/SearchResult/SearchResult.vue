@@ -3,22 +3,10 @@
 		<!-- <v-nav /> -->
 		<v-header />
 		<main class="main container container--lg">
-			<!-- <div class="notepad">
-				<p class="notepad-title">Notepad</p>
-				<textarea
-					class="notepad-input"
-					rows="20"
-					cols="50"
-					name="text"
-					id="textArea"
-					v-model="notepad"
-					placeholder="Write down findings from research."
-				>
-				</textarea>
-			</div> -->
+			{{ getNotepad }}
 			<template v-if="loading"></template>
 			<template v-else>
-				<div class="aside__left">
+				<div v-if="!editNote" class="aside__left">
 					<div class="section section__1">
 						<div class="title">
 							<div class="text">Contact Details</div>
@@ -72,26 +60,47 @@
 						</div>
 					</div>
 					<div class="section__4">
-						<div class="text">Bookmarked 2</div>
-						<div class="link">See All</div>
+						<div class="text">Bookmarked {{ userBookmarksCount }}</div>
+						<div @click="btnBookmarkClick()" class="link">See All</div>
 					</div>
-					<div class="section__5 bookmarks">
-						<div class="title">Your guide to visit, enjoy, live, work …</div>
-						<div class="content">
-							Lorem ipsum dolor sit amet, dictum consectetur adipiscing elit. Nullam dictum felis eu ipsum sollicitudin
-							semper.
+					<div @click="btnBookmarkClick()" class="section__5 bookmarks">
+						<div class="">
+							<div class="title">Contact Research</div>
+							<div class="content">
+								{{ showFirstBookmark['contact_research'].description || '' }}
+							</div>
+						</div>
+						<div class="">
+							<div class="title">Company Research</div>
+							<div class="content">
+								{{ showFirstBookmark['company_research'].description || '' }}
+							</div>
 						</div>
 					</div>
-					<div class="section__6">
+					<div class="section__6" @click="editNote = !editNote">
 						<div class="text">Notes</div>
 						<div class="link"></div>
 					</div>
-					<div class="section__7">
-						<div class="title">Your guide to visit, enjoy, live, work …</div>
-						<div class="content">
-							Lorem ipsum dolor sit amet, dictum consectetur adipiscing elit.
+					<template v-if="notepadTXT">
+						<div class="section__7" @click="editNote = !editNote">
+							<div class="title">{{ notepadTXT }}</div>
+							<div class="content"></div>
 						</div>
-					</div>
+					</template>
+				</div>
+				<div v-else class="notepad">
+					<p class="notepad-title">Notepad</p>
+					<textarea
+						class="notepad-input"
+						rows="20"
+						cols="50"
+						name="text"
+						id="textArea"
+						v-model="notepadTXT"
+						@blur="handleTextareaBlur"
+						placeholder="Write down findings from research."
+					>
+					</textarea>
 				</div>
 				<!-- <div class="d-flex"> -->
 
@@ -150,17 +159,33 @@
 						<span v-for="(dataItem, j) in data" :key="j">
 							<div
 								class="searched__item"
-								@click="displaySearchItem('contact_research', dataItem)"
 								v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')"
 							>
-								<p class="searched__item-title">{{ dataItem.title }}</p>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-								<div class="url__bookmark__group">
+								<div @click="displaySearchItem('contact_research', dataItem)">
+									<p class="searched__item-title">{{ dataItem.title }}</p>
+									<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								</div>
+								<div
+									v-if="!dataItem.is_bookmarked"
+									@click="btnAddToBookMarks({ type: 'contact_research', index: j, ...dataItem })"
+									class="url__bookmark__group"
+								>
 									<a :href="dataItem.url" target="_blank" class="searched__item-url"
 										><img src="@/assets/icons/planet-earth.svg" svg-inline />
 										<p class="url-text">{{ dataItem.url }}</p></a
 									>
 									<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								</div>
+								<div
+									v-else
+									@click="btnRemoveFromBookMarks({ type: 'contact_research', index: j, ...dataItem })"
+									class="url__bookmark__group"
+								>
+									<a :href="dataItem.url" target="_blank" class="searched__item-url"
+										><img src="@/assets/icons/planet-earth.svg" svg-inline />
+										<p class="url-text">{{ dataItem.url }}</p></a
+									>
+									<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
 								</div>
 							</div>
 						</span>
@@ -223,17 +248,33 @@
 							<div
 								class="searched__item"
 								:id="`searched__item-${j}`"
-								@click="displaySearchItem('company_research', dataItem)"
 								v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')"
 							>
-								<p class="searched__item-title">{{ dataItem.title }}</p>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-								<div class="url__bookmark__group">
+								<div @click="displaySearchItem('company_research', dataItem)">
+									<p class="searched__item-title">{{ dataItem.title }}</p>
+									<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								</div>
+								<div
+									v-if="!dataItem.is_bookmarked"
+									@click="btnAddToBookMarks({ type: 'company_research', index: j, ...dataItem })"
+									class="url__bookmark__group"
+								>
 									<a :href="dataItem.url" target="_blank" class="searched__item-url"
 										><img src="@/assets/icons/planet-earth.svg" svg-inline />
 										<p class="url-text">{{ dataItem.url }}</p></a
 									>
 									<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								</div>
+								<div
+									v-else
+									@click="btnRemoveFromBookMarks({ type: 'company_research', index: j, ...dataItem })"
+									class="url__bookmark__group"
+								>
+									<a :href="dataItem.url" target="_blank" class="searched__item-url"
+										><img src="@/assets/icons/planet-earth.svg" svg-inline />
+										<p class="url-text">{{ dataItem.url }}</p></a
+									>
+									<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
 								</div>
 							</div>
 						</span>
