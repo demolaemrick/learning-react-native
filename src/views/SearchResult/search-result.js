@@ -92,7 +92,7 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.searchedResult.contact_research;
-				
+
 				this.contactFilter.map((value) => {
 					const element = Object.keys(data).includes(value) ? data[value] : null;
 					newObj[value] = element;
@@ -158,7 +158,7 @@ export default {
 			updateUserNote: 'user/updateNote',
 			addToBookmarks: 'user/addToBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
-			researchDone: 'search_services/researchDone',
+			researchDone: 'search_services/researchDone'
 		}),
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
@@ -177,8 +177,7 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
-			} 
-			
+			}
 		},
 		async initUserBookmarks() {
 			try {

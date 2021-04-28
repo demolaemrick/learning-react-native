@@ -75,7 +75,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="table__wrapper ">
+				<div class="table__wrapper">
 					<table class="table">
 						<thead class="table__header">
 							<tr>
@@ -131,7 +131,6 @@
 							</tr>
 						</tbody>
 					</table>
-					
 				</div>
 			</div>
 		</div>

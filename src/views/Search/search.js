@@ -124,7 +124,7 @@ export default {
 					message: 'An error occurred',
 					showAlert: true
 				});
-			} 
+			}
 		},
 		logoutUser() {
 			this.logout();
@@ -398,7 +398,7 @@ export default {
 		}
 	},
 	created() {
-		this.getUserSettings()
+		this.getUserSettings();
 		// this.openConfigModal()
 	}
 };

@@ -54,7 +54,7 @@
 					<div class="section__3">
 						<div class="title__text">Are you done with the research?</div>
 						<div class="input__group">
-							<input type="checkbox" :checked="searchedResult.status.statusCode ==='DONE'" @change="markResearch($event)"/>
+							<input type="checkbox" :checked="searchedResult.status.statusCode === 'DONE'" @change="markResearch($event)" />
 							<div class="input__label__text">Yes Done</div>
 						</div>
 					</div>
