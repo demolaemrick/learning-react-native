@@ -218,11 +218,15 @@ export default {
 				const { status, statusText, data } = await this.getSettings();
 				if (status === 200 && statusText === 'OK') {
 					const {
-						data: { contact_research }
+						data: { contact_research, company_research }
 					} = data;
 					if (contact_research) {
 						this.payload.contact_research = contact_research;
 						this.keywords = contact_research;
+					}
+					if (company_research) {
+						this.payload.company_research = company_research;
+						this.companyKeywords = company_research;
 					}
 				}
 			} catch (error) {

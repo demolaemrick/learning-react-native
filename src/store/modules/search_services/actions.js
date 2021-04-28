@@ -86,5 +86,17 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	researchDone: async ({ commit }, data) => {
+		console.log(data);
+		const url = `research/done/${data}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.put(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

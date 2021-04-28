@@ -35,7 +35,8 @@ export default {
 			editNote: false,
 			rowId: null,
 			userNote: null,
-			notepadTXT: null
+			notepadTXT: null,
+			markDone: false
 		};
 	},
 	async created() {
@@ -49,9 +50,6 @@ export default {
 		} else {
 			this.$router.push({ name: 'Search' });
 		}
-		// console.log(this.$route.query.rowId);
-		// this.researchedPayload = Object.assign({}, this.getPayload);
-		//this.getNextResearch();
 		this.getRowID();
 		await this.initUserBookmarks();
 		await this.initUserNote(this.rowId);
@@ -94,22 +92,11 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.searchedResult.contact_research;
-				//const data = this.response.data.contact_research
-				// if (this.contactFilter.length === 0) {
-				// 	for (const key in data) {
-				// 		if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
-				// 			const element = data[key];
-
-				// 			newObj[key] = element;
-				// 		}
-				// 	}
-				// } else {
-
+				
 				this.contactFilter.map((value) => {
 					const element = Object.keys(data).includes(value) ? data[value] : null;
 					newObj[value] = element;
 				});
-				//}
 				return newObj;
 			}
 		},
@@ -117,7 +104,6 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.searchedResult.company_research;
-				//const data = this.response.data.company_research
 				this.companyFilter.map((value) => {
 					const element = Object.keys(data).includes(value) ? data[value] : null;
 					newObj[value] = element;
@@ -171,11 +157,28 @@ export default {
 			getUserNote: 'user/getNote',
 			updateUserNote: 'user/updateNote',
 			addToBookmarks: 'user/addToBookmarks',
-			removeFromBookmarks: 'user/removeFromBookmarks'
+			removeFromBookmarks: 'user/removeFromBookmarks',
+			researchDone: 'search_services/researchDone',
 		}),
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
 			this.rowId = rowId;
+		},
+		async markResearch() {
+			try {
+				const response = await this.researchDone(this.rowId);
+				const { status, data, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			} 
+			
 		},
 		async initUserBookmarks() {
 			try {
@@ -244,49 +247,6 @@ export default {
 				this.loading = false;
 			}
 		},
-		getNextResearch() {
-			window.onscroll = async () => {
-				if (this.researchedPayload.pagination !== 2) {
-					let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-					if (bottomOfWindow) {
-						this.loadMore = true;
-						this.researchedPayload.pagination = 2;
-						try {
-							const response = await this.research(this.researchedPayload);
-							if (response.data.status === 'success') {
-								let data = response.data.data;
-								const contact_research = [
-									...this.getSearchedResult.contact_research.others,
-									...response.data.data.contact_research.others
-								];
-								const company_research = [
-									...this.getSearchedResult.company_research.others,
-									...response.data.data.company_research.others
-								];
-								data.contact_research['others'] = contact_research;
-								data.company_research['others'] = company_research;
-								await this.saveSearchedResult(data);
-								await this.saveSearchPayload(this.researchedPayload);
-								return true;
-							}
-							this.showAlert({
-								status: 'error',
-								message: 'Something went wrong',
-								showAlert: true
-							});
-						} catch (error) {
-							this.showAlert({
-								status: 'error',
-								message: error.response.data.message,
-								showAlert: true
-							});
-						} finally {
-							this.loadMore = false;
-						}
-					}
-				}
-			};
-		},
 		sortByRelevance(researchType) {
 			if (researchType === 'contact_research') {
 				for (const key in this.contact_research) {
@@ -337,17 +297,14 @@ export default {
 			this.contactFilter = [];
 			this.companyFilter = [];
 			for (const key in this.searchedResult.contact_research) {
-				//for (const key in this.response.data.contact_research) {
 				this.contactFilter.push(key);
 			}
 			for (const key in this.searchedResult.company_research) {
-				//for (const key in this.response.data.company_research) {
 				this.companyFilter.push(key);
 			}
 		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0) {
-				console.log('The link has http or https.');
 				return link;
 			} else {
 				return `https://${link}`;

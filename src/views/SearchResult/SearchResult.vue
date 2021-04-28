@@ -1,6 +1,5 @@
 <template>
 	<div class="">
-		<!-- <v-nav /> -->
 		<v-header />
 		<main class="main container container--lg">
 			{{ getNotepad }}
@@ -55,7 +54,7 @@
 					<div class="section__3">
 						<div class="title__text">Are you done with the research?</div>
 						<div class="input__group">
-							<input type="checkbox" />
+							<input type="checkbox" :checked="searchedResult.status.statusCode ==='DONE'" @change="markResearch($event)"/>
 							<div class="input__label__text">Yes Done</div>
 						</div>
 					</div>
@@ -102,7 +101,6 @@
 					>
 					</textarea>
 				</div>
-				<!-- <div class="d-flex"> -->
 
 				<!-- contact search -->
 				<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">

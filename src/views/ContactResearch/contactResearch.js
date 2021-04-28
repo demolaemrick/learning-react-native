@@ -110,15 +110,12 @@ export default {
 				},
 				{
 					name: 'Title'
-					// sortable: false
 				},
 				{
 					name: 'Linkedin'
-					// sortable: false
 				},
 				{
 					name: 'Research Score'
-					// sortable: true
 				},
 				{
 					name: 'Last updated',
@@ -127,11 +124,9 @@ export default {
 				},
 				{
 					name: 'Research Status'
-					// sortable: true
 				},
 				{
 					name: ' '
-					// sortable: true
 				}
 			],
 			count: 0,
