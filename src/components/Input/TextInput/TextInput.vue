@@ -8,7 +8,6 @@
 			ref="input"
 			v-model="innerValue"
 			class="form-input"
-			:style="style"
 			:class="{
 				'form-input--error': errors && errors[0],
 				'form__input--valid': hasValue
