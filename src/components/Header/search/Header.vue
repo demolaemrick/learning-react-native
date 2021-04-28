@@ -1,9 +1,8 @@
 <template>
 	<header>
 		<nav class="navbar">
-			<div class="nav__back" @click="$router.go(-1)">
-				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
-				<div class="text">Back to contact list</div>
+			<div class="nav-item logo">
+				<logo />
 			</div>
 			<div class="nav__menu__right">
 				<div class="user__menu__wrapper">
@@ -29,12 +28,14 @@
 
 <script>
 import VToggleDropdown from '@/components/ToggleDropdown';
-import { mapMutations} from 'vuex';
+import Logo from '@/components/Logo';
+import { mapMutations } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
 	components: {
-		VToggleDropdown
+		VToggleDropdown,
+		Logo
 	},
 	methods: {
 		...mapMutations({
@@ -53,34 +54,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/main.scss';
 .navbar {
+	margin: 32px 0 85px;
+	display: block;
 	display: flex;
 	justify-content: space-between;
-	padding: 1em;
 	align-items: center;
-	padding: 1em 3em;
-	border-bottom: 1px solid #f2f2f2;
 }
-.nav__back {
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-	.text {
-		margin-left: 0.5em;
-		font-family: Karla;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 15px;
-		line-height: 18px;
-		letter-spacing: -0.117188px;
-		color: #394141;
-	}
-	.icon {
+.nav-item {
+	&.logo {
+		display: flex;
+		align-items: center;
+		&-text {
+			line-height: 1.25;
+			letter-spacing: -0.57px;
+			font-size: 24px;
+		}
 	}
 }
 .nav__menu__right {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+	justify-content: space-between;
 	align-items: center;
+	.search__icon__wrapper {
+		margin-right: 25px;
+	}
+	.user__menu__wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-left: 5px;
+		.user__dropdown__menu {
+			.dropdown__list-wrapper {
+				top: 100%;
+			}
+		}
+	}
 }
 </style>

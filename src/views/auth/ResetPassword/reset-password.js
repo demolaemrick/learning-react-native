@@ -13,8 +13,6 @@ export default {
 				token: null,
 				password: null
 			},
-			confirm_password: null,
-			new_password: null,
 			loading: false
 		};
 	},
@@ -33,7 +31,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.resetPassword(this.form);
-				if (response.data.status === 'success') {
+				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
 						message: 'Successfully reset password',

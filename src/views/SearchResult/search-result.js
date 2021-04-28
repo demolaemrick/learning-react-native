@@ -242,6 +242,14 @@ export default {
 				//for (const key in this.response.data.company_research) {
 				this.companyFilter.push(key);
 			}
+		},
+		validateURL(link) {
+			if (link.indexOf('https://') === 0) {
+				console.log('The link has http or https.');
+				return link;
+			} else {
+				return `https://${link}`;
+			}
 		}
 	}
 };

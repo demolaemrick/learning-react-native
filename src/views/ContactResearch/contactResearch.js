@@ -13,6 +13,7 @@ import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
+import VHeader from '@/components/Header/search/Header';
 export default {
 	name: 'ContactResearch',
 	components: {
@@ -28,7 +29,8 @@ export default {
 		ValidationObserver,
 		Loader,
 		FileUpload,
-		Logo
+		Logo,
+		VHeader
 	},
 	data() {
 		return {
@@ -85,6 +87,11 @@ export default {
 			showConfigModal: false,
 			accept: 'csv',
 			extensions: 'csv',
+			files: [],
+			csvImport: {
+				contacts: null,
+				is_csv: true
+			},
 			activeTab: 'manual_search',
 			tableHeaders: [
 				{
@@ -97,8 +104,9 @@ export default {
 					sortHeader: 'full_name'
 				},
 				{
-					name: 'Company'
-					// sortable: true
+					name: 'Company',
+					sortable: true,
+					sortHeader: 'company'
 				},
 				{
 					name: 'Title'
@@ -113,8 +121,9 @@ export default {
 					// sortable: true
 				},
 				{
-					name: 'Last updated'
-					// sortable: true
+					name: 'Last updated',
+					sortable: true,
+					sortHeader: 'createdAt'
 				},
 				{
 					name: 'Research Status'
@@ -130,7 +139,8 @@ export default {
 			history: [],
 			interval: null,
 			checkedContacts: [],
-			pageLoading: false
+			pageLoading: false,
+			nextPage: null
 			//stillPending: false,
 		};
 	},
@@ -151,8 +161,76 @@ export default {
 			research_history: 'search_services/research_history',
 			subscribeResearch: 'search_services/subscribeResearch',
 			export_history: 'search_services/export_history',
+			bulk_research: 'search_services/bulk_research',
 			showAlert: 'showAlert'
 		}),
+		csvJSON(csv) {
+			var lines = csv.split('\n');
+
+			var result = [];
+			var headers = lines[0].split(',');
+
+			for (var i = 1; i < lines.length; i++) {
+				var obj = {};
+				var currentline = lines[i].split(',');
+
+				for (var j = 0; j < headers.length; j++) {
+					obj[headers[j]] = currentline[j];
+				}
+
+				result.push(obj);
+			}
+
+			return JSON.parse(JSON.stringify(result));
+		},
+
+		inputFile(newFile) {
+			if (newFile.size > 10485760) {
+				this.showAlert({
+					status: 'error',
+					message: 'file size is is more that 10MB',
+					showAlert: true
+				});
+				return true;
+			}
+			if (newFile.name.split('.').pop() !== 'csv') {
+				this.showAlert({
+					status: 'error',
+					message: 'file type is not csv',
+					showAlert: true
+				});
+				return true;
+			}
+			const readFile = async (event) => {
+				const csvFilePath = event.target.result;
+				this.csvImport.contacts = await this.csvJSON(csvFilePath);
+				console.log(this.csvImport);
+				this.uploadBulkResearch();
+			};
+			var file = newFile.file;
+
+			var reader = new FileReader();
+			reader.readAsText(file);
+			reader.addEventListener('load', readFile);
+		},
+		async uploadBulkResearch() {
+			this.loading = true;
+			try {
+				await this.bulk_research(this.csvImport);
+				this.page = 1;
+				this.pageLoading = true;
+				await this.getHistory();
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
 		checkAll(event) {
 			if (event.target.checked) {
 				this.history.forEach((item) => {
@@ -220,6 +298,7 @@ export default {
 				this.count = response.data.data.count;
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
+				this.nextPage = response.data.data.nextPage;
 				this.checkPendngStatus();
 				return true;
 			} catch (error) {

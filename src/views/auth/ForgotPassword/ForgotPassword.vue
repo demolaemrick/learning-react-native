@@ -16,7 +16,7 @@
 								type="email"
 								rules="required"
 								labelVisible
-								v-model="form.email"
+								v-model="email"
 								width="100%"
 								name="Email Address"
 								placeholder="yourmail@email.com"

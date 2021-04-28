@@ -215,12 +215,14 @@ export default {
 		async getUserSettings() {
 			this.loading = false;
 			try {
-				const {status, statusText, data} = await this.getSettings();
+				const { status, statusText, data } = await this.getSettings();
 				if (status === 200 && statusText === 'OK') {
-					const { data : {contact_research} } = data
+					const {
+						data: { contact_research }
+					} = data;
 					if (contact_research) {
-						this.payload.contact_research = contact_research
-						this.keywords = contact_research
+						this.payload.contact_research = contact_research;
+						this.keywords = contact_research;
 					}
 				}
 			} catch (error) {
@@ -232,8 +234,6 @@ export default {
 			} finally {
 				this.loading = false;
 			}
-		
-			
 		}
 	},
 	watch: {
@@ -293,7 +293,7 @@ export default {
 	},
 	async created() {
 		this.showMoreSearchSettings = false;
-		 await this.getUserSettings();
+		await this.getUserSettings();
 	},
 	mounted() {
 		this.toggleBodyClass('addClass', 'no__scroll');

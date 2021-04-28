@@ -58,7 +58,7 @@
 								<a v-if="social.linkedin && social.linkedin.length !== 0" :href="social.linkedin" target="_blank"
 									><img src="@/assets/icons/linkedin-icon.svg" svg-inline
 								/></a>
-								<a v-if="social.website && social.website.length !== 0" :href="`https://${social.website}`" target="_blank"
+								<a v-if="social.website && social.website.length !== 0" :href="validateURL(social.website)" target="_blank"
 									><img src="@/assets/icons/world-icon.svg" svg-inline
 								/></a>
 							</span>

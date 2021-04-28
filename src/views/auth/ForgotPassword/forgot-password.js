@@ -8,11 +8,7 @@ export default {
 	name: 'Login',
 	data() {
 		return {
-			form: {
-				email: null,
-				password: null,
-				isNotify: false
-			},
+			email: null,
 			loading: false
 		};
 	},
@@ -27,12 +23,13 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.forgotPassword({ email: this.email });
-				if (response.data.status === 'success') {
+				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
 						message: response.data.message,
 						showAlert: true
 					});
+					this.$router.push({ name: 'CheckInbox' });
 					return true;
 				}
 				this.showAlert({

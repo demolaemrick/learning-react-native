@@ -14,19 +14,10 @@
 						<div class="auth-input">
 							<password-input
 								type="password"
-								v-model="new_password"
+								v-model="form.password"
 								rules="required"
 								width="100%"
 								name="New Password"
-								:showPasswordBar="false"
-								placeholder="Enter Password"
-							/>
-							<password-input
-								type="password"
-								v-model="confirm_password"
-								rules="required"
-								width="100%"
-								name="Confirm Password"
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>

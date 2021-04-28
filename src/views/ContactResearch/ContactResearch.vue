@@ -1,31 +1,6 @@
 <template>
 	<div class="container container--lg">
-		<nav class="navbar">
-			<div class="nav-item logo">
-				<logo />
-			</div>
-			<div class="nav__menu__right">
-				<!-- <div class="search__icon__wrapper">
-					<img src="@/assets/icons/search-icon.svg" svg-inline />
-				</div> -->
-				<div class="user__menu__wrapper">
-					<v-toggle-dropdown class="user__dropdown__menu">
-						<template #dropdown-wrapper>
-							<img class="mr-1" src="@/assets/icons/user-icon.svg" svg-inline />
-							<img src="@/assets/icons/carret-down.svg" svg-inline />
-						</template>
-						<template #dropdown-items>
-							<li class="dropdown__item">
-								Settings
-							</li>
-							<li class="dropdown__item">
-								Logout
-							</li>
-						</template>
-					</v-toggle-dropdown>
-				</div>
-			</div>
-		</nav>
+		<v-header />
 		<main class="main-section">
 			<div class="contact__research__menu">
 				<div class="text__title">
@@ -38,9 +13,18 @@
 						</v-button>
 					</div>
 					<div class="btn__wrapper">
-						<v-button class="btn__import__contact" @click="submitSearch">
-							Import Contacts
-						</v-button>
+						<file-upload
+							:drop="false"
+							ref="upload"
+							:extensions="extensions"
+							:accept="accept"
+							@input-file="inputFile"
+							v-model="files"
+						>
+							<v-button class="btn__import__contact">
+								Import Contacts
+							</v-button>
+						</file-upload>
 					</div>
 				</div>
 			</div>
@@ -140,8 +124,8 @@
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
-							<template v-if="currentPage === 1">{{ 10 * 0 + 1 }} -{{ (0 + 1) * 10 }}</template>
-							<template v-else>{{ 10 * currentPage + 1 }} -{{ (currentPage + 1) * 10 }}</template>
+							{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+							<template v-else>{{ count }}</template>
 						</span>
 						<span>of</span>
 						<span>{{ count }}</span>
@@ -192,5 +176,8 @@
 			padding: 5px 10px;
 		}
 	}
+}
+.file-uploads {
+	cursor: pointer;
 }
 </style>

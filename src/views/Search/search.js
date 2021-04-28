@@ -12,6 +12,7 @@ import companyList from '@/data/companies.json';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
+import VHeader from '@/components/Header/search/Header';
 export default {
 	name: 'Search',
 	components: {
@@ -26,7 +27,8 @@ export default {
 		ValidationObserver,
 		Loader,
 		FileUpload,
-		Logo
+		Logo,
+		VHeader
 	},
 	data() {
 		return {
@@ -92,7 +94,7 @@ export default {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
 			saveSearchedResult: 'search_services/saveSearchedResult',
-			logout: 'auth/logout',
+			logout: 'auth/logout'
 		}),
 		...mapActions({
 			research: 'search_services/research',
@@ -144,7 +146,6 @@ export default {
 				const csvFilePath = event.target.result;
 				this.csvImport.contacts = await this.csvJSON(csvFilePath);
 				this.uploadBulkResearch();
-				console.log(this.csvImport);
 			};
 			var file = newFile.file;
 
@@ -242,7 +243,7 @@ export default {
 				const response = await this.research(this.payload);
 				await this.saveSearchedResult(response.data.data);
 				await this.saveSearchPayload(this.payload);
-				// this.$router.push({ name: 'SearchResult' });
+				this.$router.push({ name: 'SearchResult' });
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -273,16 +274,15 @@ export default {
 		closeMoreSearchSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			// this.$router.push('/');
-			const hasHistory =  window.history.length > 2
+			const hasHistory = window.history.length > 2;
 			if (hasHistory) {
-				this.$router.go(-1)
-			}
-			else {
-				this.$router.push('/')
+				this.$router.go(-1);
+			} else {
+				this.$router.push('/');
 			}
 		},
 		routerEventHandler(evtName) {
-			this[evtName]()
+			this[evtName]();
 		},
 		closeConfigModal() {
 			this.showConfigModal = !this.showConfigModal;
@@ -300,7 +300,7 @@ export default {
 					this.activeTab = evt;
 					break;
 			}
-		},
+		}
 	},
 	watch: {
 		'keywords.events': function (newVal) {
@@ -357,11 +357,9 @@ export default {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;
-				}
-				else if (this.userDetails && this.userDetails.is_settings) {
+				} else if (this.userDetails && this.userDetails.is_settings) {
 					this.showConfigModal = false;
-				}
-				else {
+				} else {
 					this.showConfigModal = true;
 				}
 			}
@@ -369,7 +367,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			userDetails:'auth/getLoggedUser'
+			userDetails: 'auth/getLoggedUser'
 		}),
 		companies() {
 			return Object.keys(companyList.companies);

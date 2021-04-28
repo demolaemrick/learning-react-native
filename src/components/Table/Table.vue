@@ -10,7 +10,7 @@
 			<c-table-header
 				:class="`table__header--${theme}`"
 				:headers="tableHeaders"
-				@sortTable="sortBy = $event"
+				@sortTable="sortData"
 				@change="$emit('checkAll', $event)"
 			/>
 			<tbody>

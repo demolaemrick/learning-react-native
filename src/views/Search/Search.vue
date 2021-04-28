@@ -17,7 +17,7 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item"  @click="gotoSettings">
+							<li class="dropdown__item" @click="gotoSettings">
 								Settings
 							</li>
 							<li class="dropdown__item" @click="logoutUser">
@@ -294,8 +294,8 @@
 					</div>
 				</div>
 				<div class="more__settings__modal__content"> -->
-					<router-view @routerEvent="routerEventHandler"></router-view>
-				<!-- </div>
+			<router-view @routerEvent="routerEventHandler"></router-view>
+			<!-- </div>
 				<div class="more__settings__modal__footer">
 					<div class="more__settings__modal__footer__btn__wrapper">
 						<v-button class="config__btn__close" @click="btnApplyChanges()">
