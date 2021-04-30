@@ -11,9 +11,7 @@
 				<div class="section section__1">
 					<div class="title">
 						<div class="text">Contact Details</div>
-						<div class="icon">
-							<img src="@/assets/icons/carret-left.svg" svg-inline />
-						</div>
+						
 					</div>
 					<div class="contact__details">
 						<div class="text__initials" v-if="searchedResult.full_name">
