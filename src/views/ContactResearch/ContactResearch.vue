@@ -75,8 +75,8 @@
 							>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="!item.research_score">No Data</template>
-							<template v-else>{{ item.research_score }}</template>
+							<template v-if="item.research_score===0.1">-</template>
+							<template v-else>{{ Number.parseFloat(item.research_score).toPrecision(2) }}</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.createdAt | moment('from', 'now') }}
@@ -105,13 +105,7 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item">
-											View
-										</li>
-										<li class="dropdown__item">
-											Pause
-										</li>
-										<li class="dropdown__item">
+										<li class="dropdown__item" @click="deleteResearch(item.rowId)">
 											Delete
 										</li>
 									</template>

@@ -1,10 +1,13 @@
 <template>
 	<div class="">
 		<v-header />
-		<main class="main container container--lg">
+		<template v-if="loading">
+			<page-load/>
+		</template>
+		<main v-else class="main container container--lg">
 			{{ getNotepad }}
-			<template v-if="loading"></template>
-			<template v-else>
+			
+			
 				<div v-if="!editNote" class="aside__left">
 					<div class="section section__1">
 						<div class="title">
@@ -88,7 +91,10 @@
 					</template>
 				</div>
 				<div v-else class="notepad">
-					<p class="notepad-title">Notepad</p>
+					<span class="title-wrapper">
+						<p class="notepad-title">Notepad</p>
+						<img src="@/assets/icons/collapse.svg" svg-inline  @click="editNote = false" />
+					</span>
 					<textarea
 						class="notepad-input"
 						rows="20"
@@ -153,7 +159,12 @@
 							</dropdown-checkbox>
 						</div>
 					</div>
-					<div class="searched-result" v-for="(data, i) in contact_research" :key="i">
+					<template v-if="contact_research.others.length === 0">
+						<div class="searched-result">
+							<div class="searched__item">No research found</div>
+							</div>
+					</template>
+					<div v-else class="searched-result" v-for="(data, i) in contact_research" :key="i">
 						<span v-for="(dataItem, j) in data" :key="j">
 							<div
 								class="searched__item"
@@ -281,7 +292,7 @@
 				</div>
 
 				<!-- </div> -->
-			</template>
+			
 		</main>
 	</div>
 </template>

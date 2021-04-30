@@ -21,7 +21,7 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-							<c-button class="" :disabled="invalid" size="full" buttonType="primary">
+							<c-button class="" :disabled="invalid" size="full" buttonType="primary" @click="changePassword">
 								<template v-if="!loading">Reset Password</template>
 								<Loader v-else />
 							</c-button>

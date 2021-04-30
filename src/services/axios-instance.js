@@ -28,13 +28,14 @@ instance.interceptors.response.use(
 			return error;
 		}
 		// eslint-disable-next-line no-underscore-dangle
-		if (error.response.status === 401 && err.config && !err.config.__isRetryRequest) {
-			// TODO: do logout and route to login page
-			// router.push('/auth/login');
-		}
-		if (error.response.status === 500) {
-			error.response.data.message = 'Something went wrong, Please try again!';
-		}
+		// if (error.response.status === 401 && err.config && !err.config.__isRetryRequest) {
+		// 	// TODO: do logout and route to login page
+		// 	// router.push('/auth/login');
+		// 	return Promise.reject(error);
+		// }
+		// if (error.response.status === 500) {
+		// 	error.response.data.message = 'Something went wrong, Please try again!';
+		// }
 		return Promise.reject(error);
 	}
 );

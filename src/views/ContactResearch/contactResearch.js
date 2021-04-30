@@ -146,6 +146,10 @@ export default {
 	beforeDestroy() {
 		clearInterval(this.interval);
 	},
+	// beforeRouteLeave (to, from , next) {
+	// 	console.log('get out');
+	// 	next()
+	//   },
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
@@ -157,8 +161,29 @@ export default {
 			subscribeResearch: 'search_services/subscribeResearch',
 			export_history: 'search_services/export_history',
 			bulk_research: 'search_services/bulk_research',
+			deleteSingleResearch: 'search_services/deleteSingleResearch',
 			showAlert: 'showAlert'
 		}),
+		async deleteResearch(rowID) {
+			try {
+				const research = await this.deleteSingleResearch(rowID);
+				const { status, statusText } = research;
+				if (status === 200 && statusText === 'OK') {
+					await this.getHistory();
+					this.showAlert({
+						status: 'success',
+						message: 'Research deleted successfully',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} 
+		},
 		csvJSON(csv) {
 			var lines = csv.split('\n');
 
@@ -269,6 +294,7 @@ export default {
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
+							data.research_score = response.data.research_score
 						}
 						return data;
 					});

@@ -6,7 +6,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import { response } from '@/data/response.json';
-import DotLoader from '@/components/DotLoader.vue';
+import PageLoad from './PageLoad.vue';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -14,7 +14,7 @@ export default {
 		ToggleDropdown,
 		DCheckbox,
 		DropdownCheckbox,
-		DotLoader,
+		PageLoad,
 		VHeader
 	},
 	mixins: [ScreenWidthMixin],
@@ -213,8 +213,7 @@ export default {
 			try {
 				await this.updateUserNote({
 					rowId: this.rowId,
-					note: this.notepadTXT,
-					title: ''
+					note: this.notepadTXT
 				});
 				this.userNote = this.notepadTXT;
 				this.showAlert({

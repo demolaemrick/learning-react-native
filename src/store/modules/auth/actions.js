@@ -5,7 +5,7 @@ export default {
 	 * Handles user registration
 	 * @param {Object} data - user registration payload
 	 */
-	login: async ({ commit }, data) => {
+	login: async({ commit }, data) => {
 		const url = 'user/login';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
@@ -15,6 +15,7 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+		
 	},
 	forgotPassword: async ({ commit }, data) => {
 		const url = 'user/password/forget';

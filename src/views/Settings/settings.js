@@ -154,24 +154,16 @@ export default {
 			try {
 				const response = await this.userSettings(this.payload);
 				if (response.status === 200 && response.statusText === 'OK') {
+					this.closeMoreSearchSettings();
 					this.showAlert({
 						status: 'success',
 						message: response.data.message,
 						showAlert: true
 					});
+					
 					return true;
 				}
-				this.showAlert({
-					status: 'error',
-					message: 'Something went wrong',
-					showAlert: true
-				});
 			} catch (error) {
-				// this.showAlert({
-				// 	status: 'error',
-				// 	message: error.response.data.message,
-				// 	showAlert: true
-				// });
 				this.showAlert({
 					status: 'error',
 					message: 'An error occurred',
