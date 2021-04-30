@@ -6,6 +6,7 @@
 				<div class="text">Back to contact list</div>
 			</div>
 			<div class="nav__menu__right">
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -53,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/main.scss';
 .navbar {
 	display: flex;
 	justify-content: space-between;
@@ -79,8 +81,17 @@ export default {
 	}
 }
 .nav__menu__right {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+	// grid-template-columns: 1fr 1fr;
 	align-items: center;
+}
+.research {
+	margin-right: 15px;
+	cursor: pointer;
+}
+@include query(mobile, max) {
+	.navbar {
+		padding: 1em 2em;
+	}
 }
 </style>

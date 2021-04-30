@@ -88,12 +88,22 @@ export default {
 		}
 	},
 	researchDone: async ({ commit }, data) => {
-		console.log(data);
 		const url = `research/done/${data}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
 			const response = await api.put(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	deleteSingleResearch: async ({ commit }, id) => {
+		const url = `research/single/${id}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.delete(url);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

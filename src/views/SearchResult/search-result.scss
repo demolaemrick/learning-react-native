@@ -13,7 +13,7 @@
 		height: 100%;
 		background-color: transparent;
 		border: none;
-		margin-top: 8px;
+		margin-top: 15px;
 		resize: none;
 		&:focus,
 		&:focus-within {
@@ -24,6 +24,14 @@
 			letter-spacing: -0.4px;
 			opacity: 0.4;
 			font-size: 14px;
+		}
+	}
+	.title-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		svg {
+			cursor: pointer;
 		}
 	}
 }
@@ -146,9 +154,11 @@
 	// padding: 2em;
 	padding-right: 1em;
 	padding-top: 1em;
+	margin: 0 auto;
 	.section {
 		// padding: 2em;
 	}
+	
 	.section__1 {
 		.title {
 			display: flex;

@@ -16,17 +16,6 @@ export default {
 			loading: false
 		};
 	},
-	created() {
-		// const token = this.$route.query.token;
-		// if (token) {
-		// 	this.verifyUser(token);
-		// }
-	},
-	computed: {
-		// ...mapGetters({
-		// 	status: 'getStatus'
-		// })
-	},
 	methods: {
 		...mapMutations({
 			saveUserSession: 'auth/loginSuccess'
@@ -39,45 +28,24 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.login(this.form);
-				this.saveUserSession(response.data.data);
-				this.$router.push({ name: 'Search' });
+				console.log(response);
+				const { status, data, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.saveUserSession(data.data);
+					this.$router.push({ name: 'Search' });
+				}
 				return true;
 			} catch (error) {
+				const err = { error };
 				this.showAlert({
 					status: 'error',
-					message: error.response.data.message,
+					message: err.error.response.data.message,
 					showAlert: true
 				});
 			} finally {
 				this.loading = false;
 			}
 		}
-		// verifyUser(token) {
-		// 	this.verify(token)
-		// 		.then((response) => {
-		// 			if (response.data.status === 'success') {
-		// 				this.showAlert({
-		// 					status: 'success',
-		// 					message: 'User Verification Successfull, Please Login.',
-		// 					showAlert: true
-		// 				});
-		// 				this.$router.push('/login');
-		// 				return true;
-		// 			}
-		// 			this.showAlert({
-		// 				status: 'error',
-		// 				message: 'Something went wrong',
-		// 				showAlert: true
-		// 			});
-		// 		})
-		// 		.catch((error) => {
-		// 			this.showAlert({
-		// 				status: 'error',
-		// 				message: error.response.data.message,
-		// 				showAlert: true
-		// 			});
-		// 		});
-		// }
 	},
 	components: {
 		ValidationObserver,
