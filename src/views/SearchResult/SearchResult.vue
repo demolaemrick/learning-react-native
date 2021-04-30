@@ -11,7 +11,6 @@
 				<div class="section section__1">
 					<div class="title">
 						<div class="text">Contact Details</div>
-						
 					</div>
 					<div class="contact__details">
 						<div class="text__initials" v-if="searchedResult.full_name">

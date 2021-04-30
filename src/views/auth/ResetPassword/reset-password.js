@@ -40,7 +40,6 @@ export default {
 					this.$router.push({ name: 'Login' });
 					return true;
 				}
-				
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
