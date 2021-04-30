@@ -75,7 +75,7 @@
 							>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="item.research_score===0.1">-</template>
+							<template v-if="item.research_score === 0.1">-</template>
 							<template v-else>{{ item.research_score.toFixed(1) }}</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">

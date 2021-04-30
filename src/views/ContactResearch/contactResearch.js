@@ -224,7 +224,6 @@ export default {
 			const readFile = async (event) => {
 				const csvFilePath = event.target.result;
 				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				console.log(this.csvImport);
 				this.uploadBulkResearch();
 			};
 			var file = newFile.file;
@@ -276,7 +275,7 @@ export default {
 
 				const data = encodeURI(csvContent);
 				const link = document.createElement('a');
-				link.setAttribute('href', data);
+				link.setAttribute('href', data);log
 				link.setAttribute('download', 'export.csv');
 				link.click();
 			} catch (error) {
@@ -291,14 +290,13 @@ export default {
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					let his = await this.history.map((data) => {
+					 await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
 							data.research_score = response.data.done.research_score;
 						}
 						return data;
 					});
-					console.log(his);
 					this.checkPendngStatus();
 				}
 				if (response.status >= 500) {
