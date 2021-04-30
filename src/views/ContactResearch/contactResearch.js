@@ -224,7 +224,6 @@ export default {
 			const readFile = async (event) => {
 				const csvFilePath = event.target.result;
 				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				console.log(this.csvImport);
 				this.uploadBulkResearch();
 			};
 			var file = newFile.file;
@@ -291,7 +290,7 @@ export default {
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					 await this.history.map((data) => {
+					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
 							data.research_score = response.data.done.research_score;
