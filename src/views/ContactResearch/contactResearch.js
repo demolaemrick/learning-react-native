@@ -291,13 +291,14 @@ export default {
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					await this.history.map((data) => {
+					let his = await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
-							data.research_score = response.data.research_score;
+							data.research_score = response.data.done.research_score;
 						}
 						return data;
 					});
+					console.log(his);
 					this.checkPendngStatus();
 				}
 				if (response.status >= 500) {
