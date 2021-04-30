@@ -160,7 +160,7 @@ export default {
 						message: response.data.message,
 						showAlert: true
 					});
-					
+
 					return true;
 				}
 			} catch (error) {

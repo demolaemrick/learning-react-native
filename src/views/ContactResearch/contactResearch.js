@@ -182,7 +182,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
-			} 
+			}
 		},
 		csvJSON(csv) {
 			var lines = csv.split('\n');
@@ -294,7 +294,7 @@ export default {
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
-							data.research_score = response.data.research_score
+							data.research_score = response.data.research_score;
 						}
 						return data;
 					});

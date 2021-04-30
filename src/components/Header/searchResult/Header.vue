@@ -5,8 +5,8 @@
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to contact list</div>
 			</div>
-			<div class="nav__menu__right ">
-				<div  class="research" @click="$router.push({name: 'ContactResearch'})">Contact Research</div>
+			<div class="nav__menu__right">
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -85,12 +85,12 @@ export default {
 	// grid-template-columns: 1fr 1fr;
 	align-items: center;
 }
-.research{
+.research {
 	margin-right: 15px;
 	cursor: pointer;
 }
 @include query(mobile, max) {
-	.navbar{
+	.navbar {
 		padding: 1em 2em;
 	}
 }

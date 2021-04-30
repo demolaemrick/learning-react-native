@@ -1,6 +1,6 @@
 <template>
 	<main class="main container container--lg">
-		<div  class="aside__left">
+		<div class="aside__left">
 			<div class="section section__loader">
 				<div class="header item"></div>
 				<div class="contact__details">
@@ -45,102 +45,102 @@
 				</div>
 			</div>
 		</div>
-        	<div class="searched__wrapper section__loader">
-					<div class="section__wrapper-header">
-						<div class="title item"></div>
-						<div class="filter-sort ">
-							<div class="first item"></div>
-							<div class="second item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
+		<div class="searched__wrapper section__loader">
+			<div class="section__wrapper-header">
+				<div class="title item"></div>
+				<div class="filter-sort">
+					<div class="first item"></div>
+					<div class="second item"></div>
 				</div>
-                	<div class="searched__wrapper section__loader">
-					<div class="section__wrapper-header">
-						<div class="title item"></div>
-						<div class="filter-sort ">
-							<div class="first item"></div>
-							<div class="second item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
-					<div class="section__item">
-						<div class="title item"></div>
-						<div class="desc ">
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-							<div class="desc-item item"></div>
-						</div>
-						<div class="link">
-							<div class="globe item"></div>
-							<div class="url item"></div>
-						</div>
-					</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
 				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+		</div>
+		<div class="searched__wrapper section__loader">
+			<div class="section__wrapper-header">
+				<div class="title item"></div>
+				<div class="filter-sort">
+					<div class="first item"></div>
+					<div class="second item"></div>
+				</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+			<div class="section__item">
+				<div class="title item"></div>
+				<div class="desc">
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+					<div class="desc-item item"></div>
+				</div>
+				<div class="link">
+					<div class="globe item"></div>
+					<div class="url item"></div>
+				</div>
+			</div>
+		</div>
 	</main>
 </template>
 
@@ -149,7 +149,7 @@ export default {};
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/main.scss';
+@import '@/assets/scss/main.scss';
 .main {
 	display: flex;
 }
@@ -160,11 +160,11 @@ export default {};
 	margin: 0 auto;
 	.section__loader {
 		border-left: none;
-		.header{
+		.header {
 			width: 125px;
 			height: 20px;
 		}
-		.contact__details{
+		.contact__details {
 			margin-top: 1em;
 			display: flex;
 			align-items: center;
@@ -187,24 +187,23 @@ export default {};
 					height: 16px;
 				}
 			}
-			.title{
+			.title {
 				height: 15px;
 				width: 115px;
 				margin-bottom: 10px;
 			}
-			.content{
+			.content {
 				width: 223px;
 				height: 6px;
 				margin-bottom: 11px;
 			}
 		}
-		
 	}
 }
-.section__loader{
-    padding: 32px 24px 32px 24px;
-    border-left: 1px solid #f2f2f2;
-	.section__wrapper-header{
+.section__loader {
+	padding: 32px 24px 32px 24px;
+	border-left: 1px solid #f2f2f2;
+	.section__wrapper-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -212,18 +211,18 @@ export default {};
 		margin-top: 16px;
 		padding-left: 24px;
 		width: 450px;
-		.title{
+		.title {
 			height: 26px;
 			width: 189px;
 		}
-		.filter-sort{
+		.filter-sort {
 			display: flex;
 			align-items: center;
-			.first{
+			.first {
 				width: 75px;
 				height: 18px;
 			}
-			.second{
+			.second {
 				width: 22px;
 				height: 22px;
 				margin-left: 34px;
@@ -231,39 +230,39 @@ export default {};
 			}
 		}
 	}
-	.section__item{
+	.section__item {
 		max-width: 450px;
 		padding: 1em 1.5em;
-		.title{
+		.title {
 			width: 402px;
 			height: 15px;
 		}
-		.desc{
+		.desc {
 			margin: 20px 0 40px;
-			.desc-item{
+			.desc-item {
 				height: 7px;
 				width: 402px;
 				margin-bottom: 11px;
 			}
 		}
-		.link{
+		.link {
 			display: flex;
-    		align-items: center;
-			.globe{
+			align-items: center;
+			.globe {
 				width: 20px;
 				height: 20px;
 				margin-right: 15px;
 				border-radius: 50%;
 			}
-			.url{
+			.url {
 				height: 6px;
 				width: 402px;
 			}
 		}
 	}
 }
-.item{
-	background: linear-gradient(90deg,  #f8f9fb, #e2e6f3, #f8f9fb, #e2e6f3);
+.item {
+	background: linear-gradient(90deg, #f8f9fb, #e2e6f3, #f8f9fb, #e2e6f3);
 	animation: skeleton 2s ease infinite;
 	background-size: 300% 100%;
 }

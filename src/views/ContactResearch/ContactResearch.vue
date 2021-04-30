@@ -75,7 +75,7 @@
 							>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="item.research_score===0.1">-</template>
+							<template v-if="item.research_score === 0.1">-</template>
 							<template v-else>{{ Number.parseFloat(item.research_score).toPrecision(2) }}</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">

@@ -36,7 +36,7 @@ export default {
 				}
 				return true;
 			} catch (error) {
-				const err = {error};
+				const err = { error };
 				this.showAlert({
 					status: 'error',
 					message: err.error.response.data.message,
