@@ -2,7 +2,10 @@
 	<div class="">
 		<!-- <v-nav /> -->
 		<v-header />
-		<main class="main container container--lg">
+		<template v-if="bookmarkLoading">
+			<page-load :showAside="false"/>
+		</template>
+		<main v-else class="main container container--lg">
 			<!-- contact search -->
 			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">

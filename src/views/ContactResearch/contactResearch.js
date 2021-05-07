@@ -115,7 +115,9 @@ export default {
 					name: 'Linkedin'
 				},
 				{
-					name: 'Research Score'
+					name: 'Research Score',
+					sortable: true,
+					sortHeader: 'research_score'
 				},
 				{
 					name: 'Last updated',
@@ -135,8 +137,11 @@ export default {
 			interval: null,
 			checkedContacts: [],
 			pageLoading: false,
-			nextPage: null
-			//stillPending: false,
+			nextPage: null,
+			toggleClass: true,
+			showModal: false,
+			contactToDelete: {},
+			exportLoading: false
 		};
 	},
 	async mounted() {
@@ -146,10 +151,6 @@ export default {
 	beforeDestroy() {
 		clearInterval(this.interval);
 	},
-	// beforeRouteLeave (to, from , next) {
-	// 	console.log('get out');
-	// 	next()
-	//   },
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
@@ -164,12 +165,28 @@ export default {
 			deleteSingleResearch: 'search_services/deleteSingleResearch',
 			showAlert: 'showAlert'
 		}),
-		async deleteResearch(rowID) {
+		toggleModal() {
+			if (!this.showModal) {
+				this.showModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showModal = !this.showModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		openDeleteModal(rowId, full_name){
+			this.contactToDelete = {rowId, full_name };
+			this.showModal = true;
+		},
+		async deleteResearch() {
 			try {
-				const research = await this.deleteSingleResearch(rowID);
+				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
 					await this.getHistory();
+					this.toggleModal()
 					this.showAlert({
 						status: 'success',
 						message: 'Research deleted successfully',
@@ -268,6 +285,7 @@ export default {
 			this.getHistory();
 		},
 		async exportCSV() {
+			this.exportLoading = true
 			try {
 				const response = await this.export_history({ rows: this.checkedContacts });
 				let csvContent = 'data:text/csv;charset=utf-8,';
@@ -284,6 +302,9 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			}
+			finally {
+				this.exportLoading = false
 			}
 		},
 		async subscribe() {
@@ -333,7 +354,7 @@ export default {
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode === 'IN_PROGRESS';
+				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			if (pendingStatus.length > 0) {
 				this.subscribe();

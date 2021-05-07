@@ -21,6 +21,10 @@
 		background: rgba(59, 72, 247, 0.08);
 		color: #3b48f7;
 	}
+	&-warning {
+		background: #CA1B1B;
+		color: #fff;
+	}
 	&[disabled] {
 		color: grey;
 		border: none;
@@ -33,6 +37,13 @@
 	&-full {
 		width: 100%;
 		text-align: center;
+	}
+	&-modal{
+		width: 100px;
+		height: 40px;
+		text-align: center;
+		border-radius: 4px;
+		padding: 0;
 	}
 }
 @include query(mobile, max) {

@@ -9,6 +9,9 @@ body {
 	font-size: $base-font-size;
 	color: $grey-text;
 	font-family: 'Karla', sans-serif;
+	:focus {
+		outline: none;
+	}
 }
 
 h1 {

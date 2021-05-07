@@ -10,6 +10,7 @@
 				<!-- <div class="search__icon__wrapper">
 					<img src="@/assets/icons/search-icon.svg" svg-inline />
 				</div> -->
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>

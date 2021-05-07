@@ -1,6 +1,6 @@
 <template>
 	<main class="main container container--lg">
-		<div class="aside__left">
+		<div class="aside__left" v-if="showAside">
 			<div class="section section__loader">
 				<div class="header item"></div>
 				<div class="contact__details">
@@ -10,37 +10,10 @@
 						<div class="role item"></div>
 					</div>
 				</div>
-				<div class="contact__details">
+				<div class="contact__details" v-for="contact in 3" :key="contact">
 					<div class="">
 						<div class="title item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-					</div>
-				</div>
-				<div class="contact__details">
-					<div class="">
-						<div class="title item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-					</div>
-				</div>
-				<div class="contact__details">
-					<div class="">
-						<div class="title item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
-						<div class="content item"></div>
+						<div class="content item" v-for="item in 6" :key="item"></div>
 					</div>
 				</div>
 			</div>
@@ -53,45 +26,17 @@
 					<div class="second item"></div>
 				</div>
 			</div>
-			<div class="section__item">
+			<div class="section__item" v-for="section in 3" :key="section">
 				<div class="title item"></div>
 				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
+					<div class="desc-item item" v-for="item in 4" :key="item"></div>
 				</div>
 				<div class="link">
 					<div class="globe item"></div>
 					<div class="url item"></div>
 				</div>
 			</div>
-			<div class="section__item">
-				<div class="title item"></div>
-				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-				</div>
-				<div class="link">
-					<div class="globe item"></div>
-					<div class="url item"></div>
-				</div>
-			</div>
-			<div class="section__item">
-				<div class="title item"></div>
-				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-				</div>
-				<div class="link">
-					<div class="globe item"></div>
-					<div class="url item"></div>
-				</div>
-			</div>
+			
 		</div>
 		<div class="searched__wrapper section__loader">
 			<div class="section__wrapper-header">
@@ -101,39 +46,10 @@
 					<div class="second item"></div>
 				</div>
 			</div>
-			<div class="section__item">
+			<div class="section__item" v-for="section in 3" :key="section">
 				<div class="title item"></div>
 				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-				</div>
-				<div class="link">
-					<div class="globe item"></div>
-					<div class="url item"></div>
-				</div>
-			</div>
-			<div class="section__item">
-				<div class="title item"></div>
-				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-				</div>
-				<div class="link">
-					<div class="globe item"></div>
-					<div class="url item"></div>
-				</div>
-			</div>
-			<div class="section__item">
-				<div class="title item"></div>
-				<div class="desc">
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
-					<div class="desc-item item"></div>
+					<div class="desc-item item" v-for="item in 4" :key="item"></div>
 				</div>
 				<div class="link">
 					<div class="globe item"></div>
@@ -145,7 +61,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+	props:{
+		showAside: {
+			default: true,
+			type: Boolean
+		}
+	}
+};
 </script>
 
 <style lang="scss">

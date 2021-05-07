@@ -47,28 +47,31 @@
 							<a v-if="social.website && social.website.length !== 0" :href="validateURL(social.website)" target="_blank"
 								><img src="@/assets/icons/world-icon.svg" svg-inline
 							/></a>
+							<a v-if="social.crunchbase && social.crunchbase.length !== 0" :href="validateURL(social.crunchbase)" target="_blank"
+								><img src="@/assets/icons/crunchbase.svg" svg-inline
+							/></a>
 						</span>
 					</div>
 				</div>
 				<div class="section__3">
-					<div class="title__text">Are you done with the research?</div>
+					<div class="title__text">Research Status</div>
 					<div class="input__group">
 						<input type="checkbox" :checked="searchedResult.status.statusCode === 'DONE'" @change="markResearch($event)" />
-						<div class="input__label__text">Yes Done</div>
+						<div class="input__label__text">Completed</div>
 					</div>
 				</div>
 				<div class="section__4">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div @click="btnBookmarkClick()" class="link">See All</div>
+					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">See All</div>
 				</div>
-				<div @click="btnBookmarkClick()" class="section__5 bookmarks">
-					<div class="">
+				<div  class="section__5 bookmarks">
+					<div class="" v-if="showFirstBookmark.contact_research !== ''" @click="displaySearchItem('contact_research', showFirstBookmark['contact_research'])">
 						<div class="title">Contact Research</div>
 						<div class="content">
 							{{ showFirstBookmark['contact_research'].description || '' }}
 						</div>
 					</div>
-					<div class="">
+					<div class="" v-if="showFirstBookmark.company_research !== ''">
 						<div class="title">Company Research</div>
 						<div class="content">
 							{{ showFirstBookmark['company_research'].description || '' }}
@@ -155,7 +158,7 @@
 						</dropdown-checkbox>
 					</div>
 				</div>
-				<template v-if="contact_research.others.length === 0">
+				<template v-if="contact_research.others && contact_research.others.length === 0">
 					<div class="searched-result">
 						<div class="searched__item">No research found</div>
 					</div>
@@ -164,8 +167,12 @@
 					<span v-for="(dataItem, j) in data" :key="j">
 						<div class="searched__item" v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')">
 							<div @click="displaySearchItem('contact_research', dataItem)">
-								<p class="searched__item-title">{{ dataItem.title }}</p>
+								<span class="searched__item__group">
+									<p class="searched__item-title">{{ dataItem.title }}</p>
+									<p class="searched__item-score">{{dataItem.meta.relevanceScore.toFixed(2) * 100}}%</p>
+								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
@@ -253,7 +260,10 @@
 							v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')"
 						>
 							<div @click="displaySearchItem('company_research', dataItem)">
-								<p class="searched__item-title">{{ dataItem.title }}</p>
+								<span class="searched__item__group">
+									<p class="searched__item-title">{{ dataItem.title }}</p>
+									<p class="searched__item-score">{{dataItem.meta.relevanceScore.toFixed(2) * 100}}%</p>
+								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div

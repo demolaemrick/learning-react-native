@@ -5,6 +5,13 @@
 				<logo />
 			</div>
 			<div class="nav__menu__right">
+				<img
+					class="search__icon__wrapper"
+					@click="$router.push({ name: 'Search' })"
+					src="@/assets/icons/search-icon.svg"
+					svg-inline
+				/>
+
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -12,6 +19,9 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
+							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks'})">
+								Bookmarks
+							</li>
 							<li class="dropdown__item" @click="gotoSettings">
 								Settings
 							</li>
@@ -79,6 +89,7 @@ export default {
 	align-items: center;
 	.search__icon__wrapper {
 		margin-right: 25px;
+		cursor: pointer;
 	}
 	.user__menu__wrapper {
 		display: flex;
