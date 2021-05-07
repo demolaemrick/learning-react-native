@@ -30,8 +30,7 @@ export default {
 				const response = await this.research_history({ page: 1, limit: 1 });
 				if (response.data.data.history.length > 0) {
 					this.$router.push({ name: 'ContactResearch' });
-				}
-				else{
+				} else {
 					this.$router.push({ name: 'Search' });
 				}
 				return true;
@@ -41,7 +40,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
-			} 
+			}
 		},
 		async submit() {
 			this.loading = true;
@@ -51,7 +50,7 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
-					await this.getHistory()
+					await this.getHistory();
 				}
 				return true;
 			} catch (error) {

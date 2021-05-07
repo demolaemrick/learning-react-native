@@ -10,7 +10,7 @@
 					<div class="btn__wrapper">
 						<v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
 							<template v-if="!exportLoading">Export CSV</template>
-								<Loader v-else />
+							<Loader v-else />
 						</v-button>
 					</div>
 					<div class="btn__wrapper">
@@ -139,27 +139,26 @@
 			</div>
 		</main>
 		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
-					<div class="modal__wrapper">
-						<div class="modal__header">
-							<h4 class="modal__header-title">Delete Research</h4>
-							<span class="icon">
-								<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-							</span>
-						</div>
-						<div class="modal__content">
-							
-								<p class="modal__content-text">
-									Kindly confirm that you want to delete this research <span class="name">({{contactToDelete.full_name}})</span>.
-								</p>
-							<div class="modal__content-btn">
-								<div class="cancel"  @click="toggleModal">Cancel</div>
-								<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
-									Delete
-								</v-button>
-							</div>
-						</div>
+			<div class="modal__wrapper">
+				<div class="modal__header">
+					<h4 class="modal__header-title">Delete Research</h4>
+					<span class="icon">
+						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+					</span>
+				</div>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
+							Delete
+						</v-button>
 					</div>
-				</v-modal>
+				</div>
+			</div>
+		</v-modal>
 	</div>
 </template>
 
@@ -171,16 +170,16 @@
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
 			cursor: pointer;
-			&-item{
+			&-item {
 				white-space: nowrap;
 				overflow: hidden;
 				max-width: 195px;
 				text-overflow: ellipsis;
-					&.dropdown{
-						overflow: unset;
-						padding: .5rem;
-					}
+				&.dropdown {
+					overflow: unset;
+					padding: 0.5rem;
 				}
+			}
 		}
 		.disable-row {
 			cursor: not-allowed;

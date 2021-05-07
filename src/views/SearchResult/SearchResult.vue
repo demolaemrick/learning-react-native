@@ -47,7 +47,10 @@
 							<a v-if="social.website && social.website.length !== 0" :href="validateURL(social.website)" target="_blank"
 								><img src="@/assets/icons/world-icon.svg" svg-inline
 							/></a>
-							<a v-if="social.crunchbase && social.crunchbase.length !== 0" :href="validateURL(social.crunchbase)" target="_blank"
+							<a
+								v-if="social.crunchbase && social.crunchbase.length !== 0"
+								:href="validateURL(social.crunchbase)"
+								target="_blank"
 								><img src="@/assets/icons/crunchbase.svg" svg-inline
 							/></a>
 						</span>
@@ -62,10 +65,16 @@
 				</div>
 				<div class="section__4">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">See All</div>
+					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+						See All
+					</div>
 				</div>
-				<div  class="section__5 bookmarks">
-					<div class="" v-if="showFirstBookmark.contact_research !== ''" @click="displaySearchItem('contact_research', showFirstBookmark['contact_research'])">
+				<div class="section__5 bookmarks">
+					<div
+						class=""
+						v-if="showFirstBookmark.contact_research !== ''"
+						@click="displaySearchItem('contact_research', showFirstBookmark['contact_research'])"
+					>
 						<div class="title">Contact Research</div>
 						<div class="content">
 							{{ showFirstBookmark['contact_research'].description || '' }}
@@ -169,10 +178,9 @@
 							<div @click="displaySearchItem('contact_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{dataItem.meta.relevanceScore.toFixed(2) * 100}}%</p>
+									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
 								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-								
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
@@ -262,7 +270,7 @@
 							<div @click="displaySearchItem('company_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{dataItem.meta.relevanceScore.toFixed(2) * 100}}%</p>
+									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
 								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>

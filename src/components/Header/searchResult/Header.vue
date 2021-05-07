@@ -6,9 +6,13 @@
 				<div class="text">Back to contact list</div>
 			</div>
 			<div class="nav__menu__right">
-				
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
-					<img class="search__icon__wrapper" src="@/assets/icons/search-icon.svg" @click="$router.push({ name: 'Search' })" svg-inline />
+				<img
+					class="search__icon__wrapper"
+					src="@/assets/icons/search-icon.svg"
+					@click="$router.push({ name: 'Search' })"
+					svg-inline
+				/>
 				<!-- </div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
@@ -17,7 +21,7 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks'})">
+							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">
 								Bookmarks
 							</li>
 							<li class="dropdown__item" @click="gotoSettings">
@@ -92,7 +96,7 @@ export default {
 	align-items: center;
 	.search__icon__wrapper {
 		margin-right: 25px;
-        cursor: pointer;
+		cursor: pointer;
 	}
 }
 .research {

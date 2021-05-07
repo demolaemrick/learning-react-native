@@ -138,7 +138,7 @@ export default {
 					result[type] = contact_research[0];
 				}
 			}
-			
+
 			return result;
 		}
 	},
@@ -241,7 +241,7 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
-			} 
+			}
 			// finally {
 			// 	this.loading = false;
 			// }
@@ -321,7 +321,7 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
 			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks()
+			await this.initUserBookmarks();
 			this.showAlert({
 				status: 'success',
 				message: 'Added to bookmarks',
@@ -335,7 +335,7 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
 			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks()
+			await this.initUserBookmarks();
 			this.showAlert({
 				status: 'success',
 				message: 'Removed from bookmarks',

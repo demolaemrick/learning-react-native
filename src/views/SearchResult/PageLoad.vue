@@ -36,7 +36,6 @@
 					<div class="url item"></div>
 				</div>
 			</div>
-			
 		</div>
 		<div class="searched__wrapper section__loader">
 			<div class="section__wrapper-header">
@@ -62,7 +61,7 @@
 
 <script>
 export default {
-	props:{
+	props: {
 		showAside: {
 			default: true,
 			type: Boolean

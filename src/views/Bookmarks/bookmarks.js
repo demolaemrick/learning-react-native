@@ -29,9 +29,9 @@ export default {
 	async created() {
 		await this.initUserBookmarks();
 	},
-	watch:{
-		'$route.query.rowId'(){
-			this.initUserBookmarks()
+	watch: {
+		'$route.query.rowId'() {
+			this.initUserBookmarks();
 		}
 	},
 	computed: {
@@ -100,7 +100,7 @@ export default {
 		}),
 
 		async initUserBookmarks() {
-			this.bookmarkLoading = true
+			this.bookmarkLoading = true;
 			try {
 				const userBookmarks = await this.getUserBookmarks(this.$route.query.rowId);
 				const { status, data, statusText } = userBookmarks;

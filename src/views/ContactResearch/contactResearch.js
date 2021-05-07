@@ -176,8 +176,8 @@ export default {
 				}, 500);
 			}
 		},
-		openDeleteModal(rowId, full_name){
-			this.contactToDelete = {rowId, full_name };
+		openDeleteModal(rowId, full_name) {
+			this.contactToDelete = { rowId, full_name };
 			this.showModal = true;
 		},
 		async deleteResearch() {
@@ -186,7 +186,7 @@ export default {
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
 					await this.getHistory();
-					this.toggleModal()
+					this.toggleModal();
 					this.showAlert({
 						status: 'success',
 						message: 'Research deleted successfully',
@@ -285,7 +285,7 @@ export default {
 			this.getHistory();
 		},
 		async exportCSV() {
-			this.exportLoading = true
+			this.exportLoading = true;
 			try {
 				const response = await this.export_history({ rows: this.checkedContacts });
 				let csvContent = 'data:text/csv;charset=utf-8,';
@@ -302,9 +302,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
-			}
-			finally {
-				this.exportLoading = false
+			} finally {
+				this.exportLoading = false;
 			}
 		},
 		async subscribe() {

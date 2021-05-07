@@ -3,7 +3,7 @@
 		<!-- <v-nav /> -->
 		<v-header />
 		<template v-if="bookmarkLoading">
-			<page-load :showAside="false"/>
+			<page-load :showAside="false" />
 		</template>
 		<main v-else class="main container container--lg">
 			<!-- contact search -->

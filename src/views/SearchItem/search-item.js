@@ -35,7 +35,7 @@ export default {
 			},
 			editNote: false,
 			userNote: null,
-			notepadTXT: null,
+			notepadTXT: null
 		};
 	},
 	watch: {

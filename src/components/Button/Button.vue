@@ -22,7 +22,7 @@
 		color: #3b48f7;
 	}
 	&-warning {
-		background: #CA1B1B;
+		background: #ca1b1b;
 		color: #fff;
 	}
 	&[disabled] {
@@ -38,7 +38,7 @@
 		width: 100%;
 		text-align: center;
 	}
-	&-modal{
+	&-modal {
 		width: 100px;
 		height: 40px;
 		text-align: center;

@@ -28,7 +28,7 @@ export default {
 	},
 	getBookmarks: async ({ commit }, id) => {
 		let url;
-		id ?  url = `research/bookmark/${id}` :  url = `research/bookmark`
+		id ? (url = `research/bookmark/${id}`) : (url = 'research/bookmark');
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
