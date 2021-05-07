@@ -43,7 +43,7 @@ export default {
 		if (this.$route.query.rowId) {
 			await this.getResult();
 			await this.getFilterKeys();
-		} else if (Object.keys(this.getSearchedResult).length > 0) {
+		} else if (this.getSearchedResult && Object.keys(this.getSearchedResult).length > 0) {
 			this.searchedResult = this.getSearchedResult;
 			await this.getFilterKeys();
 			this.researchedPayload = Object.assign({}, this.getPayload);
@@ -126,19 +126,19 @@ export default {
 				contact_research: '',
 				company_research: ''
 			};
-
 			if (this.userBookmarks) {
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && company_research.length) {
-					const { type, description } = company_research[0];
-					result[type] = { type, description };
+					const { type } = company_research[0];
+					result[type] = company_research[0];
 				}
 
 				if (contact_research && contact_research.length) {
-					const { type, description } = contact_research[0];
-					result[type] = { type, description };
+					const { type } = contact_research[0];
+					result[type] = contact_research[0];
 				}
 			}
+
 			return result;
 		}
 	},
@@ -181,7 +181,7 @@ export default {
 		},
 		async initUserBookmarks() {
 			try {
-				const userBookmarks = await this.getUserBookmarks();
+				const userBookmarks = await this.getUserBookmarks(this.rowId);
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
 					this.userBookmarks = data.response;
@@ -189,7 +189,7 @@ export default {
 			} catch (error) {
 				console.log(error);
 			} finally {
-				this.bookmarkLoading = false;
+				this.loading = false;
 			}
 		},
 		async initUserNote(rowID) {
@@ -197,7 +197,7 @@ export default {
 				const userNote = await this.getUserNote(rowID);
 				const { status, data, statusText } = userNote;
 				if (status === 200 && statusText === 'OK') {
-					if (data.data && data.data.length) {
+					if (data.data) {
 						this.userNote = data.data;
 						this.notepadTXT = data.data.note;
 					}
@@ -241,9 +241,10 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
-			} finally {
-				this.loading = false;
 			}
+			// finally {
+			// 	this.loading = false;
+			// }
 		},
 		sortByRelevance(researchType) {
 			if (researchType === 'contact_research') {
@@ -302,7 +303,7 @@ export default {
 			}
 		},
 		validateURL(link) {
-			if (link.indexOf('https://') === 0) {
+			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
 				return link;
 			} else {
 				return `https://${link}`;
@@ -320,6 +321,7 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
 			await this.saveSearchedResult(searchResultClone);
+			await this.initUserBookmarks();
 			this.showAlert({
 				status: 'success',
 				message: 'Added to bookmarks',
@@ -333,6 +335,7 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
 			await this.saveSearchedResult(searchResultClone);
+			await this.initUserBookmarks();
 			this.showAlert({
 				status: 'success',
 				message: 'Removed from bookmarks',

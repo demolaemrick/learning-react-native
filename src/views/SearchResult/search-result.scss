@@ -81,9 +81,17 @@
 	border-radius: 2px;
 	}
 
-
+	&__group{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&-score{
+		font-weight: 600;
+	}
 	&-title {
 		letter-spacing: -0.4px;
+		max-width: 300px;
 		color: #4361ee;
 		white-space: nowrap;
 		overflow: hidden;
@@ -212,6 +220,7 @@
 					line-height: 16px;
 					letter-spacing: -0.4px;
 					color: #333758;
+					margin-bottom: 4px;
 				}
 				.role {
 					font-family: Karla;
@@ -253,6 +262,8 @@
 			display: flex;
 			svg {
 				margin-right: 1em;
+				width: 18px;
+    			height: 16px;
 			}
 		}
 	}
@@ -308,6 +319,7 @@
 			text-align: right;
 			letter-spacing: -0.117188px;
 			color: #3b48f7;
+			cursor: pointer;
 		}
 	}
 	.section__5 {

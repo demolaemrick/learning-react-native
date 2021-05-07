@@ -9,7 +9,8 @@
 				<div class="action__group">
 					<div class="btn__wrapper">
 						<v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
-							Export CSV
+							<template v-if="!exportLoading">Export CSV</template>
+							<Loader v-else />
 						</v-button>
 					</div>
 					<div class="btn__wrapper">
@@ -65,21 +66,21 @@
 							{{ item.company }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="!item.role">No Data</template>
+							<template v-if="!item.role">-</template>
 							<template v-else>{{ item.role }}</template>
 						</td>
 						<td class="table__row-item row-link" @click="clickResearch(item)">
-							<template v-if="!item.linkedin">No Data</template>
+							<template v-if="!item.linkedin">-</template>
 							<template v-else
 								><a class="table__td__link" :href="item.linkedin" target="_blank"> {{ item.linkedin }} </a></template
 							>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
-							<template v-else>{{ item.research_score.toFixed(1) }}</template>
+							<template v-else>{{ item.research_score.toFixed(2) * 100 }}%</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.createdAt | moment('from', 'now') }}
+							{{ item.updatedAt | moment('from', 'now') }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
@@ -97,7 +98,7 @@
 								</span>
 							</div>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item dropdown">
 							<!-- menu3dot -->
 							<div class="user__menu__wrapper">
 								<v-toggle-dropdown class="user__dropdown__menu">
@@ -105,7 +106,7 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="deleteResearch(item.rowId)">
+										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">
 											Delete
 										</li>
 									</template>
@@ -127,7 +128,6 @@
 
 					<paginate
 						:page-count="total"
-						:margin-pages="2"
 						:click-handler="clickCallback"
 						:prev-text="'Prev'"
 						:next-text="'Next'"
@@ -138,6 +138,27 @@
 				</div>
 			</div>
 		</main>
+		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+			<div class="modal__wrapper">
+				<div class="modal__header">
+					<h4 class="modal__header-title">Delete Research</h4>
+					<span class="icon">
+						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+					</span>
+				</div>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
+							Delete
+						</v-button>
+					</div>
+				</div>
+			</div>
+		</v-modal>
 	</div>
 </template>
 
@@ -149,6 +170,16 @@
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
 			cursor: pointer;
+			&-item {
+				white-space: nowrap;
+				overflow: hidden;
+				max-width: 195px;
+				text-overflow: ellipsis;
+				&.dropdown {
+					overflow: unset;
+					padding: 0.5rem;
+				}
+			}
 		}
 		.disable-row {
 			cursor: not-allowed;

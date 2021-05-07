@@ -22,8 +22,26 @@ export default {
 		}),
 		...mapActions({
 			login: 'auth/login',
+			research_history: 'search_services/research_history',
 			showAlert: 'showAlert'
 		}),
+		async getHistory() {
+			try {
+				const response = await this.research_history({ page: 1, limit: 1 });
+				if (response.data.data.history.length > 0) {
+					this.$router.push({ name: 'ContactResearch' });
+				} else {
+					this.$router.push({ name: 'Search' });
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
 		async submit() {
 			this.loading = true;
 			try {
@@ -31,8 +49,8 @@ export default {
 				console.log(response);
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
-					this.saveUserSession(data.data);
-					this.$router.push({ name: 'Search' });
+					await this.saveUserSession(data.data);
+					await this.getHistory();
 				}
 				return true;
 			} catch (error) {

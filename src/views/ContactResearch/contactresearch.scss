@@ -23,6 +23,7 @@
 	align-items: center;
 	.search__icon__wrapper {
 		margin-right: 25px;
+		cursor: pointer;
 	}
 	.user__menu__wrapper {
 		display: flex;
@@ -80,6 +81,7 @@
 .btn__wrapper {
 	.btn__export__csv {
 		padding: 0 24px;
+		width: 128px;
 	}
 	.btn__import__contact {
 		padding: 0 24px;
@@ -156,6 +158,38 @@ thead.table__header {
 	padding: 1rem 1.5rem;
 }
 
+.modal__header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #D7DCE0;
+	padding-bottom: 15px;
+	&-title{
+		line-height: 24px;
+    	letter-spacing: 0.25px;
+	}
+}
+.modal__content{
+	&-text{
+		margin: 16px 0 32px;
+		.name{
+			font-weight: 600;
+		}
+	}
+	&-btn{
+		display: flex;
+    	align-items: center;
+		justify-content: flex-end;
+	}
+	.cancel{
+		padding: 10px;
+		margin-right: 6px;
+		font-weight: 600;
+		letter-spacing: 0.2px;
+		line-height: 24px;
+		cursor: pointer;
+	}
+}
 @include query(desktop, max) {
 	.main-section {
 		padding: 0 50px;

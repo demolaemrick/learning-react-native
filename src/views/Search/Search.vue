@@ -10,6 +10,7 @@
 				<!-- <div class="search__icon__wrapper">
 					<img src="@/assets/icons/search-icon.svg" svg-inline />
 				</div> -->
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -265,10 +266,10 @@
 						</tbody>
 					</table>
 					<div class="additional__option__wrapper">
-						<div class="additional__option__label">Addition Option</div>
+						<!-- <div class="additional__option__label">Addition Option</div>
 						<div>
 							<textarea placeholder="Type product description here..."></textarea>
-						</div>
+						</div> -->
 						<div class="secondary__search__btn__wrapper">
 							<v-button class="secondary__search__btn" @click="submitSearch">
 								<div>Search</div>
@@ -280,32 +281,7 @@
 			<!-- __inpage END -->
 		</main>
 		<template v-if="showMoreSearchSettings">
-			<!-- <div class="more__settings__modal__wrapper">
-				<div class="more__settings__modal__header">
-					<div class="more__settings__modal__header__btn__wrapper">
-						<v-button class="config__btn__close" @click="closeMoreSearchSettings()">
-							<div class="btn__content__wrapper">
-								<span class="icon pr-1">
-									<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-								</span>
-								<span class="text">Close</span>
-							</div>
-						</v-button>
-					</div>
-				</div>
-				<div class="more__settings__modal__content"> -->
 			<router-view @routerEvent="routerEventHandler"></router-view>
-			<!-- </div>
-				<div class="more__settings__modal__footer">
-					<div class="more__settings__modal__footer__btn__wrapper">
-						<v-button class="config__btn__close" @click="btnApplyChanges()">
-							<div class="btn__content__wrapper">
-								<span class="text">Save Changes</span>
-							</div>
-						</v-button>
-					</div>
-				</div>
-			</div> -->
 		</template>
 	</div>
 </template>

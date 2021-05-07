@@ -32,7 +32,10 @@ export default {
 			loadMore: false,
 			researchedPayload: {
 				type: Object
-			}
+			},
+			editNote: false,
+			userNote: null,
+			notepadTXT: null
 		};
 	},
 	watch: {
@@ -40,18 +43,12 @@ export default {
 			value ? (this.rows = 30) : (this.rows = 1);
 		}
 	},
-	// async created() {
-	// 	 this.getFilterKeys();
-	// 	this.searchType = this.getSearchedItem.type;
-	// 	await this.fetchContent();
-
-	// },
 	async mounted() {
 		this.getFilterKeys();
 		this.searchType = this.getSearchedItem.type;
+		await this.initUserNote(this.getSearchedResult.rowId);
 		//await this.fetchContent();
 		//this.researchedPayload = Object.assign({}, this.getPayload);
-		console.log('ge', this.getSearchedItem);
 		//this.getNextResearch();
 	},
 	computed: {
@@ -83,7 +80,6 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.getSearchedResult[this.searchType];
-				console.log(data);
 				if (this.filterValue.length === 0) {
 					for (const key in data) {
 						if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
@@ -97,7 +93,6 @@ export default {
 						newObj[value] = element;
 					});
 				}
-				console.log(newObj);
 				return newObj;
 			}
 		}
@@ -112,8 +107,47 @@ export default {
 		...mapActions({
 			content: 'search_services/content',
 			fetchResearch: 'search_services/research',
+			getUserNote: 'user/getNote',
+			updateUserNote: 'user/updateNote',
 			showAlert: 'showAlert'
 		}),
+		async initUserNote(rowID) {
+			try {
+				const userNote = await this.getUserNote(rowID);
+				const { status, data, statusText } = userNote;
+				if (status === 200 && statusText === 'OK') {
+					if (data.data) {
+						this.userNote = data.data;
+						this.notepadTXT = data.data.note;
+					}
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.noteLoading = false;
+			}
+		},
+		async handleTextareaBlur() {
+			this.editNote = !this.editNote;
+			try {
+				await this.updateUserNote({
+					rowId: this.getSearchedResult.rowId,
+					note: this.notepadTXT
+				});
+				this.userNote = this.notepadTXT;
+				this.showAlert({
+					status: 'success',
+					message: 'Note updated successfully',
+					showAlert: true
+				});
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'error updating note',
+					showAlert: true
+				});
+			}
+		},
 		getNextResearch() {
 			const listElm = document.querySelector('#infinite-list');
 			listElm.onscroll = async () => {

@@ -82,7 +82,7 @@ const routes = [
 		beforeEnter: requireAuth
 	},
 	{
-		path: '/bookmarks',
+		path: '/bookmarks/:rowId?',
 		name: 'Bookmarks',
 		component: Bookmarks,
 		beforeEnter: requireAuth

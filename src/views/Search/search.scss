@@ -23,6 +23,7 @@
 	align-items: center;
 	.search__icon__wrapper {
 		margin-right: 25px;
+		cursor: pointer;
 	}
 	.user__menu__wrapper {
 		display: flex;
@@ -35,6 +36,10 @@
 			}
 		}
 	}
+}
+.research {
+	margin-right: 15px;
+	cursor: pointer;
 }
 .main-section {
 	padding: 0 110px;

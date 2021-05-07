@@ -35,10 +35,10 @@ export default {
 				let id;
 				value === 'createdAt' ? (id = value) : (id = value.toLowerCase());
 				if (this.sortType === 'asc') {
-					this.sortedData.sort((a, b) => (a[id].toLowerCase() < b[id].toLowerCase() ? -1 : 1));
+					this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
 					this.sortType = 'desc';
 				} else {
-					this.sortedData.sort((a, b) => (b[id].toLowerCase() < a[id].toLowerCase() ? -1 : 1));
+					this.sortedData.sort((a, b) => (b[id] < a[id] ? -1 : 1));
 					this.sortType = 'asc';
 				}
 			}

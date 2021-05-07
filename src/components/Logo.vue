@@ -1,7 +1,6 @@
 <template>
 	<div class="logo" @click="$router.push({ name: 'Search' })">
-		<img src="../assets/icons/volley-logo.svg" svg-inline />
-		<h4 class="logo-text">Volley App</h4>
+		<img class="logo-img" src="../assets/icons/volley_logo.png" svg-inline />
 	</div>
 </template>
 
@@ -14,13 +13,8 @@ export default {};
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-	&-text {
-		margin-left: 17px;
-		font-weight: 400;
-		font-size: 24px;
-		color: #3b48f7;
-		line-height: 30px;
-		letter-spacing: -0.57px;
+	&-img {
+		height: 35px;
 	}
 }
 </style>

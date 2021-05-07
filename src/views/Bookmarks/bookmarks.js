@@ -6,6 +6,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import DotLoader from '@/components/DotLoader.vue';
+import PageLoad from '../SearchResult/PageLoad.vue';
 export default {
 	name: 'Bookmarks',
 	components: {
@@ -14,6 +15,7 @@ export default {
 		DCheckbox,
 		DropdownCheckbox,
 		DotLoader,
+		PageLoad,
 		VHeader
 	},
 	mixins: [ScreenWidthMixin],
@@ -26,6 +28,11 @@ export default {
 	},
 	async created() {
 		await this.initUserBookmarks();
+	},
+	watch: {
+		'$route.query.rowId'() {
+			this.initUserBookmarks();
+		}
 	},
 	computed: {
 		...mapGetters({
@@ -93,8 +100,9 @@ export default {
 		}),
 
 		async initUserBookmarks() {
+			this.bookmarkLoading = true;
 			try {
-				const userBookmarks = await this.getUserBookmarks();
+				const userBookmarks = await this.getUserBookmarks(this.$route.query.rowId);
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
 					this.userBookmarks = data.response;

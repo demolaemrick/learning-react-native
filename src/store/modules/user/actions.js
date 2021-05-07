@@ -26,8 +26,9 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	getBookmarks: async ({ commit }) => {
-		const url = 'research/bookmark';
+	getBookmarks: async ({ commit }, id) => {
+		let url;
+		id ? (url = `research/bookmark/${id}`) : (url = 'research/bookmark');
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {

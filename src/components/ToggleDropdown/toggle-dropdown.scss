@@ -1,7 +1,8 @@
 @import '../../assets/scss/main.scss';
 .dropdown {
 		&__wrapper {
-             padding: 12px 0;
+            // padding: 12px 0;
+			 padding: 1rem;
 			display: flex;
 			align-items: center;
 			cursor: pointer;

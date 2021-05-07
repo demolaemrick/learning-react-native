@@ -85,8 +85,9 @@
 						:rows="rows"
 						cols="50"
 						name="text"
-						@focus="expandNotepad()"
-						v-model="notepad"
+						v-model="notepadTXT"
+						@focus="expandNotepad"
+						@blur="handleTextareaBlur"
 						id="textArea"
 						placeholder="Write down findings from research."
 					>
