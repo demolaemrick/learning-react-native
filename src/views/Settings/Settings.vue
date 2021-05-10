@@ -36,7 +36,7 @@
 									<template v-if="itemKey === 'twitter_activity'"> Twitter activity</template>
 									<template v-if="itemKey === 'promotion'"> New role/job/promotion</template>
 									<template v-if="itemKey === 'videos'">Videos</template>
-									<template v-if="itemKey ==='podcasts'">Podcasts</template>
+									<template v-if="itemKey === 'podcasts'">Podcasts</template>
 								</td>
 								<td class="table__row-item">
 									<label class="toggle"

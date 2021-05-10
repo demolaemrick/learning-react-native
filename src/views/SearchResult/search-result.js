@@ -241,8 +241,7 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
-			}
-			finally {
+			} finally {
 				this.loading = false;
 			}
 		},

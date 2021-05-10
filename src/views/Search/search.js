@@ -111,8 +111,8 @@ export default {
 					} = data;
 					if (contact_research) {
 						this.payload.contact_research = contact_research;
-						let {events} = contact_research
-						this.keywords = {events,...contact_research};
+						let { events } = contact_research;
+						this.keywords = { events, ...contact_research };
 					}
 					if (company_research) {
 						this.payload.company_research = company_research;

@@ -61,7 +61,7 @@
 								v-if="!Object.keys(dataItem).includes('dontRender') || dataItem.dontRender === null"
 								@click="displaySearchItem('company_research', dataItem)"
 							>
-							<span class="searched__item__group">
+								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
 									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
 								</span>
@@ -103,7 +103,10 @@
 				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
 					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
 				</p>
-				<div class="filter__tags" v-if=" getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0">
+				<div
+					class="filter__tags"
+					v-if="getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0"
+				>
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
 						<span v-for="(tag, i) in getSearchedItem.item.meta.content.tag" :key="i"
@@ -113,7 +116,10 @@
 				</div>
 
 				<template>
-					<div class="item__detail-content" v-if="getSearchedItem.item.meta.content &&  Object.keys(getSearchedItem.item.meta.content).length > 0">
+					<div
+						class="item__detail-content"
+						v-if="getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0"
+					>
 						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>
 					</div>
 					<iframe

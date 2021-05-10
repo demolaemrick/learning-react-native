@@ -70,10 +70,11 @@
 							<template v-else>{{ item.role }}</template>
 						</td>
 						<td class="table__row-item row-link" @click="clickResearch(item)">
-							<template  v-if="!item.linkedin"><p class="table__td__link">-</p></template>
+							<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
 							<template v-else
-								><a class="table__td__link" :href="item.linkedin" target="_blank"> <img src="@/assets/icons/link.svg" svg-inline> </a></template
-							>
+								><a class="table__td__link" :href="item.linkedin" target="_blank">
+									<img src="@/assets/icons/link.svg" svg-inline /> </a
+							></template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
