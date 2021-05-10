@@ -242,9 +242,9 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
-			// finally {
-			// 	this.loading = false;
-			// }
+			finally {
+				this.loading = false;
+			}
 		},
 		sortByRelevance(researchType) {
 			if (researchType === 'contact_research') {

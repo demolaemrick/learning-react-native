@@ -29,14 +29,14 @@
 							<tr class="table__row" v-for="(keyword, itemKey) in keywords" :key="itemKey">
 								<td class="table__row-item">
 									<template v-if="itemKey === 'events'"> Events/conferences/Webinars</template>
-									<template v-else-if="itemKey === 'blogs'"> Blogs/Articles</template>
-									<template v-else-if="itemKey === 'features'"> Interviews/feature</template>
-									<template v-else-if="itemKey === 'awards'"> Awards</template>
-									<template v-else-if="itemKey === 'linkedin_activity'">Linkedin activity</template>
-									<template v-else-if="itemKey === 'twitter_activity'"> Twitter activity</template>
-									<template v-else-if="itemKey === 'promotion'"> New role/job/promotion</template>
-									<template v-else-if="itemKey === 'videos'">Videos</template>
-									<template v-else>Podcasts</template>
+									<template v-if="itemKey === 'blogs'"> Blogs/Articles</template>
+									<template v-if="itemKey === 'features'"> Interviews/feature</template>
+									<template v-if="itemKey === 'awards'"> Awards</template>
+									<template v-if="itemKey === 'linkedin_activity'">Linkedin activity</template>
+									<template v-if="itemKey === 'twitter_activity'"> Twitter activity</template>
+									<template v-if="itemKey === 'promotion'"> New role/job/promotion</template>
+									<template v-if="itemKey === 'videos'">Videos</template>
+									<template v-if="itemKey ==='podcasts'">Podcasts</template>
 								</td>
 								<td class="table__row-item">
 									<label class="toggle"

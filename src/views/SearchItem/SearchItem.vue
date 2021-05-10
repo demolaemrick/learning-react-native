@@ -37,7 +37,7 @@
 									</li>
 								</template>
 							</toggle-dropdown>
-							<dropdown-checkbox>
+							<!-- <dropdown-checkbox>
 								<template #dropdown-wrapper>
 									<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 								</template>
@@ -50,7 +50,7 @@
 										</li>
 									</span>
 								</template>
-							</dropdown-checkbox>
+							</dropdown-checkbox> -->
 						</div>
 					</div>
 
@@ -61,7 +61,10 @@
 								v-if="!Object.keys(dataItem).includes('dontRender') || dataItem.dontRender === null"
 								@click="displaySearchItem('company_research', dataItem)"
 							>
-								<p class="searched__item-title">{{ dataItem.title }}</p>
+							<span class="searched__item__group">
+									<p class="searched__item-title">{{ dataItem.title }}</p>
+									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
+								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 								<div class="url__bookmark__group">
 									<a :href="dataItem.url" target="_blank" class="searched__item-url"
@@ -100,7 +103,7 @@
 				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
 					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
 				</p>
-				<div class="filter__tags" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
+				<div class="filter__tags" v-if=" getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
 						<span v-for="(tag, i) in getSearchedItem.item.meta.content.tag" :key="i"
@@ -110,7 +113,7 @@
 				</div>
 
 				<template>
-					<div class="item__detail-content" v-if="Object.keys(getSearchedItem.item.meta.content).length > 0">
+					<div class="item__detail-content" v-if="getSearchedItem.item.meta.content &&  Object.keys(getSearchedItem.item.meta.content).length > 0">
 						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>
 					</div>
 					<iframe
