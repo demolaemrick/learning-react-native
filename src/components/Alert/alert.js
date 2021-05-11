@@ -27,6 +27,9 @@ export default {
 	},
 	computed: {
 		...mapGetters(['getAlert']),
+		showAlertStatus() {
+			return this.getAlert.showAlert;
+		},
 		alertType() {
 			return this.iconType || this.getAlert.status;
 		},
@@ -39,6 +42,17 @@ export default {
 		icon() {
 			const str = this.alertType[0].toUpperCase() + this.alertType.slice(1);
 			return `${str}Icon`;
+		}
+	},
+	watch: {
+		showAlertStatus(newVal) {
+			if (newVal) {
+				setTimeout(() => {
+					this.showAlert({
+						showAlert: false
+					});
+				}, 6500);
+			}
 		}
 	},
 	methods: {

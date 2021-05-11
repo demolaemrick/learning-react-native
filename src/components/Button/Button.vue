@@ -39,11 +39,11 @@
 		text-align: center;
 	}
 	&-modal {
-		width: 100px;
 		height: 40px;
+		min-width: 100px;
 		text-align: center;
 		border-radius: 4px;
-		padding: 0;
+		padding: 0 24px;
 	}
 }
 @include query(mobile, max) {
