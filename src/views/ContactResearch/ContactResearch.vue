@@ -143,7 +143,7 @@
 			<div class="modal__wrapper">
 				<div class="modal__header">
 					<h4 class="modal__header-title">Delete Research</h4>
-					<span class="icon">
+					<span class="icon" @click="toggleModal">
 						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
 					</span>
 				</div>

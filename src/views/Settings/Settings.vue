@@ -2,7 +2,7 @@
 	<div class="more__settings__modal__wrapper">
 		<div class="more__settings__modal__header">
 			<div class="more__settings__modal__header__btn__wrapper">
-				<v-button class="config__btn__close" @click="closeMoreSearchSettings">
+				<v-button class="config__btn__close" @click="checkSettingChanges">
 					<div class="btn__content__wrapper">
 						<span class="icon pr-1">
 							<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
@@ -144,6 +144,28 @@
 				</v-button>
 			</div>
 		</div>
+		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+			<div class="modal__wrapper">
+				<div class="modal__header">
+					<h4 class="modal__header-title">Unsave Changes</h4>
+					<span class="icon" @click="toggleModal">
+						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+					</span>
+				</div>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						You have some unsaved changes, are you sure you want to exit this page?
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="closeMoreSearchSettings">Exit</div>
+						<v-button class="update__btn" buttonType="primary" size="modal" @click="submitForm" >
+							<Loader v-if="loading" />
+						<span v-else class="text">Save & Exit</span>
+						</v-button>
+					</div>
+				</div>
+			</div>
+		</v-modal>
 	</div>
 </template>
 
@@ -152,5 +174,8 @@
 <style lang="scss">
 .no__scroll {
 	overflow-y: hidden !important;
+}
+.update__btn{
+	width: 135px;
 }
 </style>

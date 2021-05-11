@@ -67,7 +67,11 @@ export default {
 					product_launch: []
 				}
 			},
-			showConfigModal: false
+			showConfigModal: false,
+			initialKeywords: {},
+			initialCompanyKeywords: {},
+			toggleClass: true,
+			showModal: false,
 		};
 	},
 	methods: {
@@ -123,7 +127,11 @@ export default {
 						this.applyAllChecked = false;
 						return;
 					}
+
 					this.keywords[optionTitle] = event.target.value.split(',');
+					if (event.target.value === '') {
+						this.keywords[optionTitle] = [];
+					}
 					this.payload.contact_research[optionTitle] = this.keywords[optionTitle];
 				}
 			} else {
@@ -139,6 +147,9 @@ export default {
 						return;
 					}
 					this.companyKeywords[optionTitle] = event.target.value.split(',');
+					if (event.target.value === '') {
+						this.companyKeywords[optionTitle] = [];
+					}
 					this.payload.company_research[optionTitle] = this.companyKeywords[optionTitle];
 				}
 			}
@@ -201,6 +212,27 @@ export default {
 				el.classList.remove(className);
 			}
 		},
+		toggleModal() {
+			if (!this.showModal) {
+				this.showModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showModal = !this.showModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		checkSettingChanges() {
+			if (
+				JSON.stringify(this.initialKeywords) === JSON.stringify(this.keywords) &&
+				JSON.stringify(this.initialCompanyKeywords) === JSON.stringify(this.companyKeywords)
+			) {
+				this.closeMoreSearchSettings()
+			} else {
+				this.toggleModal()
+			}
+		},
 		closeMoreSearchSettings() {
 			this.$emit('routerEvent', 'closeMoreSearchSettings');
 		},
@@ -216,8 +248,10 @@ export default {
 						this.payload.contact_research = contact_research;
 						let { events } = contact_research;
 						this.keywords = { events, ...contact_research };
+						this.initialKeywords = { events, ...contact_research };
 					}
 					if (company_research) {
+						this.initialCompanyKeywords = { ...company_research };
 						this.payload.company_research = company_research;
 						this.companyKeywords = company_research;
 					}

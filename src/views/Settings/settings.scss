@@ -239,6 +239,42 @@ thead.table__header {
 		}
 	}
 }
+
+.modal__header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #D7DCE0;
+	padding-bottom: 15px;
+	&-title{
+		line-height: 24px;
+    	letter-spacing: 0.25px;
+	}
+	.icon{
+		cursor: pointer;
+	}
+}
+.modal__content{
+	&-text{
+		margin: 16px 0 32px;
+		.name{
+			font-weight: 600;
+		}
+	}
+	&-btn{
+		display: flex;
+    	align-items: center;
+		justify-content: flex-end;
+	}
+	.cancel{
+		padding: 10px;
+		margin-right: 6px;
+		font-weight: 600;
+		letter-spacing: 0.2px;
+		line-height: 24px;
+		cursor: pointer;
+	}
+}
 // Modal End
 
 .more__settings__modal__wrapper {
