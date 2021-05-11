@@ -150,13 +150,12 @@
 								</li>
 							</template>
 						</toggle-dropdown>
-						<dropdown-checkbox>
+						<!-- <dropdown-checkbox>
 							<template #dropdown-wrapper>
 								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in searchedResult.contact_research" :key="i">
-									<!-- <span v-for="(data, i) in response.data.contact_research" :key="i"> -->
 									<li class="dropdown__item" v-if="searchedResult.contact_research[i].length !== 0">
 										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
 											{{ i }}
@@ -164,7 +163,7 @@
 									</li>
 								</span>
 							</template>
-						</dropdown-checkbox>
+						</dropdown-checkbox> -->
 					</div>
 				</div>
 				<template v-if="contact_research.others && contact_research.others.length === 0">
@@ -244,7 +243,7 @@
 								</li>
 							</template>
 						</toggle-dropdown>
-						<dropdown-checkbox>
+						<!-- <dropdown-checkbox>
 							<template #dropdown-wrapper>
 								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
 							</template>
@@ -257,7 +256,7 @@
 									</li>
 								</span>
 							</template>
-						</dropdown-checkbox>
+						</dropdown-checkbox> -->
 					</div>
 				</div>
 				<div class="searched-result" v-for="(data, i) in company_research" :key="i">

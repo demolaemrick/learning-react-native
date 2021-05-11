@@ -65,15 +65,13 @@
 	padding: 3px 0 3px 33px;
 }
 .searched-result {
-	// padding-left: 24px;
-	// padding-left: 24px;
 	border-bottom: solid 2px #f2f2f2;
 }
 .searched__item {
 	padding: 42px 0 39px;
 	max-width: 450px;
 	cursor: pointer;
-    // padding-left: 24px;
+    border: 1px solid transparent;
     padding: 1em 1.5em;
 
 	&:hover {

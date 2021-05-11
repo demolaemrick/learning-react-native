@@ -6,7 +6,7 @@
 	max-width: 514px;
 	width: 100%;
 	&-content {
-		max-height: 500px;
+		max-height: 75vh;
 		overflow-y: scroll;
 	}
 	&-header {
@@ -25,6 +25,8 @@
 }
 .item__detail {
 	padding: 40px 0 40px 64px;
+	height: calc(100vh - 97px);
+	overflow-y: scroll;
 	&-url {
 		letter-spacing: -0.4px;
 		color: #0ead69;
