@@ -27,8 +27,8 @@ export default {
 	},
 	computed: {
 		...mapGetters(['getAlert']),
-		showAlertStatus(){
-			return this.getAlert.showAlert
+		showAlertStatus() {
+			return this.getAlert.showAlert;
 		},
 		alertType() {
 			return this.iconType || this.getAlert.status;
@@ -45,14 +45,13 @@ export default {
 		}
 	},
 	watch: {
-		showAlertStatus(newVal){
+		showAlertStatus(newVal) {
 			if (newVal) {
 				setTimeout(() => {
 					this.showAlert({
 						showAlert: false
 					});
 				}, 6500);
-				
 			}
 		}
 	},
