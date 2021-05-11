@@ -71,7 +71,7 @@ export default {
 			initialKeywords: {},
 			initialCompanyKeywords: {},
 			toggleClass: true,
-			showModal: false,
+			showModal: false
 		};
 	},
 	methods: {
@@ -228,9 +228,9 @@ export default {
 				JSON.stringify(this.initialKeywords) === JSON.stringify(this.keywords) &&
 				JSON.stringify(this.initialCompanyKeywords) === JSON.stringify(this.companyKeywords)
 			) {
-				this.closeMoreSearchSettings()
+				this.closeMoreSearchSettings();
 			} else {
-				this.toggleModal()
+				this.toggleModal();
 			}
 		},
 		closeMoreSearchSettings() {

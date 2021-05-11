@@ -158,9 +158,9 @@
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="closeMoreSearchSettings">Exit</div>
-						<v-button class="update__btn" buttonType="primary" size="modal" @click="submitForm" >
+						<v-button class="update__btn" buttonType="primary" size="modal" @click="submitForm">
 							<Loader v-if="loading" />
-						<span v-else class="text">Save & Exit</span>
+							<span v-else class="text">Save & Exit</span>
 						</v-button>
 					</div>
 				</div>
@@ -175,7 +175,7 @@
 .no__scroll {
 	overflow-y: hidden !important;
 }
-.update__btn{
+.update__btn {
 	width: 135px;
 }
 </style>
