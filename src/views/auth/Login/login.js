@@ -46,7 +46,6 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.login(this.form);
-				console.log(response);
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);

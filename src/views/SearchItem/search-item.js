@@ -6,19 +6,16 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
-import DotLoader from '@/components/DotLoader.vue';
 
 export default {
 	name: 'SearchResult',
 	components: {
-		// VNav,
 		VHeader,
 		ToggleDropdown,
 		DCheckbox,
 		CTag,
 		DropdownCheckbox,
-		LoadingState,
-		DotLoader
+		LoadingState
 	},
 	data() {
 		return {
@@ -29,7 +26,6 @@ export default {
 			itemContent: '',
 			loading: false,
 			can_render: false,
-			loadMore: false,
 			researchedPayload: {
 				type: Object
 			},
@@ -46,28 +42,15 @@ export default {
 	async mounted() {
 		this.getFilterKeys();
 		this.searchType = this.getSearchedItem.type;
+		await await this.initUserBookmarks();
 		await this.initUserNote(this.getSearchedResult.rowId);
-		//await this.fetchContent();
-		//this.researchedPayload = Object.assign({}, this.getPayload);
-		//this.getNextResearch();
 	},
 	computed: {
 		...mapGetters({
 			getNotepad: 'search_services/getNotepad',
 			getSearchedItem: 'search_services/getSearchedItem',
 			getSearchedResult: 'search_services/getSearchedResult'
-			//getPayload: 'search_services/getPayload'
 		}),
-		// getContentPayload: {
-		// 	get() {
-		// 		const payload = {};
-		// 		payload.company = this.getPayload.company;
-		// 		payload.full_name = this.getPayload.full_name;
-		// 		payload.role = this.getPayload.role;
-		// 		payload.link = this.getSearchedItem.item.url;
-		// 		return payload;
-		// 	}
-		// },
 		notepad: {
 			get() {
 				return this.getNotepad;
@@ -109,8 +92,57 @@ export default {
 			fetchResearch: 'search_services/research',
 			getUserNote: 'user/getNote',
 			updateUserNote: 'user/updateNote',
+			addToBookmarks: 'user/addToBookmarks',
+			getUserBookmarks: 'user/getBookmarks',
+			removeFromBookmarks: 'user/removeFromBookmarks',
 			showAlert: 'showAlert'
 		}),
+		async initUserBookmarks() {
+			try {
+				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
+				const { status, data, statusText } = userBookmarks;
+				if (status === 200 && statusText === 'OK') {
+					this.userBookmarks = data.response;
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
+		},
+		async btnAddToBookMarks(dataItem) {
+			await this.addToBookmarks({
+				rowId: this.getSearchedResult.rowId,
+				url: dataItem.url,
+				type: dataItem.type,
+				description: dataItem.description,
+				relevance_score: dataItem.meta.relevanceScore,
+				title: dataItem.title
+			});
+			const searchResultClone = { ...this.getSearchedResult };
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
+			await this.saveSearchedResult(searchResultClone);
+			await this.initUserBookmarks();
+			this.showAlert({
+				status: 'success',
+				message: 'Added to bookmarks',
+				showAlert: true
+			});
+		},
+		async btnRemoveFromBookMarks(dataItem) {
+			await this.removeFromBookmarks({
+				url: dataItem.url
+			});
+			const searchResultClone = { ...this.getSearchedResult };
+			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
+			await this.saveSearchedResult(searchResultClone);
+			await this.initUserBookmarks();
+			this.showAlert({
+				status: 'success',
+				message: 'Removed from bookmarks',
+				showAlert: true
+			});
+		},
 		async initUserNote(rowID) {
 			try {
 				const userNote = await this.getUserNote(rowID);
@@ -148,49 +180,7 @@ export default {
 				});
 			}
 		},
-		getNextResearch() {
-			const listElm = document.querySelector('#infinite-list');
-			listElm.onscroll = async () => {
-				if (this.researchedPayload.pagination !== 2) {
-					if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-						this.loadMore = true;
-						this.researchedPayload.pagination = 2;
-						try {
-							const response = await this.fetchResearch(this.researchedPayload);
-							if (response.data.status === 'success') {
-								let data = response.data.data;
-								const contact_research = [
-									...this.getSearchedResult.contact_research.others,
-									...response.data.data.contact_research.others
-								];
-								const company_research = [
-									...this.getSearchedResult.company_research.others,
-									...response.data.data.company_research.others
-								];
-								data.contact_research['others'] = contact_research;
-								data.company_research['others'] = company_research;
-								await this.saveSearchedResult(data);
-								await this.saveSearchPayload(this.researchedPayload);
-								return true;
-							}
-							this.showAlert({
-								status: 'error',
-								message: 'Something went wrong',
-								showAlert: true
-							});
-						} catch (error) {
-							this.showAlert({
-								status: 'error',
-								message: error.response.data.message,
-								showAlert: true
-							});
-						} finally {
-							this.loadMore = false;
-						}
-					}
-				}
-			};
-		},
+		
 		sortByRelevance() {
 			for (const key in this.research) {
 				const element = this.research[key];
@@ -217,8 +207,6 @@ export default {
 			this.content(this.getContentPayload)
 				.then(async (response) => {
 					if (response.data.status === 'success') {
-						// this.itemContent = '';
-						// this.itemContent = response.data.data.image_string;
 						this.can_render = response.data.data.can_render;
 						return true;
 					}
@@ -248,7 +236,6 @@ export default {
 				item: item
 			};
 			await this.saveSearchedItem(data);
-			//await this.fetchContent();
 		},
 		getFilterKeys() {
 			this.filterValue = [];

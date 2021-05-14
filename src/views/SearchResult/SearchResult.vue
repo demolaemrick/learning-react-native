@@ -5,8 +5,6 @@
 			<page-load />
 		</template>
 		<main v-else class="main container container--lg">
-			{{ getNotepad }}
-
 			<div v-if="!editNote" class="aside__left">
 				<div class="section section__1">
 					<div class="title">
