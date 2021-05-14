@@ -180,7 +180,7 @@ export default {
 				});
 			}
 		},
-		
+
 		sortByRelevance() {
 			for (const key in this.research) {
 				const element = this.research[key];

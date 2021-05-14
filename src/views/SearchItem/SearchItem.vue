@@ -67,27 +67,27 @@
 								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 								<div
-								v-if="!dataItem.is_bookmarked"
-								@click="btnAddToBookMarks({ type: searchType, index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
+									v-if="!dataItem.is_bookmarked"
+									@click="btnAddToBookMarks({ type: searchType, index: j, ...dataItem })"
+									class="url__bookmark__group"
 								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
-							</div>
-							<div
-								v-else
-								@click="btnRemoveFromBookMarks({ type: searchType, index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
+									<a :href="dataItem.url" target="_blank" class="searched__item-url"
+										><img src="@/assets/icons/planet-earth.svg" svg-inline />
+										<p class="url-text">{{ dataItem.url }}</p></a
+									>
+									<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								</div>
+								<div
+									v-else
+									@click="btnRemoveFromBookMarks({ type: searchType, index: j, ...dataItem })"
+									class="url__bookmark__group"
 								>
-								<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
-							</div>
+									<a :href="dataItem.url" target="_blank" class="searched__item-url"
+										><img src="@/assets/icons/planet-earth.svg" svg-inline />
+										<p class="url-text">{{ dataItem.url }}</p></a
+									>
+									<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
+								</div>
 							</div>
 						</span>
 					</div>
