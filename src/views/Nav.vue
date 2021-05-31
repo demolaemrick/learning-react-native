@@ -120,15 +120,6 @@ export default {
 			showNav: false
 		};
 	},
-	// watch: {
-	// 	showNav(value) {
-	// 		if (value) {
-	// 			document.querySelector('#app').classList.add('sticky-page');
-	// 		} else {
-	// 			document.querySelector('#app').classList.remove('sticky-page');
-	// 		}
-	// 	}
-	// },
 	computed: {
 		...mapGetters({
 			getPayload: 'search_services/getPayload'
