@@ -88,7 +88,6 @@
 				<form action="">
 					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
-
 							<text-input
 								type="email"
 								rules="required"
@@ -106,9 +105,7 @@
 								<option value="superAdmin">Super Admin</option>
 							</select>
 							<div class="flex flex__end">
-								<c-button class="submit"
-								size="large"
-								buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>
@@ -146,12 +143,7 @@
 							placeholder="ronald@volley.com"
 						/>
 
-						<text-input
-						rules="required"
-						labelVisible
-						v-model="form.role"
-						width="100%" name="Role"
-						placeholder="Admin User" />
+						<text-input rules="required" labelVisible v-model="form.role" width="100%" name="Role" placeholder="Admin User" />
 
 						<label class="select-label" for="admin">Admin Type</label><br />
 						<select class="select-input" width="100%" name="admin" id="admin">
