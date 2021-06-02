@@ -16,7 +16,7 @@ const InputMixin = {
 			type: String,
 			default: 'text',
 			validator(value) {
-				return ['url', 'text', 'password', 'tel', 'search', 'number', 'email', 'file'].includes(value);
+				return ['url', 'text', 'password', 'tel', 'search', 'number', 'email', 'date', 'file'].includes(value);
 			}
 		},
 		value: {
@@ -25,8 +25,8 @@ const InputMixin = {
 		},
 
 		icon: {
-			type: Boolean,
-			default: false
+			type: Object,
+			default: () => ({ type: '' })
 		},
 		labelVisible: {
 			type: Boolean,

@@ -13,14 +13,54 @@ const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login'
 const ForgotPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword');
 const CheckInbox = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword/CheckInbox');
 const ResetPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ResetPassword');
+const Dashboard = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Index.vue');
+const Admin = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Admin');
+const Users = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Users');
+const User = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/User');
 
 Vue.use(VueRouter);
+
+{
+	/* <router-link :to="{ name: 'User', params: { id: data.id } }"></router-link> */
+}
 
 const routes = [
 	{
 		path: '*',
 		name: 'not-found',
 		component: NotFound
+	},
+	{
+		path: '/dashboard',
+		name: 'Dashboard',
+		component: Dashboard,
+		children: [
+			{
+				path: 'admin',
+				name: 'Admin',
+				component: Admin
+			},
+			{
+				path: 'users',
+				name: 'Users',
+				component: Users
+			},
+			{
+				path: 'user',
+				name: 'User',
+				component: User
+			},
+			// {
+			// 	path: 'users/:id',
+			// 	name: 'User',
+			// 	component: User
+			// },
+			{
+				path: '',
+				redirect: 'users'
+			}
+		]
+		// beforeEnter: noAuthOnly
 	},
 	{
 		path: '/login',
@@ -92,7 +132,8 @@ const routes = [
 const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes
+	routes,
+	linkActiveClass: 'active'
 });
 
 export default router;

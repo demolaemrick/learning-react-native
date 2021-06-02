@@ -42,3 +42,12 @@ WithLabel.args = {
 	labelVisible: true,
 	rules: 'required'
 };
+
+export const TextWithIcon = Template.bind({});
+TextWithIcon.args = {
+	type: 'text',
+	name: 'First Name',
+	placeholder: 'John',
+	icon: { type: 'search' },
+	width: '509px'
+};

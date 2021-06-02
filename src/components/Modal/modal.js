@@ -5,9 +5,17 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		position: {
+			type: String,
+			default: 'right'
+		},
 		maxWidth: {
 			type: String,
 			default: '496px'
+		},
+		active: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {

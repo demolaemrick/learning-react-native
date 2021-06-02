@@ -21,6 +21,15 @@
 		background: rgba(59, 72, 247, 0.08);
 		color: #3b48f7;
 	}
+	&-outline {
+		color: #3a434b;
+		background: #ffffff;
+		border: 1px solid #d7dce0;
+		box-sizing: border-box;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+	}
 	&-warning {
 		background: #ca1b1b;
 		color: #fff;
@@ -33,6 +42,21 @@
 	&-small {
 		padding: 0 20px;
 		width: initial !important;
+	}
+	&-medium {
+		padding: 0 20px;
+		width: 95px;
+		border: 1px solid #3b48f7;
+		box-sizing: border-box;
+		border-radius: 4px;
+	}
+	&-icon {
+		padding: 0 18px;
+		width: initial !important;
+	}
+	&-large {
+		padding: 0 32px;
+		border-radius: 8px;
 	}
 	&-full {
 		width: 100%;

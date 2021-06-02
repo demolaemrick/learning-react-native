@@ -1,6 +1,6 @@
 <template>
 	<div class="u-relative">
-		<span class="dropdown__wrapper" @click="showDropdown = !showDropdown">
+		<span class="dropdown__wrapper" :style="padding" @click="showDropdown = !showDropdown">
 			<slot name="dropdown-wrapper"></slot>
 		</span>
 		<template v-if="showDropdown">

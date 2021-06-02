@@ -5,6 +5,17 @@ export default {
 			showDropdown: false
 		};
 	},
+	props: {
+		itemPadding: {
+			type: String,
+			default: '1rem'
+		}
+	},
+	computed: {
+		padding() {
+			return { padding: this.itemPadding };
+		}
+	},
 	methods: {
 		onClose() {
 			this.showDropdown = false;

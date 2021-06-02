@@ -6,6 +6,19 @@ export default {
 	components: {
 		ValidationProvider
 	},
+	props: {
+		colour: {
+			type: String,
+			default: '#f9f9f9'
+		},
+	},
+	computed: {
+		style() {
+			return {
+				colour: this.colour
+			};
+		}
+	},
 	created() {},
 	mixins: [InputMixin]
 };
