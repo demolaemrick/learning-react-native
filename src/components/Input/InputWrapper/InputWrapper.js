@@ -10,7 +10,7 @@ export default {
 		colour: {
 			type: String,
 			default: '#f9f9f9'
-		},
+		}
 	},
 	computed: {
 		style() {

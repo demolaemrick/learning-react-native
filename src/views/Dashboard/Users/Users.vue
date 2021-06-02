@@ -23,9 +23,7 @@
 						</c-button>
 					</template>
 					<template #dropdown-items>
-						<li class="dropdown__item">
-							Log out
-						</li>
+						<li class="dropdown__item"></li>
 					</template>
 				</toggle-dropdown>
 			</div>
@@ -37,7 +35,7 @@
 			</template>
 			<template #body>
 				<form action="">
-					<ValidationObserver v-slot="{ invalid }">
+					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
 							<div class="flex">
 								<text-input
@@ -57,6 +55,15 @@
 									placeholder="Doe"
 								/>
 							</div>
+
+							<text-input
+								rules="required"
+								labelVisible
+								v-model="form.mail"
+								width="100%"
+								name="Email Address"
+								placeholder="johndoe@email.com"
+							/>
 
 							<text-input
 								type="email"
@@ -92,16 +99,15 @@
 									type="text"
 									rules="required"
 									labelVisible
-									v-model="form.email"
+									v-model="form.profession"
 									width="204px"
 									name="Profession"
 									placeholder="Product"
 								/>
 								<text-input
-									type="number"
 									rules="required"
 									labelVisible
-									v-model="form.email"
+									v-model="form.role"
 									width="204px"
 									name="Role"
 									placeholder="Content Creator"
@@ -117,7 +123,7 @@
 								placeholder="Enter Password"
 							/>
 							<div class="flex-end">
-								<c-button class="submit" :disabled="invalid" size="large" buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary">
 									<template v-if="!loading">Create Account</template>
 									<Loader v-else />
 								</c-button>

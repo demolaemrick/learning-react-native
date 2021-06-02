@@ -16,8 +16,14 @@ export default {
 				email: '',
 				role: ''
 			},
+			info: {
+				name: '',
+				email: '',
+				role: ''
+			},
 			loading: false,
 			sendInvites: false,
+			infoModal: false,
 			checkedContacts: [],
 			tableHeaders: [
 				{
@@ -61,7 +67,7 @@ export default {
 				{
 					name: 'Kingsley Omin',
 					email: 'Abass@apple.com',
-					adminRole: 'Super Admin',
+					adminRole: 'Admin User',
 					date: 'May 09, 2021',
 					time: '12:38 PM',
 					rowId: 2,
@@ -73,15 +79,51 @@ export default {
 				{
 					name: 'Kingsley Omin',
 					email: 'Abass@apple.com',
-					adminRole: 'Super Admin',
+					adminRole: 'Admin User',
 					date: 'May 09, 2021',
 					time: '12:38 PM',
 					rowId: 3,
 					status: {
 						statusCode: 'ACTIVE',
-						message: 'Active'
+						message: 'active'
 					}
 				},
+				{
+					name: 'Kingsley Omin',
+					email: 'Abass@apple.com',
+					adminRole: 'Admin User',
+					date: 'May 09, 2021',
+					time: '12:38 PM',
+					rowId: 4,
+					status: {
+						statusCode: 'ACTIVE',
+						message: 'active'
+					}
+				},
+				{
+					name: 'Kingsley Omin',
+					email: 'Abass@apple.com',
+					adminRole: 'Admin User',
+					date: 'May 09, 2021',
+					time: '12:38 PM',
+					rowId: 5,
+					status: {
+						statusCode: 'ACTIVE',
+						message: 'active'
+					}
+				},
+				{
+					name: 'Kingsley Omin',
+					email: 'Abass@apple.com',
+					adminRole: 'Admin User',
+					date: 'May 09, 2021',
+					time: '12:38 PM',
+					rowId: 6,
+					status: {
+						statusCode: 'ACTIVE',
+						message: 'Active'
+					}
+				}
 			]
 		};
 	},
@@ -103,5 +145,8 @@ export default {
 		toggleSendInvites() {
 			this.sendInvites = !this.sendInvites;
 		},
+		toggleInfoModal() {
+			this.infoModal = !this.infoModal;
+		}
 	}
 };

@@ -1,4 +1,4 @@
-import { ValidationObserver } from 'vee-validate';
+// import { ValidationObserver } from 'vee-validate';
 import CButton from '@/components/Button';
 import VTabs from '@/components/Tabs';
 import VTab from '@/components/Tabs/Tab';
@@ -206,7 +206,7 @@ export default {
 		};
 	},
 	components: {
-		ValidationObserver,
+		// ValidationObserver,
 		CButton,
 		VTabs,
 		VTab,

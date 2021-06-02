@@ -247,7 +247,7 @@
 			</template>
 		</modal>
 
-    <modal position="right" :active="contactModal" @close="contactModal = !contactModal">
+		<modal position="right" :active="contactModal" @close="contactModal = !contactModal">
 			<template #title>
 				<h3>Import Contact</h3>
 			</template>
@@ -261,9 +261,7 @@
 					<small class="csv ">CSV up to 10MB</small>
 				</div>
 				<div class="flex flex-end">
-					<c-button class="mt-2 submit"
-					size="large"
-					buttonType="primary">
+					<c-button class="mt-2 submit" size="large" buttonType="primary">
 						<template v-if="!loading">Search</template>
 						<Loader v-else />
 					</c-button>

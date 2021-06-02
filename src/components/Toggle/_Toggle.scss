@@ -24,7 +24,7 @@
 		box-sizing: border-box;
 		cursor: pointer;
 		border-radius: 16px;
-    background: lightgrey;
+    background: #EAEBEB;
 		&:before {
 			content: '';
 			height: 25px;
@@ -45,7 +45,7 @@
 			left: 5px;
 			box-shadow: none;
 			border-radius: 15px;
-			background: #333758;
+			background: #fff;
 			position: absolute;
 			z-index: 2;
 			transform: translateX(0);

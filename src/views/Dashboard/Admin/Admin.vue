@@ -3,7 +3,12 @@
 		<div class="page-header">
 			<h2 class="title">Admin Management</h2>
 			<c-button class="submit" size="large" buttonType="primary" @click="toggleSendInvites">
-				Send Invite
+				<div class="flex">
+					<span class="add-icon">
+						<img src="@/assets/icons/add-icon.svg" svg-inline />
+					</span>
+					<p>Send Invite</p>
+				</div>
 			</c-button>
 		</div>
 		<div class="search-group">
@@ -74,7 +79,7 @@
 			</div>
 		</div>
 
-		<!-- <modal position="right" :active="sendInvites" @close="sendInvites = !sendInvites">
+		<modal position="right" :active="sendInvites" @close="sendInvites = !sendInvites">
 			<template #title>
 				<h3>Admin Invite</h3>
 			</template>
@@ -94,15 +99,13 @@
 								placeholder="johndoe@email.com"
 							/>
 
-							<text-input
-								rules="required"
-								labelVisible
-								v-model="form.role"
-								width="100%"
-								name="Role"
-								placeholder="Admin"
-							/>
-							<div class="flex-end">
+							<label class="select-label" for="admin">Role</label><br />
+							<select class="select-input" width="100%" name="admin" id="admin">
+								<option value="adminUser">Admin</option>
+								<option value="admin">Admin User</option>
+								<option value="superAdmin">Super Admin</option>
+							</select>
+							<div class="flex flex__end">
 								<c-button class="submit"
 								size="large"
 								buttonType="primary">
@@ -114,62 +117,64 @@
 					</ValidationObserver>
 				</form>
 			</template>
-		</modal> -->
+		</modal>
 
-		<modal position="right" :active="sendInvites" @close="sendInvites = !sendInvites">
+		<modal position="right" :active="infoModal" @close="infoModal = !infoModal">
 			<template #title>
 				<h3>Edit Info</h3>
 			</template>
 			<template #body>
-				<p class="modal-text">Enter a registered email address to send admin invite</p>
 				<form action="">
-					<ValidationObserver v-slot="{}">
-						<div class="auth-input">
+					<!-- <ValidationObserver v-slot="{ invalid }"> -->
+					<div class="auth-input">
+						<text-input
+							:disabled="invalid"
+							rules="required"
+							labelVisible
+							v-model="info.name"
+							width="100%"
+							name="Name"
+							placeholder="Ronald Richards"
+						/>
+						<text-input
+							type="email"
+							rules="required"
+							labelVisible
+							v-model="info.email"
+							width="100%"
+							name="Email"
+							placeholder="ronald@volley.com"
+						/>
 
-							<text-input
-								rules="required"
-								labelVisible
-								v-model="form.name"
-								width="100%"
-								name="Name"
-								placeholder="Ronald Richards"
-							/>
-							<text-input
-								type="email"
-								rules="required"
-								labelVisible
-								v-model="form.email"
-								width="100%"
-								name="Email"
-								placeholder="ronald@volley.com"
-							/>
+						<text-input
+						rules="required"
+						labelVisible
+						v-model="form.role"
+						width="100%" name="Role"
+						placeholder="Admin User" />
 
-							<text-input
-								rules="required"
-								labelVisible
-								v-model="form.role"
-								width="100%"
-								name="Role"
-								placeholder="Admin User"
-							/>
+						<label class="select-label" for="admin">Admin Type</label><br />
+						<select class="select-input" width="100%" name="admin" id="admin">
+							<option value="adminUser">Admin User</option>
+							<option value="admin">Admin</option>
+							<option value="superAdmin">Super Admin</option>
+						</select>
 
-							<p class="toggle-prompt">Toggle to activate user</p>
-							<div class="flex flex__item-center toggle-group">
-								<div class="mr-1">
-									<Toggle />
-								</div>
-								<h4 class="toggle-text">Active</h4>
+						<p class="toggle-prompt">Toggle to activate user</p>
+						<div class="flex flex__item-center toggle-group">
+							<div class="mr-1">
+								<Toggle />
 							</div>
-							<div class="flex flex-end">
-								<c-button class="submit"
-								size="large"
-								buttonType="primary">
-									<template v-if="!loading">Save Changes</template>
-									<Loader v-else />
-								</c-button>
-							</div>
+							<h4 class="toggle-text">Active</h4>
 						</div>
-					</ValidationObserver>
+						<div class="flex flex-end">
+							<c-button class="submit" size="large" buttonType="primary">
+								<template v-if="!loading">Save Changes</template>
+								<Loader v-else />
+							</c-button>
+						</div>
+					</div>
+					<!-- </ValidationObserver> -->
 				</form>
 			</template>
 		</modal>
