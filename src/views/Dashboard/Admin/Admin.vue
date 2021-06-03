@@ -52,7 +52,7 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="openEditModal">
 									Edit Info
 								</li>
 								<li class="dropdown__item">
@@ -85,9 +85,22 @@
 			</template>
 			<template #body>
 				<p class="modal-text">Enter a registered email address to send admin invite</p>
-				<form action="">
+				<div>
 					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
+							<div class="email-field">
+								<span v-for="(email, index) in emailList" :key="index">
+									<InputTag @close="deleteEmail(index)">{{ email }} </InputTag>
+								</span>
+								<input class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
+
+								<!-- <text-input
+								type="email"
+								width="fit-content"
+								v-model="form.email"
+								placeholder="johndoe@email.com"
+								/> -->
+							</div>
 							<text-input
 								type="email"
 								rules="required"
@@ -106,27 +119,26 @@
 							</select>
 							<div class="flex flex__end">
 								<c-button class="submit" size="large" buttonType="primary">
-									<template v-if="!loading">Save Changes</template>
+									<template v-if="!loading">Send Invite</template>
 									<Loader v-else />
 								</c-button>
 							</div>
 						</div>
+						<input type="text" />
 					</ValidationObserver>
-				</form>
+				</div>
 			</template>
 		</modal>
 
-		<modal position="right" :active="infoModal" @close="infoModal = !infoModal">
+		<modal position="right" :active="editModal" @close="editModal = !editModal">
 			<template #title>
 				<h3>Edit Info</h3>
 			</template>
 			<template #body>
 				<form action="">
-					<!-- <ValidationObserver v-slot="{ invalid }"> -->
 					<div class="auth-input">
 						<text-input
-							:disabled="invalid"
-							rules="required"
+							:disabled="true"
 							labelVisible
 							v-model="info.name"
 							width="100%"
@@ -135,7 +147,7 @@
 						/>
 						<text-input
 							type="email"
-							rules="required"
+							:disabled="true"
 							labelVisible
 							v-model="info.email"
 							width="100%"
@@ -143,9 +155,7 @@
 							placeholder="ronald@volley.com"
 						/>
 
-						<text-input rules="required" labelVisible v-model="form.role" width="100%" name="Role" placeholder="Admin User" />
-
-						<label class="select-label" for="admin">Admin Type</label><br />
+						<label class="select-label" for="admin">Role</label><br />
 						<select class="select-input" width="100%" name="admin" id="admin">
 							<option value="adminUser">Admin User</option>
 							<option value="admin">Admin</option>
@@ -166,7 +176,6 @@
 							</c-button>
 						</div>
 					</div>
-					<!-- </ValidationObserver> -->
 				</form>
 			</template>
 		</modal>

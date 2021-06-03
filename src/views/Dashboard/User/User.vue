@@ -134,7 +134,6 @@
 							<p class="description">Add terms to refine your contact search results</p>
 							<v-text-input
 								class="search-input"
-								rules="required"
 								placeholder="customer data, customer insights, NPS"
 								name="contact search"
 								width="100%"
@@ -143,13 +142,7 @@
 						<div class="settings-group">
 							<p class="text">Company search terms</p>
 							<p class="description">Add terms to refine your company search results</p>
-							<v-text-input
-								class="search-input"
-								rules="required"
-								placeholder="Terms (comma seperated)"
-								name="company search"
-								width="100%"
-							/>
+							<v-text-input class="search-input" placeholder="Terms (comma seperated)" name="company search" width="100%" />
 						</div>
 						<div class="flex flex-end">
 							<c-button size="large" buttonType="primary">

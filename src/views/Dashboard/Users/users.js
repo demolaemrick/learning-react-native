@@ -28,7 +28,7 @@ export default {
 			loading: false,
 			createUser: false,
 			filter: false,
-			editModal: false,
+			// editModal: false,
 			statusOption: 'active',
 			statusType: [
 				{
@@ -190,7 +190,9 @@ export default {
 						message: 'Active'
 					}
 				}
-			]
+			],
+			currentPage: 1,
+			totalPages: 5
 		};
 	},
 	props: {
@@ -216,9 +218,12 @@ export default {
 		},
 		toggleFilterModal() {
 			this.filter = !this.filter;
+		},
+		clickCallback(page) {
+			this.currentPage = page;
+		},
+		showUser(item) {
+			this.$router.push({ name: 'User', params: { id: item.rowId } })
 		}
-		// toggleEditModal() {
-		// 	this.editModal = !this.editModal;
-		// }
 	}
 };

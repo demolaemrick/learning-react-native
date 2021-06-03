@@ -23,7 +23,9 @@
 						</c-button>
 					</template>
 					<template #dropdown-items>
-						<li class="dropdown__item"></li>
+						<li class="dropdown__item">
+							Export Users
+						</li>
 					</template>
 				</toggle-dropdown>
 			</div>
@@ -65,15 +67,6 @@
 								placeholder="johndoe@email.com"
 							/>
 
-							<text-input
-								type="email"
-								rules="required"
-								labelVisible
-								v-model="form.email"
-								width="100%"
-								name="Email Address"
-								placeholder="yourmail@email.com"
-							/>
 							<div class="flex">
 								<text-input
 									type="text"
@@ -122,7 +115,7 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-							<div class="flex-end">
+							<div class="flex-end mb-2">
 								<c-button class="submit" size="large" buttonType="primary">
 									<template v-if="!loading">Create Account</template>
 									<Loader v-else />
@@ -179,124 +172,10 @@
 			</template>
 		</modal>
 
-		<!-- <modal position="right" :active="editModal" @close="editModal = !editModal">
-			<template #title>
-				<h3>Edit</h3>
-			</template>
-			<template #body>
-				<form action="">
-					<ValidationObserver v-slot="{}">
-						<div class="auth-input">
-							<div class="flex">
-								<text-input
-									rules="required"
-									labelVisible
-									v-model="form.firstName"
-									width="204px"
-									name="First Name"
-									placeholder="John"
-								/>
-								<text-input
-									rules="required"
-									labelVisible
-									v-model="form.lastName"
-									width="204px"
-									name="Last Name"
-									placeholder="Doe"
-								/>
-							</div>
-
-							<text-input
-								type="email"
-								rules="required"
-								labelVisible
-								v-model="form.email"
-								width="100%"
-								name="Email Address"
-								placeholder="yourmail@email.com"
-							/>
-							<div class="flex">
-								<text-input
-									type="text"
-									rules="required"
-									labelVisible
-									v-model="form.organisation"
-									width="204px"
-									name="Organisation"
-									placeholder="Microsoft"
-								/>
-								<text-input
-									type="number"
-									rules="required"
-									labelVisible
-									v-model="form.researches"
-									width="204px"
-									name="No. Research/month"
-									placeholder="200"
-								/>
-							</div>
-							<div class="flex">
-								<text-input
-									type="text"
-									rules="required"
-									labelVisible
-									v-model="form.email"
-									width="204px"
-									name="Profession"
-									placeholder="Product"
-								/>
-								<text-input
-									type="number"
-									rules="required"
-									labelVisible
-									v-model="form.email"
-									width="204px"
-									name="Role"
-									placeholder="Content Creator"
-								/>
-							</div>
-							<div class="flex-end">
-								<c-button class="submit"
-								size="large"
-								buttonType="primary">
-									<template v-if="!loading">Save Changes</template>
-									<Loader v-else />
-								</c-button>
-							</div>
-						</div>
-					</ValidationObserver>
-				</form>
-			</template>
-		</modal> -->
-
-		<!-- <modal position="right" :active="filter" @close="filter = !editModal">
-			<template #title>
-				<h3>Import Contact</h3>
-			</template>
-			<template #body>
-				<div class="file-wrapper">
-					<img src="@/assets/icons/image-icon.svg" svg-inline />
-					<a href="">
-						<span class="file-uploads">Upload a file </span>
-						<span class="file-text">or drag and drop</span>
-					</a>
-					<small class="csv ">CSV up to 10MB</small>
-				</div>
-				<div class="flex-end">
-					<c-button class="mt-2 submit"
-					size="large"
-					buttonType="primary">
-						<template v-if="!loading">Search</template>
-						<Loader v-else />
-					</c-button>
-				</div>
-			</template>
-		</modal> -->
-
 		<div>
-			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research">
+			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
-					<td class="table__row-item">
+					<td class="table__row-item" @click.stop>
 						<div class="check-input">
 							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
 						</div>
@@ -311,12 +190,15 @@
 						{{ item.date }} |
 						<span class="time">{{ item.time }}</span>
 					</td>
-					<td class="">
+					<td class="" @click.stop>
 						<toggle-dropdown itemPadding="0">
 							<template #dropdown-wrapper>
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
+								<li class="dropdown__item" @click="showUser(item)">
+									View User
+								</li>
 								<li class="dropdown__item">
 									Edit Info
 								</li>
@@ -331,6 +213,26 @@
 					</td>
 				</template>
 			</v-table>
+			<div class="table__pagination__wrapper">
+				<div class="title__left">
+					<span>Showing Page</span>
+					<span>
+						{{ currentPage }}
+					</span>
+					<span>of</span>
+					<span>{{ totalPages }}</span>
+				</div>
+
+				<paginate
+					:page-count="totalPages"
+					:click-handler="clickCallback"
+					:prev-text="'Prev'"
+					:next-text="'Next'"
+					:container-class="'pagination__list'"
+					:page-class="'pagination__list-item'"
+				>
+				</paginate>
+			</div>
 
 			<div v-if="history.length < 1">
 				<div class="emptyState">

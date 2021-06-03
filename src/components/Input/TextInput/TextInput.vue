@@ -10,6 +10,7 @@
 				v-model="innerValue"
 				class="form-input"
 				:style="style"
+				:disabled="disabled"
 				:class="{
 					'form-input--error': errors && errors[0],
 					'form__input--valid': hasValue

@@ -8,7 +8,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 7px 8px;
-		max-width: 70px;
+		width: fit-content;
 
 		.white__circle {
 			width: 12px;
@@ -18,6 +18,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin-right: 4px;
 			.pin {
 				width: 6px;
 				height: 6px;
@@ -43,7 +44,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 7px 8px;
-		max-width: 100px;
+		width: fit-content;
 
 		.white__circle {
 			width: 12px;
@@ -53,6 +54,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin-right: 4px;
 			.pin {
 				width: 6px;
 				height: 6px;
@@ -78,7 +80,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 6px 8px;
-		max-width: 100px;
+		width: fit-content;
 
     .white__circle {
 			width: 12px;
@@ -88,6 +90,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin-right: 4px;
 			.pin {
 				width: 6px;
 				height: 6px;
@@ -113,7 +116,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 6px 8px;
-		max-width: 70px;
+		width: fit-content;
 
     .white__circle {
 			width: 12px;
@@ -123,6 +126,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin-right: 4px;
 			.pin {
 				width: 6px;
 				height: 6px;

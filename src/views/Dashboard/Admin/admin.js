@@ -7,6 +7,7 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Status from '@/components/Status';
 import Toggle from '@/components/Toggle';
+import InputTag from '@/components/InputTag';
 
 export default {
 	name: 'Dashboard',
@@ -21,9 +22,10 @@ export default {
 				email: '',
 				role: ''
 			},
+			emailInput: '',
 			loading: false,
 			sendInvites: false,
-			infoModal: false,
+			editModal: false,
 			checkedContacts: [],
 			tableHeaders: [
 				{
@@ -124,7 +126,8 @@ export default {
 						message: 'Active'
 					}
 				}
-			]
+			],
+			emailList: []
 		};
 	},
 	props: {
@@ -139,14 +142,27 @@ export default {
 		ToggleDropdown,
 		Modal,
 		Status,
-		Toggle
+		Toggle,
+		InputTag
 	},
 	methods: {
 		toggleSendInvites() {
 			this.sendInvites = !this.sendInvites;
 		},
-		toggleInfoModal() {
-			this.infoModal = !this.infoModal;
+		// toggleInfoModal() {
+		// 	this.editModal = !this.editModal;
+		// },
+		openEditModal() {
+			console.log('jhbfjhdbjaf');
+			this.editModal = !this.editModal;
+		},
+		addEmail() {
+			this.emailList.push(this.emailInput);
+			this.emailInput = '';
+		},
+		deleteEmail(index) {
+			const list = this.emailList;
+			list.splice(index, 1);
 		}
 	}
 };
