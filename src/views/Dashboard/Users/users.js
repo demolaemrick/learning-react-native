@@ -223,7 +223,7 @@ export default {
 			this.currentPage = page;
 		},
 		showUser(item) {
-			this.$router.push({ name: 'User', params: { id: item.rowId } })
+			this.$router.push({ name: 'User', params: { id: item.rowId } });
 		}
 	}
 };
