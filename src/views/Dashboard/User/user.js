@@ -290,7 +290,6 @@ export default {
 			this.$router.push({ name: 'Users' });
 		},
 		inputFile(newFile) {
-		
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
@@ -338,7 +337,7 @@ export default {
 		},
 		async uploadBulkResearch() {
 			this.loading = true;
-			console.log(	this.csvImport.contacts);
+			console.log(this.csvImport.contacts);
 		}
 	}
 };

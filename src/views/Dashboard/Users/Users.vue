@@ -16,7 +16,7 @@
 						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" svg-inline />
 					</c-button>
 				</span>
-				<toggle-dropdown itemPadding="0">
+				<toggle-dropdown itemPadding="0" width="120px">
 					<template #dropdown-wrapper>
 						<c-button size="icon" buttonType="outline">
 							<img src="@/assets/icons/menu3dot.svg" svg-inline />
