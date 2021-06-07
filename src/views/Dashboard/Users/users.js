@@ -4,7 +4,6 @@ import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
 import ToggleDropdown from '@/components/ToggleDropdown';
-import UserModal from '@/components/UserDashboardModal';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import PasswordInput from '@/components/Input/PasswordInput';
@@ -30,7 +29,6 @@ export default {
 			filter: false,
 			showEditModal: false,
 			toggleClass: true,
-			// editModal: false,
 			statusOption: 'active',
 			statusType: [
 				{
@@ -207,7 +205,6 @@ export default {
 		VTable,
 		VHeader,
 		ToggleDropdown,
-		UserModal,
 		Modal,
 		Loader,
 		PasswordInput,
@@ -236,11 +233,7 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
-			// this.filter = !this.filter;
 		},
-		// toggleEditModal() {
-		// 	this.editModal = !this.editModal;
-		// },
 		toggleEditModal() {
 			if (!this.showEditModal) {
 				this.showEditModal = true;
@@ -261,7 +254,6 @@ export default {
 		checkAll(event) {
 			if (event.target.checked) {
 				this.history.forEach((item) => {
-					// console.log(item);
 					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
 						this.checkedContacts.push(item.rowId);
 						return item.rowId;

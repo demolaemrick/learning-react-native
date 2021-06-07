@@ -1,5 +1,4 @@
 <template>
-	<!-- <div><p>tester</p></div> -->
 	<div class="dashboard-header">
 		<div class="user-details">
 			<h4 class="user-details__name">Brown Ideye</h4>

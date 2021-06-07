@@ -12,7 +12,6 @@ import Status from '@/components/Status';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
-import EditUser from '@/components/EditUser';
 import FileUpload from 'vue-upload-component';
 
 export default {
@@ -230,7 +229,6 @@ export default {
 		Status,
 		ToggleDropdown,
 		Modal,
-		EditUser,
 		FileUpload
 	},
 	methods: {

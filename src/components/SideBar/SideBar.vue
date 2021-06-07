@@ -1,7 +1,5 @@
 <template>
-	<!-- bind class to sidebar -->
 	<aside class="sidebar">
-		<!-- <div class="sidebar-wrapper"> -->
 		<div class="sidebar__header">
 			<span>
 				<img src="@/assets/icons/volley-logo-white.svg" alt="" />
