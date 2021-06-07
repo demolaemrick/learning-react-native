@@ -20,7 +20,7 @@
 		</div>
 
 		<div>
-			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research">
+			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
 						<div class="check-input">
@@ -52,7 +52,7 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="openEditModal">
+								<li class="dropdown__item" @click="toggleEditModal">
 									Edit Info
 								</li>
 								<li class="dropdown__item">
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 
-		<modal position="right" :active="sendInvites" @close="sendInvites = !sendInvites">
+		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleSendInvites">
 			<template #title>
 				<h3>Admin Invite</h3>
 			</template>
@@ -95,16 +95,6 @@
 								</span>
 
 								<input class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
-
-								<!-- <text-input
-								type="email"
-								width="fit-content"
-								v-model="emailInput"
-								height="32px"
-								name="Email Address"
-								border="none"
-								@keyup.enter="addEmail"
-								/> -->
 							</div>
 
 							<label class="select-label" for="admin">Role</label><br />
@@ -125,7 +115,7 @@
 			</template>
 		</modal>
 
-		<modal position="right" :active="editModal" @close="editModal = !editModal">
+		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
 			<template #title>
 				<h3>Edit Info</h3>
 			</template>

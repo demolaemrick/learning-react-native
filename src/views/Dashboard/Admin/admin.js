@@ -127,7 +127,9 @@ export default {
 					}
 				}
 			],
-			emailList: []
+			emailList: [],
+			showEditModal: false,
+			toggleClass: true
 		};
 	},
 	props: {
@@ -146,14 +148,29 @@ export default {
 		InputTag
 	},
 	methods: {
-		toggleSendInvites() {
-			this.sendInvites = !this.sendInvites;
+		toggleEditModal() {
+			if (!this.showEditModal) {
+				this.showEditModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showEditModal = !this.showEditModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
-		// toggleInfoModal() {
-		// 	this.editModal = !this.editModal;
-		// },
+		toggleSendInvites() {
+			if (!this.sendInvites) {
+				this.sendInvites = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.sendInvites = !this.sendInvites;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
 		openEditModal() {
-			console.log('jhbfjhdbjaf');
 			this.editModal = !this.editModal;
 		},
 		addEmail() {
@@ -165,6 +182,19 @@ export default {
 		deleteEmail(index) {
 			const list = this.emailList;
 			list.splice(index, 1);
+		},
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
+						this.checkedContacts.push(item.rowId);
+						return item.rowId;
+					}
+					return item.rowId;
+				});
+			} else {
+				this.checkedContacts = [];
+			}
 		}
 	}
 };

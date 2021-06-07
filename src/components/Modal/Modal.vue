@@ -1,6 +1,6 @@
 <template>
-	<div class="modal-overlay" @click="closeModal" :class="[!toggleClass ? 'fadeOut' : null, `modal-${position}`, active ? 'open' : '']">
-		<div @click.stop="" class="modal-body" :class="{ open: active }" :style="style">
+	<div class="modal-overlay" @click="closeModal" :class="[!toggleClass ? 'fadeOut' : null, `modal-${position}`]">
+		<div @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
 			<div class="modal-header">
 				<span class="modal-header--title">
 					<slot name="title"></slot>

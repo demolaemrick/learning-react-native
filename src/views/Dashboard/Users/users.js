@@ -28,7 +28,9 @@ export default {
 			loading: false,
 			createUser: false,
 			filter: false,
-			editModal: false,
+			showEditModal: false,
+			toggleClass: true,
+			// editModal: false,
 			statusOption: 'active',
 			statusType: [
 				{
@@ -214,19 +216,61 @@ export default {
 	},
 	methods: {
 		toggleCreateUser() {
-			this.createUser = !this.createUser;
+			if (!this.createUser) {
+				this.createUser = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.createUser = !this.createUser;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
 		toggleFilterModal() {
-			this.filter = !this.filter;
+			if (!this.filter) {
+				this.filter = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.filter = !this.filter;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+			// this.filter = !this.filter;
 		},
+		// toggleEditModal() {
+		// 	this.editModal = !this.editModal;
+		// },
 		toggleEditModal() {
-			this.editModal = !this.editModal;
+			if (!this.showEditModal) {
+				this.showEditModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showEditModal = !this.showEditModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
 		clickCallback(page) {
 			this.currentPage = page;
 		},
 		showUser(item) {
 			this.$router.push({ name: 'User', params: { id: item.rowId } });
+		},
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					// console.log(item);
+					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
+						this.checkedContacts.push(item.rowId);
+						return item.rowId;
+					}
+					return item.rowId;
+				});
+			} else {
+				this.checkedContacts = [];
+			}
 		}
 	}
 };

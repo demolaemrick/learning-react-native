@@ -67,7 +67,7 @@
 				</v-tab>
 				<v-tab style="max-width: 100%" title="Contacts" @getData="setActiveTab('contacts')">
 					<div>
-						<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research">
+						<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
 							<template name="table-row" slot-scope="{ item }">
 								<td class="table__row-item">
 									<div class="check-input">
@@ -154,8 +154,8 @@
 			</v-tabs>
 		</div>
 
-		<modal position="right" :active="editModal" @close="editModal = !editModal">
-		<template #title>
+		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
+			<template #title>
 				<h3>Edit</h3>
 			</template>
 			<template #body>
@@ -239,20 +239,31 @@
 				</form>
 			</template>
 		</modal>
-		<!-- <EditUser @close="editModal = !editModal" /> -->
 
-		<modal position="right" :active="contactModal" @close="contactModal = !contactModal">
+		<modal position="right" v-if="contactModal" :toggleClass="toggleClass" @close="toggleUploadContact">
 			<template #title>
 				<h3>Import Contact</h3>
 			</template>
 			<template #body>
-				<div class="file-wrapper">
-					<img src="@/assets/icons/image-icon.svg" svg-inline />
-					<a href="">
-						<span class="file-uploads">Upload a file </span>
-						<span class="file-text">or drag and drop</span>
-					</a>
-					<small class="csv ">CSV up to 10MB</small>
+				<div class="upload__wrapper">
+					<file-upload
+						:drop="true"
+						ref="upload"
+						:extensions="extensions"
+						:accept="accept"
+						@input-file="inputFile"
+						v-model="files"
+					>
+						<template>
+							<div class="upload__placeholder__content">
+								<img src="@/assets/icons/image-icon.svg" svg-inline />
+								<div class="text__content">
+									<p><span class="link">Upload a file </span>or drag and drop</p>
+								</div>
+								<small class="text__desc ">CSV up to 10MB</small>
+							</div>
+						</template>
+					</file-upload>
 				</div>
 				<div class="flex flex-end">
 					<c-button class="mt-2 submit" size="large" buttonType="primary">

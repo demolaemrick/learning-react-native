@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<modal position="right" :active="createUser" @close="createUser = !createUser">
+		<modal position="right" v-if="createUser" :toggleClass="toggleClass" @close="toggleCreateUser">
 			<template #title>
 				<h3>Create User</h3>
 			</template>
@@ -127,7 +127,7 @@
 			</template>
 		</modal>
 
-		<modal position="right" :active="filter" @close="filter = !filter">
+		<modal position="right" v-if="filter" :toggleClass="toggleClass" @close="toggleFilterModal">
 			<template #title>
 				<h3>Filter</h3>
 			</template>
@@ -172,8 +172,7 @@
 			</template>
 		</modal>
 
-
-		<modal position="right" :active="editModal" @close="editModal = !editModal">
+		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
 			<template #title>
 				<h3>Edit</h3>
 			</template>
@@ -260,18 +259,11 @@
 		</modal>
 
 		<div>
-			<v-table 
-			:tableHeaders="tableHeaders"
-			:tableData="history"
-			theme="contact__research"
-			@rowClick="showUser">
+			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @rowClick="showUser" @checkAll="checkAll">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item" @click.stop>
 						<div class="check-input">
-							<input type="checkbox"
-							:value="item.rowId"
-							v-model="checkedContacts"
-							:disabled="false" />
+							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
 						</div>
 					</td>
 					<td class="table__row-item">{{ item.name }}</td>

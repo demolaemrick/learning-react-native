@@ -12,6 +12,7 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import EditUser from '@/components/EditUser';
+import FileUpload from 'vue-upload-component';
 
 export default {
 	name: 'User',
@@ -22,10 +23,11 @@ export default {
 				email: null,
 				password: null
 			},
-			editModal: false,
+			showEditModal: false,
 			contactModal: false,
 			checkedContacts: [],
 			loading: false,
+			toggleClass: true,
 			tableHeaders: [
 				{
 					name: '',
@@ -203,7 +205,10 @@ export default {
 					}
 				}
 			],
-			activeTab: 'details'
+			activeTab: 'details',
+			accept: 'csv',
+			extensions: 'csv',
+			files: []
 		};
 	},
 	components: {
@@ -220,14 +225,34 @@ export default {
 		Status,
 		ToggleDropdown,
 		Modal,
-		EditUser
+		EditUser,
+		FileUpload
 	},
 	methods: {
+		// toggleEditModal() {
+		// 	this.editModal = !this.editModal;
+		// },
 		toggleEditModal() {
-			this.editModal = !this.editModal;
+			if (!this.showEditModal) {
+				this.showEditModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showEditModal = !this.showEditModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
 		toggleUploadContact() {
-			this.contactModal = !this.contactModal;
+			if (!this.contactModal) {
+				this.contactModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.contactModal = !this.contactModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
 		setActiveTab(evt) {
 			switch (evt) {
@@ -242,8 +267,50 @@ export default {
 					break;
 			}
 		},
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					// console.log(item);
+					if (item.status.statusCode === 'DONE' || item.status.statusCode === '') {
+						this.checkedContacts.push(item.rowId);
+						return item.rowId;
+					}
+					return item.rowId;
+				});
+			} else {
+				this.checkedContacts = [];
+			}
+		},
 		backToUsers() {
 			this.$router.push({ name: 'Users' });
+		},
+		inputFile(newFile) {
+			if (newFile.size > 10485760) {
+				this.showAlert({
+					status: 'error',
+					message: 'file size is is more that 10MB',
+					showAlert: true
+				});
+				return true;
+			}
+			if (newFile.name.split('.').pop() !== 'csv') {
+				this.showAlert({
+					status: 'error',
+					message: 'file type is not csv',
+					showAlert: true
+				});
+				return true;
+			}
+			const readFile = async (event) => {
+				const csvFilePath = event.target.result;
+				this.csvImport.contacts = await this.csvJSON(csvFilePath);
+				this.uploadBulkResearch();
+			};
+			var file = newFile.file;
+
+			var reader = new FileReader();
+			reader.readAsText(file);
+			reader.addEventListener('load', readFile);
 		}
 	}
 };
