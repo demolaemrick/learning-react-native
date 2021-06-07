@@ -36,17 +36,20 @@
 					</div>
 					<div class="contact__icon__group">
 						<span v-for="(social, i) in socials" :key="i">
-							<a v-if="social.twitter && social.twitter.length !== 0" :href="social.twitter" target="_blank"
+							<a v-if="social.twitter && Object.entries(social.twitter).length > 0" :href="social.twitter" target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" svg-inline
 							/></a>
-							<a v-if="social.linkedin && social.linkedin.length !== 0" :href="social.linkedin" target="_blank"
+							<a v-if="social.linkedin && Object.entries(social.linkedin).length > 0" :href="social.linkedin" target="_blank"
 								><img src="@/assets/icons/linkedin-icon.svg" svg-inline
 							/></a>
-							<a v-if="social.website && social.website.length !== 0" :href="validateURL(social.website)" target="_blank"
+							<a
+								v-if="social.website && Object.entries(social.website).length > 0"
+								:href="validateURL(social.website)"
+								target="_blank"
 								><img src="@/assets/icons/world-icon.svg" svg-inline
 							/></a>
 							<a
-								v-if="social.crunchbase && social.crunchbase.length !== 0"
+								v-if="social.crunchbase && Object.entries(social.crunchbase).length > 0"
 								:href="validateURL(social.crunchbase)"
 								target="_blank"
 								><img src="@/assets/icons/crunchbase.svg" svg-inline

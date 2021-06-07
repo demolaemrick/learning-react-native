@@ -91,14 +91,22 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			saveSearchedItem: 'search_services/saveSearchedItem'
 		}),
 		...mapActions({
 			getUserBookmarks: 'user/getBookmarks',
 			showAlert: 'showAlert',
 			removeFromBookmarks: 'user/removeFromBookmarks'
 		}),
-
+		displaySearchItem(type, item) {
+			const data = {
+				type: type,
+				item: item
+			};
+			this.saveSearchedItem(data);
+			this.$router.push({ name: 'SearchItem' });
+		},
 		async initUserBookmarks() {
 			this.bookmarkLoading = true;
 			try {
