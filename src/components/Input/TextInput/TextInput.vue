@@ -1,6 +1,6 @@
 <template>
 	<input-wrapper v-slot="{ errors, ariaInput }" v-bind="$props">
-		<label :class="{ 'form-label--hide': !labelVisible, 'gray': labelColor }" :for="name" class="form-label"
+		<label :class="{ 'form-label--hide': !labelVisible, gray: labelColor }" :for="name" class="form-label"
 			>{{ name }} <span v-if="rules === 'required'" class="required">*</span></label
 		>
 		<div class="u-relative" :style="style">
