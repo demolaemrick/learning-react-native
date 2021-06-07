@@ -87,29 +87,25 @@
 				<p class="modal-text">Enter a registered email address to send admin invite</p>
 				<div>
 					<ValidationObserver v-slot="{}">
-						<div class="auth-input">
+						<div @submit.prevent="" class="auth-input">
+							<label class="form-label form-group" for="">Email</label>
 							<div class="email-field">
 								<span v-for="(email, index) in emailList" :key="index">
 									<InputTag @close="deleteEmail(index)">{{ email }} </InputTag>
 								</span>
+
 								<input class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
 
 								<!-- <text-input
 								type="email"
 								width="fit-content"
-								v-model="form.email"
-								placeholder="johndoe@email.com"
+								v-model="emailInput"
+								height="32px"
+								name="Email Address"
+								border="none"
+								@keyup.enter="addEmail"
 								/> -->
 							</div>
-							<text-input
-								type="email"
-								rules="required"
-								labelVisible
-								v-model="form.email"
-								width="100%"
-								name="Email Address"
-								placeholder="johndoe@email.com"
-							/>
 
 							<label class="select-label" for="admin">Role</label><br />
 							<select class="select-input" width="100%" name="admin" id="admin">
@@ -124,7 +120,6 @@
 								</c-button>
 							</div>
 						</div>
-						<input type="text" />
 					</ValidationObserver>
 				</div>
 			</template>
@@ -156,7 +151,7 @@
 						/>
 
 						<label class="select-label" for="admin">Role</label><br />
-						<select class="select-input" width="100%" name="admin" id="admin">
+						<select class="select-input" width="100%" name="adminRole" id="adminRole">
 							<option value="adminUser">Admin User</option>
 							<option value="admin">Admin</option>
 							<option value="superAdmin">Super Admin</option>

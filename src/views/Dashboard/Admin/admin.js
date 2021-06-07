@@ -157,8 +157,10 @@ export default {
 			this.editModal = !this.editModal;
 		},
 		addEmail() {
+			console.log(this.emailList);
 			this.emailList.push(this.emailInput);
 			this.emailInput = '';
+			console.log(this.emailList);
 		},
 		deleteEmail(index) {
 			const list = this.emailList;

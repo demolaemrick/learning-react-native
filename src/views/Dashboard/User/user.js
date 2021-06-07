@@ -11,6 +11,7 @@ import Status from '@/components/Status';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
+import EditUser from '@/components/EditUser';
 
 export default {
 	name: 'User',
@@ -218,7 +219,8 @@ export default {
 		Loader,
 		Status,
 		ToggleDropdown,
-		Modal
+		Modal,
+		EditUser
 	},
 	methods: {
 		toggleEditModal() {
@@ -239,6 +241,9 @@ export default {
 					this.activeTab = evt;
 					break;
 			}
+		},
+		backToUsers() {
+			this.$router.push({ name: 'Users' });
 		}
 	}
 };

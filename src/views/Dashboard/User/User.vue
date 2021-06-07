@@ -2,7 +2,7 @@
 	<div class="user-wrapper">
 		<div class="flex flex-spaced">
 			<div class="flex flex-spaced flex__item-center ">
-				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline />
+				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline @click="backToUsers" />
 				<h3 class="page-title">Back to Users</h3>
 			</div>
 			<template v-if="activeTab === 'details'">
@@ -155,7 +155,7 @@
 		</div>
 
 		<modal position="right" :active="editModal" @close="editModal = !editModal">
-			<template #title>
+		<template #title>
 				<h3>Edit</h3>
 			</template>
 			<template #body>
@@ -239,6 +239,7 @@
 				</form>
 			</template>
 		</modal>
+		<!-- <EditUser @close="editModal = !editModal" /> -->
 
 		<modal position="right" :active="contactModal" @close="contactModal = !contactModal">
 			<template #title>

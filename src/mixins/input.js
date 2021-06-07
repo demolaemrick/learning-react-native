@@ -51,6 +51,14 @@ const InputMixin = {
 		disabled: {
 			type: Boolean,
 			default: false
+		},
+		border: {
+			type: String,
+			default: '1px solid #ebebf2;'
+		},
+		margin: {
+			type: String,
+			default: ''
 		}
 	},
 	data: () => ({
@@ -64,7 +72,9 @@ const InputMixin = {
 			return {
 				width: this.width,
 				height: this.height,
-				maxWidth: this.maxWidth
+				maxWidth: this.maxWidth,
+				border: this.border,
+				margin: this.margin
 			};
 		}
 	},

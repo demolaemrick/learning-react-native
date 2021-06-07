@@ -172,12 +172,106 @@
 			</template>
 		</modal>
 
+
+		<modal position="right" :active="editModal" @close="editModal = !editModal">
+			<template #title>
+				<h3>Edit</h3>
+			</template>
+			<template #body>
+				<form action="">
+					<ValidationObserver v-slot="{}" color="#ff0000">
+						<div class="auth-input">
+							<div class="flex flex-spaced">
+								<text-input
+									rules="required"
+									labelVisible
+									v-model="form.firstName"
+									width="204px"
+									name="First Name"
+									placeholder="John"
+								/>
+								<text-input
+									rules="required"
+									labelVisible
+									v-model="form.lastName"
+									width="204px"
+									name="Last Name"
+									placeholder="Doe"
+								/>
+							</div>
+
+							<text-input
+								type="email"
+								rules="required"
+								labelVisible
+								v-model="form.email"
+								width="100%"
+								name="Email Address"
+								placeholder="johndoe@email.com"
+							/>
+							<div class="flex flex-spaced">
+								<text-input
+									type="text"
+									rules="required"
+									labelVisible
+									v-model="form.organisation"
+									width="204px"
+									name="Organisation"
+									placeholder="Microsoft"
+								/>
+								<text-input
+									rules="required"
+									labelVisible
+									v-model="form.researches"
+									width="204px"
+									name="No. Research/month"
+									placeholder="200"
+								/>
+							</div>
+							<div class="flex flex-spaced">
+								<text-input
+									type="text"
+									rules="required"
+									labelVisible
+									v-model="form.profession"
+									width="204px"
+									name="Profession"
+									placeholder="Product"
+								/>
+								<text-input
+									rules="required"
+									labelVisible
+									v-model="form.role"
+									width="204px"
+									name="Role"
+									placeholder="Content Creator"
+								/>
+							</div>
+							<div class="flex flex__end">
+								<c-button class="submit" size="large" buttonType="primary">
+									<template v-if="!loading">Save Changes</template>
+									<Loader v-else />
+								</c-button>
+							</div>
+						</div>
+					</ValidationObserver>
+				</form>
+			</template>
+		</modal>
+
 		<div>
-			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @rowClick="showUser">
+			<v-table 
+			:tableHeaders="tableHeaders"
+			:tableData="history"
+			theme="contact__research"
+			@rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item" @click.stop>
 						<div class="check-input">
-							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
+							<input type="checkbox"
+							:value="item.rowId"
+							v-model="checkedContacts"
+							:disabled="false" />
 						</div>
 					</td>
 					<td class="table__row-item">{{ item.name }}</td>
@@ -199,7 +293,7 @@
 								<li class="dropdown__item" @click="showUser(item)">
 									View User
 								</li>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="toggleEditModal">
 									Edit Info
 								</li>
 								<li class="dropdown__item">

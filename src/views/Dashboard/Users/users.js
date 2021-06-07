@@ -28,7 +28,7 @@ export default {
 			loading: false,
 			createUser: false,
 			filter: false,
-			// editModal: false,
+			editModal: false,
 			statusOption: 'active',
 			statusType: [
 				{
@@ -218,6 +218,9 @@ export default {
 		},
 		toggleFilterModal() {
 			this.filter = !this.filter;
+		},
+		toggleEditModal() {
+			this.editModal = !this.editModal;
 		},
 		clickCallback(page) {
 			this.currentPage = page;
