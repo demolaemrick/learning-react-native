@@ -268,13 +268,13 @@ export default {
 		}
 	},
 	watch: {
-		'keywords.events': function (newVal) {
+		'keywords.events': function(newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.applyAllChecked = false;
 				this.payload.contact_research['events'] = [];
 			}
 		},
-		applyAllChecked: function (newVal) {
+		applyAllChecked: function(newVal) {
 			if (newVal) {
 				Object.keys(this.payload.contact_research).forEach((single) => {
 					this.payload.contact_research[single] = this.payload.contact_research.events;
@@ -292,13 +292,13 @@ export default {
 				this.keywords[single] = [];
 			});
 		},
-		'companyKeywords.job_postings': function (newVal) {
+		'companyKeywords.job_postings': function(newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.AllCompanyChecked = false;
 				this.payload.company_research['job_postings'] = [];
 			}
 		},
-		AllCompanyChecked: function (newVal) {
+		AllCompanyChecked: function(newVal) {
 			if (newVal) {
 				Object.keys(this.payload.company_research).forEach((single) => {
 					this.payload.company_research[single] = this.payload.company_research.job_postings;

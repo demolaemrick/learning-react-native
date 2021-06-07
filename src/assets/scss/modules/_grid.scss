@@ -9,7 +9,14 @@
 			grid-template-columns: repeat(10, 1fr);
 			@include grid-generator(10);
 		}
+		@for $i from 1 through 10 {
+			&.gap-#{$i} {
+				grid-gap: #{$i}rem !important;
+			}
+		}
 	}
+
+
 	&--no-gutter {
 		grid-gap: 0;
 	}

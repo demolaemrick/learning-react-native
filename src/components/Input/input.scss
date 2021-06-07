@@ -1,9 +1,13 @@
 @import '../../assets/scss/main.scss';
+
 .form-label {
 		display: block;
 		margin-bottom: 12px !important;
 		.required{
 			color: #ff0000;
+		}
+		&.gray {
+			color: #989AAA !important;
 		}
 	}
 
@@ -43,4 +47,9 @@
     color: #fe6159;
     display: block;
     margin-top: 10px;
+}
+.form-icon {
+	position: absolute;
+	top: calc(50% - 8px);
+	right: 12px;
 }
