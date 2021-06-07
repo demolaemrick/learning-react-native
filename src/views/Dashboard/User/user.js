@@ -1,4 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
+import { mapActions } from 'vuex';
 import CButton from '@/components/Button';
 import VTabs from '@/components/Tabs';
 import VTab from '@/components/Tabs/Tab';
@@ -208,7 +209,11 @@ export default {
 			activeTab: 'details',
 			accept: 'csv',
 			extensions: 'csv',
-			files: []
+			files: [],
+			csvImport: {
+				contacts: null,
+				is_csv: true
+			}
 		};
 	},
 	components: {
@@ -229,9 +234,9 @@ export default {
 		FileUpload
 	},
 	methods: {
-		// toggleEditModal() {
-		// 	this.editModal = !this.editModal;
-		// },
+		...mapActions({
+			showAlert: 'showAlert'
+		}),
 		toggleEditModal() {
 			if (!this.showEditModal) {
 				this.showEditModal = true;
@@ -285,6 +290,7 @@ export default {
 			this.$router.push({ name: 'Users' });
 		},
 		inputFile(newFile) {
+		
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
@@ -311,6 +317,28 @@ export default {
 			var reader = new FileReader();
 			reader.readAsText(file);
 			reader.addEventListener('load', readFile);
+		},
+		csvJSON(csv) {
+			var lines = csv.split('\n');
+
+			var result = [];
+			var headers = lines[0].split(',');
+
+			for (var i = 1; i < lines.length; i++) {
+				var obj = {};
+				var currentline = lines[i].split(',');
+
+				for (var j = 0; j < headers.length; j++) {
+					obj[headers[j]] = currentline[j];
+				}
+
+				result.push(obj);
+			}
+			return JSON.parse(JSON.stringify(result));
+		},
+		async uploadBulkResearch() {
+			this.loading = true;
+			console.log(	this.csvImport.contacts);
 		}
 	}
 };
