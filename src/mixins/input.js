@@ -59,6 +59,10 @@ const InputMixin = {
 		margin: {
 			type: String,
 			default: ''
+		},
+		labelColor: {
+			type: String,
+			default: ''
 		}
 	},
 	data: () => ({

@@ -43,6 +43,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.firstName"
 									width="204px"
 									name="First Name"
@@ -53,6 +54,7 @@
 									labelVisible
 									v-model="form.lastName"
 									width="204px"
+									labelColor="gray"
 									name="Last Name"
 									placeholder="Doe"
 								/>
@@ -63,6 +65,7 @@
 								labelVisible
 								v-model="form.mail"
 								width="100%"
+								labelColor="gray"
 								name="Email Address"
 								placeholder="johndoe@email.com"
 							/>
@@ -74,6 +77,7 @@
 									labelVisible
 									v-model="form.organisation"
 									width="204px"
+									labelColor="gray"
 									name="Organisation"
 									placeholder="Microsoft"
 								/>
@@ -81,6 +85,7 @@
 									type="number"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.researches"
 									width="204px"
 									name="No. Research/month"
@@ -92,6 +97,7 @@
 									type="text"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.profession"
 									width="204px"
 									name="Profession"
@@ -100,6 +106,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.role"
 									width="204px"
 									name="Role"
@@ -109,6 +116,7 @@
 							<password-input
 								type="password"
 								v-model="form.password"
+								labelColor="gray"
 								rules="required"
 								width="100%"
 								name="Password"
