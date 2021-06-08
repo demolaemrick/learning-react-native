@@ -49,7 +49,11 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
-					await this.getHistory();
+					if (data.data.role === 'admin') {
+						this.$router.push({ name: 'Admin' });
+					} else {
+						await this.getHistory();
+					}
 				}
 				return true;
 			} catch (error) {

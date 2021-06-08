@@ -111,12 +111,11 @@ export default {
 					} = data;
 					if (contact_research) {
 						this.payload.contact_research = contact_research;
-						let { events } = contact_research;
-						this.keywords = { events, ...contact_research };
+						this.keywords = { ...this.keywords, ...contact_research };
 					}
 					if (company_research) {
 						this.payload.company_research = company_research;
-						this.companyKeywords = company_research;
+						this.companyKeywords = { ...this.companyKeywords, ...company_research };
 					}
 				}
 			} catch (error) {
@@ -328,13 +327,13 @@ export default {
 		}
 	},
 	watch: {
-		'keywords.events': function(newVal) {
+		'keywords.events': function (newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.applyAllChecked = false;
 				this.payload.contact_research['events'] = [];
 			}
 		},
-		applyAllChecked: function(newVal) {
+		applyAllChecked: function (newVal) {
 			if (newVal) {
 				Object.keys(this.payload.contact_research).forEach((single) => {
 					this.payload.contact_research[single] = this.payload.contact_research.events;
@@ -352,13 +351,13 @@ export default {
 				this.keywords[single] = [];
 			});
 		},
-		'companyKeywords.job_postings': function(newVal) {
+		'companyKeywords.job_postings': function (newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.AllCompanyChecked = false;
 				this.payload.company_research['job_postings'] = [];
 			}
 		},
-		AllCompanyChecked: function(newVal) {
+		AllCompanyChecked: function (newVal) {
 			if (newVal) {
 				Object.keys(this.payload.company_research).forEach((single) => {
 					this.payload.company_research[single] = this.payload.company_research.job_postings;
@@ -378,7 +377,7 @@ export default {
 		},
 		$route: {
 			immediate: true,
-			handler: function(newVal) {
+			handler: function (newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings ? true : false;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;

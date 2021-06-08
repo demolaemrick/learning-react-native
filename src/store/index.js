@@ -4,6 +4,7 @@ import VuexPersistence from 'vuex-persist';
 import search_services from './modules/search_services/index';
 import auth from './modules/auth/index';
 import user from './modules/user/index';
+import users_management from './modules/users_management/';
 Vue.use(Vuex);
 
 const vuexPersistence = new VuexPersistence({
@@ -74,7 +75,8 @@ export default new Vuex.Store({
 	modules: {
 		search_services,
 		auth,
-		user
+		user,
+		users_management
 	},
 	plugins: [vuexPersistence.plugin]
 });

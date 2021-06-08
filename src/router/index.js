@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { noAuthOnly, requireAuth } from '../utils/auth';
+import { noAuthOnly, requireUserAuth, requireAdminAuth } from '../utils/auth';
 import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import SearchResult from '../views/SearchResult/SearchResult.vue';
@@ -32,11 +32,11 @@ const routes = [
 	},
 	{
 		path: '/dashboard',
-		name: 'Dashboard',
 		component: Dashboard,
+		beforeEnter: requireAdminAuth,
 		children: [
 			{
-				path: 'admin',
+				path: '',
 				name: 'Admin',
 				component: Admin
 			},
@@ -48,19 +48,10 @@ const routes = [
 			{
 				path: 'users/:id',
 				name: 'User',
-				component: User
-			},
-			// {
-			// 	path: 'users/:id',
-			// 	name: 'User',
-			// 	component: User
-			// },
-			{
-				path: '',
-				redirect: 'users'
+				component: User,
+				meta: 'user'
 			}
 		]
-		// beforeEnter: noAuthOnly
 	},
 	{
 		path: '/login',
@@ -90,7 +81,7 @@ const routes = [
 		path: '/',
 		name: 'Search',
 		component: Search,
-		beforeEnter: requireAuth,
+		beforeEnter: requireUserAuth,
 		children: [
 			{
 				path: '/settings',
@@ -107,25 +98,25 @@ const routes = [
 		path: '/search-result/:rowId?',
 		name: 'SearchResult',
 		component: SearchResult,
-		beforeEnter: requireAuth
+		beforeEnter: requireUserAuth
 	},
 	{
 		path: '/search-item',
 		name: 'SearchItem',
 		component: SearchItem,
-		beforeEnter: requireAuth
+		beforeEnter: requireUserAuth
 	},
 	{
 		path: '/contact-research',
 		name: 'ContactResearch',
 		component: ContactResearch,
-		beforeEnter: requireAuth
+		beforeEnter: requireUserAuth
 	},
 	{
 		path: '/bookmarks/:rowId?',
 		name: 'Bookmarks',
 		component: Bookmarks,
-		beforeEnter: requireAuth
+		beforeEnter: requireUserAuth
 	}
 ];
 

@@ -28,7 +28,7 @@
 						</div>
 					</td>
 					<td class="table__row-item">
-						<div class="flex flex__item-center ">
+						<div class="flex flex__item-center">
 							<div class="detail__circle">
 								<p class="detail__initials">KO</p>
 							</div>

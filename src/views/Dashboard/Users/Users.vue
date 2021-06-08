@@ -6,8 +6,8 @@
 				Create User
 			</c-button>
 		</div>
-		<div class="search-group">
-			<h4>0 Users</h4>
+		<div v-if="!usersLoading" class="search-group">
+			<h4 v-if="users">{{ users.length }} Users</h4>
 			<div class="search-section">
 				<TextInput class="mb-0" type="text" placeholder="Search" :icon="{ type: 'search' }" width="509px" />
 				<span class="mx-1">
@@ -31,6 +31,82 @@
 			</div>
 		</div>
 
+		<div>
+			<v-table
+				:loading="usersLoading"
+				:tableHeaders="tableHeaders"
+				:tableData="users"
+				theme="contact__research"
+				@rowClick="showUser"
+				@checkAll="checkAll"
+			>
+				<template name="table-row" slot-scope="{ item }">
+					<td class="table__row-item" @click.stop>
+						<div class="check-input">
+							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
+						</div>
+					</td>
+					<td class="table__row-item">{{ item.fullName }}</td>
+					<td class="table__row-item">{{ item.email }}</td>
+					<td class="table__row-item">{{ item.researchNo }}</td>
+					<td class="table__row-item status">
+						<Status :status="stat" />
+					</td>
+					<td class="table__row-item">
+						{{ item.date }} |
+						<span class="time">{{ item.time }}</span>
+					</td>
+					<td class="" @click.stop>
+						<toggle-dropdown itemPadding="0">
+							<template #dropdown-wrapper>
+								<img src="@/assets/icons/menu3dot.svg" svg-inline />
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" @click="showUser(item)">
+									View User
+								</li>
+								<li class="dropdown__item" @click="toggleEditModal">
+									Edit Info
+								</li>
+								<li class="dropdown__item">
+									Suspend
+								</li>
+								<li class="dropdown__item">
+									Delete
+								</li>
+							</template>
+						</toggle-dropdown>
+					</td>
+				</template>
+			</v-table>
+			<div class="table__pagination__wrapper" v-if="!usersLoading">
+				<div class="title__left">
+					<span>Showing Page</span>
+					<span>
+						{{ currentPage }}
+					</span>
+					<span>of</span>
+					<span>{{ totalPages }}</span>
+				</div>
+
+				<paginate
+					:page-count="totalPages"
+					:click-handler="clickCallback"
+					:prev-text="'Prev'"
+					:next-text="'Next'"
+					:container-class="'pagination__list'"
+					:page-class="'pagination__list-item'"
+				>
+				</paginate>
+			</div>
+
+			<div v-if="users && users.length < 1">
+				<div class="emptyState">
+					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+					<p class="emptyState-text">No user record found</p>
+				</div>
+			</div>
+		</div>
 		<modal position="right" v-if="createUser" :toggleClass="toggleClass" @close="toggleCreateUser">
 			<template #title>
 				<h3>Create User</h3>
@@ -265,76 +341,6 @@
 				</form>
 			</template>
 		</modal>
-
-		<div>
-			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @rowClick="showUser" @checkAll="checkAll">
-				<template name="table-row" slot-scope="{ item }">
-					<td class="table__row-item" @click.stop>
-						<div class="check-input">
-							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
-						</div>
-					</td>
-					<td class="table__row-item">{{ item.name }}</td>
-					<td class="table__row-item">{{ item.email }}</td>
-					<td class="table__row-item">{{ item.researchNo }}</td>
-					<td class="table__row-item status">
-						<Status :status="item.status" />
-					</td>
-					<td class="table__row-item">
-						{{ item.date }} |
-						<span class="time">{{ item.time }}</span>
-					</td>
-					<td class="" @click.stop>
-						<toggle-dropdown itemPadding="0">
-							<template #dropdown-wrapper>
-								<img src="@/assets/icons/menu3dot.svg" svg-inline />
-							</template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="showUser(item)">
-									View User
-								</li>
-								<li class="dropdown__item" @click="toggleEditModal">
-									Edit Info
-								</li>
-								<li class="dropdown__item">
-									Suspend
-								</li>
-								<li class="dropdown__item">
-									Delete
-								</li>
-							</template>
-						</toggle-dropdown>
-					</td>
-				</template>
-			</v-table>
-			<div class="table__pagination__wrapper">
-				<div class="title__left">
-					<span>Showing Page</span>
-					<span>
-						{{ currentPage }}
-					</span>
-					<span>of</span>
-					<span>{{ totalPages }}</span>
-				</div>
-
-				<paginate
-					:page-count="totalPages"
-					:click-handler="clickCallback"
-					:prev-text="'Prev'"
-					:next-text="'Next'"
-					:container-class="'pagination__list'"
-					:page-class="'pagination__list-item'"
-				>
-				</paginate>
-			</div>
-
-			<div v-if="history.length < 1">
-				<div class="emptyState">
-					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
-					<p class="emptyState-text">No user record found</p>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 

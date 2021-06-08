@@ -258,6 +258,7 @@ thead.table__header {
 		font-size: 15px;
 		line-height: 16px;
 		color: #333758;
+		text-transform: capitalize;
 	}
 	.text__email {
 		font-family: Karla;
@@ -268,6 +269,10 @@ thead.table__header {
 		color: #989aaa;
 		margin-top: 0.5em;
 	}
+	
+}
+.text__title{
+	text-transform: capitalize;
 }
 .row-link{
 	max-width: 136px;

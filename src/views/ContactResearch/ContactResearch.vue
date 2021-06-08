@@ -67,7 +67,9 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="!item.role">-</template>
-							<template v-else>{{ item.role }}</template>
+							<template v-else
+								><p class="text__title">{{ item.role }}</p></template
+							>
 						</td>
 						<td class="table__row-item row-link" @click="clickResearch(item)">
 							<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
@@ -78,7 +80,7 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
-							<template v-else>{{ item.research_score.toFixed(2) * 100 }}%</template>
+							<template v-else>{{ item.research_score.toPrecision(4) * 100 }}%</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.updatedAt | moment('from', 'now') }}

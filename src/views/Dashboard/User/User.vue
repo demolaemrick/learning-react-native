@@ -1,7 +1,7 @@
 <template>
 	<div class="user-wrapper">
 		<div class="flex flex-spaced">
-			<div class="flex flex-spaced flex__item-center ">
+			<div class="flex flex-spaced flex__item-center">
 				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline @click="backToUsers" />
 				<h3 class="page-title">Back to Users</h3>
 			</div>
@@ -20,7 +20,7 @@
 
 		<div class="tabs">
 			<v-tabs>
-				<v-tab style="max-width: 100%" title="Details" @getData="setActiveTab('details')" :selected="true">
+				<v-tab style="max-width: 100%;" title="Details" @getData="setActiveTab('details')" :selected="true">
 					<template>
 						<div class="grid grid__layout gap-3 py-1 row-group">
 							<div class="col-3-12">
@@ -37,7 +37,7 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Status</p>
-								<div class="flex flex__item-center ">
+								<div class="flex flex__item-center">
 									<div class="mr-1">
 										<Toggle />
 									</div>
@@ -65,7 +65,7 @@
 						</div>
 					</template>
 				</v-tab>
-				<v-tab style="max-width: 100%" title="Contacts" @getData="setActiveTab('contacts')">
+				<v-tab style="max-width: 100%;" title="Contacts" @getData="setActiveTab('contacts')">
 					<div>
 						<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
 							<template name="table-row" slot-scope="{ item }">
@@ -260,7 +260,7 @@
 								<div class="text__content">
 									<p><span class="link">Upload a file </span>or drag and drop</p>
 								</div>
-								<small class="text__desc ">CSV up to 10MB</small>
+								<small class="text__desc">CSV up to 10MB</small>
 							</div>
 						</template>
 					</file-upload>

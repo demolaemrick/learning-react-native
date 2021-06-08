@@ -178,7 +178,7 @@
 											true-value="true"
 											checked
 											false-value="false"
-											@change="onOptionToggle(itemKey, 'contact', $event)"/><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'contact', $event)" /><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">
@@ -237,7 +237,7 @@
 											true-value="true"
 											checked
 											false-value="false"
-											@change="onOptionToggle(itemKey, 'company', $event)"/><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'company', $event)" /><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">

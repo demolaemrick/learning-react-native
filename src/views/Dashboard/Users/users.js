@@ -9,6 +9,7 @@ import Loader from '@/components/Loader';
 import PasswordInput from '@/components/Input/PasswordInput';
 import RadioBtn from '@/components/RadioButton';
 import Status from '@/components/Status';
+import { mapActions } from 'vuex';
 
 export default {
 	name: 'Users',
@@ -192,7 +193,15 @@ export default {
 				}
 			],
 			currentPage: 1,
-			totalPages: 5
+			totalPages: 5,
+			limit: 50,
+			page: 1,
+			usersLoading: false,
+			users: null,
+			stat: {
+				statusCode: 'ACTIVE',
+				message: 'Active'
+			}
 		};
 	},
 	props: {
@@ -211,7 +220,27 @@ export default {
 		RadioBtn,
 		Status
 	},
+	async mounted() {
+		await this.getAllUSers();
+	},
 	methods: {
+		...mapActions({
+			allUsers: 'users_management/allUsers'
+		}),
+		async getAllUSers() {
+			this.usersLoading = true;
+			try {
+				const users = await this.allUsers({ page: this.page, limit: this.limit });
+				const { status, data, statusText } = users;
+				if (status === 200 && statusText === 'OK') {
+					this.users = data.data;
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.usersLoading = false;
+			}
+		},
 		toggleCreateUser() {
 			if (!this.createUser) {
 				this.createUser = true;

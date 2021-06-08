@@ -63,7 +63,8 @@ new Vue({
 			saveApiKey: 'merchant_services/saveApiKey'
 		}),
 		...mapActions({
-			generateApiKey: 'auth/generateApiKey'
+			generateApiKey: 'auth/generateApiKey',
+			showAlert: 'showAlert'
 		}),
 		/**
 		 * Starts a user session
@@ -106,6 +107,11 @@ new Vue({
 				try {
 					const token = jwtDecode(this.loggedUser.token);
 					const time = Date.now().valueOf() / 1000;
+					this.showAlert({
+						status: 'error',
+						message: '',
+						showAlert: false
+					});
 					if (token.exp < time) {
 						this.endSession();
 					} else this.resumeSession();
