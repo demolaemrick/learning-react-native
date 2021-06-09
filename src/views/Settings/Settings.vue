@@ -144,14 +144,11 @@
 				</v-button>
 			</div>
 		</div>
-		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
-			<div class="modal__wrapper">
-				<div class="modal__header">
-					<h4 class="modal__header-title">Unsave Changes</h4>
-					<span class="icon" @click="toggleModal">
-						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-					</span>
-				</div>
+		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px"  position="center">
+			<template #title>
+				<h4 class="modal__header-title">Unsave Changes</h4>
+			</template>
+			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
 						You have some unsaved changes, are you sure you want to exit this page?
@@ -164,7 +161,7 @@
 						</v-button>
 					</div>
 				</div>
-			</div>
+				</template>
 		</v-modal>
 	</div>
 </template>

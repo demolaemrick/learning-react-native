@@ -1,10 +1,8 @@
 <template>
 	<div class="modal-overlay" @click="closeModal" :class="[!toggleClass ? 'fadeOut' : null, `modal-${position}`]">
-		<div @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
-			<div class="modal-header">
-				<span class="modal-header--title">
-					<slot name="title"></slot>
-				</span>
+		<div  @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
+			<div class="modal-header" v-if="useSlot">
+				<slot name="title"></slot>
 
 				<svg @click="closeModal" class="modal-header--close" width="24" height="24">
 					<g transform="rotate(-45 14.828 5.172)" fill="#333758" fill-rule="evenodd">
@@ -14,9 +12,10 @@
 				</svg>
 			</div>
 
-			<div class="modal-content">
+			<div v-if="useSlot" class="modal-content">
 				<slot name="body"></slot>
 			</div>
+			<slot name="settings"></slot>
 		</div>
 	</div>
 </template>
