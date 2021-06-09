@@ -3,6 +3,7 @@ import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
+import VButton from '@/components/Button';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
@@ -29,6 +30,9 @@ export default {
 			createUser: false,
 			filter: false,
 			showEditModal: false,
+			deactivateModal: false,
+			activateModal: false,
+			suspendModal: false,
 			toggleClass: true,
 			statusOption: 'active',
 			userInfo: null,
@@ -204,7 +208,8 @@ export default {
 				message: 'Active'
 			},
 			userId: null,
-			userDetails: []
+			userDetails: [],
+			contactToModify: {}
 		};
 	},
 	props: {
@@ -221,7 +226,8 @@ export default {
 		Loader,
 		PasswordInput,
 		RadioBtn,
-		Status
+		Status,
+		VButton
 	},
 	async mounted() {
 		await this.getAllUSers();
@@ -282,6 +288,39 @@ export default {
 				}, 500);
 			}
 		},
+		toggleDeactivateModal() {
+			if (!this.deactivateModal) {
+				this.deactivateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.deactivateModal = !this.deactivateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleActivateModal() {
+			if (!this.activateModal) {
+				this.activateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.activateModal = !this.activateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleSuspendModal() {
+			if (!this.suspendModal) {
+				this.suspendModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.suspendModal = !this.suspendModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
 		clickCallback(page) {
 			this.currentPage = page;
 		},
@@ -306,14 +345,32 @@ export default {
 				this.checkedContacts = [];
 			}
 		},
-		async deactivate(item) {
-			this.userId = item._id;
+		// openDeactivateModal(_id, fullName) {
+		// console.log(item);
+		// console.log(item._id);
+		// console.log(item.fullName);
+		// 	this.contactToModify = { _id, fullName };
+		// 	this.deactivateModal = true;
+		// },
+		openDeactivateModal(item) {
+			// console.log(item);
+			const { _id, fullName } = item;
+			// console.log(_id, fullName);
+			this.contactToModify = { ...this.contactToModify, _id, fullName };
+			// console.log(this.contactToModify);
+			this.deactivateModal = true;
+		},
+
+		async deactivate() {
+			this.userId = this.contactToModify._id;
 			try {
 				const changeStatus = await this.deactivateUser(this.userId);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
 					console.log(changeStatus);
 					console.log(changeStatus.data.message);
+					this.toggleDeactivateModal();
+					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
 						message: changeStatus.data.message,
@@ -325,33 +382,47 @@ export default {
 				console.log(error);
 			}
 		},
-		async suspend(item) {
-			this.userId = item._id;
-			try {
-				const changeStatus = await this.suspendUser(this.userId);
-				const { status, statusText } = changeStatus;
-				if (status === 200 && statusText === 'OK') {
-					console.log(changeStatus);
-					console.log(changeStatus.data.message);
-					this.showAlert({
-						status: 'success',
-						message: changeStatus.data.message,
-						showAlert: true
-					});
-					this.fetchUser();
-				}
-			} catch (error) {
-				console.log(error);
-			}
+		openActivateModal(item) {
+			const { _id, fullName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, fullName };
+			this.activateModal = true;
 		},
-		async activate(item) {
-			this.userId = item._id;
+		async activate() {
+			this.userId = this.contactToModify._id;
 			try {
 				const changeStatus = await this.activateUser(this.userId);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
 					console.log(changeStatus);
 					console.log(changeStatus.data.message);
+					this.toggleActivateModal();
+					this.contactToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		openSuspendModal(item) {
+			const { _id, fullName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, fullName };
+			this.suspendModal = true;
+		},
+		async suspend() {
+			this.userId = this.contactToModify._id;
+			try {
+				const changeStatus = await this.suspendUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					this.toggleSuspendModal();
+					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
 						message: changeStatus.data.message,

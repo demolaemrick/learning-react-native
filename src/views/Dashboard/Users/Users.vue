@@ -68,13 +68,13 @@
 								<li class="dropdown__item" @click="openEditModal(item)">
 									Edit Info
 								</li>
-								<li class="dropdown__item" @click="suspend(item)">
+								<li class="dropdown__item" @click="openSuspendModal(item)">
 									Suspend
 								</li>
-								<li class="dropdown__item" @click="activate(item)">
+								<li class="dropdown__item" @click="openActivateModal(item)">
 									Activate
 								</li>
-								<li class="dropdown__item" @click="deactivate(item)">
+								<li class="dropdown__item" @click="openDeactivateModal(item)">
 									Deactivate
 								</li>
 							</template>
@@ -271,6 +271,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.firstName"
 									width="204px"
 									name="First Name"
@@ -279,6 +280,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.lastName"
 									width="204px"
 									name="Last Name"
@@ -290,6 +292,7 @@
 								type="email"
 								rules="required"
 								labelVisible
+								labelColor="gray"
 								v-model="form.email"
 								width="100%"
 								name="Email Address"
@@ -300,6 +303,7 @@
 									type="text"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.organisation"
 									width="204px"
 									name="Organisation"
@@ -308,6 +312,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.researches"
 									width="204px"
 									name="No. Research/month"
@@ -319,6 +324,7 @@
 									type="text"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.profession"
 									width="204px"
 									name="Profession"
@@ -327,6 +333,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.role"
 									width="204px"
 									name="Role"
@@ -342,6 +349,63 @@
 						</div>
 					</ValidationObserver>
 				</form>
+			</template>
+		</modal>
+
+		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Deactivate User</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to deactivate this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
+							Deactivate
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+
+		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Activate User</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to activate this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleActivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
+							Activate
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+
+		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Suspend User</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to suspend this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
+							Suspend
+						</v-button>
+					</div>
+				</div>
 			</template>
 		</modal>
 	</div>
