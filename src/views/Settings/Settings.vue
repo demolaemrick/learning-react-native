@@ -144,7 +144,7 @@
 				</v-button>
 			</div>
 		</div>
-		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px"  position="center">
+		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px" position="center">
 			<template #title>
 				<h4 class="modal__header-title">Unsave Changes</h4>
 			</template>
@@ -161,7 +161,7 @@
 						</v-button>
 					</div>
 				</div>
-				</template>
+			</template>
 		</v-modal>
 	</div>
 </template>

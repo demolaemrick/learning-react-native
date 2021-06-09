@@ -6,7 +6,7 @@ export default {
 		// VHeader,
 		ToggleDropdown
 	},
-	methods:{
+	methods: {
 		...mapMutations({
 			logout: 'auth/logout'
 		}),

@@ -1,6 +1,6 @@
 <template>
 	<div class="modal-overlay" @click="closeModal" :class="[!toggleClass ? 'fadeOut' : null, `modal-${position}`]">
-		<div  @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
+		<div @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
 			<div class="modal-header" v-if="useSlot">
 				<slot name="title"></slot>
 
