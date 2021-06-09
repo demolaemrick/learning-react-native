@@ -232,6 +232,7 @@ export default {
 			} else {
 				this.toggleModal();
 			}
+			this.closeMoreSearchSettings();
 		},
 		closeMoreSearchSettings() {
 			this.$emit('routerEvent', 'closeMoreSearchSettings');

@@ -9,6 +9,10 @@ export default {
 			type: String,
 			default: 'right'
 		},
+		useSlot: {
+			type: Boolean,
+			default: true
+		},
 		maxWidth: {
 			type: String,
 			default: '496px'

@@ -141,14 +141,11 @@
 				</div>
 			</div>
 		</main>
-		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
-			<div class="modal__wrapper">
-				<div class="modal__header">
-					<h4 class="modal__header-title">Delete Research</h4>
-					<span class="icon" @click="toggleModal">
-						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-					</span>
-				</div>
+		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Delete Research</h4>
+			</template>
+			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
 						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
@@ -160,7 +157,7 @@
 						</v-button>
 					</div>
 				</div>
-			</div>
+			</template>
 		</v-modal>
 	</div>
 </template>

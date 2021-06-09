@@ -96,37 +96,39 @@
 			</template>
 			<!-- CONFIG MODAL -->
 			<template v-if="showConfigModal">
-				<v-modal>
-					<div class="config__modal__wrapper">
-						<div class="config__modal__header">
-							<div class="config__modal__header__btn__wrapper">
-								<v-button class="config__btn__close" ref="config__btn__close" @click="closeConfigModal()">
-									<div class="btn__content__wrapper">
-										<span class="text">Close</span>
-										<span class="icon">
-											<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-										</span>
-									</div>
-								</v-button>
+				<v-modal position="center" :useSlot="false">
+					<template #settings>
+						<div class="config__modal__wrapper">
+							<div class="config__modal__header">
+								<div class="config__modal__header__btn__wrapper">
+									<v-button class="config__btn__close" ref="config__btn__close" @click="closeConfigModal()">
+										<div class="btn__content__wrapper">
+											<span class="text">Close</span>
+											<span class="icon">
+												<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+											</span>
+										</div>
+									</v-button>
+								</div>
+							</div>
+							<div class="config__modal__content">
+								<div class="config__icon__wrapper">
+									<img src="@/assets/icons/empty-state-image.svg" class="ml-1" svg-inline />
+								</div>
+								<div class="config__text__wrapper">
+									<p>
+										Configure your search preferences on the <br />
+										settings page to get customised search result
+									</p>
+								</div>
+								<div class="config__btn__wrapper">
+									<v-button class="config__btn" @click="gotoSettings">
+										Settings
+									</v-button>
+								</div>
 							</div>
 						</div>
-						<div class="config__modal__content">
-							<div class="config__icon__wrapper">
-								<img src="@/assets/icons/empty-state-image.svg" class="ml-1" svg-inline />
-							</div>
-							<div class="config__text__wrapper">
-								<p>
-									Configure your search preferences on the <br />
-									settings page to get customised search result
-								</p>
-							</div>
-							<div class="config__btn__wrapper">
-								<v-button class="config__btn" @click="gotoSettings">
-									Settings
-								</v-button>
-							</div>
-						</div>
-					</div>
+					</template>
 				</v-modal>
 			</template>
 			<!-- CONFIG MODAL END -->
