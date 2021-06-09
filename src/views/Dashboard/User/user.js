@@ -27,6 +27,7 @@ export default {
 			contactModal: false,
 			checkedContacts: [],
 			loading: false,
+			userLoading: false,
 			toggleClass: true,
 			tableHeaders: [
 				{
@@ -212,7 +213,9 @@ export default {
 			csvImport: {
 				contacts: null,
 				is_csv: true
-			}
+			},
+			userId: null,
+			userDetails: []
 		};
 	},
 	components: {
@@ -233,7 +236,8 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			showAlert: 'showAlert'
+			showAlert: 'showAlert',
+			getSingleUser: 'users_management/singleUser'
 		}),
 		toggleEditModal() {
 			if (!this.showEditModal) {
@@ -336,6 +340,31 @@ export default {
 		async uploadBulkResearch() {
 			this.loading = true;
 			console.log(this.csvImport.contacts);
+		},
+		async fetchUser() {
+			this.userLoading = true;
+			try {
+				console.log(this.userDetails);
+				this.userDetails = await this.getSingleUser(this.userId);
+				console.log(this.userDetails);
+				const { status, data, statusText } = this.userDetails;
+				if (status === 200 && statusText === 'OK') {
+					console.log(status);
+					console.log(statusText);
+					this.userDetails = data.data;
+					console.log(this.userDetails);
+					// console.log(singleUser);
+					// console.log(data.data);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.userLoading = false;
+			}
 		}
+	},
+	mounted() {
+		this.userId = this.$route.query.userId;
+		this.fetchUser();
 	}
 };

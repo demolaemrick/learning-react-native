@@ -29,7 +29,7 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Email Address</p>
-								<h4 class="detail-content">ronald@gmail.com</h4>
+								<h4 class="detail-content">{{ userDetails.email }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Last Research Date</p>
@@ -41,7 +41,7 @@
 									<div class="mr-1">
 										<Toggle />
 									</div>
-									<h4 class="detail-content">Active</h4>
+									<h4 class="detail-content">{{ userDetails.status }}</h4>
 								</div>
 							</div>
 						</div>

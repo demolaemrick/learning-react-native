@@ -65,14 +65,17 @@
 								<li class="dropdown__item" @click="showUser(item)">
 									View User
 								</li>
-								<li class="dropdown__item" @click="toggleEditModal">
+								<li class="dropdown__item" @click="openEditModal(item)">
 									Edit Info
 								</li>
-								<li class="dropdown__item">
+								<li class="dropdown__item" @click="suspend(item)">
 									Suspend
 								</li>
-								<li class="dropdown__item">
-									Delete
+								<li class="dropdown__item" @click="activate(item)">
+									Activate
+								</li>
+								<li class="dropdown__item" @click="deactivate(item)">
+									Deactivate
 								</li>
 							</template>
 						</toggle-dropdown>

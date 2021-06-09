@@ -31,6 +31,7 @@ export default {
 			showEditModal: false,
 			toggleClass: true,
 			statusOption: 'active',
+			userInfo: null,
 			statusType: [
 				{
 					value: 'active',
@@ -201,7 +202,9 @@ export default {
 			stat: {
 				statusCode: 'ACTIVE',
 				message: 'Active'
-			}
+			},
+			userId: null,
+			userDetails: []
 		};
 	},
 	props: {
@@ -225,7 +228,12 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			allUsers: 'users_management/allUsers'
+			allUsers: 'users_management/allUsers',
+			deactivateUser: 'users_management/deactivateUser',
+			activateUser: 'users_management/activateUser',
+			suspendUser: 'users_management/suspendUser',
+			getSingleUser: 'users_management/singleUser',
+			showAlert: 'showAlert'
 		}),
 		async getAllUSers() {
 			this.usersLoading = true;
@@ -278,7 +286,12 @@ export default {
 			this.currentPage = page;
 		},
 		showUser(item) {
-			this.$router.push({ name: 'User', params: { id: item.rowId } });
+			this.$router.push({ name: 'User', query: { userId: item._id } });
+		},
+		openEditModal(item) {
+			this.userInfo = item;
+			this.toggleEditModal();
+			console.log(item);
 		},
 		checkAll(event) {
 			if (event.target.checked) {
@@ -291,6 +304,80 @@ export default {
 				});
 			} else {
 				this.checkedContacts = [];
+			}
+		},
+		async deactivate(item) {
+			this.userId = item._id;
+			try {
+				const changeStatus = await this.deactivateUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async suspend(item) {
+			this.userId = item._id;
+			try {
+				const changeStatus = await this.suspendUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async activate(item) {
+			this.userId = item._id;
+			try {
+				const changeStatus = await this.activateUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		async fetchUser() {
+			this.userLoading = true;
+			try {
+				this.userDetails = await this.getSingleUser(this.userId);
+				console.log(this.userDetails);
+				const { status, data, statusText } = this.userDetails;
+				if (status === 200 && statusText === 'OK') {
+					this.userDetails = data.data;
+					console.log(this.userDetails);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.userLoading = false;
 			}
 		}
 	}
