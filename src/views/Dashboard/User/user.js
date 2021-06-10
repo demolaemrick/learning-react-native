@@ -356,19 +356,7 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					console.log(status);
 					console.log(statusText);
-					this.userDetails = {
-						"_id": this.userId,
-						"role": "user",
-						"status": "active",
-						"email": "ayomide@enyata.com",
-						"profession": "software engineer",
-						"organisation": "Paystack",
-						"createdAt": "2021-06-07T10:11:57.482Z",
-						"firstName": "Ayomide",
-						"lastName": "Onigbinde",
-						"monthlyResearch": 200,
-						"lastResearchDate": "2021-06-10T08:59:02.469Z"
-					},
+					this.userDetails = data.data;
 					console.log(this.userDetails);
 					// console.log(singleUser);
 					// console.log(data.data);

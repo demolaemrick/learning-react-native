@@ -364,7 +364,8 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to deactivate this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						Kindly confirm that you want to deactivate this user
+						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
@@ -383,7 +384,8 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to activate this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						Kindly confirm that you want to activate this user
+						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleActivateModal">Cancel</div>
@@ -402,7 +404,8 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to suspend this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						Kindly confirm that you want to suspend this user
+						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
