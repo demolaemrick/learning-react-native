@@ -21,11 +21,19 @@
 		<div class="tabs">
 			<v-tabs>
 				<v-tab style="max-width: 100%;" title="Details" @getData="setActiveTab('details')" :selected="true">
-					<template>
+					<template v-if="loading">
+						<div v-for="n in 2" :key="n" class="grid grid__layout gap-3 py-1 row-group">
+							<div v-for="n in 4" :key="n" class="col-3-12">
+								<div class="loader-title item"></div>
+								<div class="loader-content item" v-for="item in 1" :key="item"></div>
+							</div>
+						</div>
+					</template>
+					<template v-else>
 						<div class="grid grid__layout gap-3 py-1 row-group">
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Name</p>
-								<h4 class="detail-content">Ronald Richards</h4>
+								<h4 class="detail-content">{{ userDetails.firstName }} {{ userDetails.lastName }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Email Address</p>
@@ -48,24 +56,24 @@
 						<div class="grid grid__layout gap-3 py-1 row-group">
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Organisation</p>
-								<h4 class="detail-content">Microsoft</h4>
+								<h4 class="detail-content">{{ userDetails.organisation }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">No. Research/month</p>
-								<h4 class="detail-content">80 / 200</h4>
+								<h4 class="detail-content">{{ userDetails.monthlyResearch }} / 200</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Profession</p>
-								<h4 class="detail-content">Product</h4>
+								<h4 class="detail-content">{{ userDetails.profession }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Role</p>
-								<h4 class="detail-content">Business Analyst</h4>
+								<h4 class="detail-content">{{ userDetails.role }}</h4>
 							</div>
 						</div>
 					</template>
 				</v-tab>
-				<v-tab style="max-width: 100%;" title="Contacts" @getData="setActiveTab('contacts')">
+				<v-tab style="max-width: 100%;" margin="25px 0 0 0" title="Contacts" @getData="setActiveTab('contacts')">
 					<div>
 						<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
 							<template name="table-row" slot-scope="{ item }">
@@ -87,7 +95,7 @@
 								</td>
 								<td class="table__row-item">{{ item.company }}</td>
 								<td class="table__row-item">{{ item.title }}</td>
-								<td class="table__row-item">{{ item.linkedin }}</td>
+								<td class="table__row-item linkedin">{{ item.linkedin }}</td>
 								<td class="table__row-item">{{ item.score }}</td>
 								<td class="table__row-item">{{ item.lastUpdated }}</td>
 								<td class="table__row-item status">
@@ -124,6 +132,26 @@
 								</c-button>
 							</div>
 						</div>
+					</div>
+					<div class="table__pagination__wrapper" v-if="!usersLoading">
+						<div class="title__left">
+							<span>Showing Page</span>
+							<span>
+								{{ currentPage }}
+							</span>
+							<span>of</span>
+							<span>{{ totalPages }}</span>
+						</div>
+
+						<paginate
+							:page-count="totalPages"
+							:click-handler="clickCallback"
+							:prev-text="'Prev'"
+							:next-text="'Next'"
+							:container-class="'pagination__list'"
+							:page-class="'pagination__list-item'"
+						>
+						</paginate>
 					</div>
 				</v-tab>
 				<v-tab title="Settings" @getData="setActiveTab('settings')">
@@ -166,6 +194,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.firstName"
 									width="204px"
 									name="First Name"
@@ -174,6 +203,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.lastName"
 									width="204px"
 									name="Last Name"
@@ -185,6 +215,7 @@
 								type="email"
 								rules="required"
 								labelVisible
+								labelColor="gray"
 								v-model="form.email"
 								width="100%"
 								name="Email Address"
@@ -195,6 +226,7 @@
 									type="text"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.organisation"
 									width="204px"
 									name="Organisation"
@@ -203,6 +235,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.researches"
 									width="204px"
 									name="No. Research/month"
@@ -214,6 +247,7 @@
 									type="text"
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.profession"
 									width="204px"
 									name="Profession"
@@ -222,6 +256,7 @@
 								<text-input
 									rules="required"
 									labelVisible
+									labelColor="gray"
 									v-model="form.role"
 									width="204px"
 									name="Role"

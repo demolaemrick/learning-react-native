@@ -68,13 +68,13 @@
 								<li class="dropdown__item" @click="openEditModal(item)">
 									Edit Info
 								</li>
-								<li class="dropdown__item" @click="openSuspendModal(item)">
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">
 									Suspend
 								</li>
-								<li class="dropdown__item" @click="openActivateModal(item)">
+								<li v-if="item.status === !'active'" class="dropdown__item" @click="openActivateModal(item)">
 									Activate
 								</li>
-								<li class="dropdown__item" @click="openDeactivateModal(item)">
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openDeactivateModal(item)">
 									Deactivate
 								</li>
 							</template>
@@ -110,6 +110,8 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- create user modal -->
 		<modal position="right" v-if="createUser" :toggleClass="toggleClass" @close="toggleCreateUser">
 			<template #title>
 				<h3>Create User</h3>
@@ -213,7 +215,7 @@
 				</form>
 			</template>
 		</modal>
-
+		<!-- Filter modal -->
 		<modal position="right" v-if="filter" :toggleClass="toggleClass" @close="toggleFilterModal">
 			<template #title>
 				<h3>Filter</h3>
@@ -258,7 +260,7 @@
 				</form>
 			</template>
 		</modal>
-
+		<!-- Edit modal -->
 		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
 			<template #title>
 				<h3>Edit</h3>
@@ -272,7 +274,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.firstName"
+									v-model="userInfo.firstName"
 									width="204px"
 									name="First Name"
 									placeholder="John"
@@ -281,7 +283,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.lastName"
+									v-model="userInfo.lastName"
 									width="204px"
 									name="Last Name"
 									placeholder="Doe"
@@ -293,7 +295,7 @@
 								rules="required"
 								labelVisible
 								labelColor="gray"
-								v-model="form.email"
+								v-model="userInfo.email"
 								width="100%"
 								name="Email Address"
 								placeholder="johndoe@email.com"
@@ -304,7 +306,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.organisation"
+									v-model="userInfo.organisation"
 									width="204px"
 									name="Organisation"
 									placeholder="Microsoft"
@@ -313,7 +315,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.researches"
+									v-model="userInfo.monthlyResearch"
 									width="204px"
 									name="No. Research/month"
 									placeholder="200"
@@ -325,7 +327,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.profession"
+									v-model="userInfo.profession"
 									width="204px"
 									name="Profession"
 									placeholder="Product"
@@ -334,7 +336,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.role"
+									v-model="userInfo.role"
 									width="204px"
 									name="Role"
 									placeholder="Content Creator"
@@ -351,7 +353,7 @@
 				</form>
 			</template>
 		</modal>
-
+		<!-- Deactivate Modal -->
 		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Deactivate User</h4>
@@ -359,7 +361,7 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to deactivate this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+						Kindly confirm that you want to deactivate this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
@@ -370,7 +372,7 @@
 				</div>
 			</template>
 		</modal>
-
+		<!-- Activate Modal -->
 		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Activate User</h4>
@@ -378,7 +380,7 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to activate this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+						Kindly confirm that you want to activate this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleActivateModal">Cancel</div>
@@ -389,7 +391,7 @@
 				</div>
 			</template>
 		</modal>
-
+		<!-- Suspend Modal -->
 		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Suspend User</h4>
@@ -397,7 +399,7 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
-						Kindly confirm that you want to suspend this user <span class="name"> ({{ contactToModify.fullName }}) </span>.
+						Kindly confirm that you want to suspend this user <span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleSuspendModal">Cancel</div>

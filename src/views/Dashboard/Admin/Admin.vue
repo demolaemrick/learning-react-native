@@ -78,6 +78,26 @@
 				</div>
 			</div>
 		</div>
+		<div class="table__pagination__wrapper" v-if="!usersLoading">
+			<div class="title__left">
+				<span>Showing Page</span>
+				<span>
+					{{ currentPage }}
+				</span>
+				<span>of</span>
+				<span>{{ totalPages }}</span>
+			</div>
+
+			<paginate
+				:page-count="totalPages"
+				:click-handler="clickCallback"
+				:prev-text="'Prev'"
+				:next-text="'Next'"
+				:container-class="'pagination__list'"
+				:page-class="'pagination__list-item'"
+			>
+			</paginate>
+		</div>
 
 		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleSendInvites">
 			<template #title>
@@ -87,14 +107,22 @@
 				<p class="modal-text">Enter a registered email address to send admin invite</p>
 				<div>
 					<ValidationObserver v-slot="{}">
-						<div @submit.prevent="" class="auth-input">
+						<form @submit.prevent="" class="auth-input">
 							<label class="form-label form-group" for="">Email</label>
 							<div class="email-field">
 								<span v-for="(email, index) in emailList" :key="index">
 									<InputTag @close="deleteEmail(index)">{{ email }} </InputTag>
 								</span>
 
-								<input class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
+								<input
+									v-if="emailList.length < 1"
+									placeholder="johndoe@example.com"
+									class="inputField"
+									type="email"
+									@keyup.enter="addEmail"
+									v-model="emailInput"
+								/>
+								<input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
 							</div>
 
 							<label class="select-label" for="admin">Role</label><br />
@@ -109,7 +137,7 @@
 									<Loader v-else />
 								</c-button>
 							</div>
-						</div>
+						</form>
 					</ValidationObserver>
 				</div>
 			</template>
@@ -125,6 +153,7 @@
 						<text-input
 							:disabled="true"
 							labelVisible
+							labelColor="gray"
 							v-model="info.name"
 							width="100%"
 							name="Name"
@@ -134,6 +163,7 @@
 							type="email"
 							:disabled="true"
 							labelVisible
+							labelColor="gray"
 							v-model="info.email"
 							width="100%"
 							name="Email"

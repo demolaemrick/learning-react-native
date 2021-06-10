@@ -29,7 +29,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="contact__research__table__wrapper">
+			<div class="mt-2">
 				<v-table
 					:tableHeaders="tableHeaders"
 					:tableData="history"

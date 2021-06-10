@@ -230,7 +230,41 @@ export default {
 		VButton
 	},
 	async mounted() {
-		await this.getAllUSers();
+	//	await this.getAllUSers();
+	this.users = [
+		{
+			"_id": "60bdf0ed0ddb1833055e025a",
+			"role": "user",
+			"status": "active",
+			"email": "ayomide@enyata.com",
+			"profession": "software engineer",
+			"organisation": "Paystack",
+			"createdAt": "2021-06-07T10:11:57.482Z",
+			"firstName": "Ayomide",
+			"lastName": "Onigbinde",
+			"monthlyResearch": 200,
+			"lastResearchDate": "2021-06-10T08:59:02.469Z"
+		},
+		{
+			"_id": "60bdf1260ddb1833055e025b",
+			"role": "admin",
+			"status": "inactive",
+			"email": "oayomide@enyata.com",
+			"profession": "Senior Software Engineer",
+			"organisation": "Enyata",
+			"createdAt": "2021-06-07T10:12:54.521Z",
+			"firstName": "Jacob",
+			"lastName": "Molina",
+			"monthlyResearch": -1,
+			"lastResearchDate": "2021-06-10T08:59:02.469Z",
+			"latests": {
+				"_id": "60be0f076c4cd6541c8e3e80",
+				"createdAt": "2021-06-07T12:20:23.681Z",
+				"updatedAt": "2021-06-07T12:55:29.761Z",
+				"__v": 0
+			}
+		}
+	];
 	},
 	methods: {
 		...mapActions({
@@ -247,7 +281,40 @@ export default {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
-					this.users = data.data;
+					this.users = [
+						{
+							"_id": "60bdf0ed0ddb1833055e025a",
+							"role": "user",
+							"status": "active",
+							"email": "ayomide@enyata.com",
+							"profession": "software engineer",
+							"organisation": "Paystack",
+							"createdAt": "2021-06-07T10:11:57.482Z",
+							"firstName": "Ayomide",
+							"lastName": "Onigbinde",
+							"monthlyResearch": 200,
+							"lastResearchDate": "2021-06-10T08:59:02.469Z"
+						},
+						{
+							"_id": "60bdf1260ddb1833055e025b",
+							"role": "admin",
+							"status": "inactive",
+							"email": "oayomide@enyata.com",
+							"profession": "Senior Software Engineer",
+							"organisation": "Enyata",
+							"createdAt": "2021-06-07T10:12:54.521Z",
+							"firstName": "Jacob",
+							"lastName": "Molina",
+							"monthlyResearch": -1,
+							"lastResearchDate": "2021-06-10T08:59:02.469Z",
+							"latests": {
+								"_id": "60be0f076c4cd6541c8e3e80",
+								"createdAt": "2021-06-07T12:20:23.681Z",
+								"updatedAt": "2021-06-07T12:55:29.761Z",
+								"__v": 0
+							}
+						}
+					];
 				}
 			} catch (error) {
 				console.log(error);
@@ -345,30 +412,20 @@ export default {
 				this.checkedContacts = [];
 			}
 		},
-		// openDeactivateModal(_id, fullName) {
-		// console.log(item);
-		// console.log(item._id);
-		// console.log(item.fullName);
-		// 	this.contactToModify = { _id, fullName };
-		// 	this.deactivateModal = true;
-		// },
 		openDeactivateModal(item) {
-			// console.log(item);
-			const { _id, fullName } = item;
-			// console.log(_id, fullName);
-			this.contactToModify = { ...this.contactToModify, _id, fullName };
-			// console.log(this.contactToModify);
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
 			this.deactivateModal = true;
 		},
 
 		async deactivate() {
-			this.userId = this.contactToModify._id;
 			try {
-				const changeStatus = await this.deactivateUser(this.userId);
+				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
 					console.log(changeStatus);
 					console.log(changeStatus.data.message);
+					await this.getAllUSers();
 					this.toggleDeactivateModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -376,25 +433,28 @@ export default {
 						message: changeStatus.data.message,
 						showAlert: true
 					});
-					this.fetchUser();
 				}
 			} catch (error) {
-				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		openActivateModal(item) {
-			const { _id, fullName } = item;
-			this.contactToModify = { ...this.contactToModify, _id, fullName };
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
 			this.activateModal = true;
 		},
 		async activate() {
-			this.userId = this.contactToModify._id;
 			try {
-				const changeStatus = await this.activateUser(this.userId);
+				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
 					console.log(changeStatus);
 					console.log(changeStatus.data.message);
+					await this.getAllUSers();
 					this.toggleActivateModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -402,25 +462,28 @@ export default {
 						message: changeStatus.data.message,
 						showAlert: true
 					});
-					this.fetchUser();
 				}
 			} catch (error) {
-				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		openSuspendModal(item) {
-			const { _id, fullName } = item;
-			this.contactToModify = { ...this.contactToModify, _id, fullName };
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
 			this.suspendModal = true;
 		},
 		async suspend() {
-			this.userId = this.contactToModify._id;
 			try {
-				const changeStatus = await this.suspendUser(this.userId);
+				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
 					console.log(changeStatus);
 					console.log(changeStatus.data.message);
+					await this.getAllUSers();
 					this.toggleSuspendModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -428,10 +491,13 @@ export default {
 						message: changeStatus.data.message,
 						showAlert: true
 					});
-					this.fetchUser();
 				}
 			} catch (error) {
-				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 
