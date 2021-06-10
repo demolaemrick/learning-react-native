@@ -32,10 +32,17 @@
 						<div class="settings-group">
 							<p class="text">Company search terms</p>
 							<p class="description">Add terms to refine your company search results</p>
-							<v-text-input class="search-input" @change="onKeywordsChange('company_research', $event)" v-model="settings.company_research" placeholder="Terms (comma seperated)" name="company search" width="100%" />
+							<v-text-input
+								class="search-input"
+								@change="onKeywordsChange('company_research', $event)"
+								v-model="settings.company_research"
+								placeholder="Terms (comma seperated)"
+								name="company search"
+								width="100%"
+							/>
 						</div>
 						<div class="flex flex-end">
-							<v-button  class="config__btn__close" @click="submitForm()">
+							<v-button class="config__btn__close" @click="submitForm()">
 								<div class="btn__content__wrapper">
 									<Loader v-if="loading" />
 									<span v-else class="text">Save Changes</span>

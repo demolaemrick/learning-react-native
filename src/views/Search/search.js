@@ -88,9 +88,9 @@ export default {
 			extensions: 'csv',
 			files: [],
 			activeTab: 'manual_search',
-			settings:{
-				"company_research": [],
-				"contact_research": []
+			settings: {
+				company_research: [],
+				contact_research: []
 			}
 		};
 	},
@@ -229,7 +229,7 @@ export default {
 			}
 		},
 		onKeywordsChange(searchType, event) {
-			this.payload[searchType] = event.target.value.split(',')
+			this.payload[searchType] = event.target.value.split(',');
 		},
 		applyAllOptionsToggle() {
 			this.applyAllChecked = !this.applyAllChecked;
