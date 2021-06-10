@@ -26,7 +26,8 @@ export default {
 			showEditModal: false,
 			contactModal: false,
 			checkedContacts: [],
-			loading: false,
+			loading: true,
+			// userLoading: false,
 			toggleClass: true,
 			tableHeaders: [
 				{
@@ -69,7 +70,7 @@ export default {
 					email: 'Abass@apple.com',
 					company: 'Apple',
 					title: 'Design Manager',
-					linkedin: 'www.figma.com',
+					linkedin: 'www.figmasfsfjhjhfshbfhsf.com',
 					score: '80%',
 					lastUpdated: '1h',
 					rowId: 1,
@@ -83,7 +84,7 @@ export default {
 					email: 'darlene@amazon.com',
 					company: 'Apple',
 					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
+					linkedin: 'www.amsterdamhsfjhbfsjhffh',
 					score: '80%',
 					lastUpdated: '1h',
 					rowId: 2,
@@ -212,7 +213,12 @@ export default {
 			csvImport: {
 				contacts: null,
 				is_csv: true
-			}
+			},
+			userId: null,
+			userDetails: [],
+			usersLoading: false,
+			currentPage: 1,
+			totalPages: 10
 		};
 	},
 	components: {
@@ -233,7 +239,8 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			showAlert: 'showAlert'
+			showAlert: 'showAlert',
+			getSingleUser: 'users_management/singleUser'
 		}),
 		toggleEditModal() {
 			if (!this.showEditModal) {
@@ -283,6 +290,9 @@ export default {
 			} else {
 				this.checkedContacts = [];
 			}
+		},
+		clickCallback(page) {
+			this.currentPage = page;
 		},
 		backToUsers() {
 			this.$router.push({ name: 'Users' });
@@ -336,6 +346,42 @@ export default {
 		async uploadBulkResearch() {
 			this.loading = true;
 			console.log(this.csvImport.contacts);
+		},
+		async fetchUser() {
+			try {
+				console.log(this.userDetails);
+				this.userDetails = await this.getSingleUser(this.userId);
+				console.log(this.userDetails);
+				const { status, data, statusText } = this.userDetails;
+				if (status === 200 && statusText === 'OK') {
+					console.log(status);
+					console.log(statusText);
+					this.userDetails = {
+						"_id": this.userId,
+						"role": "user",
+						"status": "active",
+						"email": "ayomide@enyata.com",
+						"profession": "software engineer",
+						"organisation": "Paystack",
+						"createdAt": "2021-06-07T10:11:57.482Z",
+						"firstName": "Ayomide",
+						"lastName": "Onigbinde",
+						"monthlyResearch": 200,
+						"lastResearchDate": "2021-06-10T08:59:02.469Z"
+					},
+					console.log(this.userDetails);
+					// console.log(singleUser);
+					// console.log(data.data);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
 		}
+	},
+	mounted() {
+		this.userId = this.$route.query.userId;
+		this.fetchUser();
 	}
 };

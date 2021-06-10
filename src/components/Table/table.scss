@@ -1,10 +1,10 @@
 @import '../../assets/scss/main.scss';
 .table {
 	width: 100%;
-	&__wrapper {
-		overflow: hidden;
-		overflow-x: auto;
-	}
+	// &__wrapper {
+	// 	overflow: hidden;
+	// 	overflow-x: auto;
+	// }
 	&__header {
 		background-color: #f8f9fb;
 		&-item {

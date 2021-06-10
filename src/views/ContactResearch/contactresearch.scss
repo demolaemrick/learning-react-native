@@ -91,8 +91,8 @@
 	max-width: 920px;
 	width: 100%;
 	&__wrapper {
-		overflow: hidden;
-		overflow-x: auto;
+		// overflow: hidden;
+		// overflow-x: auto;
 
 		.table__wrapper__header {
 			display: flex;
@@ -226,10 +226,6 @@ thead.table__header {
 	.keywords-input {
 		width: 240px;
 	}
-}
-
-.contact__research__table__wrapper {
-	margin-top: 2em;
 }
 
 .table__td__name {

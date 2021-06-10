@@ -131,7 +131,10 @@ export default {
 			],
 			emailList: [],
 			showEditModal: false,
-			toggleClass: true
+			toggleClass: true,
+			usersLoading: false,
+			currentPage: 1,
+			totalPages: 5
 		};
 	},
 	props: {
@@ -208,9 +211,12 @@ export default {
 		openEditModal() {
 			this.editModal = !this.editModal;
 		},
-		addEmail() {
-			this.emailList.push(this.emailInput);
-			this.emailInput = '';
+		addEmail(e) {
+			console.log(this.emailList);
+			if (e.target.validity.valid) {
+				this.emailList.push(this.emailInput);
+				this.emailInput = '';
+			}
 		},
 		deleteEmail(index) {
 			const list = this.emailList;
@@ -228,6 +234,9 @@ export default {
 			} else {
 				this.checkedContacts = [];
 			}
+		},
+		clickCallback(page) {
+			this.currentPage = page;
 		}
 	}
 };

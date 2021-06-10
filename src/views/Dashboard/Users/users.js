@@ -3,6 +3,7 @@ import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
+import VButton from '@/components/Button';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
@@ -30,8 +31,12 @@ export default {
 			createUser: false,
 			filter: false,
 			showEditModal: false,
+			deactivateModal: false,
+			activateModal: false,
+			suspendModal: false,
 			toggleClass: true,
 			statusOption: 'active',
+			userInfo: null,
 			statusType: [
 				{
 					value: 'active',
@@ -202,7 +207,10 @@ export default {
 			stat: {
 				statusCode: 'ACTIVE',
 				message: 'Active'
-			}
+			},
+			userId: null,
+			userDetails: [],
+			contactToModify: {}
 		};
 	},
 	props: {
@@ -220,14 +228,54 @@ export default {
 		PasswordInput,
 		RadioBtn,
 		Status,
-		StatusTag
+		StatusTag,
+		VButton
 	},
 	async mounted() {
-		await this.getAllUSers();
+		//	await this.getAllUSers();
+		this.users = [
+			{
+				_id: '60bdf0ed0ddb1833055e025a',
+				role: 'user',
+				status: 'active',
+				email: 'ayomide@enyata.com',
+				profession: 'software engineer',
+				organisation: 'Paystack',
+				createdAt: '2021-06-07T10:11:57.482Z',
+				firstName: 'Ayomide',
+				lastName: 'Onigbinde',
+				monthlyResearch: 200,
+				lastResearchDate: '2021-06-10T08:59:02.469Z'
+			},
+			{
+				_id: '60bdf1260ddb1833055e025b',
+				role: 'admin',
+				status: 'inactive',
+				email: 'oayomide@enyata.com',
+				profession: 'Senior Software Engineer',
+				organisation: 'Enyata',
+				createdAt: '2021-06-07T10:12:54.521Z',
+				firstName: 'Jacob',
+				lastName: 'Molina',
+				monthlyResearch: -1,
+				lastResearchDate: '2021-06-10T08:59:02.469Z',
+				latests: {
+					_id: '60be0f076c4cd6541c8e3e80',
+					createdAt: '2021-06-07T12:20:23.681Z',
+					updatedAt: '2021-06-07T12:55:29.761Z',
+					__v: 0
+				}
+			}
+		];
 	},
 	methods: {
 		...mapActions({
-			allUsers: 'users_management/allUsers'
+			allUsers: 'users_management/allUsers',
+			deactivateUser: 'users_management/deactivateUser',
+			activateUser: 'users_management/activateUser',
+			suspendUser: 'users_management/suspendUser',
+			getSingleUser: 'users_management/singleUser',
+			showAlert: 'showAlert'
 		}),
 		async getAllUSers() {
 			this.usersLoading = true;
@@ -276,11 +324,49 @@ export default {
 				}, 500);
 			}
 		},
+		toggleDeactivateModal() {
+			if (!this.deactivateModal) {
+				this.deactivateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.deactivateModal = !this.deactivateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleActivateModal() {
+			if (!this.activateModal) {
+				this.activateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.activateModal = !this.activateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleSuspendModal() {
+			if (!this.suspendModal) {
+				this.suspendModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.suspendModal = !this.suspendModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
 		clickCallback(page) {
 			this.currentPage = page;
 		},
 		showUser(item) {
-			this.$router.push({ name: 'User', params: { id: item.rowId } });
+			this.$router.push({ name: 'User', query: { userId: item._id } });
+		},
+		openEditModal(item) {
+			this.userInfo = item;
+			this.toggleEditModal();
+			console.log(item);
 		},
 		checkAll(event) {
 			if (event.target.checked) {
@@ -293,6 +379,111 @@ export default {
 				});
 			} else {
 				this.checkedContacts = [];
+			}
+		},
+		openDeactivateModal(item) {
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			this.deactivateModal = true;
+		},
+
+		async deactivate() {
+			try {
+				const changeStatus = await this.deactivateUser(this.contactToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					await this.getAllUSers();
+					this.toggleDeactivateModal();
+					this.contactToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+		openActivateModal(item) {
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			this.activateModal = true;
+		},
+		async activate() {
+			try {
+				const changeStatus = await this.activateUser(this.contactToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					await this.getAllUSers();
+					this.toggleActivateModal();
+					this.contactToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+		openSuspendModal(item) {
+			const { _id, lastName, firstName } = item;
+			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			this.suspendModal = true;
+		},
+		async suspend() {
+			try {
+				const changeStatus = await this.suspendUser(this.contactToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					console.log(changeStatus);
+					console.log(changeStatus.data.message);
+					await this.getAllUSers();
+					this.toggleSuspendModal();
+					this.contactToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+
+		async fetchUser() {
+			this.userLoading = true;
+			try {
+				this.userDetails = await this.getSingleUser(this.userId);
+				console.log(this.userDetails);
+				const { status, data, statusText } = this.userDetails;
+				if (status === 200 && statusText === 'OK') {
+					this.userDetails = data.data;
+					console.log(this.userDetails);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.userLoading = false;
 			}
 		}
 	}

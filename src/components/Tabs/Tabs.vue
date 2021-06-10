@@ -39,7 +39,7 @@
 		}
 	}
 }
-.tab-contents {
-	margin: 25px 0;
-}
+// .tab-contents {
+// 	margin: 25px 0;
+// }
 </style>

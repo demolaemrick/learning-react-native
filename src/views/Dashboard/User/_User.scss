@@ -168,3 +168,34 @@
 		}
 	}
 }
+.linkedin {
+  line-height: 16px;
+  text-decoration-line: underline;
+  color: #0EAD69;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 200px;
+}
+.table__pagination__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+  padding: 0 20px;
+  .title__left {
+    span {
+      margin-right: 0.5em;
+    }
+  }
+  .page__left {
+    span {
+      margin-left: 0.5em;
+    }
+
+    .active {
+      background: rgba(47, 46, 128, 0.1);
+      border-radius: 2px;
+      padding: 5px 10px;
+    }
+  }	
+}
