@@ -13,6 +13,7 @@ const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login'
 const ForgotPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword');
 const CheckInbox = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword/CheckInbox');
 const ResetPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ResetPassword');
+const AdminInvite = () => import(/* webpackChunkName: 'login' */ '../views/auth/AdminInvite');
 const Dashboard = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Index.vue');
 const Admin = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Admin');
 const Users = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Users');
@@ -75,6 +76,12 @@ const routes = [
 		path: '/reset-password',
 		name: 'ResetPassword',
 		component: ResetPassword,
+		beforeEnter: noAuthOnly
+	},
+	{
+		path: '/admin/invite',
+		name: 'AdminInvite',
+		component: AdminInvite,
 		beforeEnter: noAuthOnly
 	},
 	{

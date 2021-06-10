@@ -327,3 +327,36 @@ thead.table__header {
 		justify-content: flex-end;
 	}
 }
+.settings-header {
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 24px;
+	letter-spacing: 0.25px;
+	color: #333758;
+  }
+  .settings-group {
+	// margin: 0 42px;
+	margin-top: 32px;
+	margin-bottom: 40px;
+	.text {
+	  font-weight: 600;
+	  font-size: 20px;
+	  line-height: 24px;
+	  letter-spacing: -0.117188px;
+	  color: #0E347E;
+	  margin-top: 32px;
+	  margin-bottom: 16px;
+	}
+	.description {
+	  font-weight: 400;
+	  font-size: 14px;
+	  line-height: 16px;
+	  letter-spacing: -0.117188px;
+	  color: #333758;
+	  margin-bottom: 8px;
+	}
+  }
+  .search-terms{
+	margin-left: 3.89%;
+	margin-right: 12.8%;
+  }

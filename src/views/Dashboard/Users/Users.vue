@@ -46,11 +46,14 @@
 							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
 						</div>
 					</td>
-					<td class="table__row-item">{{ item.fullName }}</td>
+					<td class="table__row-item">{{ item.lastName }} {{ item.firstName }}</td>
 					<td class="table__row-item">{{ item.email }}</td>
-					<td class="table__row-item">{{ item.researchNo }}</td>
+					<td class="table__row-item">{{ item.monthlyResearch }}</td>
 					<td class="table__row-item status">
-						<Status :status="stat" />
+						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
+							>{{ item.status }}
+						</status-tag>
+						<!-- <Status :status="stat" /> -->
 					</td>
 					<td class="table__row-item">
 						{{ item.date }} |

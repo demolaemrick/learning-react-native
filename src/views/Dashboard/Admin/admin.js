@@ -1,10 +1,12 @@
 import { ValidationObserver } from 'vee-validate';
+import { mapActions } from 'vuex';
 import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
+import Loader from '@/components/Loader';
 import Status from '@/components/Status';
 import Toggle from '@/components/Toggle';
 import InputTag from '@/components/InputTag';
@@ -145,9 +147,42 @@ export default {
 		Modal,
 		Status,
 		Toggle,
-		InputTag
+		InputTag,
+		Loader
 	},
 	methods: {
+		...mapActions({
+			adminInvite: 'admin_management/adminInvite',
+			showAlert: 'showAlert'
+		}),
+		async inviteAdmin() {
+			this.loading = true;
+			if (this.emailInput !== '') {
+				this.emailList.push(this.emailInput);
+				this.emailInput = '';
+			}
+			try {
+				const response = await this.adminInvite({ email: this.emailList });
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Invite sent Successfully',
+						showAlert: true
+					});
+					this.emailList = [];
+					this.toggleSendInvites();
+					return true;
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
 		toggleEditModal() {
 			if (!this.showEditModal) {
 				this.showEditModal = true;
@@ -174,10 +209,8 @@ export default {
 			this.editModal = !this.editModal;
 		},
 		addEmail() {
-			console.log(this.emailList);
 			this.emailList.push(this.emailInput);
 			this.emailInput = '';
-			console.log(this.emailList);
 		},
 		deleteEmail(index) {
 			const list = this.emailList;

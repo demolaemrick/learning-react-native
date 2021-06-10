@@ -9,6 +9,7 @@ import Loader from '@/components/Loader';
 import PasswordInput from '@/components/Input/PasswordInput';
 import RadioBtn from '@/components/RadioButton';
 import Status from '@/components/Status';
+import StatusTag from '@/components/StatusTag';
 import { mapActions } from 'vuex';
 
 export default {
@@ -218,7 +219,8 @@ export default {
 		Loader,
 		PasswordInput,
 		RadioBtn,
-		Status
+		Status,
+		StatusTag
 	},
 	async mounted() {
 		await this.getAllUSers();

@@ -87,7 +87,11 @@ export default {
 			accept: 'csv',
 			extensions: 'csv',
 			files: [],
-			activeTab: 'manual_search'
+			activeTab: 'manual_search',
+			settings:{
+				"company_research": [],
+				"contact_research": []
+			}
 		};
 	},
 	methods: {
@@ -103,6 +107,7 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		async getUserSettings() {
+			this.loading = false;
 			try {
 				const { status, statusText, data } = await this.getSettings();
 				if (status === 200 && statusText === 'OK') {
@@ -111,11 +116,9 @@ export default {
 					} = data;
 					if (contact_research) {
 						this.payload.contact_research = contact_research;
-						this.keywords = { ...this.keywords, ...contact_research };
 					}
 					if (company_research) {
 						this.payload.company_research = company_research;
-						this.companyKeywords = { ...this.companyKeywords, ...company_research };
 					}
 				}
 			} catch (error) {
@@ -124,6 +127,8 @@ export default {
 					message: 'An error occurred',
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		logoutUser() {
@@ -223,38 +228,8 @@ export default {
 				}
 			}
 		},
-		onKeywordsChange(optionTitle, searchType, event) {
-			if (searchType === 'contact') {
-				const isValidOption = Object.keys(this.keywords).includes(optionTitle);
-				if (isValidOption) {
-					if (optionTitle === 'events' && event.target.value !== '') {
-						this.disableApplyAll = false;
-					}
-					if (optionTitle === 'events' && event.target.value === '') {
-						this.disableApplyAll = true;
-						this.payload.contact_research[optionTitle] = [];
-						this.applyAllChecked = false;
-						return;
-					}
-					this.keywords[optionTitle] = event.target.value.split(',');
-					this.payload.contact_research[optionTitle] = this.keywords[optionTitle];
-				}
-			} else {
-				const isValidOption = Object.keys(this.companyKeywords).includes(optionTitle);
-				if (isValidOption) {
-					if (optionTitle === 'job_postings' && event.target.value !== '') {
-						this.disableCompanyAll = false;
-					}
-					if (optionTitle === 'job_postings' && event.target.value === '') {
-						this.disableCompanyAll = true;
-						this.payload.company_research[optionTitle] = [];
-						this.AllCompanyChecked = false;
-						return;
-					}
-					this.companyKeywords[optionTitle] = event.target.value.split(',');
-					this.payload.company_research[optionTitle] = this.companyKeywords[optionTitle];
-				}
-			}
+		onKeywordsChange(searchType, event) {
+			this.payload[searchType] = event.target.value.split(',')
 		},
 		applyAllOptionsToggle() {
 			this.applyAllChecked = !this.applyAllChecked;
