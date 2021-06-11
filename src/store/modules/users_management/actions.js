@@ -55,5 +55,39 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	research_history: async ({ commit }, { id, page, limit }) => {
+		const url = `admin/user/${id}/history?page=${page}&limit=${limit}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			console.log('err', error);
+			return Promise.reject(error);
+		}
+	},
+	bulk_research: async ({ commit }, { id, contacts }) => {
+		const url = `admin/user/${id}/bulk-research`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, contacts);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	updateUser: async ({ commit }, { id, user }) => {
+		const url = `admin/user/${id}/edit-profile`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.put(url, user);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

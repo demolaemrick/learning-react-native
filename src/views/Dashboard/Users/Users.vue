@@ -48,7 +48,7 @@
 					</td>
 					<td class="table__row-item">{{ item.lastName }} {{ item.firstName }}</td>
 					<td class="table__row-item">{{ item.email }}</td>
-					<td class="table__row-item">{{ item.monthlyResearch }}</td>
+					<td class="table__row-item">200{{ item.researchesPerformed }}</td>
 					<td class="table__row-item status">
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
 							>{{ item.status }}
@@ -56,11 +56,11 @@
 						<!-- <Status :status="stat" /> -->
 					</td>
 					<td class="table__row-item">
-						{{ item.date }} |
+						{{ item.lastResearchDate | moment('MMMM D, YYYY') }} | {{ item.lastResearchDate | moment(' h:mm:ss a') }}
 						<span class="time">{{ item.time }}</span>
 					</td>
-					<td class="" @click.stop>
-						<toggle-dropdown itemPadding="0">
+					<td class="table__row-item dropdown" @click.stop>
+						<toggle-dropdown>
 							<template #dropdown-wrapper>
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
@@ -187,15 +187,14 @@
 									name="Profession"
 									placeholder="Product"
 								/>
-								<text-input
-									rules="required"
-									labelVisible
-									labelColor="gray"
-									v-model="form.role"
-									width="204px"
-									name="Role"
-									placeholder="Content Creator"
-								/>
+								<div class="form-group">
+									<label class="select-label" for="admin">Role</label>
+									<select class="select-input" v-model="form.role" width="204px" name="adminRole" id="adminRole">
+										<option value="user">User</option>
+										<option value="admin">Admin</option>
+										<option value="superAdmin">Super Admin</option>
+									</select>
+								</div>
 							</div>
 							<password-input
 								type="password"
@@ -269,7 +268,7 @@
 				<h3>Edit</h3>
 			</template>
 			<template #body>
-				<form action="">
+				<form @submit.prevent="">
 					<ValidationObserver v-slot="{}" color="#ff0000">
 						<div class="auth-input">
 							<div class="flex flex-spaced">
@@ -335,18 +334,17 @@
 									name="Profession"
 									placeholder="Product"
 								/>
-								<text-input
-									rules="required"
-									labelVisible
-									labelColor="gray"
-									v-model="userInfo.role"
-									width="204px"
-									name="Role"
-									placeholder="Content Creator"
-								/>
+								<div class="form-group">
+									<label class="select-label" for="admin">Role</label>
+									<select class="select-input" v-model="userInfo.role" width="204px" name="adminRole" id="adminRole">
+										<option value="user">User</option>
+										<option value="admin">Admin</option>
+										<option value="superAdmin">Super Admin</option>
+									</select>
+								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>

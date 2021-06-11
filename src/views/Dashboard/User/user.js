@@ -64,148 +64,7 @@ export default {
 					name: ' '
 				}
 			],
-			history: [
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					company: 'Apple',
-					title: 'Design Manager',
-					linkedin: 'www.figmasfsfjhjhfshbfhsf.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 1,
-					status: {
-						statusCode: 'DONE',
-						message: 'Done'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amsterdamhsfjhbfsjhffh',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: '',
-						message: 'Pending'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: 'DONE',
-						message: 'Done'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: 'DONE',
-						message: 'Done'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: 'DONE',
-						message: 'Done'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: '',
-						message: 'Pending'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: '',
-						message: 'Pending'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: '',
-						message: 'Pending'
-					}
-				},
-				{
-					name: 'Darlene Robertson',
-					email: 'darlene@amazon.com',
-					company: 'Apple',
-					title: 'Logistics Officer',
-					linkedin: 'www.amazon.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 2,
-					status: {
-						statusCode: '',
-						message: 'Pending'
-					}
-				},
-				{
-					name: 'Esther Howard',
-					email: 'estherhoward@gmail.com',
-					company: 'MIT',
-					title: 'Content Marketing',
-					linkedin: 'www.amsterdam.com',
-					score: '80%',
-					lastUpdated: '1h',
-					rowId: 3,
-					status: {
-						statusCode: 'DONE',
-						message: 'Done'
-					}
-				}
-			],
+			history: [],
 			activeTab: 'details',
 			accept: 'csv',
 			extensions: 'csv',
@@ -217,8 +76,11 @@ export default {
 			userId: null,
 			userDetails: [],
 			usersLoading: false,
+			count: 0,
 			currentPage: 1,
-			totalPages: 10
+			totalPages: 10,
+			pageLoading: false,
+			nextPage: null
 		};
 	},
 	components: {
@@ -240,7 +102,10 @@ export default {
 	methods: {
 		...mapActions({
 			showAlert: 'showAlert',
-			getSingleUser: 'users_management/singleUser'
+			getSingleUser: 'users_management/singleUser',
+			research_history: 'users_management/research_history',
+			bulk_research: 'users_management/bulk_research',
+			subscribeResearch: 'search_services/subscribeResearch'
 		}),
 		toggleEditModal() {
 			if (!this.showEditModal) {
@@ -271,6 +136,7 @@ export default {
 					break;
 				case 'contacts':
 					this.activeTab = evt;
+					this.getHistory();
 					break;
 				case 'settings':
 					this.activeTab = evt;
@@ -280,7 +146,6 @@ export default {
 		checkAll(event) {
 			if (event.target.checked) {
 				this.history.forEach((item) => {
-					// console.log(item);
 					if (item.status.statusCode === 'DONE' || item.status.statusCode === '') {
 						this.checkedContacts.push(item.rowId);
 						return item.rowId;
@@ -345,14 +210,82 @@ export default {
 		},
 		async uploadBulkResearch() {
 			this.loading = true;
-			console.log(this.csvImport.contacts);
+			try {
+				await this.bulk_research({ id: this.userId, contacts: this.csvImport });
+				this.page = 1;
+				this.pageLoading = true;
+				this.toggleUploadContact();
+				await this.getHistory();
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		async getHistory() {
+			this.pageLoading = true;
+			try {
+				const response = await this.research_history({ id: this.userId, page: this.page, limit: this.limit });
+				console.log(response);
+				this.history = response.data.data;
+				// this.count = response.data.data.count;
+				// this.currentPage = response.data.data.currentPage;
+				// this.total = Math.ceil(response.data.data.count / this.limit);
+				// this.nextPage = response.data.data.nextPage;
+				this.checkPendngStatus();
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.pageLoading = false;
+			}
+		},
+		async checkPendngStatus() {
+			let pendingStatus = await this.history.filter((data) => {
+				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
+			});
+			if (pendingStatus.length > 0) {
+				this.subscribe();
+			}
+		},
+		async subscribe() {
+			try {
+				const response = await this.subscribeResearch();
+				if (response.status === 200) {
+					await this.history.map((data) => {
+						if (data.rowId === response.data.done.rowId) {
+							data.status = response.data.done.status;
+							data.research_score = response.data.done.research_score;
+						}
+						return data;
+					});
+					this.checkPendngStatus();
+				}
+				if (response.status >= 500) {
+					this.getHistory();
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
 		},
 		async fetchUser() {
 			try {
-				console.log(this.userDetails);
-				this.userDetails = await this.getSingleUser(this.userId);
-				console.log(this.userDetails);
-				const { status, data, statusText } = this.userDetails;
+				const response = await this.getSingleUser(this.userId);
+				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					console.log(status);
 					console.log(statusText);

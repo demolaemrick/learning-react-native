@@ -33,7 +33,7 @@
 						<div class="grid grid__layout gap-3 py-1 row-group">
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Name</p>
-								<h4 class="detail-content">{{ userDetails.firstName }} {{ userDetails.lastName }}</h4>
+								<h4 class="detail-content">{{ userDetails.first_name }} {{ userDetails.last_name }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Email Address</p>
@@ -47,7 +47,7 @@
 								<p class="mb-1 detail-name">Status</p>
 								<div class="flex flex__item-center">
 									<div class="mr-1">
-										<Toggle />
+										<Toggle :itemKey="userDetails.status === 'active' ? true : false" />
 									</div>
 									<h4 class="detail-content">{{ userDetails.status }}</h4>
 								</div>
@@ -75,7 +75,13 @@
 				</v-tab>
 				<v-tab style="max-width: 100%;" margin="25px 0 0 0" title="Contacts" @getData="setActiveTab('contacts')">
 					<div>
-						<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
+						<v-table
+							:tableHeaders="tableHeaders"
+							:loading="pageLoading"
+							:tableData="history"
+							theme="contact__research"
+							@checkAll="checkAll"
+						>
 							<template name="table-row" slot-scope="{ item }">
 								<td class="table__row-item">
 									<div class="check-input">
@@ -83,26 +89,40 @@
 									</div>
 								</td>
 								<td class="table__row-item">
-									<div class="flex">
-										<div class="detail__circle">
-											<p class="detail__initials">KO</p>
+									<div class="table__td__name">
+										<div class="initials__logo">
+											{{
+												item.full_name
+													.match(/\b(\w)/g)
+													.join('')
+													.toUpperCase()
+											}}
 										</div>
-										<div class="flex flex__column">
-											<p class="table-content">{{ item.name }}</p>
-											<p class="small">{{ item.email }}</p>
+										<div class="name__email__wrapper">
+											<div class="text__name text-capitalize">{{ item.full_name }}</div>
+											<div class="text__email">{{ item.email }}</div>
 										</div>
 									</div>
 								</td>
-								<td class="table__row-item">{{ item.company }}</td>
-								<td class="table__row-item">{{ item.title }}</td>
-								<td class="table__row-item linkedin">{{ item.linkedin }}</td>
-								<td class="table__row-item">{{ item.score }}</td>
-								<td class="table__row-item">{{ item.lastUpdated }}</td>
+								<td class="table__row-item text-capitalize">{{ item.company }}</td>
+								<td class="table__row-item text-capitalize">{{ item.role }}</td>
+								<td class="table__row-item linkedin">
+									<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
+									<template v-else
+										><a class="table__td__link" :href="item.linkedin" target="_blank">
+											<img src="@/assets/icons/link.svg" svg-inline /> </a
+									></template>
+								</td>
+								<td class="table__row-item">
+									<template v-if="item.research_score === 0.1">-</template>
+									<template v-else>{{ item.research_score.toPrecision(4) * 100 }}%</template>
+								</td>
+								<td class="table__row-item">{{ item.updatedAt | moment('from', 'now') }}</td>
 								<td class="table__row-item status">
 									<Status :status="item.status" />
 								</td>
-								<td class="">
-									<toggle-dropdown itemPadding="0">
+								<td class="table__row-item dropdown">
+									<toggle-dropdown>
 										<template #dropdown-wrapper>
 											<img src="@/assets/icons/menu3dot.svg" svg-inline />
 										</template>
@@ -122,7 +142,7 @@
 							</template>
 						</v-table>
 
-						<div v-if="history.length < 1">
+						<div v-if="!pageLoading && history && history.length < 1">
 							<div class="emptyState">
 								<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 								<p class="emptyState-text">No user record found</p>

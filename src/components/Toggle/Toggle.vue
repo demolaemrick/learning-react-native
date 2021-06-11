@@ -1,6 +1,6 @@
 <template>
 	<label class="toggle">
-		<input type="checkbox" v-model="itemKey" checked @change="onOptionToggle()" /><span class="toggle-icon"></span>
+		<input type="checkbox" v-model="itemValue" checked @change="onOptionToggle()" /><span class="toggle-icon"></span>
 	</label>
 </template>
 

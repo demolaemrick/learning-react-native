@@ -44,7 +44,30 @@
   font-weight: 400;
   position: relative;	
 }
-
+.select-label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color:  #989AAA;
+  display: block;
+  margin-bottom: 12px;
+}
+.select-input {
+    background: #FFFFFF;
+    border: 1px solid #DEE3EB;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 16px;
+    height: 46px;
+    width: 204px;
+    padding: 0 16px;
+    outline: none;
+    color: #0B2253;
+    font-size: 14px;
+    letter-spacing: -0.05px;
+  }
 .file-wrapper {
   border: 2px dashed #D1D5DB;
   box-sizing: border-box;

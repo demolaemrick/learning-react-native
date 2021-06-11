@@ -25,7 +25,8 @@ export default {
 				organisation: '',
 				researches: '',
 				profession: '',
-				password: ''
+				password: '',
+				role: ''
 			},
 			loading: false,
 			createUser: false,
@@ -232,41 +233,7 @@ export default {
 		VButton
 	},
 	async mounted() {
-		//	await this.getAllUSers();
-		this.users = [
-			{
-				_id: '60bdf0ed0ddb1833055e025a',
-				role: 'user',
-				status: 'active',
-				email: 'ayomide@enyata.com',
-				profession: 'software engineer',
-				organisation: 'Paystack',
-				createdAt: '2021-06-07T10:11:57.482Z',
-				firstName: 'Ayomide',
-				lastName: 'Onigbinde',
-				monthlyResearch: 200,
-				lastResearchDate: '2021-06-10T08:59:02.469Z'
-			},
-			{
-				_id: '60bdf1260ddb1833055e025b',
-				role: 'admin',
-				status: 'inactive',
-				email: 'oayomide@enyata.com',
-				profession: 'Senior Software Engineer',
-				organisation: 'Enyata',
-				createdAt: '2021-06-07T10:12:54.521Z',
-				firstName: 'Jacob',
-				lastName: 'Molina',
-				monthlyResearch: -1,
-				lastResearchDate: '2021-06-10T08:59:02.469Z',
-				latests: {
-					_id: '60be0f076c4cd6541c8e3e80',
-					createdAt: '2021-06-07T12:20:23.681Z',
-					updatedAt: '2021-06-07T12:55:29.761Z',
-					__v: 0
-				}
-			}
-		];
+		await this.getAllUsers();
 	},
 	methods: {
 		...mapActions({
@@ -275,15 +242,16 @@ export default {
 			activateUser: 'users_management/activateUser',
 			suspendUser: 'users_management/suspendUser',
 			getSingleUser: 'users_management/singleUser',
+			updateUser: 'users_management/updateUser',
 			showAlert: 'showAlert'
 		}),
-		async getAllUSers() {
+		async getAllUsers() {
 			this.usersLoading = true;
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
-					this.users = data.data;
+					this.users = data.response.data;
 				}
 			} catch (error) {
 				console.log(error);
@@ -366,7 +334,34 @@ export default {
 		openEditModal(item) {
 			this.userInfo = item;
 			this.toggleEditModal();
-			console.log(item);
+		},
+		async editUser() {
+			this.loading = true;
+			const { firstName, lastName, role, monthlyResearch, email, organisation, profession } = this.userInfo;
+			try {
+				const response = await this.updateUser({
+					id: this.userInfo._id,
+					user: { firstName, lastName, role, monthlyResearch, email, organisation, profession }
+				});
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					await this.getAllUsers();
+					this.toggleEditModal();
+					this.showAlert({
+						status: 'success',
+						message: 'user successfully updated',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
 		},
 		checkAll(event) {
 			if (event.target.checked) {
@@ -392,9 +387,7 @@ export default {
 				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					console.log(changeStatus);
-					console.log(changeStatus.data.message);
-					await this.getAllUSers();
+					await this.getAllUsers();
 					this.toggleDeactivateModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -421,9 +414,7 @@ export default {
 				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					console.log(changeStatus);
-					console.log(changeStatus.data.message);
-					await this.getAllUSers();
+					await this.getAllUsers();
 					this.toggleActivateModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -450,9 +441,7 @@ export default {
 				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					console.log(changeStatus);
-					console.log(changeStatus.data.message);
-					await this.getAllUSers();
+					await this.getAllUsers();
 					this.toggleSuspendModal();
 					this.contactToModify = {};
 					this.showAlert({
@@ -474,11 +463,9 @@ export default {
 			this.userLoading = true;
 			try {
 				this.userDetails = await this.getSingleUser(this.userId);
-				console.log(this.userDetails);
 				const { status, data, statusText } = this.userDetails;
 				if (status === 200 && statusText === 'OK') {
 					this.userDetails = data.data;
-					console.log(this.userDetails);
 				}
 			} catch (error) {
 				console.log(error);

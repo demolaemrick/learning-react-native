@@ -172,7 +172,7 @@
 
 						<label class="select-label" for="admin">Role</label><br />
 						<select class="select-input" width="100%" name="adminRole" id="adminRole">
-							<option value="adminUser">Admin User</option>
+							<option value="user">User</option>
 							<option value="admin">Admin</option>
 							<option value="superAdmin">Super Admin</option>
 						</select>
