@@ -18,8 +18,8 @@ export default {
 	data() {
 		return {
 			form: {
-				firstName: '',
-				lastName: '',
+				first_name: '',
+				last_name: '',
 				email: '',
 				mail: '',
 				organisation: '',
@@ -337,11 +337,11 @@ export default {
 		},
 		async editUser() {
 			this.loading = true;
-			const { firstName, lastName, role, monthlyResearch, email, organisation, profession } = this.userInfo;
+			const { first_name, last_name, role, monthly_research, email, organisation, profession } = this.userInfo;
 			try {
 				const response = await this.updateUser({
 					id: this.userInfo._id,
-					user: { firstName, lastName, role, monthlyResearch, email, organisation, profession }
+					user: { first_name, last_name, role, monthly_research, email, organisation, profession }
 				});
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
@@ -377,8 +377,8 @@ export default {
 			}
 		},
 		openDeactivateModal(item) {
-			const { _id, lastName, firstName } = item;
-			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			const { _id, last_name, first_name } = item;
+			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.deactivateModal = true;
 		},
 
@@ -405,8 +405,8 @@ export default {
 			}
 		},
 		openActivateModal(item) {
-			const { _id, lastName, firstName } = item;
-			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			const { _id, last_name, first_name } = item;
+			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.activateModal = true;
 		},
 		async activate() {
@@ -432,8 +432,8 @@ export default {
 			}
 		},
 		openSuspendModal(item) {
-			const { _id, lastName, firstName } = item;
-			this.contactToModify = { ...this.contactToModify, _id, lastName, firstName };
+			const { _id, last_name, first_name } = item;
+			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.suspendModal = true;
 		},
 		async suspend() {

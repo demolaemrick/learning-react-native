@@ -10,6 +10,7 @@ import Loader from '@/components/Loader';
 import Status from '@/components/Status';
 import Toggle from '@/components/Toggle';
 import InputTag from '@/components/InputTag';
+import StatusTag from '@/components/StatusTag';
 
 export default {
 	name: 'Dashboard',
@@ -132,9 +133,12 @@ export default {
 			emailList: [],
 			showEditModal: false,
 			toggleClass: true,
-			usersLoading: false,
+			adminLoading: false,
 			currentPage: 1,
-			totalPages: 5
+			totalPages: 5,
+			limit: 50,
+			page: 1,
+			admins: []
 		};
 	},
 	props: {
@@ -151,13 +155,33 @@ export default {
 		Status,
 		Toggle,
 		InputTag,
-		Loader
+		Loader,
+		StatusTag
+	},
+	mounted() {
+		this.getAdmins();
 	},
 	methods: {
 		...mapActions({
 			adminInvite: 'admin_management/adminInvite',
+			allAdmins: 'admin_management/allAdmins',
 			showAlert: 'showAlert'
 		}),
+		async getAdmins() {
+			this.adminLoading = true;
+			try {
+				const response = await this.allAdmins({ page: this.page, limit: this.limit });
+				const { status, data, statusText } = response;
+				console.log(data);
+				if (status === 200 && statusText === 'OK') {
+					this.admins = data.data;
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.adminLoading = false;
+			}
+		},
 		async inviteAdmin() {
 			this.loading = true;
 			if (this.emailInput !== '') {
