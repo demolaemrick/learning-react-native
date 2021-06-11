@@ -20,7 +20,13 @@
 		</div>
 
 		<div>
-			<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" @checkAll="checkAll">
+			<v-table
+				:loading="adminLoading"
+				:tableHeaders="tableHeaders"
+				:tableData="admins"
+				theme="contact__research"
+				@checkAll="checkAll"
+			>
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
 						<div class="check-input">
@@ -30,21 +36,26 @@
 					<td class="table__row-item">
 						<div class="flex flex__item-center">
 							<div class="detail__circle">
-								<p class="detail__initials">KO</p>
+								<p class="detail__initials" v-if="item.first_name">
+									{{ item.first_name.charAt(0).toUpperCase() }}{{ item.last_name.charAt(0).toUpperCase() }}
+								</p>
 							</div>
 							<div>
-								<p class="table-content">{{ item.name }}</p>
+								<p class="table-content">{{ item.first_name }} {{ item.last_name }}</p>
 							</div>
 						</div>
 					</td>
 					<td class="table__row-item">{{ item.email }}</td>
-					<td class="table__row-item">{{ item.adminRole }}</td>
+					<td class="table__row-item">{{ item.role }}</td>
 					<td class="table__row-item status">
-						<Status :status="item.status" />
+						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
+							>{{ item.status }}
+						</status-tag>
+						<!-- <Status :status="item.status" /> -->
 					</td>
 					<td class="table__row-item">
-						{{ item.date }} |
-						<span class="time">{{ item.time }}</span>
+						{{ item.updatedAt | moment('MMMM D, YYYY') }} |
+						<span class="time">{{ item.updatedAt | moment(' h:mm:ss a') }}</span>
 					</td>
 					<td class="">
 						<toggle-dropdown itemPadding="0">
@@ -78,7 +89,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="table__pagination__wrapper" v-if="!usersLoading">
+		<div class="table__pagination__wrapper" v-if="!adminLoading">
 			<div class="title__left">
 				<span>Showing Page</span>
 				<span>

@@ -25,5 +25,17 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	allAdmins: async ({ commit }, { page, limit }) => {
+		const url = `admin?page=${page}&limit=${limit}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			console.log('err', error);
+			return Promise.reject(error);
+		}
 	}
 };

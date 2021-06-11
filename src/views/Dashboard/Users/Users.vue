@@ -46,9 +46,9 @@
 							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
 						</div>
 					</td>
-					<td class="table__row-item">{{ item.lastName }} {{ item.firstName }}</td>
+					<td class="table__row-item">{{ item.last_name }} {{ item.first_name }}</td>
 					<td class="table__row-item">{{ item.email }}</td>
-					<td class="table__row-item">200{{ item.researchesPerformed }}</td>
+					<td class="table__row-item">{{ item.researches_performed }}/{{ item.monthly_research }}</td>
 					<td class="table__row-item status">
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
 							>{{ item.status }}
@@ -56,8 +56,8 @@
 						<!-- <Status :status="stat" /> -->
 					</td>
 					<td class="table__row-item">
-						{{ item.lastResearchDate | moment('MMMM D, YYYY') }} | {{ item.lastResearchDate | moment(' h:mm:ss a') }}
-						<span class="time">{{ item.time }}</span>
+						{{ item.last_research_date | moment('MMMM D, YYYY') }} |
+						<span class="time">{{ item.last_research_date | moment(' h:mm:ss a') }}</span>
 					</td>
 					<td class="table__row-item dropdown" @click.stop>
 						<toggle-dropdown>
@@ -74,7 +74,7 @@
 								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">
 									Suspend
 								</li>
-								<li v-if="item.status === !'active'" class="dropdown__item" @click="openActivateModal(item)">
+								<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
 									Activate
 								</li>
 								<li v-if="item.status === 'active'" class="dropdown__item" @click="openDeactivateModal(item)">
@@ -276,7 +276,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userInfo.firstName"
+									v-model="userInfo.first_name"
 									width="204px"
 									name="First Name"
 									placeholder="John"
@@ -285,7 +285,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userInfo.lastName"
+									v-model="userInfo.last_name"
 									width="204px"
 									name="Last Name"
 									placeholder="Doe"
@@ -317,7 +317,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userInfo.monthlyResearch"
+									v-model.number="userInfo.monthly_research"
 									width="204px"
 									name="No. Research/month"
 									placeholder="200"
@@ -363,7 +363,7 @@
 				<div class="modal__content">
 					<p class="modal__content-text">
 						Kindly confirm that you want to deactivate this user
-						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
@@ -383,7 +383,7 @@
 				<div class="modal__content">
 					<p class="modal__content-text">
 						Kindly confirm that you want to activate this user
-						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleActivateModal">Cancel</div>
@@ -403,7 +403,7 @@
 				<div class="modal__content">
 					<p class="modal__content-text">
 						Kindly confirm that you want to suspend this user
-						<span class="name"> ({{ contactToModify.firstName }} {{ contactToModify.lastName }}) </span>.
+						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
