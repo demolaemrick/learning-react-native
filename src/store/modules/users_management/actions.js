@@ -89,5 +89,15 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	createUser: async (context, payload) => {
+		const url = 'admin/user/new';
+		console.log(payload);
+		try {
+			const response = await api.post(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

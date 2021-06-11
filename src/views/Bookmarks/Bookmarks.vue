@@ -42,7 +42,7 @@
 						</toggle-dropdown>
 						<dropdown-checkbox>
 							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline/></span>
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in getSearchedResult.contact_research" :key="i">
@@ -113,7 +113,7 @@
 						</toggle-dropdown>
 						<dropdown-checkbox>
 							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline/></span>
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in getSearchedResult.company_research" :key="i">

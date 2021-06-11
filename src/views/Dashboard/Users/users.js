@@ -18,12 +18,11 @@ export default {
 	data() {
 		return {
 			form: {
-				firstName: '',
-				lastName: '',
+				first_name: '',
+				last_name: '',
 				email: '',
-				mail: '',
 				organisation: '',
-				researches: '',
+				monthly_research: '',
 				profession: '',
 				password: '',
 				role: ''
@@ -243,6 +242,7 @@ export default {
 			suspendUser: 'users_management/suspendUser',
 			getSingleUser: 'users_management/singleUser',
 			updateUser: 'users_management/updateUser',
+			createNewUser: 'users_management/createUser',
 			showAlert: 'showAlert'
 		}),
 		async getAllUsers() {
@@ -257,6 +257,29 @@ export default {
 				console.log(error);
 			} finally {
 				this.usersLoading = false;
+			}
+		},
+		async registerUser() {
+			try {
+				const response = await this.createNewUser(this.form);
+				console.log('check :', response);
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					await this.getAllUsers();
+					this.toggleCreateUser();
+					this.form = {};
+					this.showAlert({
+						status: 'success',
+						message: 'User created successfully',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'Whoops! User not created',
+					showAlert: true
+				});
 			}
 		},
 		toggleCreateUser() {

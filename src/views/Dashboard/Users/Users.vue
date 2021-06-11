@@ -128,7 +128,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.firstName"
+									v-model="form.first_name"
 									width="204px"
 									name="First Name"
 									placeholder="John"
@@ -136,7 +136,7 @@
 								<text-input
 									rules="required"
 									labelVisible
-									v-model="form.lastName"
+									v-model="form.last_name"
 									width="204px"
 									labelColor="gray"
 									name="Last Name"
@@ -147,7 +147,7 @@
 							<text-input
 								rules="required"
 								labelVisible
-								v-model="form.mail"
+								v-model="form.email"
 								width="100%"
 								labelColor="gray"
 								name="Email Address"
@@ -170,7 +170,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.researches"
+									v-model="form.monthly_research"
 									width="204px"
 									name="No. Research/month"
 									placeholder="200"
@@ -207,7 +207,7 @@
 								placeholder="Enter Password"
 							/>
 							<div class="flex-end mb-2">
-								<c-button class="submit" size="large" buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary" @click="registerUser">
 									<template v-if="!loading">Create Account</template>
 									<Loader v-else />
 								</c-button>

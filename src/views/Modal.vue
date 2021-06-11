@@ -38,7 +38,7 @@
 											true-value="true"
 											:checked="Object.keys(researchedPayload.contact_research).includes(itemKey)"
 											false-value="false"
-											@change="onOptionToggle(itemKey, 'contact', $event)" /><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'contact', $event)"/><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">
@@ -97,7 +97,7 @@
 											true-value="true"
 											:checked="Object.keys(researchedPayload.company_research).includes(itemKey)"
 											false-value="false"
-											@change="onOptionToggle(itemKey, 'company', $event)" /><span class="toggle-icon"></span
+											@change="onOptionToggle(itemKey, 'company', $event)"/><span class="toggle-icon"></span
 									></label>
 								</td>
 								<td class="table__row-item">
@@ -283,13 +283,13 @@ export default {
 		}
 	},
 	watch: {
-		'keywords.events': function (newVal) {
+		'keywords.events': function(newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.applyAllChecked = false;
 				this.researchedPayload.contact_research['events'] = [];
 			}
 		},
-		applyAllChecked: function (newVal) {
+		applyAllChecked: function(newVal) {
 			if (newVal) {
 				Object.keys(this.researchedPayload.contact_research).forEach((single) => {
 					this.researchedPayload.contact_research[single] = this.researchedPayload.contact_research.events;
@@ -307,13 +307,13 @@ export default {
 				this.keywords[single] = [];
 			});
 		},
-		'companyKeywords.job_postings': function (newVal) {
+		'companyKeywords.job_postings': function(newVal) {
 			if (typeof newVal === 'string' && newVal === '') {
 				this.AllCompanyChecked = false;
 				this.researchedPayload.company_research['job_postings'] = [];
 			}
 		},
-		AllCompanyChecked: function (newVal) {
+		AllCompanyChecked: function(newVal) {
 			if (newVal) {
 				Object.keys(this.researchedPayload.company_research).forEach((single) => {
 					this.researchedPayload.company_research[single] = this.researchedPayload.company_research.job_postings;
