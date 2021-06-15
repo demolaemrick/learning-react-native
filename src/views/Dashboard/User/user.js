@@ -19,9 +19,14 @@ export default {
 	data() {
 		return {
 			form: {
-				firstName: '',
-				email: null,
-				password: null
+				first_name: '',
+				last_name: '',
+				email: '',
+				organisation: '',
+				monthly_research: '',
+				profession: '',
+				password: '',
+				role: ''
 			},
 			showEditModal: false,
 			contactModal: false,
@@ -304,5 +309,6 @@ export default {
 	mounted() {
 		this.userId = this.$route.query.userId;
 		this.fetchUser();
+		// console.log(this.userDetails);
 	}
 };

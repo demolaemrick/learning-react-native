@@ -368,7 +368,8 @@
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
-							Deactivate
+							<template v-if="!loading">Deactivate</template>
+							<Loader v-else />
 						</v-button>
 					</div>
 				</div>
@@ -388,7 +389,8 @@
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleActivateModal">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
-							Activate
+							<template v-if="!loading">Activate</template>
+							<Loader v-else />
 						</v-button>
 					</div>
 				</div>
@@ -408,7 +410,8 @@
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
-							Suspend
+							<template v-if="!loading">Suspend</template>
+							<Loader v-else />
 						</v-button>
 					</div>
 				</div>

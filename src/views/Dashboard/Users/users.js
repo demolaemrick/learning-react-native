@@ -406,6 +406,7 @@ export default {
 		},
 
 		async deactivate() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
@@ -425,6 +426,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		openActivateModal(item) {
@@ -433,6 +436,7 @@ export default {
 			this.activateModal = true;
 		},
 		async activate() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
@@ -452,6 +456,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		openSuspendModal(item) {
@@ -460,6 +466,7 @@ export default {
 			this.suspendModal = true;
 		},
 		async suspend() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
@@ -479,6 +486,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 
