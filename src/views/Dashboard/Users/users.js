@@ -415,8 +415,8 @@ export default {
 				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleDeactivateModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
@@ -445,8 +445,8 @@ export default {
 				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleActivateModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
@@ -475,8 +475,8 @@ export default {
 				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleSuspendModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',

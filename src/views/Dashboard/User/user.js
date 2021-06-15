@@ -110,7 +110,8 @@ export default {
 			getSingleUser: 'users_management/singleUser',
 			research_history: 'users_management/research_history',
 			bulk_research: 'users_management/bulk_research',
-			subscribeResearch: 'search_services/subscribeResearch'
+			subscribeResearch: 'search_services/subscribeResearch',
+			updateUser: 'users_management/updateUser'
 		}),
 		toggleEditModal() {
 			if (!this.showEditModal) {
@@ -301,6 +302,36 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
+			} finally {
+				this.loading = false;
+			}
+		},
+		async editUser() {
+			this.loading = true;
+			const { first_name, last_name, role, monthly_research, email, organisation, profession } = this.userDetails;
+			try {
+				const response = await this.updateUser({
+					id: this.userDetails._id,
+					user: { first_name, last_name, role, monthly_research, email, organisation, profession }
+				});
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.toggleEditModal();
+					this.loading = true;
+					await this.fetchUser();
+					this.showAlert({
+						status: 'success',
+						message: 'user successfully updated',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.loading = false;
 			}

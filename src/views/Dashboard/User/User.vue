@@ -273,16 +273,6 @@
 									name="Profession"
 									placeholder="Product"
 								/>
-								<!-- <text-input
-									rules="required"
-									labelVisible
-									labelColor="gray"
-									v-model="userDetails.role"
-									width="204px"
-									name="Role"
-									placeholder="Content Creator"
-								/> -->
-
 								<div class="form-group">
 									<label class="select-label" for="admin">Role</label>
 									<select class="select-input" v-model="userDetails.role" width="204px" name="adminRole" id="adminRole">
@@ -293,7 +283,7 @@
 								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>
