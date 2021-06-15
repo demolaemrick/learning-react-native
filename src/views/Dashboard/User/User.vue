@@ -215,7 +215,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.first_name "
+									v-model="userDetails.first_name"
 									width="204px"
 									name="First Name"
 									placeholder="John"

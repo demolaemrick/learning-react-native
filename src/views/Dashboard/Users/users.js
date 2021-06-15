@@ -43,6 +43,10 @@ export default {
 					title: 'Active'
 				},
 				{
+					value: 'inactive',
+					title: 'Inactive'
+				},
+				{
 					value: 'suspended',
 					title: 'Suspended'
 				}
