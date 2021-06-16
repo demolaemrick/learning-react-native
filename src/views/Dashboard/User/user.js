@@ -237,7 +237,6 @@ export default {
 			this.pageLoading = true;
 			try {
 				const response = await this.research_history({ id: this.userId, page: this.page, limit: this.limit });
-				console.log(response);
 				this.history = response.data.data;
 				// this.count = response.data.data.count;
 				// this.currentPage = response.data.data.currentPage;
@@ -256,7 +255,7 @@ export default {
 			}
 		},
 		async checkPendngStatus() {
-			let pendingStatus = await this.history.filter((data) => {
+			let pendingStatus = await this.history.data.filter((data) => {
 				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			if (pendingStatus.length > 0) {
@@ -293,12 +292,7 @@ export default {
 				const response = await this.getSingleUser(this.userId);
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
-					console.log(status);
-					console.log(statusText);
 					this.userDetails = data.data;
-					console.log(this.userDetails);
-					// console.log(singleUser);
-					// console.log(data.data);
 				}
 			} catch (error) {
 				console.log(error);

@@ -63,14 +63,17 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="toggleEditModal">
+								<li class="dropdown__item" @click="openEditModal(item)">
 									Edit Info
 								</li>
-								<li class="dropdown__item">
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">
 									Suspend
 								</li>
-								<li class="dropdown__item">
-									Delete
+								<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
+									Activate
+								</li>
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openDeactivateModal(item)">
+									Deactivate
 								</li>
 							</template>
 						</toggle-dropdown>
@@ -203,6 +206,69 @@
 						</div>
 					</div>
 				</form>
+			</template>
+		</modal>
+		<!-- Deactivate Modal -->
+		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Deactivate Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to deactivate this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
+							<template v-if="!loading">Deactivate</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+		<!-- Activate Modal -->
+		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Activate Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to activate this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleActivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
+							<template v-if="!loading">Activate</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+		<!-- Suspend Modal -->
+		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Suspend Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to suspend this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
+							<template v-if="!loading">Suspend</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
 			</template>
 		</modal>
 	</div>

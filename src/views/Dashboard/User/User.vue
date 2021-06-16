@@ -78,7 +78,7 @@
 						<v-table
 							:tableHeaders="tableHeaders"
 							:loading="pageLoading"
-							:tableData="history"
+							:tableData="history.data"
 							theme="contact__research"
 							@checkAll="checkAll"
 						>
@@ -236,6 +236,7 @@
 								rules="required"
 								labelVisible
 								labelColor="gray"
+								:disabled="true"
 								v-model="userDetails.email"
 								width="100%"
 								name="Email Address"
@@ -256,6 +257,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
+									:disabled="true"
 									v-model="userDetails.monthly_research"
 									width="204px"
 									name="No. Research/month"

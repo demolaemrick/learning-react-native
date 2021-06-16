@@ -28,7 +28,9 @@ export default {
 			emailInput: '',
 			loading: false,
 			sendInvites: false,
-			editModal: false,
+			deactivateModal: false,
+			activateModal: false,
+			suspendModal: false,
 			checkedContacts: [],
 			tableHeaders: [
 				{
@@ -138,7 +140,10 @@ export default {
 			totalPages: 5,
 			limit: 50,
 			page: 1,
-			admins: []
+			admins: [],
+			adminInfo: null,
+			currentAdmin: {},
+			adminId: null
 		};
 	},
 	props: {
@@ -165,6 +170,9 @@ export default {
 		...mapActions({
 			adminInvite: 'admin_management/adminInvite',
 			allAdmins: 'admin_management/allAdmins',
+			deactivateAdmin: 'admin_management/deactivateAdmin',
+			activateAdmin: 'admin_management/activateAdmin',
+			suspendAdmin: 'admin_management/suspendAdmin',
 			showAlert: 'showAlert'
 		}),
 		async getAdmins() {
@@ -221,6 +229,10 @@ export default {
 				}, 500);
 			}
 		},
+		openEditModal(item) {
+			this.adminInfo = item;
+			this.toggleEditModal();
+		},
 		toggleSendInvites() {
 			if (!this.sendInvites) {
 				this.sendInvites = true;
@@ -232,8 +244,38 @@ export default {
 				}, 500);
 			}
 		},
-		openEditModal() {
-			this.editModal = !this.editModal;
+		toggleDeactivateModal() {
+			if (!this.deactivateModal) {
+				this.deactivateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.deactivateModal = !this.deactivateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleActivateModal() {
+			if (!this.activateModal) {
+				this.activateModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.activateModal = !this.activateModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		toggleSuspendModal() {
+			if (!this.suspendModal) {
+				this.suspendModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.suspendModal = !this.suspendModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		},
 		addEmail(e) {
 			console.log(this.emailList);
@@ -261,6 +303,96 @@ export default {
 		},
 		clickCallback(page) {
 			this.currentPage = page;
+		},
+		openDeactivateModal(item) {
+			const { _id, last_name, first_name } = item;
+			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
+			this.deactivateModal = true;
+		},
+		async deactivate() {
+			this.loading = true;
+			try {
+				const changeStatus = await this.deactivateAdmin(this.adminToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					this.toggleDeactivateModal();
+					await this.getAdmins();
+					this.adminToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		openActivateModal(item) {
+			const { _id, last_name, first_name } = item;
+			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
+			this.deactivateModal = true;
+		},
+		async activate() {
+			this.loading = true;
+			try {
+				const changeStatus = await this.activateAdmin(this.adminToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					this.toggleActivateModal();
+					await this.getAdmins();
+					this.adminToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		openSuspendModal(item) {
+			const { _id, last_name, first_name } = item;
+			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
+			this.deactivateModal = true;
+		},
+		async suspend() {
+			this.loading = true;
+			try {
+				const changeStatus = await this.suspendAdmin(this.adminToModify._id);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					this.toggleSuspendModal();
+					await this.getAdmins();
+					this.adminToModify = {};
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
 		}
 	}
 };

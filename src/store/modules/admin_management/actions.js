@@ -37,5 +37,32 @@ export default {
 			console.log('err', error);
 			return Promise.reject(error);
 		}
+	},
+	deactivateAdmin: async (context, adminId) => {
+		const url = `admin/${adminId}/deactivate`;
+		try {
+			const response = await api.patch(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	activateAdmin: async (context, adminId) => {
+		const url = `admin/${adminId}/activate`;
+		try {
+			const response = await api.patch(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	suspendAdmin: async (context, adminId) => {
+		const url = `admin/${adminId}/suspend`;
+		try {
+			const response = await api.patch(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

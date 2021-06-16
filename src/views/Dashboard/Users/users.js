@@ -214,7 +214,8 @@ export default {
 			},
 			userId: null,
 			userDetails: [],
-			contactToModify: {}
+			contactToModify: {},
+			searchQuery: null
 		};
 	},
 	props: {
@@ -249,6 +250,7 @@ export default {
 			createNewUser: 'users_management/createUser',
 			showAlert: 'showAlert'
 		}),
+
 		async getAllUsers() {
 			this.usersLoading = true;
 			try {
@@ -510,4 +512,20 @@ export default {
 			}
 		}
 	}
+
+	// computed: {
+	// 	resultQuery() {
+	// 		if (this.searchQuery) {
+	// 			console.log(searchQuery);
+	// 			return this.users.filter((item) => {
+	// 				return this.searchQuery
+	// 					.toLowerCase()
+	// 					.split(' ')
+	// 					.every((v) => item.title.toLowerCase().includes(v));
+	// 			});
+	// 		} else {
+	// 			return this.users;
+	// 		}
+	// 	}
+	// }
 };

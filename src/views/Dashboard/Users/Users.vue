@@ -9,7 +9,7 @@
 		<div v-if="!usersLoading" class="search-group">
 			<h4 v-if="users">{{ users.length }} Users</h4>
 			<div class="search-section">
-				<TextInput class="mb-0" type="text" placeholder="Search" :icon="{ type: 'search' }" width="509px" />
+				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
 				<span class="mx-1">
 					<c-button size="small" buttonType="outline" @click="toggleFilterModal">
 						Filter
