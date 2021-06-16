@@ -21,7 +21,7 @@
 							<li class="dropdown__item" @click="gotoSettings">
 								Settings
 							</li>
-							<li class="dropdown__item" @click="logoutUser">
+							<li ref="logout_user" class="dropdown__item" @click="logoutUser">
 								Logout
 							</li>
 						</template>
@@ -55,7 +55,7 @@
 								name="company"
 								v-model="payload.company"
 							/>
-							<v-button :disabled="invalid" class="search_btn" @click="submitSearch">
+							<v-button :disabled="invalid" id="search_btn" class="search_btn" @click="submitSearch">
 								<template v-if="!loading">Search</template>
 								<Loader v-else />
 							</v-button>
@@ -100,7 +100,7 @@
 					<div class="config__modal__wrapper">
 						<div class="config__modal__header">
 							<div class="config__modal__header__btn__wrapper">
-								<v-button class="config__btn__close" @click="closeConfigModal()">
+								<v-button class="config__btn__close" ref="config__btn__close" @click="closeConfigModal()">
 									<div class="btn__content__wrapper">
 										<span class="text">Close</span>
 										<span class="icon">

@@ -379,7 +379,7 @@ export default {
 		$route: {
 			immediate: true,
 			handler: function (newVal) {
-				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings;
+				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings ? true : false;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;
 				} else if (this.userDetails && this.userDetails.is_settings) {
