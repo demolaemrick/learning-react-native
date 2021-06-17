@@ -60,7 +60,7 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">No. Research/month</p>
-								<h4 class="detail-content">{{ userDetails.monthly_research }} / 200</h4>
+								<h4 class="detail-content">{{ userDetails.researches_performed }} / {{ userDetails.monthly_research }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Profession</p>

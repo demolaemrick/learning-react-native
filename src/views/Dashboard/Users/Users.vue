@@ -9,7 +9,17 @@
 		<div v-if="!usersLoading" class="search-group">
 			<h4 v-if="users">{{ users.length }} Users</h4>
 			<div class="search-section">
-				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
+				<!-- <form action=""> -->
+				<TextInput
+					class="mb-0"
+					type="text"
+					placeholder="Search"
+					v-model="searchQuery"
+					:icon="{ type: 'search' }"
+					width="509px"
+					@keyup.enter="searchPage"
+				/>
+				<!-- </form> -->
 				<span class="mx-1">
 					<c-button size="small" buttonType="outline" @click="toggleFilterModal">
 						Filter
@@ -228,7 +238,7 @@
 						<div class="auth-input">
 							<text-input rules="required" labelVisible v-model="form.name" width="100%" name="Name" placeholder="John" />
 
-							<div class="flex">
+							<!-- <div class="flex">
 								<text-input
 									type="date"
 									rules="required"
@@ -248,7 +258,7 @@
 									name="End Date"
 									placeholder="20-02-21"
 								/>
-							</div>
+							</div> -->
 							<RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
 
 							<div class="flex-end">

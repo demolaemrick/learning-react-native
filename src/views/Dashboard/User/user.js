@@ -24,6 +24,7 @@ export default {
 				email: '',
 				organisation: '',
 				monthly_research: '',
+				researches_performed:'',
 				profession: '',
 				password: '',
 				role: ''
@@ -293,6 +294,7 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.userDetails = data.data;
+					console.log(this.userDetails);
 				}
 			} catch (error) {
 				console.log(error);

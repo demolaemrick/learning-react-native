@@ -248,6 +248,7 @@ export default {
 			getSingleUser: 'users_management/singleUser',
 			updateUser: 'users_management/updateUser',
 			createNewUser: 'users_management/createUser',
+			search: 'users_management/search',
 			showAlert: 'showAlert'
 		}),
 
@@ -258,6 +259,7 @@ export default {
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
 					this.users = data.response.data;
+					console.log(this.users);
 				}
 			} catch (error) {
 				console.log(error);
@@ -362,6 +364,7 @@ export default {
 		},
 		openEditModal(item) {
 			this.userInfo = item;
+			console.log(this.userInfo);
 			this.toggleEditModal();
 		},
 		async editUser() {
@@ -510,22 +513,32 @@ export default {
 			} finally {
 				this.userLoading = false;
 			}
+		},
+		async searchPage() {
+			this.userLoading = true;
+			try {
+				console.log(this.searchQuery);
+				const response = await this.search(this.searchQuery);
+				console.log(response.data.response.data);
+				this.users = response.data.response.data;
+				if (this.searchQuery === '' || this.searchQuery === null) {
+					this.getAllUsers();
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.userLoading = false;
+			}
+		}
+	},
+	watch: {
+		searchQuery: {
+			immediate: true,
+			handler() {
+				if (this.searchQuery === null || this.searchQuery === '') {
+					this.getAllUsers();
+				}
+			}
 		}
 	}
-
-	// computed: {
-	// 	resultQuery() {
-	// 		if (this.searchQuery) {
-	// 			console.log(searchQuery);
-	// 			return this.users.filter((item) => {
-	// 				return this.searchQuery
-	// 					.toLowerCase()
-	// 					.split(' ')
-	// 					.every((v) => item.title.toLowerCase().includes(v));
-	// 			});
-	// 		} else {
-	// 			return this.users;
-	// 		}
-	// 	}
-	// }
 };
