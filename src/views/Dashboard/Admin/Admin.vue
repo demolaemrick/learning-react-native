@@ -15,7 +15,15 @@
 			<h4 v-if="admins.length <= 1">{{ admins.length }} Admin</h4>
 			<h4 v-else>{{ admins.length }} Admins</h4>
 			<div class="search-section">
-				<TextInput class="mb-0" type="text" placeholder="Search" :icon="{ type: 'search' }" width="509px" />
+				<TextInput
+					class="mb-0"
+					type="text"
+					placeholder="Search"
+					v-model="searchQuery"
+					:icon="{ type: 'search' }"
+					width="509px"
+					@keyup.enter="searchPage"
+				/>
 				<span class="mx-1"> </span>
 			</div>
 		</div>

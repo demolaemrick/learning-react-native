@@ -75,5 +75,14 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	adminSearch: async (context, searchdata) => {
+		const url = `admin/search/users?q=${searchdata}`;
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

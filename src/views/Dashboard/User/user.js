@@ -24,7 +24,7 @@ export default {
 				email: '',
 				organisation: '',
 				monthly_research: '',
-				researches_performed:'',
+				researches_performed: '',
 				profession: '',
 				password: '',
 				role: ''

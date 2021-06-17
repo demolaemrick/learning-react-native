@@ -145,6 +145,7 @@ export default {
 			adminInfo: null,
 			currentAdmin: {},
 			adminId: null,
+			searchQuery: null,
 			roles: ['User', 'Admin', 'Super Admin']
 		};
 	},
@@ -177,6 +178,7 @@ export default {
 			activateAdmin: 'admin_management/activateAdmin',
 			suspendAdmin: 'admin_management/suspendAdmin',
 			updateAdmin: 'admin_management/updateAdmin',
+			adminSearch: 'admin_management/adminSearch',
 			showAlert: 'showAlert'
 		}),
 		async getAdmins() {
@@ -184,10 +186,10 @@ export default {
 			try {
 				const response = await this.allAdmins({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = response;
-				console.log(data);
+				// console.log(data);
 				if (status === 200 && statusText === 'OK') {
 					this.admins = data.data.data;
-					console.log(this.admins);
+					// console.log(this.admins);
 					// this.adminNo = this.admins.length;
 					// console.log(this.admins.length);
 				}
@@ -428,6 +430,29 @@ export default {
 				});
 			} finally {
 				this.loading = false;
+			}
+		},
+		async searchPage() {
+			this.adminLoading = true;
+			try {
+				console.log(this.searchQuery);
+				const response = await this.adminSearch(this.searchQuery);
+				console.log(response.data.response);
+				this.admins = response.data.response.data;
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.adminLoading = false;
+			}
+		}
+	},
+	watch: {
+		searchQuery: {
+			immediate: true,
+			handler() {
+				if (this.searchQuery === null || this.searchQuery === '') {
+					this.getAdmins();
+				}
 			}
 		}
 	}

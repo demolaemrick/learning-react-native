@@ -521,9 +521,6 @@ export default {
 				const response = await this.search(this.searchQuery);
 				console.log(response.data.response.data);
 				this.users = response.data.response.data;
-				if (this.searchQuery === '' || this.searchQuery === null) {
-					this.getAllUsers();
-				}
 			} catch (error) {
 				console.log(error);
 			} finally {
