@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1623773437579" clover="3.2.0">
-  <project timestamp="1623773437579" name="All files">
-    <metrics statements="1382" coveredstatements="269" conditionals="493" coveredconditionals="38" methods="344" coveredmethods="78" elements="2219" coveredelements="385" complexity="0" loc="1382" ncloc="1382" packages="37" files="41" classes="41"/>
+<coverage generated="1623842656412" clover="3.2.0">
+  <project timestamp="1623842656412" name="All files">
+    <metrics statements="1443" coveredstatements="309" conditionals="511" coveredconditionals="41" methods="356" coveredmethods="84" elements="2310" coveredelements="434" complexity="0" loc="1443" ncloc="1443" packages="37" files="41" classes="41"/>
     <package name="src">
       <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="App.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/App.vue">
@@ -52,8 +52,8 @@
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="Button.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Button/Button.vue">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="7" count="72" type="stmt"/>
-        <line num="14" count="72" type="stmt"/>
+        <line num="7" count="78" type="stmt"/>
+        <line num="14" count="78" type="stmt"/>
         <line num="20" count="61" type="stmt"/>
       </file>
     </package>
@@ -100,9 +100,9 @@
       <metrics statements="7" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="Header.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Header/search/Header.vue">
         <metrics statements="7" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="40" count="3" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
-        <line num="42" count="3" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
@@ -125,9 +125,9 @@
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="InputWrapper.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/InputWrapper/InputWrapper.vue">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
+        <line num="1" count="8" type="stmt"/>
+        <line num="2" count="8" type="stmt"/>
+        <line num="3" count="8" type="stmt"/>
         <line num="17" count="83" type="stmt"/>
       </file>
     </package>
@@ -144,8 +144,8 @@
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="TextInput.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/TextInput/TextInput.vue">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
+        <line num="1" count="8" type="stmt"/>
+        <line num="2" count="8" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Modal">
@@ -210,11 +210,11 @@
       </file>
     </package>
     <package name="src.components.Table">
-      <metrics statements="11" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <metrics statements="11" coveredstatements="2" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
       <file name="Table.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Table/Table.vue">
-        <metrics statements="11" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="11" coveredstatements="2" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
         <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -718,94 +718,155 @@
       </file>
     </package>
     <package name="src.views.Dashboard.Admin">
-      <metrics statements="64" coveredstatements="0" conditionals="20" coveredconditionals="0" methods="14" coveredmethods="0"/>
+      <metrics statements="125" coveredstatements="23" conditionals="38" coveredconditionals="3" methods="26" coveredmethods="3"/>
       <file name="Admin.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/Dashboard/Admin/Admin.vue">
-        <metrics statements="64" coveredstatements="0" conditionals="20" coveredconditionals="0" methods="14" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="162" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
-        <line num="173" count="0" type="stmt"/>
-        <line num="174" count="0" type="stmt"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="176" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="180" count="0" type="stmt"/>
-        <line num="182" count="0" type="stmt"/>
-        <line num="186" count="0" type="stmt"/>
-        <line num="187" count="0" type="cond" truecount="0" falsecount="2"/>
+        <metrics statements="125" coveredstatements="23" conditionals="38" coveredconditionals="3" methods="26" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="167" count="1" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
+        <line num="180" count="1" type="stmt"/>
+        <line num="181" count="1" type="stmt"/>
+        <line num="182" count="1" type="stmt"/>
+        <line num="183" count="1" type="stmt"/>
+        <line num="184" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="185" count="1" type="stmt"/>
         <line num="188" count="0" type="stmt"/>
-        <line num="189" count="0" type="stmt"/>
-        <line num="191" count="0" type="stmt"/>
-        <line num="192" count="0" type="stmt"/>
-        <line num="193" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="190" count="1" type="stmt"/>
         <line num="194" count="0" type="stmt"/>
+        <line num="195" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="196" count="0" type="stmt"/>
+        <line num="197" count="0" type="stmt"/>
         <line num="199" count="0" type="stmt"/>
         <line num="200" count="0" type="stmt"/>
-        <line num="201" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="210" count="0" type="stmt"/>
-        <line num="214" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
+        <line num="201" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="202" count="0" type="stmt"/>
+        <line num="207" count="0" type="stmt"/>
+        <line num="208" count="0" type="stmt"/>
+        <line num="209" count="0" type="stmt"/>
+        <line num="212" count="0" type="stmt"/>
         <line num="218" count="0" type="stmt"/>
-        <line num="219" count="0" type="stmt"/>
-        <line num="220" count="0" type="stmt"/>
-        <line num="225" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="222" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="223" count="0" type="stmt"/>
+        <line num="225" count="0" type="stmt"/>
         <line num="226" count="0" type="stmt"/>
+        <line num="227" count="0" type="stmt"/>
         <line num="228" count="0" type="stmt"/>
-        <line num="229" count="0" type="stmt"/>
-        <line num="230" count="0" type="stmt"/>
-        <line num="231" count="0" type="stmt"/>
-        <line num="236" count="0" type="stmt"/>
-        <line num="239" count="0" type="stmt"/>
-        <line num="240" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="237" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="240" count="0" type="stmt"/>
         <line num="241" count="0" type="stmt"/>
         <line num="242" count="0" type="stmt"/>
-        <line num="246" count="0" type="stmt"/>
-        <line num="247" count="0" type="stmt"/>
-        <line num="250" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="248" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="249" count="0" type="stmt"/>
         <line num="251" count="0" type="stmt"/>
-        <line num="252" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="252" count="0" type="stmt"/>
         <line num="253" count="0" type="stmt"/>
         <line num="254" count="0" type="stmt"/>
-        <line num="256" count="0" type="stmt"/>
-        <line num="259" count="0" type="stmt"/>
+        <line num="259" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="260" count="0" type="stmt"/>
+        <line num="262" count="0" type="stmt"/>
         <line num="263" count="0" type="stmt"/>
+        <line num="264" count="0" type="stmt"/>
+        <line num="265" count="0" type="stmt"/>
+        <line num="270" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="271" count="0" type="stmt"/>
+        <line num="273" count="0" type="stmt"/>
+        <line num="274" count="0" type="stmt"/>
+        <line num="275" count="0" type="stmt"/>
+        <line num="276" count="0" type="stmt"/>
+        <line num="281" count="0" type="stmt"/>
+        <line num="282" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="283" count="0" type="stmt"/>
+        <line num="284" count="0" type="stmt"/>
+        <line num="288" count="0" type="stmt"/>
+        <line num="289" count="0" type="stmt"/>
+        <line num="292" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="293" count="0" type="stmt"/>
+        <line num="294" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="295" count="0" type="stmt"/>
+        <line num="296" count="0" type="stmt"/>
+        <line num="298" count="0" type="stmt"/>
+        <line num="301" count="0" type="stmt"/>
+        <line num="305" count="0" type="stmt"/>
+        <line num="308" count="0" type="stmt"/>
+        <line num="309" count="0" type="stmt"/>
+        <line num="310" count="0" type="stmt"/>
+        <line num="313" count="0" type="stmt"/>
+        <line num="314" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="316" count="0" type="stmt"/>
+        <line num="317" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="318" count="0" type="stmt"/>
+        <line num="319" count="0" type="stmt"/>
+        <line num="320" count="0" type="stmt"/>
+        <line num="321" count="0" type="stmt"/>
+        <line num="328" count="0" type="stmt"/>
+        <line num="334" count="0" type="stmt"/>
+        <line num="338" count="0" type="stmt"/>
+        <line num="339" count="0" type="stmt"/>
+        <line num="340" count="0" type="stmt"/>
+        <line num="343" count="0" type="stmt"/>
+        <line num="344" count="0" type="stmt"/>
+        <line num="345" count="0" type="stmt"/>
+        <line num="346" count="0" type="stmt"/>
+        <line num="347" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="348" count="0" type="stmt"/>
+        <line num="349" count="0" type="stmt"/>
+        <line num="350" count="0" type="stmt"/>
+        <line num="351" count="0" type="stmt"/>
+        <line num="358" count="0" type="stmt"/>
+        <line num="364" count="0" type="stmt"/>
+        <line num="368" count="0" type="stmt"/>
+        <line num="369" count="0" type="stmt"/>
+        <line num="370" count="0" type="stmt"/>
+        <line num="373" count="0" type="stmt"/>
+        <line num="374" count="0" type="stmt"/>
+        <line num="375" count="0" type="stmt"/>
+        <line num="376" count="0" type="stmt"/>
+        <line num="377" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="378" count="0" type="stmt"/>
+        <line num="379" count="0" type="stmt"/>
+        <line num="380" count="0" type="stmt"/>
+        <line num="381" count="0" type="stmt"/>
+        <line num="388" count="0" type="stmt"/>
+        <line num="394" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.views.Dashboard.User">
-      <metrics statements="125" coveredstatements="0" conditionals="35" coveredconditionals="0" methods="22" coveredmethods="0"/>
+      <metrics statements="125" coveredstatements="16" conditionals="35" coveredconditionals="0" methods="22" coveredmethods="2"/>
       <file name="User.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/Dashboard/User/User.vue">
-        <metrics statements="125" coveredstatements="0" conditionals="35" coveredconditionals="0" methods="22" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <metrics statements="125" coveredstatements="16" conditionals="35" coveredconditionals="0" methods="22" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
         <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="118" count="0" type="stmt"/>
         <line num="120" count="0" type="stmt"/>
@@ -914,7 +975,7 @@
         <line num="323" count="0" type="stmt"/>
         <line num="324" count="0" type="stmt"/>
         <line num="330" count="0" type="stmt"/>
-        <line num="335" count="0" type="stmt"/>
+        <line num="335" count="1" type="stmt"/>
         <line num="336" count="0" type="stmt"/>
       </file>
     </package>

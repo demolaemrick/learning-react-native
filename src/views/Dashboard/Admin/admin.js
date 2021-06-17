@@ -11,6 +11,7 @@ import Status from '@/components/Status';
 import Toggle from '@/components/Toggle';
 import InputTag from '@/components/InputTag';
 import StatusTag from '@/components/StatusTag';
+import VButton from '@/components/Button';
 
 export default {
 	name: 'Dashboard',
@@ -143,7 +144,8 @@ export default {
 			admins: [],
 			adminInfo: null,
 			currentAdmin: {},
-			adminId: null
+			adminId: null,
+			roles: ['User', 'Admin', 'Super Admin']
 		};
 	},
 	props: {
@@ -161,7 +163,8 @@ export default {
 		Toggle,
 		InputTag,
 		Loader,
-		StatusTag
+		StatusTag,
+		VButton
 	},
 	mounted() {
 		this.getAdmins();
@@ -173,6 +176,7 @@ export default {
 			deactivateAdmin: 'admin_management/deactivateAdmin',
 			activateAdmin: 'admin_management/activateAdmin',
 			suspendAdmin: 'admin_management/suspendAdmin',
+			updateAdmin: 'admin_management/updateAdmin',
 			showAlert: 'showAlert'
 		}),
 		async getAdmins() {
@@ -182,7 +186,10 @@ export default {
 				const { status, data, statusText } = response;
 				console.log(data);
 				if (status === 200 && statusText === 'OK') {
-					this.admins = data.data;
+					this.admins = data.data.data;
+					console.log(this.admins);
+					// this.adminNo = this.admins.length;
+					// console.log(this.admins.length);
 				}
 			} catch (error) {
 				console.log(error);
@@ -230,6 +237,7 @@ export default {
 			}
 		},
 		openEditModal(item) {
+			console.log(item);
 			this.adminInfo = item;
 			this.toggleEditModal();
 		},
@@ -337,7 +345,7 @@ export default {
 		openActivateModal(item) {
 			const { _id, last_name, first_name } = item;
 			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
-			this.deactivateModal = true;
+			this.activateModal = true;
 		},
 		async activate() {
 			this.loading = true;
@@ -367,7 +375,7 @@ export default {
 		openSuspendModal(item) {
 			const { _id, last_name, first_name } = item;
 			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
-			this.deactivateModal = true;
+			this.suspendModal = true;
 		},
 		async suspend() {
 			this.loading = true;
@@ -381,6 +389,34 @@ export default {
 					this.showAlert({
 						status: 'success',
 						message: changeStatus.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		async editAdmin() {
+			this.loading = true;
+			const { first_name, last_name, role, monthly_research, organisation, profession } = this.adminInfo;
+			try {
+				const response = await this.updateAdmin({
+					id: this.adminInfo._id,
+					admin: { first_name, last_name, role, monthly_research, organisation, profession }
+				});
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					await this.getAdmins();
+					this.toggleEditModal();
+					this.showAlert({
+						status: 'success',
+						message: 'user successfully updated',
 						showAlert: true
 					});
 				}

@@ -366,11 +366,11 @@ export default {
 		},
 		async editUser() {
 			this.loading = true;
-			const { first_name, last_name, role, monthly_research, email, organisation, profession } = this.userInfo;
+			const { first_name, last_name, role, monthly_research, organisation, profession } = this.userInfo;
 			try {
 				const response = await this.updateUser({
 					id: this.userInfo._id,
-					user: { first_name, last_name, role, monthly_research, email, organisation, profession }
+					user: { first_name, last_name, role, monthly_research, organisation, profession }
 				});
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {

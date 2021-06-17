@@ -38,6 +38,17 @@ export default {
 			return Promise.reject(error);
 		}
 	},
+	updateAdmin: async ({ commit }, { id, admin }) => {
+		const url = `admin/${id}/edit-profile`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.put(url, admin);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
 	deactivateAdmin: async (context, adminId) => {
 		const url = `admin/${adminId}/deactivate`;
 		try {

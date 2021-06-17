@@ -51,7 +51,7 @@
 }
 
 .form-group{
-	// margin-bottom: 24px;
+	margin-bottom: 24px;
   font-size: 14px;
   color: #989AAA;
   letter-spacing: -0.12px;
@@ -140,22 +140,44 @@ margin: 4px 0;
   font-size: 14px;
   line-height: 16px;
   color:  #989AAA;
+  display: block;
   margin-bottom: 12px;
+}
+.modal__content{
+  &-text{
+    margin: 16px 0 32px;
+    .name{
+      font-weight: 600;
+    }
+  }
+  &-btn{
+    display: flex;
+      align-items: center;
+    justify-content: flex-end;
+  }
+  .cancel{
+    padding: 10px;
+    margin-right: 6px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    cursor: pointer;
+  }
 }
 .select-input {
     background: #FFFFFF;
     border: 1px solid #DEE3EB;
     box-sizing: border-box;
-    border-radius: 4px;
+    border-radius: 1px;
     margin-bottom: 24px;
     font-size: 16px;
     line-height: 16px;
     height: 46px;
-    width: 100%;
+    width: 204px;
     padding: 0 16px;
     outline: none;
     color: #0B2253;
-    margin-top: 8px;
+    // margin-top: 8px;
     font-size: 14px;
     letter-spacing: -0.05px;
   }
@@ -200,3 +222,4 @@ margin: 4px 0;
       }
     }	
   }
+ 

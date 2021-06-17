@@ -296,6 +296,7 @@
 								type="email"
 								rules="required"
 								labelVisible
+								:disabled="true"
 								labelColor="gray"
 								v-model="userInfo.email"
 								width="100%"

@@ -257,7 +257,6 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									:disabled="true"
 									v-model="userDetails.monthly_research"
 									width="204px"
 									name="No. Research/month"

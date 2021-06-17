@@ -39,7 +39,7 @@ export function noAuthOnly(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 export function requireUserAuth(to, from, next) {
-	if (isLoggedIn() && userRole() === 'user') {
+	if (isLoggedIn()) {
 		next();
 	} else {
 		next({ name: 'Login' });
@@ -52,7 +52,7 @@ export function requireUserAuth(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 export function requireAdminAuth(to, from, next) {
-	if (isLoggedIn() && userRole() === 'admin') {
+	if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
 		next();
 	} else {
 		next({ name: 'Login' });
