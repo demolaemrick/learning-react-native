@@ -13,8 +13,7 @@ export default {
 				email: null,
 				password: null
 			},
-			loading: false,
-			loggedInUser: null
+			loading: false
 		};
 	},
 	methods: {
@@ -50,8 +49,6 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
-					// this.loggedInUser = this.saveUserSession(data.data);
-					// console.log(loggedInUser);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
 						this.$router.push({ name: 'Admin' });
 					} else {

@@ -101,7 +101,7 @@ export default {
 		}
 	},
 	search: async (context, queries) => {
-		let url = 'admin/search/users?';
+		let url = 'admin/search?role=user&';
 		Object.keys(queries).forEach((key) => {
 			url += `${key}=${queries[key]}&`;
 		});

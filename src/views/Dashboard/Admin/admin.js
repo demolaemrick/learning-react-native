@@ -426,17 +426,6 @@ export default {
 				this.loading = false;
 			}
 		},
-		// async searchPage() {
-		// 	this.adminLoading = true;
-		// 	try {
-		// 		const response = await this.adminSearch(this.searchQuery);
-		// 		this.admins = response.data.response.data;
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	} finally {
-		// 		this.adminLoading = false;
-		// 	}
-		// }
 		async searchPage() {
 			this.adminLoading = true;
 			try {
