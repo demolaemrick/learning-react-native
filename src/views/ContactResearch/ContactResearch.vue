@@ -136,11 +136,11 @@
 					</paginate>
 				</div>
 				<div v-if="history && history.length < 1">
-				<div class="emptyState">
-					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
-					<p class="emptyState-text">No research record found</p>
+					<div class="emptyState">
+						<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+						<p class="emptyState-text">No research record found</p>
+					</div>
 				</div>
-			</div>
 			</div>
 		</main>
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
