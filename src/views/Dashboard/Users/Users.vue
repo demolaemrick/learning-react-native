@@ -17,7 +17,7 @@
 					v-model="searchQuery"
 					:icon="{ type: 'search' }"
 					width="509px"
-					@keyup.enter="searchPage"
+					@keyup.enter="searchPage({ q: searchQuery })"
 				/>
 				<!-- </form> -->
 				<span class="mx-1">
@@ -236,33 +236,17 @@
 				<form action="">
 					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
-							<text-input rules="required" labelVisible v-model="form.name" width="100%" name="Name" placeholder="John" />
+							<text-input rules="required" labelVisible width="100%" name="Name" placeholder="John" v-model="filterData" />
 
-							<!-- <div class="flex">
-								<text-input
-									type="date"
-									rules="required"
-									labelVisible
-									v-model="form.startDate"
-									width="204px"
-									name="Start Date"
-									placeholder="20-02-21"
-								/>
-
-								<text-input
-									type="date"
-									rules="required"
-									labelVisible
-									v-model="form.endDate"
-									width="204px"
-									name="End Date"
-									placeholder="20-02-21"
-								/>
-							</div> -->
 							<RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
 
 							<div class="flex-end">
-								<c-button class="submit" size="large" buttonType="primary">
+								<c-button
+									class="submit"
+									size="large"
+									buttonType="primary"
+									@click="searchPage({ q: filterData, status: statusOption })"
+								>
 									<template v-if="!loading">Apply Search</template>
 									<Loader v-else />
 								</c-button>

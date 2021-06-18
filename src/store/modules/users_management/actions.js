@@ -92,7 +92,6 @@ export default {
 	},
 	createUser: async (context, payload) => {
 		const url = 'admin/user/new';
-		console.log(payload);
 		try {
 			const response = await api.post(url, payload);
 			// const response = await api.get(url);
@@ -101,8 +100,11 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	search: async (context, searchdata) => {
-		const url = `admin/search/users?q=${searchdata}`;
+	search: async (context, queries) => {
+		let url = 'admin/search/users?';
+		Object.keys(queries).forEach((key) => {
+			url += `${key}=${queries[key]}&`;
+		});
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);

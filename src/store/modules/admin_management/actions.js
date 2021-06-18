@@ -77,7 +77,7 @@ export default {
 		}
 	},
 	adminSearch: async (context, searchdata) => {
-		const url = `admin/search/users?q=${searchdata}`;
+		const url = `admin/search/?role=admin&q=${searchdata}`;
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);

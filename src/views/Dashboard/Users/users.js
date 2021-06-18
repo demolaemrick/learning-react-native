@@ -215,7 +215,8 @@ export default {
 			userId: null,
 			userDetails: [],
 			contactToModify: {},
-			searchQuery: null
+			searchQuery: null,
+			filterData: null
 		};
 	},
 	props: {
@@ -259,7 +260,6 @@ export default {
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
 					this.users = data.response.data;
-					console.log(this.users);
 				}
 			} catch (error) {
 				console.log(error);
@@ -270,7 +270,6 @@ export default {
 		async registerUser() {
 			try {
 				const response = await this.createNewUser(this.form);
-				console.log('check :', response);
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.getAllUsers();
@@ -364,7 +363,6 @@ export default {
 		},
 		openEditModal(item) {
 			this.userInfo = item;
-			console.log(this.userInfo);
 			this.toggleEditModal();
 		},
 		async editUser() {
@@ -514,17 +512,26 @@ export default {
 				this.userLoading = false;
 			}
 		},
-		async searchPage() {
-			this.userLoading = true;
+		async searchPage(payload) {
+			this.loading = true;
 			try {
-				console.log(this.searchQuery);
-				const response = await this.search(this.searchQuery);
-				console.log(response.data.response.data);
-				this.users = response.data.response.data;
+				const response = await this.search(payload);
+				if (response.data.response.data.length) {
+					this.users = response.data.response.data;
+					if (this.filter) {
+						this.toggleFilterModal();
+					}
+				} else {
+					this.showAlert({
+						status: 'error',
+						message: 'No user found',
+						showAlert: true
+					});
+				}
 			} catch (error) {
 				console.log(error);
 			} finally {
-				this.userLoading = false;
+				this.loading = false;
 			}
 		}
 	},
