@@ -145,7 +145,7 @@ export default {
 			count: 0,
 			nextPage: null,
 			admins: [],
-			adminInfo: null,
+			adminInfo: {},
 			currentAdmin: {},
 			adminId: null,
 			searchQuery: null,
