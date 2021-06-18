@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
@@ -141,6 +141,9 @@ export default {
 			totalPages: 5,
 			limit: 50,
 			page: 1,
+			total: 0,
+			count: 0,
+			nextPage: null,
 			admins: [],
 			adminInfo: null,
 			currentAdmin: {},
@@ -170,6 +173,11 @@ export default {
 	mounted() {
 		this.getAdmins();
 	},
+	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		})
+	},
 	methods: {
 		...mapActions({
 			adminInvite: 'admin_management/adminInvite',
@@ -188,6 +196,10 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.admins = data.data.data;
+					this.count = data.data.count;
+					this.currentPage = data.data.currentPage;
+					this.total = Math.ceil(data.data.count / this.limit);
+					this.nextPage = data.data.nextPage;
 				}
 			} catch (error) {
 				console.log(error);

@@ -1,8 +1,8 @@
 <template>
 	<div class="dashboard-header">
 		<div class="user-details">
-			<h4 class="user-details__name">{{ textFormatter(`${loggedInUser.first_name} ${loggedInUser.last_name}`) }}</h4>
-			<h4 class="user-details__role">{{ textFormatter(`${loggedInUser.role}`) }}</h4>
+			<h4 class="user-details__name">{{ `${loggedInUser.first_name} ${loggedInUser.last_name}` }}</h4>
+			<h4 class="user-details__role">{{ loggedInUser.role }}</h4>
 		</div>
 		<div>
 			<toggle-dropdown itemPadding="0">

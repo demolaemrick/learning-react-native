@@ -323,7 +323,7 @@ export default {
 			}
 		},
 		async checkPendngStatus() {
-			let pendingStatus = await this.history.data.filter((data) => {
+			let pendingStatus = await this.history.filter((data) => {
 				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			if (pendingStatus.length > 0) {
@@ -356,6 +356,7 @@ export default {
 			}
 		},
 		async fetchUser() {
+			this.loading = true;
 			try {
 				const response = await this.getSingleUser(this.userId);
 				const { status, data, statusText } = response;
@@ -402,6 +403,5 @@ export default {
 	mounted() {
 		this.userId = this.$route.query.userId;
 		this.fetchUser();
-		// console.log(this.userDetails);
 	}
 };

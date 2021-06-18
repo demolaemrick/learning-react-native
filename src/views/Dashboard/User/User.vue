@@ -74,7 +74,7 @@
 						<v-table
 							:tableHeaders="tableHeaders"
 							:loading="pageLoading"
-							:tableData="history.data"
+							:tableData="history"
 							theme="contact__research"
 							@rowClick="showResearch"
 							@checkAll="checkAll"
@@ -111,7 +111,7 @@
 									></template>
 								</td>
 								<td class="table__row-item">
-									<template v-if="item.research_score === 0.1">-</template>
+									<template v-if="item.research_score === 0.1 || item.research_score  === null">-</template>
 									<template v-else>{{ item.research_score.toPrecision(4) * 100 }}%</template>
 								</td>
 								<td class="table__row-item">{{ item.updatedAt | moment('from', 'now') }}</td>

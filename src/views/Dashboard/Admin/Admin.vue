@@ -65,9 +65,20 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="toggleEditModal">Edit Info</li>
-								<li class="dropdown__item">Suspend</li>
-								<li class="dropdown__item">Delete</li>
+								<li class="dropdown__item" @click="openEditModal(item)">
+									Edit Info
+								</li>
+								<template v-if="loggedInUser && loggedInUser.role === 'superadmin'">
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">
+									Suspend
+								</li>
+								<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
+									Activate
+								</li>
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openDeactivateModal(item)">
+									Deactivate
+								</li>
+								</template>
 							</template>
 						</toggle-dropdown>
 					</td>
@@ -84,25 +95,26 @@
 			</div>
 		</div>
 		<div class="table__pagination__wrapper" v-if="!adminLoading">
-			<div class="title__left">
-				<span>Showing Page</span>
-				<span>
-					{{ currentPage }}
-				</span>
-				<span>of</span>
-				<span>{{ totalPages }}</span>
-			</div>
+				<div class="title__left">
+					<span>Showing Page</span>
+					<span>
+						{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+						<template v-else>{{ count }}</template>
+					</span>
+					<span>of</span>
+					<span>{{ count }}</span>
+				</div>
 
-			<paginate
-				:page-count="totalPages"
-				:click-handler="clickCallback"
-				:prev-text="'Prev'"
-				:next-text="'Next'"
-				:container-class="'pagination__list'"
-				:page-class="'pagination__list-item'"
-			>
-			</paginate>
-		</div>
+				<paginate
+					:page-count="total"
+					:click-handler="clickCallback"
+					:prev-text="'Prev'"
+					:next-text="'Next'"
+					:container-class="'pagination__list'"
+					:page-class="'pagination__list-item'"
+				>
+				</paginate>
+			</div>
 
 		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleSendInvites">
 			<template #title>
@@ -209,7 +221,6 @@
 							<div class="form-group">
 								<label class="select-label" for="admin">Role</label>
 								<select class="select-input" v-model="adminInfo.role" width="204px" name="adminRole" id="adminRole">
-									<!-- <option v-for="role in roles" :key="role" :selected="role == 'Admin'">{{ role }} </option> -->
 									<option value="user">User</option>
 									<option value="admin">Admin</option>
 									<option value="superadmin">Super Admin</option>

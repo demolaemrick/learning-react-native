@@ -6,6 +6,7 @@
 }
 .user-details {
   margin-right: 12px;
+  text-transform: capitalize;
 }
 .user-details__name {
   font-weight: 500;
@@ -13,6 +14,7 @@
   line-height: 16px;
   color: #3A434B;
   text-align: right;
+  
 }
 .user-details__role {
   font-size: 12px;

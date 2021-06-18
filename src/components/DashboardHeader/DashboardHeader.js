@@ -12,15 +12,6 @@ export default {
 		logoutUser() {
 			this.logout();
 			this.$router.push('/login');
-		},
-		textFormatter(string) {
-			return string
-				.split(' ')
-				.map((el) => {
-					let [first, ...rest] = el;
-					return `${first.toUpperCase()}${rest.join('').toLowerCase()}`;
-				})
-				.join(' ');
 		}
 	},
 	computed: {
