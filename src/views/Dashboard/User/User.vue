@@ -6,7 +6,7 @@
 				<h3 class="page-title">Back to Users</h3>
 			</div>
 			<template v-if="activeTab === 'details'">
-				<c-button class="submit" size="medium" buttonType="secondary" @click="openEditModal({...userDetails})">Edit</c-button>
+				<c-button class="submit" size="medium" buttonType="secondary" @click="openEditModal({ ...userDetails })">Edit</c-button>
 			</template>
 
 			<template v-if="activeTab === 'contacts'">
