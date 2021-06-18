@@ -131,7 +131,7 @@ export default {
 			],
 			count: 0,
 			currentPage: 0,
-			history: [],
+			history: null,
 			interval: null,
 			checkedContacts: [],
 			pageLoading: false,

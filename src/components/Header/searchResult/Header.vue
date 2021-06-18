@@ -22,6 +22,13 @@
 						</template>
 						<template #dropdown-items>
 							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
+							<li
+								class="dropdown__item"
+								v-if="loggedInUser.role !== 'user'"
+								@click="$router.push({ path: '/dashboard/users' })"
+							>
+								Dashboard
+							</li>
 							<li class="dropdown__item" @click="gotoSettings">Settings</li>
 							<li class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>
@@ -34,12 +41,17 @@
 
 <script>
 import VToggleDropdown from '@/components/ToggleDropdown';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
 	components: {
 		VToggleDropdown
+	},
+	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		})
 	},
 	methods: {
 		...mapMutations({

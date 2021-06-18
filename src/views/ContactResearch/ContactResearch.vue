@@ -114,7 +114,7 @@
 						</td>
 					</template>
 				</v-table>
-				<div class="table__pagination__wrapper" v-if="!pageLoading">
+				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
@@ -135,6 +135,12 @@
 					>
 					</paginate>
 				</div>
+				<div v-if="history && history.length < 1">
+				<div class="emptyState">
+					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+					<p class="emptyState-text">No research record found</p>
+				</div>
+			</div>
 			</div>
 		</main>
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">

@@ -56,8 +56,11 @@
 						</status-tag>
 					</td>
 					<td class="table__row-item">
-						{{ item.updatedAt | moment('MMMM D, YYYY') }} |
-						<span class="time">{{ item.updatedAt | moment(' h:mm:ss a') }}</span>
+						<template v-if="item.updatedAt">
+							{{ item.updatedAt | moment('MMMM D, YYYY') }} |
+							<span class="time">{{ item.updatedAt | moment(' h:mm:ss a') }}</span>
+						</template>
+						<template v-else>-</template>
 					</td>
 					<td class="">
 						<toggle-dropdown itemPadding="0">

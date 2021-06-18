@@ -157,7 +157,23 @@ thead.table__header {
 .table__row-item {
 	padding: 1rem 1.5rem;
 }
-
+.emptyState {
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 152px;
+  
+	&-text {
+	  margin-top: 16px;
+	  font-weight: 600;
+	  font-size: 16px;
+	  line-height: 24px;
+	  text-align: center;
+	  letter-spacing: 0.2px;
+	  color: #2F2E80;
+	}
+  }
 .modal__header{
 	display: flex;
 	justify-content: space-between;
