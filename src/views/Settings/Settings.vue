@@ -59,9 +59,7 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<p class="modal__content-text">
-						You have some unsaved changes, are you sure you want to exit this page?
-					</p>
+					<p class="modal__content-text">You have some unsaved changes, are you sure you want to exit this page?</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="closeMoreSearchSettings">Exit</div>
 						<v-button class="update__btn" buttonType="primary" size="modal" @click="submitForm">

@@ -17,6 +17,7 @@
 		"@vue/eslint-config-prettier": "^6.0.0",
 		"axios": "^0.21.1",
 		"core-js": "^3.6.5",
+		"flush-promises": "^1.0.2",
 		"jwt-decode": "^3.1.2",
 		"nprogress": "^0.2.0",
 		"vee-validate": "^3.4.5",

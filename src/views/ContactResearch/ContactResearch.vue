@@ -22,9 +22,7 @@
 							@input-file="inputFile"
 							v-model="files"
 						>
-							<v-button class="btn__import__contact">
-								Import Contacts
-							</v-button>
+							<v-button class="btn__import__contact">Import Contacts</v-button>
 						</file-upload>
 					</div>
 				</div>
@@ -109,9 +107,7 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">
-											Delete
-										</li>
+										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
 									</template>
 								</v-toggle-dropdown>
 							</div>
@@ -152,9 +148,7 @@
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleModal">Cancel</div>
-						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
-							Delete
-						</v-button>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">Delete</v-button>
 					</div>
 				</div>
 			</template>
@@ -192,6 +186,7 @@
 	li {
 		margin-left: 0.5em;
 		font-size: 16px;
+
 		a {
 			color: #333758;
 		}
@@ -199,6 +194,11 @@
 			background: rgba(47, 46, 128, 0.1);
 			border-radius: 2px;
 			padding: 5px 10px;
+		}
+		&.disabled {
+			a {
+				cursor: not-allowed;
+			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
 import VCheckbox from '@/components/Checkbox';
-import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
 import VModal from '@/components/Modal';
 import VTextInput from '@/components/Input';
@@ -10,7 +9,6 @@ export default {
 	name: 'SearchSettings',
 	components: {
 		VCheckbox,
-		VSelect,
 		VTextInput,
 		VButton,
 		VModal,

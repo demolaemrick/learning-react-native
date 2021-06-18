@@ -6,21 +6,17 @@
 				<h3 class="page-title">Back to Users</h3>
 			</div>
 			<template v-if="activeTab === 'details'">
-				<c-button class="submit" size="medium" buttonType="secondary" @click="toggleEditModal">
-					Edit
-				</c-button>
+				<c-button class="submit" size="medium" buttonType="secondary" @click="toggleEditModal">Edit</c-button>
 			</template>
 
 			<template v-if="activeTab === 'contacts'">
-				<c-button size="large" buttonType="primary" @click="toggleUploadContact">
-					Upload Contact
-				</c-button>
+				<c-button size="large" buttonType="primary" @click="toggleUploadContact">Upload Contact</c-button>
 			</template>
 		</div>
 
 		<div class="tabs">
 			<v-tabs>
-				<v-tab style="max-width: 100%;" title="Details" @getData="setActiveTab('details')" :selected="true">
+				<v-tab style="max-width: 100%" title="Details" @getData="setActiveTab('details')" :selected="true">
 					<template v-if="loading">
 						<div v-for="n in 2" :key="n" class="grid grid__layout gap-3 py-1 row-group">
 							<div v-for="n in 4" :key="n" class="col-3-12">
@@ -73,13 +69,14 @@
 						</div>
 					</template>
 				</v-tab>
-				<v-tab style="max-width: 100%;" margin="25px 0 0 0" title="Contacts" @getData="setActiveTab('contacts')">
+				<v-tab style="max-width: 100%" margin="25px 0 0 0" title="Contacts" @getData="setActiveTab('contacts')">
 					<div>
 						<v-table
 							:tableHeaders="tableHeaders"
 							:loading="pageLoading"
 							:tableData="history.data"
 							theme="contact__research"
+							@rowClick="showResearch"
 							@checkAll="checkAll"
 						>
 							<template name="table-row" slot-scope="{ item }">
@@ -127,15 +124,7 @@
 											<img src="@/assets/icons/menu3dot.svg" svg-inline />
 										</template>
 										<template #dropdown-items>
-											<li class="dropdown__item">
-												Edit Info
-											</li>
-											<li class="dropdown__item">
-												Suspend
-											</li>
-											<li class="dropdown__item">
-												Delete
-											</li>
+											<li class="dropdown__item">Delete</li>
 										</template>
 									</toggle-dropdown>
 								</td>
@@ -147,9 +136,7 @@
 								<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 								<p class="emptyState-text">No user record found</p>
 								<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
-								<c-button size="large" buttonType="primary">
-									Upload Contact
-								</c-button>
+								<c-button size="large" buttonType="primary">Upload Contact</c-button>
 							</div>
 						</div>
 					</div>
@@ -157,14 +144,15 @@
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>
-								{{ currentPage }}
+								{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+								<template v-else>{{ count }}</template>
 							</span>
 							<span>of</span>
-							<span>{{ totalPages }}</span>
+							<span>{{ count }}</span>
 						</div>
 
 						<paginate
-							:page-count="totalPages"
+							:page-count="total"
 							:click-handler="clickCallback"
 							:prev-text="'Prev'"
 							:next-text="'Next'"
@@ -184,17 +172,27 @@
 								class="search-input"
 								placeholder="customer data, customer insights, NPS"
 								name="contact search"
+								v-model="settings.contact_research"
+								@change="onKeywordsChange('contact_research', $event)"
 								width="100%"
 							/>
 						</div>
 						<div class="settings-group">
 							<p class="text">Company search terms</p>
 							<p class="description">Add terms to refine your company search results</p>
-							<v-text-input class="search-input" placeholder="Terms (comma seperated)" name="company search" width="100%" />
+							<v-text-input
+								class="search-input"
+								placeholder="Terms (comma seperated)"
+								@change="onKeywordsChange('company_research', $event)"
+								v-model="settings.company_research"
+								name="company search"
+								width="100%"
+							/>
 						</div>
 						<div class="flex flex-end">
-							<c-button size="large" buttonType="primary">
-								Save Changes
+							<c-button size="large" buttonType="primary" @click="submitForm()">
+								<Loader v-if="loading" />
+								<span v-else class="text">Save Changes</span>
 							</c-button>
 						</div>
 					</div>

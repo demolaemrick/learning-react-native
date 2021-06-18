@@ -2,9 +2,7 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Users</h2>
-			<c-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser">
-				Create User
-			</c-button>
+			<c-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser"> Create User </c-button>
 		</div>
 		<div v-if="!usersLoading" class="search-group">
 			<h4 v-if="users">{{ users.length }} Users</h4>
@@ -33,9 +31,7 @@
 						</c-button>
 					</template>
 					<template #dropdown-items>
-						<li class="dropdown__item">
-							Export Users
-						</li>
+						<li class="dropdown__item">Export Users</li>
 					</template>
 				</toggle-dropdown>
 			</div>
@@ -75,18 +71,10 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="showUser(item)">
-									View User
-								</li>
-								<li class="dropdown__item" @click="openEditModal(item)">
-									Edit Info
-								</li>
-								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">
-									Suspend
-								</li>
-								<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
-									Activate
-								</li>
+								<li class="dropdown__item" @click="showUser(item)">View User</li>
+								<li class="dropdown__item" @click="openEditModal(item)">Edit Info</li>
+								<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">Suspend</li>
+								<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">Activate</li>
 								<li v-if="item.status === 'active'" class="dropdown__item" @click="openDeactivateModal(item)">
 									Deactivate
 								</li>
@@ -99,14 +87,15 @@
 				<div class="title__left">
 					<span>Showing Page</span>
 					<span>
-						{{ currentPage }}
+						{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+						<template v-else>{{ count }}</template>
 					</span>
 					<span>of</span>
-					<span>{{ totalPages }}</span>
+					<span>{{ count }}</span>
 				</div>
 
 				<paginate
-					:page-count="totalPages"
+					:page-count="total"
 					:click-handler="clickCallback"
 					:prev-text="'Prev'"
 					:next-text="'Next'"

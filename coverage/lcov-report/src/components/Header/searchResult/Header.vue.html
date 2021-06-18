@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -161,19 +161,7 @@
 <a name='L103'></a><a href='#L103'>103</a>
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L106'></a><a href='#L106'>106</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,12 +209,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -301,15 +289,9 @@
 							&lt;img src="@/assets/icons/carret-down.svg" svg-inline /&gt;
 						&lt;/template&gt;
 						&lt;template #dropdown-items&gt;
-							&lt;li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })"&gt;
-								Bookmarks
-							&lt;/li&gt;
-							&lt;li class="dropdown__item" @click="gotoSettings"&gt;
-								Settings
-							&lt;/li&gt;
-							&lt;li class="dropdown__item" @click="logoutUser"&gt;
-								Logout
-							&lt;/li&gt;
+							&lt;li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })"&gt;Bookmarks&lt;/li&gt;
+							&lt;li class="dropdown__item" @click="gotoSettings"&gt;Settings&lt;/li&gt;
+							&lt;li class="dropdown__item" @click="logoutUser"&gt;Logout&lt;/li&gt;
 						&lt;/template&gt;
 					&lt;/v-toggle-dropdown&gt;
 				&lt;/div&gt;
@@ -331,13 +313,13 @@ export default {
 		...mapMutations({
 			logout: 'auth/logout'
 		}),
-<span class="fstat-no" title="function not covered" >		gotoSettings() {</span>
-<span class="cstat-no" title="statement not covered" >			this.showMoreSearchSettings = !this.showMoreSearchSettings;</span>
-<span class="cstat-no" title="statement not covered" >			this.$router.push('/settings');</span>
+		gotoSettings() {
+			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			this.$router.push('/settings');
 		},
-<span class="fstat-no" title="function not covered" >		logoutUser() {</span>
-<span class="cstat-no" title="statement not covered" >			this.logout();</span>
-<span class="cstat-no" title="statement not covered" >			this.$router.push('/login');</span>
+		logoutUser() {
+			this.logout();
+			this.$router.push('/login');
 		}
 	}
 };
@@ -396,7 +378,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jun 16 2021 12:24:16 GMT+0100 (West Africa Standard Time)
+                at Fri Jun 18 2021 10:46:57 GMT+0100 (West Africa Standard Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

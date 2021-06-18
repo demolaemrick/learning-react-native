@@ -1,5 +1,4 @@
 import VCheckbox from '@/components/Checkbox';
-import VSelect from '@/components/Select';
 import VButton from '@/components/Button';
 import VTextInput from '@/components/Input';
 import VModal from '@/components/Modal';
@@ -18,7 +17,6 @@ export default {
 	name: 'ContactResearch',
 	components: {
 		VCheckbox,
-		VSelect,
 		VTextInput,
 		VButton,
 		VModal,

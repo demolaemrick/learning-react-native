@@ -7,7 +7,7 @@
 		<div>
 			<toggle-dropdown itemPadding="0">
 				<template #dropdown-wrapper>
-					<div class="flex flex__item-center ">
+					<div class="flex flex__item-center">
 						<div class="topCircle">
 							<p class="user__initials">
 								{{ loggedInUser.first_name.charAt(0).toUpperCase() }}{{ loggedInUser.last_name.charAt(0).toUpperCase() }}
@@ -17,9 +17,7 @@
 					</div>
 				</template>
 				<template #dropdown-items>
-					<li class="dropdown__item" @click="logoutUser">
-						Log out
-					</li>
+					<li id="logout" class="dropdown__item" @click="logoutUser">Log out</li>
 				</template>
 			</toggle-dropdown>
 		</div>

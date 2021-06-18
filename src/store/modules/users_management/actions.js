@@ -90,11 +90,12 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	createUser: async (context, payload) => {
-		const url = 'admin/user/new';
+	settings: async ({ commit }, { userId, data }) => {
+		const url = `admin/user/${userId}/settings`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
 		try {
-			const response = await api.post(url, payload);
-			// const response = await api.get(url);
+			const response = await api.patch(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
@@ -105,6 +106,17 @@ export default {
 		Object.keys(queries).forEach((key) => {
 			url += `${key}=${queries[key]}&`;
 		});
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	getSettings: async ({ commit }, userId) => {
+		const url = `admin/user/${userId}/settings`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);
