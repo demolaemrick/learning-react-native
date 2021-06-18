@@ -1,6 +1,5 @@
 <template>
 	<div class="">
-		<!-- <v-nav /> -->
 		<v-header />
 		<template v-if="bookmarkLoading">
 			<page-load :showAside="false" />
@@ -18,12 +17,8 @@
 							</h3>
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">
-								Company Research
-							</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">
-								Contact Research
-							</li>
+							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
 					<div class="filter-sort">
@@ -32,12 +27,8 @@
 								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('contact_research')">
-									Recent
-								</li>
-								<li class="dropdown__item" @click="sortByRelevance('contact_research')">
-									Relevance
-								</li>
+								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
+								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
 						<dropdown-checkbox>
@@ -89,12 +80,8 @@
 							</h3>
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">
-								Company Research
-							</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">
-								Contact Research
-							</li>
+							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
 					<div class="filter-sort">
@@ -103,12 +90,8 @@
 								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('company_research')">
-									Recent
-								</li>
-								<li class="dropdown__item" @click="sortByRelevance('company_research')">
-									Relevance
-								</li>
+								<li class="dropdown__item" @click="sortByRecent('company_research')">Recent</li>
+								<li class="dropdown__item" @click="sortByRelevance('company_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
 						<dropdown-checkbox>

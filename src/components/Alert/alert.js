@@ -38,10 +38,6 @@ export default {
 		},
 		alertModifierClass() {
 			return `alert--${this.alertType}`;
-		},
-		icon() {
-			const str = this.alertType[0].toUpperCase() + this.alertType.slice(1);
-			return `${str}Icon`;
 		}
 	},
 	watch: {

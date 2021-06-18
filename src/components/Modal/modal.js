@@ -5,9 +5,21 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		position: {
+			type: String,
+			default: 'right'
+		},
+		useSlot: {
+			type: Boolean,
+			default: true
+		},
 		maxWidth: {
 			type: String,
 			default: '496px'
+		},
+		active: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {

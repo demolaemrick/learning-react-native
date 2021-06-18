@@ -16,7 +16,7 @@ const InputMixin = {
 			type: String,
 			default: 'text',
 			validator(value) {
-				return ['url', 'text', 'password', 'tel', 'search', 'number', 'email', 'file'].includes(value);
+				return ['url', 'text', 'password', 'tel', 'search', 'number', 'email', 'date', 'file'].includes(value);
 			}
 		},
 		value: {
@@ -25,8 +25,8 @@ const InputMixin = {
 		},
 
 		icon: {
-			type: Boolean,
-			default: false
+			type: Object,
+			default: () => ({ type: '' })
 		},
 		labelVisible: {
 			type: Boolean,
@@ -47,6 +47,22 @@ const InputMixin = {
 		truthValue: {
 			type: Boolean,
 			default: false
+		},
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		border: {
+			type: String,
+			default: '1px solid #ebebf2;'
+		},
+		margin: {
+			type: String,
+			default: ''
+		},
+		labelColor: {
+			type: String,
+			default: ''
 		}
 	},
 	data: () => ({
@@ -60,7 +76,9 @@ const InputMixin = {
 			return {
 				width: this.width,
 				height: this.height,
-				maxWidth: this.maxWidth
+				maxWidth: this.maxWidth,
+				border: this.border,
+				margin: this.margin
 			};
 		}
 	},

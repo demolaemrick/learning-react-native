@@ -4,7 +4,7 @@ export default {
 			type: String,
 			default: 'default',
 			validator: function (value) {
-				return ['small', 'medium', 'full', 'modal', 'default'].indexOf(value) !== -1;
+				return ['small', 'icon', 'medium', 'full', 'large', 'modal', 'default'].indexOf(value) !== -1;
 			}
 		},
 		buttonType: {

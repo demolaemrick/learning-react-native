@@ -1,5 +1,5 @@
 <template>
-	<div class="content" v-if="isActive">
+	<div class="content" v-if="isActive" :style="style">
 		<slot></slot>
 	</div>
 </template>
@@ -18,6 +18,10 @@ export default {
 		},
 		icon: {
 			default: String
+		},
+		margin: {
+			type: String,
+			default: '25px 0'
 		}
 	},
 	data() {
@@ -25,6 +29,13 @@ export default {
 			isActive: false,
 			iconClass: ''
 		};
+	},
+	computed: {
+		style() {
+			return {
+				margin: this.margin
+			};
+		}
 	},
 	watch: {
 		isActive(value) {

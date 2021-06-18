@@ -7,8 +7,7 @@ const config = {
 		'.*\\.(vue)$': 'vue-jest'
 	},
 	collectCoverage: true,
-	collectCoverageFrom: ['<rootDir>/src/**/*.vue'],
-	coverageReporters: ['text-summary', 'html', 'lcov', 'clover']
+	collectCoverageFrom: ['<rootDir>/src/**/*.vue']
 };
 
 module.exports = config;

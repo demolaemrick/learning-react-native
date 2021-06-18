@@ -129,12 +129,8 @@
 							</h3>
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">
-								Company Research
-							</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">
-								Contact Research
-							</li>
+							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
 					<div class="filter-sort">
@@ -143,12 +139,8 @@
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('contact_research')">
-									Recent
-								</li>
-								<li class="dropdown__item" @click="sortByRelevance('contact_research')">
-									Relevance
-								</li>
+								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
+								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
 						<!-- <dropdown-checkbox>
@@ -178,7 +170,7 @@
 							<div @click="displaySearchItem('contact_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
+									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
 								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
@@ -222,12 +214,8 @@
 							</h3>
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">
-								Company Research
-							</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">
-								Contact Research
-							</li>
+							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
 					<div class="filter-sort">
@@ -236,12 +224,8 @@
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('company_research')">
-									Recent
-								</li>
-								<li class="dropdown__item" @click="sortByRelevance('company_research')">
-									Relevance
-								</li>
+								<li class="dropdown__item" @click="sortByRecent('company_research')">Recent</li>
+								<li class="dropdown__item" @click="sortByRelevance('company_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
 						<!-- <dropdown-checkbox>
@@ -270,7 +254,7 @@
 							<div @click="displaySearchItem('company_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toFixed(2) * 100 }}%</p>
+									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
 								</span>
 								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>

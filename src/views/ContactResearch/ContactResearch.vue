@@ -22,14 +22,12 @@
 							@input-file="inputFile"
 							v-model="files"
 						>
-							<v-button class="btn__import__contact">
-								Import Contacts
-							</v-button>
+							<v-button class="btn__import__contact">Import Contacts</v-button>
 						</file-upload>
 					</div>
 				</div>
 			</div>
-			<div class="contact__research__table__wrapper">
+			<div class="mt-2">
 				<v-table
 					:tableHeaders="tableHeaders"
 					:tableData="history"
@@ -67,7 +65,9 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="!item.role">-</template>
-							<template v-else>{{ item.role }}</template>
+							<template v-else
+								><p class="text__title">{{ item.role }}</p></template
+							>
 						</td>
 						<td class="table__row-item row-link" @click="clickResearch(item)">
 							<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
@@ -78,7 +78,7 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
-							<template v-else>{{ item.research_score.toFixed(2) * 100 }}%</template>
+							<template v-else>{{ item.research_score.toPrecision(4) * 100 }}%</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.updatedAt | moment('from', 'now') }}
@@ -107,9 +107,7 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">
-											Delete
-										</li>
+										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
 									</template>
 								</v-toggle-dropdown>
 							</div>
@@ -139,26 +137,21 @@
 				</div>
 			</div>
 		</main>
-		<v-modal v-if="showModal" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
-			<div class="modal__wrapper">
-				<div class="modal__header">
-					<h4 class="modal__header-title">Delete Research</h4>
-					<span class="icon" @click="toggleModal">
-						<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
-					</span>
-				</div>
+		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Delete Research</h4>
+			</template>
+			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
 						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleModal">Cancel</div>
-						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
-							Delete
-						</v-button>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">Delete</v-button>
 					</div>
 				</div>
-			</div>
+			</template>
 		</v-modal>
 	</div>
 </template>
@@ -193,6 +186,7 @@
 	li {
 		margin-left: 0.5em;
 		font-size: 16px;
+
 		a {
 			color: #333758;
 		}
@@ -200,6 +194,11 @@
 			background: rgba(47, 46, 128, 0.1);
 			border-radius: 2px;
 			padding: 5px 10px;
+		}
+		&.disabled {
+			a {
+				cursor: not-allowed;
+			}
 		}
 	}
 }

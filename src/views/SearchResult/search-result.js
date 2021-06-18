@@ -1,4 +1,3 @@
-import VNav from '../Nav.vue';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import VHeader from '@/components/Header/searchResult/Header';
@@ -10,7 +9,6 @@ import PageLoad from './PageLoad.vue';
 export default {
 	name: 'SearchResult',
 	components: {
-		VNav,
 		ToggleDropdown,
 		DCheckbox,
 		DropdownCheckbox,

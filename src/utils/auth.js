@@ -7,6 +7,15 @@ import store from '../store/index';
 export function isLoggedIn() {
 	return store.getters['auth/isLoggedIn'];
 }
+
+/**
+ * Checks for user role
+ * @returns {Boolean} userrole state
+ */
+export function userRole() {
+	return store.getters['auth/getLoggedUser'].role;
+}
+
 /**
  * Auth guard that allows non-authenticated users only.
  * @param to - next route
@@ -14,26 +23,49 @@ export function isLoggedIn() {
  * @param next - callback to transfer control to the next middleware
  */
 export function noAuthOnly(to, from, next) {
-	if (isLoggedIn()) {
+	if (isLoggedIn() && userRole() === 'user') {
 		next('/');
+	} else if (isLoggedIn() && userRole() === 'admin') {
+		next('/dashboard');
 	} else {
 		next();
 	}
 }
 
 /**
- * Auth guard allows authenticated merchants only.
+ * Auth guard allows authenticated users only.
  * @param to - next route
  * @param from - previous route
  * @param next - callback to transfer control to the next middleware
  */
-export function requireAuth(to, from, next) {
+export function requireUserAuth(to, from, next) {
 	if (isLoggedIn()) {
 		next();
 	} else {
 		next({ name: 'Login' });
 	}
 }
+/**
+ * Auth guard allows authenticated admins only.
+ * @param to - next route
+ * @param from - previous route
+ * @param next - callback to transfer control to the next middleware
+ */
+export function requireAdminAuth(to, from, next) {
+	if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
+		next();
+	} else {
+		next({ name: 'Login' });
+	}
+}
+
+// export function requireAuth(to, from, next) {
+// 	if (isLoggedIn()) {
+// 		next();
+// 	} else {
+// 		next({ name: 'Login' });
+// 	}
+// }
 
 /**
  * Sets a user session and saves it to store

@@ -4,6 +4,8 @@ import VuexPersistence from 'vuex-persist';
 import search_services from './modules/search_services/index';
 import auth from './modules/auth/index';
 import user from './modules/user/index';
+import users_management from './modules/users_management/';
+import admin_management from './modules/admin_management/';
 Vue.use(Vuex);
 
 const vuexPersistence = new VuexPersistence({
@@ -54,9 +56,9 @@ export default new Vuex.Store({
 			}
 
 			state.alert = { ...initialAlertState, ...data };
-			// setTimeout(() => {
-			// 	commit('resetAlert');
-			// }, 7000);
+			setTimeout(() => {
+				state.alert = initialAlertState;
+			}, 5000);
 		},
 		resetAlert: (state) => {
 			state.alert = initialAlertState;
@@ -66,15 +68,17 @@ export default new Vuex.Store({
 		showAlert: ({ commit }, data) => {
 			commit('updateAlert', data);
 
-			setTimeout(() => {
-				commit('resetAlert');
-			}, 7000);
+			// setTimeout(() => {
+			// 	commit('resetAlert');
+			// }, 7000);
 		}
 	},
 	modules: {
 		search_services,
 		auth,
-		user
+		user,
+		users_management,
+		admin_management
 	},
 	plugins: [vuexPersistence.plugin]
 });

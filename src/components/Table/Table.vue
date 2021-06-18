@@ -16,11 +16,12 @@
 			<tbody>
 				<tr
 					class="table__row"
+					@click="$emit('rowClick', item)"
 					:class="{
 						'disable-row':
-							item.status.statusCode === 'IN_PROGRESS' ||
-							item.status.statesCode === 'IN_PROGRESS' ||
-							item.status.statusCode === 'NO_RESULT'
+							(item.status && item.status.statusCode === 'IN_PROGRESS') ||
+							(item.status && item.status.statesCode === 'IN_PROGRESS') ||
+							(item.status && item.status.statusCode === 'NO_RESULT')
 					}"
 					v-for="(item, index) in sortedData"
 					:key="index"
