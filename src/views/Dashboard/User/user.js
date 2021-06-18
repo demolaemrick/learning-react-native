@@ -127,9 +127,8 @@ export default {
 		onKeywordsChange(searchType, event) {
 			this.settings[searchType] = event.target.value.split(',');
 		},
-		statusToggle(){
-			this.userDetails.status === 'active' ? this.deactivate() : this.activate()
-			
+		statusToggle() {
+			this.userDetails.status === 'active' ? this.deactivate() : this.activate();
 		},
 		async activate() {
 			try {
@@ -141,7 +140,7 @@ export default {
 						message: changeStatus.data.message,
 						showAlert: true
 					});
-					this.fetchUser()
+					this.fetchUser();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -149,7 +148,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
-			} 
+			}
 		},
 		async deactivate() {
 			try {
@@ -161,7 +160,7 @@ export default {
 						message: changeStatus.data.message,
 						showAlert: true
 					});
-					this.fetchUser()
+					this.fetchUser();
 				}
 			} catch (error) {
 				this.showAlert({
