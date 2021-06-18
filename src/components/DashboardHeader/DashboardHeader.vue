@@ -7,7 +7,7 @@
 		<div>
 			<toggle-dropdown itemPadding="0">
 				<template #dropdown-wrapper>
-					<div class="flex flex__item-center ">
+					<div class="flex flex__item-center">
 						<div class="topCircle">
 							<p class="user__initials">BI</p>
 						</div>
