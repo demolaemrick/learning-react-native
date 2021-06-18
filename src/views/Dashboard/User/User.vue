@@ -6,7 +6,7 @@
 				<h3 class="page-title">Back to Users</h3>
 			</div>
 			<template v-if="activeTab === 'details'">
-				<c-button class="submit" size="medium" buttonType="secondary" @click="toggleEditModal">Edit</c-button>
+				<c-button class="submit" size="medium" buttonType="secondary" @click="openEditModal({...userDetails})">Edit</c-button>
 			</template>
 
 			<template v-if="activeTab === 'contacts'">
@@ -213,7 +213,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.first_name"
+									v-model="userInfo.first_name"
 									width="204px"
 									name="First Name"
 									placeholder="John"
@@ -222,7 +222,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.last_name"
+									v-model="userInfo.last_name"
 									width="204px"
 									name="Last Name"
 									placeholder="Doe"
@@ -235,7 +235,7 @@
 								labelVisible
 								labelColor="gray"
 								:disabled="true"
-								v-model="userDetails.email"
+								v-model="userInfo.email"
 								width="100%"
 								name="Email Address"
 								placeholder="johndoe@email.com"
@@ -246,7 +246,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.organisation"
+									v-model="userInfo.organisation"
 									width="204px"
 									name="Organisation"
 									placeholder="Microsoft"
@@ -255,7 +255,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.monthly_research"
+									v-model="userInfo.monthly_research"
 									width="204px"
 									name="No. Research/month"
 									placeholder="200"
@@ -267,14 +267,14 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="userDetails.profession"
+									v-model="userInfo.profession"
 									width="204px"
 									name="Profession"
 									placeholder="Product"
 								/>
 								<div class="form-group">
 									<label class="select-label" for="admin">Role</label>
-									<select class="select-input" v-model="userDetails.role" width="204px" name="adminRole" id="adminRole">
+									<select class="select-input" v-model="userInfo.role" width="204px" name="adminRole" id="adminRole">
 										<option value="user">User</option>
 										<option value="admin">Admin</option>
 										<option value="superAdmin">Super Admin</option>

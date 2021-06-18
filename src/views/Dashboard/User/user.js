@@ -79,6 +79,7 @@ export default {
 				is_csv: true
 			},
 			userId: null,
+			userInfo: null,
 			userDetails: [],
 			usersLoading: false,
 			pageLoading: false,
@@ -369,12 +370,16 @@ export default {
 				this.loading = false;
 			}
 		},
+		openEditModal(item) {
+			this.userInfo = item;
+			this.toggleEditModal();
+		},
 		async editUser() {
 			this.loading = true;
-			const { first_name, last_name, role, monthly_research, organisation, profession } = this.userDetails;
+			const { first_name, last_name, role, monthly_research, organisation, profession } = this.userInfo;
 			try {
 				const response = await this.updateUser({
-					id: this.userDetails._id,
+					id: this.userInfo._id,
 					user: { first_name, last_name, role, monthly_research, organisation, profession }
 				});
 				const { status, statusText } = response;

@@ -1,6 +1,6 @@
 export default {
 	logout: (state) => {
-		state.loggedUser = {};
+		setTimeout(() => state.loggedUser = {}, 50);
 		state.isLoggedIn = false;
 	},
 	setLoggedUser: (state, user) => {

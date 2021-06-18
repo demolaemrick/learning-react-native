@@ -65,7 +65,7 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="openEditModal(item)">Edit Info</li>
+								<li class="dropdown__item" @click="openEditModal({...item})">Edit Info</li>
 								<template v-if="loggedInUser && loggedInUser.role === 'superadmin'">
 									<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">Suspend</li>
 									<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
