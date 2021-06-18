@@ -199,10 +199,12 @@ export default {
 					}
 				}
 			],
-			currentPage: 1,
-			totalPages: 5,
+			currentPage: 0,
+			total: 0,
 			limit: 50,
 			page: 1,
+			count: 0,
+			nextPage: null,
 			usersLoading: false,
 			users: null,
 			stat: {
@@ -245,6 +247,7 @@ export default {
 			updateUser: 'users_management/updateUser',
 			showAlert: 'showAlert'
 		}),
+
 		async getAllUsers() {
 			this.usersLoading = true;
 			try {
@@ -252,12 +255,20 @@ export default {
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
 					this.users = data.response.data;
+					this.count = data.response.count;
+					this.currentPage = data.response.currentPage;
+					this.total = Math.ceil(data.response.count / this.limit);
+					this.nextPage = data.response.nextPage;
 				}
 			} catch (error) {
 				console.log(error);
 			} finally {
 				this.usersLoading = false;
 			}
+		},
+		clickCallback(page) {
+			this.page = page;
+			this.getAllUsers();
 		},
 		toggleCreateUser() {
 			if (!this.createUser) {
@@ -325,9 +336,6 @@ export default {
 				}, 500);
 			}
 		},
-		clickCallback(page) {
-			this.currentPage = page;
-		},
 		showUser(item) {
 			this.$router.push({ name: 'User', query: { userId: item._id } });
 		},
@@ -345,8 +353,8 @@ export default {
 				});
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleEditModal();
+					this.getAllUsers();
 					this.showAlert({
 						status: 'success',
 						message: 'user successfully updated',

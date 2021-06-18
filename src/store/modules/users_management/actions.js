@@ -89,5 +89,27 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	settings: async ({ commit }, { userId, data }) => {
+		const url = `admin/user/${userId}/settings`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.patch(url, data);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	getSettings: async ({ commit }, userId) => {
+		const url = `admin/user/${userId}/settings`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

@@ -1,9 +1,8 @@
 import ToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations } from 'vuex';
 export default {
-	name: 'SearchResult',
+	name: 'DashboardHeader',
 	components: {
-		// VHeader,
 		ToggleDropdown
 	},
 	methods: {

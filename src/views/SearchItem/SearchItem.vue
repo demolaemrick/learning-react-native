@@ -29,28 +29,10 @@
 									<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 								</template>
 								<template #dropdown-items>
-									<li class="dropdown__item" @click="sortByRecent">
-										Recent
-									</li>
-									<li class="dropdown__item" @click="sortByRelevance">
-										Relevance
-									</li>
+									<li class="dropdown__item" @click="sortByRecent">Recent</li>
+									<li class="dropdown__item" @click="sortByRelevance">Relevance</li>
 								</template>
 							</toggle-dropdown>
-							<!-- <dropdown-checkbox>
-								<template #dropdown-wrapper>
-									<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
-								</template>
-								<template #dropdown-items>
-									<span v-for="(data, i) in getSearchedResult[searchType]" :key="i">
-										<li class="dropdown__item" v-if="getSearchedResult[searchType][i].length !== 0">
-											<d-checkbox v-model="filterValue" inputType="checkbox" :truthValue="i" :name="i">
-												{{ i }}
-											</d-checkbox>
-										</li>
-									</span>
-								</template>
-							</dropdown-checkbox> -->
 						</div>
 					</div>
 
@@ -144,12 +126,6 @@
 						height="500"
 						:src="getSearchedItem.item.url"
 					></iframe>
-					<!-- <div v-else class="item__detail-content">
-						<div class="image-placeholder">
-							<img src="@/assets/icons/placeholder.svg" svg-inline />
-							<h4>Cannot render content</h4>
-						</div>
-					</div> -->
 				</template>
 			</div>
 		</main>

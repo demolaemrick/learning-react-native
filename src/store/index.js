@@ -57,7 +57,7 @@ export default new Vuex.Store({
 
 			state.alert = { ...initialAlertState, ...data };
 			setTimeout(() => {
-				commit('resetAlert');
+				state.alert = initialAlertState;
 			}, 5000);
 		},
 		resetAlert: (state) => {

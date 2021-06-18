@@ -39,7 +39,7 @@ export function noAuthOnly(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 export function requireUserAuth(to, from, next) {
-	if (isLoggedIn() && userRole() === 'user') {
+	if (isLoggedIn()) {
 		next();
 	} else {
 		next({ name: 'Login' });

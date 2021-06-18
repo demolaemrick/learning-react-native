@@ -20,13 +20,7 @@
 		</div>
 
 		<div>
-			<v-table
-				:loading="adminLoading"
-				:tableHeaders="tableHeaders"
-				:tableData="admins"
-				theme="contact__research"
-				@checkAll="checkAll"
-			>
+			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
 						<div class="check-input">
@@ -51,7 +45,6 @@
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
 							>{{ item.status }}
 						</status-tag>
-						<!-- <Status :status="item.status" /> -->
 					</td>
 					<td class="table__row-item">
 						{{ item.updatedAt | moment('MMMM D, YYYY') }} |
@@ -63,15 +56,9 @@
 								<img src="@/assets/icons/menu3dot.svg" svg-inline />
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="toggleEditModal">
-									Edit Info
-								</li>
-								<li class="dropdown__item">
-									Suspend
-								</li>
-								<li class="dropdown__item">
-									Delete
-								</li>
+								<li class="dropdown__item" @click="toggleEditModal">Edit Info</li>
+								<li class="dropdown__item">Suspend</li>
+								<li class="dropdown__item">Delete</li>
 							</template>
 						</toggle-dropdown>
 					</td>
@@ -83,9 +70,7 @@
 					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 					<p class="emptyState-text">No user record found</p>
 					<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
-					<c-button size="large" buttonType="primary">
-						Upload Contact
-					</c-button>
+					<c-button size="large" buttonType="primary">Upload Contact</c-button>
 				</div>
 			</div>
 		</div>

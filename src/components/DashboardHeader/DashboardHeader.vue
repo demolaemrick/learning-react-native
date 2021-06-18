@@ -15,9 +15,7 @@
 					</div>
 				</template>
 				<template #dropdown-items>
-					<li class="dropdown__item" @click="logoutUser">
-						Log out
-					</li>
+					<li id="logout" class="dropdown__item" @click="logoutUser">Log out</li>
 				</template>
 			</toggle-dropdown>
 		</div>

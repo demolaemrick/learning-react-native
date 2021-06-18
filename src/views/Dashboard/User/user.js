@@ -26,8 +26,7 @@ export default {
 			showEditModal: false,
 			contactModal: false,
 			checkedContacts: [],
-			loading: true,
-			// userLoading: false,
+			loading: false,
 			toggleClass: true,
 			tableHeaders: [
 				{
@@ -76,11 +75,17 @@ export default {
 			userId: null,
 			userDetails: [],
 			usersLoading: false,
-			count: 0,
-			currentPage: 1,
-			totalPages: 10,
 			pageLoading: false,
-			nextPage: null
+			nextPage: null,
+			currentPage: 0,
+			total: 0,
+			limit: 50,
+			page: 1,
+			count: 0,
+			settings: {
+				company_research: [],
+				contact_research: []
+			}
 		};
 	},
 	components: {
@@ -105,8 +110,38 @@ export default {
 			getSingleUser: 'users_management/singleUser',
 			research_history: 'users_management/research_history',
 			bulk_research: 'users_management/bulk_research',
-			subscribeResearch: 'search_services/subscribeResearch'
+			subscribeResearch: 'search_services/subscribeResearch',
+			getSettings: 'users_management/getSettings',
+			userSettings: 'users_management/settings'
 		}),
+		onKeywordsChange(searchType, event) {
+			this.settings[searchType] = event.target.value.split(',');
+		},
+		async getUserSettings() {
+			this.loading = false;
+			try {
+				const { status, statusText, data } = await this.getSettings(this.userId);
+				if (status === 200 && statusText === 'OK') {
+					const {
+						data: { contact_research, company_research }
+					} = data;
+					if (contact_research) {
+						this.settings.contact_research = contact_research;
+					}
+					if (company_research) {
+						this.settings.company_research = company_research;
+					}
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'An error occurred',
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
 		toggleEditModal() {
 			if (!this.showEditModal) {
 				this.showEditModal = true;
@@ -116,6 +151,28 @@ export default {
 					this.showEditModal = !this.showEditModal;
 					this.toggleClass = !this.toggleClass;
 				}, 500);
+			}
+		},
+		async submitForm() {
+			this.loading = true;
+			try {
+				const response = await this.userSettings({ userId: this.userId, data: this.settings });
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+					return true;
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'An error occurred',
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		toggleUploadContact() {
@@ -140,6 +197,7 @@ export default {
 					break;
 				case 'settings':
 					this.activeTab = evt;
+					this.getUserSettings();
 					break;
 			}
 		},
@@ -155,9 +213,6 @@ export default {
 			} else {
 				this.checkedContacts = [];
 			}
-		},
-		clickCallback(page) {
-			this.currentPage = page;
 		},
 		backToUsers() {
 			this.$router.push({ name: 'Users' });
@@ -231,14 +286,16 @@ export default {
 			this.pageLoading = true;
 			try {
 				const response = await this.research_history({ id: this.userId, page: this.page, limit: this.limit });
-				console.log(response);
-				this.history = response.data.data;
-				// this.count = response.data.data.count;
-				// this.currentPage = response.data.data.currentPage;
-				// this.total = Math.ceil(response.data.data.count / this.limit);
-				// this.nextPage = response.data.data.nextPage;
-				this.checkPendngStatus();
-				return true;
+				const { status, data, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.history = data.data.data;
+					this.count = data.data.count;
+					this.currentPage = data.data.currentPage;
+					this.total = Math.ceil(data.data.count / this.limit);
+					this.nextPage = data.data.nextPage;
+					this.checkPendngStatus();
+					return true;
+				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -247,6 +304,15 @@ export default {
 				});
 			} finally {
 				this.pageLoading = false;
+			}
+		},
+		clickCallback(page) {
+			this.page = page;
+			this.getHistory();
+		},
+		showResearch(item) {
+			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
+				this.$router.push({ name: 'SearchResult', query: { rowId: item.rowId } });
 			}
 		},
 		async checkPendngStatus() {
@@ -287,12 +353,7 @@ export default {
 				const response = await this.getSingleUser(this.userId);
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
-					console.log(status);
-					console.log(statusText);
 					this.userDetails = data.data;
-					console.log(this.userDetails);
-					// console.log(singleUser);
-					// console.log(data.data);
 				}
 			} catch (error) {
 				console.log(error);

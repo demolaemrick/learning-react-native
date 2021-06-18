@@ -3,13 +3,8 @@
 		<nav class="navbar">
 			<div class="nav-item logo">
 				<logo />
-				<!-- <img src="@/assets/icons/logo.svg" svg-inline />
-				<h3 class="ml-1 logo-text">Volley App</h3> -->
 			</div>
 			<div class="nav__menu__right">
-				<!-- <div class="search__icon__wrapper">
-					<img src="@/assets/icons/search-icon.svg" svg-inline />
-				</div> -->
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
@@ -18,12 +13,8 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="gotoSettings">
-								Settings
-							</li>
-							<li ref="logout_user" class="dropdown__item" @click="logoutUser">
-								Logout
-							</li>
+							<li class="dropdown__item" @click="gotoSettings">Settings</li>
+							<li ref="logout_user" class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>
 					</v-toggle-dropdown>
 				</div>
@@ -32,9 +23,7 @@
 		<main class="main-section">
 			<div class="hero">
 				<h2 class="hero-title">More refined <span>research</span> .</h2>
-				<p class="hero-desc">
-					Aggregated sales research to power your personalized outreach.
-				</p>
+				<p class="hero-desc">Aggregated sales research to power your personalized outreach.</p>
 			</div>
 			<v-tabs>
 				<v-tab title="Manual Search" @getData="setActiveTab('manual_search')" :selected="true">
@@ -87,9 +76,6 @@
 			</v-tabs>
 
 			<template v-if="activeTab === 'manual_search'">
-				<!-- <p class="more-filter" @click="openConfigModal()">
-					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
-				</p> -->
 				<p class="more-filter" @click="showMoreSearch = !showMoreSearch">
 					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
 				</p>
@@ -122,9 +108,7 @@
 									</p>
 								</div>
 								<div class="config__btn__wrapper">
-									<v-button class="config__btn" @click="gotoSettings">
-										Settings
-									</v-button>
+									<v-button class="config__btn" @click="gotoSettings">Settings</v-button>
 								</div>
 							</div>
 						</div>

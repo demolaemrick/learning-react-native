@@ -21,15 +21,9 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">
-								Bookmarks
-							</li>
-							<li class="dropdown__item" @click="gotoSettings">
-								Settings
-							</li>
-							<li class="dropdown__item" @click="logoutUser">
-								Logout
-							</li>
+							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
+							<li class="dropdown__item" @click="gotoSettings">Settings</li>
+							<li class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>
 					</v-toggle-dropdown>
 				</div>

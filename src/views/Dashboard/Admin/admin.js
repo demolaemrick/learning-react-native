@@ -172,9 +172,8 @@ export default {
 			try {
 				const response = await this.allAdmins({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = response;
-				console.log(data);
 				if (status === 200 && statusText === 'OK') {
-					this.admins = data.data;
+					this.admins = data.data.data;
 				}
 			} catch (error) {
 				console.log(error);

@@ -14,4 +14,13 @@ describe('CCheckbox.vue', () => {
 	it('Should handle checkbox checked', () => {
 		wrapper.find('input').trigger('input');
 	});
+
+	it('determine checked value', () => {
+		expect(wrapper.vm.checked).toBe('');
+	});
+	it('change value and determine checked value', async () => {
+		await wrapper.setData({ checked: 'value' });
+		await wrapper.setProps({ truthValue: 'value' });
+		expect(wrapper.vm.checked).toBe('value');
+	});
 });
