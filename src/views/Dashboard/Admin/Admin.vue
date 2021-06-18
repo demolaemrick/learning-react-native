@@ -11,10 +11,19 @@
 				</div>
 			</c-button>
 		</div>
-		<div class="search-group">
-			<h4>12 Admins</h4>
+		<div v-if="!adminLoading" class="search-group">
+			<h4 v-if="admins.length <= 1">{{ admins.length }} Admin</h4>
+			<h4 v-else>{{ admins.length }} Admins</h4>
 			<div class="search-section">
-				<TextInput class="mb-0" type="text" placeholder="Search" :icon="{ type: 'search' }" width="509px" />
+				<TextInput
+					class="mb-0"
+					type="text"
+					placeholder="Search"
+					v-model="searchQuery"
+					:icon="{ type: 'search' }"
+					width="509px"
+					@keyup.enter="searchPage"
+				/>
 				<span class="mx-1"> </span>
 			</div>
 		</div>
@@ -146,48 +155,140 @@
 			<template #body>
 				<form action="">
 					<div class="auth-input">
-						<text-input
-							:disabled="true"
-							labelVisible
-							labelColor="gray"
-							v-model="info.name"
-							width="100%"
-							name="Name"
-							placeholder="Ronald Richards"
-						/>
-						<text-input
-							type="email"
-							:disabled="true"
-							labelVisible
-							labelColor="gray"
-							v-model="info.email"
-							width="100%"
-							name="Email"
-							placeholder="ronald@volley.com"
-						/>
-
-						<label class="select-label" for="admin">Role</label><br />
-						<select class="select-input" width="100%" name="adminRole" id="adminRole">
-							<option value="user">User</option>
-							<option value="admin">Admin</option>
-							<option value="superAdmin">Super Admin</option>
-						</select>
-
-						<p class="toggle-prompt">Toggle to activate user</p>
-						<div class="flex flex__item-center toggle-group">
-							<div class="mr-1">
-								<Toggle />
-							</div>
-							<h4 class="toggle-text">Active</h4>
+						<div class="flex flex-spaced">
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="adminInfo.first_name"
+								width="204px"
+								name="First Name"
+								placeholder="Ronald"
+							/>
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="adminInfo.last_name"
+								width="204px"
+								name="Last Name"
+								placeholder="Richards"
+							/>
 						</div>
+						<div class="flex flex-spaced">
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="adminInfo.organisation"
+								width="204px"
+								name="Organisation"
+								placeholder="Microsoft"
+							/>
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="adminInfo.monthly_research"
+								width="204px"
+								name="No. Research/Month"
+								placeholder="200"
+							/>
+						</div>
+						<div class="flex flex-spaced">
+							<text-input
+								type="text"
+								rules="required"
+								labelVisible
+								labelColor="gray"
+								v-model="adminInfo.profession"
+								width="204px"
+								name="Profession"
+								placeholder="Product"
+							/>
+							<div class="form-group">
+								<label class="select-label" for="admin">Role</label>
+								<select class="select-input" v-model="adminInfo.role" width="204px" name="adminRole" id="adminRole">
+									<!-- <option v-for="role in roles" :key="role" :selected="role == 'Admin'">{{ role }} </option> -->
+									<option value="user">User</option>
+									<option value="admin">Admin</option>
+									<option value="superadmin">Super Admin</option>
+								</select>
+							</div>
+						</div>
+
 						<div class="flex flex-end">
-							<c-button class="submit" size="large" buttonType="primary">
+							<c-button class="submit" size="large" buttonType="primary" @click="editAdmin">
 								<template v-if="!loading">Save Changes</template>
 								<Loader v-else />
 							</c-button>
 						</div>
 					</div>
 				</form>
+			</template>
+		</modal>
+
+		<!-- Deactivate Modal -->
+		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Deactivate Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to deactivate this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
+							<template v-if="!loading">Deactivate</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+		<!-- Activate Modal -->
+		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Activate Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to activate this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleActivateModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
+							<template v-if="!loading">Activate</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+		<!-- Suspend Modal -->
+		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Suspend Admin</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to suspend this admin
+						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
+						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
+							<template v-if="!loading">Suspend</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
 			</template>
 		</modal>
 	</div>

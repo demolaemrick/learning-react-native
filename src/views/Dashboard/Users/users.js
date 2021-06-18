@@ -21,9 +21,8 @@ export default {
 				first_name: '',
 				last_name: '',
 				email: '',
-				mail: '',
 				organisation: '',
-				researches: '',
+				monthly_research: '',
 				profession: '',
 				password: '',
 				role: ''
@@ -42,6 +41,10 @@ export default {
 				{
 					value: 'active',
 					title: 'Active'
+				},
+				{
+					value: 'inactive',
+					title: 'Inactive'
 				},
 				{
 					value: 'suspended',
@@ -213,7 +216,9 @@ export default {
 			},
 			userId: null,
 			userDetails: [],
-			contactToModify: {}
+			contactToModify: {},
+			searchQuery: null,
+			filterData: null
 		};
 	},
 	props: {
@@ -245,6 +250,8 @@ export default {
 			suspendUser: 'users_management/suspendUser',
 			getSingleUser: 'users_management/singleUser',
 			updateUser: 'users_management/updateUser',
+			createNewUser: 'users_management/createUser',
+			search: 'users_management/search',
 			showAlert: 'showAlert'
 		}),
 
@@ -269,6 +276,28 @@ export default {
 		clickCallback(page) {
 			this.page = page;
 			this.getAllUsers();
+		},
+		async registerUser() {
+			try {
+				const response = await this.createNewUser(this.form);
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					await this.getAllUsers();
+					this.toggleCreateUser();
+					this.form = {};
+					this.showAlert({
+						status: 'success',
+						message: 'User created successfully',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'Whoops! User not created',
+					showAlert: true
+				});
+			}
 		},
 		toggleCreateUser() {
 			if (!this.createUser) {
@@ -345,11 +374,11 @@ export default {
 		},
 		async editUser() {
 			this.loading = true;
-			const { first_name, last_name, role, monthly_research, email, organisation, profession } = this.userInfo;
+			const { first_name, last_name, role, monthly_research, organisation, profession } = this.userInfo;
 			try {
 				const response = await this.updateUser({
 					id: this.userInfo._id,
-					user: { first_name, last_name, role, monthly_research, email, organisation, profession }
+					user: { first_name, last_name, role, monthly_research, organisation, profession }
 				});
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
@@ -391,12 +420,13 @@ export default {
 		},
 
 		async deactivate() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleDeactivateModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
@@ -410,6 +440,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		openActivateModal(item) {
@@ -418,12 +450,13 @@ export default {
 			this.activateModal = true;
 		},
 		async activate() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleActivateModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
@@ -437,6 +470,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		openSuspendModal(item) {
@@ -445,12 +480,13 @@ export default {
 			this.suspendModal = true;
 		},
 		async suspend() {
+			this.loading = true;
 			try {
 				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					await this.getAllUsers();
 					this.toggleSuspendModal();
+					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
 						status: 'success',
@@ -464,6 +500,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 
@@ -479,6 +517,38 @@ export default {
 				console.log(error);
 			} finally {
 				this.userLoading = false;
+			}
+		},
+		async searchPage(payload) {
+			this.loading = true;
+			try {
+				const response = await this.search(payload);
+				if (response.data.response.data.length) {
+					this.users = response.data.response.data;
+					if (this.filter) {
+						this.toggleFilterModal();
+					}
+				} else {
+					this.showAlert({
+						status: 'error',
+						message: 'No user found',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
+		}
+	},
+	watch: {
+		searchQuery: {
+			immediate: true,
+			handler() {
+				if (this.searchQuery === null || this.searchQuery === '') {
+					this.getAllUsers();
+				}
 			}
 		}
 	}

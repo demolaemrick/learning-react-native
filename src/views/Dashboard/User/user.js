@@ -19,9 +19,15 @@ export default {
 	data() {
 		return {
 			form: {
-				firstName: '',
-				email: null,
-				password: null
+				first_name: '',
+				last_name: '',
+				email: '',
+				organisation: '',
+				monthly_research: '',
+				researches_performed: '',
+				profession: '',
+				password: '',
+				role: ''
 			},
 			showEditModal: false,
 			contactModal: false,
@@ -316,7 +322,7 @@ export default {
 			}
 		},
 		async checkPendngStatus() {
-			let pendingStatus = await this.history.filter((data) => {
+			let pendingStatus = await this.history.data.filter((data) => {
 				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			if (pendingStatus.length > 0) {
@@ -360,10 +366,41 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		async editUser() {
+			this.loading = true;
+			const { first_name, last_name, role, monthly_research, organisation, profession } = this.userDetails;
+			try {
+				const response = await this.updateUser({
+					id: this.userDetails._id,
+					user: { first_name, last_name, role, monthly_research, organisation, profession }
+				});
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.toggleEditModal();
+					this.loading = true;
+					await this.fetchUser();
+					this.showAlert({
+						status: 'success',
+						message: 'user successfully updated',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
 		}
 	},
 	mounted() {
 		this.userId = this.$route.query.userId;
 		this.fetchUser();
+		// console.log(this.userDetails);
 	}
 };

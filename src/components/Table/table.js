@@ -8,7 +8,7 @@ export default {
 		},
 		tableData: {
 			required: true,
-			default: []
+			default: () => []
 		},
 		theme: {
 			type: String,

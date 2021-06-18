@@ -56,7 +56,7 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">No. Research/month</p>
-								<h4 class="detail-content">{{ userDetails.monthlyResearch }} / 200</h4>
+								<h4 class="detail-content">{{ userDetails.researches_performed }} / {{ userDetails.monthly_research }}</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Profession</p>
@@ -74,7 +74,7 @@
 						<v-table
 							:tableHeaders="tableHeaders"
 							:loading="pageLoading"
-							:tableData="history"
+							:tableData="history.data"
 							theme="contact__research"
 							@rowClick="showResearch"
 							@checkAll="checkAll"
@@ -213,7 +213,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.firstName"
+									v-model="userDetails.first_name"
 									width="204px"
 									name="First Name"
 									placeholder="John"
@@ -222,7 +222,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.lastName"
+									v-model="userDetails.last_name"
 									width="204px"
 									name="Last Name"
 									placeholder="Doe"
@@ -234,7 +234,8 @@
 								rules="required"
 								labelVisible
 								labelColor="gray"
-								v-model="form.email"
+								:disabled="true"
+								v-model="userDetails.email"
 								width="100%"
 								name="Email Address"
 								placeholder="johndoe@email.com"
@@ -245,7 +246,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.organisation"
+									v-model="userDetails.organisation"
 									width="204px"
 									name="Organisation"
 									placeholder="Microsoft"
@@ -254,7 +255,7 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.researches"
+									v-model="userDetails.monthly_research"
 									width="204px"
 									name="No. Research/month"
 									placeholder="200"
@@ -266,23 +267,22 @@
 									rules="required"
 									labelVisible
 									labelColor="gray"
-									v-model="form.profession"
+									v-model="userDetails.profession"
 									width="204px"
 									name="Profession"
 									placeholder="Product"
 								/>
-								<text-input
-									rules="required"
-									labelVisible
-									labelColor="gray"
-									v-model="form.role"
-									width="204px"
-									name="Role"
-									placeholder="Content Creator"
-								/>
+								<div class="form-group">
+									<label class="select-label" for="admin">Role</label>
+									<select class="select-input" v-model="userDetails.role" width="204px" name="adminRole" id="adminRole">
+										<option value="user">User</option>
+										<option value="admin">Admin</option>
+										<option value="superAdmin">Super Admin</option>
+									</select>
+								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary">
+								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>
