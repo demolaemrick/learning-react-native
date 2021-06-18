@@ -120,10 +120,55 @@ export default {
 			subscribeResearch: 'search_services/subscribeResearch',
 			getSettings: 'users_management/getSettings',
 			userSettings: 'users_management/settings',
+			deactivateUser: 'users_management/deactivateUser',
+			activateUser: 'users_management/activateUser',
 			updateUser: 'users_management/updateUser'
 		}),
 		onKeywordsChange(searchType, event) {
 			this.settings[searchType] = event.target.value.split(',');
+		},
+		statusToggle() {
+			this.userDetails.status === 'active' ? this.deactivate() : this.activate();
+		},
+		async activate() {
+			try {
+				const changeStatus = await this.activateUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+		async deactivate() {
+			try {
+				const changeStatus = await this.deactivateUser(this.userId);
+				const { status, statusText } = changeStatus;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: changeStatus.data.message,
+						showAlert: true
+					});
+					this.fetchUser();
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
 		},
 		async getUserSettings() {
 			this.loading = false;
