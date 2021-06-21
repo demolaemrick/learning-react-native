@@ -54,8 +54,11 @@
 						<!-- <Status :status="stat" /> -->
 					</td>
 					<td class="table__row-item">
-						{{ item.last_research_date | moment('MMMM D, YYYY') }} |
-						<span class="time">{{ item.last_research_date | moment(' h:mm:ss a') }}</span>
+						<template v-if="item.last_research_date"
+							>{{ item.last_research_date | moment('MMMM D, YYYY') }} |
+							<span class="time">{{ item.last_research_date | moment(' h:mm:ss a') }}</span></template
+						>
+						<template v-else>-</template>
 					</td>
 					<td class="table__row-item dropdown" @click.stop>
 						<toggle-dropdown>

@@ -43,7 +43,7 @@
 								<p class="mb-1 detail-name">Status</p>
 								<div class="flex flex__item-center">
 									<div class="mr-1">
-										<Toggle :itemKey="userDetails.status === 'active' ? true : false" />
+										<Toggle @change="statusToggle()" :itemKey="userDetails.status === 'active' ? true : false" />
 									</div>
 									<h4 class="detail-content">{{ userDetails.status }}</h4>
 								</div>
@@ -56,7 +56,10 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">No. Research/month</p>
-								<h4 class="detail-content">{{ userDetails.researches_performed }} / {{ userDetails.monthly_research }}</h4>
+								<h4 class="detail-content">
+									{{ userDetails.researches_performed }} /
+									{{ userDetails.monthly_research }}
+								</h4>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Profession</p>
@@ -136,7 +139,7 @@
 								<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 								<p class="emptyState-text">No user record found</p>
 								<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
-								<c-button size="large" buttonType="primary">Upload Contact</c-button>
+								<c-button size="large" buttonType="primary" @click="toggleUploadContact">Upload Contact</c-button>
 							</div>
 						</div>
 					</div>

@@ -13,6 +13,13 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
+							<li
+								class="dropdown__item"
+								v-if="userDetails.role !== 'user'"
+								@click="$router.push({ path: '/dashboard/users' })"
+							>
+								Dashboard
+							</li>
 							<li class="dropdown__item" @click="gotoSettings">Settings</li>
 							<li ref="logout_user" class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>

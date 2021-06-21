@@ -50,7 +50,7 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						this.$router.push({ name: 'Admin' });
+						this.$router.push({ path: '/dashboard/users' });
 					} else {
 						await this.getHistory();
 					}

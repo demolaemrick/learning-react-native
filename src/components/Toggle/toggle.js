@@ -10,15 +10,5 @@ export default {
 		itemValue() {
 			return this.itemKey;
 		}
-	},
-	data() {
-		return {
-			//itemKey: false
-		};
-	},
-	methods: {
-		onOptionToggle() {
-			console.log(this.itemKey);
-		}
 	}
 };
