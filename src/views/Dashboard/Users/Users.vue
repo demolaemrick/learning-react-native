@@ -30,14 +30,7 @@
 		</div>
 
 		<div>
-			<v-table
-				:loading="usersLoading"
-				:tableHeaders="tableHeaders"
-				:tableData="users"
-				theme="contact__research"
-				@rowClick="showUser"
-				@checkAll="checkAll"
-			>
+			<v-table :loading="usersLoading" :tableHeaders="tableHeaders" :tableData="users" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item" @click.stop>
 						<div class="check-input">

@@ -81,128 +81,6 @@ export default {
 					name: ' '
 				}
 			],
-			history: [
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 1,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '20',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 2,
-					status: {
-						statusCode: 'INACTIVE',
-						message: 'Suspended'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 3,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Lani Juyi',
-					email: 'Lani@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 4,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 5,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 6,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 7,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 8,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 9,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 10,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				}
-			],
 			currentPage: 0,
 			total: 0,
 			limit: 50,
@@ -401,19 +279,6 @@ export default {
 				this.loading = false;
 			}
 		},
-		checkAll(event) {
-			if (event.target.checked) {
-				this.history.forEach((item) => {
-					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
-						this.checkedContacts.push(item.rowId);
-						return item.rowId;
-					}
-					return item.rowId;
-				});
-			} else {
-				this.checkedContacts = [];
-			}
-		},
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
 			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
@@ -522,7 +387,6 @@ export default {
 		},
 		async searchPage(payload) {
 			this.loading = true;
-			// if (this.searchQuery.length >= 2){
 			try {
 				const response = await this.search(payload);
 				if (response.data.response.data.length) {
@@ -541,12 +405,11 @@ export default {
 				console.log(error);
 			} finally {
 				this.loading = false;
-				// }
 			}
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			}
