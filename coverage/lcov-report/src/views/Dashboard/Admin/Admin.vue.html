@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.36% </span>
+                <span class="strong">16.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/144</span>
+                <span class='fraction'>25/148</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.36% </span>
+                <span class="strong">16.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/144</span>
+                <span class='fraction'>25/148</span>
             </div>
         
             
@@ -526,7 +526,8 @@
 <a name='L468'></a><a href='#L468'>468</a>
 <a name='L469'></a><a href='#L469'>469</a>
 <a name='L470'></a><a href='#L470'>470</a>
-<a name='L471'></a><a href='#L471'>471</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -696,7 +697,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -716,6 +725,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -952,17 +965,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -997,7 +999,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ValidationObserver } from 'vee-validate';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
@@ -1139,8 +1141,11 @@ export default {
 			totalPages: 5,
 			limit: 50,
 			page: 1,
+			total: 0,
+			count: 0,
+			nextPage: null,
 			admins: [],
-			adminInfo: null,
+			adminInfo: {},
 			currentAdmin: {},
 			adminId: null,
 			searchQuery: null,
@@ -1168,6 +1173,11 @@ export default {
 	mounted() {
 		this.getAdmins();
 	},
+	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		})
+	},
 	methods: {
 		...mapActions({
 			adminInvite: 'admin_management/adminInvite',
@@ -1186,6 +1196,10 @@ export default {
 				const { status, data, statusText } = response;
 <span class="missing-if-branch" title="else path not taken" >E</span>				if (status === 200 &amp;&amp; statusText === 'OK') {
 					this.admins = data.data.data;
+<span class="cstat-no" title="statement not covered" >					this.count = data.data.count;</span>
+<span class="cstat-no" title="statement not covered" >					this.currentPage = data.data.currentPage;</span>
+<span class="cstat-no" title="statement not covered" >					this.total = Math.ceil(data.data.count / this.limit);</span>
+<span class="cstat-no" title="statement not covered" >					this.nextPage = data.data.nextPage;</span>
 				}
 			} catch (error) {
 				console.log(error);
@@ -1424,17 +1438,6 @@ export default {
 <span class="cstat-no" title="statement not covered" >				this.loading = false;</span>
 			}
 		},
-		// async searchPage() {
-		// 	this.adminLoading = true;
-		// 	try {
-		// 		const response = await this.adminSearch(this.searchQuery);
-		// 		this.admins = response.data.response.data;
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	} finally {
-		// 		this.adminLoading = false;
-		// 	}
-		// }
 <span class="fstat-no" title="function not covered" >		async searchPage() {</span>
 <span class="cstat-no" title="statement not covered" >			this.adminLoading = true;</span>
 <span class="cstat-no" title="statement not covered" >			try {</span>
@@ -1473,7 +1476,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jun 18 2021 10:46:57 GMT+0100 (West Africa Standard Time)
+                at Fri Jun 18 2021 17:21:10 GMT+0100 (West Africa Standard Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

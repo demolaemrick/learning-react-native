@@ -8,15 +8,7 @@
 			<h4 v-if="users">{{ users.length }} Users</h4>
 			<div class="search-section">
 				<!-- <form action=""> -->
-				<TextInput
-					class="mb-0"
-					type="text"
-					placeholder="Search"
-					v-model="searchQuery"
-					:icon="{ type: 'search' }"
-					width="509px"
-					@keyup.enter="searchPage({ q: searchQuery })"
-				/>
+				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
 				<!-- </form> -->
 				<span class="mx-1">
 					<c-button size="small" buttonType="outline" @click="toggleFilterModal">

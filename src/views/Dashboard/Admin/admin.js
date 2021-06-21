@@ -12,6 +12,7 @@ import Toggle from '@/components/Toggle';
 import InputTag from '@/components/InputTag';
 import StatusTag from '@/components/StatusTag';
 import VButton from '@/components/Button';
+import debounce from 'lodash.debounce';
 
 export default {
 	name: 'Dashboard',
@@ -459,13 +460,10 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: {
-			immediate: true,
-			handler() {
-				if (this.searchQuery === null || this.searchQuery === '') {
-					this.getAdmins();
-				}
+		searchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.searchPage({ q: newVal });
 			}
-		}
+		}, 600)
 	}
 };

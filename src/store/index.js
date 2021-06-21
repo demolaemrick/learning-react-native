@@ -67,10 +67,6 @@ export default new Vuex.Store({
 	actions: {
 		showAlert: ({ commit }, data) => {
 			commit('updateAlert', data);
-
-			// setTimeout(() => {
-			// 	commit('resetAlert');
-			// }, 7000);
 		}
 	},
 	modules: {

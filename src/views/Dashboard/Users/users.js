@@ -12,6 +12,7 @@ import RadioBtn from '@/components/RadioButton';
 import Status from '@/components/Status';
 import StatusTag from '@/components/StatusTag';
 import { mapActions } from 'vuex';
+import debounce from 'lodash.debounce';
 
 export default {
 	name: 'Users',
@@ -521,6 +522,7 @@ export default {
 		},
 		async searchPage(payload) {
 			this.loading = true;
+			// if (this.searchQuery.length >= 2){
 			try {
 				const response = await this.search(payload);
 				if (response.data.response.data.length) {
@@ -539,17 +541,15 @@ export default {
 				console.log(error);
 			} finally {
 				this.loading = false;
+				// }
 			}
 		}
 	},
 	watch: {
-		searchQuery: {
-			immediate: true,
-			handler() {
-				if (this.searchQuery === null || this.searchQuery === '') {
-					this.getAllUsers();
-				}
+		searchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.searchPage({ q: newVal });
 			}
-		}
+		}, 600)
 	}
 };
