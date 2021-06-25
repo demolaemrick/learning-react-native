@@ -18,7 +18,6 @@
 				<span class="mx-1"> </span>
 			</div>
 		</div>
-
 		<div>
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
