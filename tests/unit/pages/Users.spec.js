@@ -315,10 +315,7 @@ describe('Users', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper
-			.findAllComponents(VButton)
-			.at(0)
-			.trigger('click');
+		wrapper.findAllComponents(VButton).at(0).trigger('click');
 		expect(toggleCreateUser).toHaveBeenCalled();
 	});
 
@@ -426,10 +423,7 @@ describe('Users', () => {
 				toggleFilterModal
 			}
 		});
-		wrapper
-			.findAllComponents(VButton)
-			.at(1)
-			.trigger('click');
+		wrapper.findAllComponents(VButton).at(1).trigger('click');
 		// console.log(filter);
 		expect(toggleFilterModal).toHaveBeenCalled();
 	});
@@ -583,11 +577,7 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper
-			.find('.table__wrapper')
-			.findAll('td')
-			.at(6)
-			.find('.dropdown__wrapper');
+		const icon = wrapper.find('.table__wrapper').findAll('td').at(6).find('.dropdown__wrapper');
 		console.log(icon);
 		// icon.trigger('click')
 		await wrapper.vm.$nextTick();
