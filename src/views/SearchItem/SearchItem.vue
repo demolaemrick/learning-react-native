@@ -149,5 +149,8 @@
 	h6 {
 		margin-bottom: 10px;
 	}
+	.default-blue {
+		background: #fdd4e1;
+	}
 }
 </style>
