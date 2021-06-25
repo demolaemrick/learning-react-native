@@ -36,7 +36,7 @@ export default {
 			activateModal: false,
 			suspendModal: false,
 			toggleClass: true,
-			statusOption: 'active',
+			statusOption: '',
 			userInfo: null,
 			statusType: [
 				{
@@ -96,8 +96,8 @@ export default {
 			userId: null,
 			userDetails: [],
 			contactToModify: {},
-			searchQuery: null,
-			filterData: null
+			searchQuery: '',
+			filterData: ''
 		};
 	},
 	props: {
@@ -154,6 +154,12 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
+			this.getAllUsers();
+		},
+		clearFilter() {
+			this.filterData = '';
+			this.statusOption = '';
+			this.toggleFilterModal();
 			this.getAllUsers();
 		},
 		async registerUser() {

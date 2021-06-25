@@ -170,9 +170,9 @@
 							<div @click="displaySearchItem('contact_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
+									<p class="searched__item-score">{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%</p>
 								</span>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html.snippet" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
@@ -254,9 +254,9 @@
 							<div @click="displaySearchItem('company_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
+									<p class="searched__item-score">{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%</p>
 								</span>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html.snippet" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"

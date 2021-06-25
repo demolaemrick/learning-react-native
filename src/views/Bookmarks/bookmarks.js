@@ -120,7 +120,6 @@ export default {
 			}
 		},
 		async btnRemoveFromBookMarks(dataItem) {
-			console.log(dataItem);
 			await this.removeFromBookmarks({
 				url: dataItem.url
 			});

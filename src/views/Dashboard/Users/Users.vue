@@ -213,11 +213,12 @@
 				<form action="">
 					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
-							<text-input rules="required" labelVisible width="100%" name="Name" placeholder="John" v-model="filterData" />
+							<text-input labelVisible width="100%" name="Name" placeholder="John" v-model="filterData" />
 
 							<RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
 
-							<div class="flex-end">
+							<div class="flex-end flex__item-center">
+								<div class="clear-filter" @click="clearFilter">Clear Filter</div>
 								<c-button
 									class="submit"
 									size="large"

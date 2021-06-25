@@ -37,7 +37,13 @@
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Last Research Date</p>
-								<h4 class="detail-content">Feb 20,2021 | 12:38 pm</h4>
+								<template v-if="userDetails.last_research_date"
+									>{{ userDetails.last_research_date | moment('MMMM D, YYYY') }} |
+									<span class="detail-content">{{
+										userDetails.last_research_date | moment(' h:mm:ss a')
+									}}</span></template
+								>
+								<template v-else>-</template>
 							</div>
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Status</p>
@@ -115,7 +121,7 @@
 								</td>
 								<td class="table__row-item">
 									<template v-if="item.research_score === 0.1 || item.research_score === null">-</template>
-									<template v-else>{{ item.research_score.toPrecision(4) * 100 }}%</template>
+									<template v-else>{{ Math.round(item.research_score.toPrecision(4) * 100) }}%</template>
 								</td>
 								<td class="table__row-item">{{ item.updatedAt | moment('from', 'now') }}</td>
 								<td class="table__row-item status">
