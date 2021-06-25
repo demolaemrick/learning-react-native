@@ -45,9 +45,11 @@
 							>
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%</p>
+									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
+										{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%
+									</p>
 								</span>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 								<div
 									v-if="!dataItem.is_bookmarked"
 									@click="btnAddToBookMarks({ type: searchType, index: j, ...dataItem })"
