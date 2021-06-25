@@ -174,7 +174,7 @@
 										{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%
 									</p>
 								</span>
-								<p v-if="dataItem.meta.html.snippet" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
@@ -260,7 +260,7 @@
 										{{ Math.round(dataItem.meta.relevanceScore.toPrecision(4) * 100) }}%
 									</p>
 								</span>
-								<p v-if="dataItem.meta.html.snippet" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
