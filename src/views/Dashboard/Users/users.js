@@ -1,5 +1,4 @@
 import { ValidationObserver } from 'vee-validate';
-import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
@@ -227,7 +226,6 @@ export default {
 	},
 	components: {
 		ValidationObserver,
-		CButton,
 		TextInput,
 		VTable,
 		VHeader,
@@ -414,8 +412,12 @@ export default {
 				this.checkedContacts = [];
 			}
 		},
+		add(num1, num2) {
+			return num1 * num2;
+		},
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
+			console.log(item);
 			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.deactivateModal = true;
 		},
@@ -506,23 +508,8 @@ export default {
 			}
 		},
 
-		async fetchUser() {
-			this.userLoading = true;
-			try {
-				this.userDetails = await this.getSingleUser(this.userId);
-				const { status, data, statusText } = this.userDetails;
-				if (status === 200 && statusText === 'OK') {
-					this.userDetails = data.data;
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.userLoading = false;
-			}
-		},
 		async searchPage(payload) {
 			this.loading = true;
-			// if (this.searchQuery.length >= 2){
 			try {
 				const response = await this.search(payload);
 				if (response.data.response.data.length) {
@@ -541,7 +528,6 @@ export default {
 				console.log(error);
 			} finally {
 				this.loading = false;
-				// }
 			}
 		}
 	},

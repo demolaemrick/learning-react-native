@@ -8,6 +8,7 @@ const config = {
 	},
 	collectCoverage: true,
 	collectCoverageFrom: ['<rootDir>/src/**/*.vue']
+	// collectCoverageFrom: ['**/*.{js,vue}', '!**/node_modules/**', '!**/coverage/**'],
 };
 
 module.exports = config;

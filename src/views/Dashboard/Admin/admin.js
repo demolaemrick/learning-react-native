@@ -197,6 +197,7 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.admins = data.data.data;
+					console.log(this.admins);
 					this.count = data.data.count;
 					this.currentPage = data.data.currentPage;
 					this.total = Math.ceil(data.data.count / this.limit);
