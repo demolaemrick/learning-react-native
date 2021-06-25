@@ -71,21 +71,21 @@ describe('ContactResearch.vue', () => {
 			bulk_research: jest.fn(),
 			deleteSingleResearch: jest.fn()
 		}),
-        (store = new Vuex.Store({
-            actions: {
-                showAlert: jest.fn()
-            },
-            modules: {
-                search_services: {
-                    namespaced: true,
-                    mutations: {
-                        saveSearchedResult: jest.fn(),
-                        saveSearchPayload: jest.fn()
-                    },
-                    actions
-                }
-            }
-        }));
+		(store = new Vuex.Store({
+			actions: {
+				showAlert: jest.fn()
+			},
+			modules: {
+				search_services: {
+					namespaced: true,
+					mutations: {
+						saveSearchedResult: jest.fn(),
+						saveSearchPayload: jest.fn()
+					},
+					actions
+				}
+			}
+		}));
 	});
 	it('should be a vue instance', () => {
 		const wrapper = shallowMount(ContactResearch, {
