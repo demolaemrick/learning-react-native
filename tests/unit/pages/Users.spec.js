@@ -445,7 +445,6 @@ describe('Users', () => {
 			.findAllComponents(VButton)
 			.at(1)
 			.trigger('click');
-		// console.log(filter);
 		expect(toggleFilterModal).toHaveBeenCalled();
 	});
 
@@ -475,7 +474,6 @@ describe('Users', () => {
 		expect(wrapper.vm.loading).toBeFalsy();
 
 		// await flushPromises();
-		// console.log(wrapper.vm.searchQuery);
 		// jest.runAllTimers();
 		// jest.useRealTimers();
 		// expect(search).toHaveBeenCalled();
@@ -585,7 +583,6 @@ describe('Users', () => {
 			localVue
 		});
 		const pageTitle = wrapper.find('h2');
-		// console.log(pageTitle);
 		expect(pageTitle.exists()).toBe(true);
 	});
 
@@ -619,9 +616,7 @@ describe('Users', () => {
 			.findAll('td')
 			.at(6)
 			.find('.dropdown__wrapper');
-		// console.log(icon);
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
-		// console.log(wrapper.find('.dropdown__list-wrapper'))
 	});
 });
