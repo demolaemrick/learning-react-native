@@ -127,7 +127,7 @@
 									class="inputField"
 									type="email"
 									@keyup.enter="addEmail"
-									v-model="emailInput"
+									 v-model="emailInput"
 								/>
 								<input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
 							</div>

@@ -27,7 +27,7 @@ export default {
 				email: '',
 				role: ''
 			},
-			emailInput: '',
+			emailInput: null,
 			loading: false,
 			sendInvites: false,
 			deactivateModal: false,
@@ -298,10 +298,11 @@ export default {
 			}
 		},
 		addEmail(e) {
-			if (e.target.validity.valid) {
+			if (this.emailInput !== null && e.target.validity.valid) {
 				this.emailList.push(this.emailInput);
 				this.emailInput = '';
 			}
+			console.log('email', this.emailList);
 		},
 		deleteEmail(index) {
 			const list = this.emailList;
