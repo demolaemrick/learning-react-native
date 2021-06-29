@@ -60,6 +60,20 @@ let statusRes = {
 	statusText: 'OK'
 };
 
+let item = {
+	email: 'aileen.rioux@volley.com',
+	first_name: 'Aileen',
+	last_name: 'Rioux',
+	last_research_date: '2021-06-18T13:54:00.521Z',
+	monthly_research: 400,
+	organisation: 'Volley',
+	profession: 'BDR',
+	researches_performed: 5,
+	role: 'user',
+	status: 'active',
+	_id: '60992e95baa22116bb37d259'
+};
+
 let searchResponse = {
 	data: {
 		response: {
@@ -121,7 +135,7 @@ describe('Users', () => {
 	});
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
-		wrapper = shallowMount(Users, {
+		const wrapper = shallowMount(Users, {
 			store,
 			localVue,
 			methods: {
@@ -129,6 +143,7 @@ describe('Users', () => {
 			}
 		});
 		expect(getAllUsers).toHaveBeenCalled();
+		expect(wrapper.vm).toBeTruthy();
 	});
 
 	it('tests that the loader displays', async () => {
@@ -521,31 +536,47 @@ describe('Users', () => {
 		expect(wrapper.vm.registerUser());
 	});
 
-	// it('tests that the checkAll method is called', () => {
-	// 	const event = new Event('target')
-	// 	const wrapper = shallowMount(Users)
-	// 	expect(wrapper.vm.checkAll(event));
-	// });
+	it('tests that the checkAll method is called', () => {
+		let event = new Event('target');
+		event = {
+			target: {
+				checked: true
+			}
+		};
+		const wrapper = shallowMount(Users);
+		expect(wrapper.vm.checkAll(event));
+	});
 
 	it('tests that the deactivate modal is toggled', () => {
-		let item = {
-			email: 'aileen.rioux@volley.com',
-			first_name: 'Aileen',
-			last_name: 'Rioux',
-			last_research_date: '2021-06-18T13:54:00.521Z',
-			monthly_research: 400,
-			organisation: 'Volley',
-			profession: 'BDR',
-			researches_performed: 5,
-			role: 'user',
-			status: 'active',
-			_id: '60992e95baa22116bb37d259'
-		};
 		const wrapper = shallowMount(Users, {
 			store,
 			localVue
 		});
 		expect(wrapper.vm.openDeactivateModal(item));
+	});
+
+	it('tests that the activate modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openActivateModal(item));
+	});
+
+	it('tests that the suspend modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openSuspendModal(item));
+	});
+
+	it('tests that the edit modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openEditModal(item));
 	});
 
 	it('shows page title', () => {
@@ -588,8 +619,8 @@ describe('Users', () => {
 			.findAll('td')
 			.at(6)
 			.find('.dropdown__wrapper');
-		console.log(icon);
-		// icon.trigger('click')
+		// console.log(icon);
+		icon.trigger('click')
 		await wrapper.vm.$nextTick();
 		// console.log(wrapper.find('.dropdown__list-wrapper'))
 	});

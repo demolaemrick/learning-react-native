@@ -150,6 +150,7 @@ export default {
 			currentAdmin: {},
 			adminId: null,
 			searchQuery: null,
+			adminToModify: {},
 			roles: ['User', 'Admin', 'Super Admin']
 		};
 	},
@@ -323,8 +324,10 @@ export default {
 			this.currentPage = page;
 		},
 		openDeactivateModal(item) {
+			console.log(item);
 			const { _id, last_name, first_name } = item;
 			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
+			console.log(this.adminToModify);
 			this.deactivateModal = true;
 		},
 		async deactivate() {
