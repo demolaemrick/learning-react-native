@@ -620,7 +620,7 @@ describe('Users', () => {
 			.at(6)
 			.find('.dropdown__wrapper');
 		// console.log(icon);
-		icon.trigger('click')
+		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 		// console.log(wrapper.find('.dropdown__list-wrapper'))
 	});
