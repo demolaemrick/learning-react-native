@@ -7,6 +7,9 @@ import VButton from '@/components/Button';
 import VTable from '@/components/Table';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
+import VueRouter from 'vue-router';
+import debounce from 'lodash.debounce';
+
 // import debounce from 'lodash.debounce';
 jest.useFakeTimers();
 
@@ -71,7 +74,7 @@ let item = {
 	researches_performed: 5,
 	role: 'user',
 	status: 'active',
-	_id: '60992e95baa22116bb37d259'
+	_id: '1'
 };
 
 let searchResponse = {
@@ -95,7 +98,7 @@ let searchResponse = {
 
 describe('Users', () => {
 	let store;
-
+	const router = new VueRouter({ routes: [{ path: 'users', name: 'Users' }, { path: '/dashboard/user/:userId?', name: 'User', meta: 'user', query: { userId: item._id } }] });
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -577,6 +580,44 @@ describe('Users', () => {
 		expect(wrapper.vm.openEditModal(item));
 	});
 
+	it('tests that the showUser method is called', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue,
+			mocks: {
+				$router: router
+			}
+		});
+		expect(wrapper.vm.showUser(item));
+	});
+
+	// it('tests that searchQuery watcher is triggered', async () => {
+	// 	const wrapper = shallowMount(Users, {
+	// 		store,
+	// 		localVue,
+	// 		mocks: {
+	// 			$router: router
+	// 		}
+	// 	});
+
+	// 	jest.useFakeTimers();
+
+	// 	const searchPage = debounce(() => jest.fn(), 700);
+
+	// 	wrapper.setMethods({
+	// 		searchPage
+	// 	});
+
+	// 	await wrapper.setData({
+	// 		searchQuery: 'lani'
+	// 	});
+
+	// 	jest.advanceTimersByTime(700);
+	// 	// jest.runAllTimers();
+
+	// 	expect(searchPage.called).toBe(true);
+	// })
+
 	it('shows page title', () => {
 		const wrapper = shallowMount(Users, {
 			store,
@@ -618,5 +659,23 @@ describe('Users', () => {
 			.find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
+	});
+
+	it('tests that the editUser method is called', async () => {
+		const wrapper = mount(Users, {
+			store,
+			response: statusRes,
+			data() {
+				return {
+					showEditModal: true,
+					userInfo: item
+				};
+			}
+		});
+		expect(wrapper.vm.toggleClass).toBe(true);
+		const btn = wrapper.find({ ref: 'editUser' });
+		btn.trigger('click');
+		await expect(wrapper.vm.editUser());
+		expect(wrapper.vm.$data.loading).toBe(false);
 	});
 });

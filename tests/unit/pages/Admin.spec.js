@@ -19,7 +19,7 @@ localVue.component('paginate', Paginate);
 let admins = {
 	status: 200,
 	data: {
-		response: {
+		data: {
 			data: [
 				{
 					email: 'buhari@enyata.com',
@@ -34,7 +34,12 @@ let admins = {
 					updatedAt: '2021-06-24T09:18:29.667Z',
 					_id: '60992e95baa22116bb37d258'
 				}
-			]
+			],
+			count: 1,
+			currentPage: 1,
+			prevPage: null,
+			nextPage: null
+
 		}
 	},
 	statusText: 'OK'
@@ -72,12 +77,12 @@ describe('Admin', () => {
 			modules: {
 				admin_management: {
 					actions: {
-						adminInvite: jest.fn(),
+						adminInvite: jest.fn().mockResolvedValue(statusRes),
 						allAdmins: jest.fn().mockResolvedValue(admins),
 						deactivateAdmin: jest.fn().mockResolvedValue(statusRes),
 						activateAdmin: jest.fn().mockResolvedValue(statusRes),
 						suspendAdmin: jest.fn().mockResolvedValue(statusRes),
-						updateAdmin: jest.fn(),
+						updateAdmin: jest.fn().mockResolvedValue(statusRes),
 						adminSearch: jest.fn(),
 						showAlert: jest.fn()
 					},
@@ -108,6 +113,14 @@ describe('Admin', () => {
 
 	it('tests that send invite modal is called on button click', async () => {
 		const inviteAdmin = jest.fn();
+		let e = new Event('target');
+		e = {
+			target: {
+				validity: {
+					valid: true
+				}
+			}
+		};
 		const wrapper = mount(Admin, {
 			store,
 			data() {
@@ -123,13 +136,14 @@ describe('Admin', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		const btn = wrapper.find({ ref: 'inviteAdmin' });
-		btn.trigger('click');
-
+	
 		expect(wrapper.vm.$data.emailInput).not.toEqual('');
 		await wrapper.trigger('keydown', {
 			key: 'enter'
 		});
+		const btn = wrapper.find({ ref: 'inviteAdmin' });
+		btn.trigger('click');
+
 		expect(wrapper.vm.inviteAdmin());
 		expect(wrapper.vm.$data.emailList).toHaveLength(1);
 	});
@@ -366,9 +380,10 @@ describe('Admin', () => {
 		expect(wrapper.vm.$data.emailList).toHaveLength(1);
 	});
 
-	it('tests that the editAdmin methos is called', async () => {
+	it('tests that the editAdmin method is called', async () => {
 		const wrapper = mount(Admin, {
 			store,
+			response: statusRes,
 			data() {
 				return {
 					showEditModal: true,
@@ -383,6 +398,16 @@ describe('Admin', () => {
 		expect(wrapper.vm.$data.loading).toBe(false);
 	});
 
+
+	// 	const wrapper = shallowMount(Admin, {
+	// 	store,
+	// 	methods: {
+	// 		addEmail
+	// 	}
+	// });
+	// 	expect(addEmail(e));
+	// });
+
 	it('tests that the add email method is called', () => {
 		let e = new Event('target');
 		e = {
@@ -392,7 +417,18 @@ describe('Admin', () => {
 				}
 			}
 		};
-		const wrapper = shallowMount(Admin);
+
+		const wrapper = shallowMount(Admin, {
+		store,
+		data() {
+			return {
+				loading: false,
+				sendInvites: true,
+				emailInput: 'lani@gmail.com',
+				emailList: ['text@gmail.com']
+			};
+		}
+	});
 		expect(wrapper.vm.addEmail(e));
 	});
 

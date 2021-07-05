@@ -58,7 +58,7 @@ jest.useFakeTimers();
 // };
 describe('search', () => {
 	let store;
-	const router = new VueRouter({ routes: [{ path: '/', name: 'Search', meta: {} }] });
+	const router = new VueRouter({ routes: [{ path: '/', name: 'Search' }] });
 	beforeEach(() => {
 		store = new Vuex.Store({
 			modules: {

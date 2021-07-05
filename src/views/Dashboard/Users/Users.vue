@@ -323,7 +323,7 @@
 								</div>
 							</div>
 							<div class="flex flex__end">
-								<v-button class="submit" size="large" buttonType="primary" @click="editUser">
+								<v-button class="submit" size="large" buttonType="primary" @click="editUser" ref="editUser">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</v-button>

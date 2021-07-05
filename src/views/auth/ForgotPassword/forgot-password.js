@@ -32,11 +32,6 @@ export default {
 					this.$router.push({ name: 'CheckInbox' });
 					return true;
 				}
-				this.showAlert({
-					status: 'error',
-					message: 'Something went wrong',
-					showAlert: true
-				});
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
