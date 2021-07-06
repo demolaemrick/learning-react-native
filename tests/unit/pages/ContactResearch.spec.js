@@ -16,6 +16,16 @@ jest.mock('axios', () => ({
 	get: Promise.resolve(true)
 }));
 
+const csv = `
+S/N,FIirst Name,Last Name,Age
+1,Lani,Michael,12
+2,Ore,Abass,13
+3,Ayo,Tope,14
+4,Isreal,Ola,15
+`;
+let exportCSVRes = {
+	data: csv
+};
 let research = {
 	status: 200,
 	statusText: 'OK',
@@ -34,8 +44,11 @@ let research = {
 					linkedin: 'https://www.linkedin.com/in/jeffbezos',
 					research_score: 0.6455,
 					role: 'CEO',
-					rowId: '3d9d0ec5-2e1b-4ab0-b7fb-0995940a08f2',
-					status: { statusCode: 'READY', message: 'Ready' },
+					rowId: '1',
+					status: {
+						statusCode: 'READY',
+						message: 'Ready'
+					},
 					updatedAt: '2021-06-18T11:23:46.719Z',
 					_id: '6082a70795b40450d58df056'
 				}
@@ -49,7 +62,10 @@ let subscribeResult = {
 		done: {
 			research_score: 0.5455,
 			rowId: '1',
-			status: { statusCode: 'READY', message: 'Ready' },
+			status: {
+				statusCode: 'READY',
+				message: 'Ready'
+			},
 			_id: '60d45e1e43b0bda463dff22f'
 		}
 	}
@@ -59,19 +75,28 @@ describe('ContactResearch.vue', () => {
 	let actions;
 	const router = new VueRouter({
 		routes: [
-			{ path: '/contact-research', name: 'ContactResearch' },
-			{ path: '/search-result', name: 'SearchResult', query: { rowId: '1' } }
+			{
+				path: '/contact-research',
+				name: 'ContactResearch'
+			},
+			{
+				path: '/search-result',
+				name: 'SearchResult',
+				query: {
+					rowId: '1'
+				}
+			}
 		]
 	});
+	actions = {
+		research_history: jest.fn().mockResolvedValue(research),
+		subscribeResearch: jest.fn().mockResolvedValue(subscribeResult),
+		export_history: jest.fn().mockResolvedValue(exportCSVRes),
+		bulk_research: jest.fn(),
+		deleteSingleResearch: jest.fn().mockResolvedValue(research)
+	};
 	beforeEach(() => {
-		(actions = {
-			research_history: jest.fn().mockResolvedValue(research),
-			subscribeResearch: jest.fn().mockResolvedValue(subscribeResult),
-			export_history: jest.fn(),
-			bulk_research: jest.fn(),
-			deleteSingleResearch: jest.fn()
-		}),
-		(store = new Vuex.Store({
+		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
 			},
@@ -85,7 +110,7 @@ describe('ContactResearch.vue', () => {
 					actions
 				}
 			}
-		}));
+		});
 	});
 	it('should be a vue instance', () => {
 		const wrapper = shallowMount(ContactResearch, {
@@ -120,7 +145,10 @@ describe('ContactResearch.vue', () => {
 	});
 
 	it('should call getHistory if status is 500', async () => {
-		const getHistory = jest.fn().mockResolvedValue({ ...subscribeResult, status: 500 });
+		const getHistory = jest.fn().mockResolvedValue({
+			...subscribeResult,
+			status: 500
+		});
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
@@ -179,7 +207,12 @@ describe('ContactResearch.vue', () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					history: research.data.data.history
+				};
+			}
 		});
 		expect(wrapper.vm.checkPendngStatus());
 	});
@@ -227,8 +260,114 @@ describe('ContactResearch.vue', () => {
 			router
 		});
 		wrapper.vm.openDeleteModal(rowId, full_name);
-		expect(wrapper.vm.contactToDelete).toStrictEqual({ rowId, full_name });
+		expect(wrapper.vm.contactToDelete).toStrictEqual({
+			rowId,
+			full_name
+		});
 		wrapper.vm.$nextTick();
 		expect(wrapper.vm.showModal).toBe(true);
+	});
+	it('upload bulk research', async () => {
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router
+		});
+		wrapper.vm.uploadBulkResearch();
+	});
+	it('delete research', async () => {
+		const getHistory = jest.fn().mockResolvedValue(research);
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					history: research.data.data.history,
+					showModal: true
+				};
+			},
+			methods: {
+				getHistory
+			}
+		});
+		wrapper.vm.deleteResearch();
+		const { status, statusText } = research;
+		if (status === 200 && statusText === 'OK') {
+			expect(getHistory).toHaveBeenCalled();
+		}
+	});
+	it('tests csv method', () => {
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router
+		});
+		expect(wrapper.vm.csvJSON(csv));
+	});
+	it('tests checkAll method', () => {
+		let e = new Event('target');
+		e = {
+			target: {
+				checked: true
+			}
+		};
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					history: research.data.data.history,
+					checkedContacts: []
+				};
+			}
+		});
+		expect(wrapper.vm.checkAll(e));
+		e.target.checked = false;
+		expect(wrapper.vm.checkAll(e));
+	});
+	it('tests clickCallBack method', () => {
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router
+		});
+		expect(wrapper.vm.clickCallback(1));
+	});
+	it('tests that the inputFile method is called', () => {
+		let newFile = {
+			size: 12234212312,
+			name: 'lani.jpeg'
+		};
+		const wrapper = shallowMount(ContactResearch, {
+			router,
+			store,
+			localVue,
+			data() {
+				return {
+					history: research.data.data.history
+				};
+			}
+		});
+		expect(wrapper.vm.inputFile(newFile));
+		newFile = {
+			name: 'lani.jpeg'
+		};
+		expect(wrapper.vm.inputFile(newFile));
+	});
+	it('tests export CSV method', () => {
+		const wrapper = shallowMount(ContactResearch, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					exportLoading: true,
+					checkedContacts: ['1']
+				};
+			}
+		});
+		expect(wrapper.vm.exportCSV());
 	});
 });

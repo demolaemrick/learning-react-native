@@ -247,16 +247,4 @@ describe('Bookmarks.vue', () => {
 		});
 		expect(wrapper.vm.screenType).toBe('small');
 	});
-	// it('watch rowId on route', async () => {
-	// 	wrapper = shallowMount(Bookmarks, {
-	// 		store,
-	// 		localVue,
-	// 		router
-	// 	});
-
-	// 	await flushPromises();
-	// 	wrapper.vm.$options.watch.$route.query.rowId.call(wrapper.vm, true);
-	// 	await wrapper.vm.$nextTick();
-	// 	expect(wrapper.vm.initUserBookmarks()).toHaveBeenCalled();
-	// });
 });

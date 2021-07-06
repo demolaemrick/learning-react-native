@@ -78,7 +78,7 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
-							<template v-else>{{ Math.round(item.research_score.toPrecision(4) * 100) }}%</template>
+							<template v-else>{{ (item.research_score * 100).toFixed(2) }}%</template>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.updatedAt | moment('from', 'now') }}

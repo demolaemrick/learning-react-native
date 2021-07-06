@@ -72,7 +72,7 @@ export default {
 				{
 					name: 'Last updated',
 					sortable: true,
-					sortHeader: 'createdAt'
+					sortHeader: 'updatedAt'
 				},
 				{
 					name: 'Research Status'
@@ -220,7 +220,6 @@ export default {
 						this.checkedContacts.push(item.rowId);
 						return item.rowId;
 					}
-					return item.rowId;
 				});
 			} else {
 				this.checkedContacts = [];
