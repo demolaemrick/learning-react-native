@@ -76,7 +76,6 @@ export default {
 		}
 	},
 	export_history: async ({ commit }, data) => {
-		console.log(data);
 		const url = 'research/export';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });

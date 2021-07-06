@@ -7,58 +7,89 @@ import CButton from '@/components/Button';
 import ValidationObserver from 'vee-validate';
 import VTabs from '@/components/Tabs';
 
-jest.mock('axios', () => ({
-	get: Promise.resolve('value'),
-	post: jest.fn((_url, _body) => {
-		return new Promise((resolve) => {
-			url = _url;
-			body = _body;
-			resolve(true);
-		});
-	})
-}));
-
-const response = {
-	data: {
-		message: 'error'
-	}
-};
 const localVue = createLocalVue();
 localVue.use(VueRouter);
 localVue.component('ValidationObserver', ValidationObserver);
 localVue.use(Vuex);
 
 jest.useFakeTimers();
-// const request = {
-// 	company: '',
-// 	company_research: {
-// 		ipo: [],
-// 		job_postings: [],
-// 		mergers_and_acquisitions: [],
-// 		product_launch: []
-// 	},
-// 	contact_research: {
-// 		awards: [],
-// 		blogs: [],
-// 		events: [],
-// 		features: [],
-// 		linkedin_activity: [],
-// 		podcasts: [],
-// 		promotion: [],
-// 		twitter_activity: [],
-// 		videos: []
-// 	},
-// 	full_name: '',
-// 	role: ''
-// };
-// const event = {
-// 	target: {
-// 		checked: true
-// 	}
-// };
+
+const csv = `
+S/N,FIirst Name,Last Name,Age
+1,Lani,Michael,12
+2,Ore,Abass,13
+3,Ayo,Tope,14
+4,Isreal,Ola,15
+`;
+let searchResult = {
+	status: 200,
+	data: {
+		company_research: [
+			{
+				createdAt: '2021-05-14T10:33:11.606Z',
+				description: 'AMZN',
+				relevance_score: 0.41000000000000003,
+				rowId: '3d9d0ec5-2e1b-4ab0-b7fb-0995940a08f2',
+				title: 'AMZN Stock Price',
+				type: 'company_research',
+				updatedAt: '2021-05-14T10:33:11.606Z',
+				url: 'https://www.marketwatch.com/investing/stock/amzn',
+				userId: '607ea1bf965bbe6414c00b13',
+				__v: 0,
+				_id: '609e51e7487a4982cfcb045a'
+			}
+		],
+		contact_research: [
+			{
+				createdAt: '2021-05-14T10:33:11.606Z',
+				description: 'AMZN',
+				relevance_score: 0.41000000000000003,
+				rowId: '3d9d0ec5-2e1b-4ab0-b7fb-0995940a08f2',
+				title: 'AMZN Stock Price',
+				type: 'company_research',
+				updatedAt: '2021-05-14T10:33:11.606Z',
+				url: 'https://www.marketwatch.com/investing/stock/amzn',
+				userId: '607ea1bf965bbe6414c00b13',
+				__v: 0,
+				_id: '609e51e7487a4982cfcb045a'
+			}
+		]
+	},
+	statusText: 'OK'
+};
+let researchResponse = {
+	status: 200,
+	statusCode: 'OK',
+	data: {
+		data: {
+			company: 'Tesla',
+			company_research: {
+				others: []
+			},
+			contact_research: {
+				others: []
+			},
+			full_name: 'Elon Musk',
+			research_score: 0.1,
+			role: 'CEO',
+			rowId: '2d299310-b459-4386-a023-3095436defb7',
+			socials: [],
+			status: {},
+			userId: '1'
+		}
+	}
+};
 describe('search', () => {
 	let store;
-	const router = new VueRouter({ routes: [{ path: '/', name: 'Search', meta: {} }] });
+	const router = new VueRouter({
+		routes: [
+			{ path: '/', name: 'Search', meta: {} },
+			{ path: '/login', name: 'Login' },
+			{ path: '/contact-research', name: 'ContactResearch' },
+			{ path: '/search-result', name: 'SearchResult' },
+			{ path: '/settings', name: 'Settings' }
+		]
+	});
 	beforeEach(() => {
 		store = new Vuex.Store({
 			modules: {
@@ -72,12 +103,26 @@ describe('search', () => {
 							is_settings: true,
 							role: 'admin'
 						})
+					},
+					mutations: {
+						logout: jest.fn()
 					}
 				},
 				user: {
 					namespaced: true,
 					actions: {
-						getSettings: jest.fn(() => Promise.reject({ response }))
+						getSettings: jest.fn().mockResolvedValue(searchResult)
+					}
+				},
+				search_services: {
+					namespaced: true,
+					mutations: {
+						saveSearchedResult: jest.fn(),
+						saveSearchPayload: jest.fn()
+					},
+					actions: {
+						research: jest.fn().mockResolvedValue(researchResponse),
+						bulk_research: jest.fn()
 					}
 				}
 			},
@@ -90,12 +135,39 @@ describe('search', () => {
 		const wrapper = shallowMount(Search, {
 			store,
 			localVue,
-			router
+			router,
+			payload: {
+				full_name: '',
+				company: '',
+				role: '',
+				company_research: [],
+				contact_research: []
+			}
 		});
 
 		expect(wrapper.vm).toBeTruthy();
 	});
 
+	it('should call getUserSettings', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router,
+			payload: {
+				full_name: '',
+				company: '',
+				role: '',
+				company_research: [],
+				contact_research: []
+			}
+		});
+		await expect(wrapper.vm.getUserSettings());
+		wrapper.vm.payload.contact_research = searchResult.data.contact_research;
+		wrapper.vm.payload.company_research = searchResult.data.company_research;
+		await wrapper.vm.$nextTick();
+		expect(wrapper.vm.payload.contact_research).toBe(searchResult.data.contact_research);
+		expect(wrapper.vm.payload.company_research).toBe(searchResult.data.company_research);
+	});
 	it('should show title text', () => {
 		const wrapper = shallowMount(Search, {
 			store,
@@ -137,230 +209,144 @@ describe('search', () => {
 		await flushPromises();
 		expect(wrapper.findComponent(CButton).attributes('disabled')).toBe('disabled');
 	});
-	// it('should shows error on empty name field', async () => {
-	// 	const wrapper = mount(Search, {
-	// 		store,
-	// 		localVue,
-	// 		router,
-	// 		stubs: {
-	// 			RouterLink: RouterLinkStub
-	// 		},
-	// 		data() {
-	// 			return {
-	// 				loading: false,
-	// 				payload: {}
-	// 			};
-	// 		},
-	// 		localVue
-	// 	});
 
-	// 	const textInput = wrapper.find('#name');
-	// 	await textInput.setValue('')
-	// 	await flushPromises();
+	it('should route to login', async () => {
+		const wrapper = shallowMount(Search, {
+			localVue,
+			store,
+			router
+		});
+		wrapper.vm.logoutUser();
+		await wrapper.vm.$nextTick();
+	});
+	it('tests csv method', () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router
+		});
+		expect(wrapper.vm.csvJSON(csv));
+	});
 
-	// 	expect(wrapper.find('#vee_name').text()).toBe('The name field is required');
-	// });
-	// it('should call the submit function with payload', async () => {
-	// 	const wrapper = mount(Login, {
-	// 		stubs: {
-	// 			RouterLink: RouterLinkStub
-	// 		},
-	// 		data() {
-	// 			return {
-	// 				loading: false,
-	// 				formData: {}
-	// 			};
-	// 		},
-	// 		localVue,
-	// 		store
-	// 	});
-
-	// 	wrapper.setData({
-	// 		formData: {
-	// 			email: 'esiaguleticia@gmail.com',
-	// 			password: '1234567'
-	// 		}
-	// 	});
-	// 	await wrapper.find('form').trigger('submit.prevent');
-	// 	await flushPromises();
-	// 	expect(actions.login).toHaveBeenCalledWith(expect.any(Object), {
-	// 		email: 'esiaguleticia@gmail.com',
-	// 		password: '1234567'
-	// 	});
-	// });
-
-	//TODO: test that it routes to the dashboard on success
+	it('tests that the inputFile method is called', () => {
+		let newFile = {
+			size: 12234212312,
+			name: 'lani.jpeg'
+		};
+		const wrapper = shallowMount(Search, {
+			router,
+			store,
+			localVue
+		});
+		expect(wrapper.vm.inputFile(newFile));
+		newFile = {
+			name: 'lani.jpeg'
+		};
+		expect(wrapper.vm.inputFile(newFile));
+	});
+	it('upload bulk research', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router
+		});
+		wrapper.vm.uploadBulkResearch();
+	});
+	it('tests submitSearch method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router
+		});
+		wrapper.vm.submitSearch();
+	});
+	it('tests openConfigModal method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					showConfigModal: false
+				};
+			}
+		});
+		wrapper.vm.openConfigModal();
+	});
+	it('tests closeConfigModal method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					showConfigModal: true
+				};
+			}
+		});
+		wrapper.vm.closeConfigModal();
+	});
+	it('tests gotoSettings method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					showConfigModal: true,
+					showMoreSearchSettings: false
+				};
+			}
+		});
+		wrapper.vm.gotoSettings();
+	});
+	it('tests routerEventHandler method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					showMoreSearchSettings: true
+				};
+			}
+		});
+		wrapper.vm.routerEventHandler('closeMoreSearchSettings');
+	});
+	it('tests btnApplyChanges method', async () => {
+		const wrapper = shallowMount(Search, {
+			store,
+			localVue,
+			router
+		});
+		wrapper.vm.btnApplyChanges();
+	});
+	it('tests that settings keyword method is called', () => {
+		let event = new Event('target');
+		event = {
+			target: {
+				value: 'community, buildup'
+			}
+		};
+		const wrapper = shallowMount(Search, {
+			router,
+			localVue,
+			store
+		});
+		expect(wrapper.vm.onKeywordsChange('company_research', event));
+	});
+	it('tests that tab is changed to import_contacts', () => {
+		const wrapper = mount(Search, {
+			router,
+			localVue,
+			store,
+			data() {
+				return {
+					activeTab: 'import_contacts'
+				};
+			}
+		});
+		expect(wrapper.vm.setActiveTab('import_contacts'));
+		expect(wrapper.vm.$data.activeTab).toBe('import_contacts');
+	});
 });
-// describe('Search.vue', () => {
-// 	let wrapper;
-// 	let $store;
-// 	let store;
-// 	beforeEach(() => {
-// 		store = new Vuex.Store({
-// 			dispatch: jest.fn(() =>
-// 				Promise.resolve({
-// 					data: {}
-// 				})
-// 			),
-// 			getters: {
-// 				//'search_services/getPayload': (state) => state.searchPayload,
-// 				'auth/getLoggedUser': (state) => state.userDetails
-// 			},
-// 			state: {
-// 				searchPayload: request,
-// 				isLoggedIn: false,
-// 				loggedUser: {},
-// 				userDetails: {
-// 					is_settings: false
-// 				}
-// 			},
-// 			actions: {
-// 				'user/getSettings': jest.fn(() =>
-// 					Promise.resolve({
-// 						data: {
-// 							company: 'Tesla',
-// 							company_research: {},
-// 							contact_research: {},
-// 							full_name: 'Elon Musk',
-// 							research_score: 0.6100000000000001,
-// 							role: 'CEO',
-// 							rowId: '7d775349-d346-4149-8f8f-009559d4c059',
-// 							socials: [],
-// 							status: {},
-// 							userId: '607ea1bf965bbe6414c00b13'
-// 						}
-// 					})
-// 				),
-// 				showAlert: jest.fn()
-// 			},
-// 			mutations: {
-// 				'search_services/saveSearchPayload': (state, data) => {
-// 					state.searchPayload = data;
-// 				},
-// 				'auth/logout': (state) => {
-// 					state.loggedUser = {};
-// 					state.isLoggedIn = false;
-// 				}
-// 			}
-// 		});
-// 		const router = new VueRouter({ routes: [{ path: '/', name: 'Search', meta: {} }] });
-// 		wrapper = mount(Search, {
-// 			localVue,
-// 			router,
-// 			store,
-// 			mocks: {
-// 				$store
-// 			}
-// 		});
-// 	});
-
-// 	test('Render without errors', () => {
-// 		expect(wrapper.isVueInstance).toBeTruthy();
-// 	});
-// 	test('call onChildUpdate function', () => {
-// 		wrapper.vm.onChildUpdate();
-// 	});
-// 	test('call applyAllOptionsToggle function', () => {
-// 		wrapper.vm.applyAllOptionsToggle();
-// 	});
-
-// 	test('call onKeywordsChange function', () => {
-// 		wrapper.vm.onKeywordsChange();
-// 	});
-// 	test('call allCompanyOptionsToggle function', () => {
-// 		wrapper.vm.allCompanyOptionsToggle();
-// 	});
-// 	test('call closeConfigModal function', () => {
-// 		wrapper.vm.closeConfigModal();
-// 	});
-// 	test('call openConfigModal function', () => {
-// 		wrapper.vm.openConfigModal();
-// 	});
-// 	test('call gotoSettings function', () => {
-// 		wrapper.vm.gotoSettings();
-// 	});
-// 	test('call closeMoreSearchSettings function', () => {
-// 		wrapper.vm.closeMoreSearchSettings();
-// 	});
-// 	test('call btnApplyChanges function', () => {
-// 		wrapper.vm.btnApplyChanges();
-// 	});
-// 	test('call setActiveTab function', () => {
-// 		wrapper.vm.setActiveTab();
-// 	});
-// 	test('call deletePropertyFromObject function', () => {
-// 		wrapper.vm.deletePropertyFromObject('event', request.company_research);
-// 	});
-// 	test('call onOptionToggle function', () => {
-// 		wrapper.vm.onOptionToggle('event', 'contact', event);
-// 	});
-// 	it('dispatches an action when a submitSearch is clicked', async () => {
-// 		const $store = {
-// 			dispatch: jest.fn(() => Promise.resolve({ data: {} })),
-// 			getters: {
-// 				'search_services/getPayload': (state) => state.searchPayload,
-// 				'auth/getLoggedUser': (state) => state.userDetails
-// 			},
-// 			mutations: {
-// 				'search_services/saveSearchPayload': (state, data) => {
-// 					state.searchPayload = data;
-// 				},
-// 				'search_services/saveSearchedResult': (state, data) => {
-// 					state.searchPayload = data;
-// 				}
-// 			},
-// 			state: {
-// 				searchPayload: {},
-// 				searchedResult: {}
-// 			}
-// 		};
-// 		const router = new VueRouter({ routes: [{ path: '/', name: 'Search', meta: {} }] });
-// 		const wrapper = mount(Search, {
-// 			mocks: {
-// 				$store
-// 			},
-// 			localVue,
-// 			router
-// 		});
-// 		wrapper.vm.submitSearch();
-// 		await nextTick();
-// 		expect($store.dispatch).toHaveBeenCalled();
-// 	});
-// 	test('dispatches an action when a getUserSettings is clicked', async () => {
-// 		const $store = {
-// 			dispatch: jest.fn(() => Promise.resolve({ data: {} })),
-// 			getters: {
-// 				'search_services/getPayload': (state) => state.searchPayload,
-// 				'auth/getLoggedUser': (state) => state.userDetails
-// 			},
-// 			mutations: {
-// 				'search_services/saveSearchPayload': (state, data) => {
-// 					state.searchPayload = data;
-// 				}
-// 			},
-// 			state: {
-// 				isLoggedIn: false,
-// 				loggedUser: {},
-// 				userDetails: {
-// 					is_settings: false
-// 				}
-// 			}
-// 		};
-// 		const router = new VueRouter({ routes: [{ path: '/', name: 'Search', meta: {} }] });
-// 		const wrapper = mount(Search, {
-// 			mocks: {
-// 				$store
-// 			},
-// 			localVue,
-// 			router
-// 		});
-// 		wrapper.vm.getUserSettings();
-// 		await nextTick();
-// 		expect($store.dispatch).toHaveBeenCalled();
-// 	});
-// 	test('logout user', () => {
-// 		wrapper.vm.logoutUser();
-// 		// await nextTick();
-// 		// expect($store.dispatch).toHaveBeenCalled();
-// 	});
-// });

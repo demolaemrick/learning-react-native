@@ -32,13 +32,26 @@ export default {
 	methods: {
 		sortData(value) {
 			if (value) {
-				let id;
-				value === 'createdAt' ? (id = value) : (id = value.toLowerCase());
+				let id = value.toLowerCase();
 				if (this.sortType === 'asc') {
-					this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
+					if (value === 'createdAt' || value === 'updatedAt') {
+						this.sortedData.sort((a, b) => {
+							return new Date(a[value]) - new Date(b[value]);
+						});
+					} else {
+						this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
+					}
+
 					this.sortType = 'desc';
 				} else {
-					this.sortedData.sort((a, b) => (b[id] < a[id] ? -1 : 1));
+					if (value === 'createdAt' || value === 'updatedAt') {
+						this.sortedData.sort((a, b) => {
+							return new Date(b[value]) - new Date(a[value]);
+						});
+					} else {
+						this.sortedData.sort((a, b) => (b[id] < a[id] ? -1 : 1));
+					}
+
 					this.sortType = 'asc';
 				}
 			}

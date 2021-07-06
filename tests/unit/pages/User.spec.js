@@ -1,5 +1,5 @@
 import User from '../../../src/views/Dashboard/User';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 const Paginate = require('vuejs-paginate');
 
@@ -37,8 +37,16 @@ describe('User', () => {
 		});
 	});
 	it('tests that the user page mounts', () => {
-		const wrapper = shallowMount(User, () => {
-			store, localVue;
+		const wrapper = mount(User, {
+			mocks: {
+				$route: {
+					query: {
+						id: 4
+					}
+				}
+			},
+			store,
+			localVue
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});

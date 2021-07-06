@@ -12,22 +12,12 @@
 			</c-button>
 		</div>
 		<div v-if="!adminLoading" class="search-group">
-			<h4 v-if="admins.length <= 1">{{ admins.length }} Admin</h4>
-			<h4 v-else>{{ admins.length }} Admins</h4>
+			<h4 v-if="admins">{{ admins.length }} Admins</h4>
 			<div class="search-section">
-				<TextInput
-					class="mb-0"
-					type="text"
-					placeholder="Search"
-					v-model="searchQuery"
-					:icon="{ type: 'search' }"
-					width="509px"
-					@keyup.enter="searchPage"
-				/>
+				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
 				<span class="mx-1"> </span>
 			</div>
 		</div>
-
 		<div>
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
@@ -84,7 +74,7 @@
 				</template>
 			</v-table>
 
-			<div v-if="history.length < 1">
+			<div v-if="admins && admins.length < 1">
 				<div class="emptyState">
 					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 					<p class="emptyState-text">No user record found</p>

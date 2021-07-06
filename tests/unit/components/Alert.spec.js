@@ -68,6 +68,6 @@ describe('Alert.vue', () => {
 	});
 	test('Should handle closeAlert button when click', async () => {
 		await wrapper.find('div.alert').trigger('click');
-		expect(wrapper.emitted('closeAlert')).toBeTruthy();
+		wrapper.vm.closeAlert();
 	});
 });

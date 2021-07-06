@@ -2,33 +2,25 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Users</h2>
-			<c-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser"> Create User </c-button>
+			<v-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser"> Create User </v-button>
 		</div>
 		<div v-if="!usersLoading" class="search-group">
-			<h4 v-if="users">{{ users.length }} Users</h4>
+			<h4 v-if="users" id="totalUsers">{{ users.length }} Users</h4>
 			<div class="search-section">
 				<!-- <form action=""> -->
-				<TextInput
-					class="mb-0"
-					type="text"
-					placeholder="Search"
-					v-model="searchQuery"
-					:icon="{ type: 'search' }"
-					width="509px"
-					@keyup.enter="searchPage({ q: searchQuery })"
-				/>
+				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
 				<!-- </form> -->
 				<span class="mx-1">
-					<c-button size="small" buttonType="outline" @click="toggleFilterModal">
+					<v-button size="small" buttonType="outline" @click="toggleFilterModal">
 						Filter
 						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" svg-inline />
-					</c-button>
+					</v-button>
 				</span>
 				<toggle-dropdown itemPadding="0" width="120px">
 					<template #dropdown-wrapper>
-						<c-button size="icon" buttonType="outline">
+						<v-button size="icon" buttonType="outline">
 							<img src="@/assets/icons/menu3dot.svg" svg-inline />
-						</c-button>
+						</v-button>
 					</template>
 					<template #dropdown-items>
 						<li class="dropdown__item">Export Users</li>
@@ -38,14 +30,7 @@
 		</div>
 
 		<div>
-			<v-table
-				:loading="usersLoading"
-				:tableHeaders="tableHeaders"
-				:tableData="users"
-				theme="contact__research"
-				@rowClick="showUser"
-				@checkAll="checkAll"
-			>
+			<v-table :loading="usersLoading" :tableHeaders="tableHeaders" :tableData="users" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item" @click.stop>
 						<div class="check-input">
@@ -209,10 +194,10 @@
 								placeholder="Enter Password"
 							/>
 							<div class="flex-end mb-2">
-								<c-button class="submit" size="large" buttonType="primary" @click="registerUser">
+								<v-button class="submit" size="large" buttonType="primary" @click="registerUser">
 									<template v-if="!loading">Create Account</template>
 									<Loader v-else />
-								</c-button>
+								</v-button>
 							</div>
 						</div>
 					</ValidationObserver>
@@ -228,12 +213,13 @@
 				<form action="">
 					<ValidationObserver v-slot="{}">
 						<div class="auth-input">
-							<text-input rules="required" labelVisible width="100%" name="Name" placeholder="John" v-model="filterData" />
+							<text-input labelVisible width="100%" name="Name" placeholder="John" v-model="filterData" />
 
 							<RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
 
-							<div class="flex-end">
-								<c-button
+							<div class="flex-end flex__item-center">
+								<div class="clear-filter" @click="clearFilter">Clear Filter</div>
+								<v-button
 									class="submit"
 									size="large"
 									buttonType="primary"
@@ -241,7 +227,7 @@
 								>
 									<template v-if="!loading">Apply Search</template>
 									<Loader v-else />
-								</c-button>
+								</v-button>
 							</div>
 						</div>
 					</ValidationObserver>
@@ -331,10 +317,10 @@
 								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
+								<v-button class="submit" size="large" buttonType="primary" @click="editUser">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
-								</c-button>
+								</v-button>
 							</div>
 						</div>
 					</ValidationObserver>

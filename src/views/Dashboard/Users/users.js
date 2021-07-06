@@ -1,5 +1,4 @@
 import { ValidationObserver } from 'vee-validate';
-import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
@@ -12,6 +11,7 @@ import RadioBtn from '@/components/RadioButton';
 import Status from '@/components/Status';
 import StatusTag from '@/components/StatusTag';
 import { mapActions } from 'vuex';
+import debounce from 'lodash.debounce';
 
 export default {
 	name: 'Users',
@@ -35,7 +35,7 @@ export default {
 			activateModal: false,
 			suspendModal: false,
 			toggleClass: true,
-			statusOption: 'active',
+			statusOption: '',
 			userInfo: null,
 			statusType: [
 				{
@@ -80,128 +80,6 @@ export default {
 					name: ' '
 				}
 			],
-			history: [
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 1,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '20',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 2,
-					status: {
-						statusCode: 'INACTIVE',
-						message: 'Suspended'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 3,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Lani Juyi',
-					email: 'Lani@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 4,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 5,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 6,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 7,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 8,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 9,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 10,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				}
-			],
 			currentPage: 0,
 			total: 0,
 			limit: 50,
@@ -217,8 +95,8 @@ export default {
 			userId: null,
 			userDetails: [],
 			contactToModify: {},
-			searchQuery: null,
-			filterData: null
+			searchQuery: '',
+			filterData: ''
 		};
 	},
 	props: {
@@ -226,7 +104,6 @@ export default {
 	},
 	components: {
 		ValidationObserver,
-		CButton,
 		TextInput,
 		VTable,
 		VHeader,
@@ -275,6 +152,12 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
+			this.getAllUsers();
+		},
+		clearFilter() {
+			this.filterData = '';
+			this.statusOption = '';
+			this.toggleFilterModal();
 			this.getAllUsers();
 		},
 		async registerUser() {
@@ -413,8 +296,12 @@ export default {
 				this.checkedContacts = [];
 			}
 		},
+		add(num1, num2) {
+			return num1 * num2;
+		},
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
+			console.log(item);
 			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.deactivateModal = true;
 		},
@@ -505,20 +392,6 @@ export default {
 			}
 		},
 
-		async fetchUser() {
-			this.userLoading = true;
-			try {
-				this.userDetails = await this.getSingleUser(this.userId);
-				const { status, data, statusText } = this.userDetails;
-				if (status === 200 && statusText === 'OK') {
-					this.userDetails = data.data;
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.userLoading = false;
-			}
-		},
 		async searchPage(payload) {
 			this.loading = true;
 			try {
@@ -543,13 +416,10 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: {
-			immediate: true,
-			handler() {
-				if (this.searchQuery === null || this.searchQuery === '') {
-					this.getAllUsers();
-				}
+		searchQuery: debounce(function (newVal) {
+			if (newVal) {
+				this.searchPage({ q: newVal });
 			}
-		}
+		}, 600)
 	}
 };

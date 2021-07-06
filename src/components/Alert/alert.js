@@ -54,7 +54,9 @@ export default {
 	methods: {
 		...mapActions(['showAlert']),
 		closeAlert() {
-			this.$emit('closeAlert');
+			this.showAlert({
+				showAlert: false
+			});
 		}
 	},
 	components: {

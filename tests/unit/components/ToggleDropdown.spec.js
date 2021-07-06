@@ -17,4 +17,9 @@ describe('ToggleDropdown.vue', () => {
 	test('check showDropdown value', () => {
 		expect(wrapper.props().showDropdown).toBeFalsy();
 	});
+
+	// test('watch showDropdown', async () => {
+	// 	wrapper.vm.$options.watch.showDropdown.call(wrapper.vm, true);
+	// 	await wrapper.vm.$nextTick();
+	// });
 });
