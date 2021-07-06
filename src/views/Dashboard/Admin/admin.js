@@ -60,80 +60,6 @@ export default {
 					name: ' '
 				}
 			],
-			history: [
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Super Admin',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 1,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Admin User',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 2,
-					status: {
-						statusCode: 'INACTIVE',
-						message: 'Inactive'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Admin User',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 3,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Admin User',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 4,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Admin User',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 5,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					adminRole: 'Admin User',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 6,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				}
-			],
 			emailList: [],
 			showEditModal: false,
 			toggleClass: true,
@@ -145,7 +71,7 @@ export default {
 			total: 0,
 			count: 0,
 			nextPage: null,
-			admins: [],
+			admins: null,
 			adminInfo: {},
 			currentAdmin: {},
 			adminId: null,
@@ -306,19 +232,6 @@ export default {
 			const list = this.emailList;
 			list.splice(index, 1);
 		},
-		checkAll(event) {
-			if (event.target.checked) {
-				this.history.forEach((item) => {
-					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
-						this.checkedContacts.push(item.rowId);
-						return item.rowId;
-					}
-					return item.rowId;
-				});
-			} else {
-				this.checkedContacts = [];
-			}
-		},
 		clickCallback(page) {
 			this.currentPage = page;
 		},
@@ -463,7 +376,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			}

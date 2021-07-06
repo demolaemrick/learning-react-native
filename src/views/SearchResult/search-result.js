@@ -22,9 +22,6 @@ export default {
 			contactFilter: [],
 			searchType: 'contact_research',
 			response: response,
-			researchedPayload: {
-				type: Object
-			},
 			loadMore: false,
 			searchedResult: {},
 			loading: false,
@@ -40,11 +37,8 @@ export default {
 	async created() {
 		if (this.$route.query.rowId) {
 			await this.getResult();
-			await this.getFilterKeys();
 		} else if (this.getSearchedResult && Object.keys(this.getSearchedResult).length > 0) {
 			this.searchedResult = this.getSearchedResult;
-			await this.getFilterKeys();
-			this.researchedPayload = Object.assign({}, this.getPayload);
 		} else {
 			this.$router.push({ name: 'Search' });
 		}
@@ -54,9 +48,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			getNotepad: 'search_services/getNotepad',
-			getSearchedResult: 'search_services/getSearchedResult',
-			getPayload: 'search_services/getPayload'
+			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		socials: {
 			get() {
@@ -68,14 +60,6 @@ export default {
 			}
 		},
 
-		notepad: {
-			get() {
-				return this.getNotepad;
-			},
-			set(value) {
-				this.saveNotepad(value);
-			}
-		},
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
@@ -88,25 +72,12 @@ export default {
 		},
 		contact_research: {
 			get() {
-				let newObj = {};
-				const data = this.searchedResult.contact_research;
-
-				this.contactFilter.map((value) => {
-					const element = Object.keys(data).includes(value) ? data[value] : null;
-					newObj[value] = element;
-				});
-				return newObj;
+				return this.searchedResult.contact_research;
 			}
 		},
 		company_research: {
 			get() {
-				let newObj = {};
-				const data = this.searchedResult.company_research;
-				this.companyFilter.map((value) => {
-					const element = Object.keys(data).includes(value) ? data[value] : null;
-					newObj[value] = element;
-				});
-				return newObj;
+				return this.searchedResult.company_research;
 			}
 		},
 		userBookmarksCount() {
@@ -142,10 +113,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveNotepad: 'search_services/saveNotepad',
 			saveSearchedItem: 'search_services/saveSearchedItem',
-			saveSearchedResult: 'search_services/saveSearchedResult',
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
 			research: 'search_services/research',
@@ -227,9 +196,6 @@ export default {
 				});
 			}
 		},
-		btnBookmarkClick() {
-			this.$router.push('/bookmarks');
-		},
 		async getResult() {
 			this.loading = true;
 			try {
@@ -288,16 +254,6 @@ export default {
 			};
 			this.saveSearchedItem(data);
 			this.$router.push({ name: 'SearchItem' });
-		},
-		getFilterKeys() {
-			this.contactFilter = [];
-			this.companyFilter = [];
-			for (const key in this.searchedResult.contact_research) {
-				this.contactFilter.push(key);
-			}
-			for (const key in this.searchedResult.company_research) {
-				this.companyFilter.push(key);
-			}
 		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {

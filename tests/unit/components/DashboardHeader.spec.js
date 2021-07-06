@@ -18,7 +18,16 @@ describe('DashboardHeader', () => {
 			modules: {
 				auth: {
 					namespaced: true,
-					mutations
+					mutations,
+					getters: {
+						getLoggedUser: () => ({
+							id: '1',
+							email: 'abass@enyata.com',
+							token: '123',
+							is_settings: true,
+							role: 'admin'
+						})
+					}
 				}
 			}
 		});

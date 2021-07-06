@@ -336,10 +336,7 @@ describe('Users', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper
-			.findAllComponents(VButton)
-			.at(0)
-			.trigger('click');
+		wrapper.findAllComponents(VButton).at(0).trigger('click');
 		expect(toggleCreateUser).toHaveBeenCalled();
 	});
 

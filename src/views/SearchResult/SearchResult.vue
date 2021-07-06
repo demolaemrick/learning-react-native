@@ -143,20 +143,6 @@
 								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
-						<!-- <dropdown-checkbox>
-							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
-							</template>
-							<template #dropdown-items>
-								<span v-for="(data, i) in searchedResult.contact_research" :key="i">
-									<li class="dropdown__item" v-if="searchedResult.contact_research[i].length !== 0">
-										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
-											{{ i }}
-										</d-checkbox>
-									</li>
-								</span>
-							</template>
-						</dropdown-checkbox> -->
 					</div>
 				</div>
 				<template v-if="contact_research.others && contact_research.others.length === 0">
@@ -170,9 +156,11 @@
 							<div @click="displaySearchItem('contact_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
+									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
+										{{ (dataItem.meta.relevanceScore * 100).toFixed(2) }}%
+									</p>
 								</span>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"
@@ -228,20 +216,6 @@
 								<li class="dropdown__item" @click="sortByRelevance('company_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
-						<!-- <dropdown-checkbox>
-							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
-							</template>
-							<template #dropdown-items>
-								<span v-for="(data, i) in searchedResult.company_research" :key="i">
-									<li class="dropdown__item" v-if="searchedResult.company_research[i].length !== 0">
-										<d-checkbox v-model="companyFilter" inputType="checkbox" :truthValue="i" :name="i">
-											{{ i }}
-										</d-checkbox>
-									</li>
-								</span>
-							</template>
-						</dropdown-checkbox> -->
 					</div>
 				</div>
 				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
@@ -254,9 +228,11 @@
 							<div @click="displaySearchItem('company_research', dataItem)">
 								<span class="searched__item__group">
 									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p class="searched__item-score">{{ dataItem.meta.relevanceScore.toPrecision(4) * 100 }}%</p>
+									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
+										{{ (dataItem.meta.relevanceScore * 100).toFixed(2) }}%
+									</p>
 								</span>
-								<p class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
+								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
 							</div>
 							<div
 								v-if="!dataItem.is_bookmarked"

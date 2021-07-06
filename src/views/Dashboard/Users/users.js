@@ -35,7 +35,7 @@ export default {
 			activateModal: false,
 			suspendModal: false,
 			toggleClass: true,
-			statusOption: 'active',
+			statusOption: '',
 			userInfo: null,
 			statusType: [
 				{
@@ -80,128 +80,6 @@ export default {
 					name: ' '
 				}
 			],
-			history: [
-				{
-					name: 'Kingsley Omin',
-					email: 'Abass@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 1,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '20',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 2,
-					status: {
-						statusCode: 'INACTIVE',
-						message: 'Suspended'
-					}
-				},
-				{
-					name: 'Kingsley Omin',
-					email: 'Kingsley@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 3,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Lani Juyi',
-					email: 'Lani@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 4,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 5,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 6,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 7,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 8,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 9,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				},
-				{
-					name: 'Ayo Wizkid',
-					email: 'Wizzy@apple.com',
-					researchNo: '200',
-					date: 'May 09, 2021',
-					time: '12:38 PM',
-					rowId: 10,
-					status: {
-						statusCode: 'ACTIVE',
-						message: 'Active'
-					}
-				}
-			],
 			currentPage: 0,
 			total: 0,
 			limit: 50,
@@ -217,8 +95,8 @@ export default {
 			userId: null,
 			userDetails: [],
 			contactToModify: {},
-			searchQuery: null,
-			filterData: null
+			searchQuery: '',
+			filterData: ''
 		};
 	},
 	props: {
@@ -274,6 +152,12 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
+			this.getAllUsers();
+		},
+		clearFilter() {
+			this.filterData = '';
+			this.statusOption = '';
+			this.toggleFilterModal();
 			this.getAllUsers();
 		},
 		async registerUser() {
@@ -529,7 +413,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			}
