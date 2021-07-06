@@ -1,8 +1,7 @@
 import CheckInbox from '../../../src/views/auth/ForgotPassword';
 // import Logo from '../../../src/components/Logo.vue'
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import VueRouter from 'vue-router';
 
 const localVue = createLocalVue();
 
@@ -14,10 +13,9 @@ let statusRes = {
 };
 
 describe('CheckInbox', () => {
-  let store;
-  const router = new VueRouter({ routes: [{ path: '/check-inbox', name: 'CheckInbox'}] });
+	let store;
 
-  beforeEach(() => {
+	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
@@ -36,10 +34,10 @@ describe('CheckInbox', () => {
 			}
 		});
 
-    store.dispatch = jest.fn();
+		store.dispatch = jest.fn();
 	});
 
-  it('tests that the page mounts', () => {
+	it('tests that the page mounts', () => {
 		const wrapper = shallowMount(CheckInbox, {
 			store,
 			localVue
@@ -47,13 +45,13 @@ describe('CheckInbox', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-  // it('tests that logo component is present', () => {
+	// it('tests that logo component is present', () => {
 	// 	const wrapper = shallowMount(CheckInbox, {
 	// 		store,
 	// 		localVue
 	// 	});
-    
-  //   const logo = wrapper.findComponent(Logo);
+
+	//   const logo = wrapper.findComponent(Logo);
 	// 	expect(logo).toHaveLength(1);
 	// });
-})
+});

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1625494153147" clover="3.2.0">
-  <project timestamp="1625494153147" name="All files">
-    <metrics statements="1309" coveredstatements="581" conditionals="451" coveredconditionals="128" methods="303" coveredmethods="137" elements="2063" coveredelements="846" complexity="0" loc="1309" ncloc="1309" packages="35" files="37" classes="37"/>
+<coverage generated="1625568093425" clover="3.2.0">
+  <project timestamp="1625568093425" name="All files">
+    <metrics statements="1308" coveredstatements="628" conditionals="451" coveredconditionals="139" methods="303" coveredmethods="143" elements="2062" coveredelements="910" complexity="0" loc="1308" ncloc="1308" packages="35" files="37" classes="37"/>
     <package name="src">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="App.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/App.vue">
@@ -34,9 +34,9 @@
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="Button.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Button/Button.vue">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="7" count="477" type="stmt"/>
-        <line num="14" count="477" type="stmt"/>
-        <line num="20" count="75" type="stmt"/>
+        <line num="7" count="489" type="stmt"/>
+        <line num="14" count="489" type="stmt"/>
+        <line num="20" count="79" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Checkbox">
@@ -107,27 +107,27 @@
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="InputWrapper.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/InputWrapper/InputWrapper.vue">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="1" count="9" type="stmt"/>
-        <line num="2" count="9" type="stmt"/>
-        <line num="3" count="9" type="stmt"/>
-        <line num="17" count="62" type="stmt"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="17" count="72" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Input.PasswordInput">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="PasswordInput.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/PasswordInput/PasswordInput.vue">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="10" count="6" type="stmt"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Input.TextInput">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="TextInput.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/TextInput/TextInput.vue">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="8" type="stmt"/>
-        <line num="2" count="8" type="stmt"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Modal">
@@ -776,34 +776,34 @@
         <line num="265" count="1" type="stmt"/>
         <line num="268" count="1" type="stmt"/>
         <line num="272" count="1" type="stmt"/>
-        <line num="275" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="276" count="1" type="stmt"/>
-        <line num="281" count="1" type="stmt"/>
-        <line num="283" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="284" count="1" type="stmt"/>
-        <line num="289" count="1" type="stmt"/>
-        <line num="291" count="0" type="stmt"/>
+        <line num="275" count="2" type="stmt"/>
+        <line num="276" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="277" count="1" type="stmt"/>
+        <line num="282" count="1" type="stmt"/>
+        <line num="284" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="285" count="1" type="stmt"/>
+        <line num="290" count="1" type="stmt"/>
         <line num="292" count="0" type="stmt"/>
         <line num="293" count="0" type="stmt"/>
         <line num="294" count="0" type="stmt"/>
         <line num="295" count="0" type="stmt"/>
-        <line num="297" count="0" type="stmt"/>
-        <line num="299" count="0" type="stmt"/>
+        <line num="296" count="0" type="stmt"/>
+        <line num="298" count="0" type="stmt"/>
         <line num="300" count="0" type="stmt"/>
         <line num="301" count="0" type="stmt"/>
-        <line num="304" count="1" type="stmt"/>
+        <line num="302" count="0" type="stmt"/>
         <line num="305" count="1" type="stmt"/>
         <line num="306" count="1" type="stmt"/>
         <line num="307" count="1" type="stmt"/>
         <line num="308" count="1" type="stmt"/>
-        <line num="310" count="1" type="stmt"/>
-        <line num="311" count="6" type="stmt"/>
+        <line num="309" count="1" type="stmt"/>
+        <line num="311" count="1" type="stmt"/>
         <line num="312" count="6" type="stmt"/>
-        <line num="314" count="6" type="stmt"/>
+        <line num="313" count="6" type="stmt"/>
         <line num="315" count="6" type="stmt"/>
-        <line num="318" count="6" type="stmt"/>
-        <line num="320" count="1" type="stmt"/>
-        <line num="323" count="1" type="stmt"/>
+        <line num="316" count="6" type="stmt"/>
+        <line num="319" count="6" type="stmt"/>
+        <line num="321" count="1" type="stmt"/>
         <line num="324" count="1" type="stmt"/>
         <line num="325" count="1" type="stmt"/>
         <line num="326" count="1" type="stmt"/>
@@ -811,14 +811,14 @@
         <line num="328" count="1" type="stmt"/>
         <line num="329" count="1" type="stmt"/>
         <line num="330" count="1" type="stmt"/>
-        <line num="332" count="0" type="stmt"/>
-        <line num="338" count="1" type="stmt"/>
-        <line num="342" count="3" type="stmt"/>
+        <line num="331" count="1" type="stmt"/>
+        <line num="333" count="0" type="stmt"/>
+        <line num="339" count="1" type="stmt"/>
         <line num="343" count="3" type="stmt"/>
         <line num="344" count="3" type="stmt"/>
-        <line num="345" count="2" type="stmt"/>
-        <line num="346" count="2" type="cond" truecount="3" falsecount="1"/>
-        <line num="347" count="2" type="stmt"/>
+        <line num="345" count="3" type="stmt"/>
+        <line num="346" count="2" type="stmt"/>
+        <line num="347" count="2" type="cond" truecount="3" falsecount="1"/>
         <line num="348" count="2" type="stmt"/>
         <line num="349" count="2" type="stmt"/>
         <line num="350" count="2" type="stmt"/>
@@ -1415,39 +1415,39 @@
       </file>
     </package>
     <package name="src.views.auth.AdminInvite">
-      <metrics statements="20" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <metrics statements="20" coveredstatements="20" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
       <file name="AdminInvite.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/auth/AdminInvite/AdminInvite.vue">
-        <metrics statements="20" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
+        <metrics statements="20" coveredstatements="20" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="23" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.views.auth.ForgotPassword">
-      <metrics statements="18" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
+      <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
       <file name="CheckInbox.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/auth/ForgotPassword/CheckInbox.vue">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="21" count="0" type="stmt"/>
       </file>
       <file name="ForgotPassword.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/auth/ForgotPassword/ForgotPassword.vue">
-        <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
+        <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -1462,43 +1462,42 @@
         <line num="27" count="1" type="stmt"/>
         <line num="32" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="47" count="2" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.views.auth.Login">
-      <metrics statements="28" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <metrics statements="28" coveredstatements="27" conditionals="10" coveredconditionals="9" methods="3" coveredmethods="3"/>
       <file name="Login.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/auth/Login/Login.vue">
-        <metrics statements="28" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
+        <metrics statements="28" coveredstatements="27" conditionals="10" coveredconditionals="9" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="31" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.views.auth.ResetPassword">

@@ -221,7 +221,7 @@
 						<div class="flex flex-end">
 							<c-button class="submit" size="large" buttonType="primary" @click="editAdmin" ref="editAdmin">
 								<template v-if="!loading">Save Changes</template>
-								<Loader v-else /> 
+								<Loader v-else />
 							</c-button>
 						</div>
 					</div>

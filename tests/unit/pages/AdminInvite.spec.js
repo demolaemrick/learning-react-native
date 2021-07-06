@@ -1,4 +1,4 @@
-import ResetPassword from '../../../src/views/auth/ResetPassword';
+import AdminInvite from '../../../src/views/auth/AdminInvite';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import CButton from '../../../src/components/Button';
@@ -6,23 +6,6 @@ import CButton from '../../../src/components/Button';
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
-
-let statusRes = {
-	status: 200,
-	statusText: 'OK',
-	data: {
-		message: 'success'
-	}
-};
-let errRes = {
-	status: 500,
-	statusText: 'Failed',
-	response: {
-		data: {
-			message: 'failed'
-		}
-	}
-};
 
 let route = {
 	$router: {
@@ -35,9 +18,23 @@ let route = {
 		}
 	}
 };
-jest.useFakeTimers();
 
-describe('ResetPassword', () => {
+let statusRes = {
+	status: 200,
+	statusText: 'OK'
+};
+
+let errRes = {
+	status: 500,
+	statusText: 'Failed',
+	response: {
+		data: {
+			message: 'failed'
+		}
+	}
+};
+
+describe('AdminInvite', () => {
 	let store;
 
 	beforeEach(() => {
@@ -48,9 +45,9 @@ describe('ResetPassword', () => {
 			getters: {},
 			mutations: {},
 			modules: {
-				auth: {
+				admin_management: {
 					actions: {
-						resetPassword: jest.fn().mockResolvedValue(statusRes)
+						processAdminInvite: jest.fn().mockResolvedValue(statusRes)
 					},
 					getters: {},
 					mutations: {},
@@ -58,12 +55,11 @@ describe('ResetPassword', () => {
 				}
 			}
 		});
-
 		store.dispatch = jest.fn().mockResolvedValue(statusRes);
 	});
 
 	it('tests that the page mounts', () => {
-		const wrapper = shallowMount(ResetPassword, {
+		const wrapper = shallowMount(AdminInvite, {
 			store,
 			localVue,
 			mocks: route
@@ -71,25 +67,28 @@ describe('ResetPassword', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-	it('tests that the resetPassword action is called', async () => {
-		const wrapper = mount(ResetPassword, {
+	it('tests that the AdminInvite action is called', async () => {
+		const wrapper = mount(AdminInvite, {
 			store,
 			localVue,
-			route,
 			mocks: route,
 			data() {
 				return {
 					form: {
-						password: '1234abcd',
-						token: null
+						first_name: 'Lani',
+						last_name: 'Juyi',
+						token: null,
+						password: '1234abcd'
 					}
 				};
 			}
 		});
 		let btn = wrapper.findComponent(CButton);
 		btn.trigger('click');
-		expect(store.dispatch).toHaveBeenCalledWith('auth/resetPassword', {
+		expect(store.dispatch).toHaveBeenCalledWith('admin_management/processAdminInvite', {
 			password: '1234abcd',
+			first_name: 'Lani',
+			last_name: 'Juyi',
 			token: '12345'
 		});
 
@@ -100,24 +99,27 @@ describe('ResetPassword', () => {
 	it('tests that the error alert is triggered', async () => {
 		store.dispatch = jest.fn().mockRejectedValue(errRes);
 
-		const wrapper = mount(ResetPassword, {
+		const wrapper = mount(AdminInvite, {
 			store,
 			localVue,
-			route,
 			mocks: route,
 			data() {
 				return {
 					form: {
-						password: '1234abcd',
-						token: null
+						first_name: 'Lani',
+						last_name: 'Juyi',
+						token: null,
+						password: '1234abcd'
 					}
 				};
 			}
 		});
 		let btn = wrapper.findComponent(CButton);
 		btn.trigger('click');
-		expect(store.dispatch).toHaveBeenCalledWith('auth/resetPassword', {
+		expect(store.dispatch).toHaveBeenCalledWith('admin_management/processAdminInvite', {
 			password: '1234abcd',
+			first_name: 'Lani',
+			last_name: 'Juyi',
 			token: '12345'
 		});
 	});

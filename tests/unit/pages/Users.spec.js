@@ -8,8 +8,6 @@ import VTable from '@/components/Table';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import VueRouter from 'vue-router';
-import debounce from 'lodash.debounce';
-
 // import debounce from 'lodash.debounce';
 jest.useFakeTimers();
 
@@ -98,7 +96,12 @@ let searchResponse = {
 
 describe('Users', () => {
 	let store;
-	const router = new VueRouter({ routes: [{ path: 'users', name: 'Users' }, { path: '/dashboard/user/:userId?', name: 'User', meta: 'user', query: { userId: item._id } }] });
+	const router = new VueRouter({
+		routes: [
+			{ path: 'users', name: 'Users' },
+			{ path: '/dashboard/user/:userId?', name: 'User', meta: 'user', query: { userId: item._id } }
+		]
+	});
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {

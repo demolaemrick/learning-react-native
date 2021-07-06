@@ -39,7 +39,6 @@ let admins = {
 			currentPage: 1,
 			prevPage: null,
 			nextPage: null
-
 		}
 	},
 	statusText: 'OK'
@@ -113,14 +112,14 @@ describe('Admin', () => {
 
 	it('tests that send invite modal is called on button click', async () => {
 		const inviteAdmin = jest.fn();
-		let e = new Event('target');
-		e = {
-			target: {
-				validity: {
-					valid: true
-				}
-			}
-		};
+		// let e = new Event('target');
+		// e = {
+		// 	target: {
+		// 		validity: {
+		// 			valid: true
+		// 		}
+		// 	}
+		// };
 		const wrapper = mount(Admin, {
 			store,
 			data() {
@@ -136,7 +135,7 @@ describe('Admin', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-	
+
 		expect(wrapper.vm.$data.emailInput).not.toEqual('');
 		await wrapper.trigger('keydown', {
 			key: 'enter'
@@ -147,17 +146,6 @@ describe('Admin', () => {
 		expect(wrapper.vm.inviteAdmin());
 		expect(wrapper.vm.$data.emailList).toHaveLength(1);
 	});
-
-	// it('tests that the inviteAdmin method is called', () => {
-	// 	const wrapper = mount(Admin, {
-	// 		store,
-	// 		localVue
-	// 	});
-	// 	const byId = wrapper.find('#inviteAdmin')
-	// 	expect(byId.element.id).toBe('bar')
-	// 	const title = wrapper.find('h4.modal__header-title');
-	// 	expect(wrapper.attributes('id')).toBe('inviteAdmin')
-	// });
 
 	it('tests that the edit modal is toggled', () => {
 		const wrapper = shallowMount(Admin, {
@@ -398,7 +386,6 @@ describe('Admin', () => {
 		expect(wrapper.vm.$data.loading).toBe(false);
 	});
 
-
 	// 	const wrapper = shallowMount(Admin, {
 	// 	store,
 	// 	methods: {
@@ -419,16 +406,16 @@ describe('Admin', () => {
 		};
 
 		const wrapper = shallowMount(Admin, {
-		store,
-		data() {
-			return {
-				loading: false,
-				sendInvites: true,
-				emailInput: 'lani@gmail.com',
-				emailList: ['text@gmail.com']
-			};
-		}
-	});
+			store,
+			data() {
+				return {
+					loading: false,
+					sendInvites: true,
+					emailInput: 'lani@gmail.com',
+					emailList: ['text@gmail.com']
+				};
+			}
+		});
 		expect(wrapper.vm.addEmail(e));
 	});
 

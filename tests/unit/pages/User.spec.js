@@ -2,7 +2,6 @@ import User from '../../../src/views/Dashboard/User';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-import flushPromises from 'flush-promises';
 const Paginate = require('vuejs-paginate');
 
 jest.mock('vuejs-paginate');
@@ -21,7 +20,7 @@ S/N,FIirst Name,Last Name,Age
 2,Ore,Abass,13
 3,Ayo,Tope,14
 4,Isreal,Ola,15
-`
+`;
 
 let statusRes = {
 	status: 200,
@@ -43,12 +42,8 @@ let statusRes = {
 			status: 'active',
 			updatedAt: '2021-06-28T15:47:16.013Z',
 			_id: '1',
-			company_research: [
-				'hello'
-			],
-			contact_research: [
-				'hello'
-			]
+			company_research: ['hello'],
+			contact_research: ['hello']
 		}
 	}
 };
@@ -130,20 +125,20 @@ let userInfo = {
 };
 
 let contactHistory = [
-		{
-			company: 'Amazon',
-			createdAt: '2021-04-23T10:52:55.799Z',
-			email: 'bezos@amazon.com',
-			full_name: 'Jeff Bezos',
-			linkedin: 'https://www.linkedin.com/in/jeffbezos',
-			research_score: 0.6455,
-			role: 'CEO',
-			rowId: '1',
-			status: { statusCode: 'READY', message: 'Ready' },
-			updatedAt: '2021-06-18T11:23:46.719Z',
-			_id: '6082a70795b40450d58df056'
-		}
-	];
+	{
+		company: 'Amazon',
+		createdAt: '2021-04-23T10:52:55.799Z',
+		email: 'bezos@amazon.com',
+		full_name: 'Jeff Bezos',
+		linkedin: 'https://www.linkedin.com/in/jeffbezos',
+		research_score: 0.6455,
+		role: 'CEO',
+		rowId: '1',
+		status: { statusCode: 'READY', message: 'Ready' },
+		updatedAt: '2021-06-18T11:23:46.719Z',
+		_id: '6082a70795b40450d58df056'
+	}
+];
 
 let subscribeResult = {
 	status: 200,
@@ -186,7 +181,7 @@ describe('User', () => {
 				search_services: {
 					namespaced: true,
 					actions: {
-						subscribeResearch: jest.fn().mockResolvedValue(subscribeResult),
+						subscribeResearch: jest.fn().mockResolvedValue(subscribeResult)
 					}
 				}
 			}
@@ -230,7 +225,7 @@ describe('User', () => {
 		const wrapper = shallowMount(User, {
 			router,
 			store,
-			localVue,
+			localVue
 		});
 		expect(wrapper.vm.getUserSettings());
 	});
@@ -326,12 +321,12 @@ describe('User', () => {
 	});
 
 	it('tests that the inputFile method is called', () => {
-		let event = new Event('target');
-		event = {
-			target: {
-				result: csv
-			}
-		};
+		// let event = new Event('target');
+		// event = {
+		// 	target: {
+		// 		result: csv
+		// 	}
+		// };
 		let newFile = {
 			size: 12234212312,
 			name: 'lani.jpeg'
@@ -344,7 +339,7 @@ describe('User', () => {
 				return {
 					history: historyRes.data.data
 				};
-			},
+			}
 		});
 		expect(wrapper.vm.inputFile(newFile));
 
@@ -374,9 +369,9 @@ describe('User', () => {
 			store,
 			localVue,
 			router
-		})
+		});
 		expect(wrapper.vm.csvJSON(csv));
-	})
+	});
 
 	it('tests that edit modal is toggled', () => {
 		const wrapper = shallowMount(User, {
@@ -418,7 +413,7 @@ describe('User', () => {
 					count: 0,
 					currentPage: 0,
 					nextPage: null,
-					pageLoading: true,
+					pageLoading: true
 				};
 			}
 		});
@@ -499,7 +494,7 @@ describe('User', () => {
 			mocks: {
 				$route: {
 					query: {
-						userId: "1"
+						userId: '1'
 					}
 				}
 			},
@@ -507,9 +502,9 @@ describe('User', () => {
 			data() {
 				return {
 					activeTab: 'contacts'
-				}
-			},
-		}) 
+				};
+			}
+		});
 		expect(wrapper.vm.setActiveTab(evt));
 		expect(wrapper.vm.$data.activeTab).toBe('contacts');
 	});
@@ -520,7 +515,7 @@ describe('User', () => {
 			mocks: {
 				$route: {
 					query: {
-						userId: "1"
+						userId: '1'
 					}
 				}
 			},
@@ -528,11 +523,10 @@ describe('User', () => {
 			data() {
 				return {
 					activeTab: 'settings'
-				}
-			},
-		}) 
+				};
+			}
+		});
 		expect(wrapper.vm.setActiveTab(evt));
 		expect(wrapper.vm.$data.activeTab).toBe('settings');
-	})
-
+	});
 });

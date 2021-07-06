@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import CButton from '../../../src/components/Button';
 import VueRouter from 'vue-router';
 
-
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
@@ -12,27 +11,26 @@ localVue.use(Vuex);
 let statusRes = {
 	status: 200,
 	statusText: 'OK',
-  data: {
-    message: 'success'
-  }
+	data: {
+		message: 'success'
+	}
 };
 let errRes = {
 	status: 500,
 	statusText: 'Failed',
-  response: {
-    data: {
-      message: 'failed'
-    }
-  }
-  
+	response: {
+		data: {
+			message: 'failed'
+		}
+	}
 };
 jest.useFakeTimers();
 
 describe('ForgotPassword', () => {
-  let store;
-  const router = new VueRouter({ routes: [{ path: '/check-inbox', name: 'CheckInbox'}] });
+	let store;
+	const router = new VueRouter({ routes: [{ path: '/check-inbox', name: 'CheckInbox' }] });
 
-  beforeEach(() => {
+	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
@@ -51,71 +49,70 @@ describe('ForgotPassword', () => {
 			}
 		});
 
-    store.dispatch = jest.fn().mockResolvedValue(statusRes);
+		store.dispatch = jest.fn().mockResolvedValue(statusRes);
 	});
 
-  it('tests that the page mounts', () => {
+	it('tests that the page mounts', () => {
 		const wrapper = shallowMount(ForgotPassword, {
 			store,
-      router,
+			router,
 			localVue
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-  it('tests that the forgotPassword action is called', async () => {
-
+	it('tests that the forgotPassword action is called', async () => {
 		const wrapper = mount(ForgotPassword, {
 			store,
 			localVue,
-      mocks: {
-        $router: {
-          push: jest.fn()
-        },
-        $route: {
-          name: 'CheckInbox'
-        }
-      },
-      data() {
-        return {
-          email: 'lani@enyata.com'
-        };
-      }
+			mocks: {
+				$router: {
+					push: jest.fn()
+				},
+				$route: {
+					name: 'CheckInbox'
+				}
+			},
+			data() {
+				return {
+					email: 'lani@enyata.com'
+				};
+			}
 		});
-    let btn = wrapper.findComponent(CButton);
+		let btn = wrapper.findComponent(CButton);
 		btn.trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith('auth/forgotPassword', {
-      email: 'lani@enyata.com'
-    });
+			email: 'lani@enyata.com'
+		});
 
-    await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$route.name).toBe('CheckInbox');
+		await wrapper.vm.$nextTick();
+		expect(wrapper.vm.$route.name).toBe('CheckInbox');
 	});
 
-  it('tests that the error alert is triggered', async () => {
-    store.dispatch = jest.fn().mockRejectedValue(errRes);
+	it('tests that the error alert is triggered', async () => {
+		store.dispatch = jest.fn().mockRejectedValue(errRes);
 
 		const wrapper = mount(ForgotPassword, {
 			store,
 			localVue,
-      mocks: {
-        $router: {
-          push: jest.fn()
-        },
-        $route: {
-          name: 'CheckInbox'
-        }
-      },
-      data() {
-        return {
-          email: 'lani@enyata.com'
-        };
-      }
+			mocks: {
+				$router: {
+					push: jest.fn()
+				},
+				$route: {
+					name: 'CheckInbox'
+				}
+			},
+			data() {
+				return {
+					email: 'lani@enyata.com'
+				};
+			}
 		});
-    let btn = wrapper.findComponent(CButton);
+		let btn = wrapper.findComponent(CButton);
 		btn.trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith('auth/forgotPassword', {
-      email: 'lani@enyata.com'
-    });
+			email: 'lani@enyata.com'
+		});
 	});
 });
