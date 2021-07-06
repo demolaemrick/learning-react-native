@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1625568093425" clover="3.2.0">
-  <project timestamp="1625568093425" name="All files">
-    <metrics statements="1308" coveredstatements="628" conditionals="451" coveredconditionals="139" methods="303" coveredmethods="143" elements="2062" coveredelements="910" complexity="0" loc="1308" ncloc="1308" packages="35" files="37" classes="37"/>
+<coverage generated="1625581398235" clover="3.2.0">
+  <project timestamp="1625581398235" name="All files">
+    <metrics statements="1308" coveredstatements="657" conditionals="451" coveredconditionals="146" methods="303" coveredmethods="149" elements="2062" coveredelements="952" complexity="0" loc="1308" ncloc="1308" packages="35" files="37" classes="37"/>
     <package name="src">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="App.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/App.vue">
@@ -34,8 +34,8 @@
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="Button.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Button/Button.vue">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="7" count="489" type="stmt"/>
-        <line num="14" count="489" type="stmt"/>
+        <line num="7" count="511" type="stmt"/>
+        <line num="14" count="511" type="stmt"/>
         <line num="20" count="79" type="stmt"/>
       </file>
     </package>
@@ -43,8 +43,8 @@
       <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="Checkbox.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Checkbox/Checkbox.vue">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
         <line num="33" count="2" type="stmt"/>
         <line num="34" count="2" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
@@ -107,9 +107,9 @@
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="InputWrapper.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/InputWrapper/InputWrapper.vue">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="1" count="11" type="stmt"/>
-        <line num="2" count="11" type="stmt"/>
-        <line num="3" count="11" type="stmt"/>
+        <line num="1" count="12" type="stmt"/>
+        <line num="2" count="12" type="stmt"/>
+        <line num="3" count="12" type="stmt"/>
         <line num="17" count="72" type="stmt"/>
       </file>
     </package>
@@ -126,8 +126,8 @@
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="TextInput.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/components/Input/TextInput/TextInput.vue">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="10" type="stmt"/>
-        <line num="2" count="10" type="stmt"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Modal">
@@ -1366,24 +1366,24 @@
       </file>
     </package>
     <package name="src.views.Settings">
-      <metrics statements="43" coveredstatements="0" conditionals="18" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <metrics statements="43" coveredstatements="29" conditionals="18" coveredconditionals="7" methods="9" coveredmethods="6"/>
       <file name="Settings.vue" path="/Users/oluwalani/Documents/Projects/Jupiter/volley-frontend/src/views/Settings/Settings.vue">
-        <metrics statements="43" coveredstatements="0" conditionals="18" coveredconditionals="0" methods="9" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="48" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
+        <metrics statements="43" coveredstatements="29" conditionals="18" coveredconditionals="7" methods="9" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="48" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
         <line num="59" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="63" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
@@ -1397,21 +1397,21 @@
         <line num="82" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
         <line num="91" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="98" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="102" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="106" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="107" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
+        <line num="95" count="4" type="stmt"/>
+        <line num="96" count="4" type="stmt"/>
+        <line num="97" count="4" type="stmt"/>
+        <line num="98" count="4" type="cond" truecount="3" falsecount="1"/>
+        <line num="99" count="4" type="stmt"/>
+        <line num="102" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="103" count="4" type="stmt"/>
+        <line num="104" count="4" type="stmt"/>
+        <line num="106" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="107" count="4" type="stmt"/>
+        <line num="108" count="4" type="stmt"/>
         <line num="112" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
+        <line num="118" count="4" type="stmt"/>
+        <line num="123" count="4" type="stmt"/>
+        <line num="124" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src.views.auth.AdminInvite">
