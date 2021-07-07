@@ -7,6 +7,7 @@ import VButton from '@/components/Button';
 import VTable from '@/components/Table';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
+import VueRouter from 'vue-router';
 // import debounce from 'lodash.debounce';
 jest.useFakeTimers();
 
@@ -60,6 +61,20 @@ let statusRes = {
 	statusText: 'OK'
 };
 
+let item = {
+	email: 'aileen.rioux@volley.com',
+	first_name: 'Aileen',
+	last_name: 'Rioux',
+	last_research_date: '2021-06-18T13:54:00.521Z',
+	monthly_research: 400,
+	organisation: 'Volley',
+	profession: 'BDR',
+	researches_performed: 5,
+	role: 'user',
+	status: 'active',
+	_id: '1'
+};
+
 let searchResponse = {
 	data: {
 		response: {
@@ -81,7 +96,12 @@ let searchResponse = {
 
 describe('Users', () => {
 	let store;
-
+	const router = new VueRouter({
+		routes: [
+			{ path: 'users', name: 'Users' },
+			{ path: '/dashboard/user/:userId?', name: 'User', meta: 'user', query: { userId: item._id } }
+		]
+	});
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -121,7 +141,7 @@ describe('Users', () => {
 	});
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
-		wrapper = shallowMount(Users, {
+		const wrapper = shallowMount(Users, {
 			store,
 			localVue,
 			methods: {
@@ -129,6 +149,7 @@ describe('Users', () => {
 			}
 		});
 		expect(getAllUsers).toHaveBeenCalled();
+		expect(wrapper.vm).toBeTruthy();
 	});
 
 	it('tests that the loader displays', async () => {
@@ -315,7 +336,10 @@ describe('Users', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.findAllComponents(VButton).at(0).trigger('click');
+		wrapper
+			.findAllComponents(VButton)
+			.at(0)
+			.trigger('click');
 		expect(toggleCreateUser).toHaveBeenCalled();
 	});
 
@@ -423,8 +447,10 @@ describe('Users', () => {
 				toggleFilterModal
 			}
 		});
-		wrapper.findAllComponents(VButton).at(1).trigger('click');
-		// console.log(filter);
+		wrapper
+			.findAllComponents(VButton)
+			.at(1)
+			.trigger('click');
 		expect(toggleFilterModal).toHaveBeenCalled();
 	});
 
@@ -446,7 +472,7 @@ describe('Users', () => {
 			}
 		});
 
-		expect(wrapper.vm.$data.searchQuery).toBeNull();
+		// expect(wrapper.vm.$data.searchQuery).toBeNull();
 		wrapper.setData({ searchQuery: 'lani' });
 		expect(wrapper.vm.$data.searchQuery).toEqual('lani');
 		await flushPromises();
@@ -454,7 +480,6 @@ describe('Users', () => {
 		expect(wrapper.vm.loading).toBeFalsy();
 
 		// await flushPromises();
-		// console.log(wrapper.vm.searchQuery);
 		// jest.runAllTimers();
 		// jest.useRealTimers();
 		// expect(search).toHaveBeenCalled();
@@ -516,25 +541,17 @@ describe('Users', () => {
 	});
 
 	// it('tests that the checkAll method is called', () => {
-	// 	const event = new Event('target')
-	// 	const wrapper = shallowMount(Users)
+	// 	let event = new Event('target');
+	// 	event = {
+	// 		target: {
+	// 			checked: true
+	// 		}
+	// 	};
+	// 	const wrapper = shallowMount(Users);
 	// 	expect(wrapper.vm.checkAll(event));
 	// });
 
 	it('tests that the deactivate modal is toggled', () => {
-		let item = {
-			email: 'aileen.rioux@volley.com',
-			first_name: 'Aileen',
-			last_name: 'Rioux',
-			last_research_date: '2021-06-18T13:54:00.521Z',
-			monthly_research: 400,
-			organisation: 'Volley',
-			profession: 'BDR',
-			researches_performed: 5,
-			role: 'user',
-			status: 'active',
-			_id: '60992e95baa22116bb37d259'
-		};
 		const wrapper = shallowMount(Users, {
 			store,
 			localVue
@@ -542,13 +559,74 @@ describe('Users', () => {
 		expect(wrapper.vm.openDeactivateModal(item));
 	});
 
+	it('tests that the activate modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openActivateModal(item));
+	});
+
+	it('tests that the suspend modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openSuspendModal(item));
+	});
+
+	it('tests that the edit modal is toggled', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue
+		});
+		expect(wrapper.vm.openEditModal(item));
+	});
+
+	it('tests that the showUser method is called', () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue,
+			mocks: {
+				$router: router
+			}
+		});
+		expect(wrapper.vm.showUser(item));
+	});
+
+	// it('tests that searchQuery watcher is triggered', async () => {
+	// 	const wrapper = shallowMount(Users, {
+	// 		store,
+	// 		localVue,
+	// 		mocks: {
+	// 			$router: router
+	// 		}
+	// 	});
+
+	// 	jest.useFakeTimers();
+
+	// 	const searchPage = debounce(() => jest.fn(), 700);
+
+	// 	wrapper.setMethods({
+	// 		searchPage
+	// 	});
+
+	// 	await wrapper.setData({
+	// 		searchQuery: 'lani'
+	// 	});
+
+	// 	jest.advanceTimersByTime(700);
+	// 	// jest.runAllTimers();
+
+	// 	expect(searchPage.called).toBe(true);
+	// })
+
 	it('shows page title', () => {
 		const wrapper = shallowMount(Users, {
 			store,
 			localVue
 		});
 		const pageTitle = wrapper.find('h2');
-		// console.log(pageTitle);
 		expect(pageTitle.exists()).toBe(true);
 	});
 
@@ -577,10 +655,30 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper.find('.table__wrapper').findAll('td').at(6).find('.dropdown__wrapper');
-		console.log(icon);
-		// icon.trigger('click')
+		const icon = wrapper
+			.find('.table__wrapper')
+			.findAll('td')
+			.at(6)
+			.find('.dropdown__wrapper');
+		icon.trigger('click');
 		await wrapper.vm.$nextTick();
-		// console.log(wrapper.find('.dropdown__list-wrapper'))
+	});
+
+	it('tests that the editUser method is called', async () => {
+		const wrapper = mount(Users, {
+			store,
+			response: statusRes,
+			data() {
+				return {
+					showEditModal: true,
+					userInfo: item
+				};
+			}
+		});
+		expect(wrapper.vm.toggleClass).toBe(true);
+		const btn = wrapper.find({ ref: 'editUser' });
+		btn.trigger('click');
+		await expect(wrapper.vm.editUser());
+		expect(wrapper.vm.$data.loading).toBe(false);
 	});
 });

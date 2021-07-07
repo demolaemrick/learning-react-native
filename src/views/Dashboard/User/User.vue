@@ -166,7 +166,7 @@
 						</paginate>
 					</div>
 				</v-tab>
-				<v-tab title="Settings" @getData="setActiveTab('settings')">
+				<v-tab title="Settings" @getData="setActiveTab('settings')" ref="settingsTab">
 					<h4 class="settings-header">Search preference</h4>
 					<div class="search-terms">
 						<div class="settings-group">
