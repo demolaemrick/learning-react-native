@@ -345,14 +345,15 @@ describe('Admin', () => {
 	// 		expect(toggleActivateModal).toHaveBeenCalled();
 	// 	}
 	// });
-	it('tests that the search method is called', () => {
-		const wrapper = shallowMount(Admin, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.searchPage());
-		expect(wrapper.vm.$data.admins).not.toBeNull();
-	});
+
+	// it('tests that the search method is called', () => {
+	// 	const wrapper = shallowMount(Admin, {
+	// 		store,
+	// 		localVue
+	// 	});
+	// 	expect(wrapper.vm.searchPage());
+	// 	expect(wrapper.vm.$data.admins).not.toBeNull();
+	// });
 
 	it('tests that the deleteAdmin method works', () => {
 		const wrapper = shallowMount(Admin, {
@@ -419,16 +420,16 @@ describe('Admin', () => {
 		expect(wrapper.vm.addEmail(e));
 	});
 
-	it('tests that the checkAll method is called', () => {
-		let event = new Event('target');
-		event = {
-			target: {
-				checked: true
-			}
-		};
-		const wrapper = shallowMount(Admin);
-		expect(wrapper.vm.checkAll(event));
-	});
+	// it('tests that the checkAll method is called', () => {
+	// 	let event = new Event('target');
+	// 	event = {
+	// 		target: {
+	// 			checked: true
+	// 		}
+	// 	};
+	// 	const wrapper = shallowMount(Admin);
+	// 	expect(wrapper.vm.checkAll(event));
+	// });
 
 	it('tests that the page navigation works', () => {
 		const wrapper = shallowMount(Admin, {
