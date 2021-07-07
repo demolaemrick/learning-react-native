@@ -296,9 +296,6 @@ export default {
 				this.checkedContacts = [];
 			}
 		},
-		add(num1, num2) {
-			return num1 * num2;
-		},
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
 			console.log(item);
@@ -416,7 +413,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			}
