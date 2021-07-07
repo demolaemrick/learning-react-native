@@ -97,12 +97,7 @@
 								<td class="table__row-item">
 									<div class="table__td__name">
 										<div class="initials__logo">
-											{{
-												item.full_name
-													.match(/\b(\w)/g)
-													.join('')
-													.toUpperCase()
-											}}
+											{{ getInitials(item.full_name) }}
 										</div>
 										<div class="name__email__wrapper">
 											<div class="text__name text-capitalize">{{ item.full_name }}</div>

@@ -12,8 +12,10 @@ import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
 import VHeader from '@/components/Header/search/Header';
+import researchMixin from '@/mixins/research';
 export default {
 	name: 'ContactResearch',
+	mixins: [researchMixin],
 	components: {
 		VCheckbox,
 		VTextInput,

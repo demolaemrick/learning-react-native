@@ -13,9 +13,11 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
+import researchMixin from '@/mixins/research';
 
 export default {
 	name: 'User',
+	mixins: [researchMixin],
 	data() {
 		return {
 			form: {
