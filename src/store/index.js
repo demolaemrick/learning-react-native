@@ -19,6 +19,8 @@ const initialAlertState = {
 	showAlert: false
 };
 
+let alertTimeout;
+
 export default new Vuex.Store({
 	state: {
 		status: '',
@@ -56,9 +58,6 @@ export default new Vuex.Store({
 			}
 
 			state.alert = { ...initialAlertState, ...data };
-			setTimeout(() => {
-				state.alert = initialAlertState;
-			}, 5000);
 		},
 		resetAlert: (state) => {
 			state.alert = initialAlertState;
@@ -66,8 +65,12 @@ export default new Vuex.Store({
 	},
 	actions: {
 		showAlert: ({ commit }, data) => {
-			commit('updateAlert', data);
-		}
+            clearTimeout(alertTimeout);
+            commit('updateAlert', data);
+            alertTimeout = setTimeout(() => {
+                commit('resetAlert');
+            }, 3000);
+        }
 	},
 	modules: {
 		search_services,

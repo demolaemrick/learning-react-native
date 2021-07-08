@@ -16,21 +16,11 @@
 			text-align: left;
 			white-space: nowrap;
 		}
-		&--plain {
-			background-color: #fff;
-			border-bottom: 1px solid #f8f9fb;
-			.table__header-item {
-				padding-bottom: 0.5rem;
-			}
-		}
 		&-icon {
 			cursor: pointer;
 			display: inline-flex;
 			align-items: center;
 			margin-left: 10px;
-		}
-		@include query(tablet) {
-			display: none;
 		}
 	}
 	&--center {

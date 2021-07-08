@@ -1,4 +1,4 @@
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import AlertIcon from '../../components/AlertIcon';
 import VButton from '../Button';
 const CautionIcon = () => import('../../assets/icons/caution.svg').default;
@@ -40,23 +40,14 @@ export default {
 			return `alert--${this.alertType}`;
 		}
 	},
-	watch: {
-		showAlertStatus(newVal) {
-			if (newVal) {
-				setTimeout(() => {
-					this.showAlert({
-						showAlert: false
-					});
-				}, 6500);
-			}
-		}
-	},
+	created() {
+        this.getAlert.showAlert && this.resetAlert();
+    },
 	methods: {
+		...mapMutations(['resetAlert']),
 		...mapActions(['showAlert']),
 		closeAlert() {
-			this.showAlert({
-				showAlert: false
-			});
+			this.getAlert.showAlert && this.resetAlert();
 		}
 	},
 	components: {

@@ -47,7 +47,6 @@ export default {
 			try {
 				const response = await this.login(this.form);
 				const { status, data, statusText } = response;
-				console.log(data);
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
