@@ -41,8 +41,8 @@ export default {
 		}
 	},
 	created() {
-        this.getAlert.showAlert && this.resetAlert();
-    },
+		this.getAlert.showAlert && this.resetAlert();
+	},
 	methods: {
 		...mapMutations(['resetAlert']),
 		...mapActions(['showAlert']),

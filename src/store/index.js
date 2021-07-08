@@ -65,12 +65,12 @@ export default new Vuex.Store({
 	},
 	actions: {
 		showAlert: ({ commit }, data) => {
-            clearTimeout(alertTimeout);
-            commit('updateAlert', data);
-            alertTimeout = setTimeout(() => {
-                commit('resetAlert');
-            }, 3000);
-        }
+			clearTimeout(alertTimeout);
+			commit('updateAlert', data);
+			alertTimeout = setTimeout(() => {
+				commit('resetAlert');
+			}, 3000);
+		}
 	},
 	modules: {
 		search_services,
