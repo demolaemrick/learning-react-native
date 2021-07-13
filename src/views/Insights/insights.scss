@@ -38,7 +38,7 @@
 .searched__wrapper {
 	padding: 32px 24px 32px 24px;
 	border-left: 1px solid #f2f2f2;
-  // width: 448px;
+  width: 512px;
 }
 .searched__wrapper-header {
 	display: flex;
@@ -458,5 +458,6 @@
 }
 .tab-group {
   margin-top: 20px;
+	margin-bottom: 24px;
 
 }

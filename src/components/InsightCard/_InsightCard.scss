@@ -1,0 +1,30 @@
+.card {
+  width: 100%;
+
+  // &:hover {
+  //   border: 1px solid red;
+  // }
+}
+.title {
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.3px;
+  color: #202F44;
+}
+.content,
+.quote {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  color: #333758;
+  margin-bottom: 16px;
+  display: block;
+}
+.gap {
+  margin-right: 10px;
+}
+.quote {
+  font-style: italic;
+}

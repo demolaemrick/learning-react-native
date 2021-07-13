@@ -188,69 +188,87 @@
 					</span>
 					<dot-loader v-if="loadMore" />
 				</div> -->
-        <div class="snapshot-section">
-          <h3 class="section-title">Snapshot</h3>
-          <div class="snapshot-info">
-            <div class="flex flex__item-center postion">
-              <img src="@/assets/icons/work.svg" svg-inline />
-              <p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
-            </div>
-            <div class="flex flex__item-center postion">
-              <img src="@/assets/icons/articles.svg" svg-inline />
-              <p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
-            </div>
-            <div class="flex flex__item-center postion">
-              <img src="@/assets/icons/convo-bubble.svg" svg-inline />
-              <p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
-            </div>
-            <div class="flex flex__item-center postion">
-              <img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
-              <p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
-            </div>
-            <div class="flex flex__item-center postion">
-              <img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-              <p class="ml">Most viral tweet was:</p>
-            </div>
-          </div>
-        </div>
-        <div class="news-section">
-          <div class="news">
-            <h3 class="section-title">News & Articles</h3>
-            <div class="filter-sort">
-              <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-                <template #dropdown-wrapper >
-                  <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-                </template>
-                <template #dropdown-items>
-                  <li class="dropdown__item">Relevance</li>
-                </template>
-              </toggle-dropdown>
-            </div>
-          </div>
-          <TextInput 
-          class="search-section mb-0" 
-          type="text" 
-          placeholder="Search" 
-          v-model="searchQuery" 
-          :icon="{ type: 'search' }" 
-          backgroundColor="#F5F5F5"
-          border="#F5F5F5"
-          width="448px"
-          borderRadius="12px"
-          searchIconColor="#3A434B" />
+				<div class="snapshot-section">
+					<h3 class="section-title">Snapshot</h3>
+					<div class="snapshot-info">
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/work.svg" svg-inline />
+							<p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/articles.svg" svg-inline />
+							<p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+							<p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
+							<p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
+							<p class="ml">Most viral tweet was:</p>
+						</div>
+					</div>
+				</div>
+				<div class="news-section">
+					<div class="news">
+						<h3 class="section-title">News & Articles</h3>
+						<div class="filter-sort">
+							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+								<template #dropdown-wrapper>
+									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								</template>
+								<template #dropdown-items>
+									<li class="dropdown__item">Relevance</li>
+								</template>
+							</toggle-dropdown>
+						</div>
+					</div>
+					<TextInput
+						class="search-section mb-0"
+						type="text"
+						placeholder="Search"
+						v-model="searchQuery"
+						:icon="{ type: 'search' }"
+						backgroundColor="#F5F5F5"
+						border="#F5F5F5"
+						width="448px"
+						borderRadius="12px"
+						searchIconColor="#3A434B"
+					/>
 
-          <div class="tab-group flex">
-            <h5 
-              v-for="(tab, index) in tabs" 
-              :key="index" 
-              class="tab"
-              :class="{ active: tab === selectedTab }"
-              @click="selectedTab = tab"
-            >
-              {{ tab }}
-            </h5>
-          </div>
-        </div>
+					<div class="tab-group flex">
+						<h5
+							v-for="(tab, index) in tabs"
+							:key="index"
+							class="tab"
+							:class="{ active: tab === selectedTab }"
+							@click="selectedTab = tab"
+						>
+							{{ tab }}
+						</h5>
+					</div>
+            <InsightCard 
+            title="Journey to the Center of the Earth"
+            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
+            />
+            <InsightCard 
+            @openModal="toggleModalClass('dislikeModal')"
+            title="Kingsley Omin wins Gold at the Olympics!"
+            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
+            />
+				</div>
+        <div class="quote-section">
+					<h3 class="section-title">Quotes</h3>
+          <InsightCard 
+            content="We've seen rapid acceleration in the category and in our business this year, and as we look to 2021 its clear that every consumer-facing business in the world is focused on how to use data"
+          />
+				</div>
 			</div>
 
 			<!-- company search -->
@@ -324,9 +342,28 @@
 					<dot-loader v-if="loadMore" />
 				</div>
 			</div>
-
-			<!-- </div> -->
+      <!-- </div> -->
 		</main>
+      <modal position="center" v-if="dislikeModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+    <template #title>
+      <h4 class="modal__header-title">Reasons for dislike</h4>
+    </template>
+    <template #body>
+      <div class="modal__content">
+        <p class="modal__content-text">
+          <RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
+        </p>
+        <div class="modal__content-btn">
+          <div class="cancel" @click="toggleSuspendModal">Cancel</div>
+          <v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
+            <template v-if="!loading">Suspend</template>
+            <Loader v-else />
+          </v-button>
+        </div>
+      </div>
+    </template>
+  </modal>
+
 	</div>
 </template>
 

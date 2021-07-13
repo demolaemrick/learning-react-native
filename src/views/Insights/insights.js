@@ -7,6 +7,9 @@ import ScreenWidthMixin from '@/mixins/screen-width';
 import { response } from '@/data/response.json';
 import PageLoad from './PageLoad.vue';
 import TextInput from '@/components/Input';
+import InsightCard from '@/components/InsightCard';
+import RadioBtn from '@/components/RadioButton';
+
 
 export default {
 	name: 'SearchResult',
@@ -16,7 +19,9 @@ export default {
 		DropdownCheckbox,
 		PageLoad,
 		VHeader,
-    TextInput
+		TextInput,
+		InsightCard,
+		RadioBtn
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
@@ -35,9 +40,25 @@ export default {
 			userNote: null,
 			notepadTXT: null,
 			markDone: false,
-      tabs: ["All", "Data", "E-signature", "Non-profit"],
-      selectedTab: "All",
-      searchQuery: ''
+			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
+			selectedTab: 'All',
+			searchQuery: '',
+			dislikeModal: false,
+			statusOption: '',
+			statusType: [
+				{
+					value: 'Reason for dislike 1',
+					title: 'Reason for dislike 1'
+				},
+				{
+					value: 'Reason for dislike 2',
+					title: 'Reason for dislike 2'
+				},
+				{
+					value: 'Reason for dislike 3',
+					title: 'Reason for dislike 3'
+				}
+			]
 		};
 	},
 	async created() {
@@ -300,6 +321,17 @@ export default {
 				message: 'Removed from bookmarks',
 				showAlert: true
 			});
-		}
+		},
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
 	}
 };
