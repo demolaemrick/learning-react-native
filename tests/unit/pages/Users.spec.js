@@ -677,7 +677,7 @@ describe('Users', () => {
 	});
 
 	// it('tests that searchPage method is called', () => {
-		// debounce.mockImplementation(fn => fn);
+	// debounce.mockImplementation(fn => fn);
 	// 	const searchPage = jest.fn();
 
 	// 	const wrapper = mount(Users, {
