@@ -63,6 +63,18 @@ const InputMixin = {
 		labelColor: {
 			type: String,
 			default: ''
+		},
+		backgroundColor: {
+			type: String,
+			default: ''
+		},
+		borderRadius: {
+			type: String,
+			default: ''
+		},
+		searchIconColor: {
+			type: String,
+			default: '#989AAA'
 		}
 	},
 	data: () => ({
@@ -78,7 +90,9 @@ const InputMixin = {
 				height: this.height,
 				maxWidth: this.maxWidth,
 				border: this.border,
-				margin: this.margin
+				margin: this.margin,
+				borderRadius: this.borderRadius,
+				backgroundColor: this.backgroundColor
 			};
 		}
 	},

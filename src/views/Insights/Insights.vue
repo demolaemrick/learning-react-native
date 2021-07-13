@@ -120,11 +120,11 @@
 			<!-- contact search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Contact Research</h3>
+					<h3 class="title" v-if="screenType === 'large'">Contact Insights</h3>
 					<toggle-dropdown v-else>
 						<template #dropdown-wrapper>
 							<h3 class="title">
-								Contact Research
+								Contact Insights
 								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
 							</h3>
 						</template>
@@ -133,7 +133,7 @@
 							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
-					<div class="filter-sort">
+					<!-- <div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
 								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
@@ -143,9 +143,9 @@
 								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
 							</template>
 						</toggle-dropdown>
-					</div>
+					</div> -->
 				</div>
-				<template v-if="contact_research.others && contact_research.others.length === 0">
+				<!-- <template v-if="contact_research.others && contact_research.others.length === 0">
 					<div class="searched-result">
 						<div class="searched__item">No research found</div>
 					</div>
@@ -187,7 +187,70 @@
 						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
-				</div>
+				</div> -->
+        <div class="snapshot-section">
+          <h3 class="section-title">Snapshot</h3>
+          <div class="snapshot-info">
+            <div class="flex flex__item-center postion">
+              <img src="@/assets/icons/work.svg" svg-inline />
+              <p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
+            </div>
+            <div class="flex flex__item-center postion">
+              <img src="@/assets/icons/articles.svg" svg-inline />
+              <p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
+            </div>
+            <div class="flex flex__item-center postion">
+              <img src="@/assets/icons/convo-bubble.svg" svg-inline />
+              <p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
+            </div>
+            <div class="flex flex__item-center postion">
+              <img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
+              <p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
+            </div>
+            <div class="flex flex__item-center postion">
+              <img src="@/assets/icons/twitter-icon2.svg" svg-inline />
+              <p class="ml">Most viral tweet was:</p>
+            </div>
+          </div>
+        </div>
+        <div class="news-section">
+          <div class="news">
+            <h3 class="section-title">News & Articles</h3>
+            <div class="filter-sort">
+              <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+                <template #dropdown-wrapper >
+                  <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+                </template>
+                <template #dropdown-items>
+                  <li class="dropdown__item">Relevance</li>
+                </template>
+              </toggle-dropdown>
+            </div>
+          </div>
+          <TextInput 
+          class="search-section mb-0" 
+          type="text" 
+          placeholder="Search" 
+          v-model="searchQuery" 
+          :icon="{ type: 'search' }" 
+          backgroundColor="#F5F5F5"
+          border="#F5F5F5"
+          width="448px"
+          borderRadius="12px"
+          searchIconColor="#3A434B" />
+
+          <div class="tab-group flex">
+            <h5 
+              v-for="(tab, index) in tabs" 
+              :key="index" 
+              class="tab"
+              :class="{ active: tab === selectedTab }"
+              @click="selectedTab = tab"
+            >
+              {{ tab }}
+            </h5>
+          </div>
+        </div>
 			</div>
 
 			<!-- company search -->

@@ -6,6 +6,8 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import { response } from '@/data/response.json';
 import PageLoad from './PageLoad.vue';
+import TextInput from '@/components/Input';
+
 export default {
 	name: 'SearchResult',
 	components: {
@@ -13,7 +15,8 @@ export default {
 		DCheckbox,
 		DropdownCheckbox,
 		PageLoad,
-		VHeader
+		VHeader,
+    TextInput
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
@@ -31,7 +34,10 @@ export default {
 			rowId: null,
 			userNote: null,
 			notepadTXT: null,
-			markDone: false
+			markDone: false,
+      tabs: ["All", "Data", "E-signature", "Non-profit"],
+      selectedTab: "All",
+      searchQuery: ''
 		};
 	},
 	async created() {
