@@ -420,17 +420,6 @@ describe('Admin', () => {
 		expect(wrapper.vm.addEmail(e));
 	});
 
-	// it('tests that the checkAll method is called', () => {
-	// 	let event = new Event('target');
-	// 	event = {
-	// 		target: {
-	// 			checked: true
-	// 		}
-	// 	};
-	// 	const wrapper = shallowMount(Admin);
-	// 	expect(wrapper.vm.checkAll(event));
-	// });
-
 	it('tests that the page navigation works', () => {
 		const wrapper = shallowMount(Admin, {
 			store,

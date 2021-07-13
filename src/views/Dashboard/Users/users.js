@@ -283,19 +283,7 @@ export default {
 				this.loading = false;
 			}
 		},
-		checkAll(event) {
-			if (event.target.checked) {
-				this.history.forEach((item) => {
-					if (item.status.statusCode === 'ACTIVE' || item.status.statusCode === 'INACTIVE') {
-						this.checkedContacts.push(item.rowId);
-						return item.rowId;
-					}
-					return item.rowId;
-				});
-			} else {
-				this.checkedContacts = [];
-			}
-		},
+
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
 			console.log(item);

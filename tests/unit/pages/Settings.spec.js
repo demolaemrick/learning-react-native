@@ -1,6 +1,7 @@
 import Settings from '../../../src/views/Settings/Settings.vue';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
+import VButton from '../../../src/components/Button';
 
 jest.useFakeTimers();
 const localVue = createLocalVue();
@@ -36,6 +37,16 @@ let statusRes = {
 let settingRes = {
 	status: 200,
 	statusText: 'OK'
+};
+
+let errRes = {
+	status: 500,
+	statusText: 'Failed',
+	response: {
+		data: {
+			message: 'failed'
+		}
+	}
 };
 
 describe('Settings', () => {
@@ -116,5 +127,99 @@ describe('Settings', () => {
 		jest.advanceTimersByTime(500);
 		wrapper.vm.$nextTick();
 		expect(wrapper.vm.toggleClass).toBe(true);
+	});
+
+	it('tests that the submitForm button is clicked', async () => {
+		const wrapper = mount(Settings, {
+			store,
+			localVue,
+			data() {
+				return {
+					settings: {
+						company_research: ['hello'],
+						contact_research: ['hello']
+					}
+				};
+			}
+		});
+		const btn = wrapper.find({ ref: 'settingsBtn' });
+		btn.trigger('click');
+
+		expect(store.dispatch).toHaveBeenCalledWith('user/settings', {
+			company_research: ['hello'],
+			contact_research: ['hello']
+		});
+	});
+
+	it('tests that the error alert is triggered', async () => {
+		store.dispatch = jest.fn().mockRejectedValue(errRes);
+
+		const wrapper = mount(Settings, {
+			store,
+			localVue,
+			data() {
+				return {
+					settings: {
+						company_research: ['hello'],
+						contact_research: ['hello']
+					}
+				};
+			}
+		});
+		const btn = wrapper.find({ ref: 'settingsBtn' });
+		btn.trigger('click');
+
+		await expect(store.dispatch).toHaveBeenCalledWith('user/settings', {
+			company_research: ['hello'],
+			contact_research: ['hello']
+		});
+	});
+
+	it('tests that the settings page is closed', () => {
+		const wrapper = mount(Settings, {
+			store,
+			localVue,
+			data() {
+				return {
+					initialKeywords: ['hello'],
+					initialCompanyKeywords: ['hello'],
+					settings: {
+						company_research: ['hello'],
+						contact_research: ['hello']
+					}
+				};
+			}
+		});
+		const btn = wrapper.findComponent(VButton);
+		btn.trigger('click');
+
+		expect(wrapper.vm.$data.initialKeywords).toStrictEqual(wrapper.vm.$data.settings.contact_research);
+	});
+
+	it('tests that the settings page modal is opened', () => {
+		const toggleModal = jest.fn();
+
+		const wrapper = mount(Settings, {
+			store,
+			localVue,
+			data() {
+				return {
+					initialKeywords: ['hello'],
+					initialCompanyKeywords: ['hello'],
+					settings: {
+						company_research: ['hi'],
+						contact_research: ['hi']
+					}
+				};
+			},
+			methods: {
+				toggleModal
+			}
+		});
+		const btn = wrapper.findComponent(VButton);
+		btn.trigger('click');
+
+		expect(wrapper.vm.$data.initialCompanyKeywords).not.toStrictEqual(wrapper.vm.$data.settings.company_research);
+		expect(toggleModal).toHaveBeenCalled();
 	});
 });

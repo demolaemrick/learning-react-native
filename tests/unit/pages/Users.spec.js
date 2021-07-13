@@ -8,12 +8,14 @@ import VTable from '@/components/Table';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import VueRouter from 'vue-router';
-// import debounce from 'lodash.debounce';
+// import debounce from 'lodash/debounce';
+
 jest.useFakeTimers();
 
 const Paginate = require('vuejs-paginate');
 
 jest.mock('vuejs-paginate');
+// jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
 
 const localVue = createLocalVue();
 
@@ -103,6 +105,9 @@ describe('Users', () => {
 		]
 	});
 	beforeEach(() => {
+		// let func = jest.fn();
+		// let debouncedFunc = debounce(func, 600);
+
 		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
@@ -540,17 +545,6 @@ describe('Users', () => {
 		expect(wrapper.vm.registerUser());
 	});
 
-	// it('tests that the checkAll method is called', () => {
-	// 	let event = new Event('target');
-	// 	event = {
-	// 		target: {
-	// 			checked: true
-	// 		}
-	// 	};
-	// 	const wrapper = shallowMount(Users);
-	// 	expect(wrapper.vm.checkAll(event));
-	// });
-
 	it('tests that the deactivate modal is toggled', () => {
 		const wrapper = shallowMount(Users, {
 			store,
@@ -681,4 +675,31 @@ describe('Users', () => {
 		await expect(wrapper.vm.editUser());
 		expect(wrapper.vm.$data.loading).toBe(false);
 	});
+
+	// it('tests that searchPage method is called', () => {
+		// debounce.mockImplementation(fn => fn);
+	// 	const searchPage = jest.fn();
+
+	// 	const wrapper = mount(Users, {
+	// 		store,
+	// 		data() {
+	// 			return {
+	// 				searchQuery: ''
+	// 			};
+	// 		},
+	// 		methods: {
+	// 			searchPage
+	// 		}
+	// 	});
+
+	// 	expect(wrapper.vm.$data.searchQuery).toBe('');
+	// 	wrapper.setData({ searchQuery: 'lani' });
+	// 	expect(wrapper.vm.$data.searchQuery).toEqual('lani');
+	// 	wrapper.vm.$options.watch.searchQuery.call(wrapper.vm);
+	// 	console.log('##########');
+	// 	console.log(wrapper.vm.$options.watch);
+	// 	console.log('##########');
+	// 	jest.advanceTimersByTime(600);
+	// 	expect(wrapper.vm.searchPage({ q: 'lani' }));
+	// });
 });
