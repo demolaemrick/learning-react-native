@@ -133,61 +133,7 @@
 							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
-					<!-- <div class="filter-sort">
-						<toggle-dropdown>
-							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-							</template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
-								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
-							</template>
-						</toggle-dropdown>
-					</div> -->
 				</div>
-				<!-- <template v-if="contact_research.others && contact_research.others.length === 0">
-					<div class="searched-result">
-						<div class="searched__item">No research found</div>
-					</div>
-				</template>
-				<div v-else class="searched-result" v-for="(data, i) in contact_research" :key="i">
-					<span v-for="(dataItem, j) in data" :key="j">
-						<div class="searched__item" v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')">
-							<div @click="displaySearchItem('contact_research', dataItem)">
-								<span class="searched__item__group">
-									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
-										{{ (dataItem.meta.relevanceScore * 100).toFixed(2) }}%
-									</p>
-								</span>
-								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-							</div>
-							<div
-								v-if="!dataItem.is_bookmarked"
-								@click="btnAddToBookMarks({ type: 'contact_research', index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
-								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
-							</div>
-							<div
-								v-else
-								@click="btnRemoveFromBookMarks({ type: 'contact_research', index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
-								>
-								<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
-							</div>
-						</div>
-					</span>
-					<dot-loader v-if="loadMore" />
-				</div> -->
 				<div class="snapshot-section">
 					<h3 class="section-title">Snapshot</h3>
 					<div class="snapshot-info">
@@ -251,30 +197,45 @@
 							{{ tab }}
 						</h5>
 					</div>
-            <InsightCard 
-            title="Journey to the Center of the Earth"
-            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+					<InsightCard
+						@openModal="toggleModalClass('dislikeModal')"
+						title="Journey to the Center of the Earth"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
+            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
+            Quisquam fugit repudiandae iure atque eum minus!
             Quis et itaque nam"
-            />
-            <InsightCard 
-            @openModal="toggleModalClass('dislikeModal')"
-            title="Kingsley Omin wins Gold at the Olympics!"
-            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+					/>
+					<InsightCard
+						@openModal="toggleModalClass('dislikeModal')"
+						title="Kingsley Omin wins Gold at the Olympics!"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
+            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
             Quis et itaque nam"
-            />
+					/>
 				</div>
-        <div class="quote-section">
+				<div class="quote-section">
 					<h3 class="section-title">Quotes</h3>
-          <InsightCard 
-            content="We've seen rapid acceleration in the category and in our business this year, and as we look to 2021 its clear that every consumer-facing business in the world is focused on how to use data"
-          />
+					<InsightCard
+						content="We've seen rapid acceleration in the category and in our business this year, 
+            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
+            on how to use data"
+					/>
+				</div>
+				<div class="otherInsight-section">
+					<h3 class="section-title">Other Insights</h3>
+					<InsightCard
+						content="We've seen rapid acceleration in the category and in our business this year, 
+            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
+            on how to use data"
+					/>
 				</div>
 			</div>
 
 			<!-- company search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Company Research</h3>
+					<h3 class="title" v-if="screenType === 'large'">Company Insights</h3>
 					<toggle-dropdown v-else>
 						<template #dropdown-wrapper>
 							<h3 class="title">
@@ -287,83 +248,131 @@
 							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
-					<div class="filter-sort">
-						<toggle-dropdown>
-							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-							</template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('company_research')">Recent</li>
-								<li class="dropdown__item" @click="sortByRelevance('company_research')">Relevance</li>
-							</template>
-						</toggle-dropdown>
+				</div>
+				<div class="snapshot-section">
+					<h3 class="section-title">Snapshot</h3>
+					<div class="snapshot-info">
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/articles.svg" svg-inline />
+							<p class="ml">Mentioned in <span class="main-info">6 news articles</span> in the past year</p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/fund.svg" svg-inline />
+							<p class="ml">Raised a round of <span class="main-info">funding</span> in March 2021</p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+							<p class="ml">
+								Speaks most about <span class="main-info">data</span> and <span class="main-info">non-profit</span>
+							</p>
+						</div>
+						<div class="flex flex__item-center postion">
+							<img src="@/assets/icons/jobs.svg" svg-inline />
+							<p class="ml">Have 12 <span class="main-info">open jobs</span></p>
+						</div>
 					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in company_research" :key="i">
-					<span v-for="(dataItem, j) in data" :key="j">
-						<div
-							class="searched__item"
-							:id="`searched__item-${j}`"
-							v-if="dataItem.dontRender === null || !Object.keys(dataItem).includes('dontRender')"
-						>
-							<div @click="displaySearchItem('company_research', dataItem)">
-								<span class="searched__item__group">
-									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
-										{{ (dataItem.meta.relevanceScore * 100).toFixed(2) }}%
-									</p>
-								</span>
-								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-							</div>
-							<div
-								v-if="!dataItem.is_bookmarked"
-								@click="btnAddToBookMarks({ type: 'company_research', index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
-								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
-							</div>
-							<div
-								v-else
-								@click="btnRemoveFromBookMarks({ type: 'company_research', index: j, ...dataItem })"
-								class="url__bookmark__group"
-							>
-								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
-									<p class="url-text">{{ dataItem.url }}</p></a
-								>
-								<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
-							</div>
+				<div class="news-section">
+					<div class="news">
+						<h3 class="section-title">News</h3>
+						<div class="filter-sort">
+							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+								<template #dropdown-wrapper>
+									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								</template>
+								<template #dropdown-items>
+									<li class="dropdown__item">Relevance</li>
+								</template>
+							</toggle-dropdown>
 						</div>
-					</span>
-					<dot-loader v-if="loadMore" />
+					</div>
+					<TextInput
+						class="search-section mb-0"
+						type="text"
+						placeholder="Search"
+						v-model="searchQuery"
+						:icon="{ type: 'search' }"
+						backgroundColor="#F5F5F5"
+						border="#F5F5F5"
+						width="448px"
+						borderRadius="12px"
+						searchIconColor="#3A434B"
+					/>
+
+					<div class="tab-group flex">
+						<h5
+							v-for="(tab, index) in companyTabs"
+							:key="index"
+							class="tab"
+							:class="{ active: tab === companyTab }"
+							@click="companyTab = tab"
+						>
+							{{ tab }}
+						</h5>
+					</div>
+					<!-- <InsightCard
+            @openModal="toggleModalClass('dislikeModal')"
+						title="Journey to the Center of the Earth"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
+            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
+            Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
+					/> -->
+					<InsightCard
+						@openModal="toggleModalClass('dislikeModal')"
+						title="Kingsley Omin wins Gold at the Olympics!"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
+            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
+					/>
+					<InsightCard
+						@openModal="toggleModalClass('dislikeModal')"
+						title="Kingsley Omin wins Gold at the Olympics!"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
+            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
+					/>
 				</div>
 			</div>
-      <!-- </div> -->
 		</main>
-      <modal position="center" v-if="dislikeModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
-    <template #title>
-      <h4 class="modal__header-title">Reasons for dislike</h4>
-    </template>
-    <template #body>
-      <div class="modal__content">
-        <p class="modal__content-text">
-          <RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
-        </p>
-        <div class="modal__content-btn">
-          <div class="cancel" @click="toggleSuspendModal">Cancel</div>
-          <v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
-            <template v-if="!loading">Suspend</template>
-            <Loader v-else />
-          </v-button>
-        </div>
-      </div>
-    </template>
-  </modal>
-
+		<!-- Dislike Modal -->
+		<modal
+			position="center"
+			v-if="dislikeModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('dislikeModal')"
+			maxWidth="400px"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Why did you dislike the search result?</h4>
+			</template>
+			<template #info>
+				<h5>We will like to get your feedback to help us improve our services</h5>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						<RadioBtn
+							style="display: block"
+							margin=""
+							id="statusType"
+							:options="dislikeOptions"
+							name="status"
+							v-model="statusOption"
+						/>
+					</p>
+					<div class="modal__content-btn">
+						<v-button class="config__btn" buttonType="warning" size="modal" >
+							<template v-if="!loading">Submit</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
 	</div>
 </template>
 

@@ -14,6 +14,6 @@ const Template = (args, { argTypes }) => ({
 export const Default = Template.bind({});
 
 Default.args = {
-  title: 'Title',
-  content: 'Content'
-}
+	title: 'Title',
+	content: 'Content'
+};

@@ -9,7 +9,8 @@ import PageLoad from './PageLoad.vue';
 import TextInput from '@/components/Input';
 import InsightCard from '@/components/InsightCard';
 import RadioBtn from '@/components/RadioButton';
-
+import Modal from '@/components/Modal';
+import VButton from '@/components/Button';
 
 export default {
 	name: 'SearchResult',
@@ -21,7 +22,9 @@ export default {
 		VHeader,
 		TextInput,
 		InsightCard,
-		RadioBtn
+		RadioBtn,
+		Modal,
+		VButton
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
@@ -41,11 +44,15 @@ export default {
 			notepadTXT: null,
 			markDone: false,
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
+			companyTabs: ['All', 'Products', 'Funding', 'People'],
+			companyTab: 'Funding',
 			selectedTab: 'All',
 			searchQuery: '',
 			dislikeModal: false,
+			toggleClass: true,
 			statusOption: '',
-			statusType: [
+			suspendModal: false,
+			dislikeOptions: [
 				{
 					value: 'Reason for dislike 1',
 					title: 'Reason for dislike 1'
@@ -57,6 +64,22 @@ export default {
 				{
 					value: 'Reason for dislike 3',
 					title: 'Reason for dislike 3'
+				},
+				{
+					value: 'Reason for dislike 4',
+					title: 'Reason for dislike 4'
+				},
+				{
+					value: 'Reason for dislike 5',
+					title: 'Reason for dislike 5'
+				},
+				{
+					value: 'Reason for dislike 6',
+					title: 'Reason for dislike 6'
+				},
+				{
+					value: 'Reason for dislike 7',
+					title: 'Reason for dislike 7'
 				}
 			]
 		};
@@ -333,5 +356,16 @@ export default {
 				}, 500);
 			}
 		},
+		toggleSuspendModal() {
+			if (!this.suspendModal) {
+				this.suspendModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.suspendModal = !this.suspendModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		}
 	}
 };
