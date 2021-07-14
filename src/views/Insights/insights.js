@@ -50,36 +50,28 @@ export default {
 			searchQuery: '',
 			dislikeModal: false,
 			toggleClass: true,
-			statusOption: '',
-			suspendModal: false,
+			disliked: false,
+			dislikeOption: 'Not relevant to this search',
 			dislikeOptions: [
 				{
-					value: 'Reason for dislike 1',
-					title: 'Reason for dislike 1'
+					value: 'Not relevant to this search',
+					title: 'Not relevant to this search'
 				},
 				{
-					value: 'Reason for dislike 2',
-					title: 'Reason for dislike 2'
+					value: 'Not what I am looking for',
+					title: 'Not what I am looking for'
 				},
 				{
-					value: 'Reason for dislike 3',
-					title: 'Reason for dislike 3'
+					value: 'Not enough details',
+					title: 'Not enough details'
 				},
 				{
-					value: 'Reason for dislike 4',
-					title: 'Reason for dislike 4'
+					value: 'Incorrect information',
+					title: 'Incorrect information'
 				},
 				{
-					value: 'Reason for dislike 5',
-					title: 'Reason for dislike 5'
-				},
-				{
-					value: 'Reason for dislike 6',
-					title: 'Reason for dislike 6'
-				},
-				{
-					value: 'Reason for dislike 7',
-					title: 'Reason for dislike 7'
+					value: 'Other',
+					title: 'Other'
 				}
 			]
 		};
@@ -356,16 +348,9 @@ export default {
 				}, 500);
 			}
 		},
-		toggleSuspendModal() {
-			if (!this.suspendModal) {
-				this.suspendModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.suspendModal = !this.suspendModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
+		dislikeCard() {
+			this.dislikeModal = false;
+			this.disliked = true
 		}
 	}
 };

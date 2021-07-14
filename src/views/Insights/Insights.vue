@@ -118,214 +118,221 @@
 			</div>
 
 			<!-- contact search -->
-			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
-				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Contact Insights</h3>
-					<toggle-dropdown v-else>
-						<template #dropdown-wrapper>
-							<h3 class="title">
-								Contact Insights
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-							</h3>
-						</template>
-						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
-						</template>
-					</toggle-dropdown>
-				</div>
-				<div class="snapshot-section">
-					<h3 class="section-title">Snapshot</h3>
-					<div class="snapshot-info">
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/work.svg" svg-inline />
-							<p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
-							<p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
-							<p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-							<p class="ml">Most viral tweet was:</p>
-						</div>
-					</div>
-				</div>
-				<div class="news-section">
-					<div class="news">
-						<h3 class="section-title">News & Articles</h3>
-						<div class="filter-sort">
-							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-								<template #dropdown-wrapper>
-									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								</template>
-								<template #dropdown-items>
-									<li class="dropdown__item">Relevance</li>
-								</template>
-							</toggle-dropdown>
-						</div>
-					</div>
-					<TextInput
-						class="search-section mb-0"
-						type="text"
-						placeholder="Search"
-						v-model="searchQuery"
-						:icon="{ type: 'search' }"
-						backgroundColor="#F5F5F5"
-						border="#F5F5F5"
-						width="448px"
-						borderRadius="12px"
-						searchIconColor="#3A434B"
-					/>
+        <div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
+          <div class="section-wrapper">
+            <div class="searched__wrapper-header">
+              <h3 class="title" v-if="screenType === 'large'">Contact Insights</h3>
+              <toggle-dropdown v-else>
+                <template #dropdown-wrapper>
+                  <h3 class="title">
+                    Contact Insights
+                    <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+                  </h3>
+                </template>
+                <template #dropdown-items>
+                  <li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+                  <li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
+                </template>
+              </toggle-dropdown>
+            </div>
+            <div class="snapshot-section">
+              <h3 class="section-title">Snapshot</h3>
+              <div class="snapshot-info">
+                <div class="flex flex__item-center postion">
+                  <img src="@/assets/icons/work.svg" svg-inline />
+                  <p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
+                </div>
+                <div class="flex flex__item-center postion">
+                  <img src="@/assets/icons/articles.svg" svg-inline />
+                  <p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
+                </div>
+                <div class="flex flex__item-center postion">
+                  <img src="@/assets/icons/convo-bubble.svg" svg-inline />
+                  <p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
+                </div>
+                <div class="flex flex__item-center postion">
+                  <img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
+                  <p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
+                </div>
+                <div class="flex flex__item-center postion">
+                  <img src="@/assets/icons/twitter-icon2.svg" svg-inline />
+                  <p class="ml">Most viral tweet was:</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-					<div class="tab-group flex">
-						<h5
-							v-for="(tab, index) in tabs"
-							:key="index"
-							class="tab"
-							:class="{ active: tab === selectedTab }"
-							@click="selectedTab = tab"
-						>
-							{{ tab }}
-						</h5>
-					</div>
-					<InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Journey to the Center of the Earth"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-            Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/>
-					<InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Kingsley Omin wins Gold at the Olympics!"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/>
-				</div>
-				<div class="quote-section">
-					<h3 class="section-title">Quotes</h3>
-					<InsightCard
-						content="We've seen rapid acceleration in the category and in our business this year, 
-            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
-            on how to use data"
-					/>
-				</div>
-				<div class="otherInsight-section">
-					<h3 class="section-title">Other Insights</h3>
-					<InsightCard
-						content="We've seen rapid acceleration in the category and in our business this year, 
-            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
-            on how to use data"
-					/>
-				</div>
-			</div>
+          <div class="news-section">
+            <div class="section-wrapper">
+              <div class="news">
+                <h3 class="section-title">News & Articles</h3>
+                <div class="filter-sort">
+                  <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+                    <template #dropdown-wrapper>
+                      <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+                    </template>
+                    <template #dropdown-items>
+                      <li class="dropdown__item">Recent</li>
+                      <li class="dropdown__item">Relevant</li>
+                    </template>
+                  </toggle-dropdown>
+                </div>
+              </div>
+              <TextInput
+                class="search-section mb-0"
+                type="text"
+                placeholder="Search"
+                v-model="searchQuery"
+                :icon="{ type: 'search' }"
+                backgroundColor="#F5F5F5"
+                border="#F5F5F5"
+                borderRadius="12px"
+                searchIconColor="#3A434B"
+              />
+
+              <div class="tab-group flex">
+                <h5
+                  v-for="(tab, index) in tabs"
+                  :key="index"
+                  class="tab"
+                  :class="{ active: tab === selectedTab }"
+                  @click="selectedTab = tab"
+                >
+                  {{ tab }}
+                </h5>
+              </div>
+            </div>
+
+            <InsightCard
+              :disliked="disliked"
+              @openModal="toggleModalClass('dislikeModal')"
+              title="Journey to the Center of the Earth"
+              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
+              Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
+              Quisquam fugit repudiandae iure atque eum minus!
+              Quis et itaque nam"
+            />
+            <div class="border"></div>
+            <InsightCard
+              :disliked="disliked"
+              @openModal="toggleModalClass('dislikeModal')"
+              title="Kingsley Omin wins Gold at the Olympics!"
+              content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
+              Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+              Quis et itaque nam"
+            />
+          </div>
+          <div class="quote-section">
+            <div class="section-wrapper">
+              <h3 class="section-title">Quotes</h3>
+            </div>
+            <InsightCard
+              :disliked="disliked"
+              @openModal="toggleModalClass('dislikeModal')"
+              quote="We've seen rapid acceleration in the category and in our business this year, 
+              and as we look to 2021 its clear that every consumer-facing business in the world is focused 
+              on how to use data"
+            />
+          </div>
+          <div class="topics-section">
+            <div class="section-wrapper">
+              <h3 class="section-title">Topics</h3>
+            </div>
+          </div>
+          <div class="otherInsight-section">
+            <div class="section-wrapper">
+              <h3 class="section-title">Other Insights</h3>
+            </div>
+            <InsightCard
+              content="On Twitter Boray interacts most with John Doe Boray shared a link to a Techcrunch article"
+            />
+          </div>
+        </div>
 
 			<!-- company search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
-				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Company Insights</h3>
-					<toggle-dropdown v-else>
-						<template #dropdown-wrapper>
-							<h3 class="title">
-								Company Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-							</h3>
-						</template>
-						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
-						</template>
-					</toggle-dropdown>
-				</div>
-				<div class="snapshot-section">
-					<h3 class="section-title">Snapshot</h3>
-					<div class="snapshot-info">
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">Mentioned in <span class="main-info">6 news articles</span> in the past year</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/fund.svg" svg-inline />
-							<p class="ml">Raised a round of <span class="main-info">funding</span> in March 2021</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
-							<p class="ml">
-								Speaks most about <span class="main-info">data</span> and <span class="main-info">non-profit</span>
-							</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/jobs.svg" svg-inline />
-							<p class="ml">Have 12 <span class="main-info">open jobs</span></p>
-						</div>
-					</div>
-				</div>
+        <div class="section-wrapper">
+          <div class="searched__wrapper-header">
+            <h3 class="title" v-if="screenType === 'large'">Company Insights</h3>
+            <toggle-dropdown v-else>
+              <template #dropdown-wrapper>
+                <h3 class="title">
+                  Company Research
+                  <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+                </h3>
+              </template>
+              <template #dropdown-items>
+                <li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+                <li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
+              </template>
+            </toggle-dropdown>
+          </div>
+          <div class="snapshot-section">
+            <h3 class="section-title">Snapshot</h3>
+            <div class="snapshot-info">
+              <div class="flex flex__item-center postion">
+                <img src="@/assets/icons/articles.svg" svg-inline />
+                <p class="ml">Mentioned in <span class="main-info">6 news articles</span> in the past year</p>
+              </div>
+              <div class="flex flex__item-center postion">
+                <img src="@/assets/icons/fund.svg" svg-inline />
+                <p class="ml">Raised a round of <span class="main-info">funding</span> in March 2021</p>
+              </div>
+              <div class="flex flex__item-center postion">
+                <img src="@/assets/icons/convo-bubble.svg" svg-inline />
+                <p class="ml">
+                  Speaks most about <span class="main-info">data</span> and <span class="main-info">non-profit</span>
+                </p>
+              </div>
+              <div class="flex flex__item-center postion">
+                <img src="@/assets/icons/jobs.svg" svg-inline />
+                <p class="ml">Have 12 <span class="main-info">open jobs</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
 				<div class="news-section">
-					<div class="news">
-						<h3 class="section-title">News</h3>
-						<div class="filter-sort">
-							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-								<template #dropdown-wrapper>
-									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								</template>
-								<template #dropdown-items>
-									<li class="dropdown__item">Relevance</li>
-								</template>
-							</toggle-dropdown>
-						</div>
-					</div>
-					<TextInput
-						class="search-section mb-0"
-						type="text"
-						placeholder="Search"
-						v-model="searchQuery"
-						:icon="{ type: 'search' }"
-						backgroundColor="#F5F5F5"
-						border="#F5F5F5"
-						width="448px"
-						borderRadius="12px"
-						searchIconColor="#3A434B"
-					/>
+          <div class="section-wrapper">
+            <div class="news">
+              <h3 class="section-title">News</h3>
+              <div class="filter-sort">
+                <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+                  <template #dropdown-wrapper>
+                    <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+                  </template>
+                  <template #dropdown-items>
+                    <li class="dropdown__item">Recent</li>
+                    <li class="dropdown__item">Relevant</li>
+                  </template>
+                </toggle-dropdown>
+              </div>
+            </div>
+            <TextInput
+              class="search-section mb-0"
+              type="text"
+              placeholder="Search"
+              v-model="searchQuery"
+              :icon="{ type: 'search' }"
+              backgroundColor="#F5F5F5"
+              border="#F5F5F5"
+              borderRadius="12px"
+              searchIconColor="#3A434B"
+            />
 
-					<div class="tab-group flex">
-						<h5
-							v-for="(tab, index) in companyTabs"
-							:key="index"
-							class="tab"
-							:class="{ active: tab === companyTab }"
-							@click="companyTab = tab"
-						>
-							{{ tab }}
-						</h5>
-					</div>
-					<!-- <InsightCard
-            @openModal="toggleModalClass('dislikeModal')"
-						title="Journey to the Center of the Earth"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-            Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/> -->
-					<InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Kingsley Omin wins Gold at the Olympics!"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/>
+            <div class="tab-group flex">
+              <h5
+                v-for="(tab, index) in companyTabs"
+                :key="index"
+                class="tab"
+                :class="{ active: tab === companyTab }"
+                @click="companyTab = tab"
+              >
+                {{ tab }}
+              </h5>
+            </div>
+          </div>
 					<InsightCard
 						@openModal="toggleModalClass('dislikeModal')"
 						title="Kingsley Omin wins Gold at the Olympics!"
@@ -344,28 +351,35 @@
 			:active="true"
 			:toggleClass="toggleClass"
 			@close="toggleModalClass('dislikeModal')"
-			maxWidth="400px"
-		>
+			maxWidth="400px">
 			<template #title>
-				<h4 class="modal__header-title">Why did you dislike the search result?</h4>
+				<h4 class="modal__header-title">Not Relevant?</h4>
 			</template>
 			<template #info>
-				<h5>We will like to get your feedback to help us improve our services</h5>
+				<h5>Your feedback will help us improve your results.</h5>
 			</template>
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
 						<RadioBtn
-							style="display: block"
-							margin=""
-							id="statusType"
+							style="display: block;"
+              marginBottom="24px"
+							id="dislikeOption"
 							:options="dislikeOptions"
-							name="status"
-							v-model="statusOption"
+							name="dislikeChoices"
+							v-model="dislikeOption"
 						/>
 					</p>
+
+          <form v-if="dislikeOption === 'Other'" action="">
+            <label for="dislikeForm">Comment</label>
+            <textarea id="dislikeForm" name="dislikeForm" rows="4" cols="39" placeholder="Comment here...">
+              
+            </textarea>
+          </form>
+
 					<div class="modal__content-btn">
-						<v-button class="config__btn" buttonType="warning" size="modal" >
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeCard">
 							<template v-if="!loading">Submit</template>
 							<Loader v-else />
 						</v-button>

@@ -36,7 +36,7 @@
 	}
 }
 .searched__wrapper {
-	padding: 32px 24px 32px 24px;
+	padding: 32px 24.5px;
 	border-left: 1px solid #f2f2f2;
   width: 512px;
 }
@@ -459,5 +459,21 @@
 .tab-group {
   margin-top: 20px;
 	margin-bottom: 24px;
-
+}
+.border {
+	border-bottom: 1px solid #EAEBEB;
+	margin: 16px 0;
+	padding: 0 24.5px;
+}
+.quote-section,
+.topics-section,
+.otherInsight-section {
+	margin-top: 22px;
+	// padding: 0 24.5px;
+}
+label {
+	margin-bottom: 24px;
+}
+.section-wrapper {
+	padding: 0 24.5px;
 }

@@ -15,5 +15,6 @@ export const Default = Template.bind({});
 
 Default.args = {
 	title: 'Title',
-	content: 'Content'
+	content: 'Content',
+	quote: 'Quote'
 };
