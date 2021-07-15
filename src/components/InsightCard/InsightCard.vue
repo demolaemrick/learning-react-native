@@ -1,5 +1,5 @@
 <template>
-	<div class="card mb-2 ">
+	<div class="card mb-2">
 		<h4 v-if="title" class="title">{{ title }}</h4>
 		<div>
 			<q class="quote" v-if="!title">{{ content }}</q>
