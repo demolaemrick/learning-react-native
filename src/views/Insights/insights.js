@@ -45,6 +45,14 @@ export default {
 			markDone: false,
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
 			companyTabs: ['All', 'Products', 'Funding', 'People'],
+			contactInsightsTab: [
+				{ title: 'Snapshot', ref: 'snapshot' },
+				{ title: 'News & article', ref: 'news-section' },
+				{ title: 'Quotes', ref: 'quotes' },
+				// { title: 'Topics', ref: 'topics' },
+				{ title: 'Other insights', ref: 'others' }
+			],
+			selectedInsightTab: 'Snapshot',
 			companyTab: 'Funding',
 			selectedTab: 'All',
 			searchQuery: '',
@@ -177,6 +185,12 @@ export default {
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			researchDone: 'search_services/researchDone'
 		}),
+		scrollToSection(section) {
+			this.selectedInsightTab = section.title;
+			var element = this.$refs[section.ref];
+			var top = element.offsetTop;
+			window.scrollTo(0, top);
+		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
 			this.rowId = rowId;

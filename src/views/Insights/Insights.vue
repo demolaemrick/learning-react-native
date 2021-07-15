@@ -7,9 +7,7 @@
 		<main v-else class="main container container--lg">
 			<div v-if="!editNote" class="aside__left">
 				<div class="section section__1">
-					<div class="title">
-						<div class="text">Contact Details</div>
-					</div>
+					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
 						<div class="text__initials" v-if="searchedResult.full_name">
 							{{
@@ -58,19 +56,35 @@
 					</div>
 				</div>
 				<div class="section__3">
-					<div class="title__text">Research Status</div>
+					<h5 class="last__refresh">Last refresh: <span>June 6, 2021 | 09:45am</span></h5>
 					<div class="input__group">
+						<div class="icon refresh"><img src="@/assets/icons/refresh.svg" svg-inline alt="refresh" /></div>
+						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
 						<input type="checkbox" :checked="searchedResult.status.statusCode === 'DONE'" @change="markResearch($event)" />
-						<div class="input__label__text">Completed</div>
+						<div class="input__label__text">Mark as done</div>
 					</div>
 				</div>
-				<div class="section__4">
+				<div class="section section__4">
+					<h5 class="title">Contact Insight</h5>
+					<div class="contact-tabs">
+						<p
+							v-for="(tab, index) in contactInsightsTab"
+							:key="index"
+							class="contact-tab"
+							:class="{ active: tab.title === selectedInsightTab }"
+							@click="scrollToSection(tab)"
+						>
+							{{ tab.title }}
+						</p>
+					</div>
+				</div>
+				<div class="section__5">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
 						See All
 					</div>
 				</div>
-				<div class="section__5 bookmarks">
+				<div class="section__6 bookmarks">
 					<div
 						class=""
 						v-if="showFirstBookmark.contact_research !== ''"
@@ -134,7 +148,7 @@
 						</template>
 					</toggle-dropdown>
 				</div>
-				<div class="snapshot-section">
+				<div class="snapshot-section" ref="snapshot">
 					<h3 class="section-title">Snapshot</h3>
 					<div class="snapshot-info">
 						<div class="flex flex__item-center postion">
@@ -159,7 +173,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="news-section">
+				<div class="news-section" ref="news-section">
 					<div class="news">
 						<h3 class="section-title">News & Articles</h3>
 						<div class="filter-sort">
@@ -214,7 +228,7 @@
             Quis et itaque nam"
 					/>
 				</div>
-				<div class="quote-section">
+				<div class="quote-section" ref="quotes">
 					<h3 class="section-title">Quotes</h3>
 					<InsightCard
 						content="We've seen rapid acceleration in the category and in our business this year, 
@@ -222,7 +236,7 @@
             on how to use data"
 					/>
 				</div>
-				<div class="otherInsight-section">
+				<div class="otherInsight-section" ref="others">
 					<h3 class="section-title">Other Insights</h3>
 					<InsightCard
 						content="We've seen rapid acceleration in the category and in our business this year, 
@@ -335,6 +349,28 @@
             Quis et itaque nam"
 					/>
 				</div>
+				<div class="jobs-section">
+					<div class="jobs-header flex flex__space-center">
+						<h3 class="section-title">News</h3>
+						<div class="open-roles">
+							<p class="roles-number">4 Open roles</p>
+						</div>
+					</div>
+					<div class="job flex flex__space-center">
+						<h4 class="title">Finance Manager</h4>
+						<div>
+							<p class="location">Lagos, Nigeria</p>
+							<p class="type">Full time</p>
+						</div>
+					</div>
+					<div class="job flex flex__space-center">
+						<h4 class="title">Business Analyst</h4>
+						<div>
+							<p class="location">Lagos, Nigeria</p>
+							<p class="type">Full time</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</main>
 		<!-- Dislike Modal -->
@@ -365,7 +401,7 @@
 						/>
 					</p>
 					<div class="modal__content-btn">
-						<v-button class="config__btn" buttonType="warning" size="modal" >
+						<v-button class="config__btn" buttonType="warning" size="modal">
 							<template v-if="!loading">Submit</template>
 							<Loader v-else />
 						</v-button>

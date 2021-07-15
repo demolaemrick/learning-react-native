@@ -1,12 +1,12 @@
 <template>
-	<div class="card">
+	<div class="card mb-2 ">
 		<h4 v-if="title" class="title">{{ title }}</h4>
 		<div>
 			<q class="quote" v-if="!title">{{ content }}</q>
 			<p v-else class="content">{{ content }}</p>
 		</div>
 
-		<div class="details mb-2 flex flex__item-center flex-spaced">
+		<div class="details flex flex__item-center flex-spaced">
 			<div class="article-details flex flex__item-center">
 				<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
 				<p>March 6, 2021 | VB Venturebeat.com</p>
