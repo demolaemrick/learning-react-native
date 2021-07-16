@@ -2,12 +2,9 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 const instance = axios.create({
 	baseURL: `${process.env.VUE_APP_VOLLEY_API_URL}`,
-	timeout: 120000,
+	timeout: 300000,
 	headers: {},
 	crossdomain: true
-	// headers: {
-	// 	"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwN2VhMWJmOTY1YmJlNjQxNGMwMGIxMyIsImVtYWlsIjoiYWJhc3NAZW55YXRhLmNvbSIsImlhdCI6MTYxOTAwMTczNSwiZXhwIjoxNjE5MDA4OTM1fQ.HidmWQTJoAnzdxHpc_K41hPIz0Tvwi22QdHIqcF-kr8"
-	// }
 });
 
 instance.interceptors.request.use((config) => {

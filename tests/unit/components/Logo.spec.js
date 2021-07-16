@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import NotFound from '../../../src/views/NotFound.vue';
+import Logo from '../../../src/components/Logo.vue';
 
-describe('NotFound.vue', () => {
-	const wrapper = shallowMount(NotFound);
+describe('Logo.vue', () => {
+	const wrapper = shallowMount(Logo);
 	it('Render without errors', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});

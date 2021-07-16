@@ -27,7 +27,7 @@ export default {
 				email: '',
 				role: ''
 			},
-			emailInput: '',
+			emailInput: null,
 			loading: false,
 			sendInvites: false,
 			deactivateModal: false,
@@ -76,6 +76,7 @@ export default {
 			currentAdmin: {},
 			adminId: null,
 			searchQuery: null,
+			adminToModify: {},
 			roles: ['User', 'Admin', 'Super Admin']
 		};
 	},
@@ -123,7 +124,6 @@ export default {
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.admins = data.data.data;
-					console.log(this.admins);
 					this.count = data.data.count;
 					this.currentPage = data.data.currentPage;
 					this.total = Math.ceil(data.data.count / this.limit);
@@ -223,7 +223,7 @@ export default {
 			}
 		},
 		addEmail(e) {
-			if (e.target.validity.valid) {
+			if (this.emailInput !== null && e.target.validity.valid) {
 				this.emailList.push(this.emailInput);
 				this.emailInput = '';
 			}
@@ -236,8 +236,10 @@ export default {
 			this.currentPage = page;
 		},
 		openDeactivateModal(item) {
+			console.log(item);
 			const { _id, last_name, first_name } = item;
 			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
+			console.log(this.adminToModify);
 			this.deactivateModal = true;
 		},
 		async deactivate() {

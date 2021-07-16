@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import searchHeader from '@/components/Header/search/Header.vue';
+import searchHeader from '../../../src/components/Header/search/Header.vue';
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
 localVue.use(VueRouter);

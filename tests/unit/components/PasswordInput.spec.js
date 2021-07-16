@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import PasswordInput from '@/components/Input/PasswordInput';
+import PasswordInput from '../../../src/components/Input/PasswordInput';
 
 describe('PasswordInput.vue', () => {
 	const wrapper = mount(PasswordInput, {

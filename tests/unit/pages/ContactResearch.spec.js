@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ContactResearch from '@/views/ContactResearch/ContactResearch.vue';
+import ContactResearch from '../../../src/views/ContactResearch/ContactResearch.vue';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 const Paginate = require('vuejs-paginate');

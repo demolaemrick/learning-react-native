@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import CCheckbox from '@/components/Checkbox';
+import CCheckbox from '../../../src/components/Checkbox';
 
 describe('CCheckbox.vue', () => {
 	const wrapper = shallowMount(CCheckbox, {

@@ -13,9 +13,11 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
+import researchMixin from '@/mixins/research';
 
 export default {
 	name: 'User',
+	mixins: [researchMixin],
 	data() {
 		return {
 			form: {
@@ -240,6 +242,7 @@ export default {
 			}
 		},
 		setActiveTab(evt) {
+			console.log(evt);
 			switch (evt) {
 				case 'details':
 					this.activeTab = evt;
@@ -271,6 +274,7 @@ export default {
 			this.$router.push({ name: 'Users' });
 		},
 		inputFile(newFile) {
+			console.log(newFile);
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
@@ -289,6 +293,7 @@ export default {
 			}
 			const readFile = async (event) => {
 				const csvFilePath = event.target.result;
+				console.log(csvFilePath);
 				this.csvImport.contacts = await this.csvJSON(csvFilePath);
 				this.uploadBulkResearch();
 			};
@@ -299,8 +304,9 @@ export default {
 			reader.addEventListener('load', readFile);
 		},
 		csvJSON(csv) {
+			console.log(csv);
 			var lines = csv.split('\n');
-
+			console.log(lines);
 			var result = [];
 			var headers = lines[0].split(',');
 
@@ -405,9 +411,9 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.getSingleUser(this.userId);
-				const { status, data, statusText } = response;
-				if (status === 200 && statusText === 'OK') {
-					this.userDetails = data.data;
+				//	const { status, data, statusText } = response;
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.userDetails = response.data.data;
 				}
 			} catch (error) {
 				console.log(error);

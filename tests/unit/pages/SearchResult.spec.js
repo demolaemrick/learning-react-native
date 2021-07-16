@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import SearchResult from '@/views/SearchResult/SearchResult.vue';
+import SearchResult from '../../../src/views/SearchResult/SearchResult.vue';
 import flushPromises from 'flush-promises';
 
 import VueRouter from 'vue-router';

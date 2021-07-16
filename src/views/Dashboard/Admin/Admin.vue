@@ -137,8 +137,8 @@
 								<option value="admin">Admin User</option>
 								<option value="superAdmin">Super Admin</option>
 							</select> -->
-							<div class="flex flex__end">
-								<c-button @click="inviteAdmin" class="submit" size="large" buttonType="primary">
+							<div class="flex flex__end" id="inviteAdmin">
+								<c-button @click="inviteAdmin" class="submit" size="large" buttonType="primary" ref="inviteAdmin">
 									<template v-if="!loading">Send Invite</template>
 									<Loader v-else />
 								</c-button>
@@ -218,7 +218,7 @@
 						</div>
 
 						<div class="flex flex-end">
-							<c-button class="submit" size="large" buttonType="primary" @click="editAdmin">
+							<c-button class="submit" size="large" buttonType="primary" @click="editAdmin" ref="editAdmin">
 								<template v-if="!loading">Save Changes</template>
 								<Loader v-else />
 							</c-button>

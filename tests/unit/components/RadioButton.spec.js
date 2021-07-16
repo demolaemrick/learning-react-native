@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import RadioButton from '@/components/RadioButton';
+import RadioButton from '../../../src/components/RadioButton';
 
 describe('RadioButton.vue', () => {
 	const wrapper = shallowMount(RadioButton, {
