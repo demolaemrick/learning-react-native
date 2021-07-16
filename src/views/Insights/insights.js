@@ -56,6 +56,7 @@ export default {
 			dislikeModal: false,
 			toggleClass: true,
 			disliked: false,
+			bookmarked: false,
 			dislikeOption: 'Not relevant to this search',
 			dislikeOptions: [
 				{

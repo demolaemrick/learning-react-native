@@ -15,6 +15,15 @@ export default {
 		disliked: {
 			type: Boolean,
 			default: false
+		},
+		bookmarked: {
+			type: Boolean,
+			default: false
+		}
+	},
+	methods: {
+		bookmark() {
+			this.bookmarked = !this.bookmarked;
 		}
 	}
 };

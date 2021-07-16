@@ -13,9 +13,9 @@
 
 			<div class="flex flex__item-center">
 				<template>
-					<img class="mr-1 icon" src="../../assets/icons/bookman-icon.svg" alt="" />
+					<img class="mr-1 icon" v-if="!bookmarked" @click="bookmark" src="../../assets/icons/bookman-icon.svg" alt="" />
+					<img class="mr-1 icon" v-else @click="bookmark" src="../../assets/icons/bookmark.svg" alt="" />
 				</template>
-				<!-- <img class="mr-1 icon" src="../../assets/icons/bookmark.svg" alt="" /> -->
 				<template>
 					<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
 					<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
