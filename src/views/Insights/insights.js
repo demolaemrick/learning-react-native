@@ -11,7 +11,6 @@ import InsightCard from '@/components/InsightCard';
 import RadioBtn from '@/components/RadioButton';
 import Modal from '@/components/Modal';
 import VButton from '@/components/Button';
-
 export default {
 	name: 'SearchResult',
 	components: {
@@ -32,7 +31,10 @@ export default {
 			companyFilter: [],
 			contactFilter: [],
 			searchType: 'contact_research',
-			response: response,
+			insights: response,
+			contact_details: response.contact_details,
+			company_insights: response.company_insights,
+			contact_insights: response.contact_insights,
 			loadMore: false,
 			searchedResult: {},
 			loading: false,
@@ -103,6 +105,10 @@ export default {
 		this.getRowID();
 		await this.initUserBookmarks();
 		await this.initUserNote(this.rowId);
+		console.log(this.insights);
+		// Object.values(this.contact_insights.news_and_articles).map(item =>{
+		// 	console.log(item);
+		// })
 	},
 	computed: {
 		...mapGetters({

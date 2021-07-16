@@ -9,31 +9,31 @@
 				<div class="section section__1">
 					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
-						<div class="text__initials" v-if="searchedResult.full_name">
+						<div class="text__initials" v-if="contact_details.name">
 							{{
-								searchedResult.full_name
+								contact_details.name
 									.match(/\b(\w)/g)
 									.join('')
 									.toUpperCase()
 							}}
 						</div>
 						<div class="text__name__role">
-							<div class="name">{{ searchedResult.full_name }}</div>
-							<div class="role">{{ searchedResult.role }}</div>
+							<div class="name">{{ contact_details.name }}</div>
+							<div class="role">{{ contact_details.role }}</div>
 						</div>
 					</div>
 				</div>
 				<div class="section section__2">
 					<div class="contact__address">
 						<div class="title">Email Address</div>
-						<div class="text">{{ searchedResult.email }}</div>
+						<div class="text">{{ contact_details.email }}</div>
 					</div>
 					<div class="contact__address">
 						<div class="title">Company</div>
-						<div class="text">{{ searchedResult.company }}</div>
+						<div class="text">{{ contact_details.company }}</div>
 					</div>
 					<div class="contact__icon__group">
-						<span v-for="(social, i) in socials" :key="i">
+						<span v-for="(social, i) in contact_details.socials" :key="i">
 							<a v-if="social.twitter && Object.entries(social.twitter).length > 0" :href="social.twitter" target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" svg-inline
 							/></a>
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 				<div class="section__3">
-					<h5 class="last__refresh">Last refresh: <span>June 6, 2021 | 09:45am</span></h5>
+					<h5 class="last__refresh">Last refresh: {{ contact_details.last_refresh }}<span>June 6, 2021 | 09:45am</span></h5>
 					<div class="input__group">
 						<div class="icon refresh"><img src="@/assets/icons/refresh.svg" svg-inline alt="refresh" /></div>
 						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
@@ -153,19 +153,33 @@
 					<div class="snapshot-info">
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/work.svg" svg-inline />
-							<p class="ml">Kingsley has worked at <span class="main-info">Enyata</span> for 1 year</p>
+							<p class="ml">
+								{{ contact_details.name }} has worked at <span class="main-info">{{ contact_details.company }}</span> for
+								{{ contact_insights.snapshot.current_employer.start | moment('from', 'now', true) }}
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">Speaks most about <span class="main-info">19 articles</span></p>
+							<p class="ml">
+								Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
-							<p class="ml">Mentioned in <span class="main-info">data</span> and <span class="main-info">data</span></p>
+							<p class="ml">
+								Speaks most about
+								<span class="main-info" v-for="(interest, i) in contact_insights.snapshot.interests" :key="i">
+									{{ interest }}
+									<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+								</span>
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
-							<p class="ml">Posted on <span class="main-info">LinkedIn</span></p>
+							<p class="ml">
+								Posted on <span class="main-info">LinkedIn</span> on
+								{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
@@ -211,26 +225,32 @@
 							{{ tab }}
 						</h5>
 					</div>
-					<InsightCard
+					<template v-for="(categories) in contact_insights.news_and_articles">
+						<InsightCard
+						v-for="(article) in categories"
+						:key="categories[article]"
 						@openModal="toggleModalClass('dislikeModal')"
-						title="Journey to the Center of the Earth"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-            Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
+						:title="article.title"
+						:content="article.description"
 					/>
-					<InsightCard
+					</template>
+					
+					<!-- <InsightCard
 						@openModal="toggleModalClass('dislikeModal')"
 						title="Kingsley Omin wins Gold at the Olympics!"
 						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
             Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
             Quis et itaque nam"
-					/>
+					/> -->
 				</div>
 				<div class="quote-section" ref="quotes">
 					<h3 class="section-title">Quotes</h3>
 					<InsightCard
+						v-for="(quote, index) in contact_insights.quotes"
+						:key="index"
+						:timestamp="quote.timestamp"
+						:url="quote.url"
 						content="We've seen rapid acceleration in the category and in our business this year, 
             and as we look to 2021 its clear that every consumer-facing business in the world is focused 
             on how to use data"
@@ -239,9 +259,11 @@
 				<div class="otherInsight-section" ref="others">
 					<h3 class="section-title">Other Insights</h3>
 					<InsightCard
-						content="We've seen rapid acceleration in the category and in our business this year, 
-            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
-            on how to use data"
+						@openModal="toggleModalClass('dislikeModal')"
+						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
+            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
+            Quis et itaque nam"
 					/>
 				</div>
 			</div>
