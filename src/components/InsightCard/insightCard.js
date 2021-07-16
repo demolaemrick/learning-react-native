@@ -15,11 +15,6 @@ export default {
 		disliked: {
 			type: Boolean,
 			default: false
-		},
-	},
-	// methods: {
-	// 	openModal() {
-	// 		this.disliked = true
-	// 	}
-	// }
+		}
+	}
 };

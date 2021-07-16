@@ -477,3 +477,53 @@ label {
 .section-wrapper {
 	padding: 0 24.5px;
 }
+
+.textarea {
+	display: block;
+	width: 100%;
+	margin-top: 6px;
+	margin-bottom: 20px;
+	border: 1px solid #EAEBEB;
+	box-sizing: border-box;
+	border-radius: 4px;
+	padding: 16px;
+	font-size: 16px;
+
+	&::placeholder {
+		font-size: 16px;
+		line-height: 16px;
+		display: flex;
+		align-items: center;
+		color: #989AAA;
+		letter-spacing: -0.05px;
+	}
+}
+.textLabel {
+	font-size: 14px;
+	line-height: 16px;
+	color: #989AAA;
+}
+
+.tab {
+  padding: 4px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ebedfe57;
+  }
+  &.active {
+    background-color: #EBEDFE;
+		color: #3B48F7;
+  }
+
+  &:not(:last-child) {
+    margin-right: 8px;
+  }
+}

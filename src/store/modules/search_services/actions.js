@@ -107,5 +107,15 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	getViralTweet: async (context, link) => {
+		const url = `https://publish.twitter.com/oembed?url=${link}`;
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
+
 };

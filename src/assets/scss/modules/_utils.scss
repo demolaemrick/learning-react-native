@@ -138,27 +138,3 @@
 		background-position: 0 0;
 	}
 }
-
-.tab {
-  padding: 4px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.3px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ebedfe57;
-  }
-  &.active {
-    background-color: #EBEDFE;
-		color: #3B48F7;
-  }
-
-  &:not(:last-child) {
-    margin-right: 8px;
-  }
-}

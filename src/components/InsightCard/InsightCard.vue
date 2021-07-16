@@ -17,11 +17,10 @@
 				</template>
 				<!-- <img class="mr-1 icon" src="../../assets/icons/bookmark.svg" alt="" /> -->
 				<template>
-					<img class="icon" v-if="!disliked"  @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
-					<img class="icon" v-else  @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
+					<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
+					<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
 				</template>
 			</div>
-
 		</div>
 	</div>
 </template>
