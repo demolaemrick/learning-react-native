@@ -225,16 +225,16 @@
 							{{ tab }}
 						</h5>
 					</div>
-					<template v-for="(categories) in contact_insights.news_and_articles">
+					<template v-for="categories in contact_insights.news_and_articles">
 						<InsightCard
-						v-for="(article) in categories"
-						:key="categories[article]"
-						@openModal="toggleModalClass('dislikeModal')"
-						:title="article.title"
-						:content="article.description"
-					/>
+							v-for="article in categories"
+							:key="categories[article]"
+							@openModal="toggleModalClass('dislikeModal')"
+							:title="article.title"
+							:content="article.description"
+						/>
 					</template>
-					
+
 					<!-- <InsightCard
 						@openModal="toggleModalClass('dislikeModal')"
 						title="Kingsley Omin wins Gold at the Olympics!"

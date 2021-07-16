@@ -9,7 +9,7 @@
 		<div class="details flex flex__item-center flex-spaced">
 			<div class="article-details flex flex__item-center">
 				<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-				<p>{{timestamp | moment('LL')}} | {{url}}</p>
+				<p>{{ timestamp | moment('LL') }} | {{ url }}</p>
 			</div>
 
 			<div class="flex flex__item-center">
