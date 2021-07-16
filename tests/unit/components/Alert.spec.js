@@ -47,13 +47,6 @@ describe('Alert.vue', () => {
 	it('shows alert status', () => {
 		expect(wrapper.vm.showAlertStatus).toBe(false);
 	});
-
-	it('watch for changes on shows alert status', async () => {
-		wrapper.vm.$options.watch.showAlertStatus.call(wrapper.vm, true);
-		await wrapper.vm.$nextTick();
-		expect(wrapper.vm.showAlertStatus).toBe(false);
-	});
-
 	it('should return alert type', () => {
 		expect(wrapper.vm.alertType).toBe(wrapper.props().iconType);
 	});
