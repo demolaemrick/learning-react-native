@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Alert from '@/components/Alert';
+import Alert from '../../../src/components/Alert';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 

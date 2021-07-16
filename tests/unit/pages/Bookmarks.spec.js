@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Bookmarks from '@/views/Bookmarks/Bookmarks.vue';
+import Bookmarks from '../../../src/views/Bookmarks/Bookmarks.vue';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 const localVue = createLocalVue();

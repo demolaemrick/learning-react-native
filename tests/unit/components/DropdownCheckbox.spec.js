@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import DropdownCheckbox from '@/components/DropdownCheckbox';
+import DropdownCheckbox from '../../../src/components/DropdownCheckbox';
 
 describe('DropdownCheckbox.vue', () => {
 	const wrapper = shallowMount(DropdownCheckbox, {

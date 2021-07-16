@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import AlertIcon from '@/components/AlertIcon.vue';
+import AlertIcon from '../../../src/components/AlertIcon.vue';
 
 describe('AlertIcon.vue', () => {
 	const wrapper = shallowMount(AlertIcon, {

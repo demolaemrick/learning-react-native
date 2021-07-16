@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Modal from '@/components/Modal';
+import Modal from '../../../src/components/Modal';
 const localVue = createLocalVue();
 describe('Modal.vue', () => {
 	let wrapper;

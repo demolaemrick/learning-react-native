@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import DashboardHeader from '@/components/DashboardHeader';
+import DashboardHeader from '../../../src/components/DashboardHeader';
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
 localVue.use(VueRouter);

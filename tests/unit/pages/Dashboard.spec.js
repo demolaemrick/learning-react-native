@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Dashboard from '@/views/Dashboard/index.vue';
+import Dashboard from '../../../src/views/Dashboard/index.vue';
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
 
