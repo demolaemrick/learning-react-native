@@ -17,6 +17,14 @@ export default {
 			type: String,
 			default: '496px'
 		},
+		borderRadius: {
+			type: String,
+			default: ''
+		},
+		marginTop: {
+			type: String,
+			default: ''
+		},
 		active: {
 			type: Boolean,
 			default: false
@@ -25,7 +33,9 @@ export default {
 	computed: {
 		style() {
 			return {
-				maxWidth: this.maxWidth
+				maxWidth: this.maxWidth,
+				borderRadius: this.borderRadius,
+				marginTop: this.marginTop
 			};
 		}
 	},

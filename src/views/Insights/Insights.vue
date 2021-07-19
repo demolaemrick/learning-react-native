@@ -160,17 +160,11 @@
 							</div>
 						</div>
 					</div>
-					<div>
-						<blockquote class="twitter-tweet">
-							<p lang="en" dir="ltr">
-								This is the greatest opportunity for innovation in human history:
-								<a href="https://t.co/rBFo2LjpsH">https://t.co/rBFo2LjpsH</a>
-								<a href="https://t.co/bj6rY3FszB">pic.twitter.com/bj6rY3FszB</a>
-							</p>
-							&mdash; Bill Gates (@BillGates)
-							<a href="https://twitter.com/BillGates/status/1415752955152666627?ref_src=twsrc%5Etfw">July 15, 2021</a>
-						</blockquote>
-					</div>
+					<Tweet v-if="tweetId" :id="tweetId" error-message="This tweet could not be loaded" error-message-class="tweet--error">
+						<div class="spinner">
+							<LoadIcon />
+						</div>
+					</Tweet>
 				</div>
 
 				<div class="news-section">
@@ -257,7 +251,11 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Other Insights</h3>
 					</div>
-					<InsightCard content="On Twitter Boray interacts most with John Doe Boray shared a link to a Techcrunch article" />
+					<InsightCard
+						:disliked="disliked"
+						@openModal="toggleModalClass('dislikeModal')"
+						content="On Twitter Boray interacts most with John Doe Boray shared a link to a Techcrunch article"
+					/>
 				</div>
 			</div>
 
@@ -364,6 +362,8 @@
 			:toggleClass="toggleClass"
 			@close="toggleModalClass('dislikeModal')"
 			maxWidth="400px"
+			borderRadius="12px"
+			marginTop="10%"
 		>
 			<template #title>
 				<h4 class="modal__header-title">Not Relevant?</h4>

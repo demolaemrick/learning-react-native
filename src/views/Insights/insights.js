@@ -12,6 +12,8 @@ import RadioBtn from '@/components/RadioButton';
 import Modal from '@/components/Modal';
 import VButton from '@/components/Button';
 import PieChart from '@/components/PieChart';
+import { Tweet } from 'vue-tweet-embed';
+import LoadIcon from '@/components/LoadIcon';
 
 export default {
 	name: 'SearchResult',
@@ -26,13 +28,14 @@ export default {
 		RadioBtn,
 		Modal,
 		VButton,
-		PieChart
+		PieChart,
+		Tweet,
+		LoadIcon
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
 		return {
-			tweet:
-				'<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the greatest opportunity for innovation in human history: <a href="https://t.co/rBFo2LjpsH">https://t.co/rBFo2LjpsH</a> <a href="https://t.co/bj6rY3FszB">pic.twitter.com/bj6rY3FszB</a></p>&mdash; Bill Gates (@BillGates) <a href="https://twitter.com/BillGates/status/1415752955152666627?ref_src=twsrc%5Etfw">July 15, 2021</a></blockquote>',
+			tweetId: '141575295515266662766',
 			companyFilter: [],
 			contactFilter: [],
 			searchType: 'contact_research',
