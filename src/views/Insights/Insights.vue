@@ -374,10 +374,10 @@
 						</div>
 					</div>
 					<div class="job flex flex__space-center" v-for="(job, i) in company_insights.jobs" :key="i">
-						<h4 class="title">{{job.role}}</h4>
+						<h4 class="title">{{ job.role }}</h4>
 						<div>
 							<p class="location">{{ job.location }}</p>
-							<p class="type">{{job.employment_type}}</p>
+							<p class="type">{{ job.employment_type }}</p>
 						</div>
 					</div>
 				</div>

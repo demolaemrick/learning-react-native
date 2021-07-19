@@ -91,8 +91,7 @@ export default {
 					value: 'Reason for dislike 7',
 					title: 'Reason for dislike 7'
 				}
-			],
-
+			]
 		};
 	},
 	async created() {
@@ -149,11 +148,10 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.contact_insights.news_and_articles;
-				const tab = this.selectedTab.toLowerCase()
+				const tab = this.selectedTab.toLowerCase();
 				if (tab === 'all') {
-					return data
-				}
-				else {
+					return data;
+				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
 					return newObj;
@@ -164,11 +162,10 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.company_insights.news;
-				const tab = this.companyTab.toLowerCase()
+				const tab = this.companyTab.toLowerCase();
 				if (tab === 'all') {
-					return data
-				}
-				else {
+					return data;
+				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
 					return newObj;
