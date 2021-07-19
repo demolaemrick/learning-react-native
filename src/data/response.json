@@ -21,7 +21,7 @@
           "mentions": 10,
           "interests": ["Swimming", "Tennis"],
           "last_linkedin_activity": "2021-01-01",
-          "most_viral_tweet": "https://t.co/qw2cfgj"
+          "most_viral_tweet": "141575295515266662766"
         },
         "news_and_articles": {
           "data": [ {
@@ -104,36 +104,64 @@
           } ]
       },
       "company_insights": {
-        "snapshots": {
+        "snapshot": {
           "mentions": 4,
           "last_funding": "2021-03-01",
           "interests": ["Fashion", "Clothing"],
           "jobs": 10
         },
-        "news": [{
-         "title": "Vestibulum in scelerisque mauris.",
-         "url": "https://bananarepublic.com/blogs/lorem-2",
-         "description": "Pellentesque augue felis, mollis at finibus eget, accumsan vitae lectus. Cras sed risus facilisis, commodo arcu id, tempor sem. Nunc varius est sed nibh tempus, at eleifend diam luctus. Aenean vitae mi ligula. Etiam id ultrices odio. Mauris diam diam, congue vestibulum ultrices a, varius ut odio. Maecenas consequat posuere velit, ut eleifend sem gravida in. Ut sodales pretium lacus, non pellentesque elit suscipit id. Nam id quam sit amet dui gravida mattis ut eu leo. In faucibus gravida dui, ut molestie erat pharetra auctor. Cras et venenatis nunc. Fusce lobortis venenatis nulla at tincidunt. Maecenas viverra augue et augue accumsan blandit. Quisque vehicula massa velit, ac scelerisque sem ultricies vel. Nunc ipsum libero, placerat a ligula id, varius vestibulum sapien. Sed at interdum ligula. Sed sit amet felis vel ipsum varius ultrices quis eu ipsum. Quisque ornare id ligula dignissim sodales. Integer id condimentum odio.",
-         "tags": ["mollis", "taqed"],
-         "meta": {
-           "timestamp": "2021-01-01T12:00:21Z",
-           "published": null,
-           "resourceType": "article",
-           "host": "bananarepublic.com",
-           "html": {
-             "snippet": "<b>Pellentesque augue felis, mollis at finibus eget, accumsan vitae lectus.</b> Cras sed risus facilisis, commodo arcu id, tempor sem. Nunc varius est sed nibh tempus, at eleifend diam luctus. Aenean vitae mi ligula. Etiam id ultrices odio. Mauris diam diam, congue vestibulum ultrices a, varius ut odio. Maecenas consequat posuere velit, ut eleifend sem gravida in. Ut sodales pretium lacus, non pellentesque elit suscipit id. Nam id quam sit amet dui gravida mattis ut eu leo. In faucibus gravida dui, ut molestie erat pharetra auctor. Cras et venenatis nunc. Fusce lobortis venenatis nulla at tincidunt. Maecenas viverra augue et augue accumsan blandit. Quisque vehicula massa velit, ac scelerisque sem ultricies vel. Nunc ipsum libero, placerat a ligula id, varius vestibulum sapien. Sed at interdum ligula. Sed sit amet felis vel ipsum varius ultrices quis eu ipsum. Quisque ornare id ligula dignissim sodales. Integer id condimentum odio.",
-             "title": "<b>Banana Republic - Blog</b>",
-             "url": "https://bananarepublic.com/blogs/lorem3"
-           },
-           "content": {
-             "html": "<b>Swimming is an interesting sport.</b> Ut malesuada enim in hendrerit vestibulum. <span class=\"default-blue\">Suspendisse in suscipit arcu, id viverra quam.</span> Praesent laoreet lorem non magna consectetur, vitae auctor turpis mattis. Duis purus nisl, pharetra id nisi luctus, accumsan malesuada metus. Mauris sit amet erat dui.",
-             "tag": ["Swimming", "water sports"]
-           },
-           "relevanceScore": 0.734,
-           "sentiment": 0.946
-         },
-         "is_bookmarked": false
-       }],
+        "news": {
+          "products": [{
+            "title": "Vestibulum in scelerisque mauris.",
+            "url": "https://bananarepublic.com/blogs/lorem-2",
+            "description": "Pellentesque augue felis, mollis at finibus eget, accumsan vitae lectus. Cras sed risus facilisis, commodo arcu id, tempor sem. Nunc varius est sed nibh tempus, at eleifend diam luctus. Aenean vitae mi ligula. Etiam id ultrices odio. Mauris diam diam, congue vestibulum ultrices a, varius ut odio. Maecenas consequat posuere velit, ut eleifend sem gravida in. Ut sodales pretium lacus, non pellentesque elit suscipit id. Nam id quam sit amet dui gravida mattis ut eu leo. In faucibus gravida dui, ut molestie erat pharetra auctor. Cras et venenatis nunc. Fusce lobortis venenatis nulla at tincidunt. Maecenas viverra augue et augue accumsan blandit. Quisque vehicula massa velit, ac scelerisque sem ultricies vel. Nunc ipsum libero, placerat a ligula id, varius vestibulum sapien. Sed at interdum ligula. Sed sit amet felis vel ipsum varius ultrices quis eu ipsum. Quisque ornare id ligula dignissim sodales. Integer id condimentum odio.",
+            "tags": ["mollis", "taqed"],
+            "meta": {
+              "timestamp": "2021-01-01T12:00:21Z",
+              "published": null,
+              "resourceType": "article",
+              "host": "bananarepublic.com",
+              "html": {
+                "snippet": "<b>Pellentesque augue felis, mollis at finibus eget, accumsan vitae lectus.</b> Cras sed risus facilisis, commodo arcu id, tempor sem. Nunc varius est sed nibh tempus, at eleifend diam luctus. Aenean vitae mi ligula. Etiam id ultrices odio. Mauris diam diam, congue vestibulum ultrices a, varius ut odio. Maecenas consequat posuere velit, ut eleifend sem gravida in. Ut sodales pretium lacus, non pellentesque elit suscipit id. Nam id quam sit amet dui gravida mattis ut eu leo. In faucibus gravida dui, ut molestie erat pharetra auctor. Cras et venenatis nunc. Fusce lobortis venenatis nulla at tincidunt. Maecenas viverra augue et augue accumsan blandit. Quisque vehicula massa velit, ac scelerisque sem ultricies vel. Nunc ipsum libero, placerat a ligula id, varius vestibulum sapien. Sed at interdum ligula. Sed sit amet felis vel ipsum varius ultrices quis eu ipsum. Quisque ornare id ligula dignissim sodales. Integer id condimentum odio.",
+                "title": "<b>Banana Republic - Blog</b>",
+                "url": "https://bananarepublic.com/blogs/lorem3"
+              },
+              "content": {
+                "html": "<b>Swimming is an interesting sport.</b> Ut malesuada enim in hendrerit vestibulum. <span class=\"default-blue\">Suspendisse in suscipit arcu, id viverra quam.</span> Praesent laoreet lorem non magna consectetur, vitae auctor turpis mattis. Duis purus nisl, pharetra id nisi luctus, accumsan malesuada metus. Mauris sit amet erat dui.",
+                "tag": ["Swimming", "water sports"]
+              },
+              "relevanceScore": 0.734,
+              "sentiment": 0.946
+            },
+            "is_bookmarked": false
+          }],
+          "funding":[
+            {
+              "title": "How to swim",
+              "url": "https://bananarepublic.com/blogs/how-to-swim",
+              "description": "Swimming is an interesting sport. Ut malesuada enim in hendrerit vestibulum. Suspendisse in suscipit arcu, id viverra quam. Praesent laoreet lorem non magna consectetur, vitae auctor turpis mattis. Duis purus nisl, pharetra id nisi luctus, accumsan malesuada metus. Mauris sit amet erat dui.",
+              "tags": ["swimming", "water sports"],
+              "meta": {
+                "timestamp": "2021-01-01T12:00:21Z",
+                "published": null,
+                "resourceType": "article",
+                "host": "bananarepublic.com",
+                "html": {
+                  "snippet": "<b>Swimming is an interesting sport.</b> Ut malesuada enim in hendrerit vestibulum. Suspendisse in suscipit arcu, id viverra quam. Praesent laoreet lorem non magna consectetur, vitae auctor turpis mattis. Duis purus nisl, pharetra id nisi luctus, accumsan malesuada metus. Mauris sit amet erat dui.",
+                  "title": "<b>Banana Republic - Blog</b>",
+                  "url": "https://bananarepublic.com/blogs/how-to-swim"
+                },
+                "content": {
+                  "html": "<b>Swimming is an interesting sport.</b> Ut malesuada enim in hendrerit vestibulum. <span class=\"default-blue\">Suspendisse in suscipit arcu, id viverra quam.</span> Praesent laoreet lorem non magna consectetur, vitae auctor turpis mattis. Duis purus nisl, pharetra id nisi luctus, accumsan malesuada metus. Mauris sit amet erat dui.",
+                  "tag": ["Swimming", "water sports"]
+                },
+                "relevanceScore": 0.734,
+                "sentiment": 0.946
+              },
+              "is_bookmarked": false
+            } 
+          ]
+      },
        "jobs": [
         {
          "role": "Software Engineer",

@@ -55,7 +55,7 @@ export default {
 				{ title: 'Other insights', ref: 'others' }
 			],
 			selectedInsightTab: 'Snapshot',
-			companyTab: 'Funding',
+			companyTab: 'All',
 			selectedTab: 'All',
 			searchQuery: '',
 			dislikeModal: false,
@@ -91,7 +91,8 @@ export default {
 					value: 'Reason for dislike 7',
 					title: 'Reason for dislike 7'
 				}
-			]
+			],
+
 		};
 	},
 	async created() {
@@ -142,6 +143,36 @@ export default {
 		company_research: {
 			get() {
 				return this.searchedResult.company_research;
+			}
+		},
+		contact_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.contact_insights.news_and_articles;
+				const tab = this.selectedTab.toLowerCase()
+				if (tab === 'all') {
+					return data
+				}
+				else {
+					const element = Object.keys(data).includes(tab) ? data[tab] : '';
+					newObj[tab] = element;
+					return newObj;
+				}
+			}
+		},
+		company_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.company_insights.news;
+				const tab = this.companyTab.toLowerCase()
+				if (tab === 'all') {
+					return data
+				}
+				else {
+					const element = Object.keys(data).includes(tab) ? data[tab] : '';
+					newObj[tab] = element;
+					return newObj;
+				}
 			}
 		},
 		userBookmarksCount() {

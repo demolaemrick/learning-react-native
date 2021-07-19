@@ -225,7 +225,7 @@
 							{{ tab }}
 						</h5>
 					</div>
-					<template v-for="categories in contact_insights.news_and_articles">
+					<template v-for="categories in contact_insights_categories">
 						<InsightCard
 							v-for="article in categories"
 							:key="categories[article]"
@@ -290,21 +290,31 @@
 					<div class="snapshot-info">
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">Mentioned in <span class="main-info">6 news articles</span> in the past year</p>
+							<p class="ml">
+								Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in the
+								past year
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/fund.svg" svg-inline />
-							<p class="ml">Raised a round of <span class="main-info">funding</span> in March 2021</p>
+							<p class="ml">
+								Raised a round of <span class="main-info">funding</span> in
+								{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
+							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
 							<p class="ml">
-								Speaks most about <span class="main-info">data</span> and <span class="main-info">non-profit</span>
+								Speaks most about
+								<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
+									{{ interest }}
+									<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+								</span>
 							</p>
 						</div>
 						<div class="flex flex__item-center postion">
 							<img src="@/assets/icons/jobs.svg" svg-inline />
-							<p class="ml">Have 12 <span class="main-info">open jobs</span></p>
+							<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
 						</div>
 					</div>
 				</div>
@@ -346,50 +356,28 @@
 							{{ tab }}
 						</h5>
 					</div>
-					<!-- <InsightCard
-            @openModal="toggleModalClass('dislikeModal')"
-						title="Journey to the Center of the Earth"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-            Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-            Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/> -->
-					<InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Kingsley Omin wins Gold at the Olympics!"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/>
-					<InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Kingsley Omin wins Gold at the Olympics!"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/>
+					<template v-for="categories in company_insights_categories">
+						<InsightCard
+							v-for="article in categories"
+							:key="categories[article]"
+							@openModal="toggleModalClass('dislikeModal')"
+							:title="article.title"
+							:content="article.description"
+						/>
+					</template>
 				</div>
 				<div class="jobs-section">
 					<div class="jobs-header flex flex__space-center">
 						<h3 class="section-title">News</h3>
 						<div class="open-roles">
-							<p class="roles-number">4 Open roles</p>
+							<p class="roles-number">{{ company_insights.jobs.length }} Open roles</p>
 						</div>
 					</div>
-					<div class="job flex flex__space-center">
-						<h4 class="title">Finance Manager</h4>
+					<div class="job flex flex__space-center" v-for="(job, i) in company_insights.jobs" :key="i">
+						<h4 class="title">{{job.role}}</h4>
 						<div>
-							<p class="location">Lagos, Nigeria</p>
-							<p class="type">Full time</p>
-						</div>
-					</div>
-					<div class="job flex flex__space-center">
-						<h4 class="title">Business Analyst</h4>
-						<div>
-							<p class="location">Lagos, Nigeria</p>
-							<p class="type">Full time</p>
+							<p class="location">{{ job.location }}</p>
+							<p class="type">{{job.employment_type}}</p>
 						</div>
 					</div>
 				</div>
