@@ -36,7 +36,6 @@ export default {
 		}
 	},
 	mounted() {
-		// this.chartdata.labels = this.topics;
-		setTimeout(() => this.renderChart(this.chartDataObj, this.options), 200);
+		this.renderChart(this.chartDataObj, this.options);
 	}
 };

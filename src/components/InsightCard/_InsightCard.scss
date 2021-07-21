@@ -1,13 +1,23 @@
 .card {
   width: 100%;
-  padding: 24.5px;
+  padding: 24.5px 24.5px 0;
   border: 1px solid transparent;
 
   &:hover {
     border: 1px solid #3B48F7;
     cursor: pointer;
   }
+
+  &-wrapper {
+    padding-bottom: 24.5px;
+  }
+  &:not(:last-child){
+    .card-wrapper {
+      border-bottom: 1px solid #EAEBEB;
+    }
+  }
 }
+
 .title {
   margin-bottom: 12px;
   font-weight: 600;

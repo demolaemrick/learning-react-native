@@ -218,7 +218,6 @@
               Quisquam fugit repudiandae iure atque eum minus!
               Quis et itaque nam"
 					/>
-					<div class="border"></div>
 					<InsightCard
 						:disliked="disliked"
 						@openModal="toggleModalClass('dislikeModal')"
@@ -245,7 +244,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart :chartData="chartData" :labels="mainTopics" />
+					<PieChart class="topics-chart" :chartData="chartData" :labels="mainTopics" />
 				</div>
 				<div class="otherInsight-section">
 					<div class="section-wrapper">
