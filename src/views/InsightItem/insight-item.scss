@@ -106,24 +106,13 @@
 	justify-content: space-between;
 }
 
-// .searched__wrapper {
-// 	padding: 32px 24.5px;
-// 	border-left: 1px solid #f2f2f2;
-//   width: 512px;
-// }
-// .searched__wrapper-header {
-// 	display: flex;
-// 	justify-content: space-between;
-// 	align-items: center;
-// 	margin-bottom: 18px;
-// 	// padding-left: 24px;
-// 	.title {
-// 		letter-spacing: -0.64px;
-// 	}
-// }
-
+.searched__wrapper-header {
+	// padding: 0 24.5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 .news {
-  margin-top: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -162,7 +151,7 @@ label {
   padding: 4px 16px;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 24px;
   letter-spacing: -0.3px;
   border: none;

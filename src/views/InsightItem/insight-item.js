@@ -17,7 +17,7 @@ export default {
 		CTag,
 		DropdownCheckbox,
 		LoadingState,
-    InsightCard
+		InsightCard
 	},
 	data() {
 		return {
