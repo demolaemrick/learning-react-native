@@ -14,10 +14,10 @@
 								</h3>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="(searchType = 'company_research')">
+								<li class="dropdown__item" @click="searchType = 'company_research'">
 									Company Insights
 								</li>
-								<li class="dropdown__item" @click="(searchType = 'contact_research')">
+								<li class="dropdown__item" @click="searchType = 'contact_research'">
 									Contact Insights
 								</li>
 							</template>
@@ -35,144 +35,148 @@
 							</toggle-dropdown>
 						</div>
 					</div>
-        <div class="section-wrapper" v-if="searchType === 'contact_research'">
-          <div class="news-section">
-            <div class="section-wrapper">
-              <div class="news">
-                <h3 class="section-title">News & Articles</h3>
-                <div class="filter-sort">
-                  <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-                    <template #dropdown-wrapper>
-                      <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-                    </template>
-                    <template #dropdown-items>
-                      <li class="dropdown__item">Recent</li>
-                      <li class="dropdown__item">Relevant</li>
-                    </template>
-                  </toggle-dropdown>
-                </div>
-              </div>
-              <TextInput
-                class="search-section mb-0"
-                type="text"
-                placeholder="Search"
-                name="contactSearch"
-                v-model="contactSearchQuery"
-                :icon="{ type: 'search' }"
-                backgroundColor="#F5F5F5"
-                border="#F5F5F5"
-                borderRadius="12px"
-                searchIconColor="#3A434B"
-              />
+					<div class="section-wrapper" v-if="searchType === 'contact_research'">
+						<div class="news-section">
+							<div class="section-wrapper">
+								<div class="news">
+									<h3 class="section-title">News & Articles</h3>
+									<div class="filter-sort">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item">Recent</li>
+												<li class="dropdown__item">Relevant</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<TextInput
+									class="search-section mb-0"
+									type="text"
+									placeholder="Search"
+									name="contactSearch"
+									v-model="contactSearchQuery"
+									:icon="{ type: 'search' }"
+									backgroundColor="#F5F5F5"
+									border="#F5F5F5"
+									borderRadius="12px"
+									searchIconColor="#3A434B"
+								/>
 
-              <div class="tab-group flex">
-                <h5
-                  v-for="(tab, index) in tabs"
-                  :key="index"
-                  class="tab"
-                  :class="{ active: tab === selectedTab }"
-                  @click="selectedTab = tab"
-                >
-                  {{ tab }}
-                </h5>
-              </div>
-            </div>
+								<div class="tab-group flex">
+									<h5
+										v-for="(tab, index) in tabs"
+										:key="index"
+										class="tab"
+										:class="{ active: tab === selectedTab }"
+										@click="selectedTab = tab"
+									>
+										{{ tab }}
+									</h5>
+								</div>
+							</div>
 
-            <InsightCard
-              :disliked="disliked"
-              @openModal="toggleModalClass('dislikeModal')"
-              title="Journey to the Center of the Earth"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
+							<InsightCard
+								:disliked="disliked"
+								@openModal="toggleModalClass('dislikeModal')"
+								title="Journey to the Center of the Earth"
+								content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
                 Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
                 Quisquam fugit repudiandae iure atque eum minus!
                 Quis et itaque nam"
-            />
-            <InsightCard
-              :disliked="disliked"
-              @openModal="toggleModalClass('dislikeModal')"
-              title="Kingsley Omin wins Gold at the Olympics!"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+							/>
+							<InsightCard
+								:disliked="disliked"
+								@openModal="toggleModalClass('dislikeModal')"
+								title="Kingsley Omin wins Gold at the Olympics!"
+								content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
                 Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
                 Quis et itaque nam"
-            />
-				  </div>
-          <div class="quote-section">
-            <div class="section-wrapper">
-              <h3 class="section-title">Quotes</h3>
-            </div>
-            <InsightCard
-              :disliked="disliked"
-              @openModal="toggleModalClass('dislikeModal')"
-              quote="We've seen rapid acceleration in the category and in our business this year, 
+							/>
+						</div>
+						<div class="quote-section">
+							<div class="section-wrapper">
+								<h3 class="section-title">Quotes</h3>
+							</div>
+							<InsightCard
+								:disliked="disliked"
+								@openModal="toggleModalClass('dislikeModal')"
+								quote="We've seen rapid acceleration in the category and in our business this year, 
                 and as we look to 2021 its clear that every consumer-facing business in the world is focused 
                 on how to use data"
-            />
-          </div>
-        </div>
-        <div class="section-wrapper" v-if="searchType === 'company_research'">
-          <div class="news-section">
-            <div class="section-wrapper">
-              <div class="news">
-                <h3 class="section-title">News</h3>
-                <div class="filter-sort">
-                  <toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-                    <template #dropdown-wrapper>
-                      <p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-                    </template>
-                    <template #dropdown-items>
-                      <li class="dropdown__item">Recent</li>
-                      <li class="dropdown__item">Relevant</li>
-                    </template>
-                  </toggle-dropdown>
-                </div>
-              </div>
-              <TextInput
-                class="search-section mb-0"
-                type="text"
-                placeholder="Search"
-                name="contactSearch"
-                v-model="contactSearchQuery"
-                :icon="{ type: 'search' }"
-                backgroundColor="#F5F5F5"
-                border="#F5F5F5"
-                borderRadius="12px"
-                searchIconColor="#3A434B"
-              />
+							/>
+						</div>
+					</div>
+					<div class="section-wrapper" v-if="searchType === 'company_research'">
+						<div class="news-section">
+							<div class="section-wrapper">
+								<div class="news">
+									<h3 class="section-title">News</h3>
+									<div class="filter-sort">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item">Recent</li>
+												<li class="dropdown__item">Relevant</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<TextInput
+									class="search-section mb-0"
+									type="text"
+									placeholder="Search"
+									name="contactSearch"
+									v-model="contactSearchQuery"
+									:icon="{ type: 'search' }"
+									backgroundColor="#F5F5F5"
+									border="#F5F5F5"
+									borderRadius="12px"
+									searchIconColor="#3A434B"
+								/>
 
-              <div class="tab-group flex">
-                <h5
-                  v-for="(tab, index) in companyTabs"
-                  :key="index"
-                  class="tab"
-                  :class="{ active: tab === companyTab }"
-                  @click="companyTab = tab"
-                >
-                  {{ tab }}
-                </h5>
-              </div>
-            </div>
+								<div class="tab-group flex">
+									<h5
+										v-for="(tab, index) in companyTabs"
+										:key="index"
+										class="tab"
+										:class="{ active: tab === companyTab }"
+										@click="companyTab = tab"
+									>
+										{{ tab }}
+									</h5>
+								</div>
+							</div>
 
-            <InsightCard
-              :disliked="disliked"
-              @openModal="toggleModalClass('dislikeModal')"
-              title="Journey to the Center of the Earth"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
+							<InsightCard
+								:disliked="disliked"
+								@openModal="toggleModalClass('dislikeModal')"
+								title="Journey to the Center of the Earth"
+								content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
                 Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
                 Quisquam fugit repudiandae iure atque eum minus!
                 Quis et itaque nam"
-            />
-            <InsightCard
-              :disliked="disliked"
-              @openModal="toggleModalClass('dislikeModal')"
-              title="Kingsley Omin wins Gold at the Olympics!"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+							/>
+							<InsightCard
+								:disliked="disliked"
+								@openModal="toggleModalClass('dislikeModal')"
+								title="Kingsley Omin wins Gold at the Olympics!"
+								content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
                 Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
                 Quis et itaque nam"
-            />
-				  </div>
-        </div>
+							/>
+						</div>
+					</div>
 					<!-- <div class="searched-result" v-for="(data, i) in research" :key="i">
 						<span v-for="(dataItem, j) in data" :key="j">
 							<div
