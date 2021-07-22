@@ -255,7 +255,7 @@
             {
               "title": "Interviews with startup founders and CEOs",
               "url": "https://startupxplore.com/en/blog/founder-interviews/",
-              "description": "Quick tip from from: don't pay much attention to the recommendation of owning your own plane. Achieving that is not an easy task. Sergei Brin and Larry Page: ...",
+              "description": "Quick tip from from: don't pay much attention to the recommendation of owning your own plane. Achieving that is not an easy task. Sergei Brin and Larry Page: ...",
               "tags": [
                 "article",
                 "startupxplore.com",
@@ -756,7 +756,7 @@
             {
               "title": "Interviews with startup founders and CEOs",
               "url": "https://startupxplore.com/en/blog/founder-interviews/",
-              "description": "Quick tip from from: don't pay much attention to the recommendation of owning your own plane. Achieving that is not an easy task. Sergei Brin and Larry Page: ...",
+              "description": "Quick tip from from: don't pay much attention to the recommendation of owning your own plane. Achieving that is not an easy task. Sergei Brin and Larry Page: ...",
               "tags": [
                 "article",
                 "startupxplore.com",
@@ -838,23 +838,22 @@
           ]
         },
         "quotes": [],
-        "topics": 
-          {
-            "Sergey Brin": 42.86,
-            "Google": 28.57,
-            "Larry Page": 28.57
-          }
+        "topics": {
+          "Sergey Brin": 42.86,
+          "Google": 28.57,
+          "Larry Page": 28.57
+        }
       },
       "company_insights": {
         "snapshot": {
-          "mentions": 1,
+          "mentions": 22,
           "last_funding": "1999-06-07T00:00:00.000Z",
           "interests": [
             "information technology",
             "internet",
             "media"
           ],
-          "jobs": 10
+          "jobs": null
         },
         "news": {
           "products": [
@@ -1624,7 +1623,7 @@
             {
               "title": "Google | History & Facts | Britannica",
               "url": "https://www.britannica.com/topic/Google-Inc",
-              "description": "Google, American search engine company, founded in 1998 by Sergey Brin and Larry Page, that is a subsidiary of the holding company Alphabet Inc. More than ...",
+              "description": "Google, American search engine company, founded in 1998 by Sergey Brin and Larry Page, that is a subsidiary of the holding company Alphabet Inc. More than ...",
               "tags": [
                 "ARTICLE",
                 null
@@ -1705,7 +1704,7 @@
             {
               "title": "Google - Wikipedia",
               "url": "https://en.wikipedia.org/wiki/Google",
-              "description": "The name \"Google\" originated from a misspelling of \"googol\" ... a related motto was adopted in the Alphabet corporate code of ...",
+              "description": "The name \"Google\" originated from a misspelling of \"googol\" ... a related motto was adopted in the Alphabet corporate code of ...",
               "tags": [
                 "website",
                 null
@@ -1731,7 +1730,7 @@
             {
               "title": "Waymo",
               "url": "https://waymo.com/",
-              "description": "Waymo—formerly the Google self-driving car project—stands for a new way forward in mobility. Our mission is to make it safe and easy for people and things to ...",
+              "description": "Waymo—formerly the Google self-driving car project—stands for a new way forward in mobility. Our mission is to make it safe and easy for people and things to ...",
               "tags": [
                 "website",
                 null
@@ -1784,7 +1783,7 @@
             {
               "title": "Google | History & Facts | Britannica",
               "url": "https://www.britannica.com/topic/Google-Inc",
-              "description": "Google, American search engine company, founded in 1998 by Sergey Brin and Larry Page, that is a subsidiary of the holding company Alphabet Inc. More than ...",
+              "description": "Google, American search engine company, founded in 1998 by Sergey Brin and Larry Page, that is a subsidiary of the holding company Alphabet Inc. More than ...",
               "tags": [
                 "ARTICLE",
                 null

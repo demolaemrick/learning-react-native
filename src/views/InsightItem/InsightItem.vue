@@ -5,21 +5,21 @@
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content">
 					<div class="searched__wrapper-header">
-						<toggle-dropdown>
+						<toggle-dropdown itemPadding="1rem 1rem 1rem 0">
 							<template #dropdown-wrapper>
 								<h3 class="title">
-									<template v-if="searchType === 'contact_research'">Contact Insights</template>
+									<template v-if="searchType === 'contact_insights'">Contact Insights</template>
 									<template v-else>Company Insights</template>
 									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
 								</h3>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="searchType = 'company_research'">Company Insights</li>
-								<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Insights</li>
+								<li class="dropdown__item" @click="searchType = 'company_insights'">Company Insights</li>
+								<li class="dropdown__item" @click="searchType = 'contact_insights'">Contact Insights</li>
 							</template>
 						</toggle-dropdown>
 					</div>
-					<div class="section-wrapper" v-if="searchType === 'contact_research'">
+					<div class="" v-if="searchType === 'contact_insights'">
 						<div class="news-section">
 							<div class="section-wrapper">
 								<div class="news">
@@ -52,6 +52,7 @@
 								/>
 
 								<div class="tab-group flex">
+									<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 									<h5
 										v-for="(tab, index) in tabs"
 										:key="index"
@@ -64,40 +65,50 @@
 								</div>
 							</div>
 
-							<InsightCard
-								:disliked="disliked"
-								@openModal="toggleModalClass('dislikeModal')"
-								title="Journey to the Center of the Earth"
-								content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-                Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-                Quisquam fugit repudiandae iure atque eum minus!
-                Quis et itaque nam"
-							/>
-							<InsightCard
-								:disliked="disliked"
-								@openModal="toggleModalClass('dislikeModal')"
-								title="Kingsley Omin wins Gold at the Olympics!"
-								content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-                Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-                Quis et itaque nam"
-							/>
+							<template v-for="categories in contact_insights_categories">
+								<InsightCard
+									v-for="article in categories"
+									:key="categories[article]"
+									@openModal="toggleModalClass('dislikeModal')"
+									:title="article.title"
+									:content="article.meta.html.snippet"
+									:published="article.meta.published"
+									:url="article.url"
+									@displayInsight="displaySearchItem('contact_insights', article)"
+								/>
+							</template>
 						</div>
 						<div class="quote-section">
 							<div class="section-wrapper">
 								<h3 class="section-title">Quotes</h3>
 							</div>
 							<InsightCard
+								v-for="(quote, index) in getSearchedResult[searchType].quotes"
+								:key="index"
+								:published="quote.published"
+								:url="quote.url"
+								:quote="quote.text"
+								@displayInsight="displaySearchItem('contact_insights', quote)"
+							/>
+						</div>
+						<div class="otherInsight-section" ref="others">
+							<div class="section-wrapper">
+								<h3 class="section-title">Other Insights</h3>
+							</div>
+							<InsightCard
+								v-for="(otherInsight, index) in getSearchedResult[searchType].other_insights"
+								:key="index"
 								:disliked="disliked"
 								@openModal="toggleModalClass('dislikeModal')"
-								quote="We've seen rapid acceleration in the category and in our business this year, 
-                and as we look to 2021 its clear that every consumer-facing business in the world is focused 
-                on how to use data"
+								:content="otherInsight.meta.html.snippet"
+								:published="otherInsight.meta.published"
+								:url="otherInsight.meta.url"
+								@displayInsight="displaySearchItem('contact_insights', otherInsight)"
 							/>
 						</div>
 					</div>
 
-					<div class="section-wrapper" v-if="searchType === 'company_research'">
+					<div class="" v-if="searchType === 'company_insights'">
 						<div class="news-section">
 							<div class="section-wrapper">
 								<div class="news">
@@ -120,7 +131,7 @@
 									class="search-section mb-0"
 									type="text"
 									placeholder="Search"
-									name="contactSearch"
+									name="companySearch"
 									v-model="contactSearchQuery"
 									:icon="{ type: 'search' }"
 									backgroundColor="#F5F5F5"
@@ -142,67 +153,22 @@
 								</div>
 							</div>
 
-							<InsightCard
-								:disliked="disliked"
-								@openModal="toggleModalClass('dislikeModal')"
-								title="Enyata gets Series A Funding"
-								content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
-                Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
-                Quisquam fugit repudiandae iure atque eum minus!
-                Quis et itaque nam"
-							/>
-							<InsightCard
-								:disliked="disliked"
-								@openModal="toggleModalClass('dislikeModal')"
-								title="SoftCon's Asian Office"
-								content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-                Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-                Quis et itaque nam"
-							/>
+							<template v-for="categories in company_insights_categories">
+								<InsightCard
+									v-for="article in categories"
+									:key="categories[article]"
+									@openModal="toggleModalClass('dislikeModal')"
+									:content="article.meta.html.snippet"
+									:published="article.meta.published"
+									:title="article.title"
+									:url="article.url"
+									@displayInsight="displaySearchItem('company_insights', article)"
+								/>
+							</template>
 						</div>
 					</div>
-					<div class="searched-result" v-for="(data, i) in research" :key="i">
-						<span v-for="(dataItem, j) in data" :key="j">
-							<div
-								class="searched__item"
-								v-if="!Object.keys(dataItem).includes('dontRender') || dataItem.dontRender === null"
-								@click="displaySearchItem('company_research', dataItem)"
-							>
-								<span class="searched__item__group">
-									<p class="searched__item-title">{{ dataItem.title }}</p>
-									<p v-if="dataItem.meta.relevanceScore" class="searched__item-score">
-										{{ (dataItem.meta.relevanceScore * 100).toFixed(2) }}%
-									</p>
-								</span>
-								<p v-if="dataItem.meta.html" class="searched__item-desc" v-html="dataItem.meta.html.snippet"></p>
-								<div
-									v-if="!dataItem.is_bookmarked"
-									@click="btnAddToBookMarks({ type: searchType, index: j, ...dataItem })"
-									class="url__bookmark__group"
-								>
-									<a :href="dataItem.url" target="_blank" class="searched__item-url"
-										><img src="@/assets/icons/planet-earth.svg" svg-inline />
-										<p class="url-text">{{ dataItem.url }}</p></a
-									>
-									<img src="@/assets/icons/bookman-icon.svg" svg-inline />
-								</div>
-								<div
-									v-else
-									@click="btnRemoveFromBookMarks({ type: searchType, index: j, ...dataItem })"
-									class="url__bookmark__group"
-								>
-									<a :href="dataItem.url" target="_blank" class="searched__item-url"
-										><img src="@/assets/icons/planet-earth.svg" svg-inline />
-										<p class="url-text">{{ dataItem.url }}</p></a
-									>
-									<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
-								</div>
-							</div>
-						</span>
-					</div>
 				</div>
-				<!-- <div class="notepad">
+				<div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">Notepad</p>
 						<img src="@/assets/icons/collapse.svg" svg-inline v-if="hideSearch" @click="hideSearch = false" />
@@ -219,7 +185,7 @@
 						placeholder="Write down findings from research."
 					>
 					</textarea>
-				</div> -->
+				</div>
 			</div>
 			<div class="item__detail">
 				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>

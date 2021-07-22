@@ -9,6 +9,7 @@ import LoadingState from '@/components/LoadingState';
 import InsightCard from '@/components/InsightCard';
 import Modal from '@/components/Modal';
 import RadioBtn from '@/components/RadioButton';
+import TextInput from '@/components/Input';
 import VButton from '@/components/Button';
 
 export default {
@@ -23,7 +24,8 @@ export default {
 		InsightCard,
 		Modal,
 		RadioBtn,
-		VButton
+		VButton,
+		TextInput
 	},
 	data() {
 		return {
@@ -41,12 +43,14 @@ export default {
 			userNote: null,
 			notepadTXT: null,
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
-			companyTabs: ['All', 'Products', 'Funding', 'People'],
-			companyTab: 'Funding',
+			companyTabs: ['all', 'products', 'funding', 'people'],
+			companyTab: 'all',
 			selectedTab: 'All',
 			disliked: false,
 			bookmarked: false,
 			dislikeModal: false,
+			contactSearchQuery: '',
+			companySearchQuery: '',
 			dislikeOption: 'Not relevant to this search',
 			dislikeOptions: [
 				{
@@ -101,6 +105,7 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.getSearchedResult[this.searchType];
+				console.log(data);
 				if (this.filterValue.length === 0) {
 					for (const key in data) {
 						if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
@@ -116,7 +121,32 @@ export default {
 				}
 				return newObj;
 			}
-		}
+		},
+		contact_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.getSearchedResult[this.searchType].news_and_articles;
+				const tab = this.selectedTab;
+				this.tabs = Object.keys(data);
+				if (tab === 'All') {
+					return data;
+				} else {
+					const element = Object.keys(data).includes(tab) ? data[tab] : '';
+					newObj[tab] = element;
+					return newObj;
+				}
+			}
+		},
+		company_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.getSearchedResult[this.searchType].news;
+				const tab = this.companyTab;
+				const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				newObj[tab] = element;
+				return newObj;
+			}
+		},
 	},
 	methods: {
 		...mapMutations({

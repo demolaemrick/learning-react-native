@@ -103,16 +103,13 @@ export default {
 			await this.getResult();
 		} else if (this.getSearchedResult && Object.keys(this.getSearchedResult).length > 0) {
 			this.searchedResult = this.getSearchedResult;
+			this.saveSearchedResult(this.insights);
 		} else {
 			this.$router.push({ name: 'Search' });
 		}
 		this.getRowID();
 		await this.initUserBookmarks();
 		await this.initUserNote(this.rowId);
-
-		// Object.values(this.contact_insights.news_and_articles).map(item =>{
-		// 	console.log(item);
-		// })
 	},
 	computed: {
 		...mapGetters({
@@ -353,7 +350,7 @@ export default {
 				item: item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'SearchItem' });
+			this.$router.push({ name: 'InsightItem' });
 		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {

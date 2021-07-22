@@ -108,7 +108,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="section__6" @click="editNote = !editNote">
+				<div class="section__7" @click="editNote = !editNote">
 					<div class="text">Notes</div>
 					<div class="link"></div>
 				</div>
@@ -255,6 +255,7 @@
 							:content="article.meta.html.snippet"
 							:published="article.meta.published"
 							:url="article.url"
+							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</template>
 				</div>
@@ -268,6 +269,7 @@
 						:published="quote.published"
 						:url="quote.url"
 						:quote="quote.text"
+						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
 				<div class="topics-section" ref="topics">
@@ -292,6 +294,7 @@
 						:content="otherInsight.meta.html.snippet"
 						:published="otherInsight.meta.published"
 						:url="otherInsight.meta.url"
+						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
 					/>
 				</div>
 			</div>
@@ -397,6 +400,7 @@
 							:published="article.meta.published"
 							:title="article.title"
 							:url="article.url"
+							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</template>
 				</div>
