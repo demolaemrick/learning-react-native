@@ -1,5 +1,6 @@
 <template>
 	<div class="card">
+		<div class="card-wrapper">
 		<h4 v-if="title" class="title">{{ title }}</h4>
 		<q v-if="quote" class="quote">{{ quote }}</q>
 
@@ -10,15 +11,16 @@
 				<p>{{ timestamp | moment('LL') }} | {{ url }}</p>
 			</div>
 
-			<div class="flex flex__item-center">
-				<template>
-					<img class="mr-1 icon" v-if="!bookmarked" @click="bookmark" src="../../assets/icons/bookman-icon.svg" alt="" />
-					<img class="mr-1 icon" v-else @click="bookmark" src="../../assets/icons/bookman-icon-dark.svg" alt="" />
-				</template>
-				<template>
-					<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
-					<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
-				</template>
+				<div class="flex flex__item-center">
+					<template>
+						<img class="mr-1 icon" v-if="!bookmarked" @click="bookmark" src="../../assets/icons/bookman-icon.svg" alt="" />
+						<img class="mr-1 icon" v-else @click="bookmark" src="../../assets/icons/bookman-icon-dark.svg" alt="" />
+					</template>
+					<template>
+						<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
+						<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
+					</template>
+				</div>
 			</div>
 		</div>
 	</div>

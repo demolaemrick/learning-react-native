@@ -33,7 +33,6 @@ export default {
 		}
 	},
 	mounted() {
-		// this.chartdata.labels = this.topics;
 		this.renderChart(this.chartDataObj, this.options);
 	}
 };

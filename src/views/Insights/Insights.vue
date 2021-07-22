@@ -263,7 +263,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart :chartData="chartData" :labels="mainTopics" />
+					<PieChart class="topics-chart" :chartData="chartData" :labels="mainTopics" />
 				</div>
 				<div class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
@@ -433,7 +433,8 @@
 
 					<form v-if="dislikeOption === 'Other'" action="">
 						<label class="textLabel" for="dislikeForm">Comment</label>
-						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..." v-model="comment">
+						</textarea>
 					</form>
 
 					<div class="modal__content-btn">
