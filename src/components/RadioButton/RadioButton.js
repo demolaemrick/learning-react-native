@@ -11,6 +11,10 @@ export default {
 		options: {
 			type: Array,
 			default: () => []
+		},
+		marginBottom: {
+			type: String,
+			default: '2.4rem'
 		}
 	}
 	// watch: {

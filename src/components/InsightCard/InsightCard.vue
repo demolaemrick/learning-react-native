@@ -1,11 +1,9 @@
 <template>
-	<div class="card mb-2">
+	<div class="card">
 		<h4 v-if="title" class="title">{{ title }}</h4>
-		<div>
-			<q class="quote" v-if="!title">{{ content }}</q>
-			<p v-else class="content">{{ content }}</p>
-		</div>
+		<q v-if="quote" class="quote">{{ quote }}</q>
 
+		<p class="content" v-if="content" v-html="content"></p>
 		<div class="details flex flex__item-center flex-spaced">
 			<div class="article-details flex flex__item-center">
 				<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
@@ -13,13 +11,14 @@
 			</div>
 
 			<div class="flex flex__item-center">
-				<div>
-					<img class="mr-1 icon" src="../../assets/icons/bookman-icon.svg" alt="" />
-				</div>
-				<!-- <img class="mr-1 icon" src="../../assets/icons/bookmark.svg" alt="" /> -->
-				<div class="icon" @click="$emit('openModal')">
-					<img src="../../assets/icons/dislike-icon.svg" alt="" />
-				</div>
+				<template>
+					<img class="mr-1 icon" v-if="!bookmarked" @click="bookmark" src="../../assets/icons/bookman-icon.svg" alt="" />
+					<img class="mr-1 icon" v-else @click="bookmark" src="../../assets/icons/bookman-icon-dark.svg" alt="" />
+				</template>
+				<template>
+					<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
+					<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
+				</template>
 			</div>
 		</div>
 	</div>

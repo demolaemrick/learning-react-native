@@ -186,84 +186,97 @@
 							<p class="ml">Most viral tweet was:</p>
 						</div>
 					</div>
+					<Tweet v-if="tweetId" :id="tweetId" error-message="This tweet could not be loaded" error-message-class="tweet--error">
+						<div class="spinner">
+							<LoadIcon />
+						</div>
+					</Tweet>
 				</div>
+
 				<div class="news-section" ref="news-section">
-					<div class="news">
-						<h3 class="section-title">News & Articles</h3>
-						<div class="filter-sort">
-							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-								<template #dropdown-wrapper>
-									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								</template>
-								<template #dropdown-items>
-									<li class="dropdown__item">Relevance</li>
-								</template>
-							</toggle-dropdown>
+					<div class="section-wrapper">
+						<div class="news">
+							<h3 class="section-title">News & Articles</h3>
+							<div class="filter-sort">
+								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+									<template #dropdown-wrapper>
+										<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item">Recent</li>
+										<li class="dropdown__item">Relevant</li>
+									</template>
+								</toggle-dropdown>
+							</div>
+						</div>
+						<TextInput
+							class="search-section mb-0"
+							type="text"
+							placeholder="Search"
+							name="contactSearch"
+							v-model="contactSearchQuery"
+							:icon="{ type: 'search' }"
+							backgroundColor="#F5F5F5"
+							border="#F5F5F5"
+							borderRadius="12px"
+							searchIconColor="#3A434B"
+						/>
+
+						<div class="tab-group flex">
+							<h5
+								v-for="(tab, index) in tabs"
+								:key="index"
+								class="tab"
+								:class="{ active: tab === selectedTab }"
+								@click="selectedTab = tab"
+							>
+								{{ tab }}
+							</h5>
 						</div>
 					</div>
-					<TextInput
-						class="search-section mb-0"
-						type="text"
-						placeholder="Search"
-						v-model="searchQuery"
-						:icon="{ type: 'search' }"
-						backgroundColor="#F5F5F5"
-						border="#F5F5F5"
-						width="448px"
-						borderRadius="12px"
-						searchIconColor="#3A434B"
-					/>
 
-					<div class="tab-group flex">
-						<h5
-							v-for="(tab, index) in tabs"
-							:key="index"
-							class="tab"
-							:class="{ active: tab === selectedTab }"
-							@click="selectedTab = tab"
-						>
-							{{ tab }}
-						</h5>
-					</div>
 					<template v-for="categories in contact_insights_categories">
 						<InsightCard
 							v-for="article in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
 							:title="article.title"
-							:content="article.description"
+							:content="article.meta.html.snippet"
+							:timestamp="article.meta.timestamp"
+							:url="article.meta.url"
 						/>
 					</template>
-
-					<!-- <InsightCard
-						@openModal="toggleModalClass('dislikeModal')"
-						title="Kingsley Omin wins Gold at the Olympics!"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
-					/> -->
 				</div>
 				<div class="quote-section" ref="quotes">
-					<h3 class="section-title">Quotes</h3>
+					<div class="section-wrapper">
+						<h3 class="section-title">Quotes</h3>
+					</div>
 					<InsightCard
 						v-for="(quote, index) in contact_insights.quotes"
 						:key="index"
 						:timestamp="quote.timestamp"
 						:url="quote.url"
-						content="We've seen rapid acceleration in the category and in our business this year, 
-            and as we look to 2021 its clear that every consumer-facing business in the world is focused 
-            on how to use data"
+						:quote="quote.text"
 					/>
 				</div>
+				<div class="topics-section" ref="topics">
+					<div class="section-wrapper">
+						<h3 class="section-title">Topics</h3>
+					</div>
+					<PieChart :chartData="chartData" :labels="mainTopics" />
+				</div>
 				<div class="otherInsight-section" ref="others">
-					<h3 class="section-title">Other Insights</h3>
+					<div class="section-wrapper">
+						<h3 class="section-title">Other Insights</h3>
+					</div>
 					<InsightCard
+						v-for="(otherInsight, index) in contact_insights.other_insights"
+						:key="index"
+						:disliked="disliked"
 						@openModal="toggleModalClass('dislikeModal')"
-						content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
-            Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
-            Quis et itaque nam"
+						:content="otherInsight.meta.html.snippet"
+						:timestamp="otherInsight.meta.timestamp"
+						:url="otherInsight.meta.url"
 					/>
 				</div>
 			</div>
@@ -318,51 +331,56 @@
 						</div>
 					</div>
 				</div>
-				<div class="news-section">
-					<div class="news">
-						<h3 class="section-title">News</h3>
-						<div class="filter-sort">
-							<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
-								<template #dropdown-wrapper>
-									<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								</template>
-								<template #dropdown-items>
-									<li class="dropdown__item">Relevance</li>
-								</template>
-							</toggle-dropdown>
-						</div>
-					</div>
-					<TextInput
-						class="search-section mb-0"
-						type="text"
-						placeholder="Search"
-						v-model="searchQuery"
-						:icon="{ type: 'search' }"
-						backgroundColor="#F5F5F5"
-						border="#F5F5F5"
-						width="448px"
-						borderRadius="12px"
-						searchIconColor="#3A434B"
-					/>
 
-					<div class="tab-group flex">
-						<h5
-							v-for="(tab, index) in companyTabs"
-							:key="index"
-							class="tab"
-							:class="{ active: tab === companyTab }"
-							@click="companyTab = tab"
-						>
-							{{ tab }}
-						</h5>
+				<div class="news-section">
+					<div class="section-wrapper">
+						<div class="news">
+							<h3 class="section-title">News</h3>
+							<div class="filter-sort">
+								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+									<template #dropdown-wrapper>
+										<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item">Recent</li>
+										<li class="dropdown__item">Relevant</li>
+									</template>
+								</toggle-dropdown>
+							</div>
+						</div>
+						<TextInput
+							class="search-section mb-0"
+							type="text"
+							placeholder="Search"
+							name="companySearch"
+							v-model="companySearchQuery"
+							:icon="{ type: 'search' }"
+							backgroundColor="#F5F5F5"
+							border="#F5F5F5"
+							borderRadius="12px"
+							searchIconColor="#3A434B"
+						/>
+
+						<div class="tab-group flex">
+							<h5
+								v-for="(tab, index) in companyTabs"
+								:key="index"
+								class="tab"
+								:class="{ active: tab === companyTab }"
+								@click="companyTab = tab"
+							>
+								{{ tab }}
+							</h5>
+						</div>
 					</div>
 					<template v-for="categories in company_insights_categories">
 						<InsightCard
 							v-for="article in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
-							:title="article.title"
-							:content="article.description"
+							:content="article.meta.html.snippet"
+							:timestamp="article.meta.timestamp"
+							:url="article.meta.url"
 						/>
 					</template>
 				</div>
@@ -391,27 +409,35 @@
 			:toggleClass="toggleClass"
 			@close="toggleModalClass('dislikeModal')"
 			maxWidth="400px"
+			borderRadius="12px"
+			marginTop="10%"
 		>
 			<template #title>
-				<h4 class="modal__header-title">Why did you dislike the search result?</h4>
+				<h4 class="modal__header-title">Not Relevant?</h4>
 			</template>
 			<template #info>
-				<h5>We will like to get your feedback to help us improve our services</h5>
+				<h5>Your feedback will help us improve your results.</h5>
 			</template>
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text">
 						<RadioBtn
 							style="display: block"
-							margin=""
-							id="statusType"
+							marginBottom="24px"
+							id="dislikeOption"
 							:options="dislikeOptions"
-							name="status"
-							v-model="statusOption"
+							name="dislikeChoices"
+							v-model="dislikeOption"
 						/>
 					</p>
+
+					<form v-if="dislikeOption === 'Other'" action="">
+						<label class="textLabel" for="dislikeForm">Comment</label>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+					</form>
+
 					<div class="modal__content-btn">
-						<v-button class="config__btn" buttonType="warning" size="modal">
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeCard">
 							<template v-if="!loading">Submit</template>
 							<Loader v-else />
 						</v-button>

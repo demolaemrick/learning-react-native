@@ -2,19 +2,36 @@ export default {
 	props: {
 		title: {
 			type: String,
-			default: ''
+			default: null
 		},
 		content: {
 			type: String,
-			default: ''
+			default: null
 		},
 		timestamp: {
 			type: String,
-			default: '2021-01-01'
+			default: null
 		},
 		url: {
 			type: String,
-			default: 'Venturebeat.com'
+			default: null
+		},
+		quote: {
+			type: String,
+			default: null
+		},
+		disliked: {
+			type: Boolean,
+			default: false
+		},
+		bookmarked: {
+			type: Boolean,
+			default: false
+		}
+	},
+	methods: {
+		bookmark() {
+			this.bookmarked = !this.bookmarked;
 		}
 	}
 };
