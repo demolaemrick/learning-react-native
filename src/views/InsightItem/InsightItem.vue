@@ -22,7 +22,6 @@
 								</li>
 							</template>
 						</toggle-dropdown>
-
 					</div>
 					<div class="section-wrapper" v-if="searchType === 'contact_research'">
 						<div class="news-section">
@@ -262,7 +261,7 @@
 				</template>
 			</div>
 		</main>
-    <modal
+		<modal
 			position="center"
 			v-if="dislikeModal"
 			:active="true"

@@ -21,9 +21,9 @@ export default {
 		DropdownCheckbox,
 		LoadingState,
 		InsightCard,
-    Modal,
-    RadioBtn,
-    VButton
+		Modal,
+		RadioBtn,
+		VButton
 	},
 	data() {
 		return {
@@ -44,10 +44,10 @@ export default {
 			companyTabs: ['All', 'Products', 'Funding', 'People'],
 			companyTab: 'Funding',
 			selectedTab: 'All',
-      disliked: false,
+			disliked: false,
 			bookmarked: false,
-      dislikeModal: false,
-      dislikeOption: 'Not relevant to this search',
+			dislikeModal: false,
+			dislikeOption: 'Not relevant to this search',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to this search',
@@ -281,7 +281,7 @@ export default {
 				this.filterValue.push(key);
 			}
 		},
-    toggleModalClass(modal) {
+		toggleModalClass(modal) {
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -292,7 +292,7 @@ export default {
 				}, 500);
 			}
 		},
-    dislikeCard() {
+		dislikeCard() {
 			this.dislikeModal = false;
 			this.disliked = true;
 		}
