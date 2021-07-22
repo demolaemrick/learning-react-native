@@ -7,7 +7,7 @@
 			<q v-if="quote" class="quote">{{ quote }}</q>
 
 			<p class="content" v-if="content" v-html="content"></p>
-			<div @click.stop=""  class="details flex flex__item-center flex-spaced">
+			<div @click.stop="" class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
 					<a class="article-link" :href="url" target="_blank" rel="noopener noreferrer"

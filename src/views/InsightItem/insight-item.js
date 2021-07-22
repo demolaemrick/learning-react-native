@@ -146,7 +146,7 @@ export default {
 				newObj[tab] = element;
 				return newObj;
 			}
-		},
+		}
 	},
 	methods: {
 		...mapMutations({
