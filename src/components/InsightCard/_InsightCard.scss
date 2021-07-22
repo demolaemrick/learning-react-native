@@ -25,6 +25,20 @@
   line-height: 26px;
   letter-spacing: -0.3px;
   color: #202F44;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  a{
+    color: #202F44;
+    &:hover {
+      color: #3B48F7;
+      text-decoration-line: underline;
+    }
+    &:visited{
+      color: #9063EF;
+    }
+  }
 }
 .content,
 .quote {
@@ -43,4 +57,13 @@
 }
 .icon:hover{
   cursor: pointer;
+}
+.article-link{
+  color: #989AAA;
+   p{
+  max-width: 270px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 }

@@ -53,17 +53,17 @@ export default {
 			userNote: null,
 			notepadTXT: null,
 			markDone: false,
-			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
-			companyTabs: ['All', 'Products', 'Funding', 'People'],
+			tabs: [],
+			companyTabs: ['all', 'products', 'funding', 'people'],
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
 				{ title: 'News & article', ref: 'news-section' },
 				{ title: 'Quotes', ref: 'quotes' },
-				// { title: 'Topics', ref: 'topics' },
+				{ title: 'Topics', ref: 'topics' },
 				{ title: 'Other insights', ref: 'others' }
 			],
 			selectedInsightTab: 'Snapshot',
-			companyTab: 'All',
+			companyTab: 'all',
 			selectedTab: 'All',
 			contactSearchQuery: '',
 			companySearchQuery: '',
@@ -109,7 +109,7 @@ export default {
 		this.getRowID();
 		await this.initUserBookmarks();
 		await this.initUserNote(this.rowId);
-		console.log(this.insights);
+
 		// Object.values(this.contact_insights.news_and_articles).map(item =>{
 		// 	console.log(item);
 		// })
@@ -152,8 +152,9 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.contact_insights.news_and_articles;
-				const tab = this.selectedTab.toLowerCase();
-				if (tab === 'all') {
+				const tab = this.selectedTab;
+				this.tabs = Object.keys(data);
+				if (tab === 'All') {
 					return data;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
@@ -166,14 +167,10 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.company_insights.news;
-				const tab = this.companyTab.toLowerCase();
-				if (tab === 'all') {
-					return data;
-				} else {
-					const element = Object.keys(data).includes(tab) ? data[tab] : '';
-					newObj[tab] = element;
-					return newObj;
-				}
+				const tab = this.companyTab;
+				const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				newObj[tab] = element;
+				return newObj;
 			}
 		},
 		userBookmarksCount() {

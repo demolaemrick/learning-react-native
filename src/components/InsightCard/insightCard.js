@@ -8,7 +8,7 @@ export default {
 			type: String,
 			default: null
 		},
-		timestamp: {
+		published: {
 			type: String,
 			default: null
 		},

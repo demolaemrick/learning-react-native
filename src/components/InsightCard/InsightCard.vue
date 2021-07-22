@@ -1,14 +1,20 @@
 <template>
 	<div class="card">
 		<div class="card-wrapper">
-			<h4 v-if="title" class="title">{{ title }}</h4>
+			<h4 v-if="title" class="title">
+				<a :href="url" target="_blank" rel="noopener noreferrer">{{ title }}</a>
+			</h4>
 			<q v-if="quote" class="quote">{{ quote }}</q>
 
 			<p class="content" v-if="content" v-html="content"></p>
 			<div class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-					<p>{{ timestamp | moment('LL') }} | {{ url }}</p>
+					<a class="article-link" :href="url" target="_blank" rel="noopener noreferrer"
+						><p>
+							<template v-if="published">{{ published | moment('LL') }} |</template> {{ url }}
+						</p></a
+					>
 				</div>
 
 				<div class="flex flex__item-center">

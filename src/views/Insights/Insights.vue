@@ -9,16 +9,16 @@
 				<div class="section section__1">
 					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
-						<div class="text__initials" v-if="contact_details.name">
+						<div class="text__initials" v-if="contact_details.full_name">
 							{{
-								contact_details.name
+								contact_details.full_name
 									.match(/\b(\w)/g)
 									.join('')
 									.toUpperCase()
 							}}
 						</div>
 						<div class="text__name__role">
-							<div class="name">{{ contact_details.name }}</div>
+							<div class="name">{{ contact_details.full_name }}</div>
 							<div class="role">{{ contact_details.role }}</div>
 						</div>
 					</div>
@@ -56,11 +56,17 @@
 					</div>
 				</div>
 				<div class="section__3">
-					<h5 class="last__refresh">Last refresh: {{ contact_details.last_refresh }}<span>June 6, 2021 | 09:45am</span></h5>
+					<h5 class="last__refresh">
+						Last refresh:
+						<span
+							>{{ contact_details.last_refresh | moment('MMMM D, YYYY') }} |
+							{{ contact_details.last_refresh | moment(' h:mm:ss a') }}</span
+						>
+					</h5>
 					<div class="input__group">
 						<div class="icon refresh"><img src="@/assets/icons/refresh.svg" svg-inline alt="refresh" /></div>
 						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
-						<input type="checkbox" :checked="searchedResult.status.statusCode === 'DONE'" @change="markResearch($event)" />
+						<input type="checkbox" :checked="insights.status.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
 				</div>
@@ -151,11 +157,12 @@
 				<div class="snapshot-section" ref="snapshot">
 					<h3 class="section-title">Snapshot</h3>
 					<div class="snapshot-info">
-						<div class="flex flex__item-center postion">
+						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
 							<img src="@/assets/icons/work.svg" svg-inline />
 							<p class="ml">
-								{{ contact_details.name }} has worked at <span class="main-info">{{ contact_details.company }}</span> for
-								{{ contact_insights.snapshot.current_employer.start | moment('from', 'now', true) }}
+								{{ contact_details.full_name }} has worked at
+								<span class="main-info">{{ contact_details.company }}</span> for
+								{{ contact_insights.snapshot.current_employer.start_date | moment('from', 'now', true) }}
 							</p>
 						</div>
 						<div class="flex flex__item-center postion">
@@ -164,7 +171,10 @@
 								Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
 							</p>
 						</div>
-						<div class="flex flex__item-center postion">
+						<div
+							class="flex flex__item-center postion"
+							v-if="contact_insights.snapshot.interests && contact_insights.snapshot.interests.length > 0"
+						>
 							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
 							<p class="ml">
 								Speaks most about
@@ -174,7 +184,7 @@
 								</span>
 							</p>
 						</div>
-						<div class="flex flex__item-center postion">
+						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.last_linkedin_activity !== ''">
 							<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
 							<p class="ml">
 								Posted on <span class="main-info">LinkedIn</span> on
@@ -223,6 +233,7 @@
 						/>
 
 						<div class="tab-group flex">
+							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 							<h5
 								v-for="(tab, index) in tabs"
 								:key="index"
@@ -242,8 +253,8 @@
 							@openModal="toggleModalClass('dislikeModal')"
 							:title="article.title"
 							:content="article.meta.html.snippet"
-							:timestamp="article.meta.timestamp"
-							:url="article.meta.url"
+							:published="article.meta.published"
+							:url="article.url"
 						/>
 					</template>
 				</div>
@@ -254,7 +265,7 @@
 					<InsightCard
 						v-for="(quote, index) in contact_insights.quotes"
 						:key="index"
-						:timestamp="quote.timestamp"
+						:published="quote.published"
 						:url="quote.url"
 						:quote="quote.text"
 					/>
@@ -263,7 +274,11 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart class="topics-chart" :chartData="chartData" :labels="mainTopics" />
+					<PieChart
+						class="topics-chart"
+						:chartData="Object.values(contact_insights.topics)"
+						:labels="Object.keys(contact_insights.topics)"
+					/>
 				</div>
 				<div class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
@@ -275,7 +290,7 @@
 						:disliked="disliked"
 						@openModal="toggleModalClass('dislikeModal')"
 						:content="otherInsight.meta.html.snippet"
-						:timestamp="otherInsight.meta.timestamp"
+						:published="otherInsight.meta.published"
 						:url="otherInsight.meta.url"
 					/>
 				</div>
@@ -308,14 +323,14 @@
 								past year
 							</p>
 						</div>
-						<div class="flex flex__item-center postion">
+						<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
 							<img src="@/assets/icons/fund.svg" svg-inline />
 							<p class="ml">
 								Raised a round of <span class="main-info">funding</span> in
 								{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 							</p>
 						</div>
-						<div class="flex flex__item-center postion">
+						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
 							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
 							<p class="ml">
 								Speaks most about
@@ -379,8 +394,9 @@
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
 							:content="article.meta.html.snippet"
-							:timestamp="article.meta.timestamp"
-							:url="article.meta.url"
+							:published="article.meta.published"
+							:title="article.title"
+							:url="article.url"
 						/>
 					</template>
 				</div>
