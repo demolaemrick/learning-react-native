@@ -107,10 +107,10 @@
 }
 
 .searched__wrapper-header {
-	// padding: 0 24.5px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 29px 0 29px;
 }
 .news {
   display: flex;
@@ -146,6 +146,34 @@ label {
 }
 .section-wrapper {
 	padding: 0 24.5px;
+}
+.textarea {
+	display: block;
+	width: 100%;
+	margin-top: 6px;
+	margin-bottom: 20px;
+	border: 1px solid #EAEBEB;
+	box-sizing: border-box;
+	border-radius: 4px;
+	padding: 16px;
+	font-size: 16px;
+	resize: none;
+	min-height: 90px;
+
+	&::placeholder {
+		font-size: 16px;
+		line-height: 16px;
+		display: flex;
+		align-items: center;
+		color: #989AAA;
+		letter-spacing: -0.05px;
+	}
+}
+
+.textLabel {
+	font-size: 14px;
+	line-height: 16px;
+	color: #989AAA;
 }
 .tab {
   padding: 4px 16px;

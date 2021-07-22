@@ -183,12 +183,14 @@ export default {
 
 		sortByRelevance() {
 			for (const key in this.research) {
+				console.log(this.research);
 				const element = this.research[key];
 				return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
 			}
 		},
 		sortByRecent() {
 			for (const key in this.research) {
+				console.log(this.research);
 				const element = this.research[key];
 				return element.sort((a, b) => {
 					return (

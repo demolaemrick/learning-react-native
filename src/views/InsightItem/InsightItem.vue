@@ -23,17 +23,6 @@
 							</template>
 						</toggle-dropdown>
 
-						<div class="filter-sort">
-							<toggle-dropdown>
-								<template #dropdown-wrapper>
-									<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
-								</template>
-								<template #dropdown-items>
-									<li class="dropdown__item" @click="sortByRecent">Recent</li>
-									<li class="dropdown__item" @click="sortByRelevance">Relevance</li>
-								</template>
-							</toggle-dropdown>
-						</div>
 					</div>
 					<div class="section-wrapper" v-if="searchType === 'contact_research'">
 						<div class="news-section">
@@ -112,6 +101,7 @@
 							/>
 						</div>
 					</div>
+
 					<div class="section-wrapper" v-if="searchType === 'company_research'">
 						<div class="news-section">
 							<div class="section-wrapper">
@@ -160,7 +150,7 @@
 							<InsightCard
 								:disliked="disliked"
 								@openModal="toggleModalClass('dislikeModal')"
-								title="Journey to the Center of the Earth"
+								title="Enyata gets Series A Funding"
 								content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, corporis. 
                 Distinctio voluptates tenetur molestias sunt libero? Voluptatem facilis optio qui natus velit explicabo. 
                 Quisquam fugit repudiandae iure atque eum minus!
@@ -169,7 +159,7 @@
 							<InsightCard
 								:disliked="disliked"
 								@openModal="toggleModalClass('dislikeModal')"
-								title="Kingsley Omin wins Gold at the Olympics!"
+								title="SoftCon's Asian Office"
 								content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quaerat, corporis. Distinctio voluptates tenetur molestias sunt libero?
                 Voluptatem facilis optio qui natus velit explicabo. Quisquam fugit repudiandae iure atque eum minus!
@@ -177,7 +167,7 @@
 							/>
 						</div>
 					</div>
-					<!-- <div class="searched-result" v-for="(data, i) in research" :key="i">
+					<div class="searched-result" v-for="(data, i) in research" :key="i">
 						<span v-for="(dataItem, j) in data" :key="j">
 							<div
 								class="searched__item"
@@ -215,7 +205,7 @@
 								</div>
 							</div>
 						</span>
-					</div> -->
+					</div>
 				</div>
 				<!-- <div class="notepad">
 					<span class="title-wrapper">
@@ -236,7 +226,7 @@
 					</textarea>
 				</div> -->
 			</div>
-			<!-- <div class="item__detail">
+			<div class="item__detail">
 				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>
 				<p class="item__detail-title">{{ getSearchedItem.item.description }}</p>
 				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
@@ -270,8 +260,51 @@
 						:src="getSearchedItem.item.url"
 					></iframe>
 				</template>
-			</div> -->
+			</div>
 		</main>
+    <modal
+			position="center"
+			v-if="dislikeModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('dislikeModal')"
+			maxWidth="400px"
+			borderRadius="12px"
+			marginTop="10%"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Not Relevant?</h4>
+			</template>
+			<template #info>
+				<h5>Your feedback will help us improve your results.</h5>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						<RadioBtn
+							style="display: block;"
+							marginBottom="24px"
+							id="dislikeOption"
+							:options="dislikeOptions"
+							name="dislikeChoices"
+							v-model="dislikeOption"
+						/>
+					</p>
+
+					<form v-if="dislikeOption === 'Other'" action="">
+						<label class="textLabel" for="dislikeForm">Comment</label>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+					</form>
+
+					<div class="modal__content-btn">
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeCard">
+							<template v-if="!loading">Submit</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
 	</div>
 </template>
 

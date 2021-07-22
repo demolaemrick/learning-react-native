@@ -385,7 +385,7 @@
 
 					<form v-if="dislikeOption === 'Other'" action="">
 						<label class="textLabel" for="dislikeForm">Comment</label>
-						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..." v-model="comment"> </textarea>
 					</form>
 
 					<div class="modal__content-btn">

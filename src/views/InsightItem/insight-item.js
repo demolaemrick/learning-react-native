@@ -7,6 +7,9 @@ import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
 import InsightCard from '@/components/InsightCard';
+import Modal from '@/components/Modal';
+import RadioBtn from '@/components/RadioButton';
+import VButton from '@/components/Button';
 
 export default {
 	name: 'SearchResult',
@@ -17,7 +20,10 @@ export default {
 		CTag,
 		DropdownCheckbox,
 		LoadingState,
-		InsightCard
+		InsightCard,
+    Modal,
+    RadioBtn,
+    VButton
 	},
 	data() {
 		return {
@@ -37,7 +43,33 @@ export default {
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
 			companyTabs: ['All', 'Products', 'Funding', 'People'],
 			companyTab: 'Funding',
-			selectedTab: 'All'
+			selectedTab: 'All',
+      disliked: false,
+			bookmarked: false,
+      dislikeModal: false,
+      dislikeOption: 'Not relevant to this search',
+			dislikeOptions: [
+				{
+					value: 'Not relevant to this search',
+					title: 'Not relevant to this search'
+				},
+				{
+					value: 'Not what I am looking for',
+					title: 'Not what I am looking for'
+				},
+				{
+					value: 'Not enough details',
+					title: 'Not enough details'
+				},
+				{
+					value: 'Incorrect information',
+					title: 'Incorrect information'
+				},
+				{
+					value: 'Other',
+					title: 'Other'
+				}
+			]
 		};
 	},
 	watch: {
@@ -248,6 +280,21 @@ export default {
 			for (const key in this.getSearchedResult[this.searchType]) {
 				this.filterValue.push(key);
 			}
+		},
+    toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+    dislikeCard() {
+			this.dislikeModal = false;
+			this.disliked = true;
 		}
 	}
 };
