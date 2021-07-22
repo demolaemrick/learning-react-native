@@ -1,15 +1,15 @@
 <template>
 	<div class="card">
 		<div class="card-wrapper">
-		<h4 v-if="title" class="title">{{ title }}</h4>
-		<q v-if="quote" class="quote">{{ quote }}</q>
+			<h4 v-if="title" class="title">{{ title }}</h4>
+			<q v-if="quote" class="quote">{{ quote }}</q>
 
-		<p class="content" v-if="content" v-html="content"></p>
-		<div class="details flex flex__item-center flex-spaced">
-			<div class="article-details flex flex__item-center">
-				<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-				<p>{{ timestamp | moment('LL') }} | {{ url }}</p>
-			</div>
+			<p class="content" v-if="content" v-html="content"></p>
+			<div class="details flex flex__item-center flex-spaced">
+				<div class="article-details flex flex__item-center">
+					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
+					<p>{{ timestamp | moment('LL') }} | {{ url }}</p>
+				</div>
 
 				<div class="flex flex__item-center">
 					<template>

@@ -14,12 +14,8 @@
 								</h3>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" @click="searchType = 'company_research'">
-									Company Insights
-								</li>
-								<li class="dropdown__item" @click="searchType = 'contact_research'">
-									Contact Insights
-								</li>
+								<li class="dropdown__item" @click="searchType = 'company_research'">Company Insights</li>
+								<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Insights</li>
 							</template>
 						</toggle-dropdown>
 					</div>
@@ -281,7 +277,7 @@
 				<div class="modal__content">
 					<p class="modal__content-text">
 						<RadioBtn
-							style="display: block;"
+							style="display: block"
 							marginBottom="24px"
 							id="dislikeOption"
 							:options="dislikeOptions"
