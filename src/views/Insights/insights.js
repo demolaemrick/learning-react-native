@@ -40,9 +40,9 @@ export default {
 			contactFilter: [],
 			searchType: 'contact_research',
 			insights: response,
-			contact_details: response.contact_details,
-			company_insights: response.company_insights,
-			contact_insights: response.contact_insights,
+			contact_details: '',
+			company_insights: '',
+			contact_insights: '',
 			loadMore: false,
 			searchedResult: {},
 			loading: false,
@@ -100,16 +100,13 @@ export default {
 	},
 	async created() {
 		if (this.$route.query.rowId) {
+			this.rowId = this.$route.query.rowId;
 			await this.getResult();
-		} else if (this.getSearchedResult && Object.keys(this.getSearchedResult).length > 0) {
-			this.searchedResult = this.getSearchedResult;
-			this.saveSearchedResult(this.insights);
+			await this.initUserBookmarks();
+			await this.initUserNote(this.rowId);
 		} else {
 			this.$router.push({ name: 'Search' });
 		}
-		this.getRowID();
-		await this.initUserBookmarks();
-		await this.initUserNote(this.rowId);
 	},
 	computed: {
 		...mapGetters({
@@ -216,6 +213,7 @@ export default {
 			addToBookmarks: 'user/addToBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			researchDone: 'search_services/researchDone',
+			refresh: 'search_services/refresh',
 			getViralTweet: 'search_services/getViralTweet'
 		}),
 		scrollToSection(section) {
@@ -227,6 +225,19 @@ export default {
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
 			this.rowId = rowId;
+		},
+		async RefreshResearch() {
+			try {
+				await this.refresh(this.$route.query.rowId);
+				this.showAlert({
+					status: 'success',
+					message: 'Research updating in progress',
+					showAlert: true
+				});
+				this.$router.push({ name: 'ContactResearch' });
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		async markResearch() {
 			try {
@@ -297,7 +308,10 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
-				this.searchedResult = response.data.data;
+				this.insights = response.data.data;
+				this.contact_details = this.insights.contact_details;
+				this.company_insights = this.insights.company_insights;
+				this.contact_insights = this.insights.contact_insights;
 				await this.saveSearchedResult(response.data.data);
 				return true;
 			} catch (error) {

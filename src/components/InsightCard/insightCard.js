@@ -5,7 +5,7 @@ export default {
 			default: null
 		},
 		content: {
-			type: String,
+			type: Object,
 			default: null
 		},
 		published: {

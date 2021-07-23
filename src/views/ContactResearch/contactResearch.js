@@ -308,8 +308,8 @@ export default {
 			}
 		},
 		clickResearch(item) {
-			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
-				this.$router.push({ name: 'SearchResult', query: { rowId: item.rowId } });
+			if (item.status.statusCode !== 'IN_PROGRESS') {
+				this.$router.push({ name: 'Insights', query: { rowId: item.rowId } });
 			}
 		}
 	}

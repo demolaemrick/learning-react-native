@@ -64,7 +64,14 @@
 						>
 					</h5>
 					<div class="input__group">
-						<div class="icon refresh"><img src="@/assets/icons/refresh.svg" svg-inline alt="refresh" /></div>
+						<div @click="RefreshResearch" class="icon refresh">
+							<img
+								:class="{ refresh__loading: insights.status.statusCode === 'UPDATING' }"
+								src="@/assets/icons/refresh.svg"
+								svg-inline
+								alt="refresh"
+							/>
+						</div>
 						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
 						<input type="checkbox" :checked="insights.status.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
@@ -252,7 +259,7 @@
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
 							:title="article.title"
-							:content="article.meta.html.snippet"
+							:content="article.meta.html"
 							:published="article.meta.published"
 							:url="article.url"
 							@displayInsight="displaySearchItem('contact_insights', article)"
@@ -291,7 +298,7 @@
 						:key="index"
 						:disliked="disliked"
 						@openModal="toggleModalClass('dislikeModal')"
-						:content="otherInsight.meta.html.snippet"
+						:content="otherInsight.meta.html"
 						:published="otherInsight.meta.published"
 						:url="otherInsight.meta.url"
 						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
@@ -396,7 +403,7 @@
 							v-for="article in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
-							:content="article.meta.html.snippet"
+							:content="article.meta.html"
 							:published="article.meta.published"
 							:title="article.title"
 							:url="article.url"
