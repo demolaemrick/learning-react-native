@@ -2,6 +2,9 @@
 	<div class="modal-overlay" @click="closeModal" :class="[!toggleClass ? 'fadeOut' : null, `modal-${position}`]">
 		<div @click.stop="" class="modal-body" :class="{ slideOutRight: !toggleClass && position === 'right' }" :style="style">
 			<div class="modal-header" v-if="useSlot">
+				<!-- <div class="flex">
+
+				</div> -->
 				<slot name="title"></slot>
 
 				<svg @click="closeModal" class="modal-header--close" width="24" height="24">
@@ -10,6 +13,9 @@
 						<path d="M9 1v14a1 1 0 01-2 0V1a1 1 0 112 0z" />
 					</g>
 				</svg>
+			</div>
+			<div class="modal-info" v-if="useSlot">
+				<slot name="info"></slot>
 			</div>
 
 			<div v-if="useSlot" class="modal-content">

@@ -79,5 +79,6 @@ export default new Vuex.Store({
 		users_management,
 		admin_management
 	},
-	plugins: [vuexPersistence.plugin]
+	plugins: [vuexPersistence.plugin],
+	strict: process.env.NODE_ENV !== 'production'
 });

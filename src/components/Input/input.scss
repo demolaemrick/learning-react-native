@@ -33,7 +33,10 @@
 		background: #fff;
 		border: solid 1px #5863f8;
 	}
-	
+
+	&--search {
+		width: calc(100% - 24px);
+	}
 }
 .form-input--error {
     border-color: #fe6159;
@@ -50,6 +53,6 @@
 }
 .form-icon {
 	position: absolute;
-	top: calc(50% - 8px);
-	right: 12px;
+	top: calc(50% - 9px);
+	right: 16px;
 }

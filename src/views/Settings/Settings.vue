@@ -42,7 +42,7 @@
 							/>
 						</div>
 						<div class="flex flex-end">
-							<v-button class="config__btn__close" @click="submitForm()">
+							<v-button class="config__btn__close" @click="submitForm()" ref="settingsBtn">
 								<div class="btn__content__wrapper">
 									<Loader v-if="loading" />
 									<span v-else class="text">Save Changes</span>

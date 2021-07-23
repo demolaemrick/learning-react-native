@@ -3,6 +3,8 @@ import { noAuthOnly, requireUserAuth, requireAdminAuth } from '../utils/auth';
 import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import SearchResult from '../views/SearchResult/SearchResult.vue';
+import Insights from '../views/Insights/Insights.vue';
+import InsightItem from '../views/InsightItem/InsightItem.vue';
 import SearchItem from '../views/SearchItem/SearchItem.vue';
 import SettingsView from '../views/Settings/Settings.vue';
 import ContactResearch from '../views/ContactResearch/ContactResearch.vue';
@@ -105,6 +107,19 @@ const routes = [
 		path: '/search-result/:rowId?',
 		name: 'SearchResult',
 		component: SearchResult,
+		beforeEnter: requireUserAuth
+	},
+	{
+		// path: '/search-result/:rowId?',
+		path: '/insights/:rowId?',
+		name: 'Insights',
+		component: Insights,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/insight-item',
+		name: 'InsightItem',
+		component: InsightItem,
 		beforeEnter: requireUserAuth
 	},
 	{

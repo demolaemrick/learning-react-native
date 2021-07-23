@@ -6,6 +6,11 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import CTag from '@/components/Tag';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
+import InsightCard from '@/components/InsightCard';
+import Modal from '@/components/Modal';
+import RadioBtn from '@/components/RadioButton';
+import TextInput from '@/components/Input';
+import VButton from '@/components/Button';
 
 export default {
 	name: 'SearchResult',
@@ -15,7 +20,12 @@ export default {
 		DCheckbox,
 		CTag,
 		DropdownCheckbox,
-		LoadingState
+		LoadingState,
+		InsightCard,
+		Modal,
+		RadioBtn,
+		VButton,
+		TextInput
 	},
 	data() {
 		return {
@@ -31,7 +41,39 @@ export default {
 			},
 			editNote: false,
 			userNote: null,
-			notepadTXT: null
+			notepadTXT: null,
+			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
+			companyTabs: ['all', 'products', 'funding', 'people'],
+			companyTab: 'all',
+			selectedTab: 'All',
+			disliked: false,
+			bookmarked: false,
+			dislikeModal: false,
+			contactSearchQuery: '',
+			companySearchQuery: '',
+			dislikeOption: 'Not relevant to this search',
+			dislikeOptions: [
+				{
+					value: 'Not relevant to this search',
+					title: 'Not relevant to this search'
+				},
+				{
+					value: 'Not what I am looking for',
+					title: 'Not what I am looking for'
+				},
+				{
+					value: 'Not enough details',
+					title: 'Not enough details'
+				},
+				{
+					value: 'Incorrect information',
+					title: 'Incorrect information'
+				},
+				{
+					value: 'Other',
+					title: 'Other'
+				}
+			]
 		};
 	},
 	watch: {
@@ -63,6 +105,7 @@ export default {
 			get() {
 				let newObj = {};
 				const data = this.getSearchedResult[this.searchType];
+				console.log(data);
 				if (this.filterValue.length === 0) {
 					for (const key in data) {
 						if (Object.hasOwnProperty.call(data, key) && data[key].length !== 0) {
@@ -76,6 +119,31 @@ export default {
 						newObj[value] = element;
 					});
 				}
+				return newObj;
+			}
+		},
+		contact_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.getSearchedResult[this.searchType].news_and_articles;
+				const tab = this.selectedTab;
+				this.tabs = Object.keys(data);
+				if (tab === 'All') {
+					return data;
+				} else {
+					const element = Object.keys(data).includes(tab) ? data[tab] : '';
+					newObj[tab] = element;
+					return newObj;
+				}
+			}
+		},
+		company_insights_categories: {
+			get() {
+				let newObj = {};
+				const data = this.getSearchedResult[this.searchType].news;
+				const tab = this.companyTab;
+				const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				newObj[tab] = element;
 				return newObj;
 			}
 		}
@@ -183,14 +251,12 @@ export default {
 
 		sortByRelevance() {
 			for (const key in this.research) {
-				console.log(this.research);
 				const element = this.research[key];
 				return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
 			}
 		},
 		sortByRecent() {
 			for (const key in this.research) {
-				console.log(this.research);
 				const element = this.research[key];
 				return element.sort((a, b) => {
 					return (
@@ -244,6 +310,21 @@ export default {
 			for (const key in this.getSearchedResult[this.searchType]) {
 				this.filterValue.push(key);
 			}
+		},
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		dislikeCard() {
+			this.dislikeModal = false;
+			this.disliked = true;
 		}
 	}
 };
