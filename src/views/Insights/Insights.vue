@@ -140,67 +140,71 @@
 			<!-- contact search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'contact_research' || screenType === 'large'">
 				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Contact Insights</h3>
-					<toggle-dropdown v-else>
-						<template #dropdown-wrapper>
-							<h3 class="title">
-								Contact Insights
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-							</h3>
-						</template>
-						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
-						</template>
-					</toggle-dropdown>
+					<div class="section-wrapper">
+						<h3 class="title" v-if="screenType === 'large'">Contact Insights</h3>
+						<toggle-dropdown v-else>
+							<template #dropdown-wrapper>
+								<h3 class="title">
+									Contact Insights
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								</h3>
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+								<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
+							</template>
+						</toggle-dropdown>
+					</div>
 				</div>
 				<div class="snapshot-section" ref="snapshot">
-					<h3 class="section-title">Snapshot</h3>
-					<div class="snapshot-info">
-						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
-							<img src="@/assets/icons/work.svg" svg-inline />
-							<p class="ml">
-								{{ contact_details.full_name }} has worked at
-								<span class="main-info">{{ contact_details.company }}</span> for
-								{{ contact_insights.snapshot.current_employer.start_date | moment('from', 'now', true) }}
-							</p>
+					<div class="section-wrapper">
+						<h3 class="section-title">Snapshot</h3>
+						<div class="snapshot-info">
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
+								<img src="@/assets/icons/work.svg" svg-inline />
+								<p class="ml">
+									{{ contact_details.full_name }} has worked at
+									<span class="main-info">{{ contact_details.company }}</span> for
+									{{ contact_insights.snapshot.current_employer.start_date | moment('from', 'now', true) }}
+								</p>
+							</div>
+							<div class="flex flex__item-center postion">
+								<img src="@/assets/icons/articles.svg" svg-inline />
+								<p class="ml">
+									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
+								</p>
+							</div>
+							<div
+								class="flex flex__item-center postion"
+								v-if="contact_insights.snapshot.interests && contact_insights.snapshot.interests.length > 0"
+							>
+								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+								<p class="ml">
+									Speaks most about
+									<span class="main-info" v-for="(interest, i) in contact_insights.snapshot.interests" :key="i">
+										{{ interest }}
+										<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+									</span>
+								</p>
+							</div>
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.last_linkedin_activity !== ''">
+								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
+								<p class="ml">
+									Posted on <span class="main-info">LinkedIn</span> on
+									{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
+								</p>
+							</div>
+							<div class="flex flex__item-center postion">
+								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
+								<p class="ml">Most viral tweet was:</p>
+							</div>
 						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">
-								Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
-							</p>
-						</div>
-						<div
-							class="flex flex__item-center postion"
-							v-if="contact_insights.snapshot.interests && contact_insights.snapshot.interests.length > 0"
-						>
-							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
-							<p class="ml">
-								Speaks most about
-								<span class="main-info" v-for="(interest, i) in contact_insights.snapshot.interests" :key="i">
-									{{ interest }}
-									<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
-								</span>
-							</p>
-						</div>
-						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.last_linkedin_activity !== ''">
-							<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
-							<p class="ml">
-								Posted on <span class="main-info">LinkedIn</span> on
-								{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
-							</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-							<p class="ml">Most viral tweet was:</p>
-						</div>
+						<Tweet v-if="tweetId" :id="tweetId" error-message="This tweet could not be loaded" error-message-class="tweet--error">
+							<div class="spinner">
+								<LoadIcon />
+							</div>
+						</Tweet>
 					</div>
-					<Tweet v-if="tweetId" :id="tweetId" error-message="This tweet could not be loaded" error-message-class="tweet--error">
-						<div class="spinner">
-							<LoadIcon />
-						</div>
-					</Tweet>
 				</div>
 
 				<div class="news-section" ref="news-section">
@@ -301,54 +305,57 @@
 
 			<!-- company search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
-				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Company Insights</h3>
-					<toggle-dropdown v-else>
-						<template #dropdown-wrapper>
-							<h3 class="title">
-								Company Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
-							</h3>
-						</template>
-						<template #dropdown-items>
-							<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
-							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
-						</template>
-					</toggle-dropdown>
-				</div>
-				<div class="snapshot-section">
-					<h3 class="section-title">Snapshot</h3>
-					<div class="snapshot-info">
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/articles.svg" svg-inline />
-							<p class="ml">
-								Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in the
-								past year
-							</p>
-						</div>
-						<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
-							<img src="@/assets/icons/fund.svg" svg-inline />
-							<p class="ml">
-								Raised a round of <span class="main-info">funding</span> in
-								{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
-							</p>
-						</div>
-						<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
-							<img src="@/assets/icons/convo-bubble.svg" svg-inline />
-							<p class="ml">
-								Speaks most about
-								<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
-									{{ interest }}
-									<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
-								</span>
-							</p>
-						</div>
-						<div class="flex flex__item-center postion">
-							<img src="@/assets/icons/jobs.svg" svg-inline />
-							<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
+				<div class="section-wrapper">
+					<div class="searched__wrapper-header">
+						<h3 class="title" v-if="screenType === 'large'">Company Insights</h3>
+						<toggle-dropdown v-else>
+							<template #dropdown-wrapper>
+								<h3 class="title">
+									Company Research
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								</h3>
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" @click="searchType = 'company_research'">Company Research</li>
+								<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
+							</template>
+						</toggle-dropdown>
+					</div>
+					<div class="snapshot-section">
+						<h3 class="section-title">Snapshot</h3>
+						<div class="snapshot-info">
+							<div class="flex flex__item-center postion">
+								<img src="@/assets/icons/articles.svg" svg-inline />
+								<p class="ml">
+									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in the
+									past year
+								</p>
+							</div>
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
+								<img src="@/assets/icons/fund.svg" svg-inline />
+								<p class="ml">
+									Raised a round of <span class="main-info">funding</span> in
+									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
+								</p>
+							</div>
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
+								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+								<p class="ml">
+									Speaks most about
+									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
+										{{ interest }}
+										<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+									</span>
+								</p>
+							</div>
+							<div class="flex flex__item-center postion">
+								<img src="@/assets/icons/jobs.svg" svg-inline />
+								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
+							</div>
 						</div>
 					</div>
 				</div>
+
 
 				<div class="news-section">
 					<div class="section-wrapper">

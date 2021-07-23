@@ -35,7 +35,7 @@ export default {
 	mixins: [ScreenWidthMixin],
 	data() {
 		return {
-			tweetId: '141575295515266662766',
+			tweetId: '1417604296422694913',
 			companyFilter: [],
 			contactFilter: [],
 			searchType: 'contact_research',
