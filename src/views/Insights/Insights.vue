@@ -199,7 +199,12 @@
 								<p class="ml">Most viral tweet was:</p>
 							</div>
 						</div>
-						<Tweet v-if="tweetId" :id="tweetId" error-message="This tweet could not be loaded" error-message-class="tweet--error">
+						<Tweet
+							v-if="tweetId"
+							:id="tweetId"
+							error-message="This tweet could not be loaded"
+							error-message-class="tweet--error"
+						>
 							<div class="spinner">
 								<LoadIcon />
 							</div>
@@ -327,8 +332,8 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml">
-									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in the
-									past year
+									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in
+									the past year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
@@ -355,7 +360,6 @@
 						</div>
 					</div>
 				</div>
-
 
 				<div class="news-section">
 					<div class="section-wrapper">
