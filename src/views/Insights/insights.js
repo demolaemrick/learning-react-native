@@ -4,7 +4,6 @@ import VHeader from '@/components/Header/searchResult/Header';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
-import { response } from '@/data/response.json';
 import PageLoad from './PageLoad.vue';
 import TextInput from '@/components/Input';
 import InsightCard from '@/components/InsightCard';
@@ -39,10 +38,10 @@ export default {
 			companyFilter: [],
 			contactFilter: [],
 			searchType: 'contact_research',
-			insights: response,
 			contact_details: '',
 			company_insights: '',
 			contact_insights: '',
+			insightStatus: '',
 			loadMore: false,
 			searchedResult: {},
 			loading: false,
@@ -308,10 +307,11 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
-				this.insights = response.data.data;
-				this.contact_details = this.insights.contact_details;
-				this.company_insights = this.insights.company_insights;
-				this.contact_insights = this.insights.contact_insights;
+				const { contact_details, company_insights, contact_insights, status } = response.data.data;
+				this.contact_details = contact_details;
+				this.company_insights = company_insights;
+				this.contact_insights = contact_insights;
+				this.insightStatus = status;
 				await this.saveSearchedResult(response.data.data);
 				return true;
 			} catch (error) {

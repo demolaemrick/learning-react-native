@@ -66,14 +66,14 @@
 					<div class="input__group">
 						<div @click="RefreshResearch" class="icon refresh">
 							<img
-								:class="{ refresh__loading: insights.status.statusCode === 'UPDATING' }"
+								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' }"
 								src="@/assets/icons/refresh.svg"
 								svg-inline
 								alt="refresh"
 							/>
 						</div>
 						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
-						<input type="checkbox" :checked="insights.status.statusCode === 'DONE'" @change="markResearch($event)" />
+						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
 				</div>
