@@ -1,5 +1,5 @@
 <template>
-	<header>
+	<header class="header">
 		<nav class="navbar">
 			<div class="nav__back" @click="$router.go(-1)">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
@@ -71,6 +71,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/main.scss';
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background-color: #fff;
+}
 .navbar {
 	display: flex;
 	justify-content: space-between;
