@@ -9,20 +9,12 @@ export default {
 		published: {
 			type: String,
 			default: null
-		},
-		quote: {
-			type: String,
-			default: null
-		},
-		disliked: {
-			type: Boolean,
-			default: false
 		}
 	},
 	computed: {
 		cleanUrl() {
 			const url = this.article.url;
-			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
 		}
 	}
 };

@@ -37,8 +37,15 @@
 						</svg>
 					</template>
 					<template>
-						<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />
-						<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" alt="" />
+						<img
+							class="icon"
+							v-if="!article.is_disliked"
+							@click="$emit('openModal')"
+							src="../../assets/icons/dislike-icon.svg"
+							svg-inline
+							alt=""
+						/>
+						<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
 					</template>
 				</div>
 			</div>
