@@ -1,18 +1,18 @@
 <template>
 	<div class="card" @click="$emit('displayInsight')">
 		<div class="card-wrapper">
-			<h4 v-if="title" class="title">
-				<a :href="url" target="_blank" rel="noopener noreferrer">{{ title }}</a>
+			<h4 v-if="article.title" class="title">
+				<a :href="article.url" target="_blank" rel="noopener noreferrer">{{ article.title }}</a>
 			</h4>
-			<q v-if="quote" class="quote">{{ quote }}</q>
+			<q v-if="article.text" class="quote">{{ quote }}</q>
 
-			<p class="content" v-if="content" v-html="content.snippet"></p>
+			<p class="content" v-if="article.meta.html" v-html="article.meta.html.snippet"></p>
 			<div @click.stop="" class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-					<a class="article-link" :href="url" target="_blank" rel="noopener noreferrer"
+					<a class="article-link" :href="article.url" target="_blank" rel="noopener noreferrer"
 						><p>
-							<template v-if="published">{{ published | moment('LL') }} |</template> {{ url }}
+							<template v-if="published">{{ published | moment('LL') }} |</template> {{ article.url }}
 						</p></a
 					>
 				</div>
