@@ -1,37 +1,20 @@
 export default {
 	props: {
-		title: {
-			type: String,
-			default: null
-		},
-		content: {
+		article: {
 			type: Object,
-			default: null
+			default() {
+				return {};
+			}
 		},
 		published: {
 			type: String,
 			default: null
-		},
-		url: {
-			type: String,
-			default: null
-		},
-		quote: {
-			type: String,
-			default: null
-		},
-		disliked: {
-			type: Boolean,
-			default: false
-		},
-		bookmarked: {
-			type: Boolean,
-			default: false
 		}
 	},
-	methods: {
-		bookmark() {
-			this.bookmarked = !this.bookmarked;
+	computed: {
+		cleanUrl() {
+			const url = this.article.url;
+			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
 		}
 	}
 };
