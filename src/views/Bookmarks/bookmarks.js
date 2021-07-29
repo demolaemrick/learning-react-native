@@ -103,7 +103,7 @@ export default {
 				item: item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'SearchItem' });
+			this.$router.push({ name: 'InsightItem' });
 		},
 		async initUserBookmarks() {
 			this.bookmarkLoading = true;

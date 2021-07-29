@@ -34,10 +34,16 @@
 					</div>
 					<div class="contact__icon__group">
 						<span v-for="(social, i) in contact_details.socials" :key="i">
-							<a v-if="social.twitter && Object.entries(social.twitter).length > 0" :href="social.twitter" target="_blank"
+							<a
+								v-if="social.twitter && Object.entries(social.twitter).length > 0"
+								:href="validateURL(social.twitter)"
+								target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" svg-inline
 							/></a>
-							<a v-if="social.linkedin && Object.entries(social.linkedin).length > 0" :href="social.linkedin" target="_blank"
+							<a
+								v-if="social.linkedin && Object.entries(social.linkedin).length > 0"
+								:href="validateURL(social.linkedin)"
+								target="_blank"
 								><img src="@/assets/icons/linkedin-icon.svg" svg-inline
 							/></a>
 							<a
@@ -66,7 +72,7 @@
 					<div class="input__group">
 						<div @click="RefreshResearch" class="icon refresh">
 							<img
-								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' }"
+								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' || refreshLoading }"
 								src="@/assets/icons/refresh.svg"
 								svg-inline
 								alt="refresh"
@@ -226,11 +232,11 @@
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
-										<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item">Recent</li>
-										<li class="dropdown__item">Relevant</li>
+										<li class="dropdown__item" @click="sortByRecent('contact_insights')">Recent</li>
+										<li class="dropdown__item" @click="sortByRelevance('contact_insights')">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -305,7 +311,6 @@
 					<InsightCard
 						v-for="(otherInsight, index) in contact_insights.other_insights"
 						:key="index"
-						:disliked="disliked"
 						@openModal="toggleModalClass('dislikeModal')"
 						:content="otherInsight.meta.html"
 						:published="otherInsight.meta.published"
@@ -375,11 +380,11 @@
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
-										<p class="sort">Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item">Recent</li>
-										<li class="dropdown__item">Relevant</li>
+										<li class="dropdown__item" @click="sortByRecent('company_insights')">Recent</li>
+										<li class="dropdown__item" @click="sortByRelevance('company_insights')">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -471,12 +476,12 @@
 
 					<form v-if="dislikeOption === 'Other'" action="">
 						<label class="textLabel" for="dislikeForm">Comment</label>
-						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..." v-model="comment">
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..." v-model="otherComment">
 						</textarea>
 					</form>
 
 					<div class="modal__content-btn">
-						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeCard">
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
 							<template v-if="!loading">Submit</template>
 							<Loader v-else />
 						</v-button>

@@ -70,7 +70,9 @@ export default {
 			toggleClass: true,
 			disliked: false,
 			bookmarked: false,
-			dislikeOption: 'Not relevant to this search',
+			refreshLoading: false,
+			dislikeOption: null,
+			otherComment: null,
 			dislikeOptions: [
 				{
 					value: 'Not relevant to this search',
@@ -144,7 +146,7 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.contact_insights.news_and_articles;
+				const data = this.contact_insights.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
 				if (tab === 'All') {
@@ -213,7 +215,8 @@ export default {
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
-			getViralTweet: 'search_services/getViralTweet'
+			subscribeResearch: 'search_services/subscribeResearch',
+			dislike: 'search_services/dislike'
 		}),
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
@@ -226,16 +229,42 @@ export default {
 			this.rowId = rowId;
 		},
 		async RefreshResearch() {
+			this.refreshLoading = true;
 			try {
-				await this.refresh(this.$route.query.rowId);
-				this.showAlert({
-					status: 'success',
-					message: 'Research updating in progress',
-					showAlert: true
-				});
-				this.$router.push({ name: 'ContactResearch' });
+				const response = await this.refresh(this.$route.query.rowId);
+				console.log(response);
+				const { data, status } = response;
+				if (status === 200) {
+					if (data.data.status.statusCode === 'UPDATING') {
+						this.showAlert({
+							status: 'success',
+							message: 'Research updating in progress',
+							showAlert: true
+						});
+						this.subscribe();
+					}
+				}
 			} catch (error) {
 				console.log(error);
+			}
+		},
+		async subscribe() {
+			try {
+				const response = await this.subscribeResearch();
+				if (response.status === 200) {
+					if (response.data.done.status.statusCode === 'READY') {
+						await this.getResult();
+						this.refreshLoading = false;
+					}
+					console.log(response);
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		async markResearch() {
@@ -307,12 +336,13 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
-				const { contact_details, company_insights, contact_insights, status } = response.data.data;
+				const { contact_details, company_insights, contact_insights, status } = JSON.parse(JSON.stringify(response.data.data));
 				this.contact_details = contact_details;
 				this.company_insights = company_insights;
 				this.contact_insights = contact_insights;
 				this.insightStatus = status;
 				await this.saveSearchedResult(response.data.data);
+				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
 			} catch (error) {
 				console.log(error);
@@ -321,42 +351,19 @@ export default {
 			}
 		},
 		sortByRelevance(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
-			}
+			Object.values(this[researchType].news).map((news) => {
+				return news.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
+			});
 		},
 		sortByRecent(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
+			Object.values(this[researchType].news).map((news) => {
+				return news.sort((a, b) => {
+					return (
+						new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
+						new Date(b.meta.published) - new Date(a.meta.published)
+					);
+				});
+			});
 		},
 		displaySearchItem(type, item) {
 			const data = {
@@ -417,9 +424,24 @@ export default {
 				}, 500);
 			}
 		},
-		dislikeCard() {
-			this.dislikeModal = false;
-			this.disliked = true;
+		async dislikeResearch(dataItem) {
+			console.log(this.dislikeOption, this.otherComment);
+			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
+			console.log(comment, dataItem);
+			// this.dislikeModal = false;
+			// this.disliked = true;
+			// await this.dislike({
+			// 	url: dataItem.url
+			// });
+			// const searchResultClone = { ...this.getSearchedResult };
+			// searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
+			// await this.saveSearchedResult(searchResultClone);
+			// await this.initUserBookmarks();
+			// this.showAlert({
+			// 	status: 'success',
+			// 	message: 'Removed from bookmarks',
+			// 	showAlert: true
+			// });
 		}
 	}
 };
