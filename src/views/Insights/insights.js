@@ -389,36 +389,6 @@ export default {
 			this.disliked = true;
 		},
 		async btnAddToBookMarks(article) {
-			/**
-			 * Find bookmarked article and set key to update
-			 * in temporary object
-			 */
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[article.type][article.section];
-
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						return;
-					}
-				});
-			}
-
-			// update cloned search result object to toggle bookmarked status
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: true
-			};
-
-			// update to vuex store
-			await this.saveSearchedResult(searchResultClone);
-
 			// call endpoint to add bookmarked article to users bookmark
 			try {
 				const response = await this.addToBookmarks({
@@ -439,52 +409,74 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
-			await this.addToBookmarks({
-				rowId: this.rowId,
-				url: article.url,
-				type: article.type,
-				description: article.description,
-				relevance_score: article.meta.relevanceScore,
-				title: article.title
-			});
+
 			/**
-			 * Flatten the 3 news objects by concatinating
-			 * into a single array
-			 * Changed this because of a mutation error
+			 * Find bookmarked article and set key to update
+			 * in temporary object
 			 */
-
-			// const result = Object.keys(obj).reduce(function (r, k) {
-			//   return r.concat(obj[k]);
-			// }, []);
-			// const art = result.find(res => res.url === article.url);
-			// art.is_bookmarked = true;
-
-			console.log(result);
-
-			// refetch users bookmark
-			await this.initUserBookmarks();
-		},
-		async btnRemoveFromBookMarks(article) {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
 			const obj = searchResultClone[article.type][article.section];
-
+			console.log(obj);
+			
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
 					if (item.url === article.url) {
-						result = {
+						result = { 
 							key,
 							index,
-							data: { ...item }
+							data: {...item}
 						};
 						return;
 					}
 				});
 			}
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: false
-			};
+			console.log(result);
+			// update cloned search result object to toggle bookmarked status
+			// console.log(searchResultClone[article.type][article.section][result.key]);
+
+			searchResultClone[article.type][article.section][result.key][result.index] = { ...searchResultClone[article.type][article.section][result.key][result.index], is_bookmarked: true };
+
+			// update to vuex store
+			await this.saveSearchedResult(searchResultClone);
+			
+			// refetch users bookmark
+			await this.initUserBookmarks();
+
+			/**
+			 * Flatten the 3 news objects by concatinating 
+			 * into a single array
+			 * Changed this because of a mutation error
+			 */
+
+			// const result = Object.keys(obj).reduce(function (r, k) {
+      //   return r.concat(obj[k]);
+    	// }, []);
+			// const art = result.find(res => res.url === article.url);
+			// art.is_bookmarked = true;
+
+			
+			
+			
+		},
+		async btnRemoveFromBookMarks(article) {
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[article.type][article.section];
+			
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === article.url) {
+						result = { 
+							key,
+							index,
+							data: {...item}
+						};
+						return;
+					}
+				});
+			}
+			searchResultClone[article.type][article.section][result.key][result.index] = { ...searchResultClone[article.type][article.section][result.key][result.index], is_bookmarked: false };
 			await this.saveSearchedResult(searchResultClone);
 			try {
 				const response = await this.removeFromBookmarks({
@@ -502,6 +494,14 @@ export default {
 			}
 			console.log(result);
 			await this.initUserBookmarks();
-		}
+		},
+		async btnUpdateBookMarks(article, prop) {
+      console.log(prop);
+      if (prop === 'add') {
+        this.btnAddToBookMarks(article);
+      } else {
+        this.btnRemoveFromBookMarks(article);
+      }
+    }
 	}
 };
