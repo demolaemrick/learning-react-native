@@ -18,5 +18,11 @@ export default {
 			type: Boolean,
 			default: false
 		}
+	},
+	computed: {
+		cleanUrl() {
+			const url = this.article.url;
+			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+		}
 	}
 };

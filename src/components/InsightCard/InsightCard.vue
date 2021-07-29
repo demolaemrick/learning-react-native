@@ -12,7 +12,7 @@
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
 					<a class="article-link" :href="article.url" target="_blank" rel="noopener noreferrer"
 						><p>
-							<template v-if="published">{{ published | moment('LL') }} |</template> {{ article.url }}
+							<template v-if="published">{{ published | moment('LL') }} |</template> {{ cleanUrl }}
 						</p></a
 					>
 				</div>
