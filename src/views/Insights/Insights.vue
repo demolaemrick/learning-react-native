@@ -264,13 +264,16 @@
 
 					<template v-for="categories in contact_insights_categories">
 						<InsightCard
-							v-for="article in categories"
+							v-for="(article, j) in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
 							:title="article.title"
 							:content="article.meta.html"
 							:published="article.meta.published"
 							:url="article.url"
+							:bookmarked="bookmarked"
+							:article="article"
+							@bookmark="btnAddToBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article })"
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</template>

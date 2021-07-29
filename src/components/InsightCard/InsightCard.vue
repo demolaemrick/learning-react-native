@@ -19,8 +19,22 @@
 
 				<div class="flex flex__item-center">
 					<template>
-						<img class="mr-1 icon" v-if="!bookmarked" @click="bookmark" src="../../assets/icons/bookman-icon.svg" alt="" />
-						<img class="mr-1 icon" v-else @click="bookmark" src="../../assets/icons/bookman-icon-dark.svg" alt="" />
+						<svg
+							class="mr-1 icon"
+							@click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')"
+							width="21"
+							height="21"
+							:fill="!article.is_bookmarked ? 'none' : 'black'"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M5.088 4.353c0-.92.747-1.667 1.667-1.667h8.333c.92 0 1.667.746 1.667 1.667v13.333l-5.833-2.916-5.834 2.916V4.353z"
+								stroke="#333758"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
 					</template>
 					<template>
 						<img class="icon" v-if="!disliked" @click="$emit('openModal')" src="../../assets/icons/dislike-icon.svg" alt="" />

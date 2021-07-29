@@ -144,7 +144,7 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.contact_insights.news_and_articles;
+				const data = this.contact_insights.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
 				if (tab === 'All') {
@@ -373,39 +373,6 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		async btnAddToBookMarks(dataItem) {
-			await this.addToBookmarks({
-				rowId: this.rowId,
-				url: dataItem.url,
-				type: dataItem.type,
-				description: dataItem.description,
-				relevance_score: dataItem.meta.relevanceScore,
-				title: dataItem.title
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Added to bookmarks',
-				showAlert: true
-			});
-		},
-		async btnRemoveFromBookMarks(dataItem) {
-			await this.removeFromBookmarks({
-				url: dataItem.url
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Removed from bookmarks',
-				showAlert: true
-			});
-		},
 		toggleModalClass(modal) {
 			if (!this[modal]) {
 				this[modal] = true;
@@ -420,6 +387,121 @@ export default {
 		dislikeCard() {
 			this.dislikeModal = false;
 			this.disliked = true;
+		},
+		async btnAddToBookMarks(article) {
+			/**
+			 * Find bookmarked article and set key to update
+			 * in temporary object
+			 */
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[article.type][article.section];
+
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === article.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						return;
+					}
+				});
+			}
+
+			// update cloned search result object to toggle bookmarked status
+			searchResultClone[article.type][article.section][result.key][result.index] = {
+				...searchResultClone[article.type][article.section][result.key][result.index],
+				is_bookmarked: true
+			};
+
+			// update to vuex store
+			await this.saveSearchedResult(searchResultClone);
+
+			// call endpoint to add bookmarked article to users bookmark
+			try {
+				const response = await this.addToBookmarks({
+					rowId: this.rowId,
+					url: article.url,
+					type: article.type,
+					description: article.description,
+					relevance_score: article.meta.relevanceScore,
+					title: article.title
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Added to bookmarks',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+			await this.addToBookmarks({
+				rowId: this.rowId,
+				url: article.url,
+				type: article.type,
+				description: article.description,
+				relevance_score: article.meta.relevanceScore,
+				title: article.title
+			});
+			/**
+			 * Flatten the 3 news objects by concatinating
+			 * into a single array
+			 * Changed this because of a mutation error
+			 */
+
+			// const result = Object.keys(obj).reduce(function (r, k) {
+			//   return r.concat(obj[k]);
+			// }, []);
+			// const art = result.find(res => res.url === article.url);
+			// art.is_bookmarked = true;
+
+			console.log(result);
+
+			// refetch users bookmark
+			await this.initUserBookmarks();
+		},
+		async btnRemoveFromBookMarks(article) {
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[article.type][article.section];
+
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === article.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						return;
+					}
+				});
+			}
+			searchResultClone[article.type][article.section][result.key][result.index] = {
+				...searchResultClone[article.type][article.section][result.key][result.index],
+				is_bookmarked: false
+			};
+			await this.saveSearchedResult(searchResultClone);
+			try {
+				const response = await this.removeFromBookmarks({
+					url: article.url
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Article removed from bookmarks',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+			console.log(result);
+			await this.initUserBookmarks();
 		}
 	}
 };

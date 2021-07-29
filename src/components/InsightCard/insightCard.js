@@ -4,6 +4,12 @@ export default {
 			type: String,
 			default: null
 		},
+		article: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
 		content: {
 			type: Object,
 			default: null
@@ -28,10 +34,10 @@ export default {
 			type: Boolean,
 			default: false
 		}
-	},
-	methods: {
-		bookmark() {
-			this.bookmarked = !this.bookmarked;
-		}
 	}
+	// methods: {
+	// 	bookmark() {
+	// 		this.bookmarked = !this.bookmarked;
+	// 	}
+	// }
 };
