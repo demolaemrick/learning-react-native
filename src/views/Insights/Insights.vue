@@ -270,13 +270,12 @@
 
 					<template v-for="categories in contact_insights_categories">
 						<InsightCard
-							v-for="article in categories"
+							v-for="(article, j) in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
-							:title="article.title"
-							:content="article.meta.html"
 							:published="article.meta.published"
-							:url="article.url"
+							:article="article"
+							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</template>
@@ -291,6 +290,8 @@
 						:published="quote.published"
 						:url="quote.url"
 						:quote="quote.text"
+						:article="quote"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
@@ -416,13 +417,12 @@
 					</div>
 					<template v-for="categories in company_insights_categories">
 						<InsightCard
-							v-for="article in categories"
+							v-for="(article, j) in categories"
 							:key="categories[article]"
 							@openModal="toggleModalClass('dislikeModal')"
-							:content="article.meta.html"
 							:published="article.meta.published"
-							:title="article.title"
-							:url="article.url"
+							:article="article"
+							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</template>
