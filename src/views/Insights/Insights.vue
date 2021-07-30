@@ -215,12 +215,12 @@
 							</div>
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-								<p class="ml">Most viral tweet was:</p>
+								<p class="ml">Most viral tweet was: <template v-if="!contact_insights.snapshot.most_viral_tweet">Not available</template></p>
 							</div>
 						</div>
 						<Tweet
-							v-if="tweetId"
-							:id="tweetId"
+							v-if="contact_insights.snapshot.most_viral_tweet"
+							:id="contact_insights.snapshot.most_viral_tweet"
 							error-message="This tweet could not be loaded"
 							error-message-class="tweet--error"
 						>

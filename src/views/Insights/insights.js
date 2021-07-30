@@ -234,7 +234,6 @@ export default {
 			this.refreshLoading = true;
 			try {
 				const response = await this.refresh(this.$route.query.rowId);
-				console.log(response);
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
@@ -254,11 +253,20 @@ export default {
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					if (response.data.done.status.statusCode === 'READY') {
-						await this.getResult();
+					const { contact_details, company_insights, contact_insights, status } = response.data.done;
+					if (status.statusCode === 'READY') {
+						this.contact_details = contact_details;
+						this.company_insights = company_insights;
+						this.contact_insights = contact_insights;
+						this.insightStatus = status;
 						this.refreshLoading = false;
+						await this.saveSearchedResult(response.data.done);
+						this.showAlert({
+							status: 'success',
+							message: 'Research updated successfully',
+							showAlert: true
+						});
 					}
-					console.log(response);
 				}
 				return true;
 			} catch (error) {
@@ -420,12 +428,13 @@ export default {
 		},
 
 		async btnAddToBookMarks(article) {
+			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			// call endpoint to add bookmarked article to users bookmark
 			try {
 				const response = await this.addToBookmarks({
 					rowId: this.rowId,
 					url: article.url,
-					type: article.type,
+					type: research_type,
 					description: article.description,
 					relevance_score: article.meta.relevanceScore,
 					title: article.title
@@ -448,8 +457,6 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
 			const obj = searchResultClone[article.type][article.section];
-			console.log(obj);
-
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
 					if (item.url === article.url) {
@@ -462,10 +469,7 @@ export default {
 					}
 				});
 			}
-			console.log(result);
 			// update cloned search result object to toggle bookmarked status
-			// console.log(searchResultClone[article.type][article.section][result.key]);
-
 			searchResultClone[article.type][article.section][result.key][result.index] = {
 				...searchResultClone[article.type][article.section][result.key][result.index],
 				is_bookmarked: true
@@ -525,7 +529,6 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
-			console.log(result);
 			await this.initUserBookmarks();
 		},
 		async btnUpdateBookMarks(article, prop) {
