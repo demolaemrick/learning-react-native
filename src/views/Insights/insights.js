@@ -4,7 +4,6 @@ import VHeader from '@/components/Header/searchResult/Header';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
-import { response } from '@/data/response.json';
 import PageLoad from './PageLoad.vue';
 import TextInput from '@/components/Input';
 import InsightCard from '@/components/InsightCard';
@@ -14,7 +13,7 @@ import VButton from '@/components/Button';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
-
+import Loader from '@/components/Loader';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -30,19 +29,20 @@ export default {
 		VButton,
 		PieChart,
 		Tweet,
-		LoadIcon
+		LoadIcon,
+		Loader
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
 		return {
-			tweetId: '141575295515266662766',
+			tweetId: '1417604296422694913',
 			companyFilter: [],
 			contactFilter: [],
 			searchType: 'contact_research',
-			insights: response,
 			contact_details: '',
 			company_insights: '',
 			contact_insights: '',
+			insightStatus: '',
 			loadMore: false,
 			searchedResult: {},
 			loading: false,
@@ -71,7 +71,10 @@ export default {
 			toggleClass: true,
 			disliked: false,
 			bookmarked: false,
-			dislikeOption: 'Not relevant to this search',
+			refreshLoading: false,
+			dislikeOption: null,
+			otherComment: null,
+			selectedInsight: '',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to this search',
@@ -145,7 +148,7 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.contact_insights.news_and_articles;
+				const data = this.contact_insights.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
 				if (tab === 'All') {
@@ -214,7 +217,8 @@ export default {
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
-			getViralTweet: 'search_services/getViralTweet'
+			subscribeResearch: 'search_services/subscribeResearch',
+			dislike: 'search_services/dislike'
 		}),
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
@@ -227,16 +231,50 @@ export default {
 			this.rowId = rowId;
 		},
 		async RefreshResearch() {
+			this.refreshLoading = true;
 			try {
-				await this.refresh(this.$route.query.rowId);
-				this.showAlert({
-					status: 'success',
-					message: 'Research updating in progress',
-					showAlert: true
-				});
-				this.$router.push({ name: 'ContactResearch' });
+				const response = await this.refresh(this.$route.query.rowId);
+				const { data, status } = response;
+				if (status === 200) {
+					if (data.data.status.statusCode === 'UPDATING') {
+						this.showAlert({
+							status: 'info',
+							message: 'Research update in progress',
+							showAlert: true
+						});
+						this.subscribe();
+					}
+				}
 			} catch (error) {
 				console.log(error);
+			}
+		},
+		async subscribe() {
+			try {
+				const response = await this.subscribeResearch();
+				if (response.status === 200) {
+					const { contact_details, company_insights, contact_insights, status } = response.data.done;
+					if (status.statusCode === 'READY') {
+						this.contact_details = contact_details;
+						this.company_insights = company_insights;
+						this.contact_insights = contact_insights;
+						this.insightStatus = status;
+						this.refreshLoading = false;
+						await this.saveSearchedResult(response.data.done);
+						this.showAlert({
+							status: 'success',
+							message: 'Research updated successfully',
+							showAlert: true
+						});
+					}
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		async markResearch() {
@@ -308,11 +346,13 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
-				this.insights = response.data.data;
-				this.contact_details = this.insights.contact_details;
-				this.company_insights = this.insights.company_insights;
-				this.contact_insights = this.insights.contact_insights;
+				const { contact_details, company_insights, contact_insights, status } = JSON.parse(JSON.stringify(response.data.data));
+				this.contact_details = contact_details;
+				this.company_insights = company_insights;
+				this.contact_insights = contact_insights;
+				this.insightStatus = status;
 				await this.saveSearchedResult(response.data.data);
+				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
 			} catch (error) {
 				console.log(error);
@@ -321,42 +361,19 @@ export default {
 			}
 		},
 		sortByRelevance(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-				}
-			}
+			Object.values(this[researchType].news).map((news) => {
+				return news.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
+			});
 		},
 		sortByRecent(researchType) {
-			if (researchType === 'contact_research') {
-				for (const key in this.contact_research) {
-					const element = this.contact_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
-			if (researchType === 'company_research') {
-				for (const key in this.company_research) {
-					const element = this.company_research[key];
-					return element.sort((a, b) => {
-						return (
-							new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-							new Date(b.meta.published) - new Date(a.meta.published)
-						);
-					});
-				}
-			}
+			Object.values(this[researchType].news).map((news) => {
+				return news.sort((a, b) => {
+					return (
+						new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
+						new Date(b.meta.published) - new Date(a.meta.published)
+					);
+				});
+			});
 		},
 		displaySearchItem(type, item) {
 			const data = {
@@ -373,40 +390,8 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		async btnAddToBookMarks(dataItem) {
-			await this.addToBookmarks({
-				rowId: this.rowId,
-				url: dataItem.url,
-				type: dataItem.type,
-				description: dataItem.description,
-				relevance_score: dataItem.meta.relevanceScore,
-				title: dataItem.title
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Added to bookmarks',
-				showAlert: true
-			});
-		},
-		async btnRemoveFromBookMarks(dataItem) {
-			await this.removeFromBookmarks({
-				url: dataItem.url
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Removed from bookmarks',
-				showAlert: true
-			});
-		},
-		toggleModalClass(modal) {
+		toggleModalClass(modal, insight) {
+			this.selectedInsight = insight;
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -417,9 +402,142 @@ export default {
 				}, 500);
 			}
 		},
-		dislikeCard() {
-			this.dislikeModal = false;
-			this.disliked = true;
+		async dislikeResearch() {
+			this.loading = true;
+			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
+			try {
+				const response = await this.dislike({
+					url: this.selectedInsight.url,
+					comment: comment,
+					rowId: this.$route.query.rowId
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'Success',
+						message: 'Article disliked successfully.',
+						showAlert: true
+					});
+					this.toggleModalClass('dislikeModal', '');
+					await this.getResult();
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
+		},
+
+		async btnAddToBookMarks(article) {
+			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
+			// call endpoint to add bookmarked article to users bookmark
+			try {
+				const response = await this.addToBookmarks({
+					rowId: this.rowId,
+					url: article.url,
+					type: research_type,
+					description: article.description,
+					relevance_score: article.meta.relevanceScore,
+					title: article.title
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Added to bookmarks',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+
+			/**
+			 * Find bookmarked article and set key to update
+			 * in temporary object
+			 */
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[article.type][article.section];
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === article.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						return;
+					}
+				});
+			}
+			// update cloned search result object to toggle bookmarked status
+			searchResultClone[article.type][article.section][result.key][result.index] = {
+				...searchResultClone[article.type][article.section][result.key][result.index],
+				is_bookmarked: true
+			};
+
+			// update to vuex store
+			await this.saveSearchedResult(searchResultClone);
+
+			// refetch users bookmark
+			await this.initUserBookmarks();
+
+			/**
+			 * Flatten the 3 news objects by concatinating
+			 * into a single array
+			 * Changed this because of a mutation error
+			 */
+
+			// const result = Object.keys(obj).reduce(function (r, k) {
+			//   return r.concat(obj[k]);
+			// }, []);
+			// const art = result.find(res => res.url === article.url);
+			// art.is_bookmarked = true;
+		},
+		async btnRemoveFromBookMarks(article) {
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[article.type][article.section];
+
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === article.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						return;
+					}
+				});
+			}
+			searchResultClone[article.type][article.section][result.key][result.index] = {
+				...searchResultClone[article.type][article.section][result.key][result.index],
+				is_bookmarked: false
+			};
+			await this.saveSearchedResult(searchResultClone);
+			try {
+				const response = await this.removeFromBookmarks({
+					url: article.url
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Article removed from bookmarks',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+			await this.initUserBookmarks();
+		},
+		async btnUpdateBookMarks(article, prop) {
+			console.log(prop);
+			if (prop === 'add') {
+				this.btnAddToBookMarks(article);
+			} else {
+				this.btnRemoveFromBookMarks(article);
+			}
 		}
 	}
 };

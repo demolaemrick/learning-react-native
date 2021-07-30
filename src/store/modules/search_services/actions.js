@@ -108,21 +108,23 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	getViralTweet: async (context, link) => {
-		const url = `https://publish.twitter.com/oembed?url=${link}`;
-		try {
-			const response = await api.get(url);
-			return Promise.resolve(response);
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	},
 	refresh: async ({ commit }, id) => {
 		const url = `research/refresh/${id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
 			const response = await api.post(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	dislike: async ({ commit }, data) => {
+		const url = `research/dislike/${data.rowId}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, { url: data.url, comment: data.comment });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

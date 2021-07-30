@@ -371,12 +371,12 @@ export default {
 		},
 		showResearch(item) {
 			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
-				this.$router.push({ name: 'SearchResult', query: { rowId: item.rowId } });
+				this.$router.push({ name: 'Insights', query: { rowId: item.rowId } });
 			}
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
+				return data.status.statusCode !== 'IN_PROGRESS';
 			});
 			if (pendingStatus.length > 0) {
 				this.subscribe();

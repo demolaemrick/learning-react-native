@@ -125,7 +125,7 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.getSearchedResult[this.searchType].news_and_articles;
+				const data = this.getSearchedResult[this.searchType].news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
 				if (tab === 'All') {

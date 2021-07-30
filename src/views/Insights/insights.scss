@@ -194,6 +194,10 @@
 	padding-right: 1em;
 	padding-top: 1em;
 	margin: 0 auto;
+	height: 80vh;
+  overflow-y: scroll;
+	position: sticky;
+	top: 97px;
 
 	.section {
 		.title {
@@ -363,7 +367,7 @@
 	
 			.refresh {
 				background: #89cfc3;
-	
+				cursor: pointer;
 				.refresh__loading {
 					transform-origin: 50% 50%;
 					animation: rotation 1.2s infinite linear;
