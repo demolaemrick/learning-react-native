@@ -70,10 +70,11 @@
 									v-for="article in categories"
 									:key="categories[article]"
 									@openModal="toggleModalClass('dislikeModal')"
-									:title="article.title"
-									:content="article.meta.html"
-									:published="article.meta.published"
-									:url="article.url"
+									:published="article.meta.published ? article.meta.published : null"
+									:article="article"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
 									@displayInsight="displaySearchItem('contact_insights', article)"
 								/>
 							</template>
@@ -85,9 +86,11 @@
 							<InsightCard
 								v-for="(quote, index) in getSearchedResult[searchType].quotes"
 								:key="index"
-								:published="quote.published"
+								:published="quote.published ? quote.published : null"
 								:url="quote.url"
 								:quote="quote.text"
+								:article="quote"
+								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 								@displayInsight="displaySearchItem('contact_insights', quote)"
 							/>
 						</div>
@@ -98,10 +101,9 @@
 							<InsightCard
 								v-for="(otherInsight, index) in getSearchedResult[searchType].other_insights"
 								:key="index"
-								:disliked="disliked"
 								@openModal="toggleModalClass('dislikeModal')"
 								:content="otherInsight.meta.html"
-								:published="otherInsight.meta.published"
+								:published="otherInsight.meta.published ? otherInsight.meta.published : null"
 								:url="otherInsight.meta.url"
 								@displayInsight="displaySearchItem('contact_insights', otherInsight)"
 							/>
@@ -158,10 +160,11 @@
 									v-for="article in categories"
 									:key="categories[article]"
 									@openModal="toggleModalClass('dislikeModal')"
-									:content="article.meta.html"
-									:published="article.meta.published"
-									:title="article.title"
-									:url="article.url"
+									:published="article.meta.published ? article.meta.published : null"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)
+									"
+									:article="article"
 									@displayInsight="displaySearchItem('company_insights', article)"
 								/>
 							</template>
@@ -190,7 +193,7 @@
 			<div class="item__detail">
 				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>
 				<p class="item__detail-title">{{ getSearchedItem.item.description }}</p>
-				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published !== null">
+				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published">
 					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
 				</p>
 				<div

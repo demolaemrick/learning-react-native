@@ -120,11 +120,11 @@ export default {
 		}
 	},
 	dislike: async ({ commit }, data) => {
-		const url = 'research/dislike/';
+		const url = `research/dislike/${data.rowId}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
-			const response = await api.post(url, data);
+			const response = await api.post(url, { url: data.url, comment: data.comment });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

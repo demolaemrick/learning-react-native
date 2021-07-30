@@ -367,7 +367,7 @@
 	
 			.refresh {
 				background: #89cfc3;
-	
+				cursor: pointer;
 				.refresh__loading {
 					transform-origin: 50% 50%;
 					animation: rotation 1.2s infinite linear;

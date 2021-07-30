@@ -13,7 +13,7 @@ import VButton from '@/components/Button';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
-
+import Loader from '@/components/Loader';
 export default {
 	name: 'SearchResult',
 	components: {
@@ -29,7 +29,8 @@ export default {
 		VButton,
 		PieChart,
 		Tweet,
-		LoadIcon
+		LoadIcon,
+		Loader
 	},
 	mixins: [ScreenWidthMixin],
 	data() {
@@ -73,6 +74,7 @@ export default {
 			refreshLoading: false,
 			dislikeOption: null,
 			otherComment: null,
+			selectedInsight: '',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to this search',
@@ -237,8 +239,8 @@ export default {
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
 						this.showAlert({
-							status: 'success',
-							message: 'Research updating in progress',
+							status: 'info',
+							message: 'Research update in progress',
 							showAlert: true
 						});
 						this.subscribe();
@@ -380,7 +382,8 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		toggleModalClass(modal) {
+		toggleModalClass(modal, insight) {
+			this.selectedInsight = insight;
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -391,26 +394,31 @@ export default {
 				}, 500);
 			}
 		},
-		async dislikeResearch(dataItem) {
-			console.log(this.dislikeOption, this.otherComment);
+		async dislikeResearch() {
+			this.loading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-			console.log(comment, dataItem);
-			// this.dislikeModal = false;
-			// this.disliked = true;
-			// await this.dislike({
-			// 	url: dataItem.url
-			// });
-			// const searchResultClone = { ...this.getSearchedResult };
-			// searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
-			// await this.saveSearchedResult(searchResultClone);
-			// await this.initUserBookmarks();
-			// this.showAlert({
-			// 	status: 'success',
-			// 	message: 'Removed from bookmarks',
-			// 	showAlert: true
-			// });
+			try {
+				const response = await this.dislike({
+					url: this.selectedInsight.url,
+					comment: comment,
+					rowId: this.$route.query.rowId
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'Success',
+						message: 'Article disliked successfully.',
+						showAlert: true
+					});
+					this.toggleModalClass('dislikeModal', '');
+					await this.getResult();
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.loading = false;
+			}
 		},
-		
+
 		async btnAddToBookMarks(article) {
 			// call endpoint to add bookmarked article to users bookmark
 			try {

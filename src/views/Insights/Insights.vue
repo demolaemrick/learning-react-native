@@ -200,7 +200,13 @@
 									</span>
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.last_linkedin_activity !== ''">
+							<div
+								class="flex flex__item-center postion"
+								v-if="
+									contact_insights.snapshot.last_linkedin_activity &&
+									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+								"
+							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
 								<p class="ml">
 									Posted on <span class="main-info">LinkedIn</span> on
@@ -272,7 +278,7 @@
 						<InsightCard
 							v-for="(article, j) in categories"
 							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal')"
+							@openModal="toggleModalClass('dislikeModal', article)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -312,7 +318,7 @@
 					<InsightCard
 						v-for="(otherInsight, index) in contact_insights.other_insights"
 						:key="index"
-						@openModal="toggleModalClass('dislikeModal')"
+						@openModal="toggleModalClass('dislikeModal', otherInsight)"
 						:content="otherInsight.meta.html"
 						:published="otherInsight.meta.published"
 						:url="otherInsight.meta.url"
@@ -419,7 +425,7 @@
 						<InsightCard
 							v-for="(article, j) in categories"
 							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal')"
+							@openModal="toggleModalClass('dislikeModal', otherInsight)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
@@ -450,7 +456,7 @@
 			v-if="dislikeModal"
 			:active="true"
 			:toggleClass="toggleClass"
-			@close="toggleModalClass('dislikeModal')"
+			@close="toggleModalClass('dislikeModal', '')"
 			maxWidth="400px"
 			borderRadius="12px"
 			marginTop="10%"
