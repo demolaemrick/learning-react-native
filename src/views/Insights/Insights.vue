@@ -215,7 +215,10 @@
 							</div>
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-								<p class="ml">Most viral tweet was: <template v-if="!contact_insights.snapshot.most_viral_tweet">Not available</template></p>
+								<p class="ml">
+									Most viral tweet was:
+									<template v-if="!contact_insights.snapshot.most_viral_tweet">Not available</template>
+								</p>
 							</div>
 						</div>
 						<Tweet
