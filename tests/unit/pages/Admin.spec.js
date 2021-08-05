@@ -293,10 +293,7 @@ describe('Admin', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper
-			.findAllComponents(CButton)
-			.at(0)
-			.trigger('click');
+		wrapper.findAllComponents(CButton).at(0).trigger('click');
 
 		// expect(toggleSendInvites).toHaveBeenCalled();
 		expect(wrapper.vm.toggleSendInvites());
