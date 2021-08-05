@@ -412,8 +412,7 @@ describe('User', () => {
 					total: 0,
 					count: 0,
 					currentPage: 0,
-					nextPage: null,
-					pageLoading: true
+					nextPage: null
 				};
 			}
 		});

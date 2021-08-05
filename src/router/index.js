@@ -111,7 +111,7 @@ const routes = [
 	},
 	{
 		// path: '/search-result/:rowId?',
-		path: '/insights/:rowId?',
+		path: '/insights',
 		name: 'Insights',
 		component: Insights,
 		beforeEnter: requireUserAuth

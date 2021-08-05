@@ -14,8 +14,10 @@ import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import Loader from '@/components/Loader';
+import { debounce } from 'lodash';
+
 export default {
-	name: 'SearchResult',
+	name: 'Insights',
 	components: {
 		ToggleDropdown,
 		DCheckbox,
@@ -41,17 +43,17 @@ export default {
 			searchType: 'contact_research',
 			contact_details: '',
 			company_insights: '',
-			contact_insights: '',
+			contact_insights: {},
 			insightStatus: '',
 			loadMore: false,
 			searchedResult: {},
-			loading: false,
-			userBookmarks: null,
+			loading: true,
+			userBookmarks: '',
 			bookmarkLoading: true,
 			editNote: false,
-			rowId: null,
-			userNote: null,
-			notepadTXT: null,
+			rowId: '',
+			userNote: '',
+			notepadTXT: '',
 			markDone: false,
 			tabs: [],
 			companyTabs: ['all', 'products', 'funding', 'people'],
@@ -78,20 +80,12 @@ export default {
 			selectedInsightUrl: '',
 			dislikeOptions: [
 				{
-					value: 'Not relevant to this search',
-					title: 'Not relevant to this search'
+					value: 'Not relevant to my search',
+					title: 'Not relevant to my search'
 				},
 				{
-					value: 'Not what I am looking for',
-					title: 'Not what I am looking for'
-				},
-				{
-					value: 'Not enough details',
-					title: 'Not enough details'
-				},
-				{
-					value: 'Incorrect information',
-					title: 'Incorrect information'
+					value: 'The information is not correct',
+					title: 'The information is not correct'
 				},
 				{
 					value: 'Other',
@@ -103,6 +97,7 @@ export default {
 		};
 	},
 	async created() {
+		this.loading = true;
 		if (this.$route.query.rowId) {
 			this.rowId = this.$route.query.rowId;
 			await this.getResult();
@@ -168,6 +163,9 @@ export default {
 					return newObj[tab];
 				}
 			}
+			// set(data) {
+			// 	this.contact_insights.news = data;
+			// }
 		},
 		company_insights_categories: {
 			get() {
@@ -179,6 +177,9 @@ export default {
 				this.sortInsights(newObj[tab]);
 				return newObj;
 			}
+			// set(data) {
+			// 	this.contact_insights.news = data;
+			// }
 		},
 		userBookmarksCount() {
 			let total = 0;
@@ -217,7 +218,6 @@ export default {
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
-			research: 'search_services/research',
 			researchedResult: 'search_services/researchedResult',
 			showAlert: 'showAlert',
 			getUserBookmarks: 'user/getBookmarks',
@@ -361,6 +361,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
+				console.log('check ---->>', response);
 				const { contact_details, company_insights, contact_insights, status } = JSON.parse(JSON.stringify(response.data.data));
 				this.contact_details = contact_details;
 				this.company_insights = company_insights;
@@ -486,7 +487,9 @@ export default {
 					}
 				});
 			}
+
 			// update cloned search result object to toggle bookmarked status
+
 			searchResultClone[article.type][article.section][result.key][result.index] = {
 				...searchResultClone[article.type][article.section][result.key][result.index],
 				is_bookmarked: true
@@ -497,18 +500,6 @@ export default {
 
 			// refetch users bookmark
 			await this.initUserBookmarks();
-
-			/**
-			 * Flatten the 3 news objects by concatinating
-			 * into a single array
-			 * Changed this because of a mutation error
-			 */
-
-			// const result = Object.keys(obj).reduce(function (r, k) {
-			//   return r.concat(obj[k]);
-			// }, []);
-			// const art = result.find(res => res.url === article.url);
-			// art.is_bookmarked = true;
 		},
 		async btnRemoveFromBookMarks(article) {
 			const searchResultClone = { ...this.getSearchedResult };
@@ -554,6 +545,65 @@ export default {
 			} else {
 				this.btnRemoveFromBookMarks(article);
 			}
+		},
+		companySearch(payload) {
+			const companySearchClone = { ...this.getSearchedResult };
+			let matchedResults = [];
+
+			for (const key in companySearchClone) {
+				if (key === 'company_insights') {
+					console.log(key);
+					console.log(companySearchClone[key]);
+					let search = companySearchClone[key].news;
+					console.log('searchh', search);
+					Object.values(search).forEach((array) => {
+						let matched = array.filter(
+							(obj) =>
+								obj.title.toLowerCase().match(payload.toLowerCase()) ||
+								obj.description.toLowerCase().match(payload.toLowerCase())
+						);
+						console.log(matched);
+						matchedResults = [...matchedResults, ...matched];
+					});
+				}
+			}
+			// this.company_insights_categories = matchedResults;
+			console.log(matchedResults);
+		},
+		contactSearch(payload) {
+			const contactSearchClone = { ...this.getSearchedResult };
+			let matchedResults = [];
+
+			for (const key in contactSearchClone) {
+				if (key === 'contact_insights') {
+					console.log(key);
+					let search = contactSearchClone[key].news;
+					console.log('searchh', search);
+					Object.values(search).forEach((array) => {
+						let matched = array.filter(
+							(obj) =>
+								obj.title.toLowerCase().match(payload.toLowerCase()) ||
+								obj.description.toLowerCase().match(payload.toLowerCase())
+						);
+						console.log(matched);
+						matchedResults = [...matchedResults, ...matched];
+					});
+				}
+			}
+			// this.contact_insights_categories = matchedResults;
+			console.log(matchedResults);
 		}
+	},
+	watch: {
+		contactSearchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.contactSearch(newVal);
+			}
+		}, 600),
+		companySearchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.companySearch(newVal);
+			}
+		}, 600)
 	}
 };

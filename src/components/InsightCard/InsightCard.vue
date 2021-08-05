@@ -2,7 +2,7 @@
 	<div class="card" @click="$emit('displayInsight')">
 		<div class="card-wrapper">
 			<h4 v-if="article.title" class="title">
-				<a :href="article.url" target="_blank" rel="noopener noreferrer">{{ article.title }}</a>
+				{{ article.title }}
 			</h4>
 			<q v-if="article.text" class="quote">{{ quote }}</q>
 
