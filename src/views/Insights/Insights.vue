@@ -172,7 +172,7 @@
 				<div class="snapshot-section" ref="snapshot">
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
-						<div class="snapshot-info">
+						<div v-if="contact_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
 								<img src="@/assets/icons/work.svg" svg-inline />
 								<p class="ml">
@@ -183,7 +183,7 @@
 							</div>
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
-								<p class="ml">
+								<p class="ml" v-if="contact_insights.snapshot.mentions">
 									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
 								</p>
 							</div>
@@ -204,7 +204,7 @@
 								class="flex flex__item-center postion"
 								v-if="
 									contact_insights.snapshot.last_linkedin_activity &&
-									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 								"
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
@@ -281,6 +281,7 @@
 						<InsightCard
 							v-for="(article, j) in categories"
 							:key="categories[article]"
+							class="card__group"
 							@openModal="toggleModalClass('dislikeModal', article)"
 							:published="article.meta.published"
 							:article="article"
@@ -300,7 +301,7 @@
 						:url="quote.url"
 						:quote="quote.text"
 						:article="quote"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_research', index: j, section: 'news', ...article }, $event)"
 						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
@@ -350,10 +351,10 @@
 					</div>
 					<div class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
-						<div class="snapshot-info">
+						<div v-if="company_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
-								<p class="ml">
+								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in
 									the past year
 								</p>
@@ -465,7 +466,7 @@
 			marginTop="10%"
 		>
 			<template #title>
-				<h4 class="modal__header-title">Not Relevant?</h4>
+				<h4 class="modal__header-title">givant?</h4>
 			</template>
 			<template #info>
 				<h5>Your feedback will help us improve your results.</h5>

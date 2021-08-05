@@ -8,7 +8,7 @@ import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
 
 export default {
-	name: 'SearchResult',
+	name: 'SearchItem',
 	components: {
 		VHeader,
 		ToggleDropdown,
