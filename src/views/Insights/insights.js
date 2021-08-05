@@ -14,6 +14,8 @@ import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import Loader from '@/components/Loader';
+import { debounce } from 'lodash';
+
 export default {
 	name: 'Insights',
 	components: {
@@ -152,6 +154,9 @@ export default {
 					return newObj;
 				}
 			}
+			// set(data) {
+			// 	this.contact_insights.news = data;
+			// }
 		},
 		company_insights_categories: {
 			get() {
@@ -162,6 +167,9 @@ export default {
 				newObj[tab] = element;
 				return newObj;
 			}
+			// set(data) {
+			// 	this.contact_insights.news = data;
+			// }
 		},
 		userBookmarksCount() {
 			let total = 0;
@@ -328,6 +336,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.rowId);
+				console.log('check ---->>', response);
 				const { contact_details, company_insights, contact_insights, status } = JSON.parse(JSON.stringify(response.data.data));
 				this.contact_details = contact_details;
 				this.company_insights = company_insights;
@@ -521,6 +530,65 @@ export default {
 			} else {
 				this.btnRemoveFromBookMarks(article);
 			}
+		},
+		companySearch(payload) {
+			const companySearchClone = { ...this.getSearchedResult };
+			let matchedResults = [];
+
+			for (const key in companySearchClone) {
+				if (key === 'company_insights') {
+					console.log(key);
+					console.log(companySearchClone[key]);
+					let search = companySearchClone[key].news;
+					console.log('searchh', search);
+					Object.values(search).forEach((array) => {
+						let matched = array.filter(
+							(obj) =>
+								obj.title.toLowerCase().match(payload.toLowerCase()) ||
+								obj.description.toLowerCase().match(payload.toLowerCase())
+						);
+						console.log(matched);
+						matchedResults = [...matchedResults, ...matched];
+					});
+				}
+			}
+			// this.company_insights_categories = matchedResults;
+			console.log(matchedResults);
+		},
+		contactSearch(payload) {
+			const contactSearchClone = { ...this.getSearchedResult };
+			let matchedResults = [];
+
+			for (const key in contactSearchClone) {
+				if (key === 'contact_insights') {
+					console.log(key);
+					let search = contactSearchClone[key].news;
+					console.log('searchh', search);
+					Object.values(search).forEach((array) => {
+						let matched = array.filter(
+							(obj) =>
+								obj.title.toLowerCase().match(payload.toLowerCase()) ||
+								obj.description.toLowerCase().match(payload.toLowerCase())
+						);
+						console.log(matched);
+						matchedResults = [...matchedResults, ...matched];
+					});
+				}
+			}
+			// this.contact_insights_categories = matchedResults;
+			console.log(matchedResults);
 		}
+	},
+	watch: {
+		contactSearchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.contactSearch(newVal);
+			}
+		}, 600),
+		companySearchQuery: debounce(function(newVal) {
+			if (newVal) {
+				this.companySearch(newVal);
+			}
+		}, 600)
 	}
 };
