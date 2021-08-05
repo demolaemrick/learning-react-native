@@ -13,7 +13,7 @@ import TextInput from '@/components/Input';
 import VButton from '@/components/Button';
 
 export default {
-	name: 'SearchResult',
+	name: 'InsightItem',
 	components: {
 		VHeader,
 		ToggleDropdown,

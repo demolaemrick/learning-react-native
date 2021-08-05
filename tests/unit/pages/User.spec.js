@@ -413,7 +413,6 @@ describe('User', () => {
 					count: 0,
 					currentPage: 0,
 					nextPage: null,
-					pageLoading: true
 				};
 			}
 		});

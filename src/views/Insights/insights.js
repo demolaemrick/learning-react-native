@@ -15,7 +15,7 @@ import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import Loader from '@/components/Loader';
 export default {
-	name: 'SearchResult',
+	name: 'Insights',
 	components: {
 		ToggleDropdown,
 		DCheckbox,
@@ -41,17 +41,17 @@ export default {
 			searchType: 'contact_research',
 			contact_details: '',
 			company_insights: '',
-			contact_insights: '',
+			contact_insights: {},
 			insightStatus: '',
 			loadMore: false,
 			searchedResult: {},
-			loading: false,
-			userBookmarks: null,
+			loading: true,
+			userBookmarks: '',
 			bookmarkLoading: true,
 			editNote: false,
-			rowId: null,
-			userNote: null,
-			notepadTXT: null,
+			rowId: '',
+			userNote: '',
+			notepadTXT: '',
 			markDone: false,
 			tabs: [],
 			companyTabs: ['all', 'products', 'funding', 'people'],
@@ -77,20 +77,12 @@ export default {
 			selectedInsight: '',
 			dislikeOptions: [
 				{
-					value: 'Not relevant to this search',
-					title: 'Not relevant to this search'
+					value: 'Not relevant to my search',
+					title: 'Not relevant to my search'
 				},
 				{
-					value: 'Not what I am looking for',
-					title: 'Not what I am looking for'
-				},
-				{
-					value: 'Not enough details',
-					title: 'Not enough details'
-				},
-				{
-					value: 'Incorrect information',
-					title: 'Incorrect information'
+					value: 'The information is not correct',
+					title: 'The information is not correct'
 				},
 				{
 					value: 'Other',
@@ -102,6 +94,7 @@ export default {
 		};
 	},
 	async created() {
+		this.loading = true;
 		if (this.$route.query.rowId) {
 			this.rowId = this.$route.query.rowId;
 			await this.getResult();
@@ -207,7 +200,6 @@ export default {
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
-			research: 'search_services/research',
 			researchedResult: 'search_services/researchedResult',
 			showAlert: 'showAlert',
 			getUserBookmarks: 'user/getBookmarks',
@@ -234,7 +226,6 @@ export default {
 			this.refreshLoading = true;
 			try {
 				const response = await this.refresh(this.$route.query.rowId);
-				console.log(response);
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
@@ -258,7 +249,6 @@ export default {
 						await this.getResult();
 						this.refreshLoading = false;
 					}
-					console.log(response);
 				}
 				return true;
 			} catch (error) {
@@ -448,7 +438,6 @@ export default {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
 			const obj = searchResultClone[article.type][article.section];
-			console.log(obj);
 
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
@@ -462,9 +451,8 @@ export default {
 					}
 				});
 			}
-			console.log(result);
+
 			// update cloned search result object to toggle bookmarked status
-			// console.log(searchResultClone[article.type][article.section][result.key]);
 
 			searchResultClone[article.type][article.section][result.key][result.index] = {
 				...searchResultClone[article.type][article.section][result.key][result.index],
@@ -525,11 +513,9 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
-			console.log(result);
 			await this.initUserBookmarks();
 		},
 		async btnUpdateBookMarks(article, prop) {
-			console.log(prop);
 			if (prop === 'add') {
 				this.btnAddToBookMarks(article);
 			} else {
