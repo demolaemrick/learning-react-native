@@ -155,9 +155,9 @@ export default {
 			try {
 				const response = await this.research(this.payload);
 				console.log(response);
-				await this.saveSearchedResult(response.data.data);
+				//await this.saveSearchedResult(response.data.data);
 				await this.saveSearchPayload(this.payload);
-				this.$router.push({ name: 'SearchResult' });
+				this.$router.push({ name: 'ContactResearch' });
 				return true;
 			} catch (error) {
 				this.showAlert({

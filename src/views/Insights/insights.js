@@ -73,8 +73,9 @@ export default {
 			bookmarked: false,
 			refreshLoading: false,
 			dislikeOption: null,
+			dislikeLoading: false,
 			otherComment: null,
-			selectedInsight: '',
+			selectedInsightUrl: '',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to this search',
@@ -151,12 +152,20 @@ export default {
 				const data = this.contact_insights.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
+
 				if (tab === 'All') {
-					return data;
+					let newArray = [];
+					for (const item in data) {
+						newArray = [...newArray, ...data[item]];
+					}
+					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.sortInsights(uniqueArray);
+					return uniqueArray;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					return newObj;
+					this.sortInsights(newObj[tab]);
+					return newObj[tab];
 				}
 			}
 		},
@@ -167,6 +176,7 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
+				this.sortInsights(newObj[tab]);
 				return newObj;
 			}
 		},
@@ -220,6 +230,11 @@ export default {
 			subscribeResearch: 'search_services/subscribeResearch',
 			dislike: 'search_services/dislike'
 		}),
+		sortInsights(data) {
+			data.sort(function (a, b) {
+				return a.is_disliked - b.is_disliked;
+			});
+		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
@@ -390,8 +405,8 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		toggleModalClass(modal, insight) {
-			this.selectedInsight = insight;
+		toggleModalClass(modal, url) {
+			this.selectedInsightUrl = url;
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -402,18 +417,20 @@ export default {
 				}, 500);
 			}
 		},
+
 		async dislikeResearch() {
-			this.loading = true;
+			this.dislikeLoading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
+
 			try {
 				const response = await this.dislike({
-					url: this.selectedInsight.url,
+					url: this.selectedInsightUrl,
 					comment: comment,
 					rowId: this.$route.query.rowId
 				});
 				if (response.status === 200) {
 					this.showAlert({
-						status: 'Success',
+						status: 'success',
 						message: 'Article disliked successfully.',
 						showAlert: true
 					});
@@ -423,7 +440,7 @@ export default {
 			} catch (error) {
 				console.log(error);
 			} finally {
-				this.loading = false;
+				this.dislikeLoading = false;
 			}
 		},
 
@@ -532,7 +549,6 @@ export default {
 			await this.initUserBookmarks();
 		},
 		async btnUpdateBookMarks(article, prop) {
-			console.log(prop);
 			if (prop === 'add') {
 				this.btnAddToBookMarks(article);
 			} else {

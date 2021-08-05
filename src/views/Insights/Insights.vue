@@ -277,19 +277,17 @@
 						</div>
 					</div>
 
-					<template v-for="categories in contact_insights_categories">
-						<InsightCard
-							v-for="(article, j) in categories"
-							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal', article)"
-							:published="article.meta.published"
-							:article="article"
-							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
-							@displayInsight="displaySearchItem('contact_insights', article)"
-						/>
-					</template>
+					<InsightCard
+						v-for="(article, j) in contact_insights_categories"
+						:key="contact_insights_categories[article]"
+						@openModal="toggleModalClass('dislikeModal', article.url)"
+						:published="article.meta.published"
+						:article="article"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+						@displayInsight="displaySearchItem('contact_insights', article)"
+					/>
 				</div>
-				<div class="quote-section" ref="quotes">
+				<div v-if="contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
 						<h3 class="section-title">Quotes</h3>
 					</div>
@@ -300,7 +298,7 @@
 						:url="quote.url"
 						:quote="quote.text"
 						:article="quote"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
 						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
@@ -321,7 +319,7 @@
 					<InsightCard
 						v-for="(otherInsight, index) in contact_insights.other_insights"
 						:key="index"
-						@openModal="toggleModalClass('dislikeModal', otherInsight)"
+						@openModal="toggleModalClass('dislikeModal', article.url)"
 						:content="otherInsight.meta.html"
 						:published="otherInsight.meta.published"
 						:url="otherInsight.meta.url"
@@ -428,7 +426,7 @@
 						<InsightCard
 							v-for="(article, j) in categories"
 							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal', otherInsight)"
+							@openModal="toggleModalClass('dislikeModal', article.url)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
@@ -436,9 +434,9 @@
 						/>
 					</template>
 				</div>
-				<div class="jobs-section">
+				<div class="jobs-section" v-if="company_insights.jobs.length > 0">
 					<div class="jobs-header flex flex__space-center">
-						<h3 class="section-title">News</h3>
+						<h3 class="section-title">Open Jobs</h3>
 						<div class="open-roles">
 							<p class="roles-number">{{ company_insights.jobs.length }} Open roles</p>
 						</div>
@@ -491,7 +489,7 @@
 
 					<div class="modal__content-btn">
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
-							<template v-if="!loading">Submit</template>
+							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
 						</v-button>
 					</div>
