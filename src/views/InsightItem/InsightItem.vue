@@ -54,7 +54,13 @@
 							<InsightCard
 								v-for="(article, j) in contact_insights_categories"
 								:key="contact_insights_categories[article]"
-								@openModal="toggleModalClass('dislikeModal', { type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'contact_insights', index: j, section: 'news', ...article },
+										$event
+									)
+								"
 								:published="article.meta.published ? article.meta.published : null"
 								:article="article"
 								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -83,7 +89,13 @@
 							<InsightCard
 								v-for="(otherInsight, j) in contact_other_insights"
 								:key="contact_other_insights[otherInsight]"
-								@openModal="toggleModalClass('dislikeModal', { type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
+										$event
+									)
+								"
 								:published="otherInsight.meta.published"
 								:article="otherInsight"
 								@bookmark="
@@ -133,7 +145,13 @@
 							<InsightCard
 								v-for="(article, j) in company_insights_categories"
 								:key="company_insights_categories[article]"
-								@openModal="toggleModalClass('dislikeModal', { type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'company_insights', index: j, section: 'news', ...article },
+										$event
+									)
+								"
 								:published="article.meta.published ? article.meta.published : null"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 								:article="article"

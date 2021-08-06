@@ -318,7 +318,7 @@
 				</div>
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
-						<h3 class="section-title">Quotes{{contact_insights.quotes.length}}</h3>
+						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
 					</div>
 					<InsightCard
 						v-for="(quote, index) in contact_insights.quotes"

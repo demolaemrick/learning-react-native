@@ -190,33 +190,33 @@ export default {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
-		updateDislikeResult(){
+		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
-					let result = {};
-					const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
-					for (const key in obj) {
-						Object.values(obj[key]).find((item, index) => {
-							if (item.url === this.selectedInsight.url) {
-								result = {
-									key,
-									index,
-									data: { ...item }
-								};
-								searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
-									...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
-									is_disliked: true
-								};
-								return;
-							}
-						});
+			let result = {};
+			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === this.selectedInsight.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
+							...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
+							is_disliked: true
+						};
+						return;
 					}
-					//update to vuex store
-					this.saveSearchedResult(searchResultClone);
+				});
+			}
+			//update to vuex store
+			this.saveSearchedResult(searchResultClone);
 		},
 		async dislikeResearch() {
 			this.dislikeLoading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-			this.updateDislikeResult()
+			this.updateDislikeResult();
 			try {
 				const response = await this.dislike({
 					url: this.selectedInsight.url,
@@ -230,7 +230,6 @@ export default {
 						showAlert: true
 					});
 					this.toggleModalClass('dislikeModal', '');
-					
 				}
 			} catch (error) {
 				console.log(error);
