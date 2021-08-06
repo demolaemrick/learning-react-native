@@ -11,7 +11,7 @@ import Modal from '@/components/Modal';
 import RadioBtn from '@/components/RadioButton';
 import TextInput from '@/components/Input';
 import VButton from '@/components/Button';
-
+import Loader from '@/components/Loader';
 export default {
 	name: 'InsightItem',
 	components: {
@@ -25,7 +25,8 @@ export default {
 		Modal,
 		RadioBtn,
 		VButton,
-		TextInput
+		TextInput,
+		Loader
 	},
 	data() {
 		return {
@@ -54,26 +55,21 @@ export default {
 			dislikeOption: 'Not relevant to this search',
 			dislikeOptions: [
 				{
-					value: 'Not relevant to this search',
-					title: 'Not relevant to this search'
+					value: 'Not relevant to my search',
+					title: 'Not relevant to my search'
 				},
 				{
-					value: 'Not what I am looking for',
-					title: 'Not what I am looking for'
-				},
-				{
-					value: 'Not enough details',
-					title: 'Not enough details'
-				},
-				{
-					value: 'Incorrect information',
-					title: 'Incorrect information'
+					value: 'The information is not correct',
+					title: 'The information is not correct'
 				},
 				{
 					value: 'Other',
 					title: 'Other'
 				}
-			]
+			],
+			selectedInsight: '',
+			dislikeLoading: false,
+			toggleClass: true
 		};
 	},
 	watch: {
@@ -125,26 +121,49 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.getSearchedResult[this.searchType].news;
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
+				const data = result.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
+
 				if (tab === 'All') {
-					return data;
+					let newArray = [];
+					for (const item in data) {
+						newArray = [...newArray, ...data[item]];
+					}
+					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.sortInsights(uniqueArray);
+					return uniqueArray;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					return newObj;
+					this.sortInsights(newObj[tab]);
+					return newObj[tab];
 				}
 			}
 		},
 		company_insights_categories: {
 			get() {
 				let newObj = {};
-				const data = this.getSearchedResult[this.searchType].news;
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
+				const data = result.news;
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				return newObj;
+				this.sortInsights(newObj[tab]);
+				return newObj[tab];
+			}
+		},
+		contact_other_insights: {
+			get() {
+				const data = this.getSearchedResult.contact_insights.other_insights;
+				let newArray = [];
+				for (const item in data) {
+					newArray = [...newArray, ...data[item]];
+				}
+				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				this.sortInsights(uniqueArray);
+				return uniqueArray;
 			}
 		}
 	},
@@ -163,8 +182,62 @@ export default {
 			addToBookmarks: 'user/addToBookmarks',
 			getUserBookmarks: 'user/getBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
+			dislike: 'search_services/dislike',
 			showAlert: 'showAlert'
 		}),
+		sortInsights(data) {
+			data.sort(function (a, b) {
+				return a.is_disliked - b.is_disliked;
+			});
+		},
+		updateDislikeResult(){
+			const searchResultClone = { ...this.getSearchedResult };
+					let result = {};
+					const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
+					for (const key in obj) {
+						Object.values(obj[key]).find((item, index) => {
+							if (item.url === this.selectedInsight.url) {
+								result = {
+									key,
+									index,
+									data: { ...item }
+								};
+								searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
+									...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
+									is_disliked: true
+								};
+								return;
+							}
+						});
+					}
+					//update to vuex store
+					this.saveSearchedResult(searchResultClone);
+		},
+		async dislikeResearch() {
+			this.dislikeLoading = true;
+			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
+			this.updateDislikeResult()
+			try {
+				const response = await this.dislike({
+					url: this.selectedInsight.url,
+					comment: comment,
+					rowId: this.getSearchedResult.rowId
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Article disliked successfully.',
+						showAlert: true
+					});
+					this.toggleModalClass('dislikeModal', '');
+					
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				this.dislikeLoading = false;
+			}
+		},
 		async initUserBookmarks() {
 			try {
 				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
@@ -311,7 +384,8 @@ export default {
 				this.filterValue.push(key);
 			}
 		},
-		toggleModalClass(modal) {
+		toggleModalClass(modal, insight) {
+			this.selectedInsight = insight;
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -321,10 +395,6 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
-		},
-		dislikeCard() {
-			this.dislikeModal = false;
-			this.disliked = true;
 		}
 	}
 };

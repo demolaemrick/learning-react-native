@@ -38,8 +38,6 @@ export default {
 	data() {
 		return {
 			tweetId: '1417604296422694913',
-			// companyFilter: [],
-			// contactFilter: [],
 			searchType: 'contact_research',
 			contact_details: '',
 			insightStatus: '',
@@ -54,8 +52,8 @@ export default {
 			notepadTXT: '',
 			markDone: false,
 			tabs: [],
-			contactFilter: '',
-			companyFilter: '',
+			contactFilter: null,
+			companyFilter: null,
 			companyTabs: ['all', 'products', 'funding', 'people'],
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
@@ -77,7 +75,7 @@ export default {
 			dislikeOption: null,
 			dislikeLoading: false,
 			otherComment: null,
-			selectedInsightUrl: '',
+			selectedInsight: '',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to my search',
@@ -412,8 +410,8 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		toggleModalClass(modal, url) {
-			this.selectedInsightUrl = url;
+		toggleModalClass(modal, insight) {
+			this.selectedInsight = insight;
 			if (!this[modal]) {
 				this[modal] = true;
 			} else {
@@ -424,16 +422,38 @@ export default {
 				}, 500);
 			}
 		},
-
+		updateDislikeResult(){
+			const searchResultClone = { ...this.getSearchedResult };
+					let result = {};
+					const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
+					for (const key in obj) {
+						Object.values(obj[key]).find((item, index) => {
+							if (item.url === this.selectedInsight.url) {
+								result = {
+									key,
+									index,
+									data: { ...item }
+								};
+								searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
+									...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
+									is_disliked: true
+								};
+								return;
+							}
+						});
+					}
+					//update to vuex store
+					this.saveSearchedResult(searchResultClone);
+		},
 		async dislikeResearch() {
 			this.dislikeLoading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-
+			this.updateDislikeResult()
 			try {
 				const response = await this.dislike({
-					url: this.selectedInsightUrl,
+					url: this.selectedInsight.url,
 					comment: comment,
-					rowId: this.$route.query.rowId
+					rowId: this.getSearchedResult.rowId
 				});
 				if (response.status === 200) {
 					this.showAlert({
@@ -442,7 +462,7 @@ export default {
 						showAlert: true
 					});
 					this.toggleModalClass('dislikeModal', '');
-					await this.getResult();
+					
 				}
 			} catch (error) {
 				console.log(error);
@@ -451,6 +471,7 @@ export default {
 			}
 		},
 
+		
 		async btnAddToBookMarks(article) {
 			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			// call endpoint to add bookmarked article to users bookmark
@@ -590,7 +611,7 @@ export default {
 					});
 				}
 			}
-			this.contactFilter = matchedResults.length ? 'search' : 'empty';
+			this.contactFilter = matchedResults.length ? 'search' : null;
 			this.contactSearchResult = matchedResults;
 		},
 		clearContactSearch() {
@@ -608,7 +629,7 @@ export default {
 				this.contactSearch(newVal);
 			} else {
 				this.contactSearchResult = [];
-				this.contactFilter = '';
+				this.contactFilter = null;
 			}
 		}, 600),
 		companySearchQuery: debounce(function (newVal) {
@@ -616,7 +637,7 @@ export default {
 				this.companySearch(newVal);
 			} else {
 				this.companySearchResult = [];
-				this.companyFilter = '';
+				this.companyFilter = null;
 			}
 		}, 600)
 	}

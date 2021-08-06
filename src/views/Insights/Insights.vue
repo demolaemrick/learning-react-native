@@ -209,7 +209,7 @@
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
 								<p class="ml">
-									Posted on <span class="main-info">LinkedIn</span> on
+									Posted on <span class="main-info">LinkedIn</span>
 									{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
 								</p>
 							</div>
@@ -270,14 +270,20 @@
 						<InsightCard
 							v-for="(article, j) in contactSearchResult"
 							:key="contactSearchResult[article]"
-							@openModal="toggleModalClass('dislikeModal', article.url)"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'contact_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</div>
-					<div v-if="!contactFilter" class="tab-group flex section-wrapper">
+					<div v-if="!contactFilter" class="tab-group flex">
 						<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 						<h5
 							v-for="(tab, index) in tabs"
@@ -296,7 +302,13 @@
 						<InsightCard
 							v-for="(article, j) in contact_insights_categories"
 							:key="contact_insights_categories[article]"
-							@openModal="toggleModalClass('dislikeModal', article.url)"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'contact_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -304,9 +316,9 @@
 						/>
 					</template>
 				</div>
-				<div v-if="!contactFilter || contact_insights.quotes.length" class="quote-section" ref="quotes">
+				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
-						<h3 class="section-title">Quotes</h3>
+						<h3 class="section-title">Quotes{{contact_insights.quotes.length}}</h3>
 					</div>
 					<InsightCard
 						v-for="(quote, index) in contact_insights.quotes"
@@ -336,7 +348,13 @@
 					<InsightCard
 						v-for="(otherInsight, j) in contact_other_insights"
 						:key="contact_other_insights[otherInsight]"
-						@openModal="toggleModalClass('dislikeModal', otherInsight.url)"
+						@openModal="
+							toggleModalClass(
+								'dislikeModal',
+								{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
+								$event
+							)
+						"
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
 						@bookmark="
@@ -434,14 +452,20 @@
 						<InsightCard
 							v-for="(article, j) in companySearchResult"
 							:key="companySearchResult[article]"
-							@openModal="toggleModalClass('dislikeModal', article.url)"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'company_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
 							:published="article.meta.published"
 							:article="article"
-							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
-							@displayInsight="displaySearchItem('contact_insights', article)"
+							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="tab-group flex section-wrapper">
+					<div v-if="!companyFilter" class="tab-group flex">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"
@@ -461,7 +485,13 @@
 							<InsightCard
 								v-for="(article, j) in categories"
 								:key="categories[article]"
-								@openModal="toggleModalClass('dislikeModal', article.url)"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'company_insights', index: j, section: 'news', ...article },
+										$event
+									)
+								"
 								:published="article.meta.published"
 								:article="article"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"

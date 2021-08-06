@@ -584,9 +584,11 @@
 }
 
 .tab-group {
-	margin-top: 20px;
-	margin-bottom: 24px;
 	justify-content: space-between;
+	width: 392px;
+    overflow: auto;
+	margin: 20px auto 24px;
+
 }
 .jobs-header{
 	margin-bottom: 24px;
@@ -683,10 +685,7 @@ label {
   letter-spacing: -0.3px;
   border: none;
   outline: none;
-  max-width: 109px;
   white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   cursor: pointer;
 	text-transform: capitalize;
   &:hover {
