@@ -317,13 +317,13 @@
 						<h3 class="section-title">Other Insights</h3>
 					</div>
 					<InsightCard
-						v-for="(otherInsight, index) in contact_insights.other_insights"
-						:key="index"
-						@openModal="toggleModalClass('dislikeModal', article.url)"
-						:content="otherInsight.meta.html"
+						v-for="(otherInsight, j) in contact_other_insights"
+						:key="contact_other_insights[otherInsight]"
+						@openModal="toggleModalClass('dislikeModal', otherInsight.url)"
 						:published="otherInsight.meta.published"
-						:url="otherInsight.meta.url"
-						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
+						:article="otherInsight"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)"
+						@displayInsight="displaySearchItem('contact_insights', article)"
 					/>
 				</div>
 			</div>
