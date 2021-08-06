@@ -322,7 +322,9 @@
 						@openModal="toggleModalClass('dislikeModal', otherInsight.url)"
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)"
+						@bookmark="
+							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)
+						"
 						@displayInsight="displaySearchItem('contact_insights', article)"
 					/>
 				</div>

@@ -143,7 +143,7 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights))
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
 				const data = result.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
@@ -179,7 +179,7 @@ export default {
 		company_insights_categories: {
 			get() {
 				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights))
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 				const data = result.news;
 				//const data = result.news;
 				const tab = this.companyTab;
