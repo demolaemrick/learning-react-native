@@ -172,7 +172,7 @@
 				<div class="snapshot-section" ref="snapshot">
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
-						<div class="snapshot-info">
+						<div v-if="contact_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
 								<img src="@/assets/icons/work.svg" svg-inline />
 								<p class="ml">
@@ -183,7 +183,7 @@
 							</div>
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
-								<p class="ml">
+								<p class="ml" v-if="contact_insights.snapshot.mentions">
 									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
 								</p>
 							</div>
@@ -209,7 +209,7 @@
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
 								<p class="ml">
-									Posted on <span class="main-info">LinkedIn</span> on
+									Posted on <span class="main-info">LinkedIn</span>
 									{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
 								</p>
 							</div>
@@ -221,16 +221,17 @@
 								</p>
 							</div>
 						</div>
-						<Tweet
-							v-if="contact_insights.snapshot.most_viral_tweet"
-							:id="contact_insights.snapshot.most_viral_tweet"
-							error-message="This tweet could not be loaded"
-							error-message-class="tweet--error"
-						>
-							<div class="spinner">
-								<LoadIcon />
-							</div>
-						</Tweet>
+						<template v-if="contact_insights.snapshot.most_viral_tweet">
+							<Tweet
+								:id="contact_insights.snapshot.most_viral_tweet"
+								error-message="This tweet could not be loaded"
+								error-message-class="tweet--error"
+							>
+								<div class="spinner">
+									<LoadIcon />
+								</div>
+							</Tweet>
+						</template>
 					</div>
 				</div>
 
@@ -250,6 +251,7 @@
 								</toggle-dropdown>
 							</div>
 						</div>
+
 						<TextInput
 							class="search-section mb-0"
 							type="text"
@@ -260,28 +262,53 @@
 							backgroundColor="#F5F5F5"
 							border="#F5F5F5"
 							borderRadius="12px"
+							@clear="clearContactSearch"
 							searchIconColor="#3A434B"
 						/>
-
-						<div class="tab-group flex">
-							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
-							<h5
-								v-for="(tab, index) in tabs"
-								:key="index"
-								class="tab"
-								:class="{ active: tab === selectedTab }"
-								@click="selectedTab = tab"
-							>
-								{{ tab }}
-							</h5>
-						</div>
 					</div>
-
-					<template v-for="categories in contact_insights_categories">
+					<div class="mt-2" v-if="contactFilter === 'search'">
 						<InsightCard
-							v-for="(article, j) in categories"
-							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal', article)"
+							v-for="(article, j) in contactSearchResult"
+							:key="contactSearchResult[article]"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'contact_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
+							:published="article.meta.published"
+							:article="article"
+							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+							@displayInsight="displaySearchItem('contact_insights', article)"
+						/>
+					</div>
+					<div v-if="!contactFilter" class="tab-group flex">
+						<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+						<h5
+							v-for="(tab, index) in tabs"
+							:key="index"
+							class="tab"
+							:class="{ active: tab === selectedTab }"
+							@click="selectedTab = tab"
+						>
+							{{ tab }}
+						</h5>
+					</div>
+					<div class="section-wrapper">
+						<p class="search--error mt-2" v-if="contactFilter === 'empty'">No data found</p>
+					</div>
+					<template v-if="!contactFilter">
+						<InsightCard
+							v-for="(article, j) in contact_insights_categories"
+							:key="contact_insights_categories[article]"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'contact_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -289,9 +316,9 @@
 						/>
 					</template>
 				</div>
-				<div class="quote-section" ref="quotes">
+				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
-						<h3 class="section-title">Quotes</h3>
+						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
 					</div>
 					<InsightCard
 						v-for="(quote, index) in contact_insights.quotes"
@@ -300,11 +327,11 @@
 						:url="quote.url"
 						:quote="quote.text"
 						:article="quote"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
 						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
-				<div class="topics-section" ref="topics">
+				<div v-if="!contactFilter" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
@@ -314,18 +341,26 @@
 						:labels="Object.keys(contact_insights.topics)"
 					/>
 				</div>
-				<div class="otherInsight-section" ref="others">
+				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
 						<h3 class="section-title">Other Insights</h3>
 					</div>
 					<InsightCard
-						v-for="(otherInsight, index) in contact_insights.other_insights"
-						:key="index"
-						@openModal="toggleModalClass('dislikeModal', otherInsight)"
-						:content="otherInsight.meta.html"
+						v-for="(otherInsight, j) in contact_other_insights"
+						:key="contact_other_insights[otherInsight]"
+						@openModal="
+							toggleModalClass(
+								'dislikeModal',
+								{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
+								$event
+							)
+						"
 						:published="otherInsight.meta.published"
-						:url="otherInsight.meta.url"
-						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
+						:article="otherInsight"
+						@bookmark="
+							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)
+						"
+						@displayInsight="displaySearchItem('contact_insights', article)"
 					/>
 				</div>
 			</div>
@@ -350,10 +385,10 @@
 					</div>
 					<div class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
-						<div class="snapshot-info">
+						<div v-if="company_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
-								<p class="ml">
+								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in
 									the past year
 								</p>
@@ -409,36 +444,65 @@
 							backgroundColor="#F5F5F5"
 							border="#F5F5F5"
 							borderRadius="12px"
+							@clear="clearCompanySearch"
 							searchIconColor="#3A434B"
 						/>
-
-						<div class="tab-group flex">
-							<h5
-								v-for="(tab, index) in companyTabs"
-								:key="index"
-								class="tab"
-								:class="{ active: tab === companyTab }"
-								@click="companyTab = tab"
-							>
-								{{ tab }}
-							</h5>
-						</div>
 					</div>
-					<template v-for="categories in company_insights_categories">
+					<div class="mt-2" v-if="companyFilter === 'search'">
 						<InsightCard
-							v-for="(article, j) in categories"
-							:key="categories[article]"
-							@openModal="toggleModalClass('dislikeModal', otherInsight)"
+							v-for="(article, j) in companySearchResult"
+							:key="companySearchResult[article]"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'company_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
+					</div>
+					<div v-if="!companyFilter" class="tab-group flex">
+						<h5
+							v-for="(tab, index) in companyTabs"
+							:key="index"
+							class="tab"
+							:class="{ active: tab === companyTab }"
+							@click="companyTab = tab"
+						>
+							{{ tab }}
+						</h5>
+					</div>
+					<div class="section-wrapper">
+						<p class="search--error mt-2" v-if="companyFilter === 'empty'">No data found</p>
+					</div>
+					<!-- </div> -->
+					<template v-if="!companyFilter">
+						<template v-for="categories in company_insights_categories">
+							<InsightCard
+								v-for="(article, j) in categories"
+								:key="categories[article]"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'company_insights', index: j, section: 'news', ...article },
+										$event
+									)
+								"
+								:published="article.meta.published"
+								:article="article"
+								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+								@displayInsight="displaySearchItem('company_insights', article)"
+							/>
+						</template>
 					</template>
 				</div>
-				<div class="jobs-section">
+				<div class="jobs-section" v-if="company_insights.jobs.length > 0">
 					<div class="jobs-header flex flex__space-center">
-						<h3 class="section-title">News</h3>
+						<h3 class="section-title">Open Jobs</h3>
 						<div class="open-roles">
 							<p class="roles-number">{{ company_insights.jobs.length }} Open roles</p>
 						</div>
@@ -463,6 +527,7 @@
 			maxWidth="400px"
 			borderRadius="12px"
 			marginTop="10%"
+			:showInfo="true"
 		>
 			<template #title>
 				<h4 class="modal__header-title">Not Relevant?</h4>
@@ -472,6 +537,7 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
+					<!-- <h5 class="mb-2">Your feedback will help us improve your results.</h5> -->
 					<p class="modal__content-text">
 						<RadioBtn
 							style="display: block"
@@ -491,7 +557,7 @@
 
 					<div class="modal__content-btn">
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
-							<template v-if="!loading">Submit</template>
+							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
 						</v-button>
 					</div>

@@ -14,7 +14,7 @@
 					</g>
 				</svg>
 			</div>
-			<div class="modal-info" v-if="useSlot">
+			<div class="modal-info" v-if="showInfo">
 				<slot name="info"></slot>
 			</div>
 

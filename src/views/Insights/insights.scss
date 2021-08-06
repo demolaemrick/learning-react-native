@@ -584,12 +584,15 @@
 }
 
 .tab-group {
-	margin-top: 20px;
-	margin-bottom: 24px;
 	justify-content: space-between;
+	width: 392px;
+    overflow: auto;
+	margin: 20px auto 24px;
+
 }
 .jobs-header{
 	margin-bottom: 24px;
+	padding: 24.5px 24.5px 0;
 	.open-roles{
 		padding: 7px 18px;
 		background: #FFF9E7;
@@ -682,10 +685,7 @@ label {
   letter-spacing: -0.3px;
   border: none;
   outline: none;
-  max-width: 109px;
   white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   cursor: pointer;
 	text-transform: capitalize;
   &:hover {
@@ -705,4 +705,14 @@ label {
 	width: 100%;
 	height: 300px;
 	position: relative;
+}
+.search--error{
+	color: gray;
+	font-size: 16px;
+	border: 1px solid #55ACED;
+	height: 100px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
