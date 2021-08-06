@@ -373,6 +373,9 @@ export default {
 			} finally {
 				this.adminLoading = false;
 			}
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	watch: {

@@ -398,6 +398,9 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	watch: {

@@ -8,7 +8,7 @@
 			<h4 v-if="users" id="totalUsers">{{ users.length }} Users</h4>
 			<div class="search-section">
 				<!-- <form action=""> -->
-				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" />
+				<TextInput class="mb-0" type="text" placeholder="Search" v-model="searchQuery" :icon="{ type: 'search' }" width="509px" @clear="clearSearch" />
 				<!-- </form> -->
 				<span class="mx-1">
 					<v-button size="small" buttonType="outline" @click="toggleFilterModal">
