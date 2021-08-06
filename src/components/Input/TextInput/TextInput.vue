@@ -24,7 +24,7 @@
 			<!-- <slot name="icon"></slot> -->
 			<div class="form-icon" v-if="icon.type">
 				<svg
-					v-if="icon.type === 'search'"
+					v-if="icon.type === 'search' && !innerValue"
 					width="18"
 					height="18"
 					viewBox="0 0 18 18"
@@ -36,6 +36,7 @@
 						:fill="searchIconColor"
 					/>
 				</svg>
+				<span class="clear_Search" @click="$emit('clear')" v-else>x</span>
 				<img v-if="icon.type === 'date'" src="../../../assets/icons/date-icon.svg" alt="" />
 			</div>
 		</div>

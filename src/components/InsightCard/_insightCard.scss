@@ -2,6 +2,7 @@
   width: 100%;
   padding: 24.5px 24.5px 0;
   transition: 0.3s;
+  // padding-top: 24.5px;
 
   &:hover {
     background-color: #EDEDED;
@@ -34,9 +35,6 @@
   &:hover {
     color: #3B48F7;
   }
-  // &:visited{
-  //   color: #9063EF;
-  // }
 }
 .content,
 .quote {
