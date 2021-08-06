@@ -40,17 +40,17 @@
 		// 	transform: translateX(0);
 		// }
 	}
-	&-info {
-		// padding: 24px 32px;
-		margin-top: 22px;
-		margin-bottom: 32px;
-		// font-size: 16px;
-		// font-weight: normal;
-		// line-height: 20px;
-		letter-spacing: -0.02em;
-		color: #333758;
-		opacity: 0.8;
-	}
+	// &-info {
+	// 	// padding: 24px 32px;
+	// 	margin-top: 22px;
+	// 	margin-bottom: 32px;
+	// 	// font-size: 16px;
+	// 	// font-weight: normal;
+	// 	// line-height: 20px;
+	// 	letter-spacing: -0.02em;
+	// 	color: #333758;
+	// 	opacity: 0.8;
+	// }
 	&-header {
 		// padding: 24px 32px;
 		padding-bottom: 16px;
@@ -113,6 +113,17 @@
 }
 .modal-header--close {
 	cursor: pointer;
+}
+.modal-info {
+	// padding: 24px 32px;
+	margin-top: 22px;
+	margin-bottom: 32px;
+	// font-size: 16px;
+	// font-weight: normal;
+	// line-height: 20px;
+	letter-spacing: -0.02em;
+	color: #333758;
+	opacity: 0.8;
 }
 
 

@@ -494,6 +494,7 @@
 			maxWidth="400px"
 			borderRadius="12px"
 			marginTop="10%"
+			:showInfo="true"
 		>
 			<template #title>
 				<h4 class="modal__header-title">Not Relevant?</h4>
@@ -503,6 +504,7 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
+					<!-- <h5 class="mb-2">Your feedback will help us improve your results.</h5> -->
 					<p class="modal__content-text">
 						<RadioBtn
 							style="display: block"
