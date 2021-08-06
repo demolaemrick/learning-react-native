@@ -13,6 +13,10 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		showInfo: {
+			type: Boolean,
+			default: false
+		},
 		maxWidth: {
 			type: String,
 			default: '496px'

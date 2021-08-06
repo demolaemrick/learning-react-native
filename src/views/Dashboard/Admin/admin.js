@@ -373,12 +373,17 @@ export default {
 			} finally {
 				this.adminLoading = false;
 			}
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
+			} else {
+				this.getAdmins();
 			}
 		}, 600)
 	}

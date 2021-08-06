@@ -398,12 +398,17 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
+			} else {
+				this.getAllUsers();
 			}
 		}, 600)
 	}

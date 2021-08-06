@@ -38,8 +38,8 @@ export default {
 	data() {
 		return {
 			tweetId: '1417604296422694913',
-			companyFilter: [],
-			contactFilter: [],
+			// companyFilter: [],
+			// contactFilter: [],
 			searchType: 'contact_research',
 			contact_details: '',
 			insightStatus: '',
@@ -54,6 +54,8 @@ export default {
 			notepadTXT: '',
 			markDone: false,
 			tabs: [],
+			contactFilter: '',
+			companyFilter: '',
 			companyTabs: ['all', 'products', 'funding', 'people'],
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
@@ -92,7 +94,8 @@ export default {
 			],
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
 			chartData: [300, 250, 100],
-			searchedContactItem: null
+			contactSearchResult: [],
+			companySearchResult: []
 		};
 	},
 	async created() {
@@ -239,7 +242,7 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortInsights(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
@@ -555,57 +558,65 @@ export default {
 
 			for (const key in companySearchClone) {
 				if (key === 'company_insights') {
-					console.log(key);
-					console.log(companySearchClone[key]);
 					let search = companySearchClone[key].news;
-					console.log('searchh', search);
 					Object.values(search).forEach((array) => {
 						let matched = array.filter(
 							(obj) =>
 								obj.title.toLowerCase().match(payload.toLowerCase()) ||
 								obj.description.toLowerCase().match(payload.toLowerCase())
 						);
-						console.log(matched);
 						matchedResults = [...matchedResults, ...matched];
 					});
 				}
 			}
-			// this.company_insights_categories = matchedResults;
-			console.log(matchedResults);
+			this.companyFilter = matchedResults.length ? 'search' : 'empty';
+			this.companySearchResult = matchedResults;
 		},
+
 		contactSearch(payload) {
 			const contactSearchClone = { ...this.getSearchedResult };
 			let matchedResults = [];
 
 			for (const key in contactSearchClone) {
 				if (key === 'contact_insights') {
-					console.log(key);
 					let search = contactSearchClone[key].news;
-					console.log('searchh', search);
 					Object.values(search).forEach((array) => {
 						let matched = array.filter(
 							(obj) =>
 								obj.title.toLowerCase().match(payload.toLowerCase()) ||
 								obj.description.toLowerCase().match(payload.toLowerCase())
 						);
-						console.log(matched);
 						matchedResults = [...matchedResults, ...matched];
 					});
 				}
 			}
-			this.searchedContactItem = matchedResults;
-			console.log(this.searchedContactItem);
+			this.contactFilter = matchedResults.length ? 'search' : 'empty';
+			this.contactSearchResult = matchedResults;
+		},
+		clearContactSearch() {
+			this.contactSearchResult = [];
+			this.contactSearchQuery = '';
+		},
+		clearCompanySearch() {
+			this.companySearchResult = [];
+			this.companySearchQuery = '';
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
+			} else {
+				this.contactSearchResult = [];
+				this.contactFilter = '';
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
+			} else {
+				this.companySearchResult = [];
+				this.companyFilter = '';
 			}
 		}, 600)
 	}
