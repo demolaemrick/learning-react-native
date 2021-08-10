@@ -150,22 +150,23 @@ export default {
 			}
 		},
 		csvJSON(csv) {
-			var lines = csv.split('\n');
+			let lines = csv.split('\n');
 
-			var result = [];
-			var headers = lines[0].split(',');
+			let result = [];
+			let headers = lines[0].split(',');
 
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
+			for (let i = 1; i < lines.length; i++) {
+				let obj = {};
+				if (lines[i] !== '') {
+					let currentline = lines[i].split(',');
 
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
+					for (let j = 0; j < headers.length; j++) {
+						obj[headers[j]] = currentline[j];
+					}
+
+					result.push(obj);
 				}
-
-				result.push(obj);
 			}
-
 			return JSON.parse(JSON.stringify(result));
 		},
 
@@ -173,7 +174,7 @@ export default {
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
-					message: 'file size is is more that 10MB',
+					message: 'file size is more that 10MB',
 					showAlert: true
 				});
 				return true;
