@@ -240,7 +240,7 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortInsights(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
@@ -619,13 +619,13 @@ export default {
 		clearCompanySearch() {
 			this.companySearchResult = [];
 			this.companySearchQuery = '';
-		},
+		}
 		// scrollTab() {
 
 		// }
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -633,7 +633,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {
