@@ -620,7 +620,7 @@ export default {
 			this.companySearchResult = [];
 			this.companySearchQuery = '';
 		},
-		scrollTab() { 
+		scrollTab() {
 			this.$refs.content.scrollLeft += 20;
 			// document.getElementById('content').scrollLeft += 20;
 		}
