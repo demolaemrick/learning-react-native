@@ -619,7 +619,10 @@ export default {
 		clearCompanySearch() {
 			this.companySearchResult = [];
 			this.companySearchQuery = '';
-		}
+		},
+		// scrollTab() {
+
+		// }
 	},
 	watch: {
 		contactSearchQuery: debounce(function (newVal) {

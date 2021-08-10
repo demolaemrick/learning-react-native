@@ -586,9 +586,9 @@
 .tab-group {
 	justify-content: space-between;
 	width: 392px;
-    overflow: auto;
+  overflow: auto;
 	margin: 20px auto 24px;
-
+	margin-right: 11px;
 }
 .jobs-header{
 	margin-bottom: 24px;
@@ -715,4 +715,20 @@ label {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.tab-circle {
+	width: 32px;
+	height: 32px;
+	background: #FFFFFF;
+	box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.06);
+	border-radius: 33px;
+	cursor: pointer;
+}
+.tab-arrow {
+	display: flex;
+	margin: 0 auto;
+	text-align: center;
+	// height: calc(100% - 4px);
+	height: 100%;
+
 }
