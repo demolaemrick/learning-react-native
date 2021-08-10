@@ -723,7 +723,15 @@ label {
 	box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.06);
 	border-radius: 33px;
 	cursor: pointer;
+
+	&:hover {
+		background: #ebedfe57;
+
+	}
 }
+// .tab-circle:hover {
+// 	background: #ebedfe57;
+// }
 .tab-arrow {
 	display: flex;
 	margin: 0 auto;

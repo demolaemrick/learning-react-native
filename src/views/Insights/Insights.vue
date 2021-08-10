@@ -284,7 +284,7 @@
 						/>
 					</div>
 					<div class="section-wrapper flex flex__space-center ">
-						<div v-if="!contactFilter" class="tab-group flex">
+						<div ref="content" v-if="!contactFilter" class="tab-group flex">
 							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 							<h5
 								v-for="(tab, index) in tabs"
@@ -296,7 +296,7 @@
 								{{ tab }}
 							</h5>
 						</div>
-						<div class="tab-circle">
+						<div class="tab-circle" @click="scrollTab">
 							<svg
 								class="tab-arrow"
 								width="10"
