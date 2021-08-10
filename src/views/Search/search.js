@@ -10,6 +10,7 @@ import { mapMutations, mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
+import Papa from 'papaparse';
 export default {
 	name: 'Search',
 	components: {
@@ -82,26 +83,7 @@ export default {
 			this.logout();
 			this.$router.push('/login');
 		},
-		csvJSON(csv) {
-			var lines = csv.split('\n');
-
-			var result = [];
-			var headers = lines[0].split(',');
-
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
-
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
-				}
-
-				result.push(obj);
-			}
-
-			return JSON.parse(JSON.stringify(result));
-		},
-
+		
 		inputFile(newFile) {
 			if (newFile.size > 10485760) {
 				this.showAlert({
@@ -119,16 +101,16 @@ export default {
 				});
 				return true;
 			}
-			const readFile = async (event) => {
-				const csvFilePath = event.target.result;
-				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				this.uploadBulkResearch();
-			};
 			var file = newFile.file;
 
-			var reader = new FileReader();
-			reader.readAsText(file);
-			reader.addEventListener('load', readFile);
+			Papa.parse(file, {
+				complete: (res)=> {
+					console.log(this.csvImport);
+					this.csvImport.contacts = res.data;
+					this.uploadBulkResearch();
+				},
+				header: true
+			});
 		},
 		async uploadBulkResearch() {
 			this.loading = true;

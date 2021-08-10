@@ -14,6 +14,7 @@ import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import researchMixin from '@/mixins/research';
+import Papa from 'papaparse';
 
 export default {
 	name: 'User',
@@ -291,37 +292,18 @@ export default {
 				});
 				return true;
 			}
-			const readFile = async (event) => {
-				const csvFilePath = event.target.result;
-				console.log(csvFilePath);
-				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				this.uploadBulkResearch();
-			};
 			var file = newFile.file;
 
-			var reader = new FileReader();
-			reader.readAsText(file);
-			reader.addEventListener('load', readFile);
+			Papa.parse(file, {
+				complete: (res)=> {
+					console.log(this.csvImport);
+					this.csvImport.contacts = res.data;
+					this.uploadBulkResearch();
+				},
+				header: true
+			});
 		},
-		csvJSON(csv) {
-			console.log(csv);
-			var lines = csv.split('\n');
-			console.log(lines);
-			var result = [];
-			var headers = lines[0].split(',');
-
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
-
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
-				}
-
-				result.push(obj);
-			}
-			return JSON.parse(JSON.stringify(result));
-		},
+		
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
