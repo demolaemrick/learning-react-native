@@ -295,7 +295,7 @@ export default {
 			var file = newFile.file;
 
 			Papa.parse(file, {
-				complete: (res)=> {
+				complete: (res) => {
 					console.log(this.csvImport);
 					this.csvImport.contacts = res.data;
 					this.uploadBulkResearch();
@@ -303,7 +303,7 @@ export default {
 				header: true
 			});
 		},
-		
+
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
