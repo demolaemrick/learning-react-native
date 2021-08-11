@@ -87,17 +87,17 @@
 								<h3 class="section-title">Other Insights</h3>
 							</div>
 							<InsightCard
-								v-for="(otherInsight, j) in contact_other_insights"
-								:key="contact_other_insights[otherInsight]"
+								v-for="(article, j) in contact_other_insights"
+								:key="contact_other_insights[article]"
 								@openModal="
 									toggleModalClass(
 										'dislikeModal',
-										{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
 										$event
 									)
 								"
-								:published="otherInsight.meta.published"
-								:article="otherInsight"
+								:published="article.meta.published"
+								:article="article"
 								@bookmark="
 									btnUpdateBookMarks(
 										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },

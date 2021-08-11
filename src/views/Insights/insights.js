@@ -1,40 +1,22 @@
-import ToggleDropdown from '@/components/ToggleDropdown';
-import DropdownCheckbox from '@/components/DropdownCheckbox';
-import VHeader from '@/components/Header/searchResult/Header';
-import { mapMutations, mapGetters, mapActions } from 'vuex';
-import DCheckbox from '@/components/DefaultCheckbox';
+import { mapActions } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import PageLoad from './PageLoad.vue';
-import TextInput from '@/components/Input';
-import InsightCard from '@/components/InsightCard';
-import RadioBtn from '@/components/RadioButton';
-import Modal from '@/components/Modal';
-import VButton from '@/components/Button';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
-import Loader from '@/components/Loader';
 import { debounce } from 'lodash';
+
+import insightMixin from '@/insightMixin/insightMixin';
 
 export default {
 	name: 'Insights',
 	components: {
-		ToggleDropdown,
-		DCheckbox,
-		DropdownCheckbox,
 		PageLoad,
-		VHeader,
-		TextInput,
-		InsightCard,
-		RadioBtn,
-		Modal,
-		VButton,
 		PieChart,
 		Tweet,
-		LoadIcon,
-		Loader
+		LoadIcon
 	},
-	mixins: [ScreenWidthMixin],
+	mixins: [ScreenWidthMixin, insightMixin],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -46,15 +28,10 @@ export default {
 			loading: true,
 			userBookmarks: '',
 			bookmarkLoading: true,
-			editNote: false,
-			rowId: '',
-			userNote: '',
-			notepadTXT: '',
 			markDone: false,
 			tabs: [],
 			contactFilter: null,
 			companyFilter: null,
-			companyTabs: ['all', 'products', 'funding', 'people'],
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
 				{ title: 'News & article', ref: 'news-section' },
@@ -63,33 +40,9 @@ export default {
 				{ title: 'Other insights', ref: 'others' }
 			],
 			selectedInsightTab: 'Snapshot',
-			companyTab: 'all',
-			selectedTab: 'All',
-			contactSearchQuery: '',
-			companySearchQuery: '',
-			dislikeModal: false,
-			toggleClass: true,
-			disliked: false,
-			bookmarked: false,
 			refreshLoading: false,
 			dislikeOption: null,
-			dislikeLoading: false,
 			otherComment: null,
-			selectedInsight: '',
-			dislikeOptions: [
-				{
-					value: 'Not relevant to my search',
-					title: 'Not relevant to my search'
-				},
-				{
-					value: 'The information is not correct',
-					title: 'The information is not correct'
-				},
-				{
-					value: 'Other',
-					title: 'Other'
-				}
-			],
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
 			chartData: [300, 250, 100],
 			contactSearchResult: [],
@@ -108,9 +61,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			getSearchedResult: 'search_services/getSearchedResult'
-		}),
 		socials: {
 			get() {
 				if (this.searchedResult.socials) {
@@ -165,18 +115,6 @@ export default {
 				}
 			}
 		},
-		contact_other_insights: {
-			get() {
-				const data = this.getSearchedResult.contact_insights.other_insights;
-				let newArray = [];
-				for (const item in data) {
-					newArray = [...newArray, ...data[item]];
-				}
-				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortInsights(uniqueArray);
-				return uniqueArray;
-			}
-		},
 		company_insights_categories: {
 			get() {
 				let newObj = {};
@@ -222,28 +160,12 @@ export default {
 		}
 	},
 	methods: {
-		...mapMutations({
-			saveSearchedItem: 'search_services/saveSearchedItem',
-			saveSearchedResult: 'search_services/saveSearchedResult'
-		}),
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
-			showAlert: 'showAlert',
-			getUserBookmarks: 'user/getBookmarks',
-			getUserNote: 'user/getNote',
-			updateUserNote: 'user/updateNote',
-			addToBookmarks: 'user/addToBookmarks',
-			removeFromBookmarks: 'user/removeFromBookmarks',
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
-			subscribeResearch: 'search_services/subscribeResearch',
-			dislike: 'search_services/dislike'
+			subscribeResearch: 'search_services/subscribeResearch'
 		}),
-		sortInsights(data) {
-			data.sort(function(a, b) {
-				return a.is_disliked - b.is_disliked;
-			});
-		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
@@ -314,56 +236,6 @@ export default {
 				console.log(error);
 			}
 		},
-		async initUserBookmarks() {
-			try {
-				const userBookmarks = await this.getUserBookmarks(this.rowId);
-				const { status, data, statusText } = userBookmarks;
-				if (status === 200 && statusText === 'OK') {
-					this.userBookmarks = data.response;
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.loading = false;
-			}
-		},
-		async initUserNote(rowID) {
-			try {
-				const userNote = await this.getUserNote(rowID);
-				const { status, data, statusText } = userNote;
-				if (status === 200 && statusText === 'OK') {
-					if (data.data) {
-						this.userNote = data.data;
-						this.notepadTXT = data.data.note;
-					}
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.noteLoading = false;
-			}
-		},
-		async handleTextareaBlur() {
-			this.editNote = !this.editNote;
-			try {
-				await this.updateUserNote({
-					rowId: this.rowId,
-					note: this.notepadTXT
-				});
-				this.userNote = this.notepadTXT;
-				this.showAlert({
-					status: 'success',
-					message: 'Note updated successfully',
-					showAlert: true
-				});
-			} catch (error) {
-				this.showAlert({
-					status: 'error',
-					message: 'error updating note',
-					showAlert: true
-				});
-			}
-		},
 		async getResult() {
 			this.loading = true;
 			try {
@@ -410,167 +282,6 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		toggleModalClass(modal, insight) {
-			this.selectedInsight = insight;
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		updateDislikeResult() {
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === this.selectedInsight.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
-							...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
-							is_disliked: true
-						};
-						return;
-					}
-				});
-			}
-			//update to vuex store
-			this.saveSearchedResult(searchResultClone);
-		},
-		async dislikeResearch() {
-			this.dislikeLoading = true;
-			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-			this.updateDislikeResult();
-			try {
-				const response = await this.dislike({
-					url: this.selectedInsight.url,
-					comment: comment,
-					rowId: this.getSearchedResult.rowId
-				});
-				if (response.status === 200) {
-					this.showAlert({
-						status: 'success',
-						message: 'Article disliked successfully.',
-						showAlert: true
-					});
-					this.toggleModalClass('dislikeModal', '');
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.dislikeLoading = false;
-			}
-		},
-
-		async btnAddToBookMarks(article) {
-			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
-			// call endpoint to add bookmarked article to users bookmark
-			try {
-				const response = await this.addToBookmarks({
-					rowId: this.rowId,
-					url: article.url,
-					type: research_type,
-					description: article.description,
-					relevance_score: article.meta.relevanceScore,
-					title: article.title
-				});
-				if (response.status === 200) {
-					this.showAlert({
-						status: 'success',
-						message: 'Added to bookmarks',
-						showAlert: true
-					});
-				}
-			} catch (error) {
-				console.log(error);
-			}
-
-			/**
-			 * Find bookmarked article and set key to update
-			 * in temporary object
-			 */
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[article.type][article.section];
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						return;
-					}
-				});
-			}
-
-			// update cloned search result object to toggle bookmarked status
-
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: true
-			};
-
-			// update to vuex store
-			await this.saveSearchedResult(searchResultClone);
-
-			// refetch users bookmark
-			await this.initUserBookmarks();
-		},
-		async btnRemoveFromBookMarks(article) {
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[article.type][article.section];
-
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						return;
-					}
-				});
-			}
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: false
-			};
-			await this.saveSearchedResult(searchResultClone);
-			try {
-				const response = await this.removeFromBookmarks({
-					url: article.url
-				});
-				if (response.status === 200) {
-					this.showAlert({
-						status: 'success',
-						message: 'Article removed from bookmarks',
-						showAlert: true
-					});
-				}
-			} catch (error) {
-				console.log(error);
-			}
-			await this.initUserBookmarks();
-		},
-		async btnUpdateBookMarks(article, prop) {
-			if (prop === 'add') {
-				this.btnAddToBookMarks(article);
-			} else {
-				this.btnRemoveFromBookMarks(article);
-			}
-		},
 		companySearch(payload) {
 			const companySearchClone = { ...this.getSearchedResult };
 			let matchedResults = [];
@@ -591,7 +302,6 @@ export default {
 			this.companyFilter = matchedResults.length ? 'search' : 'empty';
 			this.companySearchResult = matchedResults;
 		},
-
 		contactSearch(payload) {
 			const contactSearchClone = { ...this.getSearchedResult };
 			let matchedResults = [];
@@ -622,7 +332,6 @@ export default {
 		},
 		scrollTab() {
 			this.$refs.content.scrollLeft += 20;
-			// document.getElementById('content').scrollLeft += 20;
 		}
 	},
 	watch: {
