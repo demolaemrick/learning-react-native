@@ -112,9 +112,8 @@ export default {
 					}
 				});
 			}
-			//update to vuex store
 			this.saveSearchedResult(searchResultClone);
-		}, //r
+		},
 		async dislikeResearch() {
 			this.dislikeLoading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
@@ -138,7 +137,7 @@ export default {
 			} finally {
 				this.dislikeLoading = false;
 			}
-		}, //r
+		},
 		async initUserBookmarks() {
 			try {
 				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
@@ -151,7 +150,7 @@ export default {
 			} finally {
 				this.loading = false;
 			}
-		}, //r
+		},
 		async btnAddToBookMarks(article) {
 			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {
@@ -196,7 +195,7 @@ export default {
 
 			await this.saveSearchedResult(searchResultClone);
 			await this.initUserBookmarks();
-		}, //r
+		},
 		async btnRemoveFromBookMarks(article) {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
@@ -234,14 +233,14 @@ export default {
 				console.log(error);
 			}
 			await this.initUserBookmarks();
-		}, //r
+		},
 		async btnUpdateBookMarks(article, prop) {
 			if (prop === 'add') {
 				this.btnAddToBookMarks(article);
 			} else {
 				this.btnRemoveFromBookMarks(article);
 			}
-		}, //r
+		},
 
 		async initUserNote(rowID) {
 			try {
@@ -258,7 +257,7 @@ export default {
 			} finally {
 				this.noteLoading = false;
 			}
-		}, //r
+		},
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
 			try {
@@ -279,7 +278,7 @@ export default {
 					showAlert: true
 				});
 			}
-		}, //r
+		},
 		toggleModalClass(modal, insight) {
 			this.selectedInsight = insight;
 			if (!this[modal]) {
@@ -291,6 +290,6 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
-		} //r
+		}
 	}
 };

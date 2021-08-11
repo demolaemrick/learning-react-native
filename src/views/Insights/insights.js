@@ -6,7 +6,7 @@ import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 
-import insightMixin from '@/insightMixin/insightMixin';
+import insightMixin from '@/mixins/insightMixin';
 
 export default {
 	name: 'Insights',

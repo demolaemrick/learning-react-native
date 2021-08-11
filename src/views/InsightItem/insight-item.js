@@ -1,7 +1,7 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
 import LoadingState from '@/components/LoadingState';
-import insightMixin from '@/insightMixin/insightMixin';
+import insightMixin from '@/mixins/insightMixin';
 
 export default {
 	mixins: [insightMixin],
