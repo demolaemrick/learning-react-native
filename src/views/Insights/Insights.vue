@@ -284,7 +284,7 @@
 						/>
 					</div>
 					<div class="section-wrapper flex flex__space-center ">
-						<div ref="content" v-if="!contactFilter" class="tab-group flex">
+						<div ref="content" v-if="!contactFilter" class="tab-group sm flex">
 							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 							<h5
 								v-for="(tab, index) in tabs"
@@ -482,7 +482,7 @@
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="tab-group flex">
+					<div v-if="!companyFilter" class="section-wrapper tab-group flex">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"
