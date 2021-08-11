@@ -38,17 +38,22 @@
 										</toggle-dropdown>
 									</div>
 								</div>
-								<div class="tab-group flex">
-									<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
-									<h5
-										v-for="(tab, index) in tabs"
-										:key="index"
-										class="tab"
-										:class="{ active: tab === selectedTab }"
-										@click="selectedTab = tab"
-									>
-										{{ tab }}
-									</h5>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+										<h5
+											v-for="(tab, index) in tabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === selectedTab }"
+											@click="selectedTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" svg-inline />
+									</div>
 								</div>
 							</div>
 							<InsightCard

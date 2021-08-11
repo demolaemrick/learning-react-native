@@ -329,9 +329,6 @@ export default {
 		clearCompanySearch() {
 			this.companySearchResult = [];
 			this.companySearchQuery = '';
-		},
-		scrollTab() {
-			this.$refs.content.scrollLeft += 20;
 		}
 	},
 	watch: {

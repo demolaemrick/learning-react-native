@@ -290,6 +290,9 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
+		},
+		scrollTab() {
+			this.$refs.content.scrollLeft += 20;
 		}
 	}
 };
