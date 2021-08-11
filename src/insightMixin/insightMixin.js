@@ -14,20 +14,20 @@ import Loader from '@/components/Loader';
 export default {
 	data() {
 		return {
-			editNote: false, //r
-			userNote: '', //r
-			notepadTXT: '', //r
-			companyTabs: ['all', 'products', 'funding', 'people'], //r
-			companyTab: 'all', //r
-			selectedTab: 'All', //r
-			contactSearchQuery: '', //r
-			companySearchQuery: '', //r
-			dislikeModal: false, //r
-			toggleClass: true, //r
-			disliked: false, //r
-			bookmarked: false, //r
-			dislikeLoading: false, //r
-			selectedInsight: '', //r
+			editNote: false,
+			userNote: '',
+			notepadTXT: '',
+			companyTabs: ['all', 'products', 'funding', 'people'],
+			companyTab: 'all',
+			selectedTab: 'All',
+			contactSearchQuery: '',
+			companySearchQuery: '',
+			dislikeModal: false,
+			toggleClass: true,
+			disliked: false,
+			bookmarked: false,
+			dislikeLoading: false,
+			selectedInsight: '',
 			dislikeOptions: [
 				{
 					value: 'Not relevant to my search',
@@ -41,7 +41,7 @@ export default {
 					value: 'Other',
 					title: 'Other'
 				}
-			] //r
+			]
 		};
 	},
 	components: {
