@@ -16,7 +16,7 @@ export default {
 		},
 		submitType: {
 			type: String,
-			default: 'button', 
+			default: 'button'
 		}
 	},
 	computed: {
