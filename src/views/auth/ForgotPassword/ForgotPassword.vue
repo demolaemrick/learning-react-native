@@ -9,7 +9,7 @@
 					<h3>Forgot Password</h3>
 					<p>Enter your email to reset password</p>
 				</div>
-				<form action="">
+				<form @submit.prevent="submit">
 					<ValidationObserver v-slot="{ invalid }">
 						<div class="auth-input">
 							<text-input
@@ -22,7 +22,7 @@
 								placeholder="yourmail@email.com"
 							/>
 
-							<c-button class="" :disabled="invalid" size="full" buttonType="primary" @click.native.prevent="submit">
+							<c-button class="" submitType="submit" :disabled="invalid" size="full" buttonType="primary">
 								<template v-if="!loading">Recover Password</template>
 								<Loader v-else />
 							</c-button>

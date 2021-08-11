@@ -103,6 +103,7 @@
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
+										<li class="dropdown__item" @click="RefreshResearch(item.rowId)">Refresh</li>
 									</template>
 								</v-toggle-dropdown>
 							</div>

@@ -13,6 +13,10 @@ export default {
 			validator: function (value) {
 				return ['primary', 'outline', 'secondary', 'link', 'muted', 'warning'].indexOf(value) !== -1;
 			}
+		},
+		submitType: {
+			type: String,
+			default: 'button', 
 		}
 	},
 	computed: {

@@ -209,7 +209,7 @@
 				<h3>Edit</h3>
 			</template>
 			<template #body>
-				<form action="">
+				<form @submit.prevent="editUser">
 					<ValidationObserver v-slot="{}" color="#ff0000">
 						<div class="auth-input">
 							<div class="flex flex-spaced">
@@ -286,7 +286,7 @@
 								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
+								<c-button class="submit" size="large" buttonType="primary" submitType="submit">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>

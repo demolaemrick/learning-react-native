@@ -112,8 +112,19 @@ export default {
 			export_history: 'search_services/export_history',
 			bulk_research: 'search_services/bulk_research',
 			deleteSingleResearch: 'search_services/deleteSingleResearch',
+			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
+		async RefreshResearch(id) {
+			try {
+				const response = await this.refresh(id);
+				if (response.status === 200) {
+					this.getHistory();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		toggleModal() {
 			if (!this.showModal) {
 				this.showModal = true;
