@@ -189,7 +189,7 @@ export default {
 	watch: {
 		$route: {
 			immediate: true,
-			handler: function (newVal) {
+			handler: function(newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings ? true : false;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;

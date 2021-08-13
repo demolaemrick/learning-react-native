@@ -204,7 +204,7 @@
 								class="flex flex__item-center postion"
 								v-if="
 									contact_insights.snapshot.last_linkedin_activity &&
-									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 								"
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
@@ -283,17 +283,22 @@
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</div>
-					<div v-if="!contactFilter" class="tab-group flex">
-						<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
-						<h5
-							v-for="(tab, index) in tabs"
-							:key="index"
-							class="tab"
-							:class="{ active: tab === selectedTab }"
-							@click="selectedTab = tab"
-						>
-							{{ tab }}
-						</h5>
+					<div class="section-wrapper flex flex__space-center ">
+						<div ref="content" v-if="!contactFilter" class="tab-group sm flex">
+							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+							<h5
+								v-for="(tab, index) in tabs"
+								:key="index"
+								class="tab"
+								:class="{ active: tab === selectedTab }"
+								@click="selectedTab = tab"
+							>
+								{{ tab }}
+							</h5>
+						</div>
+						<div class="tab-circle" @click="scrollTab">
+							<img src="@/assets/icons/arrow-right.svg" svg-inline />
+						</div>
 					</div>
 					<div class="section-wrapper">
 						<p class="search--error mt-2" v-if="contactFilter === 'empty'">No data found</p>
@@ -465,7 +470,7 @@
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="tab-group flex">
+					<div v-if="!companyFilter" class="section-wrapper tab-group flex">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"

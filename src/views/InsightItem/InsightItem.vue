@@ -38,17 +38,22 @@
 										</toggle-dropdown>
 									</div>
 								</div>
-								<div class="tab-group flex">
-									<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
-									<h5
-										v-for="(tab, index) in tabs"
-										:key="index"
-										class="tab"
-										:class="{ active: tab === selectedTab }"
-										@click="selectedTab = tab"
-									>
-										{{ tab }}
-									</h5>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+										<h5
+											v-for="(tab, index) in tabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === selectedTab }"
+											@click="selectedTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" svg-inline />
+									</div>
 								</div>
 							</div>
 							<InsightCard
@@ -87,17 +92,17 @@
 								<h3 class="section-title">Other Insights</h3>
 							</div>
 							<InsightCard
-								v-for="(otherInsight, j) in contact_other_insights"
-								:key="contact_other_insights[otherInsight]"
+								v-for="(article, j) in contact_other_insights"
+								:key="contact_other_insights[article]"
 								@openModal="
 									toggleModalClass(
 										'dislikeModal',
-										{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
 										$event
 									)
 								"
-								:published="otherInsight.meta.published"
-								:article="otherInsight"
+								:published="article.meta.published"
+								:article="article"
 								@bookmark="
 									btnUpdateBookMarks(
 										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
