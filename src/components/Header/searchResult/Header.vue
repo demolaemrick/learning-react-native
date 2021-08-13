@@ -53,6 +53,9 @@ export default {
 			loggedInUser: 'auth/getLoggedUser'
 		})
 	},
+	created() {
+		console.log(this.$router.currentRoute.fullPath);
+	},
 	methods: {
 		...mapMutations({
 			logout: 'auth/logout'
