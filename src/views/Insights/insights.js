@@ -128,6 +128,18 @@ export default {
 				return newObj;
 			}
 		},
+		contact_other_insights: {
+			get() {
+				const data = this.getSearchedResult.contact_insights.other_insights;
+				let newArray = [];
+				for (const item in data) {
+					newArray = [...newArray, ...data[item]];
+				}
+				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				this.sortInsights(uniqueArray);
+				return uniqueArray;
+			}
+		},
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {

@@ -363,9 +363,9 @@
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
 						@bookmark="
-							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)
+							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
-						@displayInsight="displaySearchItem('contact_insights', article)"
+						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
 					/>
 				</div>
 			</div>
