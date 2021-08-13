@@ -1,6 +1,6 @@
 export default {
 	logout: (state) => {
-		state.loggedUser = {}
+		state.loggedUser = {};
 		state.isLoggedIn = false;
 	},
 	setLoggedUser: (state, user) => {
