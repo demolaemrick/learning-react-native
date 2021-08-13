@@ -150,7 +150,7 @@ export default {
 						showAlert: true
 					});
 					this.emailList = [];
-					this.toggleSendInvites();
+					this.toggleModalClass('sendInvites');
 					return true;
 				}
 			} catch (error) {
@@ -163,61 +163,17 @@ export default {
 				this.loading = false;
 			}
 		},
-		toggleEditModal() {
-			if (!this.showEditModal) {
-				this.showEditModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.showEditModal = !this.showEditModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
 		openEditModal(item) {
 			this.adminInfo = item;
-			this.toggleEditModal();
+			this.toggleModalClass('showEditModal');
 		},
-		toggleSendInvites() {
-			if (!this.sendInvites) {
-				this.sendInvites = true;
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
 			} else {
 				this.toggleClass = !this.toggleClass;
 				setTimeout(() => {
-					this.sendInvites = !this.sendInvites;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleDeactivateModal() {
-			if (!this.deactivateModal) {
-				this.deactivateModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.deactivateModal = !this.deactivateModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleActivateModal() {
-			if (!this.activateModal) {
-				this.activateModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.activateModal = !this.activateModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleSuspendModal() {
-			if (!this.suspendModal) {
-				this.suspendModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.suspendModal = !this.suspendModal;
+					this[modal] = !this[modal];
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
@@ -236,10 +192,8 @@ export default {
 			this.currentPage = page;
 		},
 		openDeactivateModal(item) {
-			console.log(item);
 			const { _id, last_name, first_name } = item;
 			this.adminToModify = { ...this.adminToModify, _id, last_name, first_name };
-			console.log(this.adminToModify);
 			this.deactivateModal = true;
 		},
 		async deactivate() {
@@ -248,7 +202,7 @@ export default {
 				const changeStatus = await this.deactivateAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleDeactivateModal();
+					this.toggleModalClass('deactivateModal')
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -278,7 +232,7 @@ export default {
 				const changeStatus = await this.activateAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleActivateModal();
+					this.toggleModalClass('activateModal')
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -308,7 +262,7 @@ export default {
 				const changeStatus = await this.suspendAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleSuspendModal();
+					this.toggleModalClass('suspendModal')
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -338,7 +292,7 @@ export default {
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.getAdmins();
-					this.toggleEditModal();
+					this.toggleModalClass('showEditModal')
 					this.showAlert({
 						status: 'success',
 						message: 'user successfully updated',

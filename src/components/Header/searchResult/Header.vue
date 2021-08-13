@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<nav class="navbar">
-			<div class="nav__back" @click="$router.go(-1)">
+			<div class="nav__back" @click="$router.push({ name: 'ContactResearch' })">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to contact list</div>
 			</div>
@@ -50,23 +50,32 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			loggedInUser: 'auth/getLoggedUser',
 		})
 	},
-	created() {
-		console.log(this.$router.currentRoute.fullPath);
-	},
+	// created() {
+	// 	console.log(this.$router.currentRoute.fullPath);
+	// },
 	methods: {
 		...mapMutations({
-			logout: 'auth/logout'
+			logout: 'auth/logout',
+			setLastSearchResult: 'auth/setLastSearchResult'
 		}),
 		gotoSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
 		},
 		logoutUser() {
-			this.logout();
-			this.$router.push('/login');
+			const route = this.$router.currentRoute.fullPath;
+			const substring = '/insights?rowId=';
+			if (route.indexOf(substring) !== -1) {
+				this.setLastSearchResult(route);
+				this.logout();
+				this.$router.push('/login');
+			} else {
+				this.logout();
+				this.$router.push('/login');
+			}
 		}
 	}
 };

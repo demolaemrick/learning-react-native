@@ -1,6 +1,6 @@
 export default {
 	logout: (state) => {
-		setTimeout(() => (state.loggedUser = {}), 50);
+		state.loggedUser = {};
 		state.isLoggedIn = false;
 	},
 	setLoggedUser: (state, user) => {
@@ -9,5 +9,8 @@ export default {
 	loginSuccess: (state, data) => {
 		state.loggedUser = data;
 		state.isLoggedIn = true;
+	},
+	setLastSearchResult: (state, data) => {
+		state.lastSearchResult = data;
 	}
 };

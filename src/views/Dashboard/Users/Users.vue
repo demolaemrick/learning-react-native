@@ -2,7 +2,6 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Users</h2>
-			<!-- <v-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser"> Create User </v-button> -->
 			<v-button class="submit" size="large" buttonType="primary" @click="toggleModalClass('createUser')"> Create User </v-button>
 		</div>
 		<div v-if="!usersLoading" class="search-group">
