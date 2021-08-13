@@ -420,7 +420,7 @@ export default {
 			} finally {
 				this.loading = false;
 			}
-		}, 
+		},
 		openEditModal(item) {
 			this.userInfo = item;
 			this.toggleEditModal();

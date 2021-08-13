@@ -337,7 +337,13 @@
 			</template>
 		</modal>
 		<!-- Deactivate Modal -->
-		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleModalClass('deactivateModal')" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="deactivateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('deactivateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Deactivate User</h4>
 			</template>
@@ -358,7 +364,13 @@
 			</template>
 		</modal>
 		<!-- Activate Modal -->
-		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleModalClass('activateModal')" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="activateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('activateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Activate User</h4>
 			</template>
