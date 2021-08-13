@@ -29,8 +29,10 @@ export default {
 		async getHistory() {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
-				const historyLength = response.data.data.history.length
-				this.$router.push({ [this.lastSearch ? 'path': 'name']: this.lastSearch ?? (historyLength ? 'ContactResearch': 'Search') });
+				const historyLength = response.data.data.history.length;
+				this.$router.push({
+					[this.lastSearch ? 'path' : 'name']: this.lastSearch ?? (historyLength ? 'ContactResearch' : 'Search')
+				});
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -49,7 +51,7 @@ export default {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
 						this.$router.push({ path: this.lastSearch ?? '/dashboard/users' }).then(() => {
-							this.lastSearch && this.setLastSearchResult(null)
+							this.lastSearch && this.setLastSearchResult(null);
 						});
 					} else {
 						await this.getHistory();

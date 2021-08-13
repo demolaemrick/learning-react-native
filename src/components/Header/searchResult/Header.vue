@@ -50,7 +50,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser',
+			loggedInUser: 'auth/getLoggedUser'
 		})
 	},
 	// created() {

@@ -202,7 +202,7 @@ export default {
 				const changeStatus = await this.deactivateAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleModalClass('deactivateModal')
+					this.toggleModalClass('deactivateModal');
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -232,7 +232,7 @@ export default {
 				const changeStatus = await this.activateAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleModalClass('activateModal')
+					this.toggleModalClass('activateModal');
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -262,7 +262,7 @@ export default {
 				const changeStatus = await this.suspendAdmin(this.adminToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleModalClass('suspendModal')
+					this.toggleModalClass('suspendModal');
 					await this.getAdmins();
 					this.adminToModify = {};
 					this.showAlert({
@@ -292,7 +292,7 @@ export default {
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.getAdmins();
-					this.toggleModalClass('showEditModal')
+					this.toggleModalClass('showEditModal');
 					this.showAlert({
 						status: 'success',
 						message: 'user successfully updated',
