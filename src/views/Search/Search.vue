@@ -35,7 +35,7 @@
 			<v-tabs>
 				<v-tab title="Manual Search" @getData="setActiveTab('manual_search')" :selected="true">
 					<ValidationObserver v-slot="{ invalid }">
-						<div class="search-wrapper">
+						<form @submit.prevent="submitSearch" class="search-wrapper">
 							<v-text-input
 								class="search-input"
 								rules="required"
@@ -51,11 +51,11 @@
 								name="company"
 								v-model="payload.company"
 							/>
-							<v-button :disabled="invalid" id="search_btn" class="search_btn" @click="submitSearch">
+							<v-button :disabled="invalid" id="search_btn" class="search_btn" submitType="submit">
 								<template v-if="!loading">Search</template>
 								<Loader v-else />
 							</v-button>
-						</div>
+						</form>
 					</ValidationObserver>
 				</v-tab>
 				<v-tab title="Import Contacts" @getData="setActiveTab('import_contacts')">

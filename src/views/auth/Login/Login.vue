@@ -9,7 +9,7 @@
 					<h3>Login</h3>
 					<p>Enter details to proceed</p>
 				</div>
-				<form action="">
+				<form @submit.prevent="submit">
 					<ValidationObserver v-slot="{ invalid }">
 						<div class="auth-input">
 							<text-input
@@ -33,7 +33,7 @@
 							<div class="forgot-password">
 								<router-link to="/forgot-password">Forgot Password?</router-link>
 							</div>
-							<c-button class="submit" :disabled="invalid" size="full" buttonType="primary" @click="submit">
+							<c-button class="submit" submitType="submit" :disabled="invalid" size="full" buttonType="primary">
 								<template v-if="!loading">Login</template>
 								<Loader v-else />
 							</c-button>

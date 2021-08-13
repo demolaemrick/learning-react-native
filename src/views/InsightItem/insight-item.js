@@ -1,32 +1,14 @@
-//import VNav from '../Nav.vue';
-import VHeader from '@/components/Header/searchResult/Header';
-import ToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
-import DCheckbox from '@/components/DefaultCheckbox';
 import CTag from '@/components/Tag';
-import DropdownCheckbox from '@/components/DropdownCheckbox';
 import LoadingState from '@/components/LoadingState';
-import InsightCard from '@/components/InsightCard';
-import Modal from '@/components/Modal';
-import RadioBtn from '@/components/RadioButton';
-import TextInput from '@/components/Input';
-import VButton from '@/components/Button';
-import Loader from '@/components/Loader';
+import insightMixin from '@/mixins/insightMixin';
+
 export default {
+	mixins: [insightMixin],
 	name: 'InsightItem',
 	components: {
-		VHeader,
-		ToggleDropdown,
-		DCheckbox,
 		CTag,
-		DropdownCheckbox,
-		LoadingState,
-		InsightCard,
-		Modal,
-		RadioBtn,
-		VButton,
-		TextInput,
-		Loader
+		LoadingState
 	},
 	data() {
 		return {
@@ -40,36 +22,8 @@ export default {
 			researchedPayload: {
 				type: Object
 			},
-			editNote: false,
-			userNote: null,
-			notepadTXT: null,
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
-			companyTabs: ['all', 'products', 'funding', 'people'],
-			companyTab: 'all',
-			selectedTab: 'All',
-			disliked: false,
-			bookmarked: false,
-			dislikeModal: false,
-			contactSearchQuery: '',
-			companySearchQuery: '',
-			dislikeOption: 'Not relevant to this search',
-			dislikeOptions: [
-				{
-					value: 'Not relevant to my search',
-					title: 'Not relevant to my search'
-				},
-				{
-					value: 'The information is not correct',
-					title: 'The information is not correct'
-				},
-				{
-					value: 'Other',
-					title: 'Other'
-				}
-			],
-			selectedInsight: '',
-			dislikeLoading: false,
-			toggleClass: true
+			dislikeOption: 'Not relevant to this search'
 		};
 	},
 	watch: {
@@ -86,8 +40,7 @@ export default {
 	computed: {
 		...mapGetters({
 			getNotepad: 'search_services/getNotepad',
-			getSearchedItem: 'search_services/getSearchedItem',
-			getSearchedResult: 'search_services/getSearchedResult'
+			getSearchedItem: 'search_services/getSearchedItem'
 		}),
 		notepad: {
 			get() {
@@ -170,157 +123,12 @@ export default {
 	methods: {
 		...mapMutations({
 			saveNotepad: 'search_services/saveNotepad',
-			saveSearchedItem: 'search_services/saveSearchedItem',
-			saveSearchedResult: 'search_services/saveSearchedResult',
 			saveSearchPayload: 'search_services/saveSearchPayload'
 		}),
 		...mapActions({
 			content: 'search_services/content',
-			fetchResearch: 'search_services/research',
-			getUserNote: 'user/getNote',
-			updateUserNote: 'user/updateNote',
-			addToBookmarks: 'user/addToBookmarks',
-			getUserBookmarks: 'user/getBookmarks',
-			removeFromBookmarks: 'user/removeFromBookmarks',
-			dislike: 'search_services/dislike',
-			showAlert: 'showAlert'
+			fetchResearch: 'search_services/research'
 		}),
-		sortInsights(data) {
-			data.sort(function (a, b) {
-				return a.is_disliked - b.is_disliked;
-			});
-		},
-		updateDislikeResult() {
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === this.selectedInsight.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
-							...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
-							is_disliked: true
-						};
-						return;
-					}
-				});
-			}
-			//update to vuex store
-			this.saveSearchedResult(searchResultClone);
-		},
-		async dislikeResearch() {
-			this.dislikeLoading = true;
-			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-			this.updateDislikeResult();
-			try {
-				const response = await this.dislike({
-					url: this.selectedInsight.url,
-					comment: comment,
-					rowId: this.getSearchedResult.rowId
-				});
-				if (response.status === 200) {
-					this.showAlert({
-						status: 'success',
-						message: 'Article disliked successfully.',
-						showAlert: true
-					});
-					this.toggleModalClass('dislikeModal', '');
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.dislikeLoading = false;
-			}
-		},
-		async initUserBookmarks() {
-			try {
-				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
-				const { status, data, statusText } = userBookmarks;
-				if (status === 200 && statusText === 'OK') {
-					this.userBookmarks = data.response;
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.loading = false;
-			}
-		},
-		async btnAddToBookMarks(dataItem) {
-			await this.addToBookmarks({
-				rowId: this.getSearchedResult.rowId,
-				url: dataItem.url,
-				type: dataItem.type,
-				description: dataItem.description,
-				relevance_score: dataItem.meta.relevanceScore,
-				title: dataItem.title
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = true;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Added to bookmarks',
-				showAlert: true
-			});
-		},
-		async btnRemoveFromBookMarks(dataItem) {
-			await this.removeFromBookmarks({
-				url: dataItem.url
-			});
-			const searchResultClone = { ...this.getSearchedResult };
-			searchResultClone[dataItem.type].others[dataItem.index].is_bookmarked = false;
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Removed from bookmarks',
-				showAlert: true
-			});
-		},
-		async initUserNote(rowID) {
-			try {
-				const userNote = await this.getUserNote(rowID);
-				const { status, data, statusText } = userNote;
-				if (status === 200 && statusText === 'OK') {
-					if (data.data) {
-						this.userNote = data.data;
-						this.notepadTXT = data.data.note;
-					}
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.noteLoading = false;
-			}
-		},
-		async handleTextareaBlur() {
-			this.editNote = !this.editNote;
-			try {
-				await this.updateUserNote({
-					rowId: this.getSearchedResult.rowId,
-					note: this.notepadTXT
-				});
-				this.userNote = this.notepadTXT;
-				this.showAlert({
-					status: 'success',
-					message: 'Note updated successfully',
-					showAlert: true
-				});
-			} catch (error) {
-				this.showAlert({
-					status: 'error',
-					message: 'error updating note',
-					showAlert: true
-				});
-			}
-		},
-
 		sortByRelevance() {
 			for (const key in this.research) {
 				const element = this.research[key];
@@ -381,18 +189,6 @@ export default {
 			this.filterValue = [];
 			for (const key in this.getSearchedResult[this.searchType]) {
 				this.filterValue.push(key);
-			}
-		},
-		toggleModalClass(modal, insight) {
-			this.selectedInsight = insight;
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
 			}
 		}
 	}

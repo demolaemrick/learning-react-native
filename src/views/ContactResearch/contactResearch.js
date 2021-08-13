@@ -13,6 +13,7 @@ import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
 import VHeader from '@/components/Header/search/Header';
 import researchMixin from '@/mixins/research';
+import Papa from 'papaparse';
 export default {
 	name: 'ContactResearch',
 	mixins: [researchMixin],
@@ -111,8 +112,19 @@ export default {
 			export_history: 'search_services/export_history',
 			bulk_research: 'search_services/bulk_research',
 			deleteSingleResearch: 'search_services/deleteSingleResearch',
+			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
+		async RefreshResearch(id) {
+			try {
+				const response = await this.refresh(id);
+				if (response.status === 200) {
+					this.getHistory();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		toggleModal() {
 			if (!this.showModal) {
 				this.showModal = true;
@@ -149,31 +161,12 @@ export default {
 				});
 			}
 		},
-		csvJSON(csv) {
-			var lines = csv.split('\n');
-
-			var result = [];
-			var headers = lines[0].split(',');
-
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
-
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
-				}
-
-				result.push(obj);
-			}
-
-			return JSON.parse(JSON.stringify(result));
-		},
 
 		inputFile(newFile) {
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
-					message: 'file size is is more that 10MB',
+					message: 'file size is more that 10MB',
 					showAlert: true
 				});
 				return true;
@@ -186,16 +179,14 @@ export default {
 				});
 				return true;
 			}
-			const readFile = async (event) => {
-				const csvFilePath = event.target.result;
-				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				this.uploadBulkResearch();
-			};
 			var file = newFile.file;
-
-			var reader = new FileReader();
-			reader.readAsText(file);
-			reader.addEventListener('load', readFile);
+			Papa.parse(file, {
+				complete: (res) => {
+					this.csvImport.contacts = res.data;
+					this.uploadBulkResearch();
+				},
+				header: true
+			});
 		},
 		async uploadBulkResearch() {
 			this.loading = true;
