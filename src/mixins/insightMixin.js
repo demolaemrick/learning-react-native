@@ -88,7 +88,7 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortInsights(data) {
-			data.sort(function(a, b) {
+			data.sort(function (a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
