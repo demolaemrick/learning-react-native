@@ -292,7 +292,7 @@ export default {
 			}
 		},
 		scrollTab() {
-			this.$refs.content.scrollLeft += 50;
+			this.$refs.content.scrollLeft += 200;
 		}
 	}
 };
