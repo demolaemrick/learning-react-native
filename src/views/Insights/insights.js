@@ -347,6 +347,17 @@ export default {
 				this.companySearchResult = [];
 				this.companyFilter = null;
 			}
-		}, 600)
+		}, 600),
+		loading(value) {
+			if(!value) {
+				this.$nextTick(() => {
+					const { tabWrapper, content } = this.$refs;
+					console.log(tabWrapper);
+					const [tabWrapperWidth, contentWidth] = [tabWrapper.clientWidth - 49, content.clientWidth];
+					const contentWidthPercentage = contentWidth / tabWrapperWidth * 100;
+					console.log(contentWidthPercentage);
+				})
+			}
+		}
 	}
 };

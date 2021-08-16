@@ -283,7 +283,7 @@
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</div>
-					<div class="section-wrapper flex flex__space-center ">
+					<div ref="tabWrapper" class="section-wrapper flex flex__space-center ">
 						<div ref="content" v-if="!contactFilter" class="tab-group sm flex">
 							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 							<h5
