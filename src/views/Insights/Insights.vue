@@ -70,7 +70,7 @@
 						>
 					</h5>
 					<div class="input__group">
-						<div @click="RefreshResearch" class="icon refresh">
+						<div @click="RefreshResearch" class="icon refresh mr-1">
 							<img
 								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' || refreshLoading }"
 								src="@/assets/icons/refresh.svg"
@@ -78,7 +78,7 @@
 								alt="refresh"
 							/>
 						</div>
-						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
+						<!-- <div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div> -->
 						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
@@ -394,8 +394,9 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
-									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in
-									the past year
+									Mentioned in
+									<span class="main-info">{{ company_insights.snapshot.mentions }} relevant articles</span> in the past
+									year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">

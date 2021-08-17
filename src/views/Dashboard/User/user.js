@@ -14,11 +14,11 @@ import Modal from '@/components/Modal';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import researchMixin from '@/mixins/research';
-import Papa from 'papaparse';
-
+import csvMixins from '@/mixins/csvMixins';
+import ConfigData from '../../ConfigImportData/ConfigImportData.vue';
 export default {
 	name: 'User',
-	mixins: [researchMixin],
+	mixins: [researchMixin, csvMixins],
 	data() {
 		return {
 			form: {
@@ -77,10 +77,6 @@ export default {
 			accept: 'csv',
 			extensions: 'csv',
 			files: [],
-			csvImport: {
-				contacts: null,
-				is_csv: true
-			},
 			userId: null,
 			userInfo: null,
 			userDetails: [],
@@ -112,7 +108,8 @@ export default {
 		Status,
 		ToggleDropdown,
 		Modal,
-		FileUpload
+		FileUpload,
+		ConfigData
 	},
 	methods: {
 		...mapActions({
@@ -243,7 +240,6 @@ export default {
 			}
 		},
 		setActiveTab(evt) {
-			console.log(evt);
 			switch (evt) {
 				case 'details':
 					this.activeTab = evt;
@@ -274,41 +270,12 @@ export default {
 		backToUsers() {
 			this.$router.push({ name: 'Users' });
 		},
-		inputFile(newFile) {
-			console.log(newFile);
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			var file = newFile.file;
-
-			Papa.parse(file, {
-				complete: (res) => {
-					console.log(this.csvImport);
-					this.csvImport.contacts = res.data;
-					this.uploadBulkResearch();
-				},
-				header: true
-			});
-		},
-
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
 				await this.bulk_research({ id: this.userId, contacts: this.csvImport });
 				this.page = 1;
+				this.openConfigPage = false;
 				this.pageLoading = true;
 				this.toggleUploadContact();
 				await this.getHistory();
@@ -393,7 +360,6 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.getSingleUser(this.userId);
-				//	const { status, data, statusText } = response;
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.userDetails = response.data.data;
 				}

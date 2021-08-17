@@ -1,5 +1,13 @@
 <template>
 	<div class="user-wrapper">
+		<config-data
+			v-if="openConfigPage"
+			@closeConfig="openConfigPage = false"
+			:headers="csvHeaders"
+			:dataFields="dataFields"
+			@submitImportCSV="submitImportCSV"
+		/>
+
 		<div class="flex flex-spaced">
 			<div class="flex flex-spaced flex__item-center">
 				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline @click="backToUsers" />
