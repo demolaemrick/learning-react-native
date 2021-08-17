@@ -36,10 +36,10 @@ export default {
 			settings: {
 				company_research: [],
 				contact_research: []
-			},
+			}
 		};
 	},
-	 
+
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
@@ -81,7 +81,7 @@ export default {
 		},
 		async submitForm() {
 			console.log(this.dataFields);
-			
+
 			// this.loading = true;
 			// try {
 			// 	const response = await this.userSettings(this.settings);

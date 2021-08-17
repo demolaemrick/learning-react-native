@@ -4,11 +4,11 @@ import { mapActions } from 'vuex';
 export default {
 	data() {
 		return {
-            csvImport: {
+			csvImport: {
 				contacts: null,
 				is_csv: true
 			},
-            csvHeaders: [],
+			csvHeaders: [],
 			openConfigPage: false,
 			dataFields: [
 				{
@@ -47,13 +47,13 @@ export default {
 					placeholder: 'google.com, twitter.com, facebook.com'
 				}
 			]
-        }
-    },
-    methods:{
-        ...mapActions({
+		};
+	},
+	methods: {
+		...mapActions({
 			showAlert: 'showAlert'
 		}),
-        inputFile(newFile) {
+		inputFile(newFile) {
 			if (newFile.size > 10485760) {
 				this.showAlert({
 					status: 'error',
@@ -84,7 +84,7 @@ export default {
 				header: true
 			});
 		},
-        submitImportCSV() {
+		submitImportCSV() {
 			this.csvImport.contacts = this.csvImport.contacts.map((el) => {
 				Object.keys(el).forEach((u) => {
 					if (this.dataFields.map((ii) => ii.csvKey).includes(u)) {
@@ -97,9 +97,8 @@ export default {
 				});
 				return el;
 			});
-			
+
 			this.uploadBulkResearch();
-		},
-        
-    }
-}
+		}
+	}
+};

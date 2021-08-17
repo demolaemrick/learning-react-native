@@ -22,7 +22,7 @@
 								<td class="table__row-item">
 									{{ fields.mainKey }}
 								</td>
-								<td class="table__row-item item-text">{{fields.placeholder}}</td>
+								<td class="table__row-item item-text">{{ fields.placeholder }}</td>
 								<td class="table__row-item">
 									<div class="form-group">
 										<select class="select-input" width="300px" v-model="fields.csvKey">
