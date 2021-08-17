@@ -7,7 +7,7 @@
 				<h4 class="form-head">
 					Integration
 				</h4>
-			
+
 				<div v-if="!keys.length">
 					<div class="form-body">
 						<p class="label">API key</p>
@@ -32,10 +32,10 @@
 				<template v-else>
 					<div v-for="(api, index) in keys" :key="index">
 						<div class="form-body">
-							<p class="label">API {{ api.mode}} key</p>
+							<p class="label">API {{ api.mode }} key</p>
 							<div class="key-section">
 								<div class="key-group">
-									<p class="key-group__text">{{ api.key}}</p>
+									<p class="key-group__text">{{ api.key }}</p>
 								</div>
 								<div class="btn">Copy</div>
 							</div>
@@ -62,9 +62,7 @@ export default {
 	components: {
 		HomeHeader
 	},
-	computed: {
-
-	},
+	computed: {},
 	async mounted() {
 		try {
 			const response = await this.fetchApiKeys();
@@ -142,7 +140,7 @@ export default {
 			const array = this.keys;
 			const id = array[0].keyId;
 			try {
-				const response = await this.regenerateApiKey({id});
+				const response = await this.regenerateApiKey({ id });
 				console.log(response);
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
