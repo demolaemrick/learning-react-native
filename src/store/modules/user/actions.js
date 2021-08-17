@@ -81,5 +81,16 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	fetchApiKeys: async (context) => {
+		const userId = context.rootState.auth.loggedUser.id;
+		// console.log(context);
+		const url = `admin/user/${userId}/api-keys`;
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };
