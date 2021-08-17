@@ -92,5 +92,25 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	generateApiKey: async (context) => {
+		const userId = context.rootState.auth.loggedUser.id;
+		const url = `admin/user/${userId}/api-key/generate`;
+		try {
+			const response = await api.post(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	regenerateApiKey: async (context, id) => {
+		const userId = context.rootState.auth.loggedUser.id;
+		const url = `admin/user/${userId}/api-key/generate`;
+		try {
+			const response = await api.post(url, id);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

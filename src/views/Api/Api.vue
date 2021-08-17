@@ -7,27 +7,42 @@
 				<h4 class="form-head">
 					Integration
 				</h4>
-
-				<div class="form-body">
-					<p class="label">API key</p>
-					<div class="key-section">
-						<div class="key-group">
-							<p class="key-group__text">ps://www.flaticon.com/free-icon/market_2230606</p>
+			
+				<div v-if="!keys.length">
+					<div class="form-body">
+						<p class="label">API key</p>
+						<div class="key-section">
+							<div class="key-group">
+								<p class="key-group__text">ps://www.flaticon.com/free-icon/market_2230606</p>
+							</div>
+							<div class="btn">Copy</div>
 						</div>
-						<div class="btn">Copy</div>
+						<button class="key-generate" @click="getKey">Generate key</button>
 					</div>
-					<button class="key-generate" @click="generateKey">Generate key</button>
-				</div>
-
-				<div class="form-body">
-					<p class="label">Test key</p>
-					<div class="key-section">
-						<div class="key-group">
-							<p class="key-group__text">ps://www.flaticon.com/free-icon/market_2230606</p>
+					<div class="form-body">
+						<p class="label">Test key</p>
+						<div class="key-section">
+							<div class="key-group">
+								<p class="key-group__text">ps://www.flaticon.com/free-icon/market_2230606</p>
+							</div>
+							<div class="btn">Copy</div>
 						</div>
-						<div class="btn">Copy</div>
 					</div>
 				</div>
+				<template v-else>
+					<div v-for="(api, index) in keys" :key="index">
+						<div class="form-body">
+							<p class="label">API {{ api.mode}} key</p>
+							<div class="key-section">
+								<div class="key-group">
+									<p class="key-group__text">{{ api.key}}</p>
+								</div>
+								<div class="btn">Copy</div>
+							</div>
+							<button v-if="index === 0" class="key-generate" @click="getKey">Generate key</button>
+						</div>
+					</div>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -47,18 +62,29 @@ export default {
 	components: {
 		HomeHeader
 	},
+	computed: {
+
+	},
 	async mounted() {
 		try {
 			const response = await this.fetchApiKeys();
 			const { status, statusText, data } = response;
-			if (status === 200 && statusText === 'OK') {
-				console.log('Hello there');
-				this.keys = data.keys;
-				console.log(this.keys);
+			console.log(data.keys);
+			console.log(data.keys.length);
 
+			if (status === 200 && statusText === 'OK' && data.keys.length) {
+				console.log('data not empty -->', data.keys);
+				this.keys = data.keys[0];
+				console.log(this.keys);
 				this.showAlert({
 					status: 'success',
 					message: 'Api Keys retrieved successfully',
+					showAlert: true
+				});
+			} else {
+				this.showAlert({
+					status: 'info',
+					message: 'No Api Keys available. Kindly generate one',
 					showAlert: true
 				});
 			}
@@ -73,30 +99,66 @@ export default {
 	methods: {
 		...mapActions({
 			fetchApiKeys: 'user/fetchApiKeys',
+			generateApiKey: 'user/generateApiKey',
+			regenerateApiKey: 'user/regenerateApiKey',
 			showAlert: 'showAlert'
 		}),
 
-		async generateKey() {
-			console.log('key generated');
-			// console.log(this.$store.getters['auth/getLoggedUser'].id);
+		async getKey() {
+			console.log(this.keys);
+
+			if (!this.keys.length) {
+				this.generateKeys();
+			} else {
+				console.log('These keys exist', this.keys);
+				this.regenerateKeys();
+			}
+		},
+		async generateKeys() {
+			console.log('no existing key');
 			try {
-				const response = await this.fetchApiKeys();
+				const response = await this.generateApiKey();
 				const { status, statusText, data } = response;
-				console.log(data);
 				if (status === 200 && statusText === 'OK') {
-					this.keys = data.keys;
-					console.log(this.keys);
+					this.keys = data.keys[0];
+					console.log('generate -->', data.keys);
 
 					this.showAlert({
 						status: 'success',
-						message: 'Api Keys retrieved successfully',
+						message: 'Api Keys regenerated successfully',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to retrieve Api keys',
+					message: 'Unable to regenerate Api keys',
+					showAlert: true
+				});
+			}
+		},
+		async regenerateKeys() {
+			console.log('keys exist');
+			const array = this.keys;
+			const id = array[0].keyId;
+			try {
+				const response = await this.regenerateApiKey({id});
+				console.log(response);
+				const { status, statusText, data } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.keys = data.keys;
+					console.log('reeegenerate -->', data.keys);
+
+					this.showAlert({
+						status: 'success',
+						message: 'Api Keys regenerated successfully',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'Unable to regenerate Api keys',
 					showAlert: true
 				});
 			}
