@@ -204,7 +204,7 @@
 								class="flex flex__item-center postion"
 								v-if="
 									contact_insights.snapshot.last_linkedin_activity &&
-									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 								"
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
@@ -283,7 +283,7 @@
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
 					</div>
-					<div class="section-wrapper flex flex__space-center">
+					<div ref="tabWrapper" class="section-wrapper flex flex__space-center ">
 						<div ref="content" v-if="!contactFilter" class="tab-group sm flex">
 							<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
 							<h5

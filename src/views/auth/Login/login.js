@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-import { mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import PasswordInput from '@/components/Input/PasswordInput';
@@ -18,7 +18,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveUserSession: 'auth/loginSuccess'
+			saveUserSession: 'auth/loginSuccess',
+			setLastSearchResult: 'auth/setLastSearchResult'
 		}),
 		...mapActions({
 			login: 'auth/login',
@@ -28,11 +29,10 @@ export default {
 		async getHistory() {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
-				if (response.data.data.history.length > 0) {
-					this.$router.push({ name: 'ContactResearch' });
-				} else {
-					this.$router.push({ name: 'Search' });
-				}
+				const historyLength = response.data.data.history.length;
+				this.$router.push({
+					[this.lastSearch ? 'path' : 'name']: this.lastSearch ?? (historyLength ? 'ContactResearch' : 'Search')
+				});
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -50,7 +50,9 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						this.$router.push({ path: '/dashboard/users' });
+						this.$router.push({ path: this.lastSearch ?? '/dashboard/users' }).then(() => {
+							this.lastSearch && this.setLastSearchResult(null);
+						});
 					} else {
 						await this.getHistory();
 					}
@@ -67,6 +69,11 @@ export default {
 				this.loading = false;
 			}
 		}
+	},
+	computed: {
+		...mapGetters({
+			lastSearch: 'auth/getLastSearchResult'
+		})
 	},
 	components: {
 		ValidationObserver,

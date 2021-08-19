@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<nav class="navbar">
-			<div class="nav__back" @click="$router.go(-1)">
+			<div class="nav__back" @click="$router.push({ name: 'ContactResearch' })">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to contact list</div>
 			</div>
@@ -21,6 +21,7 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
+							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
 							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
 							<li
 								class="dropdown__item"
@@ -55,15 +56,24 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			logout: 'auth/logout'
+			logout: 'auth/logout',
+			setLastSearchResult: 'auth/setLastSearchResult'
 		}),
 		gotoSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
 		},
 		logoutUser() {
-			this.logout();
-			this.$router.push('/login');
+			const route = this.$router.currentRoute.fullPath;
+			const substring = '/insights?rowId=';
+			if (route.indexOf(substring) !== -1) {
+				this.setLastSearchResult(route);
+				this.logout();
+				this.$router.push('/login');
+			} else {
+				this.logout();
+				this.$router.push('/login');
+			}
 		}
 	}
 };

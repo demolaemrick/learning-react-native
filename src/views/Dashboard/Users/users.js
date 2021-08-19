@@ -157,16 +157,17 @@ export default {
 		clearFilter() {
 			this.filterData = '';
 			this.statusOption = '';
-			this.toggleFilterModal();
+			this.toggleModalClass('filter');
 			this.getAllUsers();
 		},
 		async registerUser() {
+			this.loading = true;
 			try {
 				const response = await this.createNewUser(this.form);
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					await this.getAllUsers();
-					this.toggleCreateUser();
+					this.toggleModalClass('createUser');
 					this.form = {};
 					this.showAlert({
 						status: 'success',
@@ -180,70 +181,17 @@ export default {
 					message: 'Whoops! User not created',
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
-		toggleCreateUser() {
-			if (!this.createUser) {
-				this.createUser = true;
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
 			} else {
 				this.toggleClass = !this.toggleClass;
 				setTimeout(() => {
-					this.createUser = !this.createUser;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleFilterModal() {
-			if (!this.filter) {
-				this.filter = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.filter = !this.filter;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleEditModal() {
-			if (!this.showEditModal) {
-				this.showEditModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.showEditModal = !this.showEditModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleDeactivateModal() {
-			if (!this.deactivateModal) {
-				this.deactivateModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.deactivateModal = !this.deactivateModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleActivateModal() {
-			if (!this.activateModal) {
-				this.activateModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.activateModal = !this.activateModal;
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
-		toggleSuspendModal() {
-			if (!this.suspendModal) {
-				this.suspendModal = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this.suspendModal = !this.suspendModal;
+					this[modal] = !this[modal];
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
@@ -253,7 +201,7 @@ export default {
 		},
 		openEditModal(item) {
 			this.userInfo = item;
-			this.toggleEditModal();
+			this.toggleModalClass('showEditModal');
 		},
 		async editUser() {
 			this.loading = true;
@@ -265,7 +213,7 @@ export default {
 				});
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleEditModal();
+					this.toggleModalClass('showEditModal');
 					this.getAllUsers();
 					this.showAlert({
 						status: 'success',
@@ -286,18 +234,17 @@ export default {
 
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;
-			console.log(item);
 			this.contactToModify = { ...this.contactToModify, _id, last_name, first_name };
 			this.deactivateModal = true;
 		},
-
 		async deactivate() {
 			this.loading = true;
 			try {
 				const changeStatus = await this.deactivateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleDeactivateModal();
+					this.toggleModalClass('deactivateModal');
+
 					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
@@ -327,7 +274,7 @@ export default {
 				const changeStatus = await this.activateUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleActivateModal();
+					this.toggleModalClass('activateModal');
 					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
@@ -357,7 +304,7 @@ export default {
 				const changeStatus = await this.suspendUser(this.contactToModify._id);
 				const { status, statusText } = changeStatus;
 				if (status === 200 && statusText === 'OK') {
-					this.toggleSuspendModal();
+					this.toggleModalClass('suspendModal');
 					await this.getAllUsers();
 					this.contactToModify = {};
 					this.showAlert({
@@ -384,7 +331,7 @@ export default {
 				if (response.data.response.data.length) {
 					this.users = response.data.response.data;
 					if (this.filter) {
-						this.toggleFilterModal();
+						this.toggleModalClass('filter');
 					}
 				} else {
 					this.showAlert({
@@ -404,7 +351,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

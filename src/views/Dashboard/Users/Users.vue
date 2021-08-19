@@ -2,7 +2,7 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Users</h2>
-			<v-button class="submit" size="large" buttonType="primary" @click="toggleCreateUser"> Create User </v-button>
+			<v-button class="submit" size="large" buttonType="primary" @click="toggleModalClass('createUser')"> Create User </v-button>
 		</div>
 		<div v-if="!usersLoading" class="search-group">
 			<h4 v-if="users" id="totalUsers">{{ users.length }} Users</h4>
@@ -19,7 +19,7 @@
 				/>
 				<!-- </form> -->
 				<span class="mx-1">
-					<v-button size="small" buttonType="outline" @click="toggleFilterModal">
+					<v-button size="small" buttonType="outline" @click="toggleModalClass('filter')">
 						Filter
 						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" svg-inline />
 					</v-button>
@@ -110,7 +110,7 @@
 		</div>
 
 		<!-- create user modal -->
-		<modal position="right" v-if="createUser" :toggleClass="toggleClass" @close="toggleCreateUser">
+		<modal position="right" v-if="createUser" :toggleClass="toggleClass" @close="toggleModalClass('createUser')">
 			<template #title>
 				<h3>Create User</h3>
 			</template>
@@ -213,7 +213,7 @@
 			</template>
 		</modal>
 		<!-- Filter modal -->
-		<modal position="right" v-if="filter" :toggleClass="toggleClass" @close="toggleFilterModal">
+		<modal position="right" v-if="filter" :toggleClass="toggleClass" @close="toggleModalClass('filter')">
 			<template #title>
 				<h3>Filter</h3>
 			</template>
@@ -226,7 +226,7 @@
 							<RadioBtn id="statusType" :options="statusType" name="status" v-model="statusOption" />
 
 							<div class="flex-end flex__item-center">
-								<div class="clear-filter" @click="clearFilter">Clear Filter</div>
+								<div class="clear-filter" @click="clearFilter()">Clear Filter</div>
 								<v-button
 									class="submit"
 									size="large"
@@ -243,7 +243,7 @@
 			</template>
 		</modal>
 		<!-- Edit modal -->
-		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
+		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleModalClass('showEditModal')">
 			<template #title>
 				<h3>Edit</h3>
 			</template>
@@ -336,7 +336,13 @@
 			</template>
 		</modal>
 		<!-- Deactivate Modal -->
-		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="deactivateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('deactivateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Deactivate User</h4>
 			</template>
@@ -347,7 +353,7 @@
 						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('deactivateModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
 							<template v-if="!loading">Deactivate</template>
 							<Loader v-else />
@@ -357,7 +363,13 @@
 			</template>
 		</modal>
 		<!-- Activate Modal -->
-		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="activateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('activateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Activate User</h4>
 			</template>
@@ -368,7 +380,7 @@
 						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleActivateModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('activateModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
 							<template v-if="!loading">Activate</template>
 							<Loader v-else />
@@ -378,7 +390,7 @@
 			</template>
 		</modal>
 		<!-- Suspend Modal -->
-		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleModalClass('suspendModal')" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Suspend User</h4>
 			</template>
@@ -389,7 +401,7 @@
 						<span class="name"> ({{ contactToModify.first_name }} {{ contactToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('suspendModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
 							<template v-if="!loading">Suspend</template>
 							<Loader v-else />

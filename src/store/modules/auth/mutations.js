@@ -9,5 +9,8 @@ export default {
 	loginSuccess: (state, data) => {
 		state.loggedUser = data;
 		state.isLoggedIn = true;
+	},
+	setLastSearchResult: (state, data) => {
+		state.lastSearchResult = data;
 	}
 };
