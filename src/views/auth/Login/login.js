@@ -39,7 +39,7 @@ export default {
 							: 'search';
 
 				this.$router.push({ path }).then(() => {
-					this.lastSearch && this.setLastSearchResult({});
+					this.lastSearch.route && this.setLastSearchResult({});
 				});
 				return true;
 			} catch (error) {
