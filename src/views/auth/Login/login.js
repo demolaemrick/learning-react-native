@@ -50,8 +50,11 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						this.$router.push({ path: this.lastSearch ?? '/dashboard/users' }).then(() => {
-							this.lastSearch && this.setLastSearchResult(null);
+						const path =
+							this.lastSearch?.route && this.lastSearch.email === this.form.email ? this.lastSearch.route : '/dashboard/users';
+
+						this.$router.push({ path }).then(() => {
+							this.lastSearch && this.setLastSearchResult({});
 						});
 					} else {
 						await this.getHistory();
@@ -60,6 +63,7 @@ export default {
 				return true;
 			} catch (error) {
 				const err = { error };
+				console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: err.error.response.data.message,

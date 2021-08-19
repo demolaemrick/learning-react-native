@@ -65,9 +65,11 @@ export default {
 		},
 		logoutUser() {
 			const route = this.$router.currentRoute.fullPath;
+			const { email } = this.loggedInUser;
+
 			const substring = '/insights?rowId=';
 			if (route.indexOf(substring) !== -1) {
-				this.setLastSearchResult(route);
+				this.setLastSearchResult({ email, route });
 				this.logout();
 				this.$router.push('/login');
 			} else {
