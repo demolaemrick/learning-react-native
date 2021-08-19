@@ -350,7 +350,7 @@ export default {
 				this.companySearchResult = [];
 				this.companyFilter = null;
 			}
-		}, 600),
+		}, 600)
 		// loading(value) {
 		// 	if (!value) {
 		// 		this.$nextTick(() => {

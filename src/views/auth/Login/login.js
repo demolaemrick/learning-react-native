@@ -51,7 +51,9 @@ export default {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
 						const path =
-							this.lastSearch?.route && this.lastSearch.email === this.form.email ? this.lastSearch.route : '/dashboard/users';
+							this.lastSearch?.route && this.lastSearch.email === this.form.email
+								? this.lastSearch.route
+								: '/dashboard/users';
 
 						this.$router.push({ path }).then(() => {
 							this.lastSearch && this.setLastSearchResult({});
