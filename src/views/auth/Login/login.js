@@ -30,7 +30,7 @@ export default {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
 				const historyLength = response.data.data.history.length;
-
+				/* eslint-disable */
 				const path =
 					this.lastSearch?.route && this.lastSearch.email === this.form.email
 						? this.lastSearch.route
