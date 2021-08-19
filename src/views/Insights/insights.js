@@ -106,6 +106,7 @@ export default {
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
 					this.sortByDislike(uniqueArray);
+					this.sortByBookmarked(uniqueArray);
 					return uniqueArray;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
