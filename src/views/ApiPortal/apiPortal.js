@@ -113,15 +113,15 @@ export default {
 			}
 		},
 
-		copyKey(selectedKey, index) {
+		async copyKey(selectedKey, index) {
 			if (selectedKey) {
-				navigator.clipboard
+				await navigator.clipboard
 					.writeText(selectedKey)
 					.then(() => {
-            const copyBtn = this.$refs[`copyBtn-${index}`];
-          
+						const copyBtn = this.$refs[`copyBtn-${index}`];
+
 						if (copyBtn.innerText !== 'Copied!') {
-              const originalText = copyBtn[0].innerText;
+							const originalText = copyBtn[0].innerText;
 							copyBtn[0].innerText = 'Copied!';
 							setTimeout(() => {
 								copyBtn[0].innerText = originalText;
@@ -134,7 +134,7 @@ export default {
 						});
 					})
 					.catch((error) => {
-            console.log(error);
+						console.log(error);
 						this.showAlert({
 							status: 'error',
 							message: 'Unable to copy Api key',
