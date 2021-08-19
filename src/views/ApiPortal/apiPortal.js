@@ -112,28 +112,19 @@ export default {
 				});
 			}
 		},
-		copyLiveKey() {
-			const liveKey = this.$refs.liveKey[0].textContent;
-			const btn = this.$refs.liveBtn[0];
-			this.copyKey(liveKey, btn);
-		},
 
-		copyTestKey() {
-			const testKey = this.$refs.testKey[0].textContent;
-			const btn = this.$refs.testBtn[0];
-			this.copyKey(testKey, btn);
-		},
-
-		copyKey(selectedKey, copyBtn) {
+		copyKey(selectedKey, index) {
 			if (selectedKey) {
 				navigator.clipboard
 					.writeText(selectedKey)
 					.then(() => {
+            const copyBtn = this.$refs[`copyBtn-${index}`];
+          
 						if (copyBtn.innerText !== 'Copied!') {
-							const originalText = copyBtn.innerText;
-							copyBtn.innerText = 'Copied!';
+              const originalText = copyBtn[0].innerText;
+							copyBtn[0].innerText = 'Copied!';
 							setTimeout(() => {
-								copyBtn.innerText = originalText;
+								copyBtn[0].innerText = originalText;
 							}, 1500);
 						}
 						this.showAlert({
@@ -142,7 +133,8 @@ export default {
 							showAlert: true
 						});
 					})
-					.catch(() => {
+					.catch((error) => {
+            console.log(error);
 						this.showAlert({
 							status: 'error',
 							message: 'Unable to copy Api key',

@@ -34,11 +34,9 @@
 							<p class="label">API {{ api.mode }} key</p>
 							<div class="key-section">
 								<div class="key-group">
-									<p v-if="index === 0" class="key-group__text" ref="liveKey">{{ api.key }}</p>
-									<p v-if="index === 1" class="key-group__text" ref="testKey">{{ api.key }}</p>
+									<p class="key-group__text" :ref="`apiKey-${index}`">{{ api.key }}</p>
 								</div>
-								<div v-if="index === 0" class="btn" ref="liveBtn" @click="copyLiveKey">Copy</div>
-								<div v-if="index === 1" class="btn" ref="testBtn" @click="copyTestKey">Copy</div>
+								<div class="btn" :ref="`copyBtn-${index}`" @click="copyKey(api.key, index)">Copy</div>
 							</div>
 							<button v-if="index === 0" class="key-generate" @click="getKey">Regenerate key</button>
 						</div>
