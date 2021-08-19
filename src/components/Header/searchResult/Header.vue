@@ -21,6 +21,7 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
+							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
 							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
 							<li
 								class="dropdown__item"
