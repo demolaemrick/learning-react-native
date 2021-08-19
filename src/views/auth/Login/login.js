@@ -30,8 +30,16 @@ export default {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
 				const historyLength = response.data.data.history.length;
-				this.$router.push({
-					[this.lastSearch ? 'path' : 'name']: this.lastSearch ?? (historyLength ? 'ContactResearch' : 'Search')
+
+				const path =
+					this.lastSearch?.route && this.lastSearch.email === this.form.email
+						? this.lastSearch.route
+						: historyLength
+							? 'contact-research'
+							: 'search';
+
+				this.$router.push({ path }).then(() => {
+					this.lastSearch && this.setLastSearchResult({});
 				});
 				return true;
 			} catch (error) {
