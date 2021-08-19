@@ -10,8 +10,11 @@ import { mapMutations, mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
+import csvMixins from '@/mixins/csvMixins';
+import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 export default {
 	name: 'Search',
+	mixins: [csvMixins],
 	components: {
 		VCheckbox,
 		VTextInput,
@@ -23,7 +26,8 @@ export default {
 		ValidationObserver,
 		Loader,
 		FileUpload,
-		Logo
+		Logo,
+		ConfigData
 	},
 	data() {
 		return {
@@ -36,10 +40,6 @@ export default {
 				role: '',
 				company_research: [],
 				contact_research: []
-			},
-			csvImport: {
-				contacts: null,
-				is_csv: true
 			},
 			showConfigModal: false,
 			accept: 'csv',
@@ -82,58 +82,12 @@ export default {
 			this.logout();
 			this.$router.push('/login');
 		},
-		csvJSON(csv) {
-			var lines = csv.split('\n');
 
-			var result = [];
-			var headers = lines[0].split(',');
-
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
-
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
-				}
-
-				result.push(obj);
-			}
-
-			return JSON.parse(JSON.stringify(result));
-		},
-
-		inputFile(newFile) {
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			const readFile = async (event) => {
-				const csvFilePath = event.target.result;
-				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				this.uploadBulkResearch();
-			};
-			var file = newFile.file;
-
-			var reader = new FileReader();
-			reader.readAsText(file);
-			reader.addEventListener('load', readFile);
-		},
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
 				await this.bulk_research(this.csvImport);
+				this.openConfigPage = false;
 				this.$router.push({ name: 'ContactResearch' });
 				return true;
 			} catch (error) {
@@ -207,7 +161,7 @@ export default {
 	watch: {
 		$route: {
 			immediate: true,
-			handler: function(newVal) {
+			handler: function (newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings ? true : false;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;

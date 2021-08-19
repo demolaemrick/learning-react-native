@@ -25,7 +25,7 @@ export function userRole() {
 export function noAuthOnly(to, from, next) {
 	if (isLoggedIn() && userRole() === 'user') {
 		next('/');
-	} else if (isLoggedIn() && userRole() === 'admin') {
+	} else if (isLoggedIn() && (userRole() === 'admin' || userRole() == 'superadmin')) {
 		next('/dashboard');
 	} else {
 		next();

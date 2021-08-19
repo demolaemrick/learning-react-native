@@ -121,7 +121,7 @@
 				<p class="modal-text">Enter a registered email address to send admin invite</p>
 				<div>
 					<ValidationObserver v-slot="{}">
-						<form @submit.prevent="" class="auth-input">
+						<form @submit.prevent="inviteAdmin" class="auth-input">
 							<label class="form-label form-group" for="">Email</label>
 							<div class="email-field">
 								<span v-for="(email, index) in emailList" :key="index">
@@ -146,7 +146,7 @@
 								<option value="superAdmin">Super Admin</option>
 							</select> -->
 							<div class="flex flex__end" id="inviteAdmin">
-								<c-button @click="inviteAdmin" class="submit" size="large" buttonType="primary" ref="inviteAdmin">
+								<c-button class="submit" size="large" submitType="submit" buttonType="primary" ref="inviteAdmin">
 									<template v-if="!loading">Send Invite</template>
 									<Loader v-else />
 								</c-button>
@@ -162,7 +162,7 @@
 				<h3>Edit Info</h3>
 			</template>
 			<template #body>
-				<form action="">
+				<form @submit.prevent="editAdmin">
 					<div class="auth-input">
 						<div class="flex flex-spaced">
 							<text-input
@@ -226,7 +226,7 @@
 						</div>
 
 						<div class="flex flex-end">
-							<c-button class="submit" size="large" buttonType="primary" @click="editAdmin" ref="editAdmin">
+							<c-button class="submit" size="large" buttonType="primary" submitType="submit" ref="editAdmin">
 								<template v-if="!loading">Save Changes</template>
 								<Loader v-else />
 							</c-button>

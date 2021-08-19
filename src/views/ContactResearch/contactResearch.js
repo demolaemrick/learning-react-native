@@ -12,10 +12,12 @@ import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
 import VHeader from '@/components/Header/search/Header';
+import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
+import csvMixins from '@/mixins/csvMixins';
 export default {
 	name: 'ContactResearch',
-	mixins: [researchMixin],
+	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
 		VTextInput,
@@ -29,7 +31,8 @@ export default {
 		Loader,
 		FileUpload,
 		Logo,
-		VHeader
+		VHeader,
+		ConfigData
 	},
 	data() {
 		return {
@@ -40,10 +43,6 @@ export default {
 			accept: 'csv',
 			extensions: 'csv',
 			files: [],
-			csvImport: {
-				contacts: null,
-				is_csv: true
-			},
 			activeTab: 'manual_search',
 			tableHeaders: [
 				{
@@ -111,8 +110,19 @@ export default {
 			export_history: 'search_services/export_history',
 			bulk_research: 'search_services/bulk_research',
 			deleteSingleResearch: 'search_services/deleteSingleResearch',
+			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
+		async RefreshResearch(id) {
+			try {
+				const response = await this.refresh(id);
+				if (response.status === 200) {
+					this.getHistory();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		toggleModal() {
 			if (!this.showModal) {
 				this.showModal = true;
@@ -149,59 +159,12 @@ export default {
 				});
 			}
 		},
-		csvJSON(csv) {
-			var lines = csv.split('\n');
-
-			var result = [];
-			var headers = lines[0].split(',');
-
-			for (var i = 1; i < lines.length; i++) {
-				var obj = {};
-				var currentline = lines[i].split(',');
-
-				for (var j = 0; j < headers.length; j++) {
-					obj[headers[j]] = currentline[j];
-				}
-
-				result.push(obj);
-			}
-
-			return JSON.parse(JSON.stringify(result));
-		},
-
-		inputFile(newFile) {
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			const readFile = async (event) => {
-				const csvFilePath = event.target.result;
-				this.csvImport.contacts = await this.csvJSON(csvFilePath);
-				this.uploadBulkResearch();
-			};
-			var file = newFile.file;
-
-			var reader = new FileReader();
-			reader.readAsText(file);
-			reader.addEventListener('load', readFile);
-		},
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
 				await this.bulk_research(this.csvImport);
 				this.page = 1;
+				this.openConfigPage = false;
 				this.pageLoading = true;
 				await this.getHistory();
 				return true;

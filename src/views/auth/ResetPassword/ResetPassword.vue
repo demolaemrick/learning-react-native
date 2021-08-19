@@ -9,7 +9,7 @@
 					<h3>Reset Password</h3>
 					<p>Enter new password to proceed</p>
 				</div>
-				<form action="">
+				<form @submit.prevent="changePassword">
 					<ValidationObserver v-slot="{ invalid }">
 						<div class="auth-input">
 							<password-input
@@ -21,7 +21,7 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-							<c-button class="" :disabled="invalid" size="full" buttonType="primary" @click="changePassword">
+							<c-button class="" :disabled="invalid" size="full" buttonType="primary" submitType="submit">
 								<template v-if="!loading">Reset Password</template>
 								<Loader v-else />
 							</c-button>

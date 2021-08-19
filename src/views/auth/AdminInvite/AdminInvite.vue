@@ -9,7 +9,7 @@
 					<h3>Admin Invite</h3>
 					<p>Enter details to proceed</p>
 				</div>
-				<form action="">
+				<form @submit.prevent="submit">
 					<ValidationObserver v-slot="{ invalid }">
 						<div class="auth-input">
 							<text-input
@@ -39,7 +39,7 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-							<c-button class="submit" :disabled="invalid" size="full" buttonType="primary" @click="submit">
+							<c-button class="submit" :disabled="invalid" size="full" buttonType="primary" submitType="submit">
 								<template v-if="!loading">Submit</template>
 								<Loader v-else />
 							</c-button>

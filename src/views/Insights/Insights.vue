@@ -70,7 +70,7 @@
 						>
 					</h5>
 					<div class="input__group">
-						<div @click="RefreshResearch" class="icon refresh">
+						<div @click="RefreshResearch" class="icon refresh mr-1">
 							<img
 								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' || refreshLoading }"
 								src="@/assets/icons/refresh.svg"
@@ -78,7 +78,7 @@
 								alt="refresh"
 							/>
 						</div>
-						<div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div>
+						<!-- <div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div> -->
 						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
@@ -204,7 +204,7 @@
 								class="flex flex__item-center postion"
 								v-if="
 									contact_insights.snapshot.last_linkedin_activity &&
-										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 								"
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
@@ -363,9 +363,9 @@
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
 						@bookmark="
-							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...article }, $event)
+							btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
-						@displayInsight="displaySearchItem('contact_insights', article)"
+						@displayInsight="displaySearchItem('contact_insights', otherInsight)"
 					/>
 				</div>
 			</div>
@@ -394,8 +394,9 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
-									Mentioned in <span class="main-info">{{ company_insights.snapshot.mentions }} news articles</span> in
-									the past year
+									Mentioned in
+									<span class="main-info">{{ company_insights.snapshot.mentions }} relevant articles</span> in the past
+									year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">

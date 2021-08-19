@@ -1,5 +1,13 @@
 <template>
 	<div class="user-wrapper">
+		<config-data
+			v-if="openConfigPage"
+			@closeConfig="openConfigPage = false"
+			:headers="csvHeaders"
+			:dataFields="dataFields"
+			@submitImportCSV="submitImportCSV"
+		/>
+
 		<div class="flex flex-spaced">
 			<div class="flex flex-spaced flex__item-center">
 				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline @click="backToUsers" />
@@ -209,7 +217,7 @@
 				<h3>Edit</h3>
 			</template>
 			<template #body>
-				<form action="">
+				<form @submit.prevent="editUser">
 					<ValidationObserver v-slot="{}" color="#ff0000">
 						<div class="auth-input">
 							<div class="flex flex-spaced">
@@ -286,7 +294,7 @@
 								</div>
 							</div>
 							<div class="flex flex__end">
-								<c-button class="submit" size="large" buttonType="primary" @click="editUser">
+								<c-button class="submit" size="large" buttonType="primary" submitType="submit">
 									<template v-if="!loading">Save Changes</template>
 									<Loader v-else />
 								</c-button>

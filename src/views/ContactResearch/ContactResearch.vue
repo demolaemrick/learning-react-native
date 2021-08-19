@@ -1,6 +1,13 @@
 <template>
 	<div class="container container--lg">
 		<v-header />
+		<config-data
+			v-if="openConfigPage"
+			@closeConfig="openConfigPage = false"
+			:headers="csvHeaders"
+			:dataFields="dataFields"
+			@submitImportCSV="submitImportCSV"
+		/>
 		<main class="main-section">
 			<div class="contact__research__menu">
 				<div class="text__title">
@@ -103,6 +110,7 @@
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
+										<li class="dropdown__item" @click="RefreshResearch(item.rowId)">Refresh</li>
 									</template>
 								</v-toggle-dropdown>
 							</div>
@@ -203,7 +211,8 @@
 		}
 	}
 }
-.file-uploads {
-	cursor: pointer;
+.file-uploads.file-uploads-html4 input,
+.file-uploads.file-uploads-html5 label {
+	cursor: pointer !important;
 }
 </style>
