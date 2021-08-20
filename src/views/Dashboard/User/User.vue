@@ -174,6 +174,40 @@
 						</paginate>
 					</div>
 				</v-tab>
+				<v-tab style="max-width: 100%" title="API Keys" @getData="setActiveTab('api-keys')">
+					<template v-if="pageLoading">
+						<div v-for="n in 2" :key="n" class="grid grid__layout gap-3 py-1 row-group">
+							<div v-for="n in 4" :key="n" class="col-3-12">
+								<div class="loader-title item"></div>
+								<div class="loader-content item" v-for="item in 1" :key="item"></div>
+							</div>
+						</div>
+					</template>
+					<template v-else>
+						<template v-if="!keys.length"
+							>No API key available for {{ userDetails.first_name }} {{ userDetails.last_name }}</template
+						>
+						<template v-else>
+							<div class="grid grid__layout gap-3 py-1 row-group" v-for="(key, i) in keys" :key="i">
+								<div class="col-6-12">
+									<p class="mb-1 detail-name">API Key</p>
+									<p class="detail-content api-content">{{ key[0].key }}</p>
+								</div>
+
+								<div class="col-6-12 keys-actions">
+									<RadioBtn
+										id="statusType"
+										marginBottom="0"
+										:options="statusType"
+										name="status"
+										v-model="statusOption[i]"
+										@change="changeStatus($event, i, key[0])"
+									/>
+								</div>
+							</div>
+						</template>
+					</template>
+				</v-tab>
 				<v-tab title="Settings" @getData="setActiveTab('settings')" ref="settingsTab">
 					<h4 class="settings-header">Search preference</h4>
 					<div class="search-terms">
@@ -211,7 +245,37 @@
 				</v-tab>
 			</v-tabs>
 		</div>
-
+		<modal v-if="showApiModal" position="center" :toggleClass="toggleClass" @close="cancelApiModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">{{ ApiModalContent.title }}</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						{{ ApiModalContent.description }}
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="cancelApiModal">Cancel</div>
+						<template v-if="statusOption[statusIndex] === 'activate'">
+							<c-button class="config__btn" buttonType="primary" size="modal" @click="activateApiKey">
+								<Loader v-if="loading" />
+								<span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+							>
+						</template>
+						<template v-if="statusOption[statusIndex] === 'deactivate'">
+							<c-button class="config__btn" buttonType="warning" size="modal" @click="deactivateApiKey"
+								><Loader v-if="loading" /> <span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+							>
+						</template>
+						<template v-if="statusOption[statusIndex] === 'suspend'">
+							<c-button class="config__btn" buttonType="warning" size="modal" @click="suspendApiKey"
+								><Loader v-if="loading" /> <span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+							>
+						</template>
+					</div>
+				</div>
+			</template>
+		</modal>
 		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
 			<template #title>
 				<h3>Edit</h3>

@@ -133,5 +133,41 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	fetchApiKeys: async (context, id) => {
+		const url = `admin/user/${id}/api-keys`;
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	activateKey: async (context, userId, id) => {
+		const url = `admin/user/${userId.userId}/api-key/activate`;
+		try {
+			const response = await api.put(url, id);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	deactivateKey: async (context, userId, id) => {
+		const url = `admin/user/${userId.userId}/api-key/deactivate`;
+		try {
+			const response = await api.put(url, id);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	suspendKey: async (context, { userId, id }) => {
+		const url = `admin/user/${userId}/api-key/suspend`;
+		try {
+			const response = await api.put(url, { id: id });
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

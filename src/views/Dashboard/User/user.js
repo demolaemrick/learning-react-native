@@ -16,6 +16,8 @@ import FileUpload from 'vue-upload-component';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
 import ConfigData from '../../ConfigImportData/ConfigImportData.vue';
+import RadioBtn from '@/components/RadioButton';
+
 export default {
 	name: 'User',
 	mixins: [researchMixin, csvMixins],
@@ -91,7 +93,27 @@ export default {
 			settings: {
 				company_research: [],
 				contact_research: []
-			}
+			},
+			statusType: [
+				{
+					value: 'active',
+					title: 'Activate'
+				},
+				{
+					value: 'suspend',
+					title: 'Suspend'
+				},
+				{
+					value: 'inactive',
+					title: 'Deactivate'
+				}
+			],
+			statusOption: [],
+			previousStatus: '',
+			statusIndex: '',
+			showApiModal: false,
+			ApiModalContent: {},
+			keys: []
 		};
 	},
 	components: {
@@ -109,7 +131,8 @@ export default {
 		ToggleDropdown,
 		Modal,
 		FileUpload,
-		ConfigData
+		ConfigData,
+		RadioBtn
 	},
 	methods: {
 		...mapActions({
@@ -122,8 +145,171 @@ export default {
 			userSettings: 'users_management/settings',
 			deactivateUser: 'users_management/deactivateUser',
 			activateUser: 'users_management/activateUser',
-			updateUser: 'users_management/updateUser'
+			updateUser: 'users_management/updateUser',
+			fetchApiKeys: 'users_management/fetchApiKeys',
+			activateKey: 'users_management/activateKey',
+			deactivateKey: 'users_management/deactivateKey',
+			suspendKey: 'users_management/suspendKey'
 		}),
+		async getApiKeys() {
+			this.pageLoading = true;
+			this.statusOption = [];
+			try {
+				const response = await this.fetchApiKeys(this.$route.query.userId);
+				const { status, statusText, data } = response;
+
+				if (status === 200 && statusText === 'OK' && data.keys.length) {
+					this.keys = data.keys;
+					this.keys.forEach((key) => {
+						this.statusOption.push(key[0].status);
+					});
+					this.showAlert({
+						status: 'success',
+						message: 'Api Keys retrieved successfully',
+						showAlert: true
+					});
+				} else {
+					this.showAlert({
+						status: 'info',
+						message: 'No Api Keys available. Kindly generate one',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: 'Unable to retrieve Api keys',
+					showAlert: true
+				});
+			} finally {
+				this.pageLoading = false;
+			}
+		},
+		changeStatus(event, index, lastStatus) {
+			//console.log(lastStatus);
+			this.previousStatus = lastStatus;
+			console.log('sdf', this.previousStatus);
+			this.statusOption[index] = event.target.value;
+			this.statusIndex = index;
+			console.log(index);
+			this.toggleApiModal();
+			console.log(this.statusOption);
+			switch (this.statusOption[index]) {
+				case 'active':
+					this.ApiModalContent = {
+						title: 'Activate API Key',
+						description: 'You are about to activate an API key, click activate to continue with this action.'
+					};
+					break;
+				case 'suspend':
+					this.ApiModalContent = {
+						title: 'Suspend API Key',
+						description: 'You are about to suspend an API key, click suspend to continue with this action.'
+					};
+
+					break;
+				case 'inactive':
+					this.ApiModalContent = {
+						title: 'Deactivate API Key',
+						description: 'You are about to deactivate an API key, click deactivate to continue with this action.'
+					};
+
+					break;
+				default:
+					this.ApiModalContent = null;
+			}
+		},
+		async deactivateApiKey() {
+			const id = this.previousStatus.keyId;
+			const userId = this.$route.query.userId;
+			this.loading = true;
+			try {
+				const response = await this.deactivateKey({ userId, id });
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: 'Api Keys deactivated successfully',
+						showAlert: true
+					});
+					this.toggleApiModal();
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		async activateApiKey() {
+			const id = this.previousStatus.keyId;
+			const userId = this.$route.query.userId;
+			this.loading = true;
+			try {
+				const response = await this.activateKey({ userId, id });
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: 'Api Keys activated successfully',
+						showAlert: true
+					});
+					this.toggleApiModal();
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		async suspendApiKey() {
+			const id = this.previousStatus.keyId;
+			const userId = this.$route.query.userId;
+			this.loading = true;
+			try {
+				const response = await this.suspendKey({ userId, id });
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: 'Api Keys suspended successfully',
+						showAlert: true
+					});
+					this.toggleApiModal();
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
+		cancelApiModal() {
+			this.statusOption[this.statusIndex] = this.previousStatus.status;
+			this.toggleApiModal();
+		},
+		toggleApiModal() {
+			if (!this.showApiModal) {
+				this.showApiModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showApiModal = !this.showApiModal;
+					this.toggleClass = !this.toggleClass;
+					this.ApiModalContent = {};
+				}, 500);
+			}
+		},
 		onKeywordsChange(searchType, event) {
 			this.settings[searchType] = event.target.value.split(',');
 		},
@@ -247,6 +433,10 @@ export default {
 				case 'contacts':
 					this.activeTab = evt;
 					this.getHistory();
+					break;
+				case 'api-keys':
+					this.activeTab = evt;
+					this.getApiKeys();
 					break;
 				case 'settings':
 					this.activeTab = evt;

@@ -244,3 +244,35 @@
     }
   }	
 }
+.api-content{
+  padding: 16px 0 16px 16px;
+    background: #F9F9F9;
+    border-radius: 4px;
+}
+.keys-actions{
+  display: flex;
+    align-items: center;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.modal__content{
+	&-text{
+		margin: 16px 0 32px;
+		.name{
+			font-weight: 600;
+		}
+	}
+	&-btn{
+		display: flex;
+    	align-items: center;
+		justify-content: flex-end;
+	}
+	.cancel{
+		padding: 10px;
+		margin-right: 6px;
+		font-weight: 600;
+		letter-spacing: 0.2px;
+		line-height: 24px;
+		cursor: pointer;
+	}
+}
