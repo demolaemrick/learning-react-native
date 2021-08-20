@@ -106,6 +106,7 @@ export default {
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
 					this.sortByDislike(uniqueArray);
+					this.sortByBookmarked(uniqueArray);
 					return uniqueArray;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
@@ -349,17 +350,17 @@ export default {
 				this.companySearchResult = [];
 				this.companyFilter = null;
 			}
-		}, 600),
-		loading(value) {
-			if (!value) {
-				this.$nextTick(() => {
-					const { tabWrapper, content } = this.$refs;
-					console.log(tabWrapper);
-					const [tabWrapperWidth, contentWidth] = [tabWrapper.clientWidth - 49, content.clientWidth];
-					const contentWidthPercentage = (contentWidth / tabWrapperWidth) * 100;
-					console.log(contentWidthPercentage);
-				});
-			}
-		}
+		}, 600)
+		// loading(value) {
+		// 	if (!value) {
+		// 		this.$nextTick(() => {
+		// 			const { tabWrapper, content } = this.$refs;
+		// 			console.log(tabWrapper);
+		// 			const [tabWrapperWidth, contentWidth] = [tabWrapper.clientWidth - 49, content.clientWidth];
+		// 			const contentWidthPercentage = (contentWidth / tabWrapperWidth) * 100;
+		// 			console.log(contentWidthPercentage);
+		// 		});
+		// 	}
+		// }
 	}
 };

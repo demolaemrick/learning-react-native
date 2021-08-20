@@ -82,10 +82,10 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	fetchApiKeys: async (context) => {
-		const userId = context.rootState.auth.loggedUser.id;
+	fetchApiKeys: async () => {
+		// const userId = context.rootState.auth.loggedUser.id;
 		// console.log(context);
-		const url = `admin/user/${userId}/api-keys`;
+		const url = 'user/api-keys';
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);
@@ -93,9 +93,9 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	generateApiKey: async (context) => {
-		const userId = context.rootState.auth.loggedUser.id;
-		const url = `admin/user/${userId}/api-key/generate`;
+	generateApiKey: async () => {
+		// const userId = context.rootState.auth.loggedUser.id;
+		const url = 'user/api-key/generate';
 		try {
 			const response = await api.post(url);
 			return Promise.resolve(response);
@@ -103,9 +103,9 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	regenerateApiKey: async (context, id) => {
-		const userId = context.rootState.auth.loggedUser.id;
-		const url = `admin/user/${userId}/api-key/generate`;
+	regenerateApiKey: async (id) => {
+		// const userId = context.rootState.auth.loggedUser.id;
+		const url = 'user/api-key/generate';
 		try {
 			const response = await api.post(url, id);
 			return Promise.resolve(response);

@@ -30,8 +30,16 @@ export default {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
 				const historyLength = response.data.data.history.length;
-				this.$router.push({
-					[this.lastSearch ? 'path' : 'name']: this.lastSearch ?? (historyLength ? 'ContactResearch' : 'Search')
+				/* eslint-disable */
+				const path =
+					this.lastSearch?.route && this.lastSearch.email === this.form.email
+						? this.lastSearch.route
+						: historyLength
+							? 'contact-research'
+							: 'search';
+
+				this.$router.push({ path }).then(() => {
+					this.lastSearch.route && this.setLastSearchResult({});
 				});
 				return true;
 			} catch (error) {
@@ -50,8 +58,13 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						this.$router.push({ path: this.lastSearch ?? '/dashboard/users' }).then(() => {
-							this.lastSearch && this.setLastSearchResult(null);
+						const path =
+							this.lastSearch?.route && this.lastSearch.email === this.form.email
+								? this.lastSearch.route
+								: '/dashboard/users';
+
+						this.$router.push({ path }).then(() => {
+							this.lastSearch && this.setLastSearchResult({});
 						});
 					} else {
 						await this.getHistory();
@@ -60,6 +73,7 @@ export default {
 				return true;
 			} catch (error) {
 				const err = { error };
+				console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: err.error.response.data.message,
