@@ -81,5 +81,36 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	fetchApiKeys: async () => {
+		// const userId = context.rootState.auth.loggedUser.id;
+		// console.log(context);
+		const url = 'user/api-keys';
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	generateApiKey: async () => {
+		// const userId = context.rootState.auth.loggedUser.id;
+		const url = 'user/api-key/generate';
+		try {
+			const response = await api.post(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	regenerateApiKey: async (id) => {
+		// const userId = context.rootState.auth.loggedUser.id;
+		const url = 'user/api-key/generate';
+		try {
+			const response = await api.post(url, id);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

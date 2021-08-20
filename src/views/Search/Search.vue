@@ -1,5 +1,12 @@
 <template>
 	<div class="container container--lg">
+		<config-data
+			v-if="openConfigPage"
+			@closeConfig="openConfigPage = false"
+			:headers="csvHeaders"
+			:dataFields="dataFields"
+			@submitImportCSV="submitImportCSV"
+		/>
 		<nav class="navbar">
 			<div class="nav-item logo">
 				<logo />

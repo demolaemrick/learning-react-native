@@ -1,0 +1,20 @@
+<template>
+	<div class="logo" @click="$router.push({ name: 'Search' })">
+		<img class="logo-img" src="../assets/icons/volley-home-logo.svg" svg-inline />
+	</div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style lang="scss" scoped>
+.logo {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	&-img {
+		height: 35px;
+	}
+}
+</style>

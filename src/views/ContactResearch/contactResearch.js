@@ -12,11 +12,12 @@ import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
 import VHeader from '@/components/Header/search/Header';
+import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
-import Papa from 'papaparse';
+import csvMixins from '@/mixins/csvMixins';
 export default {
 	name: 'ContactResearch',
-	mixins: [researchMixin],
+	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
 		VTextInput,
@@ -30,7 +31,8 @@ export default {
 		Loader,
 		FileUpload,
 		Logo,
-		VHeader
+		VHeader,
+		ConfigData
 	},
 	data() {
 		return {
@@ -41,10 +43,6 @@ export default {
 			accept: 'csv',
 			extensions: 'csv',
 			files: [],
-			csvImport: {
-				contacts: null,
-				is_csv: true
-			},
 			activeTab: 'manual_search',
 			tableHeaders: [
 				{
@@ -161,38 +159,12 @@ export default {
 				});
 			}
 		},
-
-		inputFile(newFile) {
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			var file = newFile.file;
-			Papa.parse(file, {
-				complete: (res) => {
-					this.csvImport.contacts = res.data;
-					this.uploadBulkResearch();
-				},
-				header: true
-			});
-		},
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
 				await this.bulk_research(this.csvImport);
 				this.page = 1;
+				this.openConfigPage = false;
 				this.pageLoading = true;
 				await this.getHistory();
 				return true;

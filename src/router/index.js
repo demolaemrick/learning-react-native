@@ -20,6 +20,7 @@ const Dashboard = () => import(/* webpackChunkName: 'login' */ '../views/Dashboa
 const Admin = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Admin');
 const Users = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Users');
 const User = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/User');
+const Api = () => import(/* webpackChunkName: 'login' */ '../views/ApiPortal');
 
 Vue.use(VueRouter);
 
@@ -137,6 +138,12 @@ const routes = [
 		path: '/bookmarks/:rowId?',
 		name: 'Bookmarks',
 		component: Bookmarks,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/api-portal',
+		name: 'ApiPortal',
+		component: Api,
 		beforeEnter: requireUserAuth
 	}
 ];

@@ -10,9 +10,11 @@ import { mapMutations, mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
-import Papa from 'papaparse';
+import csvMixins from '@/mixins/csvMixins';
+import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 export default {
 	name: 'Search',
+	mixins: [csvMixins],
 	components: {
 		VCheckbox,
 		VTextInput,
@@ -24,7 +26,8 @@ export default {
 		ValidationObserver,
 		Loader,
 		FileUpload,
-		Logo
+		Logo,
+		ConfigData
 	},
 	data() {
 		return {
@@ -37,10 +40,6 @@ export default {
 				role: '',
 				company_research: [],
 				contact_research: []
-			},
-			csvImport: {
-				contacts: null,
-				is_csv: true
 			},
 			showConfigModal: false,
 			accept: 'csv',
@@ -84,38 +83,11 @@ export default {
 			this.$router.push('/login');
 		},
 
-		inputFile(newFile) {
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			var file = newFile.file;
-
-			Papa.parse(file, {
-				complete: (res) => {
-					console.log(this.csvImport);
-					this.csvImport.contacts = res.data;
-					this.uploadBulkResearch();
-				},
-				header: true
-			});
-		},
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
 				await this.bulk_research(this.csvImport);
+				this.openConfigPage = false;
 				this.$router.push({ name: 'ContactResearch' });
 				return true;
 			} catch (error) {

@@ -1,5 +1,6 @@
 export default {
 	isLoggedIn: false,
 	loggedUser: {},
-	loginSuccess: null
+	loginSuccess: null,
+	lastSearchResult: {}
 };

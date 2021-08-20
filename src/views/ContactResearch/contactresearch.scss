@@ -226,6 +226,7 @@ thead.table__header {
 		width: 240px;
 	}
 }
+
 @include query(tablet, max) {
 	.main-section {
 		padding: 0;
@@ -396,3 +397,4 @@ thead.table__header {
 	}
 	
 }
+

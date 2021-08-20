@@ -13,6 +13,7 @@
 	padding: 0 58px;
 	border-radius: 2px;
 	cursor: pointer;
+	text-transform: capitalize;
 	&-primary {
 		background: #3b48f7;
 		color: #fff;

@@ -2,7 +2,7 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Admin Management</h2>
-			<c-button class="submit" size="large" buttonType="primary" @click="toggleSendInvites">
+			<c-button class="submit" size="large" buttonType="primary" @click="toggleModalClass('sendInvites')">
 				<div class="flex">
 					<span class="add-icon">
 						<img src="@/assets/icons/add-icon.svg" svg-inline />
@@ -113,7 +113,7 @@
 			</paginate>
 		</div>
 
-		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleSendInvites">
+		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleModalClass('sendInvites')">
 			<template #title>
 				<h3>Admin Invite</h3>
 			</template>
@@ -157,7 +157,7 @@
 			</template>
 		</modal>
 
-		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleEditModal">
+		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleModalClass('showEditModal')">
 			<template #title>
 				<h3>Edit Info</h3>
 			</template>
@@ -237,7 +237,13 @@
 		</modal>
 
 		<!-- Deactivate Modal -->
-		<modal position="center" v-if="deactivateModal" :toggleClass="toggleClass" @close="toggleDeactivateModal" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="deactivateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('deactivateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Deactivate Admin</h4>
 			</template>
@@ -248,7 +254,7 @@
 						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleDeactivateModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('deactivateModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="deactivate">
 							<template v-if="!loading">Deactivate</template>
 							<Loader v-else />
@@ -258,7 +264,13 @@
 			</template>
 		</modal>
 		<!-- Activate Modal -->
-		<modal position="center" v-if="activateModal" :toggleClass="toggleClass" @close="toggleActivateModal" maxWidth="400px">
+		<modal
+			position="center"
+			v-if="activateModal"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('activateModal')"
+			maxWidth="400px"
+		>
 			<template #title>
 				<h4 class="modal__header-title">Activate Admin</h4>
 			</template>
@@ -269,7 +281,7 @@
 						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleActivateModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('activateModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="activate">
 							<template v-if="!loading">Activate</template>
 							<Loader v-else />
@@ -279,7 +291,7 @@
 			</template>
 		</modal>
 		<!-- Suspend Modal -->
-		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleSuspendModal" maxWidth="400px">
+		<modal position="center" v-if="suspendModal" :toggleClass="toggleClass" @close="toggleModalClass('suspendModal')" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Suspend Admin</h4>
 			</template>
@@ -290,7 +302,7 @@
 						<span class="name"> ({{ adminToModify.first_name }} {{ adminToModify.last_name }}) </span>.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleSuspendModal">Cancel</div>
+						<div class="cancel" @click="toggleModalClass('suspendModal')">Cancel</div>
 						<v-button class="config__btn" buttonType="warning" size="modal" @click="suspend">
 							<template v-if="!loading">Suspend</template>
 							<Loader v-else />

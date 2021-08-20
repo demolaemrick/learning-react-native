@@ -68,7 +68,8 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortInsights(uniqueArray);
+				this.sortByBookmarked(uniqueArray);
+				this.sortByDislike(uniqueArray);
 				return uniqueArray;
 			}
 		}
@@ -87,9 +88,14 @@ export default {
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			dislike: 'search_services/dislike'
 		}),
-		sortInsights(data) {
+		sortByDislike(data) {
 			data.sort(function (a, b) {
 				return a.is_disliked - b.is_disliked;
+			});
+		},
+		sortByBookmarked(data) {
+			data.sort(function (a, b) {
+				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
 		updateDislikeResult() {
@@ -292,7 +298,7 @@ export default {
 			}
 		},
 		scrollTab() {
-			this.$refs.content.scrollLeft += 20;
+			this.$refs.content.scrollLeft += 200;
 		}
 	}
 };

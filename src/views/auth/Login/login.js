@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-import { mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import PasswordInput from '@/components/Input/PasswordInput';
@@ -18,7 +18,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveUserSession: 'auth/loginSuccess'
+			saveUserSession: 'auth/loginSuccess',
+			setLastSearchResult: 'auth/setLastSearchResult'
 		}),
 		...mapActions({
 			login: 'auth/login',
@@ -28,11 +29,18 @@ export default {
 		async getHistory() {
 			try {
 				const response = await this.research_history({ page: 1, limit: 1 });
-				if (response.data.data.history.length > 0) {
-					this.$router.push({ name: 'ContactResearch' });
-				} else {
-					this.$router.push({ name: 'Search' });
-				}
+				const historyLength = response.data.data.history.length;
+				/* eslint-disable */
+				const path =
+					this.lastSearch?.route && this.lastSearch.email === this.form.email
+						? this.lastSearch.route
+						: historyLength
+							? 'contact-research'
+							: 'search';
+
+				this.$router.push({ path }).then(() => {
+					this.lastSearch.route && this.setLastSearchResult({});
+				});
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -50,7 +58,14 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						this.$router.push({ path: '/dashboard/users' });
+						const path =
+							this.lastSearch?.route && this.lastSearch.email === this.form.email
+								? this.lastSearch.route
+								: '/dashboard/users';
+
+						this.$router.push({ path }).then(() => {
+							this.lastSearch && this.setLastSearchResult({});
+						});
 					} else {
 						await this.getHistory();
 					}
@@ -58,6 +73,7 @@ export default {
 				return true;
 			} catch (error) {
 				const err = { error };
+				console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: err.error.response.data.message,
@@ -67,6 +83,11 @@ export default {
 				this.loading = false;
 			}
 		}
+	},
+	computed: {
+		...mapGetters({
+			lastSearch: 'auth/getLastSearchResult'
+		})
 	},
 	components: {
 		ValidationObserver,
