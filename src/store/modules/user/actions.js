@@ -112,6 +112,5 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
-	},
-	
+	}
 };

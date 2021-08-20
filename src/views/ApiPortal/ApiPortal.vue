@@ -24,9 +24,7 @@
 		<div v-else class="page-content">
 			<h3 class="page-content__name">API Keys</h3>
 			<div class="page-content__body">
-				<h4 class="form-head">
-					Integration
-				</h4>
+				<h4 class="form-head">Integration</h4>
 
 				<template>
 					<div v-for="(api, index) in keys" :key="index">
