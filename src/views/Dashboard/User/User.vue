@@ -191,7 +191,33 @@
 							<div class="grid grid__layout gap-3 py-1 row-group" v-for="(key, i) in keys" :key="i">
 								<div class="col-6-12">
 									<p class="mb-1 detail-name">API Key</p>
-									<p class="detail-content api-content">{{ key[0].key }}</p>
+									<form class="api-content">
+										<input
+											name="api-key"
+											v-model="key[0].key"
+											id="stagingKey"
+											placeholder="********************************************"
+											:type="[showApiKey === false ? 'password' : 'text']"
+											class="form-input api-content__input"
+											readonly="readonly"
+										/>
+										<span class="apikey-icon">
+											<img
+												@click="showApiKey = false"
+												v-if="showApiKey"
+												svg-inline
+												src="../../../assets/icons/visibility-on.svg"
+												alt="visibility-icon"
+											/>
+											<img
+												@click="showApiKey = true"
+												v-if="!showApiKey"
+												svg-inline
+												src="../../../assets/icons/visibility-off.svg"
+												alt="visibility-icon"
+											/>
+										</span>
+									</form>
 								</div>
 
 								<div class="col-6-12 keys-actions">
@@ -256,20 +282,20 @@
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="cancelApiModal">Cancel</div>
-						<template v-if="statusOption[statusIndex] === 'activate'">
+						<template v-if="statusOption[statusIndex] === 'active'">
 							<c-button class="config__btn" buttonType="primary" size="modal" @click="activateApiKey">
 								<Loader v-if="loading" />
-								<span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+								<span v-else class="text">Activate</span></c-button
 							>
 						</template>
-						<template v-if="statusOption[statusIndex] === 'deactivate'">
+						<template v-if="statusOption[statusIndex] === 'inactive'">
 							<c-button class="config__btn" buttonType="warning" size="modal" @click="deactivateApiKey"
-								><Loader v-if="loading" /> <span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+								><Loader v-if="loading" /> <span v-else class="text">Deacvtivate</span></c-button
 							>
 						</template>
-						<template v-if="statusOption[statusIndex] === 'suspend'">
+						<template v-if="statusOption[statusIndex] === 'suspended'">
 							<c-button class="config__btn" buttonType="warning" size="modal" @click="suspendApiKey"
-								><Loader v-if="loading" /> <span v-else class="text">{{ statusOption[statusIndex] }}</span></c-button
+								><Loader v-if="loading" /> <span v-else class="text">Suspend</span></c-button
 							>
 						</template>
 					</div>

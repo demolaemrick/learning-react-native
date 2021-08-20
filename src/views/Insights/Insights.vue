@@ -173,7 +173,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="contact_insights.snapshot" class="snapshot-info">
-							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer.start_date">
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer">
 								<img src="@/assets/icons/work.svg" svg-inline />
 								<p class="ml">
 									{{ contact_details.full_name }} has worked at

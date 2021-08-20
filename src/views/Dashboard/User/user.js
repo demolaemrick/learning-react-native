@@ -100,7 +100,7 @@ export default {
 					title: 'Activate'
 				},
 				{
-					value: 'suspend',
+					value: 'suspended',
 					title: 'Suspend'
 				},
 				{
@@ -113,7 +113,8 @@ export default {
 			statusIndex: '',
 			showApiModal: false,
 			ApiModalContent: {},
-			keys: []
+			keys: [],
+			showApiKey: false
 		};
 	},
 	components: {
@@ -186,14 +187,10 @@ export default {
 			}
 		},
 		changeStatus(event, index, lastStatus) {
-			//console.log(lastStatus);
 			this.previousStatus = lastStatus;
-			console.log('sdf', this.previousStatus);
 			this.statusOption[index] = event.target.value;
 			this.statusIndex = index;
-			console.log(index);
 			this.toggleApiModal();
-			console.log(this.statusOption);
 			switch (this.statusOption[index]) {
 				case 'active':
 					this.ApiModalContent = {
@@ -201,7 +198,7 @@ export default {
 						description: 'You are about to activate an API key, click activate to continue with this action.'
 					};
 					break;
-				case 'suspend':
+				case 'suspended':
 					this.ApiModalContent = {
 						title: 'Suspend API Key',
 						description: 'You are about to suspend an API key, click suspend to continue with this action.'
@@ -233,6 +230,7 @@ export default {
 						showAlert: true
 					});
 					this.toggleApiModal();
+					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -258,6 +256,7 @@ export default {
 						showAlert: true
 					});
 					this.toggleApiModal();
+					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -283,6 +282,7 @@ export default {
 						showAlert: true
 					});
 					this.toggleApiModal();
+					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -295,8 +295,10 @@ export default {
 			}
 		},
 		cancelApiModal() {
-			this.statusOption[this.statusIndex] = this.previousStatus.status;
 			this.toggleApiModal();
+			setTimeout(() => {
+				this.statusOption[this.statusIndex] = this.previousStatus.status;
+			}, 0);
 		},
 		toggleApiModal() {
 			if (!this.showApiModal) {
@@ -583,7 +585,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,

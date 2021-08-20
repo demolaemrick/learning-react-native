@@ -58,10 +58,8 @@ export default {
 			this.loading = true;
 
 			if (!this.keys.length) {
-				console.log('These keys never generated', this.keys);
 				this.generateKeys();
 			} else {
-				console.log('These keys exist', this.keys);
 				this.regenerateKeys();
 			}
 		},
@@ -71,7 +69,6 @@ export default {
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.keys = data.keys[0];
-					console.log('generate -->', data.keys);
 
 					this.showAlert({
 						status: 'success',
@@ -93,7 +90,6 @@ export default {
 			const id = array[0].keyId;
 			try {
 				const response = await this.regenerateApiKey({ id });
-				console.log(response);
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.keys = data.keys;

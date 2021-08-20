@@ -143,19 +143,19 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	activateKey: async (context, userId, id) => {
-		const url = `admin/user/${userId.userId}/api-key/activate`;
+	activateKey: async (context, { userId, id }) => {
+		const url = `admin/user/${userId}/api-key/activate`;
 		try {
-			const response = await api.put(url, id);
+			const response = await api.put(url, { id: id });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
 		}
 	},
-	deactivateKey: async (context, userId, id) => {
-		const url = `admin/user/${userId.userId}/api-key/deactivate`;
+	deactivateKey: async (context, { userId, id }) => {
+		const url = `admin/user/${userId}/api-key/deactivate`;
 		try {
-			const response = await api.put(url, id);
+			const response = await api.put(url, { id: id });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
