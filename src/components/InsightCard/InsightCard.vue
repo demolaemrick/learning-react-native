@@ -45,7 +45,7 @@
 							svg-inline
 							alt=""
 						/>
-						<img class="icon" v-else @click="$emit('openModal')" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
+						<img class="icon" v-else @click="$emit('removeDislike')" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
 					</template>
 				</div>
 			</div>

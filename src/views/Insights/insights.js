@@ -111,8 +111,8 @@ export default {
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
 					this.sortByDislike(newObj[tab]);
+					this.sortByBookmarked(newObj[tab]);
 					return newObj[tab];
 				}
 			}

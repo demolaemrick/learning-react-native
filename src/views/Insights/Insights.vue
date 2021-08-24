@@ -277,6 +277,7 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -314,6 +315,7 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -360,6 +362,7 @@
 								$event
 							)
 						"
+						@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)"
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
 						@bookmark="
@@ -465,6 +468,7 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
@@ -498,6 +502,7 @@
 										$event
 									)
 								"
+								@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 								:published="article.meta.published"
 								:article="article"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
