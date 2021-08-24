@@ -204,7 +204,7 @@
 								class="flex flex__item-center postion"
 								v-if="
 									contact_insights.snapshot.last_linkedin_activity &&
-									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 								"
 							>
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
@@ -362,7 +362,9 @@
 								$event
 							)
 						"
-						@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)"
+						@removeDislike="
+							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
+						"
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
 						@bookmark="

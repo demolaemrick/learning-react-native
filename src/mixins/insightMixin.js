@@ -89,12 +89,12 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortByDislike(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
@@ -135,8 +135,7 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
-			} 
-
+			}
 		},
 		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
