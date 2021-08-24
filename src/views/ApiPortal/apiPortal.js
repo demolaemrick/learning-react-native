@@ -68,18 +68,17 @@ export default {
 				const response = await this.generateApiKey();
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
-					this.keys = data.keys[0];
-
+					this.keys = data.keys;
 					this.showAlert({
 						status: 'success',
-						message: 'Api Keys regenerated successfully',
+						message: 'Api Keys generated successfully',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to regenerate Api keys',
+					message: 'Unable to generate Api keys',
 					showAlert: true
 				});
 			}

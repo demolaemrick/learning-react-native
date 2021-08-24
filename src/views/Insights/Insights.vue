@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div class="section section__2">
-					<div class="contact__address">
+					<div class="contact__address" v-if="contact_details.email !== ''">
 						<div class="title">Email Address</div>
 						<div class="text">{{ contact_details.email }}</div>
 					</div>
