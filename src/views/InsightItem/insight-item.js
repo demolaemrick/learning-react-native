@@ -85,12 +85,12 @@ export default {
 						newArray = [...newArray, ...data[item]];
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-					this.sortInsights(uniqueArray);
+					// this.sortInsights(uniqueArray);
 					return uniqueArray;
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortInsights(newObj[tab]);
+					// this.sortInsights(newObj[tab]);
 					return newObj[tab];
 				}
 			}
@@ -103,7 +103,7 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				this.sortInsights(newObj[tab]);
+				// this.sortInsights(newObj[tab]);
 				return newObj[tab];
 			}
 		},
@@ -115,7 +115,7 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortInsights(uniqueArray);
+				// this.sortInsights(uniqueArray);
 				return uniqueArray;
 			}
 		}
