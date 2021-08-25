@@ -111,8 +111,12 @@ export default {
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
+
+					// bookmarked articles take precedence over disliked
+					// articles, hence why 'sortByBookmarked' is called last
+
 					this.sortByDislike(newObj[tab]);
+					this.sortByBookmarked(newObj[tab]);
 					return newObj[tab];
 				}
 			}
@@ -126,14 +130,15 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				this.sortByBookmarked(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
+				this.sortByBookmarked(newObj[tab]);
 				return newObj;
 			}
 		},
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {
+				console.log(this.userBookmarks);
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
 					total = company_research.length + contact_research.length;
@@ -335,7 +340,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -343,7 +348,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

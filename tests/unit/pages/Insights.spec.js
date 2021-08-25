@@ -1,6 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
+// import flushPromises from 'flush-promises';
 
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
@@ -96,7 +97,8 @@ let subResponse = {
 		done: {
 			status: { statusCode: 'READY', message: 'Ready' }
 		}
-	}
+	},
+	status: 200
 };
 
 let researchDoneRes = {
@@ -155,6 +157,13 @@ let notebookResponse = {
 		}
 	}
 };
+let err = {
+	response: {
+		data: {
+			message: 'error'
+		}
+	}
+};
 
 describe('Insights', () => {
 	let store;
@@ -171,7 +180,6 @@ describe('Insights', () => {
 			{ path: '/', name: 'Search' }
 		]
 	});
-
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -214,7 +222,26 @@ describe('Insights', () => {
 	it('Render without errors', () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
+			store,
 			router,
+			mocks: {
+				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
+			}
+		});
+		expect(wrapper.vm).toBeTruthy();
+	});
+
+	it('Render with a different tab', () => {
+		const tab = researchResponse.data.data.contact_insights.news;
+		console.log('thereeeee ------>>>', tab);
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			router,
+			data() {
+				return {
+					selectedTab: Object.keys(tab)[0]
+				};
+			},
 			mocks: {
 				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
 			},
@@ -234,21 +261,27 @@ describe('Insights', () => {
 		expect(wrapper.vm.$route.name).toBe('Search');
 	});
 
-	// it('should call initUserBookmarks', async () => {
-	// 	localVue.use(VueRouter);
-	// 	// store.dispatch = jest.fn().mockResolvedValue(bookmarks);
-	// 	const initUserBookmarks = jest.fn();
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		router,
-	// 		store,
-	// 		methods: {
-	// 			initUserBookmarks
-	// 		}
-	// 	});
-	// 	expect(wrapper.vm.initUserBookmarks());
-	// 	await flushPromises();
-	// 	expect(store.dispatch).toHaveBeenCalledWith('user/getBookmarks', '1');
+	it('should throw an error when markResearch is called', async () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			store
+		});
+		expect(wrapper.vm.markResearch());
+	});
+
+	// 	wrapper.vm.$options.watch.searchQuery.call(wrapper.vm);
+
+	it('watches for changes to contactSearchQuery', async () => {
+		wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
+		await wrapper.vm.$nextTick();
+		expect(wrapper.vm.contactSearchQuery).toBe(false);
+		console.log(wrapper.vm.contactSearchQuery);
+	});
+	// it('watch for changes on shows alert status', async () => {
+	// 	wrapper.vm.$options.watch.showAlertStatus.call(wrapper.vm, true);
+	// 	await wrapper.vm.$nextTick();
+	// 	expect(wrapper.vm.showAlertStatus).toBe(false);
 	// });
 
 	it('tests for RefreshResearch method is called', () => {
@@ -268,6 +301,25 @@ describe('Insights', () => {
 		});
 		expect(wrapper.vm.subscribe());
 	});
+
+	it('tests for error in subscribe', () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
+		const wrapper = shallowMount(Insights, {
+			router,
+			store,
+			localVue
+		});
+		expect(wrapper.vm.subscribe());
+	});
+
+	// it('should throw an error when subscribe is called', async () => {
+	// 	store.dispatch = jest.fn().mockRejectedValue(err);
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		store
+	// 	});
+	// 	expect(wrapper.vm.subscribe());
+	// });
 
 	it('should call handleTextareaBlur', async () => {
 		const wrapper = shallowMount(Insights, {

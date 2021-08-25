@@ -1,5 +1,4 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
-
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import VHeader from '@/components/Header/searchResult/Header';
@@ -89,14 +88,53 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortByDislike(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
+		},
+		async toggleDislike(article) {
+			this.selectedInsight = article;
+			const searchResultClone = { ...this.getSearchedResult };
+			let result = {};
+			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
+			for (const key in obj) {
+				Object.values(obj[key]).find((item, index) => {
+					if (item.url === this.selectedInsight.url) {
+						result = {
+							key,
+							index,
+							data: { ...item }
+						};
+						searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index] = {
+							...searchResultClone[this.selectedInsight.type][this.selectedInsight.section][result.key][result.index],
+							is_disliked: false
+						};
+						return;
+					}
+				});
+			}
+			this.saveSearchedResult(searchResultClone);
+
+			try {
+				const response = await this.dislike({
+					url: this.selectedInsight.url,
+					rowId: this.getSearchedResult.rowId
+				});
+				if (response.status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Article removed from disliked group',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
