@@ -1,5 +1,4 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
-
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import VHeader from '@/components/Header/searchResult/Header';
