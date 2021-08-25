@@ -24,7 +24,6 @@ const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal
 
 Vue.use(VueRouter);
 
-
 const routes = [
 	{
 		path: '*',

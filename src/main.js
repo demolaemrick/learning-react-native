@@ -64,7 +64,7 @@ new Vue({
 		...mapActions({
 			generateApiKey: 'auth/generateApiKey'
 		}),
-		
+
 		async startSession(data) {
 			this.$session.start();
 			this.$session.set('user', data);
