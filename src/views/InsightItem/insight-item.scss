@@ -197,9 +197,13 @@ label {
 }
 .tab-group {
 	justify-content: space-between;
-  overflow: auto;
+  overflow-x: scroll;
 	margin: 20px 0 24px;
-
+	scroll-behavior: smooth;
+	&::-webkit-scrollbar {
+		display: none;
+		width: 0;
+	}	
 	&.sm {
 		width: 90%;
 	}
