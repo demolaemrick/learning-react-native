@@ -297,7 +297,7 @@
 								{{ tab }}
 							</h5>
 						</div>
-						<div class="tab-circle" @click="scrollTab">
+						<div v-if="!contactFilter" class="tab-circle" @click="scrollTab">
 							<img src="@/assets/icons/arrow-right.svg" svg-inline />
 						</div>
 					</div>
