@@ -3,7 +3,7 @@ import VButton from '@/components/Button';
 import VModal from '@/components/Modal';
 import VTextInput from '@/components/Input';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 export default {
 	name: 'SearchSettings',
@@ -29,10 +29,16 @@ export default {
 			}
 		};
 	},
+	computed: {
+		...mapGetters({
+			userDetails: 'auth/getLoggedUser'
+		})
+	},
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_services/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			saveUserSession: 'auth/loginSuccess'
 		}),
 		...mapActions({
 			research: 'search_services/research',
@@ -78,6 +84,7 @@ export default {
 						message: response.data.message,
 						showAlert: true
 					});
+					this.saveUserSession({ ...this.userDetails, is_settings: true });
 					this.closeMoreSearchSettings();
 					return true;
 				}
