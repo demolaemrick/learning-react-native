@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
-// import flushPromises from 'flush-promises';
+import flushPromises from 'flush-promises';
 
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
@@ -233,7 +233,7 @@ describe('Insights', () => {
 
 	it('Render with a different tab', () => {
 		const tab = researchResponse.data.data.contact_insights.news;
-		console.log('thereeeee ------>>>', tab);
+		// console.log('thereeeee ------>>>', tab);
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
@@ -270,19 +270,38 @@ describe('Insights', () => {
 		expect(wrapper.vm.markResearch());
 	});
 
-	// 	wrapper.vm.$options.watch.searchQuery.call(wrapper.vm);
-
-	it('watches for changes to contactSearchQuery', async () => {
-		wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
-		await wrapper.vm.$nextTick();
-		expect(wrapper.vm.contactSearchQuery).toBe(false);
-		console.log(wrapper.vm.contactSearchQuery);
-	});
-	// it('watch for changes on shows alert status', async () => {
-	// 	wrapper.vm.$options.watch.showAlertStatus.call(wrapper.vm, true);
-	// 	await wrapper.vm.$nextTick();
-	// 	expect(wrapper.vm.showAlertStatus).toBe(false);
+	// it('watches for changes to contactSearchQuery', async () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		store
+	// 	});
+	// 	// wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
+	// 	// await wrapper.vm.$nextTick();
+	// 	// expect(wrapper.vm.contactSearchQuery).toBe(false);
+	// 	// console.log(wrapper.vm.$options);
+	// 	console.log('########----->>>>');
+	// 	console.log('########----->>>>');
+	// 	console.log('########----->>>>', wrapper.vm.$options.watch.contactSearchQuery);
 	// });
+
+	it('tests that contactSearch is called', async () => {
+		// const contactSearch = jest.fn();
+		const wrapper = shallowMount(Insights, {
+			// store,
+			// data() {
+			// 	return {
+			// 		contactFilter: ''
+			// 	};
+			// }
+			// methods: {
+			// 	contactSearch
+			// }
+		});
+		wrapper.setData({ contactFilter: 'lani' });
+		expect(wrapper.vm.$data.contactFilter).toEqual('lani');
+		await flushPromises();
+		expect(contactSearch).toHaveBeenCalled;
+	});
 
 	it('tests for RefreshResearch method is called', () => {
 		const wrapper = shallowMount(Insights, {
@@ -316,7 +335,7 @@ describe('Insights', () => {
 	// 	store.dispatch = jest.fn().mockRejectedValue(err);
 	// 	const wrapper = shallowMount(Insights, {
 	// 		localVue,
-	// 		store
+	// 		storeok
 	// 	});
 	// 	expect(wrapper.vm.subscribe());
 	// });
