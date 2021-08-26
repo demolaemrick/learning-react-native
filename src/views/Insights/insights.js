@@ -44,7 +44,6 @@ export default {
 			dislikeOption: null,
 			otherComment: null,
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
-			chartData: [300, 250, 100],
 			contactSearchResult: [],
 			companySearchResult: []
 		};
@@ -134,6 +133,15 @@ export default {
 				this.sortByBookmarked(newObj[tab]);
 				return newObj;
 			}
+		},
+		chartData() {
+			const news = this.getSearchedResult.contact_insights.news;
+			const data = { values: [], labels: [] };
+			for (const label in news) {
+				data.labels.push(label);
+				data.values.push(news[label].length);
+			}
+			return data;
 		},
 		userBookmarksCount() {
 			let total = 0;

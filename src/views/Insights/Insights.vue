@@ -221,7 +221,7 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
 								<p class="ml">
-									Most viral tweet was:
+									Most viral tweet from the past 90 days:
 									<template v-if="!contact_insights.snapshot.most_viral_tweet">Not available</template>
 								</p>
 							</div>
@@ -347,11 +347,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart
-						class="topics-chart"
-						:chartData="Object.values(contact_insights.topics)"
-						:labels="Object.keys(contact_insights.topics)"
-					/>
+					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
 				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
