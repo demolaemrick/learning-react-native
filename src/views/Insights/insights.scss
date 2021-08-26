@@ -533,6 +533,10 @@
 // }
 .main-info {
 	color: #43b9f3;
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .postion {

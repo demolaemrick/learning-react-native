@@ -184,7 +184,12 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="contact_insights.snapshot.mentions">
-									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
+									Mentioned in
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News & article', ref: 'news-section' }))"
+										>{{ contact_insights.snapshot.mentions }} articles</span
+									>
 								</p>
 							</div>
 							<div
@@ -400,14 +405,32 @@
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
-									<span class="main-info">{{ company_insights.snapshot.mentions }} relevant articles</span> in the past
-									year
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News', ref: 'company-news-section' }))"
+										>{{ company_insights.snapshot.mentions }} relevant articles</span
+									>
+									in the past year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
 								<img src="@/assets/icons/fund.svg" svg-inline />
 								<p class="ml">
-									Raised a round of <span class="main-info">funding</span> in
+									Raised a round of
+									<span
+										class="main-info"
+										@click="
+											scrollToSection(
+												(section = {
+													title: 'Funding',
+													ref: 'company-tab',
+													activate: () => switchToCompanyTab('funding')
+												})
+											)
+										"
+										>funding</span
+									>
+									in
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
@@ -421,7 +444,7 @@
 									</span>
 								</p>
 							</div>
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
 							</div>
@@ -429,7 +452,7 @@
 					</div>
 				</div>
 
-				<div class="news-section">
+				<div class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -477,15 +500,15 @@
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="section-wrapper tab-group flex">
+					<div v-if="!companyFilter" class="section-wrapper tab-group flex" ref="company-tab">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"
 							class="tab"
 							:class="{ active: tab === companyTab }"
-							@click="companyTab = tab"
+							@click="switchToCompanyTab(tab)"
 						>
-							{{ tab }}
+							<p>{{ tab }}</p>
 						</h5>
 					</div>
 					<div class="section-wrapper">
