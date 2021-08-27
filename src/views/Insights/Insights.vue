@@ -492,22 +492,22 @@
 					<!-- </div> -->
 					<template v-if="!companyFilter">
 						<!-- <template v-for="categories in company_insights_categories"> -->
-							<InsightCard
-								v-for="(article, j) in company_insights_categories"
-								:key="company_insights_categories[article]"
-								@openModal="
-									toggleModalClass(
-										'dislikeModal',
-										{ type: 'company_insights', index: j, section: 'news', ...article },
-										$event
-									)
-								"
-								@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
-								:published="article.meta.published"
-								:article="article"
-								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
-								@displayInsight="displaySearchItem('company_insights', article)"
-							/>
+						<InsightCard
+							v-for="(article, j) in company_insights_categories"
+							:key="company_insights_categories[article]"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'company_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
+							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
+							:published="article.meta.published"
+							:article="article"
+							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+							@displayInsight="displaySearchItem('company_insights', article)"
+						/>
 						<!-- </template> -->
 					</template>
 				</div>
