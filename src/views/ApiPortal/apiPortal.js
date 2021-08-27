@@ -1,4 +1,4 @@
-import HomeHeader from '@/components/Header/home/Header';
+import VHeader from '@/components/Header/search/Header';
 import { mapActions } from 'vuex';
 import VButton from '@/components/Button';
 import Loader from '@/components/Loader';
@@ -13,8 +13,8 @@ export default {
 		};
 	},
 	components: {
-		HomeHeader,
 		VButton,
+		VHeader,
 		Loader
 	},
 	async mounted() {
