@@ -430,13 +430,13 @@
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
-								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
+								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" svg-inline />
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
 										{{ interest }}
-										<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+										<template v-if="i !== company_insights.snapshot.interests.length - 1">, </template>
 									</span>
 								</p>
 							</div>
