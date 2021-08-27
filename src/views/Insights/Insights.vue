@@ -184,7 +184,12 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="contact_insights.snapshot.mentions">
-									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
+									Mentioned in
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News & article', ref: 'news-section' }))"
+										>{{ contact_insights.snapshot.mentions }} articles</span
+									>
 								</p>
 							</div>
 							<div
@@ -209,10 +214,10 @@
 										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
-									Posted on <a :href="getLinkedinUrl" target="" class="main-info">LinkedIn</a>
+									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
 									{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
 								</p>
-								<p class="ml" v-else>Posts on <a :href="getLinkedinUrl" target="" class="main-info">LinkedIn</a></p>
+								<p class="ml" v-else>Posts on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a></p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
@@ -295,7 +300,7 @@
 								{{ tab }}
 							</h5>
 						</div>
-						<div class="tab-circle" @click="scrollTab">
+						<div v-if="!contactFilter" class="tab-circle" @click="scrollTab">
 							<img src="@/assets/icons/arrow-right.svg" svg-inline />
 						</div>
 					</div>
@@ -340,11 +345,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart
-						class="topics-chart"
-						:chartData="Object.values(contact_insights.topics)"
-						:labels="Object.keys(contact_insights.topics)"
-					/>
+					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
 				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
@@ -398,28 +399,46 @@
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
-									<span class="main-info">{{ company_insights.snapshot.mentions }} relevant articles</span> in the past
-									year
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News', ref: 'company-news-section' }))"
+										>{{ company_insights.snapshot.mentions }} relevant articles</span
+									>
+									in the past year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
 								<img src="@/assets/icons/fund.svg" svg-inline />
 								<p class="ml">
-									Raised a round of <span class="main-info">funding</span> in
+									Raised a round of
+									<span
+										class="main-info"
+										@click="
+											scrollToSection(
+												(section = {
+													title: 'Funding',
+													ref: 'company-tab',
+													activate: () => switchToCompanyTab('funding')
+												})
+											)
+										"
+										>funding</span
+									>
+									in
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
-								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
+								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" svg-inline />
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
 										{{ interest }}
-										<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+										<template v-if="i !== company_insights.snapshot.interests.length - 1">, </template>
 									</span>
 								</p>
 							</div>
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
 							</div>
@@ -427,7 +446,7 @@
 					</div>
 				</div>
 
-				<div class="news-section">
+				<div class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -475,15 +494,15 @@
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="section-wrapper tab-group flex">
+					<div v-if="!companyFilter" class="section-wrapper tab-group flex" ref="company-tab">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"
 							class="tab"
 							:class="{ active: tab === companyTab }"
-							@click="companyTab = tab"
+							@click="switchToCompanyTab(tab)"
 						>
-							{{ tab }}
+							<p>{{ tab }}</p>
 						</h5>
 					</div>
 					<div class="section-wrapper">

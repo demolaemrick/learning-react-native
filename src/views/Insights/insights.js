@@ -34,7 +34,7 @@ export default {
 			companyFilter: null,
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
-				{ title: 'News & article', ref: 'news-section' },
+				{ title: 'News & articles', ref: 'news-section' },
 				{ title: 'Quotes', ref: 'quotes' },
 				{ title: 'Topics', ref: 'topics' },
 				{ title: 'Other insights', ref: 'others' }
@@ -44,7 +44,6 @@ export default {
 			dislikeOption: null,
 			otherComment: null,
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
-			chartData: [300, 250, 100],
 			contactSearchResult: [],
 			companySearchResult: [],
 			contactSortMethod: '',
@@ -150,6 +149,15 @@ export default {
 				return value;
 			}
 		},
+		chartData() {
+			const news = this.getSearchedResult.contact_insights.news;
+			const data = { values: [], labels: [] };
+			for (const label in news) {
+				data.labels.push(label);
+				data.values.push(news[label].length);
+			}
+			return data;
+		},
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {
@@ -207,11 +215,18 @@ export default {
 				return uniqueArray;
 			}
 		},
+		switchToCompanyTab(tab) {
+			this.companyTab = tab;
+		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
+			console.log(element);
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
+			if (section.activate) {
+				section.activate();
+			}
 		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
