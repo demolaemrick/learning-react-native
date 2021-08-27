@@ -494,45 +494,16 @@
 		}
 	}
 
-	// .section__7 {
-	// 	&:hover {
-	// 	}
 
-	// 	border-bottom: 1px solid #eaebeb;
 
-	// 	.title {
-	// 		font-family: Karla;
-	// 		font-style: normal;
-	// 		font-weight: normal;
-	// 		font-size: 15px;
-	// 		line-height: 18px;
-	// 		letter-spacing: -0.4px;
-	// 		color: #4361ee;
-	// 		padding: 1em 0;
-	// 	}
-
-	// 	.content {
-	// 		font-family: Karla;
-	// 		font-style: normal;
-	// 		font-weight: normal;
-	// 		font-size: 15px;
-	// 		line-height: 21px;
-	// 		letter-spacing: -0.3px;
-	// 		color: #333758;
-	// 		padding-bottom: 1em;
-	// 	}
-	// }
 }
 
-// .insight-section h3 {
-//   font-size: 20px;
-//   margin-bottom: 4px;
-//   font-size: 20px;
-//   line-height: 22px;
-//   letter-spacing: -0.64px;
-// }
 .main-info {
 	color: #43b9f3;
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .postion {
@@ -735,4 +706,7 @@ label {
 		background: #ebedfe57;
 		border: 1px solid rgba(204, 204, 204, 0.322);
 	}
+}
+.convo-bubble {
+	width: 50px;
 }

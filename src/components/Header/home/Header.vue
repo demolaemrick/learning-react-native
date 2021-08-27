@@ -2,7 +2,7 @@
 	<header>
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<newLogo />
+				<logo />
 			</div>
 			<div class="nav__menu__right">
 				<img
@@ -40,14 +40,14 @@
 
 <script>
 import VToggleDropdown from '@/components/ToggleDropdown';
-import NewLogo from '@/components/NewLogo';
+import Logo from '@/components/Logo';
 import { mapMutations, mapGetters } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
 	components: {
 		VToggleDropdown,
-		NewLogo
+		Logo
 	},
 	computed: {
 		...mapGetters({

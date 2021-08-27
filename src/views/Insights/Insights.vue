@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div class="section section__2">
-					<div class="contact__address">
+					<div class="contact__address" v-if="contact_details.email !== ''">
 						<div class="title">Email Address</div>
 						<div class="text">{{ contact_details.email }}</div>
 					</div>
@@ -184,7 +184,12 @@
 							<div class="flex flex__item-center postion">
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="contact_insights.snapshot.mentions">
-									Mentioned in <span class="main-info">{{ contact_insights.snapshot.mentions }} articles</span>
+									Mentioned in
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News & article', ref: 'news-section' }))"
+										>{{ contact_insights.snapshot.mentions }} articles</span
+									>
 								</p>
 							</div>
 							<div
@@ -200,25 +205,23 @@
 									</span>
 								</p>
 							</div>
-							<div
-								class="flex flex__item-center postion"
-								v-if="
-									contact_insights.snapshot.last_linkedin_activity &&
-									Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
-								"
-							>
+							<div class="flex flex__item-center postion" v-if="getLinkedinUrl">
 								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
-								<p class="ml">
-									Posted on <span class="main-info">LinkedIn</span>
+								<p
+									class="ml"
+									v-if="
+										contact_insights.snapshot.last_linkedin_activity &&
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+									"
+								>
+									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
 									{{ contact_insights.snapshot.last_linkedin_activity | moment('LL') }}
 								</p>
+								<p class="ml" v-else>Posts on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a></p>
 							</div>
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
-								<p class="ml">
-									Most viral tweet was:
-									<template v-if="!contact_insights.snapshot.most_viral_tweet">Not available</template>
-								</p>
+								<p class="ml">Most viral tweet from the past 90days:</p>
 							</div>
 						</div>
 						<template v-if="contact_insights.snapshot.most_viral_tweet">
@@ -245,8 +248,8 @@
 										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="sortByRecent('contact_insights')">Recent</li>
-										<li class="dropdown__item" @click="sortByRelevance('contact_insights')">Relevant</li>
+										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -277,6 +280,7 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -296,7 +300,7 @@
 								{{ tab }}
 							</h5>
 						</div>
-						<div class="tab-circle" @click="scrollTab">
+						<div v-if="!contactFilter" class="tab-circle" @click="scrollTab">
 							<img src="@/assets/icons/arrow-right.svg" svg-inline />
 						</div>
 					</div>
@@ -314,6 +318,7 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -340,11 +345,7 @@
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
-					<PieChart
-						class="topics-chart"
-						:chartData="Object.values(contact_insights.topics)"
-						:labels="Object.keys(contact_insights.topics)"
-					/>
+					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
 				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
@@ -359,6 +360,9 @@
 								{ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight },
 								$event
 							)
+						"
+						@removeDislike="
+							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
 						:published="otherInsight.meta.published"
 						:article="otherInsight"
@@ -395,28 +399,46 @@
 								<img src="@/assets/icons/articles.svg" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
-									<span class="main-info">{{ company_insights.snapshot.mentions }} relevant articles</span> in the past
-									year
+									<span
+										class="main-info"
+										@click="scrollToSection((section = { title: 'News', ref: 'company-news-section' }))"
+										>{{ company_insights.snapshot.mentions }} relevant articles</span
+									>
+									in the past year
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
 								<img src="@/assets/icons/fund.svg" svg-inline />
 								<p class="ml">
-									Raised a round of <span class="main-info">funding</span> in
+									Raised a round of
+									<span
+										class="main-info"
+										@click="
+											scrollToSection(
+												(section = {
+													title: 'Funding',
+													ref: 'company-tab',
+													activate: () => switchToCompanyTab('funding')
+												})
+											)
+										"
+										>funding</span
+									>
+									in
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.interests.length > 0">
-								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
+								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" svg-inline />
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
 										{{ interest }}
-										<template v-if="i !== contact_insights.snapshot.interests.length - 1">, </template>
+										<template v-if="i !== company_insights.snapshot.interests.length - 1">, </template>
 									</span>
 								</p>
 							</div>
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
 							</div>
@@ -424,7 +446,7 @@
 					</div>
 				</div>
 
-				<div class="news-section">
+				<div class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -434,8 +456,8 @@
 										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="sortByRecent('company_insights')">Recent</li>
-										<li class="dropdown__item" @click="sortByRelevance('company_insights')">Relevant</li>
+										<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+										<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -465,21 +487,22 @@
 									$event
 								)
 							"
+							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</div>
-					<div v-if="!companyFilter" class="section-wrapper tab-group flex">
+					<div v-if="!companyFilter" class="section-wrapper tab-group flex" ref="company-tab">
 						<h5
 							v-for="(tab, index) in companyTabs"
 							:key="index"
 							class="tab"
 							:class="{ active: tab === companyTab }"
-							@click="companyTab = tab"
+							@click="switchToCompanyTab(tab)"
 						>
-							{{ tab }}
+							<p>{{ tab }}</p>
 						</h5>
 					</div>
 					<div class="section-wrapper">
@@ -487,23 +510,24 @@
 					</div>
 					<!-- </div> -->
 					<template v-if="!companyFilter">
-						<template v-for="categories in company_insights_categories">
-							<InsightCard
-								v-for="(article, j) in categories"
-								:key="categories[article]"
-								@openModal="
-									toggleModalClass(
-										'dislikeModal',
-										{ type: 'company_insights', index: j, section: 'news', ...article },
-										$event
-									)
-								"
-								:published="article.meta.published"
-								:article="article"
-								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
-								@displayInsight="displaySearchItem('company_insights', article)"
-							/>
-						</template>
+						<!-- <template v-for="categories in company_insights_categories"> -->
+						<InsightCard
+							v-for="(article, j) in company_insights_categories"
+							:key="company_insights_categories[article]"
+							@openModal="
+								toggleModalClass(
+									'dislikeModal',
+									{ type: 'company_insights', index: j, section: 'news', ...article },
+									$event
+								)
+							"
+							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
+							:published="article.meta.published"
+							:article="article"
+							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+							@displayInsight="displaySearchItem('company_insights', article)"
+						/>
+						<!-- </template> -->
 					</template>
 				</div>
 				<div class="jobs-section" v-if="company_insights.jobs.length > 0">

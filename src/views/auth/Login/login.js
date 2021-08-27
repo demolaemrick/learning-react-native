@@ -36,7 +36,7 @@ export default {
 						? this.lastSearch.route
 						: historyLength
 							? 'contact-research'
-							: 'search';
+							: '/';
 
 				this.$router.push({ path }).then(() => {
 					this.lastSearch.route && this.setLastSearchResult({});

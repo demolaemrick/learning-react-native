@@ -34,7 +34,7 @@ export default {
 			companyFilter: null,
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
-				{ title: 'News & article', ref: 'news-section' },
+				{ title: 'News & articles', ref: 'news-section' },
 				{ title: 'Quotes', ref: 'quotes' },
 				{ title: 'Topics', ref: 'topics' },
 				{ title: 'Other insights', ref: 'others' }
@@ -44,9 +44,10 @@ export default {
 			dislikeOption: null,
 			otherComment: null,
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
-			chartData: [300, 250, 100],
 			contactSearchResult: [],
-			companySearchResult: []
+			companySearchResult: [],
+			contactSortMethod: '',
+			companySortMethod: ''
 		};
 	},
 	async created() {
@@ -70,7 +71,14 @@ export default {
 				}
 			}
 		},
-
+		getLinkedinUrl: {
+			get() {
+				const url = this.contact_details.socials.find((element) => {
+					return Object.keys(element).includes('linkedin');
+				});
+				return url.linkedin ? `https://${url.linkedin}/detail/recent-activity` : null;
+			}
+		},
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
@@ -83,18 +91,18 @@ export default {
 		},
 		contact_insights: {
 			get() {
-				return this.getSearchedResult.contact_insights;
+				return JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
 			}
 		},
 		company_insights: {
 			get() {
-				return this.getSearchedResult.company_insights;
+				return JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 			}
 		},
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
+				const result = JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
 				const data = result.news;
 				const tab = this.selectedTab;
 				this.tabs = Object.keys(data);
@@ -107,14 +115,21 @@ export default {
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
 					this.sortByDislike(uniqueArray);
 					this.sortByBookmarked(uniqueArray);
-					return uniqueArray;
+					return this.checkContactSort(uniqueArray);
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
+
+					// bookmarked articles take precedence over disliked
+					// articles, hence why 'sortByBookmarked' is called last
+
 					this.sortByDislike(newObj[tab]);
-					return newObj[tab];
+					this.sortByBookmarked(newObj[tab]);
+					return this.checkContactSort(newObj[tab]);
 				}
+			},
+			set(value) {
+				return value;
 			}
 		},
 		company_insights_categories: {
@@ -126,14 +141,27 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				this.sortByBookmarked(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
-				return newObj;
+				this.sortByBookmarked(newObj[tab]);
+				return this.checkCompanySort(newObj[tab]);
+			},
+			set(value) {
+				return value;
 			}
+		},
+		chartData() {
+			const news = this.getSearchedResult.contact_insights.news;
+			const data = { values: [], labels: [] };
+			for (const label in news) {
+				data.labels.push(label);
+				data.values.push(news[label].length);
+			}
+			return data;
 		},
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {
+				console.log(this.userBookmarks);
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
 					total = company_research.length + contact_research.length;
@@ -169,11 +197,36 @@ export default {
 			refresh: 'search_services/refresh',
 			subscribeResearch: 'search_services/subscribeResearch'
 		}),
+		checkContactSort(uniqueArray) {
+			if (this.contactSortMethod === 'recent') {
+				return this.sortByRecent(uniqueArray);
+			} else if (this.contactSortMethod === 'relevance') {
+				return this.sortByRelevance(uniqueArray);
+			} else {
+				return uniqueArray;
+			}
+		},
+		checkCompanySort(uniqueArray) {
+			if (this.companySortMethod === 'recent') {
+				return this.sortByRecent(uniqueArray);
+			} else if (this.companySortMethod === 'relevance') {
+				return this.sortByRelevance(uniqueArray);
+			} else {
+				return uniqueArray;
+			}
+		},
+		switchToCompanyTab(tab) {
+			this.companyTab = tab;
+		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
+			console.log(element);
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
+			if (section.activate) {
+				section.activate();
+			}
 		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
@@ -255,19 +308,15 @@ export default {
 				this.loading = false;
 			}
 		},
-		sortByRelevance(researchType) {
-			Object.values(this[researchType].news).map((news) => {
-				return news.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-			});
+		sortByRelevance(data) {
+			return data.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
 		},
-		sortByRecent(researchType) {
-			Object.values(this[researchType].news).map((news) => {
-				return news.sort((a, b) => {
-					return (
-						new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-						new Date(b.meta.published) - new Date(a.meta.published)
-					);
-				});
+		sortByRecent(data) {
+			return data.sort((a, b) => {
+				return (
+					new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
+					new Date(b.meta.published) - new Date(a.meta.published)
+				);
 			});
 		},
 		displaySearchItem(type, item) {
@@ -351,16 +400,5 @@ export default {
 				this.companyFilter = null;
 			}
 		}, 600)
-		// loading(value) {
-		// 	if (!value) {
-		// 		this.$nextTick(() => {
-		// 			const { tabWrapper, content } = this.$refs;
-		// 			console.log(tabWrapper);
-		// 			const [tabWrapperWidth, contentWidth] = [tabWrapper.clientWidth - 49, content.clientWidth];
-		// 			const contentWidthPercentage = (contentWidth / tabWrapperWidth) * 100;
-		// 			console.log(contentWidthPercentage);
-		// 		});
-		// 	}
-		// }
 	}
 };

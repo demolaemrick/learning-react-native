@@ -180,6 +180,5 @@ export default {
 	},
 	created() {
 		this.getUserSettings();
-		// this.openConfigModal()
 	}
 };
