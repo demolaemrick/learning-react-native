@@ -362,41 +362,41 @@ describe('Insights', () => {
 		expect(wrapper.vm.markResearch());
 	});
 
-	it('should sort relevance by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('contact_insights'));
-	});
+	// it('should sort relevance by contact_insights', async () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		router,
+	// 		store
+	// 	});
+	// 	expect(wrapper.vm.sortByRelevance('contact_insights'));
+	// });
 
-	it('should sort relevance by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('company_insights'));
-	});
+	// it('should sort relevance by company_insights', async () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		router,
+	// 		store
+	// 	});
+	// 	expect(wrapper.vm.sortByRelevance('company_insights'));
+	// });
 
-	it('should sort sortByRecent by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('company_insights'));
-	});
+	// it('should sort sortByRecent by company_insights', async () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		router,
+	// 		store
+	// 	});
+	// 	expect(wrapper.vm.sortByRecent('company_insights'));
+	// });
 
-	it('should sort sortByRecent by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('contact_insights'));
-	});
+	// it('should sort sortByRecent by contact_insights', async () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		localVue,
+	// 		router,
+	// 		store
+	// 	});
+	// 	expect(wrapper.vm.sortByRecent('contact_insights'));
+	// });
 
 	it('calls displaySearchItem method', async () => {
 		const wrapper = shallowMount(Insights, {
