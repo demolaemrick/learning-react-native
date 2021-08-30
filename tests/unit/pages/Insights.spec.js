@@ -240,7 +240,6 @@ describe('Insights', () => {
 
 	it('Render with a different tab', () => {
 		const tab = researchResponse.data.data.contact_insights.news;
-		// console.log('thereeeee ------>>>', tab);
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
@@ -286,10 +285,6 @@ describe('Insights', () => {
 	// 	// wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
 	// 	// await wrapper.vm.$nextTick();
 	// 	// expect(wrapper.vm.contactSearchQuery).toBe(false);
-	// 	// console.log(wrapper.vm.$options);
-	// 	console.log('########----->>>>');
-	// 	console.log('########----->>>>');
-	// 	console.log('########----->>>>', wrapper.vm.$options.watch.contactSearchQuery);
 	// });
 
 	// it('tests that contactSearch is called', async () => {

@@ -161,7 +161,6 @@ export default {
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {
-				console.log(this.userBookmarks);
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
 					total = company_research.length + contact_research.length;
@@ -221,7 +220,6 @@ export default {
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
-			console.log(element);
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
 			if (section.activate) {
