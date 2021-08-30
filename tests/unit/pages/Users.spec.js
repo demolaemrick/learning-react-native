@@ -3,10 +3,10 @@ import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import flushPromises from 'flush-promises';
 import TextInput from '../../../src/components/Input';
-import VButton from '@/components/Button';
-import VTable from '@/components/Table';
-import ToggleDropdown from '@/components/ToggleDropdown';
-import Modal from '@/components/Modal';
+import VButton from '../../../src/components/Button';
+import VTable from '../../../src/components/Table';
+import ToggleDropdown from '../../../src/components/ToggleDropdown';
+import Modal from '../../../src/components/Modal';
 import VueRouter from 'vue-router';
 // import debounce from 'lodash/debounce';
 
@@ -341,10 +341,7 @@ describe('Users', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper
-			.findAllComponents(VButton)
-			.at(0)
-			.trigger('click');
+		wrapper.findAllComponents(VButton).at(0).trigger('click');
 		expect(toggleCreateUser).toHaveBeenCalled();
 	});
 
@@ -452,10 +449,7 @@ describe('Users', () => {
 				toggleFilterModal
 			}
 		});
-		wrapper
-			.findAllComponents(VButton)
-			.at(1)
-			.trigger('click');
+		wrapper.findAllComponents(VButton).at(1).trigger('click');
 		expect(toggleFilterModal).toHaveBeenCalled();
 	});
 
@@ -649,11 +643,7 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper
-			.find('.table__wrapper')
-			.findAll('td')
-			.at(6)
-			.find('.dropdown__wrapper');
+		const icon = wrapper.find('.table__wrapper').findAll('td').at(6).find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});

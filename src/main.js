@@ -38,7 +38,6 @@ new Vue({
 		);
 		this.validateSession();
 	},
-	mounted() {},
 	watch: {
 		isLoggedIn(value) {
 			if (value) {
@@ -65,10 +64,7 @@ new Vue({
 		...mapActions({
 			generateApiKey: 'auth/generateApiKey'
 		}),
-		/**
-		 * Starts a user session
-		 * @param {object} data
-		 */
+
 		async startSession(data) {
 			this.$session.start();
 			this.$session.set('user', data);

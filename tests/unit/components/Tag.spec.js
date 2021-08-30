@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import CTag from '@/components/Tag';
+import CTag from '../../../src/components/Tag';
 
 describe('CTag.vue', () => {
 	const wrapper = shallowMount(CTag, {

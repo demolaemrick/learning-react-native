@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Table from '@/components/Table';
-import TableHeader from '@/components/Table/TableHeader';
+import Table from '../../../src/components/Table';
+import TableHeader from '../../../src/components/Table/TableHeader';
 const localVue = createLocalVue();
 describe('Table', () => {
 	const wrapper = shallowMount(Table, {

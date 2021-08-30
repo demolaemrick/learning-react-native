@@ -20,13 +20,9 @@ const Dashboard = () => import(/* webpackChunkName: 'login' */ '../views/Dashboa
 const Admin = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Admin');
 const Users = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Users');
 const User = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/User');
-const Api = () => import(/* webpackChunkName: 'login' */ '../views/ApiPortal');
+const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
 
 Vue.use(VueRouter);
-
-{
-	/* <router-link :to="{ name: 'User', params: { id: data.id } }"></router-link> */
-}
 
 const routes = [
 	{

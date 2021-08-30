@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import App from '@/App.vue';
+import App from '../../../src/App.vue';
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
 
