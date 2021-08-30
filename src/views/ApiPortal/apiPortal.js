@@ -26,20 +26,20 @@ export default {
 				this.keys = data.keys[0];
 				this.showAlert({
 					status: 'success',
-					message: 'Api Keys retrieved successfully',
+					message: 'API Keys retrieved successfully',
 					showAlert: true
 				});
 			} else {
 				this.showAlert({
 					status: 'info',
-					message: 'No Api Keys available. Kindly generate one',
+					message: 'No API Keys available. Kindly generate one',
 					showAlert: true
 				});
 			}
 		} catch (error) {
 			this.showAlert({
 				status: 'error',
-				message: 'Unable to retrieve Api keys',
+				message: 'Unable to retrieve API keys',
 				showAlert: true
 			});
 		} finally {
@@ -71,14 +71,14 @@ export default {
 					this.keys = data.keys;
 					this.showAlert({
 						status: 'success',
-						message: 'Api Keys generated successfully',
+						message: 'API Keys generated successfully',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to generate Api keys',
+					message: 'Unable to generate API keys',
 					showAlert: true
 				});
 			}
@@ -95,14 +95,14 @@ export default {
 
 					this.showAlert({
 						status: 'success',
-						message: 'Api Keys regenerated successfully',
+						message: 'API Keys regenerated successfully',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to regenerate Api keys',
+					message: 'Unable to regenerate API keys',
 					showAlert: true
 				});
 			}
@@ -124,7 +124,7 @@ export default {
 						}
 						this.showAlert({
 							status: 'success',
-							message: 'Api Key copied',
+							message: 'API Key copied',
 							showAlert: true
 						});
 					})
@@ -132,7 +132,7 @@ export default {
 						console.log(error);
 						this.showAlert({
 							status: 'error',
-							message: 'Unable to copy Api key',
+							message: 'Unable to copy API key',
 							showAlert: true
 						});
 					});
