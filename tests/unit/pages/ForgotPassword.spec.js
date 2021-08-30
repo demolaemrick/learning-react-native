@@ -105,14 +105,14 @@ describe('ForgotPassword', () => {
 			},
 			data() {
 				return {
-					email: 'lani@enyata.com'
+					email: 'lan@enyata.com'
 				};
 			}
 		});
 		let btn = wrapper.findComponent(CButton);
 		btn.trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith('auth/forgotPassword', {
-			email: 'lani@enyata.com'
+			email: 'lan@enyata.com'
 		});
 	});
 });

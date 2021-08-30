@@ -1,7 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
-// import flushPromises from 'flush-promises';
 
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
@@ -88,9 +87,6 @@ let researchResponse = {
 };
 
 // deep cloning existing object to avoid rewriting the whole response
-
-// let subscribeResponse = JSON.parse(JSON.stringify(researchResponse));
-// subscribeResponse.data.data.status = { statusCode: 'READY', message: 'Ready' }
 
 let subResponse = {
 	data: {
@@ -282,29 +278,28 @@ describe('Insights', () => {
 	// 		localVue,
 	// 		store
 	// 	});
-	// 	// wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
-	// 	// await wrapper.vm.$nextTick();
-	// 	// expect(wrapper.vm.contactSearchQuery).toBe(false);
+	// 	wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
+	// 	await wrapper.vm.$nextTick();
+	// 	expect(wrapper.vm.contactSearchQuery).toBe(false);
 	// });
 
-	// it('tests that contactSearch is called', async () => {
-	// 	// const contactSearch = jest.fn();
-	// 	const wrapper = shallowMount(Insights, {
-	// 		store,
-	// 		data() {
-	// 			return {
-	// 				contactSearchQuery: ''
-	// 			};
-	// 		}
-	// 		// methods: {
-	// 		// 	contactSearch
-	// 		// }
-	// 	});
-	// 	wrapper.setData({ contactSearchQuery: 'lani' });
-	// 	expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
-	// 	await flushPromises();
-	// 	expect(contactSearch).toHaveBeenCalled;
-	// });
+	it('tests that contactSearch is called', async () => {
+		const wrapper = shallowMount(Insights, {
+			store,
+			data() {
+				return {
+					contactSearchQuery: ''
+				};
+			}
+			// methods: {
+			// 	contactSearch
+			// }
+		});
+		wrapper.setData({ contactSearchQuery: 'lani' });
+		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
+		await flushPromises();
+		expect(contactSearch).toHaveBeenCalled;
+	});
 
 	it('tests for RefreshResearch method is called', () => {
 		const wrapper = shallowMount(Insights, {
@@ -357,41 +352,41 @@ describe('Insights', () => {
 		expect(wrapper.vm.markResearch());
 	});
 
-	// it('should sort relevance by contact_insights', async () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		router,
-	// 		store
-	// 	});
-	// 	expect(wrapper.vm.sortByRelevance('contact_insights'));
-	// });
+	it('should sort relevance by contact_insights', async () => {
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			router,
+			store
+		});
+		expect(wrapper.vm.sortByRelevance('contact_insights'));
+	});
 
-	// it('should sort relevance by company_insights', async () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		router,
-	// 		store
-	// 	});
-	// 	expect(wrapper.vm.sortByRelevance('company_insights'));
-	// });
+	it('should sort relevance by company_insights', async () => {
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			router,
+			store
+		});
+		expect(wrapper.vm.sortByRelevance('company_insights'));
+	});
 
-	// it('should sort sortByRecent by company_insights', async () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		router,
-	// 		store
-	// 	});
-	// 	expect(wrapper.vm.sortByRecent('company_insights'));
-	// });
+	it('should sort sortByRecent by company_insights', async () => {
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			router,
+			store
+		});
+		expect(wrapper.vm.sortByRecent('company_insights'));
+	});
 
-	// it('should sort sortByRecent by contact_insights', async () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		router,
-	// 		store
-	// 	});
-	// 	expect(wrapper.vm.sortByRecent('contact_insights'));
-	// });
+	it('should sort sortByRecent by contact_insights', async () => {
+		const wrapper = shallowMount(Insights, {
+			localVue,
+			router,
+			store
+		});
+		expect(wrapper.vm.sortByRecent('contact_insights'));
+	});
 
 	it('calls displaySearchItem method', async () => {
 		const wrapper = shallowMount(Insights, {

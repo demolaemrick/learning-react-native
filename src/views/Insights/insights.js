@@ -76,7 +76,7 @@ export default {
 				const url = this.contact_details.socials.find((element) => {
 					return Object.keys(element).includes('linkedin');
 				});
-				return url && url.linkedin ? `https://${url.linkedin}/detail/recent-activity` : null;
+				return url && url.linkedin ? `${this.validateURL(url.linkedin)}/detail/recent-activity` : null;
 			}
 		},
 		screenType: {
@@ -137,7 +137,6 @@ export default {
 				let newObj = {};
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 				const data = result.news;
-				//const data = result.news;
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;

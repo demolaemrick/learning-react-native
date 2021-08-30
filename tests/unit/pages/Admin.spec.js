@@ -1,7 +1,5 @@
 import Admin from '../../../src/views/Dashboard/Admin';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
-// import flushPromises from 'flush-promises';
-// import VButton from '@/components/Button';
 import CButton from '@/components/Button';
 
 jest.useFakeTimers();
@@ -112,14 +110,6 @@ describe('Admin', () => {
 
 	it('tests that send invite modal is called on button click', async () => {
 		const inviteAdmin = jest.fn();
-		// let e = new Event('target');
-		// e = {
-		// 	target: {
-		// 		validity: {
-		// 			valid: true
-		// 		}
-		// 	}
-		// };
 		const wrapper = mount(Admin, {
 			store,
 			data() {
@@ -298,7 +288,6 @@ describe('Admin', () => {
 			.at(0)
 			.trigger('click');
 
-		// expect(toggleSendInvites).toHaveBeenCalled();
 		expect(wrapper.vm.toggleSendInvites());
 		// 	await wrapper.vm.$nextTick();
 		expect(wrapper.vm.sendInvites).toBe(true);
@@ -312,7 +301,6 @@ describe('Admin', () => {
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
 		wrapper.vm.sendInvites = true;
-		// expect(wrapper.vm.sendInvites).toBe(true);
 		wrapper.vm.$nextTick();
 		wrapper.vm.toggleSendInvites();
 		expect(wrapper.vm.toggleClass).toBe(false);
@@ -321,39 +309,6 @@ describe('Admin', () => {
 		expect(wrapper.vm.sendInvites).toBe(false);
 		expect(wrapper.vm.toggleClass).toBe(true);
 	});
-
-	// it('tests that the activate button is called', async () => {
-	// 	const activate = jest.fn();
-	// 	const toggleActivateModal = jest.fn();
-	// 	const wrapper = mount(Admin, {
-	// 		store,
-	// 		data() {
-	// 			return {
-	// 				activateModal: true
-	// 			};
-	// 		},
-	// 		methods: {
-	// 			activate,
-	// 			toggleActivateModal,
-	// 		}
-	// 	});
-	// 	wrapper.findAllComponents(CButton).trigger('click');
-	// 	expect(wrapper.vm.openActivateModal)
-	// 	expect(activate).toHaveBeenCalled();
-	// 	await flushPromises();
-	// 	if (status === 200 && statusText === 'OK') {
-	// 		expect(toggleActivateModal).toHaveBeenCalled();
-	// 	}
-	// });
-
-	// it('tests that the search method is called', () => {
-	// 	const wrapper = shallowMount(Admin, {
-	// 		store,
-	// 		localVue
-	// 	});
-	// 	expect(wrapper.vm.searchPage());
-	// 	expect(wrapper.vm.$data.admins).not.toBeNull();
-	// });
 
 	it('tests that the deleteAdmin method works', () => {
 		const wrapper = shallowMount(Admin, {
