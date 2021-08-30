@@ -8,7 +8,6 @@ import VTable from '../../../src/components/Table';
 import ToggleDropdown from '../../../src/components/ToggleDropdown';
 import Modal from '../../../src/components/Modal';
 import VueRouter from 'vue-router';
-// import debounce from 'lodash/debounce';
 
 jest.useFakeTimers();
 
@@ -105,9 +104,6 @@ describe('Users', () => {
 		]
 	});
 	beforeEach(() => {
-		// let func = jest.fn();
-		// let debouncedFunc = debounce(func, 600);
-
 		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
@@ -144,6 +140,7 @@ describe('Users', () => {
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
+
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
 		const wrapper = shallowMount(Users, {
@@ -489,6 +486,7 @@ describe('Users', () => {
 		// jest.useRealTimers();
 		// expect(search).toHaveBeenCalled();
 	});
+
 	it('tests that the loading state changes', async () => {
 		const wrapper = shallowMount(Users, {
 			store,
