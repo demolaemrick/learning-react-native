@@ -67,8 +67,8 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortByBookmarked(uniqueArray);
 				this.sortByDislike(uniqueArray);
+				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
 			}
 		}

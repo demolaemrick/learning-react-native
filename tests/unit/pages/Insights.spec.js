@@ -1,8 +1,11 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
-
 import VueRouter from 'vue-router';
+
+const lodash = require('lodash');
+lodash.debounce = jest.fn((fn) => fn);
+
 const localVue = createLocalVue();
 
 localVue.filter('moment', (val, val2) => val + val2);
@@ -284,21 +287,22 @@ describe('Insights', () => {
 	// });
 
 	it('tests that contactSearch is called', async () => {
+		const contactSearch = jest.fn();
 		const wrapper = shallowMount(Insights, {
 			store,
 			data() {
 				return {
 					contactSearchQuery: ''
 				};
+			},
+			methods: {
+				contactSearch
 			}
-			// methods: {
-			// 	contactSearch
-			// }
 		});
-		wrapper.setData({ contactSearchQuery: 'lani' });
+		await wrapper.setData({ contactSearchQuery: 'lani' });
 		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
 		// await flushPromises();
-		expect(contactSearch).toHaveBeenCalled;
+		expect(contactSearch).toHaveBeenCalled();
 	});
 
 	it('tests for RefreshResearch method is called', () => {
@@ -350,42 +354,6 @@ describe('Insights', () => {
 			store
 		});
 		expect(wrapper.vm.markResearch());
-	});
-
-	it('should sort relevance by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('contact_insights'));
-	});
-
-	it('should sort relevance by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('company_insights'));
-	});
-
-	it('should sort sortByRecent by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('company_insights'));
-	});
-
-	it('should sort sortByRecent by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('contact_insights'));
 	});
 
 	it('calls displaySearchItem method', async () => {
