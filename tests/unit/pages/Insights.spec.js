@@ -3,14 +3,18 @@ import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
 import VueRouter from 'vue-router';
 
-const lodash = require('lodash');
-lodash.debounce = jest.fn((fn) => fn);
+// const lodash = require('lodash');
+// lodash.debounce = jest.fn((fn) => fn());
+
+jest.mock('lodash', () => ({
+	debounce: (fn) => fn
+}));
 
 const localVue = createLocalVue();
-
 localVue.filter('moment', (val, val2) => val + val2);
-
 localVue.use(Vuex);
+
+
 
 let researchResponse = {
 	status: 200,
@@ -287,23 +291,68 @@ describe('Insights', () => {
 	// });
 
 	it('tests that contactSearch is called', async () => {
-		const contactSearch = jest.fn();
+		
 		const wrapper = shallowMount(Insights, {
 			store,
+			localVue,
+			router,
 			data() {
 				return {
 					contactSearchQuery: ''
 				};
-			},
-			methods: {
-				contactSearch
 			}
 		});
+		const vm = wrapper.vm;
+		const contactSearch = jest.spyOn(vm, 'contactSearch');
+
 		await wrapper.setData({ contactSearchQuery: 'lani' });
 		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
-		// await flushPromises();
+		
+		expect(contactSearch).toHaveBeenCalled();
+
+		await wrapper.setData({ contactSearchQuery: '' });
 		expect(contactSearch).toHaveBeenCalled();
 	});
+
+	it('tests that companySearch is called', async () => {
+		
+		const wrapper = shallowMount(Insights, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					companySearchQuery: ''
+				};
+			}
+		});
+		const vm = wrapper.vm;
+		const companySearch = jest.spyOn(vm, 'companySearch');
+
+		await wrapper.setData({ companySearchQuery: 'funding' });
+		expect(wrapper.vm.$data.companySearchQuery).toEqual('funding');
+		
+		expect(companySearch).toHaveBeenCalled();
+
+		await wrapper.setData({ companySearchQuery: '' });
+		expect(companySearch).toHaveBeenCalled();
+	});
+
+	// it('checks that the search clears when the cancle button is clicked', () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		store,
+	// 		localVue,
+	// 		router
+	// 		// data() {
+	// 		// 	return {
+	// 		// 		companySearchQuery: ''
+	// 		// 	};
+	// 		// }
+	// 	});
+	// 	const btn = wrapper.find({ ref: 'companySearchText' });
+	// 	console.log(btn);
+	// 	btn.trigger('click');
+	// })
 
 	it('tests for RefreshResearch method is called', () => {
 		const wrapper = shallowMount(Insights, {

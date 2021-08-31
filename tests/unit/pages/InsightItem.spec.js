@@ -215,7 +215,8 @@ describe('InsightItem', () => {
 	it('Render without errors', async () => {
 		const wrapper = shallowMount(InsightItem, {
 			localVue,
-			store
+			store,
+			router
 			// mocks: {
 			// 	$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
 			// }

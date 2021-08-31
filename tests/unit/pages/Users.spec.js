@@ -16,8 +16,8 @@ const Paginate = require('vuejs-paginate');
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
 localVue.component('paginate', Paginate);
 
 let users = {
