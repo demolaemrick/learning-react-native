@@ -10,14 +10,7 @@ describe('InsightCard.vue', () => {
 		const wrapper = shallowMount(InsightCard, {
 			propsData: {
 				published: 'some value',
-				article: {
-					url: 'https://www.ndtv.com/world-news/google-co-founder-sergey-brin-opens-family-office-in-singapore-2362357',
-					meta: {
-						html: {
-							snippet: 'www.ndtv.com'
-						}
-					}
-				}
+				article: {}
 			},
 			localVue
 		});

@@ -19,13 +19,6 @@ describe('Modal.vue', () => {
 	it('Render without errors', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
-
-	it('shows return style', () => {
-		expect(wrapper.vm.style).toStrictEqual({ maxWidth: '496px' });
-	});
-	it('should return max width', () => {
-		expect(wrapper.vm.style).toStrictEqual({ maxWidth: wrapper.props().maxWidth });
-	});
 	test('call closeModal function', () => {
 		wrapper.vm.closeModal();
 	});
