@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import NotFound from '@/views/NotFound.vue';
+import NotFound from '../../../src/views/NotFound.vue';
 
 describe('NotFound.vue', () => {
 	const wrapper = shallowMount(NotFound);

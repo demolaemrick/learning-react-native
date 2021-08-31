@@ -1,7 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
-import flushPromises from 'flush-promises';
 
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();
@@ -89,12 +88,18 @@ let researchResponse = {
 
 // deep cloning existing object to avoid rewriting the whole response
 
-// let subscribeResponse = JSON.parse(JSON.stringify(researchResponse));
-// subscribeResponse.data.data.status = { statusCode: 'READY', message: 'Ready' }
-
 let subResponse = {
 	data: {
 		done: {
+			contact_details: {
+				company: 'Volley',
+				email: 'dayo@enyata.com',
+				full_name: 'Ian Carnevale',
+				last_refresh: '2021-07-30T15:19:51.743Z',
+				role: 'CEO',
+				socials: [{ angel: 'angel.co/ian-carnevale' }],
+				url: 'https://volley.com'
+			},
 			status: { statusCode: 'READY', message: 'Ready' }
 		}
 	},
@@ -169,7 +174,6 @@ describe('Insights', () => {
 	let store;
 	const router = new VueRouter({
 		routes: [
-			// { path: '/login', name: 'Login' },
 			{ path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } },
 			{ path: '/', name: 'Search' }
 		]
@@ -219,11 +223,10 @@ describe('Insights', () => {
 		});
 	});
 
-	it('Render without errors', () => {
+	it('Render without errors', async () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			store,
-			router,
 			mocks: {
 				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
 			}
@@ -233,7 +236,6 @@ describe('Insights', () => {
 
 	it('Render with a different tab', () => {
 		const tab = researchResponse.data.data.contact_insights.news;
-		// console.log('thereeeee ------>>>', tab);
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
@@ -265,6 +267,7 @@ describe('Insights', () => {
 		store.dispatch = jest.fn().mockRejectedValue(err);
 		const wrapper = shallowMount(Insights, {
 			localVue,
+			router,
 			store
 		});
 		expect(wrapper.vm.markResearch());
@@ -275,31 +278,26 @@ describe('Insights', () => {
 	// 		localVue,
 	// 		store
 	// 	});
-	// 	// wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
-	// 	// await wrapper.vm.$nextTick();
-	// 	// expect(wrapper.vm.contactSearchQuery).toBe(false);
-	// 	// console.log(wrapper.vm.$options);
-	// 	console.log('########----->>>>');
-	// 	console.log('########----->>>>');
-	// 	console.log('########----->>>>', wrapper.vm.$options.watch.contactSearchQuery);
+	// 	wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
+	// 	await wrapper.vm.$nextTick();
+	// 	expect(wrapper.vm.contactSearchQuery).toBe(false);
 	// });
 
 	it('tests that contactSearch is called', async () => {
-		// const contactSearch = jest.fn();
 		const wrapper = shallowMount(Insights, {
-			// store,
-			// data() {
-			// 	return {
-			// 		contactFilter: ''
-			// 	};
-			// }
+			store,
+			data() {
+				return {
+					contactSearchQuery: ''
+				};
+			}
 			// methods: {
 			// 	contactSearch
 			// }
 		});
-		wrapper.setData({ contactFilter: 'lani' });
-		expect(wrapper.vm.$data.contactFilter).toEqual('lani');
-		await flushPromises();
+		wrapper.setData({ contactSearchQuery: 'lani' });
+		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
+		// await flushPromises();
 		expect(contactSearch).toHaveBeenCalled;
 	});
 
@@ -331,15 +329,6 @@ describe('Insights', () => {
 		expect(wrapper.vm.subscribe());
 	});
 
-	// it('should throw an error when subscribe is called', async () => {
-	// 	store.dispatch = jest.fn().mockRejectedValue(err);
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		storeok
-	// 	});
-	// 	expect(wrapper.vm.subscribe());
-	// });
-
 	it('should call handleTextareaBlur', async () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
@@ -355,28 +344,19 @@ describe('Insights', () => {
 	});
 
 	it('should call markResearch', async () => {
-		// store.dispatch = jest.fn().mockResolvedValue(researchDoneRes);
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
 			store
 		});
 		expect(wrapper.vm.markResearch());
-		// await flushPromises();
-		// expect(markResearch()).toHaveBeenCalledWith('search_services/researchDone', '1');
-		// await flushPromises();
 	});
 
 	it('should sort relevance by contact_insights', async () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
-			store,
-			data() {
-				return {
-					contact_insights: researchResponse.data.data.contact_insights
-				};
-			}
+			store
 		});
 		expect(wrapper.vm.sortByRelevance('contact_insights'));
 	});
@@ -385,12 +365,7 @@ describe('Insights', () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
-			store,
-			data() {
-				return {
-					company_insights: researchResponse.data.data.company_insights
-				};
-			}
+			store
 		});
 		expect(wrapper.vm.sortByRelevance('company_insights'));
 	});
@@ -399,12 +374,7 @@ describe('Insights', () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
-			store,
-			data() {
-				return {
-					company_insights: researchResponse.data.data.company_insights
-				};
-			}
+			store
 		});
 		expect(wrapper.vm.sortByRecent('company_insights'));
 	});
@@ -413,12 +383,7 @@ describe('Insights', () => {
 		const wrapper = shallowMount(Insights, {
 			localVue,
 			router,
-			store,
-			data() {
-				return {
-					contact_insights: researchResponse.data.data.contact_insights
-				};
-			}
+			store
 		});
 		expect(wrapper.vm.sortByRecent('contact_insights'));
 	});

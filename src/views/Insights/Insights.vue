@@ -38,25 +38,25 @@
 								v-if="social.twitter && Object.entries(social.twitter).length > 0"
 								:href="validateURL(social.twitter)"
 								target="_blank"
-								><img src="@/assets/icons/twitter-icon.svg" svg-inline
+								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 							/></a>
 							<a
 								v-if="social.linkedin && Object.entries(social.linkedin).length > 0"
 								:href="validateURL(social.linkedin)"
 								target="_blank"
-								><img src="@/assets/icons/linkedin-icon.svg" svg-inline
+								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 							/></a>
 							<a
 								v-if="social.website && Object.entries(social.website).length > 0"
 								:href="validateURL(social.website)"
 								target="_blank"
-								><img src="@/assets/icons/world-icon.svg" svg-inline
+								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 							/></a>
 							<a
 								v-if="social.crunchbase && Object.entries(social.crunchbase).length > 0"
 								:href="validateURL(social.crunchbase)"
 								target="_blank"
-								><img src="@/assets/icons/crunchbase.svg" svg-inline
+								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 							/></a>
 						</span>
 					</div>
@@ -135,7 +135,7 @@
 			<div v-else class="notepad">
 				<span class="title-wrapper">
 					<p class="notepad-title">Notepad</p>
-					<img src="@/assets/icons/collapse.svg" svg-inline @click="editNote = false" />
+					<img src="@/assets/icons/collapse.svg" alt="close notepad icon" svg-inline @click="editNote = false" />
 				</span>
 				<textarea
 					class="notepad-input"
@@ -159,7 +159,7 @@
 							<template #dropdown-wrapper>
 								<h3 class="title">
 									Contact Insights
-									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 								</h3>
 							</template>
 							<template #dropdown-items>
@@ -174,7 +174,7 @@
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="contact_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer">
-								<img src="@/assets/icons/work.svg" svg-inline />
+								<img src="@/assets/icons/work.svg" alt="company icon" svg-inline />
 								<p class="ml">
 									{{ contact_details.full_name }} has
 									<template v-if="contact_insights.snapshot.current_employer.current">been working</template>
@@ -201,7 +201,7 @@
 								class="flex flex__item-center postion"
 								v-if="contact_insights.snapshot.interests && contact_insights.snapshot.interests.length > 0"
 							>
-								<img src="@/assets/icons/convo-bubble.svg" svg-inline />
+								<img src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in contact_insights.snapshot.interests" :key="i">
@@ -211,12 +211,12 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="getLinkedinUrl">
-								<img src="@/assets/icons/linkedin-icon2.svg" svg-inline />
+								<img src="@/assets/icons/linkedin-icon2.svg" alt="linkedin icon" svg-inline />
 								<p
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -225,7 +225,7 @@
 								<p class="ml" v-else>Posts on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a></p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
-								<img src="@/assets/icons/twitter-icon2.svg" svg-inline />
+								<img src="@/assets/icons/twitter-icon2.svg" alt="twitter icon" svg-inline />
 								<p class="ml">Most viral tweet from the past 90days:</p>
 							</div>
 						</div>
@@ -250,7 +250,9 @@
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
-										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+										<p class="sort">
+											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+										</p>
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
@@ -306,7 +308,7 @@
 							</h5>
 						</div>
 						<div v-if="!contactFilter" class="tab-circle" @click="scrollTab">
-							<img src="@/assets/icons/arrow-right.svg" svg-inline />
+							<img src="@/assets/icons/arrow-right.svg" alt="arrow-right icon" svg-inline />
 						</div>
 					</div>
 					<div class="section-wrapper">
@@ -388,7 +390,7 @@
 							<template #dropdown-wrapper>
 								<h3 class="title">
 									Company Research
-									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 								</h3>
 							</template>
 							<template #dropdown-items>
@@ -401,7 +403,7 @@
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="company_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion">
-								<img src="@/assets/icons/articles.svg" svg-inline />
+								<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
 									<span
@@ -413,7 +415,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.last_funding">
-								<img src="@/assets/icons/fund.svg" svg-inline />
+								<img src="@/assets/icons/fund.svg" alt="funds icon" svg-inline />
 								<p class="ml">
 									Raised a round of
 									<span
@@ -434,7 +436,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
-								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" svg-inline />
+								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
@@ -444,7 +446,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
-								<img src="@/assets/icons/jobs.svg" svg-inline />
+								<img src="@/assets/icons/jobs.svg" alt="open jobs icon" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
 							</div>
 						</div>
@@ -458,7 +460,9 @@
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
-										<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+										<p class="sort">
+											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+										</p>
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
@@ -513,9 +517,7 @@
 					<div class="section-wrapper">
 						<p class="search--error mt-2" v-if="companyFilter === 'empty'">No data found</p>
 					</div>
-					<!-- </div> -->
 					<template v-if="!companyFilter">
-						<!-- <template v-for="categories in company_insights_categories"> -->
 						<InsightCard
 							v-for="(article, j) in company_insights_categories"
 							:key="company_insights_categories[article]"
@@ -532,7 +534,6 @@
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
-						<!-- </template> -->
 					</template>
 				</div>
 				<div class="jobs-section" v-if="company_insights.jobs.length > 0">
@@ -572,7 +573,6 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<!-- <h5 class="mb-2">Your feedback will help us improve your results.</h5> -->
 					<p class="modal__content-text">
 						<RadioBtn
 							style="display: block"

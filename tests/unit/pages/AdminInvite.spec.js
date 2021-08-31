@@ -1,7 +1,6 @@
 import AdminInvite from '../../../src/views/auth/AdminInvite';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import CButton from '../../../src/components/Button';
 
 const localVue = createLocalVue();
 
@@ -83,8 +82,10 @@ describe('AdminInvite', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('admin_management/processAdminInvite', {
 			password: '1234abcd',
 			first_name: 'Lani',
@@ -114,8 +115,10 @@ describe('AdminInvite', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('admin_management/processAdminInvite', {
 			password: '1234abcd',
 			first_name: 'Lani',

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import DCheckbox from '@/components/DefaultCheckbox';
+import DCheckbox from '../../../src/components/DefaultCheckbox';
 
 describe('DCheckbox.vue', () => {
 	const wrapper = mount(DCheckbox, {

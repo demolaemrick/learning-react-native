@@ -2,10 +2,10 @@ import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 import { mount, shallowMount, RouterLinkStub, createLocalVue } from '@vue/test-utils';
-import Search from '@/views/Search/Search.vue';
-import CButton from '@/components/Button';
+import Search from '../../../src/views/Search/Search.vue';
+import CButton from '../../../src/components/Button';
 import ValidationObserver from 'vee-validate';
-import VTabs from '@/components/Tabs';
+import VTabs from '../../../src/components/Tabs';
 
 const localVue = createLocalVue();
 localVue.use(VueRouter);

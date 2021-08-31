@@ -13,7 +13,7 @@
 						<template #dropdown-wrapper>
 							<h3 class="title">
 								Contact Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 							</h3>
 						</template>
 						<template #dropdown-items>
@@ -23,9 +23,7 @@
 					</toggle-dropdown>
 					<div class="filter-sort">
 						<toggle-dropdown>
-							<template #dropdown-wrapper>
-								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
-							</template>
+							<template #dropdown-wrapper> </template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
 								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
@@ -33,11 +31,10 @@
 						</toggle-dropdown>
 						<dropdown-checkbox>
 							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+								<span class="filter"><img src="@/assets/icons/filter.svg" alt="filter icon" svg-inline/></span>
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in getSearchedResult.contact_research" :key="i">
-									<!-- <span v-for="(data, i) in response.data.contact_research" :key="i"> -->
 									<li class="dropdown__item" v-if="getSearchedResult.contact_research[i].length !== 0">
 										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
 											{{ i }}
@@ -57,10 +54,15 @@
 							</div>
 							<div class="url__bookmark__group">
 								<a :href="data.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="planet earth icon" svg-inline />
 									<p class="url-text">{{ data.url }}</p></a
 								>
-								<img @click="btnRemoveFromBookMarks(data)" src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
+								<img
+									@click="btnRemoveFromBookMarks(data)"
+									alt="bookmark icon"
+									src="@/assets/icons/bookman-icon-dark.svg"
+									svg-inline
+								/>
 							</div>
 						</div>
 					</span>
@@ -76,7 +78,7 @@
 						<template #dropdown-wrapper>
 							<h3 class="title">
 								Company Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 							</h3>
 						</template>
 						<template #dropdown-items>
@@ -86,9 +88,7 @@
 					</toggle-dropdown>
 					<div class="filter-sort">
 						<toggle-dropdown>
-							<template #dropdown-wrapper>
-								<!-- <p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p> -->
-							</template>
+							<template #dropdown-wrapper> </template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('company_research')">Recent</li>
 								<li class="dropdown__item" @click="sortByRelevance('company_research')">Relevance</li>
@@ -96,7 +96,7 @@
 						</toggle-dropdown>
 						<dropdown-checkbox>
 							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" svg-inline /></span>
+								<span class="filter"><img src="@/assets/icons/filter.svg" alt="filter icon" svg-inline/></span>
 							</template>
 							<template #dropdown-items>
 								<span v-for="(data, i) in getSearchedResult.company_research" :key="i">
@@ -119,18 +119,21 @@
 							</div>
 							<div class="url__bookmark__group">
 								<a :href="data.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="planet earth icon" svg-inline />
 									<p class="url-text">{{ data.url }}</p></a
 								>
-								<img @click="btnRemoveFromBookMarks(data)" src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
+								<img
+									@click="btnRemoveFromBookMarks(data)"
+									alt="bookmark icon"
+									src="@/assets/icons/bookman-icon-dark.svg"
+									svg-inline
+								/>
 							</div>
 						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
 			</div>
-
-			<!-- </div> -->
 		</main>
 	</div>
 </template>

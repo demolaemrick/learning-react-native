@@ -1,6 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
 import { mapActions, mapGetters } from 'vuex';
-import CButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import VTable from '@/components/Table';
 import VHeader from '@/components/Header/search/Header';
@@ -80,7 +79,6 @@ export default {
 	},
 	components: {
 		ValidationObserver,
-		CButton,
 		TextInput,
 		VTable,
 		VHeader,
@@ -328,7 +326,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

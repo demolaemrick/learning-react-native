@@ -35,7 +35,7 @@ export default {
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: error.response.data.message,
+					message: 'Email not found',
 					showAlert: true
 				});
 			} finally {

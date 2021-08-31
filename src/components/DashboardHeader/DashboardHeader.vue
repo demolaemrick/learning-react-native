@@ -13,7 +13,7 @@
 								{{ loggedInUser.first_name.charAt(0).toUpperCase() }}{{ loggedInUser.last_name.charAt(0).toUpperCase() }}
 							</p>
 						</div>
-						<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+						<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="drop down arrow" svg-inline />
 					</div>
 				</template>
 				<template #dropdown-items>

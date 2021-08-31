@@ -3,19 +3,17 @@ import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import flushPromises from 'flush-promises';
 import TextInput from '../../../src/components/Input';
-import VButton from '@/components/Button';
-import VTable from '@/components/Table';
-import ToggleDropdown from '@/components/ToggleDropdown';
-import Modal from '@/components/Modal';
+import VButton from '../../../src/components/Button';
+import VTable from '../../../src/components/Table';
+import ToggleDropdown from '../../../src/components/ToggleDropdown';
+import Modal from '../../../src/components/Modal';
 import VueRouter from 'vue-router';
-// import debounce from 'lodash/debounce';
 
 jest.useFakeTimers();
 
 const Paginate = require('vuejs-paginate');
 
 jest.mock('vuejs-paginate');
-// jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
 
 const localVue = createLocalVue();
 
@@ -105,9 +103,6 @@ describe('Users', () => {
 		]
 	});
 	beforeEach(() => {
-		// let func = jest.fn();
-		// let debouncedFunc = debounce(func, 600);
-
 		store = new Vuex.Store({
 			actions: {
 				showAlert: jest.fn()
@@ -144,6 +139,7 @@ describe('Users', () => {
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
+
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
 		const wrapper = shallowMount(Users, {
@@ -318,139 +314,11 @@ describe('Users', () => {
 			}
 		});
 		wrapper.findAllComponents(VButton).trigger('click');
-		// expect(suspend).toHaveBeenCalled();
 		await wrapper.vm.suspend();
-		// await flushPromises();
 		if (status === 200 && statusText === 'OK') {
 			expect(toggleSuspendModal).toHaveBeenCalled();
 		}
 		expect(wrapper.vm.loading).toBeFalsy();
-	});
-
-	it('tests that createUser modal is called on button click', () => {
-		const toggleCreateUser = jest.fn();
-		const wrapper = mount(Users, {
-			store,
-			data() {
-				return {
-					loading: false
-				};
-			},
-			methods: {
-				toggleCreateUser
-			}
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.findAllComponents(VButton).at(0).trigger('click');
-		expect(toggleCreateUser).toHaveBeenCalled();
-	});
-
-	it('tests that createuser modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.createUser = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleCreateUser();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.createUser).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that filter modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.filter = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleFilterModal();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.filter).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that edit modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.showEditModal = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleEditModal();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.showEditModal).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that deactivate modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.deactivateModal = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleDeactivateModal();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.deactivateModal).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that activate modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.activateModal = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleActivateModal();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.activateModal).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that suspend modal is toggled', () => {
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue
-		});
-		expect(wrapper.vm.toggleClass).toBe(true);
-		wrapper.vm.suspendModal = true;
-		wrapper.vm.$nextTick();
-		wrapper.vm.toggleSuspendModal();
-		expect(wrapper.vm.toggleClass).toBe(false);
-		jest.advanceTimersByTime(500);
-		wrapper.vm.$nextTick();
-		expect(wrapper.vm.suspendModal).toBe(false);
-		expect(wrapper.vm.toggleClass).toBe(true);
-	});
-
-	it('tests that filter modal is called on button click', () => {
-		const toggleFilterModal = jest.fn();
-		const wrapper = mount(Users, {
-			store,
-			methods: {
-				toggleFilterModal
-			}
-		});
-		wrapper.findAllComponents(VButton).at(1).trigger('click');
-		expect(toggleFilterModal).toHaveBeenCalled();
 	});
 
 	it('tests that table component exists', () => {
@@ -471,18 +339,13 @@ describe('Users', () => {
 			}
 		});
 
-		// expect(wrapper.vm.$data.searchQuery).toBeNull();
 		wrapper.setData({ searchQuery: 'lani' });
 		expect(wrapper.vm.$data.searchQuery).toEqual('lani');
 		await flushPromises();
 		expect(wrapper.vm.searchPage());
 		expect(wrapper.vm.loading).toBeFalsy();
-
-		// await flushPromises();
-		// jest.runAllTimers();
-		// jest.useRealTimers();
-		// expect(search).toHaveBeenCalled();
 	});
+
 	it('tests that the loading state changes', async () => {
 		const wrapper = shallowMount(Users, {
 			store,
@@ -582,33 +445,6 @@ describe('Users', () => {
 		expect(wrapper.vm.showUser(item));
 	});
 
-	// it('tests that searchQuery watcher is triggered', async () => {
-	// 	const wrapper = shallowMount(Users, {
-	// 		store,
-	// 		localVue,
-	// 		mocks: {
-	// 			$router: router
-	// 		}
-	// 	});
-
-	// 	jest.useFakeTimers();
-
-	// 	const searchPage = debounce(() => jest.fn(), 700);
-
-	// 	wrapper.setMethods({
-	// 		searchPage
-	// 	});
-
-	// 	await wrapper.setData({
-	// 		searchQuery: 'lani'
-	// 	});
-
-	// 	jest.advanceTimersByTime(700);
-	// 	// jest.runAllTimers();
-
-	// 	expect(searchPage.called).toBe(true);
-	// })
-
 	it('shows page title', () => {
 		const wrapper = shallowMount(Users, {
 			store,
@@ -643,7 +479,11 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper.find('.table__wrapper').findAll('td').at(6).find('.dropdown__wrapper');
+		const icon = wrapper
+			.find('.table__wrapper')
+			.findAll('td')
+			.at(6)
+			.find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});
@@ -665,31 +505,4 @@ describe('Users', () => {
 		await expect(wrapper.vm.editUser());
 		expect(wrapper.vm.$data.loading).toBe(false);
 	});
-
-	// it('tests that searchPage method is called', () => {
-	// debounce.mockImplementation(fn => fn);
-	// 	const searchPage = jest.fn();
-
-	// 	const wrapper = mount(Users, {
-	// 		store,
-	// 		data() {
-	// 			return {
-	// 				searchQuery: ''
-	// 			};
-	// 		},
-	// 		methods: {
-	// 			searchPage
-	// 		}
-	// 	});
-
-	// 	expect(wrapper.vm.$data.searchQuery).toBe('');
-	// 	wrapper.setData({ searchQuery: 'lani' });
-	// 	expect(wrapper.vm.$data.searchQuery).toEqual('lani');
-	// 	wrapper.vm.$options.watch.searchQuery.call(wrapper.vm);
-	// 	console.log('##########');
-	// 	console.log(wrapper.vm.$options.watch);
-	// 	console.log('##########');
-	// 	jest.advanceTimersByTime(600);
-	// 	expect(wrapper.vm.searchPage({ q: 'lani' }));
-	// });
 });
