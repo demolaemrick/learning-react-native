@@ -51,12 +51,7 @@ export default {
 					title: 'Suspended'
 				}
 			],
-			checkedContacts: [],
 			tableHeaders: [
-				{
-					name: '',
-					elementSlot: true
-				},
 				{
 					name: 'Name',
 					sortHeader: 'full_name'
@@ -351,7 +346,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {
