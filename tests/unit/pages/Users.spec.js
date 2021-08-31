@@ -5,7 +5,6 @@ import flushPromises from 'flush-promises';
 import TextInput from '../../../src/components/Input';
 import VButton from '../../../src/components/Button';
 import VTable from '../../../src/components/Table';
-import ToggleDropdown from '../../../src/components/ToggleDropdown';
 import Modal from '../../../src/components/Modal';
 import VueRouter from 'vue-router';
 
@@ -188,15 +187,6 @@ describe('Users', () => {
 		const button = wrapper.findComponent(VButton);
 		expect(button.exists()).toBe(true);
 	});
-
-	it('tests that the dropdown component exists', () => {
-		const wrapper = mount(Users, {
-			store
-		});
-		const dropdown = wrapper.findComponent(ToggleDropdown);
-		expect(dropdown.exists()).toBe(true);
-	});
-
 	it('tests that the deactivate modal exists', () => {
 		const wrapper = mount(Users, {
 			store,
@@ -479,11 +469,7 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper
-			.find('.table__wrapper')
-			.findAll('td')
-			.at(6)
-			.find('.dropdown__wrapper');
+		const icon = wrapper.find('.table__wrapper').findAll('td').at(5).find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});

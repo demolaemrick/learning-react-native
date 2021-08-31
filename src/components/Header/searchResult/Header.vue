@@ -65,7 +65,7 @@ export default {
 		},
 		logoutUser() {
 			const route = this.$router.currentRoute.fullPath;
-			const { email } = this.loggedInUser;
+			const email = this.loggedInUser.email;
 
 			const substring = '/insights?rowId=';
 			if (route.indexOf(substring) !== -1) {
