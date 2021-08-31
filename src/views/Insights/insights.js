@@ -76,7 +76,7 @@ export default {
 				const url = this.contact_details.socials.find((element) => {
 					return Object.keys(element).includes('linkedin');
 				});
-				return url.linkedin ? `https://${url.linkedin}/detail/recent-activity` : null;
+				return url && url.linkedin ? `${this.validateURL(url.linkedin)}/detail/recent-activity` : null;
 			}
 		},
 		screenType: {
@@ -137,7 +137,6 @@ export default {
 				let newObj = {};
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 				const data = result.news;
-				//const data = result.news;
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
@@ -161,7 +160,6 @@ export default {
 		userBookmarksCount() {
 			let total = 0;
 			if (this.userBookmarks) {
-				console.log(this.userBookmarks);
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
 					total = company_research.length + contact_research.length;
@@ -221,7 +219,6 @@ export default {
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
-			console.log(element);
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
 			if (section.activate) {
@@ -384,7 +381,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -392,7 +389,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

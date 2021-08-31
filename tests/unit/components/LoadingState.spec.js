@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import LoadingState from '@/components/LoadingState.vue';
+import LoadingState from '../../../src/components/LoadingState.vue';
 
 describe('LoadingState.vue', () => {
 	const wrapper = shallowMount(LoadingState);

@@ -2,14 +2,14 @@
 	<div>
 		<div class="page-header">
 			<h2 class="title">Admin Management</h2>
-			<c-button class="submit" size="large" buttonType="primary" @click="toggleModalClass('sendInvites')">
+			<v-button class="submit" size="large" buttonType="primary" @click="toggleModalClass('sendInvites')">
 				<div class="flex">
 					<span class="add-icon">
-						<img src="@/assets/icons/add-icon.svg" svg-inline />
+						<img src="@/assets/icons/add-icon.svg" alt="add admin icon" svg-inline />
 					</span>
 					<p>Send Invite</p>
 				</div>
-			</c-button>
+			</v-button>
 		</div>
 		<div v-if="!adminLoading" class="search-group">
 			<h4 v-if="admins">{{ admins.length }} Admins</h4>
@@ -63,7 +63,7 @@
 					<td class="">
 						<toggle-dropdown itemPadding="0">
 							<template #dropdown-wrapper>
-								<img src="@/assets/icons/menu3dot.svg" svg-inline />
+								<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="openEditModal({ ...item })">Edit Info</li>
@@ -84,10 +84,10 @@
 
 			<div v-if="admins && admins.length < 1">
 				<div class="emptyState">
-					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+					<img src="@/assets/icons/empty-state-image.svg" alt="empty table icon" svg-inline />
 					<p class="emptyState-text">No user record found</p>
 					<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
-					<c-button size="large" buttonType="primary">Upload Contact</c-button>
+					<v-button size="large" buttonType="primary">Upload Contact</v-button>
 				</div>
 			</div>
 		</div>
@@ -139,17 +139,11 @@
 								<input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
 							</div>
 
-							<!-- <label class="select-label" for="admin">Role</label><br />
-							<select class="select-input" width="100%" name="admin" id="admin">
-								<option value="adminUser">Admin</option>
-								<option value="admin">Admin User</option>
-								<option value="superAdmin">Super Admin</option>
-							</select> -->
 							<div class="flex flex__end" id="inviteAdmin">
-								<c-button class="submit" size="large" submitType="submit" buttonType="primary" ref="inviteAdmin">
+								<v-button class="submit" size="large" submitType="submit" buttonType="primary" ref="inviteAdmin">
 									<template v-if="!loading">Send Invite</template>
 									<Loader v-else />
-								</c-button>
+								</v-button>
 							</div>
 						</form>
 					</ValidationObserver>
@@ -226,10 +220,10 @@
 						</div>
 
 						<div class="flex flex-end">
-							<c-button class="submit" size="large" buttonType="primary" submitType="submit" ref="editAdmin">
+							<v-button class="submit" size="large" buttonType="primary" submitType="submit" ref="editAdmin">
 								<template v-if="!loading">Save Changes</template>
 								<Loader v-else />
-							</c-button>
+							</v-button>
 						</div>
 					</div>
 				</form>

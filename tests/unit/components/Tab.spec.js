@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Tab from '@/components/Tabs/Tab.vue';
+import Tab from '../../../src/components/Tabs/Tab.vue';
 
 describe('Tab.vue', () => {
 	const wrapper = shallowMount(Tab, {

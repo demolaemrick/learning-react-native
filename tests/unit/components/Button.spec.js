@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import VButton from '@/components/Button';
+import VButton from '../../../src/components/Button';
 
 describe('VButton.vue', () => {
 	const wrapper = shallowMount(VButton, {

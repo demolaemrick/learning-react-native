@@ -10,7 +10,7 @@
 								<h3 class="title">
 									<template v-if="searchType === 'contact_insights'">Contact Insights</template>
 									<template v-else>Company Insights</template>
-									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 								</h3>
 							</template>
 							<template #dropdown-items>
@@ -28,7 +28,8 @@
 										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 											<template #dropdown-wrapper>
 												<p class="sort">
-													Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+													Relevant
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 												</p>
 											</template>
 											<template #dropdown-items>
@@ -52,7 +53,7 @@
 										</h5>
 									</div>
 									<div class="tab-circle" @click="scrollTab">
-										<img src="@/assets/icons/arrow-right.svg" svg-inline />
+										<img src="@/assets/icons/arrow-right.svg" alt="arrow right icon" svg-inline />
 									</div>
 								</div>
 							</div>
@@ -127,7 +128,8 @@
 										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 											<template #dropdown-wrapper>
 												<p class="sort">
-													Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+													Relevant
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 												</p>
 											</template>
 											<template #dropdown-items>
@@ -173,7 +175,13 @@
 				<div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">Notepad</p>
-						<img src="@/assets/icons/collapse.svg" svg-inline v-if="hideSearch" @click="hideSearch = false" />
+						<img
+							src="@/assets/icons/collapse.svg"
+							alt="close notepad icon"
+							svg-inline
+							v-if="hideSearch"
+							@click="hideSearch = false"
+						/>
 					</span>
 					<textarea
 						class="notepad-input"

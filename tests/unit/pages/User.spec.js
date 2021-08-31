@@ -124,21 +124,21 @@ let userInfo = {
 	}
 };
 
-let contactHistory = [
-	{
-		company: 'Amazon',
-		createdAt: '2021-04-23T10:52:55.799Z',
-		email: 'bezos@amazon.com',
-		full_name: 'Jeff Bezos',
-		linkedin: 'https://www.linkedin.com/in/jeffbezos',
-		research_score: 0.6455,
-		role: 'CEO',
-		rowId: '1',
-		status: { statusCode: 'READY', message: 'Ready' },
-		updatedAt: '2021-06-18T11:23:46.719Z',
-		_id: '6082a70795b40450d58df056'
-	}
-];
+// let contactHistory = [
+// 	{
+// 		company: 'Amazon',
+// 		createdAt: '2021-04-23T10:52:55.799Z',
+// 		email: 'bezos@amazon.com',
+// 		full_name: 'Jeff Bezos',
+// 		linkedin: 'https://www.linkedin.com/in/jeffbezos',
+// 		research_score: 0.6455,
+// 		role: 'CEO',
+// 		rowId: '1',
+// 		status: { statusCode: 'READY', message: 'Ready' },
+// 		updatedAt: '2021-06-18T11:23:46.719Z',
+// 		_id: '6082a70795b40450d58df056'
+// 	}
+// ];
 
 let subscribeResult = {
 	status: 200,
@@ -155,6 +155,7 @@ let subscribeResult = {
 describe('User', () => {
 	let store;
 	const router = new VueRouter({ routes: [{ path: 'user/:userId?', name: 'User', meta: 'user', query: { userId: '1' } }] });
+
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -187,15 +188,9 @@ describe('User', () => {
 			}
 		});
 	});
+
 	it('tests that the user page mounts', () => {
 		const wrapper = mount(User, {
-			// mocks: {
-			// 	$route: {
-			// 		query: {
-			// 			userId: "1"
-			// 		}
-			// 	}
-			// },
 			router,
 			store,
 			localVue
@@ -321,12 +316,6 @@ describe('User', () => {
 	});
 
 	it('tests that the inputFile method is called', () => {
-		// let event = new Event('target');
-		// event = {
-		// 	target: {
-		// 		result: csv
-		// 	}
-		// };
 		let newFile = {
 			size: 12234212312,
 			name: 'lani.jpeg'
@@ -403,18 +392,7 @@ describe('User', () => {
 		const wrapper = shallowMount(User, {
 			router,
 			store,
-			localVue,
-			data() {
-				return {
-					history: contactHistory,
-					limit: 10,
-					page: 1,
-					total: 0,
-					count: 0,
-					currentPage: 0,
-					nextPage: null
-				};
-			}
+			localVue
 		});
 		expect(wrapper.vm.subscribe());
 	});

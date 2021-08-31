@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import SearchItem from '@/views/SearchItem/SearchItem.vue';
+import SearchItem from '../../../src/views/SearchItem/SearchItem.vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 const localVue = createLocalVue();

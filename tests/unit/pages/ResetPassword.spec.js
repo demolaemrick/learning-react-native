@@ -1,7 +1,6 @@
 import ResetPassword from '../../../src/views/auth/ResetPassword';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import CButton from '../../../src/components/Button';
 
 const localVue = createLocalVue();
 
@@ -86,8 +85,10 @@ describe('ResetPassword', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('auth/resetPassword', {
 			password: '1234abcd',
 			token: '12345'
@@ -114,8 +115,10 @@ describe('ResetPassword', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('auth/resetPassword', {
 			password: '1234abcd',
 			token: '12345'

@@ -1,5 +1,4 @@
 import CheckInbox from '../../../src/views/auth/ForgotPassword';
-// import Logo from '../../../src/components/Logo.vue'
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 

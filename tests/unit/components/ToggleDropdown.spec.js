@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import ToggleDropdown from '@/components/ToggleDropdown';
+import ToggleDropdown from '../../../src/components/ToggleDropdown';
 
 describe('ToggleDropdown.vue', () => {
 	const wrapper = shallowMount(ToggleDropdown, {
