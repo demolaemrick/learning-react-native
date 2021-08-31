@@ -37,7 +37,7 @@
 					/>
 				</svg>
 				<template v-else>
-					 <span class="clear_Search" @click="$emit('clear')" >x</span>
+					<span class="clear_Search" @click="$emit('clear')">x</span>
 				</template>
 				<img v-if="icon.type === 'date'" src="../../../assets/icons/date-icon.svg" alt="" />
 			</div>

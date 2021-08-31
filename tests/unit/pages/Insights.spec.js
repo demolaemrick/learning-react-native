@@ -14,8 +14,6 @@ const localVue = createLocalVue();
 localVue.filter('moment', (val, val2) => val + val2);
 localVue.use(Vuex);
 
-
-
 let researchResponse = {
 	status: 200,
 	statusText: 'OK',
@@ -291,7 +289,6 @@ describe('Insights', () => {
 	// });
 
 	it('tests that contactSearch is called', async () => {
-		
 		const wrapper = shallowMount(Insights, {
 			store,
 			localVue,
@@ -307,7 +304,7 @@ describe('Insights', () => {
 
 		await wrapper.setData({ contactSearchQuery: 'lani' });
 		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
-		
+
 		expect(contactSearch).toHaveBeenCalled();
 
 		await wrapper.setData({ contactSearchQuery: '' });
@@ -315,7 +312,6 @@ describe('Insights', () => {
 	});
 
 	it('tests that companySearch is called', async () => {
-		
 		const wrapper = shallowMount(Insights, {
 			store,
 			localVue,
@@ -331,7 +327,7 @@ describe('Insights', () => {
 
 		await wrapper.setData({ companySearchQuery: 'funding' });
 		expect(wrapper.vm.$data.companySearchQuery).toEqual('funding');
-		
+
 		expect(companySearch).toHaveBeenCalled();
 
 		await wrapper.setData({ companySearchQuery: '' });
