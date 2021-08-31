@@ -125,8 +125,10 @@ describe('Login', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('auth/login', {
 			password: '1234abcd',
 			email: 'lani@enyata.com'
@@ -158,7 +160,8 @@ describe('Login', () => {
 
 		const wrapper = shallowMount(Login, {
 			store,
-			localVue
+			localVue,
+			mocks: route
 		});
 		expect(wrapper.vm.getHistory());
 		expect(store.dispatch).toHaveBeenCalledWith('search_services/research_history', {

@@ -1,7 +1,6 @@
 import ForgotPassword from '../../../src/views/auth/ForgotPassword';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import CButton from '../../../src/components/Button';
 import VueRouter from 'vue-router';
 
 const localVue = createLocalVue();
@@ -79,8 +78,10 @@ describe('ForgotPassword', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('auth/forgotPassword', {
 			email: 'lani@enyata.com'
 		});
@@ -109,8 +110,11 @@ describe('ForgotPassword', () => {
 				};
 			}
 		});
-		let btn = wrapper.findComponent(CButton);
-		btn.trigger('click');
+
+		let form = wrapper.find('form');
+		form.trigger('submit');
+		await wrapper.vm.$nextTick();
+
 		expect(store.dispatch).toHaveBeenCalledWith('auth/forgotPassword', {
 			email: 'lan@enyata.com'
 		});

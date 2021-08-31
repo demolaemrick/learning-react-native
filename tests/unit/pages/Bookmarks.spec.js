@@ -49,10 +49,9 @@ let bookmarks = {
 	},
 	statusText: 'OK'
 };
-const routes = [{ path: '/bookmarks', name: 'Bookmarks', query: { rowId: '1' } }];
 describe('Bookmarks.vue', () => {
 	let store;
-	const router = new VueRouter({ routes });
+	const router = new VueRouter({ routes: [{ path: '/bookmarks', name: 'Bookmarks', query: { rowId: '1' } }] });
 	const searchRoute = new VueRouter({ routes: [{ path: '/search-item', name: 'SearchItem' }] });
 	beforeEach(() => {
 		store = new Vuex.Store({

@@ -297,7 +297,7 @@ describe('Insights', () => {
 		});
 		wrapper.setData({ contactSearchQuery: 'lani' });
 		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
-		await flushPromises();
+		// await flushPromises();
 		expect(contactSearch).toHaveBeenCalled;
 	});
 
