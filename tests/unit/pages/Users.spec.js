@@ -15,8 +15,8 @@ const Paginate = require('vuejs-paginate');
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
 localVue.component('paginate', Paginate);
 
 let users = {
@@ -469,7 +469,11 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper.find('.table__wrapper').findAll('td').at(5).find('.dropdown__wrapper');
+		const icon = wrapper
+			.find('.table__wrapper')
+			.findAll('td')
+			.at(5)
+			.find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});
