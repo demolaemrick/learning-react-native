@@ -30,11 +30,6 @@
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
-						<div class="check-input">
-							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
-						</div>
-					</td>
-					<td class="table__row-item">
 						<div class="flex flex__item-center">
 							<div class="detail__circle">
 								<p class="detail__initials" v-if="item.first_name">

@@ -51,12 +51,7 @@ export default {
 					title: 'Suspended'
 				}
 			],
-			checkedContacts: [],
 			tableHeaders: [
-				{
-					name: '',
-					elementSlot: true
-				},
 				{
 					name: 'Name',
 					sortHeader: 'full_name'

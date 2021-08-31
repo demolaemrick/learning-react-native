@@ -76,7 +76,7 @@ export default {
 				const url = this.contact_details.socials.find((element) => {
 					return Object.keys(element).includes('linkedin');
 				});
-				return url.linkedin ? `https://${url.linkedin}/detail/recent-activity` : null;
+				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
 			}
 		},
 		screenType: {

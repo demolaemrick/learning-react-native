@@ -33,12 +33,7 @@ export default {
 			deactivateModal: false,
 			activateModal: false,
 			suspendModal: false,
-			checkedContacts: [],
 			tableHeaders: [
-				{
-					name: '',
-					elementSlot: true
-				},
 				{
 					name: 'Name',
 					sortHeader: 'full_name'
