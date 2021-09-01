@@ -41,7 +41,7 @@ export default new Vuex.Store({
 		},
 		reqError: (state) => {
 			state.status = 'error';
-		},	
+		},
 		resetReq: (state) => {
 			state.status = '';
 			state.errorLog = {};
