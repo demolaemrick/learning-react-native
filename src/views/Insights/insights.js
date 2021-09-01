@@ -52,8 +52,8 @@ export default {
 	},
 	async created() {
 		this.loading = true;
-		if (this.$route.query.rowId) {
-			this.rowId = this.$route.query.rowId;
+		if (this.$route.query.id) {
+			this.rowId = this.$route.query.id;
 			await this.getResult();
 			await this.initUserBookmarks();
 			await this.initUserNote(this.rowId);
@@ -214,7 +214,7 @@ export default {
 		async RefreshResearch() {
 			this.refreshLoading = true;
 			try {
-				const response = await this.refresh(this.$route.query.rowId);
+				const response = await this.refresh(this.$route.query.id);
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
@@ -274,7 +274,7 @@ export default {
 		async getResult() {
 			this.loading = true;
 			try {
-				const response = await this.researchedResult(this.$route.query.rowId);
+				const response = await this.researchedResult(this.$route.query.id);
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;

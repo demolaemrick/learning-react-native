@@ -179,7 +179,7 @@ describe('Insights', () => {
 	let store;
 	const router = new VueRouter({
 		routes: [
-			{ path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } },
+			{ path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } },
 			{ path: '/', name: 'Search' }
 		]
 	});
@@ -233,7 +233,7 @@ describe('Insights', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
+				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
 			}
 		});
 		expect(wrapper.vm).toBeTruthy();
@@ -250,7 +250,7 @@ describe('Insights', () => {
 				};
 			},
 			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
+				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
 			},
 			store
 		});
