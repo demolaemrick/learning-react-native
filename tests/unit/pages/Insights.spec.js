@@ -1,12 +1,17 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
-
 import VueRouter from 'vue-router';
+
+// const lodash = require('lodash');
+// lodash.debounce = jest.fn((fn) => fn());
+
+jest.mock('lodash', () => ({
+	debounce: (fn) => fn
+}));
+
 const localVue = createLocalVue();
-
 localVue.filter('moment', (val, val2) => val + val2);
-
 localVue.use(Vuex);
 
 let researchResponse = {
@@ -174,7 +179,7 @@ describe('Insights', () => {
 	let store;
 	const router = new VueRouter({
 		routes: [
-			{ path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } },
+			{ path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } },
 			{ path: '/', name: 'Search' }
 		]
 	});
@@ -228,7 +233,7 @@ describe('Insights', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
+				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
 			}
 		});
 		expect(wrapper.vm).toBeTruthy();
@@ -245,7 +250,7 @@ describe('Insights', () => {
 				};
 			},
 			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
+				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
 			},
 			store
 		});
@@ -286,20 +291,64 @@ describe('Insights', () => {
 	it('tests that contactSearch is called', async () => {
 		const wrapper = shallowMount(Insights, {
 			store,
+			localVue,
+			router,
 			data() {
 				return {
 					contactSearchQuery: ''
 				};
 			}
-			// methods: {
-			// 	contactSearch
-			// }
 		});
-		wrapper.setData({ contactSearchQuery: 'lani' });
+		const vm = wrapper.vm;
+		const contactSearch = jest.spyOn(vm, 'contactSearch');
+
+		await wrapper.setData({ contactSearchQuery: 'lani' });
 		expect(wrapper.vm.$data.contactSearchQuery).toEqual('lani');
-		await flushPromises();
-		expect(contactSearch).toHaveBeenCalled;
+
+		expect(contactSearch).toHaveBeenCalled();
+
+		await wrapper.setData({ contactSearchQuery: '' });
+		expect(contactSearch).toHaveBeenCalled();
 	});
+
+	it('tests that companySearch is called', async () => {
+		const wrapper = shallowMount(Insights, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					companySearchQuery: ''
+				};
+			}
+		});
+		const vm = wrapper.vm;
+		const companySearch = jest.spyOn(vm, 'companySearch');
+
+		await wrapper.setData({ companySearchQuery: 'funding' });
+		expect(wrapper.vm.$data.companySearchQuery).toEqual('funding');
+
+		expect(companySearch).toHaveBeenCalled();
+
+		await wrapper.setData({ companySearchQuery: '' });
+		expect(companySearch).toHaveBeenCalled();
+	});
+
+	// it('checks that the search clears when the cancle button is clicked', () => {
+	// 	const wrapper = shallowMount(Insights, {
+	// 		store,
+	// 		localVue,
+	// 		router
+	// 		// data() {
+	// 		// 	return {
+	// 		// 		companySearchQuery: ''
+	// 		// 	};
+	// 		// }
+	// 	});
+	// 	const btn = wrapper.find({ ref: 'companySearchText' });
+	// 	console.log(btn);
+	// 	btn.trigger('click');
+	// })
 
 	it('tests for RefreshResearch method is called', () => {
 		const wrapper = shallowMount(Insights, {
@@ -350,42 +399,6 @@ describe('Insights', () => {
 			store
 		});
 		expect(wrapper.vm.markResearch());
-	});
-
-	it('should sort relevance by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('contact_insights'));
-	});
-
-	it('should sort relevance by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRelevance('company_insights'));
-	});
-
-	it('should sort sortByRecent by company_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('company_insights'));
-	});
-
-	it('should sort sortByRecent by contact_insights', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.sortByRecent('contact_insights'));
 	});
 
 	it('calls displaySearchItem method', async () => {

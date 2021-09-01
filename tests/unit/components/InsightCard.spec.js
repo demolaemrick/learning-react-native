@@ -11,10 +11,10 @@ describe('InsightCard.vue', () => {
 			propsData: {
 				published: 'some value',
 				article: {
-					url: 'https://www.ndtv.com/world-news/google-co-founder-sergey-brin-opens-family-office-in-singapore-2362357',
+					url: '',
 					meta: {
 						html: {
-							snippet: 'www.ndtv.com'
+							snippet: ''
 						}
 					}
 				}

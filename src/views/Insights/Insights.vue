@@ -176,14 +176,19 @@
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.current_employer">
 								<img src="@/assets/icons/work.svg" alt="company icon" svg-inline />
 								<p class="ml">
-									{{ contact_details.full_name }} has worked at
-									<span class="main-info">{{ contact_details.company }}</span> for
-									{{ contact_insights.snapshot.current_employer.start_date | moment('from', 'now', true) }}
+									{{ contact_details.full_name }} has
+									<template v-if="contact_insights.snapshot.current_employer.current">been working</template>
+									<template v-else>worked</template> at
+									<span class="main-info">{{ contact_details.company }}</span>
+									<template v-if="contact_insights.snapshot.current_employer.start_date">
+										for
+										{{ contact_insights.snapshot.current_employer.start_date | moment('from', 'now', true) }}</template
+									>
 								</p>
 							</div>
-							<div class="flex flex__item-center postion">
-								<img src="@/assets/icons/articles.svg" alt="articles icon" svg-inline />
-								<p class="ml" v-if="contact_insights.snapshot.mentions">
+							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.mentions">
+								<img src="@/assets/icons/articles.svg" svg-inline />
+								<p class="ml">
 									Mentioned in
 									<span
 										class="main-info"
@@ -211,7 +216,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>

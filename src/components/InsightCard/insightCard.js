@@ -2,9 +2,7 @@ export default {
 	props: {
 		article: {
 			type: Object,
-			default() {
-				return {};
-			}
+			default: {}
 		},
 		published: {
 			type: String,

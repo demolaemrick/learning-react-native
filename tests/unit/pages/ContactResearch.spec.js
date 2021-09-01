@@ -51,10 +51,30 @@ let research = {
 					},
 					updatedAt: '2021-06-18T11:23:46.719Z',
 					_id: '6082a70795b40450d58df056'
+				},
+				{
+					company: 'Amazon',
+					createdAt: '2021-04-23T10:52:55.799Z',
+					email: 'bezos@amazon.com',
+					full_name: 'Jeff Bezos',
+					linkedin: 'https://www.linkedin.com/in/jeffbezos',
+					research_score: 0.6455,
+					role: 'CEO',
+					rowId: '1',
+					status: {
+						statusCode: 'DONE',
+						message: 'done'
+					},
+					updatedAt: '2021-06-18T11:23:46.719Z',
+					_id: '6084e70795b40450d58df056'
 				}
 			]
 		}
 	}
+};
+let researchResponse = {
+	status: 200,
+	statusText: 'OK'
 };
 let subscribeResult = {
 	status: 200,
@@ -67,6 +87,13 @@ let subscribeResult = {
 				message: 'Ready'
 			},
 			_id: '60d45e1e43b0bda463dff22f'
+		}
+	}
+};
+let err = {
+	response: {
+		data: {
+			message: 'error'
 		}
 	}
 };
@@ -93,7 +120,8 @@ describe('ContactResearch.vue', () => {
 		subscribeResearch: jest.fn().mockResolvedValue(subscribeResult),
 		export_history: jest.fn().mockResolvedValue(exportCSVRes),
 		bulk_research: jest.fn(),
-		deleteSingleResearch: jest.fn().mockResolvedValue(research)
+		deleteSingleResearch: jest.fn().mockResolvedValue(research),
+		refresh: jest.fn().mockResolvedValue(researchResponse)
 	};
 	beforeEach(() => {
 		store = new Vuex.Store({
@@ -176,6 +204,23 @@ describe('ContactResearch.vue', () => {
 			expect(getHistory).toHaveBeenCalled();
 		}
 	});
+	it('tests for RefreshResearch method is called', () => {
+		const wrapper = shallowMount(ContactResearch, {
+			router,
+			store,
+			localVue
+		});
+		expect(wrapper.vm.RefreshResearch());
+	});
+	it('tests for error in RefreshResearch', () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
+		const wrapper = shallowMount(ContactResearch, {
+			router,
+			store,
+			localVue
+		});
+		expect(wrapper.vm.RefreshResearch());
+	});
 	it('should call subscribe method', async () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,
@@ -196,7 +241,6 @@ describe('ContactResearch.vue', () => {
 		});
 
 		expect(wrapper.vm.subscribe());
-		await flushPromises();
 		if (subscribeResult.status === 200) {
 			if (wrapper.vm.history[0].rowId === subscribeResult.data.done.rowId) {
 				expect(wrapper.vm.history[0].status).toBe(subscribeResult.data.done.status);
@@ -275,6 +319,15 @@ describe('ContactResearch.vue', () => {
 		});
 		wrapper.vm.uploadBulkResearch();
 	});
+	it('tests for error in uploadBulkResearch', () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
+		const wrapper = shallowMount(ContactResearch, {
+			router,
+			store,
+			localVue
+		});
+		expect(wrapper.vm.uploadBulkResearch());
+	});
 	it('delete research', async () => {
 		const getHistory = jest.fn().mockResolvedValue(research);
 		const wrapper = shallowMount(ContactResearch, {
@@ -297,13 +350,14 @@ describe('ContactResearch.vue', () => {
 			expect(getHistory).toHaveBeenCalled();
 		}
 	});
-	it('tests csv method', () => {
+	it('tests for error in deleteResearch', () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
 		const wrapper = shallowMount(ContactResearch, {
+			router,
 			store,
-			localVue,
-			router
+			localVue
 		});
-		expect(wrapper.vm.csvJSON(csv));
+		expect(wrapper.vm.deleteResearch());
 	});
 	it('tests checkAll method', () => {
 		let e = new Event('target');
@@ -367,6 +421,15 @@ describe('ContactResearch.vue', () => {
 					checkedContacts: ['1']
 				};
 			}
+		});
+		expect(wrapper.vm.exportCSV());
+	});
+	it('tests for error in exportCSV', () => {
+		store.dispatch = jest.fn().mockRejectedValue(err);
+		const wrapper = shallowMount(ContactResearch, {
+			router,
+			store,
+			localVue
 		});
 		expect(wrapper.vm.exportCSV());
 	});

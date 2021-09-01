@@ -52,8 +52,8 @@ export default {
 	},
 	async created() {
 		this.loading = true;
-		if (this.$route.query.rowId) {
-			this.rowId = this.$route.query.rowId;
+		if (this.$route.query.id) {
+			this.rowId = this.$route.query.id;
 			await this.getResult();
 			await this.initUserBookmarks();
 			await this.initUserNote(this.rowId);
@@ -76,7 +76,7 @@ export default {
 				const url = this.contact_details.socials.find((element) => {
 					return Object.keys(element).includes('linkedin');
 				});
-				return url && url.linkedin ? `${this.validateURL(url.linkedin)}/detail/recent-activity` : null;
+				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
 			}
 		},
 		screenType: {
@@ -195,24 +195,6 @@ export default {
 			refresh: 'search_services/refresh',
 			subscribeResearch: 'search_services/subscribeResearch'
 		}),
-		checkContactSort(uniqueArray) {
-			if (this.contactSortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.contactSortMethod === 'relevance') {
-				return this.sortByRelevance(uniqueArray);
-			} else {
-				return uniqueArray;
-			}
-		},
-		checkCompanySort(uniqueArray) {
-			if (this.companySortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.companySortMethod === 'relevance') {
-				return this.sortByRelevance(uniqueArray);
-			} else {
-				return uniqueArray;
-			}
-		},
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
 		},
@@ -232,7 +214,7 @@ export default {
 		async RefreshResearch() {
 			this.refreshLoading = true;
 			try {
-				const response = await this.refresh(this.$route.query.rowId);
+				const response = await this.refresh(this.$route.query.id);
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
@@ -292,7 +274,7 @@ export default {
 		async getResult() {
 			this.loading = true;
 			try {
-				const response = await this.researchedResult(this.$route.query.rowId);
+				const response = await this.researchedResult(this.$route.query.id);
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;
@@ -304,17 +286,6 @@ export default {
 			} finally {
 				this.loading = false;
 			}
-		},
-		sortByRelevance(data) {
-			return data.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-		},
-		sortByRecent(data) {
-			return data.sort((a, b) => {
-				return (
-					new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-					new Date(b.meta.published) - new Date(a.meta.published)
-				);
-			});
 		},
 		displaySearchItem(type, item) {
 			const data = {
@@ -381,7 +352,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function(newVal) {
+		contactSearchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -389,7 +360,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function(newVal) {
+		companySearchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

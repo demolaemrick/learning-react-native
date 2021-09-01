@@ -13,14 +13,6 @@ localVue.component('ValidationObserver', ValidationObserver);
 localVue.use(Vuex);
 
 jest.useFakeTimers();
-
-const csv = `
-S/N,FIirst Name,Last Name,Age
-1,Lani,Michael,12
-2,Ore,Abass,13
-3,Ayo,Tope,14
-4,Isreal,Ola,15
-`;
 let searchResult = {
 	status: 200,
 	data: {
@@ -219,15 +211,6 @@ describe('search', () => {
 		wrapper.vm.logoutUser();
 		await wrapper.vm.$nextTick();
 	});
-	it('tests csv method', () => {
-		const wrapper = shallowMount(Search, {
-			store,
-			localVue,
-			router
-		});
-		expect(wrapper.vm.csvJSON(csv));
-	});
-
 	it('tests that the inputFile method is called', () => {
 		let newFile = {
 			size: 12234212312,

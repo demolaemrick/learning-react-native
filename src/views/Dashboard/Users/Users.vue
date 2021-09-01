@@ -18,33 +18,18 @@
 					@clear="clearSearch"
 				/>
 				<!-- </form> -->
-				<span class="mx-1">
+				<span class="ml-1">
 					<v-button size="small" buttonType="outline" @click="toggleModalClass('filter')">
 						Filter
 						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" svg-inline />
 					</v-button>
 				</span>
-				<toggle-dropdown itemPadding="0" width="120px">
-					<template #dropdown-wrapper>
-						<v-button size="icon" buttonType="outline">
-							<img src="@/assets/icons/menu3dot.svg" svg-inline />
-						</v-button>
-					</template>
-					<template #dropdown-items>
-						<li class="dropdown__item">Export Users</li>
-					</template>
-				</toggle-dropdown>
 			</div>
 		</div>
 
 		<div>
 			<v-table :loading="usersLoading" :tableHeaders="tableHeaders" :tableData="users" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
-					<td class="table__row-item" @click.stop>
-						<div class="check-input">
-							<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
-						</div>
-					</td>
 					<td class="table__row-item">{{ item.last_name }} {{ item.first_name }}</td>
 					<td class="table__row-item">{{ item.email }}</td>
 					<td class="table__row-item">{{ item.researches_performed }}/{{ item.monthly_research }}</td>
@@ -52,7 +37,6 @@
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
 							>{{ item.status }}
 						</status-tag>
-						<!-- <Status :status="stat" /> -->
 					</td>
 					<td class="table__row-item">
 						<template v-if="item.last_research_date"

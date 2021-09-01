@@ -28,13 +28,13 @@
 										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 											<template #dropdown-wrapper>
 												<p class="sort">
-													Relevant
+													Sort by
 													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item">Recent</li>
-												<li class="dropdown__item">Relevant</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -128,13 +128,13 @@
 										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 											<template #dropdown-wrapper>
 												<p class="sort">
-													Relevant
+													Sort by
 													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item">Recent</li>
-												<li class="dropdown__item">Relevant</li>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 									</div>

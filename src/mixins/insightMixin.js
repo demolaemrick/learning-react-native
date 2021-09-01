@@ -67,8 +67,8 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortByBookmarked(uniqueArray);
 				this.sortByDislike(uniqueArray);
+				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
 			}
 		}
@@ -88,13 +88,42 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortByDislike(data) {
-			data.sort(function(a, b) {
+			data.sort(function (a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			data.sort(function(a, b) {
+			data.sort(function (a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
+			});
+		},
+		checkContactSort(uniqueArray) {
+			if (this.contactSortMethod === 'recent') {
+				return this.sortByRecent(uniqueArray);
+			} else if (this.contactSortMethod === 'relevance') {
+				return this.sortByRelevance(uniqueArray);
+			} else {
+				return uniqueArray;
+			}
+		},
+		checkCompanySort(uniqueArray) {
+			if (this.companySortMethod === 'recent') {
+				return this.sortByRecent(uniqueArray);
+			} else if (this.companySortMethod === 'relevance') {
+				return this.sortByRelevance(uniqueArray);
+			} else {
+				return uniqueArray;
+			}
+		},
+		sortByRelevance(data) {
+			return data.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
+		},
+		sortByRecent(data) {
+			return data.sort((a, b) => {
+				return (
+					new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
+					new Date(b.meta.published) - new Date(a.meta.published)
+				);
 			});
 		},
 		async toggleDislike(article) {

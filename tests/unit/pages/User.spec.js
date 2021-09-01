@@ -13,15 +13,6 @@ localVue.use(VueRouter);
 
 localVue.use(Vuex);
 localVue.component('paginate', Paginate);
-
-const csv = `
-S/N,FIirst Name,Last Name,Age
-1,Lani,Michael,12
-2,Ore,Abass,13
-3,Ayo,Tope,14
-4,Isreal,Ola,15
-`;
-
 let statusRes = {
 	status: 200,
 	statusText: 'OK',
@@ -123,23 +114,6 @@ let userInfo = {
 		profession: 'engineer'
 	}
 };
-
-// let contactHistory = [
-// 	{
-// 		company: 'Amazon',
-// 		createdAt: '2021-04-23T10:52:55.799Z',
-// 		email: 'bezos@amazon.com',
-// 		full_name: 'Jeff Bezos',
-// 		linkedin: 'https://www.linkedin.com/in/jeffbezos',
-// 		research_score: 0.6455,
-// 		role: 'CEO',
-// 		rowId: '1',
-// 		status: { statusCode: 'READY', message: 'Ready' },
-// 		updatedAt: '2021-06-18T11:23:46.719Z',
-// 		_id: '6082a70795b40450d58df056'
-// 	}
-// ];
-
 let subscribeResult = {
 	status: 200,
 	data: {
@@ -351,15 +325,6 @@ describe('User', () => {
 			store
 		});
 		expect(wrapper.vm.onKeywordsChange('company_research', event));
-	});
-
-	it('tests csv method', () => {
-		const wrapper = shallowMount(User, {
-			store,
-			localVue,
-			router
-		});
-		expect(wrapper.vm.csvJSON(csv));
 	});
 
 	it('tests that edit modal is toggled', () => {

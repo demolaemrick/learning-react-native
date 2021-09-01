@@ -23,7 +23,16 @@ describe('searchHeader', () => {
 			modules: {
 				auth: {
 					namespaced: true,
-					mutations
+					mutations,
+					getters: {
+						getLoggedUser: () => ({
+							id: '1',
+							email: 'abass@enyata.com',
+							token: '123',
+							is_settings: true,
+							role: 'admin'
+						})
+					}
 				}
 			}
 		});
@@ -45,8 +54,9 @@ describe('searchHeader', () => {
 			store,
 			router
 		});
-		wrapper.vm.logoutUser();
 		await wrapper.vm.$nextTick();
+		wrapper.vm.logoutUser();
+		//await wrapper.vm.$nextTick();
 	});
 	it('should route to settings', async () => {
 		const wrapper = shallowMount(searchHeader, {
