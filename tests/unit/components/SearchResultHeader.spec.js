@@ -6,6 +6,9 @@ const localVue = createLocalVue();
 localVue.use(VueRouter);
 localVue.use(Vuex);
 
+const loggedUser = {
+	email: 'example@gmail.com'
+};
 describe('searchResultHeader', () => {
 	let mutations;
 	let store;
@@ -23,7 +26,10 @@ describe('searchResultHeader', () => {
 			modules: {
 				auth: {
 					namespaced: true,
-					mutations
+					mutations,
+					getters: {
+						getLoggedUser: () => loggedUser
+					}
 				}
 			}
 		});
