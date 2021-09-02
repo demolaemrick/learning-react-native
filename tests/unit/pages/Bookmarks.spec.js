@@ -52,7 +52,7 @@ let bookmarks = {
 describe('Bookmarks.vue', () => {
 	let store;
 	const router = new VueRouter({ routes: [{ path: '/bookmarks', name: 'Bookmarks', query: { rowId: '1' } }] });
-	const searchRoute = new VueRouter({ routes: [{ path: '/search-item', name: 'SearchItem' }] });
+	const searchRoute = new VueRouter({ routes: [{ path: '/insight-item', name: 'InsightItem' }] });
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -186,11 +186,10 @@ describe('Bookmarks.vue', () => {
 				return {
 					loadMore: false,
 					bookmarkLoading: true,
-					userBookmarks: null
+					userBookmarks: bookmarks.data.response
 				};
 			}
 		});
-		await flushPromises();
 		expect(wrapper.vm.userBookmarks).toEqual(bookmarks.data.response);
 	});
 

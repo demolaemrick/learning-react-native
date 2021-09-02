@@ -10,7 +10,14 @@ describe('InsightCard.vue', () => {
 		const wrapper = shallowMount(InsightCard, {
 			propsData: {
 				published: 'some value',
-				article: {}
+				article: {
+					url: '',
+					meta: {
+						html: {
+							snippet: ''
+						}
+					}
+				}
 			},
 			localVue
 		});
