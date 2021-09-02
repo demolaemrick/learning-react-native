@@ -193,7 +193,7 @@
 									<span
 										class="main-info"
 										@click="scrollToSection((section = { title: 'News & article', ref: 'news-section' }))"
-										>{{ contact_insights.snapshot.mentions }} articles</span
+										>{{ contact_insights.snapshot.mentions }} article(s)</span
 									>
 								</p>
 							</div>

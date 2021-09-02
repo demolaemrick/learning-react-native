@@ -8,6 +8,11 @@ import VTable from '../../../src/components/Table';
 import Modal from '../../../src/components/Modal';
 import VueRouter from 'vue-router';
 
+jest.mock('lodash', () => ({
+	debounce: (fn) => fn
+}));
+
+
 jest.useFakeTimers();
 
 const Paginate = require('vuejs-paginate');
@@ -139,6 +144,28 @@ describe('Users', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
+	// it('tests that page searches on input change', async () => {
+	// 	const wrapper = shallowMount(Users, {
+	// 		store,
+	// 		localVue,
+	// 		router,
+	// 		data() {
+	// 			return {
+	// 				searchQuery: ''
+	// 			};
+	// 		}
+	// 	});
+	// 	const vm = wrapper.vm;
+	// 	const searchPage = jest.spyOn(vm, 'searchPage');
+
+	// 	await wrapper.setData({ searchQuery: 'username' });
+	// 	expect(wrapper.vm.$data.searchQuery).toEqual('username');
+
+	// 	expect(searchPage).toHaveBeenCalled();
+
+	// 	await wrapper.setData({ searchQuery: '' });
+	// 	expect(vm.searchPage).toHaveBeenCalled();
+	// });
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
 		const wrapper = shallowMount(Users, {

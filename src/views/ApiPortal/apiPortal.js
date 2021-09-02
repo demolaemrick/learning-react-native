@@ -20,6 +20,7 @@ export default {
 	async mounted() {
 		try {
 			const response = await this.fetchApiKeys();
+			// console.log('fetch api response --->', response);
 			const { status, statusText, data } = response;
 
 			if (status === 200 && statusText === 'OK' && data.keys.length) {
@@ -56,16 +57,19 @@ export default {
 
 		async getKey() {
 			this.loading = true;
-
+			console.log('first');
 			if (!this.keys.length) {
+				console.log('2nd');
 				this.generateKeys();
 			} else {
+				console.log('3rd');
 				this.regenerateKeys();
 			}
 		},
 		async generateKeys() {
 			try {
 				const response = await this.generateApiKey();
+				console.log('get api response --->', response);
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.keys = data.keys;
