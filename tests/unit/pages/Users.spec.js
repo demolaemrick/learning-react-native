@@ -12,7 +12,6 @@ jest.mock('lodash', () => ({
 	debounce: (fn) => fn
 }));
 
-
 jest.useFakeTimers();
 
 const Paginate = require('vuejs-paginate');
