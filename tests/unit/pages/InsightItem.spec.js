@@ -1,14 +1,26 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import InsightItem from '../../../src/views/InsightItem/InsightItem.vue';
-
-// import VueRouter from 'vue-router';
+import VueRouter from 'vue-router';
 const localVue = createLocalVue();
 
 localVue.filter('moment', (val, val2) => val + val2);
 
 localVue.use(Vuex);
 
+let meta = {
+	timestamp: '2021-06-21T14:21:35.384Z',
+	published: null,
+	resourceType: 'article',
+	host: 'volleythat.com',
+	html: {
+		snippet: '<b>Volley</b>',
+		title: '<b>Volley</b>: Home',
+		url: 'https://<b>volley</b>that.com/'
+	},
+	content: { html: '<div></div>', tag: ['San Francisco'], date: null },
+	relevanceScore: 0.6954999999999999
+};
 let researchResponse = {
 	status: 200,
 	statusText: 'OK',
@@ -48,19 +60,7 @@ let researchResponse = {
 							dontRender: null,
 							is_bookmarked: false,
 							is_disliked: false,
-							meta: {
-								timestamp: '2021-06-21T14:21:35.384Z',
-								published: null,
-								resourceType: 'article',
-								host: 'volleythat.com',
-								html: {
-									snippet: '<b>Volley</b>',
-									title: '<b>Volley</b>: Home',
-									url: 'https://<b>volley</b>that.com/'
-								},
-								content: { html: '<div></div>', tag: ['San Francisco'], date: null },
-								relevanceScore: 0.6954999999999999
-							}
+							meta: meta
 						}
 					]
 				},
@@ -153,7 +153,8 @@ let getSearchedItem = {
 		is_bookmarked: true,
 		is_disliked: false,
 		title: 'About Fenty Beauty',
-		url: 'https://fentybeauty.com/pages/about-fenty-beauty'
+		url: 'https://fentybeauty.com/pages/about-fenty-beauty',
+		meta: meta
 	}
 };
 
@@ -165,12 +166,12 @@ describe('InsightItem', () => {
 	// 		{ path: '/', name: 'Search' }
 	// 	]
 	// });
-	// const insightItemRoute = new VueRouter({
-	// 	routes: [
-	// 		{ path: '/insight-item', name: 'InsightItem' },
-	// 		{ path: '/', name: 'Search' }
-	// 	]
-	// });
+	const insightItemRoute = new VueRouter({
+		routes: [
+			{ path: '/insight-item', name: 'InsightItem' },
+			{ path: '/', name: 'Search' }
+		]
+	});
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -185,7 +186,7 @@ describe('InsightItem', () => {
 					},
 					getters: {
 						getSearchedResult: () => researchResponse.data.data,
-						// getNotepad: () => response,
+						getNotepad: () => '',
 						getSearchedItem: () => getSearchedItem
 					},
 					mutations: {
@@ -199,8 +200,8 @@ describe('InsightItem', () => {
 				user: {
 					actions: {
 						getBookmarks: jest.fn().mockResolvedValue(bookmarks),
-						getNote: jest.fn().mockResolvedValue(notebookResponse),
 						updateNote: jest.fn().mockResolvedValue(),
+						getNote: jest.fn().mockResolvedValue(notebookResponse),
 						addToBookmarks: jest.fn().mockResolvedValue(bookmarkResponse),
 						removeFromBookmarks: jest.fn().mockResolvedValue(bookmarkResponse)
 					},
@@ -216,10 +217,34 @@ describe('InsightItem', () => {
 		const wrapper = shallowMount(InsightItem, {
 			localVue,
 			store,
-			router
-			// mocks: {
-			// 	$route: { path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } }
-			// }
+			insightItemRoute
+		});
+		expect(wrapper.vm).toBeTruthy();
+	});
+	it('Render with a different tab', () => {
+		const tab = researchResponse.data.data.contact_insights.news;
+		const wrapper = shallowMount(InsightItem, {
+			localVue,
+			insightItemRoute,
+			data() {
+				return {
+					selectedTab: Object.keys(tab)[0]
+				};
+			},
+			store
+		});
+		expect(wrapper.vm).toBeTruthy();
+	});
+	it('Render company_insights', () => {
+		const wrapper = shallowMount(InsightItem, {
+			localVue,
+			insightItemRoute,
+			data() {
+				return {
+					searchType: 'company_insights'
+				};
+			},
+			store
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
