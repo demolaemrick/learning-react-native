@@ -13,7 +13,6 @@
 					@click="$router.push({ name: 'Search' })"
 					svg-inline
 				/>
-				<!-- </div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -116,7 +115,6 @@ export default {
 }
 .nav__menu__right {
 	display: flex;
-	// grid-template-columns: 1fr 1fr;
 	align-items: center;
 	.search__icon__wrapper {
 		margin-right: 25px;

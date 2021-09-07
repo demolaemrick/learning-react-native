@@ -1,4 +1,3 @@
-// import { shallowMount } from '@vue/test-utils';
 import InsightCard from '@/components/InsightCard';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 const localVue = createLocalVue();

@@ -2,8 +2,6 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import ApiPortal from '../../../src/views/ApiPortal/ApiPortal.vue';
 import Vuex from 'vuex';
 
-// import VButton from '../../../src/components/Button';
-
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
@@ -66,7 +64,7 @@ describe('ApiPortal', () => {
 			modules: {
 				user: {
 					actions: {
-						fetchApiKeys: jest.fn().mockResolvedValue(apiRes),
+						fetchApiKeys: jest.fn().mockResolvedValue(emptyApiRes),
 						generateApiKey: jest.fn().mockResolvedValue(emptyApiRes),
 						regenerateApiKey: jest.fn().mockResolvedValue(apiRes)
 					},
@@ -76,7 +74,6 @@ describe('ApiPortal', () => {
 				}
 			}
 		});
-		// store.dispatch = jest.fn().mockResolvedValue(emptyApiRes);
 	});
 
 	it('tests that the page mounts', () => {
@@ -96,36 +93,38 @@ describe('ApiPortal', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-	// it('tests that api keys are generated', async () => {
-	//   // const getKey = jest.fn(async () => console.log('e don happen'))
-	//   const wrapper = shallowMount(ApiPortal, {
-	// 		store,
-	// 		localVue,
-	//     // methods: {
-	//     //   getKey
-	//     // },
-	//     data() {
-	//       return {
-	//         pageLoading: false,
-	//         keys:[]
-	//       }
-	//     }
-	// 	});
-	// 	await wrapper.setData({ pageLoading: false });
-	// 	await wrapper.setData({ keys: [] });
+	it('tests that api keys are generated', async () => {
+		// store.dispatch = jest.fn().mockResolvedValue(emptyApiRes);
+		const getKey = jest.fn(async () => console.log('e don happen'));
+		const wrapper = shallowMount(ApiPortal, {
+			store,
+			localVue,
+			// methods: {
+			//   getKey
+			// },
+			data() {
+				return {
+					pageLoading: false,
+					keys: []
+				};
+			}
+		});
 
-	//   const btn = wrapper.getComponent({ ref: 'generateBtn' });
-	//   console.log('btnnnnnn ----> ', btn);
-	// 	btn.trigger('click');
+		expect(wrapper.vm.$data.keys).toEqual([]);
+		const btn = wrapper.findComponent({ ref: 'generateBtn' });
+		// const btn = wrapper.find({ ref: generateBtn });
+		// const btn = wrapper.find('.btn-test');
+		console.log('btnnnnnn ----> ', btn);
+		await btn.trigger('click');
 
-	//   expect(store.dispatch).toHaveBeenCalledWith('user/generateApiKey');
-	//   // expect(getKey).toHaveBeenCalled();
+		expect(getKey).toHaveBeenCalled();
 
-	//   // const vm = wrapper.vm;
-	// 	// const getKey = jest.spyOn(vm, 'getKey');
-	//   // let btn2 = wrapper.findComponent(VButton);
-	//   // console.log('btnnnnnn2 ----> ', btn2);
+		// expect(store.dispatch).toHaveBeenCalledWith('user/generateApiKey');
+		// const vm = wrapper.vm;
+		// const getKey = jest.spyOn(vm, 'getKey');
+		// let btn2 = wrapper.findComponent(VButton);
+		// console.log('btnnnnnn2 ----> ', btn2);
 
-	// 	// await wrapper.vm.$nextTick();
-	// });
+		// await wrapper.vm.$nextTick();
+	});
 });

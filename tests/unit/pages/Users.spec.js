@@ -15,12 +15,10 @@ jest.mock('lodash', () => ({
 jest.useFakeTimers();
 
 const Paginate = require('vuejs-paginate');
-
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
-
 localVue.component('paginate', Paginate);
 
 let users = {
@@ -143,28 +141,25 @@ describe('Users', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-	// it('tests that page searches on input change', async () => {
-	// 	const wrapper = shallowMount(Users, {
-	// 		store,
-	// 		localVue,
-	// 		router,
-	// 		data() {
-	// 			return {
-	// 				searchQuery: ''
-	// 			};
-	// 		}
-	// 	});
-	// 	const vm = wrapper.vm;
-	// 	const searchPage = jest.spyOn(vm, 'searchPage');
+	it('tests that page searches on input change', async () => {
+		const wrapper = shallowMount(Users, {
+			store,
+			localVue,
+			router,
+			data() {
+				return {
+					searchQuery: ''
+				};
+			}
+		});
+		const vm = wrapper.vm;
+		const searchPage = jest.spyOn(vm, 'searchPage');
 
-	// 	await wrapper.setData({ searchQuery: 'username' });
-	// 	expect(wrapper.vm.$data.searchQuery).toEqual('username');
+		await wrapper.setData({ searchQuery: 'username' });
+		expect(wrapper.vm.$data.searchQuery).toEqual('username');
 
-	// 	expect(searchPage).toHaveBeenCalled();
-
-	// 	await wrapper.setData({ searchQuery: '' });
-	// 	expect(vm.searchPage).toHaveBeenCalled();
-	// });
+		expect(searchPage).toHaveBeenCalled();
+	});
 	it('tests that api to get all users is called', () => {
 		const getAllUsers = jest.fn();
 		const wrapper = shallowMount(Users, {
@@ -495,7 +490,11 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper.find('.table__wrapper').findAll('td').at(5).find('.dropdown__wrapper');
+		const icon = wrapper
+			.find('.table__wrapper')
+			.findAll('td')
+			.at(5)
+			.find('.dropdown__wrapper');
 		icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});

@@ -135,13 +135,6 @@ let notebookResponse = {
 		}
 	}
 };
-// let err = {
-// 	response: {
-// 		data: {
-// 			message: 'error'
-// 		}
-// 	}
-// };
 
 let getSearchedItem = {
 	type: 'contact_insights',
@@ -160,12 +153,6 @@ let getSearchedItem = {
 
 describe('InsightItem', () => {
 	let store;
-	// const router = new VueRouter({
-	// 	routes: [
-	// 		{ path: '/insights', name: 'Insights', query: { rowId: researchResponse.data.data.rowId } },
-	// 		{ path: '/', name: 'Search' }
-	// 	]
-	// });
 	const insightItemRoute = new VueRouter({
 		routes: [
 			{ path: '/insight-item', name: 'InsightItem' },
