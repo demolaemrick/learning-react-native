@@ -193,8 +193,10 @@
 									<span
 										class="main-info"
 										@click="scrollToSection((section = { title: 'News & article', ref: 'news-section' }))"
-										>{{ contact_insights.snapshot.mentions }} article(s)</span
-									>
+										>{{ contact_insights.snapshot.mentions }}
+										<template v-if="contact_insights.snapshot.mentions <= 1">article</template>
+										<template v-else>articles</template>
+									</span>
 								</p>
 							</div>
 							<div
@@ -216,7 +218,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
