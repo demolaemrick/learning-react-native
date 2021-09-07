@@ -8,13 +8,13 @@
 			</div>
 
 			<!-- if keys have never been generated -->
-			<div v-else-if="keys.length === 0" class="page-wrapper">
+			<div v-else-if="!keys.length" class="page-wrapper">
 				<img src="@/assets/icons/api-generate.svg" alt="" />
 				<div class="text">
 					<h2 class="text-main">Get an API Key</h2>
 					<p class="text-sub">Click on the button to generate an API key</p>
 				</div>
-				<v-button ref="generateBtn" class="config__btn__close" @click="getKey">
+				<v-button ref="generateBtn" class=" btn-test config__btn__close" @click="getKey">
 					<div class="btn__content__wrapper">
 						<Loader v-if="loading" />
 						<span v-else class="text">Generate API Key</span>
