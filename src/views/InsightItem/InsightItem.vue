@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-header />
+		<v-headeritem />
 		<main class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content">

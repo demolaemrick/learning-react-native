@@ -5,6 +5,7 @@ import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
+import VHeader from '@/components/Header/searchResult/Header';
 
 import insightMixin from '@/mixins/insightMixin';
 
@@ -14,7 +15,8 @@ export default {
 		PageLoad,
 		PieChart,
 		Tweet,
-		LoadIcon
+		LoadIcon,
+		VHeader
 	},
 	mixins: [ScreenWidthMixin, insightMixin],
 	data() {

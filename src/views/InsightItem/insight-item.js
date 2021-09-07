@@ -2,13 +2,15 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
 import LoadingState from '@/components/LoadingState';
 import insightMixin from '@/mixins/insightMixin';
+import VHeaderitem from '@/components/Header/singleSearch/Header';
 
 export default {
 	mixins: [insightMixin],
 	name: 'InsightItem',
 	components: {
 		CTag,
-		LoadingState
+		LoadingState,
+		VHeaderitem
 	},
 	data() {
 		return {
