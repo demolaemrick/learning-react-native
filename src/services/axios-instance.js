@@ -1,7 +1,7 @@
 import axios from 'axios';
 const instance = axios.create({
 	baseURL: `${process.env.VUE_APP_VOLLEY_API_URL}`,
-	timeout: 300000,
+	timeout: 600000,
 	headers: {},
 	crossdomain: true
 });
