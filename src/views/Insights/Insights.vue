@@ -87,7 +87,7 @@
 					<h5 class="title">Contact Insight</h5>
 					<div class="contact-tabs">
 						<p
-							v-for="(tab, index) in contactInsightsTab"
+							v-for="(tab, index) in getTabs"
 							:key="index"
 							class="contact-tab"
 							:class="{ active: tab.title === selectedInsightTab }"
