@@ -117,6 +117,7 @@ export default {
 				item: item
 			};
 			await this.saveSearchedItem(data);
+			this.$refs.openArticle.scrollTop = 0;
 		}
 	}
 };
