@@ -66,7 +66,7 @@
 						Last refresh:
 						<span
 							>{{ contact_details.last_refresh | moment('MMMM D, YYYY') }} |
-							{{ contact_details.last_refresh | moment(' h:mm:ss a') }}</span
+							{{ contact_details.last_refresh | moment(' h:mm a') }}</span
 						>
 					</h5>
 					<div class="input__group">
