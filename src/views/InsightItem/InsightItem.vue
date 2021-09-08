@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-header />
+		<v-headeritem />
 		<main class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content">
@@ -197,9 +197,11 @@
 					</textarea>
 				</div>
 			</div>
-			<div class="item__detail">
-				<a :href="getSearchedItem.item.url" target="_blank" class="item__detail-url">{{ getSearchedItem.item.url }}</a>
-				<p class="item__detail-title">{{ getSearchedItem.item.description }}</p>
+			<div class="item__detail" ref="openArticle">
+				<h4 class="item__detail-title mr-1">{{ getSearchedItem.item.title }}</h4>
+				<a class="item__detail-url" :href="getSearchedItem.item.url" target="_blank">
+					<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
+				</a>
 				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published">
 					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
 				</p>

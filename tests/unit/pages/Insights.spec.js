@@ -3,9 +3,6 @@ import Vuex from 'vuex';
 import Insights from '../../../src/views/Insights/Insights.vue';
 import VueRouter from 'vue-router';
 
-// const lodash = require('lodash');
-// lodash.debounce = jest.fn((fn) => fn());
-
 jest.mock('lodash', () => ({
 	debounce: (fn) => fn
 }));
@@ -278,16 +275,6 @@ describe('Insights', () => {
 		expect(wrapper.vm.markResearch());
 	});
 
-	// it('watches for changes to contactSearchQuery', async () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		localVue,
-	// 		store
-	// 	});
-	// 	wrapper.vm.$options.watch.contactSearchQuery.call(wrapper.vm, true);
-	// 	await wrapper.vm.$nextTick();
-	// 	expect(wrapper.vm.contactSearchQuery).toBe(false);
-	// });
-
 	it('tests that contactSearch is called', async () => {
 		const wrapper = shallowMount(Insights, {
 			store,
@@ -333,22 +320,6 @@ describe('Insights', () => {
 		await wrapper.setData({ companySearchQuery: '' });
 		expect(companySearch).toHaveBeenCalled();
 	});
-
-	// it('checks that the search clears when the cancle button is clicked', () => {
-	// 	const wrapper = shallowMount(Insights, {
-	// 		store,
-	// 		localVue,
-	// 		router
-	// 		// data() {
-	// 		// 	return {
-	// 		// 		companySearchQuery: ''
-	// 		// 	};
-	// 		// }
-	// 	});
-	// 	const btn = wrapper.find({ ref: 'companySearchText' });
-	// 	console.log(btn);
-	// 	btn.trigger('click');
-	// })
 
 	it('tests for RefreshResearch method is called', () => {
 		const wrapper = shallowMount(Insights, {

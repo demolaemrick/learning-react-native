@@ -1,13 +1,8 @@
-//import { ValidationProvider } from 'vee-validate';
-//import '../../utils/validators';
 import { Boolean } from 'globalthis/implementation';
 import InputMixin from '../../mixins/input';
 export default {
 	name: 'CCheckbox',
 	mixins: [InputMixin],
-	// components: {
-	// 	ValidationProvider
-	// },
 	props: {
 		name: {
 			type: String,

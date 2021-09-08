@@ -56,7 +56,6 @@ describe('searchHeader', () => {
 		});
 		await wrapper.vm.$nextTick();
 		wrapper.vm.logoutUser();
-		//await wrapper.vm.$nextTick();
 	});
 	it('should route to settings', async () => {
 		const wrapper = shallowMount(searchHeader, {

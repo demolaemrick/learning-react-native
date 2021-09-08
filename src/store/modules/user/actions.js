@@ -96,6 +96,7 @@ export default {
 	generateApiKey: async () => {
 		// const userId = context.rootState.auth.loggedUser.id;
 		const url = 'user/api-key/generate';
+		console.log('generating 2');
 		try {
 			const response = await api.post(url);
 			return Promise.resolve(response);
@@ -103,8 +104,7 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	regenerateApiKey: async (id) => {
-		// const userId = context.rootState.auth.loggedUser.id;
+	regenerateApiKey: async (context, id) => {
 		const url = 'user/api-key/generate';
 		try {
 			const response = await api.post(url, id);

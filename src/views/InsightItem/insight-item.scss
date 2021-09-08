@@ -30,12 +30,14 @@
 	&-url {
 		letter-spacing: -0.4px;
 		color: #0ead69;
+		cursor: pointer;
 	}
 	&-title {
-		font-size: 20px;
+		font-size: 24px;
 		letter-spacing: -0.53px;
 		font-weight: bold;
 		margin: 16px 0;
+		display: inline;
 	}
 	&-content {
 		margin-top: 32px;

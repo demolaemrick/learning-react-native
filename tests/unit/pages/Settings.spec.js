@@ -63,7 +63,6 @@ describe('Settings', () => {
 				user: {
 					actions: {
 						settings: jest.fn().mockResolvedValue(settingRes)
-						// getSettings: jest.fn().mockResolvedValue(statusRes)
 					},
 					getters: {},
 					mutations: {},

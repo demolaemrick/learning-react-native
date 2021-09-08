@@ -128,7 +128,6 @@ export default {
 		const url = 'admin/user/new';
 		try {
 			const response = await api.post(url, payload);
-			// const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

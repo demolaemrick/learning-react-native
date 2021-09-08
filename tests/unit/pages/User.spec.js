@@ -201,7 +201,6 @@ describe('User', () => {
 
 	it('tests that status toggle method is called', () => {
 		const wrapper = mount(User, {
-			// router,
 			mocks: {
 				$route: {
 					query: {
@@ -432,7 +431,6 @@ describe('User', () => {
 	it('tests that tab is changed to contacts', () => {
 		let evt = 'contacts';
 		const wrapper = mount(User, {
-			// router,
 			mocks: {
 				$route: {
 					query: {

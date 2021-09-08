@@ -1,7 +1,6 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
-import VHeader from '@/components/Header/searchResult/Header';
 import DCheckbox from '@/components/DefaultCheckbox';
 import TextInput from '@/components/Input';
 import InsightCard from '@/components/InsightCard';
@@ -47,7 +46,6 @@ export default {
 		ToggleDropdown,
 		DCheckbox,
 		DropdownCheckbox,
-		VHeader,
 		TextInput,
 		InsightCard,
 		RadioBtn,
@@ -88,12 +86,12 @@ export default {
 			dislike: 'search_services/dislike'
 		}),
 		sortByDislike(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},

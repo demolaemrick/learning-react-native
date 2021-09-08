@@ -2,13 +2,15 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
 import LoadingState from '@/components/LoadingState';
 import insightMixin from '@/mixins/insightMixin';
+import VHeaderitem from '@/components/Header/singleSearch/Header';
 
 export default {
 	mixins: [insightMixin],
 	name: 'InsightItem',
 	components: {
 		CTag,
-		LoadingState
+		LoadingState,
+		VHeaderitem
 	},
 	data() {
 		return {
@@ -106,64 +108,6 @@ export default {
 			content: 'search_services/content',
 			fetchResearch: 'search_services/research'
 		}),
-		// checkContactSort(uniqueArray) {
-		// 	if (this.contactSortMethod === 'recent') {
-		// 		return this.sortByRecent(uniqueArray);
-		// 	} else if (this.contactSortMethod === 'relevance') {
-		// 		return this.sortByRelevance(uniqueArray);
-		// 	} else {
-		// 		return uniqueArray;
-		// 	}
-		// },
-		// checkCompanySort(uniqueArray) {
-		// 	if (this.companySortMethod === 'recent') {
-		// 		return this.sortByRecent(uniqueArray);
-		// 	} else if (this.companySortMethod === 'relevance') {
-		// 		return this.sortByRelevance(uniqueArray);
-		// 	} else {
-		// 		return uniqueArray;
-		// 	}
-		// },
-		// sortByRelevance(data) {
-		// 	return data.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
-		// },
-		// sortByRecent(data) {
-		// 	return data.sort((a, b) => {
-		// 		return (
-		// 			new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-		// 			new Date(b.meta.published) - new Date(a.meta.published)
-		// 		);
-		// 	});
-		// },
-		getYYYYMMDD(dob) {
-			const d = new Date(dob);
-			return new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
-		},
-		fetchContent() {
-			this.loading = true;
-			this.content(this.getContentPayload)
-				.then(async (response) => {
-					if (response.data.status === 'success') {
-						this.can_render = response.data.data.can_render;
-						return true;
-					}
-					this.showAlert({
-						status: 'error',
-						message: 'Something went wrong',
-						showAlert: true
-					});
-				})
-				.catch((error) => {
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-				})
-				.finally(() => {
-					this.loading = false;
-				});
-		},
 		expandNotepad() {
 			this.hideSearch = true;
 		},
@@ -173,6 +117,7 @@ export default {
 				item: item
 			};
 			await this.saveSearchedItem(data);
+			this.$refs.openArticle.scrollTop = 0;
 		}
 	}
 };

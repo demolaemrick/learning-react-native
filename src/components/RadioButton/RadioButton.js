@@ -21,7 +21,5 @@ export default {
 	// 	innerValue(val) {
 	// 		this.$emit('input', val);
 	// 		this.$emit('change', val);
-	// 	},
-
-	// }
+	// 	}
 };

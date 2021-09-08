@@ -81,28 +81,6 @@ export default {
 		},
 		async submitForm() {
 			console.log(this.dataFields);
-
-			// this.loading = true;
-			// try {
-			// 	const response = await this.userSettings(this.settings);
-			// 	if (response.status === 200 && response.statusText === 'OK') {
-			// 		this.showAlert({
-			// 			status: 'success',
-			// 			message: response.data.message,
-			// 			showAlert: true
-			// 		});
-			// 		this.closeMoreSearchSettings();
-			// 		return true;
-			// 	}
-			// } catch (error) {
-			// 	this.showAlert({
-			// 		status: 'error',
-			// 		message: 'An error occurred',
-			// 		showAlert: true
-			// 	});
-			// } finally {
-			// 	this.loading = false;
-			// }
 		},
 		async getUserSettings() {
 			this.loading = false;

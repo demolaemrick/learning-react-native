@@ -130,7 +130,6 @@ describe('Admin', () => {
 			key: 'enter'
 		});
 		const btn = wrapper.findAllComponents({ ref: 'inviteAdmin' });
-		// const btn = wrapper.find({ ref: 'inviteAdmin' });
 		btn.trigger('click');
 
 		expect(wrapper.vm.inviteAdmin());
@@ -227,20 +226,10 @@ describe('Admin', () => {
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
 		const btn = wrapper.findAllComponents({ ref: 'editAdmin' });
-		// const btn = wrapper.find({ ref: 'editAdmin' });
 		btn.trigger('click');
 		await expect(wrapper.vm.editAdmin());
 		expect(wrapper.vm.$data.loading).toBe(false);
 	});
-
-	// 	const wrapper = shallowMount(Admin, {
-	// 	store,
-	// 	methods: {
-	// 		addEmail
-	// 	}
-	// });
-	// 	expect(addEmail(e));
-	// });
 
 	it('tests that the add email method is called', () => {
 		let e = new Event('target');

@@ -5,7 +5,6 @@ export default {
 	 */
 
 	research: async ({ commit }, data) => {
-		// const url = 'research';
 		const url = 'research/single';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });

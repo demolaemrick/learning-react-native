@@ -56,7 +56,6 @@
 	align-items: center;
 	margin-bottom: 18px;
 
-	// padding-left: 24px;
 	.title {
 		letter-spacing: -0.64px;
 	}
@@ -390,6 +389,7 @@
 				font-weight: normal;
 				padding: 8px 16px;
 				margin-bottom: 4px;
+				text-transform: capitalize;
 				cursor: pointer;
 				&.active {
 					background: #EBEDFE;

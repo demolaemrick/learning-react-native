@@ -1,9 +1,9 @@
 <template>
 	<header class="header">
 		<nav class="navbar">
-			<div class="nav__back" @click="$router.push({ name: 'ContactResearch' })">
+			<div class="nav__back" @click="$router.go(-1)">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
-				<div class="text">Back to contact list</div>
+				<div class="text">Back to contact research</div>
 			</div>
 			<div class="nav__menu__right">
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
@@ -13,6 +13,7 @@
 					@click="$router.push({ name: 'Search' })"
 					svg-inline
 				/>
+				<!-- </div> -->
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
@@ -44,7 +45,7 @@ import VToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations, mapGetters } from 'vuex';
 
 export default {
-	name: 'searchResultHeader',
+	name: 'searchItemHeader',
 	components: {
 		VToggleDropdown
 	},

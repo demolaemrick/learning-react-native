@@ -1,6 +1,5 @@
 @import '@/assets/scss/main.scss';
 .main {
-	// display: flex;
 	display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -59,15 +58,11 @@
 	padding: 3px 0 3px 33px;
 }
 .searched-result {
-	// padding-left: 24px;
-	// padding-left: 24px;
 	border-bottom: solid 2px #f2f2f2;
 }
 .searched__item {
 	padding: 42px 0 39px;
-	// max-width: 450px;
 	cursor: pointer;
-    // padding-left: 24px;
     padding: 1em 1.5em;
 
 	&:hover {
@@ -109,9 +104,6 @@
 	align-items: center;
 	justify-content: space-between;
 }
-// .mobile__wrapper{
-//     display: none;
-// }
 @include query(tablet, max) {
 	.main {
 		display: block;
@@ -145,11 +137,9 @@
 
 .aside__left {
 	width: 300px;
-	// padding: 2em;
 	padding-right: 1em;
 	padding-top: 1em;
 	.section {
-		// padding: 2em;
 	}
 	.section__1 {
 		.title {
@@ -182,7 +172,6 @@
 			letter-spacing: -0.453333px;
 			color: #202f44;
 
-			// grid-template-columns: 1fr 1fr;
 			.text__initials {
 				background: #e9e5ff;
 				color: #333758;
@@ -243,7 +232,6 @@
 		.contact__icon__group {
 			margin-top: 1em;
 			display: flex;
-			// flex-direction: row-reverse;
 			svg {
 				margin-right: 1.5em;
 			}

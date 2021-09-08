@@ -7,7 +7,6 @@ localVue.use(VueRouter);
 describe('Dashboard', () => {
 	const wrapper = shallowMount(Dashboard, {
 		localVue
-		//router
 	});
 	it('Render without errors', () => {
 		expect(wrapper.vm).toBeTruthy();

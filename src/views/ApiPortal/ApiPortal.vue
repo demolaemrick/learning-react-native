@@ -14,7 +14,7 @@
 					<h2 class="text-main">Get an API Key</h2>
 					<p class="text-sub">Click on the button to generate an API key</p>
 				</div>
-				<v-button class="config__btn__close" @click="getKey">
+				<v-button ref="generateBtn" class=" btn-test config__btn__close" @click="getKey">
 					<div class="btn__content__wrapper">
 						<Loader v-if="loading" />
 						<span v-else class="text">Generate API Key</span>
