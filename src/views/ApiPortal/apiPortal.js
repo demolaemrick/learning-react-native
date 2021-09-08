@@ -65,9 +65,8 @@ export default {
 		async generateKeys() {
 			try {
 				const response = await this.generateApiKey();
-				console.log('get api response --->', response);
 				const { status, statusText, data } = response;
-				if (status === 200 && statusText === 'OK') {
+				if (status === 201 && statusText === 'Created') {
 					this.keys = data.keys;
 					this.showAlert({
 						status: 'success',
@@ -92,7 +91,6 @@ export default {
 				const { status, statusText, data } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.keys = data.keys;
-
 					this.showAlert({
 						status: 'success',
 						message: 'API Keys regenerated successfully',
