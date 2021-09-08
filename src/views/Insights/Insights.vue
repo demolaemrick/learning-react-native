@@ -169,7 +169,7 @@
 						</toggle-dropdown>
 					</div>
 				</div>
-				<div class="snapshot-section" ref="snapshot">
+				<div v-if="Object.values(contact_insights.snapshot).length"  class="snapshot-section" ref="snapshot">
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="contact_insights.snapshot" class="snapshot-info">
@@ -187,7 +187,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.mentions">
-								<img src="@/assets/icons/articles.svg" svg-inline />
+								<img src="@/assets/icons/articles.svg" alt="contact article icon"  svg-inline />
 								<p class="ml">
 									Mentioned in
 									<span
@@ -245,7 +245,7 @@
 					</div>
 				</div>
 
-				<div class="news-section" ref="news-section">
+				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
@@ -335,6 +335,15 @@
 						/>
 					</template>
 				</div>
+
+				<div v-else class="news-section" ref="news-section">
+					<div class="section-wrapper">
+						<div class="news">
+							<h3 class="section-title">News & Articles</h3>
+						</div>
+					</div>
+				</div>
+				
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
 						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
@@ -350,13 +359,13 @@
 						@displayInsight="displaySearchItem('contact_insights', quote)"
 					/>
 				</div>
-				<div v-if="!contactFilter" class="topics-section" ref="topics">
+				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
-				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
+				<div v-if="!contactFilter && Object.values(contact_insights.other_insights).length" class="otherInsight-section" ref="others">
 					<div class="section-wrapper">
 						<h3 class="section-title">Other Insights</h3>
 					</div>
@@ -401,11 +410,13 @@
 							</template>
 						</toggle-dropdown>
 					</div>
-					<div class="snapshot-section">
+					<div v-if="Object.values(company_insights.snapshot).length" class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="company_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion">
-								<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
+								<span>
+									<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
+								</span>
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
 									<span
@@ -437,8 +448,10 @@
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
-								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
+							<div class="flex flex__item-center postion flex-center" v-if="company_insights.snapshot.interests.length > 0">
+								<span>
+									<img src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
+								</span>
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
@@ -455,7 +468,7 @@
 					</div>
 				</div>
 
-				<div class="news-section" ref="company-news-section">
+				<div v-if="Object.values(company_insights.news).length" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
