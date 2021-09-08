@@ -169,7 +169,7 @@
 						</toggle-dropdown>
 					</div>
 				</div>
-				<div v-if="Object.values(contact_insights.snapshot).length"  class="snapshot-section" ref="snapshot">
+				<div v-if="Object.values(contact_insights.snapshot).length" class="snapshot-section" ref="snapshot">
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="contact_insights.snapshot" class="snapshot-info">
@@ -187,7 +187,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.mentions">
-								<img src="@/assets/icons/articles.svg" alt="contact article icon"  svg-inline />
+								<img src="@/assets/icons/articles.svg" alt="contact article icon" svg-inline />
 								<p class="ml">
 									Mentioned in
 									<span
@@ -343,7 +343,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper">
 						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
@@ -365,7 +365,11 @@
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
-				<div v-if="!contactFilter && Object.values(contact_insights.other_insights).length" class="otherInsight-section" ref="others">
+				<div
+					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
+					class="otherInsight-section"
+					ref="others"
+				>
 					<div class="section-wrapper">
 						<h3 class="section-title">Other Insights</h3>
 					</div>
