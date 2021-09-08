@@ -94,7 +94,6 @@ export default {
 		}
 	},
 	generateApiKey: async () => {
-		// const userId = context.rootState.auth.loggedUser.id;
 		const url = 'user/api-key/generate';
 		console.log('generating 2');
 		try {

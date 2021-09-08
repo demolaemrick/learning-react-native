@@ -228,7 +228,7 @@
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" alt="twitter icon" svg-inline />
-								<p class="ml">Most viral tweet from the past 90days:</p>
+								<p class="ml">Most viral tweet from the past 90 days:</p>
 							</div>
 						</div>
 						<template v-if="contact_insights.snapshot.most_viral_tweet">
