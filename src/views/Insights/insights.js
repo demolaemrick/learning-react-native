@@ -97,6 +97,9 @@ export default {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
 			}
 		},
+		contactQuotes() {
+			return this.getSearchedResult.contact_insights.quotes;
+		},
 		company_insights: {
 			get() {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
@@ -210,6 +213,14 @@ export default {
 			return this.insightsArray;
 		}
 	},
+	// mounted() {
+	// 	// getQuotes() {
+	// 		console.log('1st', this.contactQuotes);
+	// 		const quotes = this.getSearchedResult.contact_insights.quotes;
+	// 		console.log('tester', this.getSearchedResult.contact_insights.quotes);
+	// 		this.contactQuotes = quotes;
+	// 	// }
+	// },
 	methods: {
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
@@ -297,6 +308,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
+				console.log('RES ----->>> ', response.data.data);
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;
@@ -371,6 +383,10 @@ export default {
 		clearCompanySearch() {
 			this.companySearchResult = [];
 			this.companySearchQuery = '';
+		},
+		scrollSection() {
+			console.log('dgddggsfhkjfljf');
+			this.$refs.quoteList.scrollTop += 600;
 		}
 	},
 	watch: {

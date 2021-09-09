@@ -341,23 +341,30 @@
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
 						</div>
+						<div class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</div>
 				</div>
 
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<div class="section-wrapper">
-						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
+					<div class="section-wrapper flex flex__space-center">
+						<h3 class="section-title">Quotes</h3>
+						<div @click="scrollSection">
+							<img src="@/assets/icons/arrow-up.svg" alt="arrow-right icon" svg-inline />
+						</div>
 					</div>
-					<InsightCard
-						v-for="(quote, index) in contact_insights.quotes"
-						:key="index"
-						:published="quote.published"
-						:url="quote.url"
-						:quote="quote.text"
-						:article="quote"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
-						@displayInsight="displaySearchItem('contact_insights', quote)"
-					/>
+					<div ref="quoteList" class="quote-section__content">
+						<InsightCard
+							v-for="(quote, index) in contactQuotes"
+							:key="index"
+							:published="quote.date"
+							:article="quote"
+							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
+							@displayInsight="displaySearchItem('contact_insights', quote)"
+						/>
+					</div>
 				</div>
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
