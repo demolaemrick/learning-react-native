@@ -109,8 +109,9 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
 										<li class="dropdown__item" @click="RefreshResearch(item.rowId)">Refresh</li>
+										<li class="dropdown__item">Make Research Public</li>
+										<li class="dropdown__item" @click="openDeleteModal(item.rowId, item.full_name)">Delete</li>
 									</template>
 								</v-toggle-dropdown>
 							</div>
