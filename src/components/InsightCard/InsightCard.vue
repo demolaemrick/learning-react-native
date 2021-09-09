@@ -6,7 +6,7 @@
 			</h4>
 			<q v-if="article.quote" class="quote"> {{ article.quote }}</q>
 			<div v-if="article.speaker" class="quotee mb-1">
-				<p>- {{ article.speaker }} </p>
+				<p>- {{ article.speaker }}</p>
 			</div>
 
 			<p class="content" v-if="article.meta && article.meta.html" v-html="article.meta.html.snippet"></p>
@@ -17,8 +17,7 @@
 						<p>
 							<template v-if="published">{{ published | moment('LL') }} |</template> {{ cleanUrl }}
 						</p>
-						</a
-					>
+					</a>
 				</div>
 
 				<div class="flex flex__item-center">
