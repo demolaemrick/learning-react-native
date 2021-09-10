@@ -6,6 +6,7 @@ import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
+import VButton from '@/components/Button';
 
 import insightMixin from '@/mixins/insightMixin';
 
@@ -16,7 +17,8 @@ export default {
 		PieChart,
 		Tweet,
 		LoadIcon,
-		VHeader
+		VHeader,
+		VButton
 	},
 	mixins: [ScreenWidthMixin, insightMixin],
 	data() {
@@ -50,7 +52,9 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			insightsArray: []
+			insightsArray: [],
+			showAllQuotes: false,
+			quoteList: []
 		};
 	},
 	async created() {
@@ -98,7 +102,9 @@ export default {
 			}
 		},
 		contactQuotes() {
-			return this.getSearchedResult.contact_insights.quotes;
+			if (this.showAllQuotes) {
+				return this.getSearchedResult.contact_insights.quotes;
+			} else return this.getSearchedResult.contact_insights.quotes.slice(0, 3);
 		},
 		company_insights: {
 			get() {
@@ -137,6 +143,10 @@ export default {
 			set(value) {
 				return value;
 			}
+		},
+		allQuotes() {
+			this.quoteList = this.getSearchedResult.contact_insights.quotes;
+			return this.quoteList;
 		},
 		company_insights_categories: {
 			get() {
@@ -213,14 +223,6 @@ export default {
 			return this.insightsArray;
 		}
 	},
-	// mounted() {
-	// 	// getQuotes() {
-	// 		console.log('1st', this.contactQuotes);
-	// 		const quotes = this.getSearchedResult.contact_insights.quotes;
-	// 		console.log('tester', this.getSearchedResult.contact_insights.quotes);
-	// 		this.contactQuotes = quotes;
-	// 	// }
-	// },
 	methods: {
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
@@ -308,7 +310,6 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
-				console.log('RES ----->>> ', response.data.data);
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;
