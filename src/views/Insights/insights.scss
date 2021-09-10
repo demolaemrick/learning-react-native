@@ -610,10 +610,11 @@
 .topics-section,
 .otherInsight-section {
 	margin-top: 22px;
+	position: relative;
 	// padding: 0 24.5px;
 }
 .quote-section__content {
-	height: 80vh;
+	max-height: 80vh;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 
@@ -621,6 +622,11 @@
 		display: none;
 		width: 0;
 	}
+}
+.quote-scroll {
+	position: absolute;
+	right: 0;
+	top: 260px;
 }
 label {
 	margin-bottom: 24px;

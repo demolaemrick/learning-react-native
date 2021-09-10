@@ -13,7 +13,7 @@
 			<div @click.stop="" class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-					<a class="article-link" :href="article.url" target="_blank" rel="noopener noreferrer">
+					<a class="article-link" :href="article.url || article.article_url" target="_blank" rel="noopener noreferrer">
 						<p>
 							<template v-if="published">{{ published | moment('LL') }} |</template> {{ cleanUrl }}
 						</p>
