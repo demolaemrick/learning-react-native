@@ -372,7 +372,6 @@
 							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
 						</div>
 					</div> -->
-
 				</div>
 
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
