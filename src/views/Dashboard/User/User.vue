@@ -10,7 +10,7 @@
 
 		<div class="flex flex-spaced">
 			<div class="flex flex-spaced flex__item-center">
-				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" svg-inline @click="backToUsers" />
+				<img class="back-icon" src="@/assets/icons/arrow-back-icon.svg" alt="back icon" svg-inline @click="backToUsers" />
 				<h3 class="page-title">Back to Users</h3>
 			</div>
 			<template v-if="activeTab === 'details'">
@@ -119,7 +119,7 @@
 									<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
 									<template v-else
 										><a class="table__td__link" :href="item.linkedin" target="_blank">
-											<img src="@/assets/icons/link.svg" svg-inline /> </a
+											<img src="@/assets/icons/link.svg" alt="link icon"  svg-inline /> </a
 									></template>
 								</td>
 								<td class="table__row-item">
@@ -133,7 +133,7 @@
 								<td class="table__row-item dropdown">
 									<toggle-dropdown>
 										<template #dropdown-wrapper>
-											<img src="@/assets/icons/menu3dot.svg" svg-inline />
+											<img src="@/assets/icons/menu3dot.svg" alt="menu icon"  svg-inline />
 										</template>
 										<template #dropdown-items>
 											<li class="dropdown__item">Delete</li>
@@ -145,7 +145,7 @@
 
 						<div v-if="!pageLoading && history && history.length < 1">
 							<div class="emptyState">
-								<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+								<img src="@/assets/icons/empty-state-image.svg" alt="empty state image"  svg-inline />
 								<p class="emptyState-text">No user record found</p>
 								<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
 								<c-button size="large" buttonType="primary" @click="toggleUploadContact">Upload Contact</c-button>
@@ -411,7 +411,7 @@
 					>
 						<template>
 							<div class="upload__placeholder__content">
-								<img src="@/assets/icons/image-icon.svg" svg-inline />
+								<img src="@/assets/icons/image-icon.svg" alt="image icon"  svg-inline />
 								<div class="text__content">
 									<p><span class="link">Upload a file </span>or drag and drop</p>
 								</div>
