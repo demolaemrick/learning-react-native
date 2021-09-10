@@ -290,12 +290,12 @@
 						</template>
 						<template v-if="statusOption[statusIndex] === 'inactive'">
 							<c-button class="config__btn" buttonType="warning" size="modal" @click="deactivateApiKey"
-								><Loader v-if="loading" /> <span v-else class="text">Deacvtivate</span></c-button
+								><Loader v-if="loading" /> <span v-else class="text">Deactivate</span></c-button
 							>
 						</template>
-						<template v-if="statusOption[statusIndex] === 'suspended'">
-							<c-button class="config__btn" buttonType="warning" size="modal" @click="suspendApiKey"
-								><Loader v-if="loading" /> <span v-else class="text">Suspend</span></c-button
+						<template v-if="statusOption[statusIndex] === 'deleted'">
+							<c-button class="config__btn" buttonType="warning" size="modal" @click="deleteApiKey"
+								><Loader v-if="loading" /> <span v-else class="text">Delete</span></c-button
 							>
 						</template>
 					</div>
