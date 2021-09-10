@@ -74,7 +74,7 @@
 								@displayInsight="displaySearchItem('contact_insights', article)"
 							/>
 						</div>
-						<div class="quote-section" v-if="getSearchedResult[searchType].quotes.length > 0">
+						<!-- <div class="quote-section" v-if="getSearchedResult[searchType].quotes.length > 0">
 							<div class="section-wrapper">
 								<h3 class="section-title">Quotes</h3>
 							</div>
@@ -88,7 +88,7 @@
 								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 								@displayInsight="displaySearchItem('contact_insights', quote)"
 							/>
-						</div>
+						</div> -->
 						<div class="otherInsight-section" ref="others">
 							<div class="section-wrapper">
 								<h3 class="section-title">Other Insights</h3>
