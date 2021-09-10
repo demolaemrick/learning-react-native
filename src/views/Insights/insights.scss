@@ -613,7 +613,7 @@
 	// padding: 0 24.5px;
 }
 .quote-section__content {
-	height: 80vh;
+	max-height: 80vh;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 
