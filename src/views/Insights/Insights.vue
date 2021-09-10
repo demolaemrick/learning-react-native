@@ -352,9 +352,10 @@
 					<div class="section-wrapper flex flex__space-center">
 						<h3 class="section-title">Quotes</h3>
 						<div @click="scrollSection">
-							<img src="@/assets/icons/arrow-up.svg" alt="arrow-right icon" svg-inline />
+							<img src="@/assets/icons/arrow-up.svg" alt="arrow-up icon" svg-inline />
 						</div>
 					</div>
+
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
 							v-for="(quote, index) in contactQuotes"
@@ -365,7 +366,15 @@
 							@displayInsight="displaySearchItem('contact_insights', quote)"
 						/>
 					</div>
+
+					<!-- <div class="section-wrapper flex flex__space-center">
+						<div class="quote-scroll" @click="scrollSection">
+							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
+						</div>
+					</div> -->
+
 				</div>
+
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
