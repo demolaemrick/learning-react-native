@@ -44,6 +44,9 @@
   margin-bottom: 16px;
   display: block;
 }
+.quote {
+  margin-bottom: 12px;
+}
 .gap {
   margin-right: 10px;
 }
@@ -65,4 +68,8 @@
     color: #3B48F7;
     text-decoration-line: underline;
   }
+}
+.quotee {
+  display: flex;
+  justify-content: flex-start;
 }

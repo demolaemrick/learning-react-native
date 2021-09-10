@@ -66,7 +66,7 @@
 						Last refresh:
 						<span
 							>{{ contact_details.last_refresh | moment('MMMM D, YYYY') }} |
-							{{ contact_details.last_refresh | moment(' h:mm:ss a') }}</span
+							{{ contact_details.last_refresh | moment(' h:mm a') }}</span
 						>
 					</h5>
 					<div class="input__group">
@@ -169,7 +169,7 @@
 						</toggle-dropdown>
 					</div>
 				</div>
-				<div class="snapshot-section" ref="snapshot">
+				<div v-if="Object.values(contact_insights.snapshot).length" class="snapshot-section" ref="snapshot">
 					<div class="section-wrapper">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="contact_insights.snapshot" class="snapshot-info">
@@ -187,7 +187,7 @@
 								</p>
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.mentions">
-								<img src="@/assets/icons/articles.svg" svg-inline />
+								<img src="@/assets/icons/articles.svg" alt="contact article icon" svg-inline />
 								<p class="ml">
 									Mentioned in
 									<span
@@ -228,7 +228,7 @@
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" alt="twitter icon" svg-inline />
-								<p class="ml">Most viral tweet from the past 90days:</p>
+								<p class="ml">Most viral tweet from the past 90 days:</p>
 							</div>
 						</div>
 						<template v-if="contact_insights.snapshot.most_viral_tweet">
@@ -245,7 +245,7 @@
 					</div>
 				</div>
 
-				<div class="news-section" ref="news-section">
+				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
@@ -335,28 +335,48 @@
 						/>
 					</template>
 				</div>
-				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
+
+				<div v-else class="news-section" ref="news-section">
 					<div class="section-wrapper">
-						<h3 class="section-title">Quotes{{ contact_insights.quotes.length }}</h3>
+						<div class="news">
+							<h3 class="section-title">News & Articles</h3>
+						</div>
+						<div class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</div>
-					<InsightCard
-						v-for="(quote, index) in contact_insights.quotes"
-						:key="index"
-						:published="quote.published"
-						:url="quote.url"
-						:quote="quote.text"
-						:article="quote"
-						@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
-						@displayInsight="displaySearchItem('contact_insights', quote)"
-					/>
 				</div>
-				<div v-if="!contactFilter" class="topics-section" ref="topics">
+
+				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
+					<div class="section-wrapper flex flex__space-center">
+						<h3 class="section-title">Quotes</h3>
+						<div @click="scrollSection">
+							<img src="@/assets/icons/arrow-up.svg" alt="arrow-right icon" svg-inline />
+						</div>
+					</div>
+					<div ref="quoteList" class="quote-section__content">
+						<InsightCard
+							v-for="(quote, index) in contactQuotes"
+							:key="index"
+							:published="quote.date"
+							:article="quote"
+							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
+							@displayInsight="displaySearchItem('contact_insights', quote)"
+						/>
+					</div>
+				</div>
+				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
-				<div v-if="!contactFilter" class="otherInsight-section" ref="others">
+				<div
+					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
+					class="otherInsight-section"
+					ref="others"
+				>
 					<div class="section-wrapper">
 						<h3 class="section-title">Other Insights</h3>
 					</div>
@@ -401,11 +421,13 @@
 							</template>
 						</toggle-dropdown>
 					</div>
-					<div class="snapshot-section">
+					<div v-if="Object.values(company_insights.snapshot).length" class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="company_insights.snapshot" class="snapshot-info">
 							<div class="flex flex__item-center postion">
-								<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
+								<span>
+									<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
+								</span>
 								<p class="ml" v-if="company_insights.snapshot.mentions">
 									Mentioned in
 									<span
@@ -437,8 +459,10 @@
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
-								<img class="convo-bubble" src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
+							<div class="flex flex__item-center postion flex-center" v-if="company_insights.snapshot.interests.length > 0">
+								<span>
+									<img src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
+								</span>
 								<p class="ml">
 									Speaks most about
 									<span class="main-info" v-for="(interest, i) in company_insights.snapshot.interests" :key="i">
@@ -455,7 +479,7 @@
 					</div>
 				</div>
 
-				<div class="news-section" ref="company-news-section">
+				<div v-if="Object.values(company_insights.news).length" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>

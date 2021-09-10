@@ -4,17 +4,20 @@
 			<h4 v-if="article.title" class="title">
 				{{ article.title }}
 			</h4>
-			<q v-if="article.text" class="quote">{{ quote }}</q>
+			<q v-if="article.quote" class="quote"> {{ article.quote }}</q>
+			<div v-if="article.speaker" class="quotee mb-1">
+				<p>- {{ article.speaker }}</p>
+			</div>
 
-			<p class="content" v-if="article.meta.html" v-html="article.meta.html.snippet"></p>
+			<p class="content" v-if="article.meta && article.meta.html" v-html="article.meta.html.snippet"></p>
 			<div @click.stop="" class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
-					<a class="article-link" :href="article.url" target="_blank" rel="noopener noreferrer"
-						><p>
+					<a class="article-link" :href="article.url" target="_blank" rel="noopener noreferrer">
+						<p>
 							<template v-if="published">{{ published | moment('LL') }} |</template> {{ cleanUrl }}
-						</p></a
-					>
+						</p>
+					</a>
 				</div>
 
 				<div class="flex flex__item-center">

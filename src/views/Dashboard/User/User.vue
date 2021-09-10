@@ -46,9 +46,9 @@
 							<div class="col-3-12">
 								<p class="mb-1 detail-name">Last Research Date</p>
 								<template v-if="userDetails.last_research_date"
-									>{{ userDetails.last_research_date | moment('MMMM D, YYYY') }} |
+									>{{ userDetails.last_research_date.updatedAt | moment('MMMM D, YYYY') }} |
 									<span class="detail-content">{{
-										userDetails.last_research_date | moment(' h:mm:ss a')
+										userDetails.last_research_date.updatedAt | moment(' h:mm:ss a')
 									}}</span></template
 								>
 								<template v-else>-</template>

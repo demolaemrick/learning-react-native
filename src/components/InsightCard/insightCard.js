@@ -11,7 +11,7 @@ export default {
 	},
 	computed: {
 		cleanUrl() {
-			const url = this.article.url;
+			const url = this.article.url || this.article.article_url;
 			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
 		}
 	}
