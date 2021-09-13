@@ -21,6 +21,7 @@ export default {
 			contactSearchQuery: '',
 			companySearchQuery: '',
 			dislikeModal: false,
+			hookModal: false,
 			toggleClass: true,
 			disliked: false,
 			bookmarked: false,

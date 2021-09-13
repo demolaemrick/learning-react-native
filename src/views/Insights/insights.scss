@@ -635,7 +635,8 @@ label {
 	padding: 0 24.5px;
 }
 
-.textarea {
+.textarea,
+.hookTextarea {
 	display: block;
 	width: 100%;
 	margin-top: 6px;
@@ -655,6 +656,23 @@ label {
 		align-items: center;
 		color: #989AAA;
 		letter-spacing: -0.05px;
+
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: -0.3px;
+		color: #333758;
+	}
+}
+.hookTextarea {
+	min-height: 125px;
+
+	&::placeholder {
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: -0.3px;
+		color: #333758;
 	}
 }
 
@@ -737,4 +755,31 @@ label {
 		letter-spacing: -0.117188px;
 		color: #333758;
 	}
+}
+.email-subject {
+	padding: 16px;
+	// border: 1px solid #d7dce0;
+	background-color: #F7F8FC;
+	border-radius: 4px ;
+	flex-grow: 1;
+	border-right: 0;
+	box-sizing: border-box;
+	line-height: 14px;
+	margin-top: 8px;
+	margin-bottom: 24px;
+
+	&__wrapper {
+		font-size: 16px;
+	}
+}
+.email-recipient {
+	font-size: 20px;
+	line-height: 24px;
+	letter-spacing: -0.3px;
+	color: #989AAA;
+	font-weight: 500;
+}
+.copyhook__btn {
+	display: flex;
+	justify-content: flex-end;
 }

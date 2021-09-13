@@ -289,6 +289,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -327,6 +328,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -405,6 +407,7 @@
 								$event
 							)
 						"
+						@openHookModal="toggleModalClass('hookModal')"
 						@removeDislike="
 							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
@@ -537,6 +540,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -569,6 +573,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 							:published="article.meta.published"
 							:article="article"
@@ -635,6 +640,54 @@
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
 							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+
+		<!-- Hook Modal -->
+		<modal
+			position="center"
+			v-if="hookModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('hookModal', '')"
+			maxWidth="457px"
+			borderRadius="12px"
+			marginTop="10%"
+			:showInfo="true"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Edit Research</h4>
+			</template>
+			<template #info>
+				<h5 class="email-recipient">Shane Holdaway, CEO @ Mission Lane</h5>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<label class="textLabel" for="dislikeForm">Subject</label>
+					<div class="key-group email-subject">
+						<p class="email-subject__wrapper">Your Honey Due Acquisition</p>
+					</div>
+
+					<form action="">
+						<textarea
+							class=" hookTextarea"
+							id="articleHook"
+							name="articleHook"
+							v-model="otherComment"
+							placeholder="Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord."
+						>
+							Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord.
+						</textarea
+						>
+					</form>
+
+					<div class="copyhook__btn">
+						<v-button buttonType="primary" size="medium" @click="dislikeResearch">
+							<template>Copy</template>
+							<!-- <Loader v-else /> -->
 						</v-button>
 					</div>
 				</div>

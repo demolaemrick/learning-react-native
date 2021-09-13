@@ -7,6 +7,8 @@ import store from './store';
 import axios from './services/axios-instance';
 import { clearSession, setSession } from './utils/auth';
 import { mapActions, mapMutations } from 'vuex';
+import VueTippy from 'vue-tippy';
+
 const Paginate = require('vuejs-paginate');
 
 const options = {
@@ -15,6 +17,7 @@ const options = {
 
 Vue.use(VueSession, options);
 Vue.use(require('vue-moment'));
+Vue.use(VueTippy);
 Vue.component('paginate', Paginate);
 Vue.config.productionTip = false;
 

@@ -41,7 +41,7 @@
 					</template>
 					<template>
 						<img
-							class="icon"
+							class="mr-1 icon"
 							v-if="!article.is_disliked"
 							@click="$emit('openModal')"
 							src="../../assets/icons/dislike-icon.svg"
@@ -49,13 +49,22 @@
 							alt=""
 						/>
 						<img
-							class="icon"
+							class="mr-1 icon"
 							v-else
 							@click="$emit('removeDislike')"
 							src="../../assets/icons/disliked-icon.svg"
 							svg-inline
 							alt=""
 						/>
+					</template>
+					<template>
+						<button
+							@click="$emit('openHookModal')"
+							content="<div>Generate<br/>email hook</div>"
+							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
+						>
+							<img class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+						</button>
 					</template>
 				</div>
 			</div>

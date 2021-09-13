@@ -1,4 +1,9 @@
+import { tippy } from 'vue-tippy';
+
 export default {
+	components: {
+		tippy
+	},
 	props: {
 		article: {
 			type: Object,
