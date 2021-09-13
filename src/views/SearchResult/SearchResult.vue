@@ -37,22 +37,22 @@
 					<div class="contact__icon__group">
 						<span v-for="(social, i) in socials" :key="i">
 							<a v-if="social.twitter && Object.entries(social.twitter).length > 0" :href="social.twitter" target="_blank"
-								><img src="@/assets/icons/twitter-icon.svg" svg-inline
+								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 							/></a>
 							<a v-if="social.linkedin && Object.entries(social.linkedin).length > 0" :href="social.linkedin" target="_blank"
-								><img src="@/assets/icons/linkedin-icon.svg" svg-inline
+								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 							/></a>
 							<a
 								v-if="social.website && Object.entries(social.website).length > 0"
 								:href="validateURL(social.website)"
 								target="_blank"
-								><img src="@/assets/icons/world-icon.svg" svg-inline
+								><img src="@/assets/icons/world-icon.svg" alt="world icon" svg-inline
 							/></a>
 							<a
 								v-if="social.crunchbase && Object.entries(social.crunchbase).length > 0"
 								:href="validateURL(social.crunchbase)"
 								target="_blank"
-								><img src="@/assets/icons/crunchbase.svg" svg-inline
+								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 							/></a>
 						</span>
 					</div>
@@ -102,7 +102,7 @@
 			<div v-else class="notepad">
 				<span class="title-wrapper">
 					<p class="notepad-title">Notepad</p>
-					<img src="@/assets/icons/collapse.svg" svg-inline @click="editNote = false" />
+					<img src="@/assets/icons/collapse.svg" alt="close icon" svg-inline @click="editNote = false" />
 				</span>
 				<textarea
 					class="notepad-input"
@@ -125,7 +125,7 @@
 						<template #dropdown-wrapper>
 							<h3 class="title">
 								Contact Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 							</h3>
 						</template>
 						<template #dropdown-items>
@@ -136,7 +136,9 @@
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								<p class="sort">
+									Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+								</p>
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
@@ -168,10 +170,10 @@
 								class="url__bookmark__group"
 							>
 								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="world icon" svg-inline />
 									<p class="url-text">{{ dataItem.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								<img src="@/assets/icons/bookman-icon.svg" alt="bookmark icon" svg-inline />
 							</div>
 							<div
 								v-else
@@ -179,10 +181,10 @@
 								class="url__bookmark__group"
 							>
 								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="earth icon" svg-inline />
 									<p class="url-text">{{ dataItem.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
+								<img src="@/assets/icons/bookman-icon-dark.svg" alt="bookmarked icon" svg-inline />
 							</div>
 						</div>
 					</span>
@@ -198,7 +200,7 @@
 						<template #dropdown-wrapper>
 							<h3 class="title">
 								Company Research
-								<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 							</h3>
 						</template>
 						<template #dropdown-items>
@@ -209,7 +211,9 @@
 					<div class="filter-sort">
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
-								<p class="sort">Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline /></p>
+								<p class="sort">
+									Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+								</p>
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="sortByRecent('company_research')">Recent</li>
@@ -240,10 +244,10 @@
 								class="url__bookmark__group"
 							>
 								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="earth icon" svg-inline />
 									<p class="url-text">{{ dataItem.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon.svg" svg-inline />
+								<img src="@/assets/icons/bookman-icon.svg" alt="bookmark icon" svg-inline />
 							</div>
 							<div
 								v-else
@@ -251,18 +255,16 @@
 								class="url__bookmark__group"
 							>
 								<a :href="dataItem.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" svg-inline />
+									><img src="@/assets/icons/planet-earth.svg" alt="earth icon" svg-inline />
 									<p class="url-text">{{ dataItem.url }}</p></a
 								>
-								<img src="@/assets/icons/bookman-icon-dark.svg" svg-inline />
+								<img src="@/assets/icons/bookman-icon-dark.svg" alt="bookmark icon" svg-inline />
 							</div>
 						</div>
 					</span>
 					<dot-loader v-if="loadMore" />
 				</div>
 			</div>
-
-			<!-- </div> -->
 		</main>
 	</div>
 </template>

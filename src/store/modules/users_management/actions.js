@@ -160,8 +160,8 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	suspendKey: async (context, { userId, id }) => {
-		const url = `admin/user/${userId}/api-key/suspend`;
+	deleteKey: async (context, { userId, id }) => {
+		const url = `admin/user/${userId}/api-key/delete`;
 		try {
 			const response = await api.put(url, { id: id });
 			return Promise.resolve(response);

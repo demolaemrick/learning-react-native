@@ -8,6 +8,7 @@
 			<h4 v-if="users" id="totalUsers">{{ users.length }} Users</h4>
 			<div class="search-section">
 				<!-- <form action=""> -->
+
 				<TextInput
 					class="mb-0"
 					type="text"
@@ -17,11 +18,13 @@
 					width="509px"
 					@clear="clearSearch"
 				/>
+
 				<!-- </form> -->
+
 				<span class="ml-1">
 					<v-button size="small" buttonType="outline" @click="toggleModalClass('filter')">
 						Filter
-						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" svg-inline />
+						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" alt="filter icon" svg-inline />
 					</v-button>
 				</span>
 			</div>
@@ -48,7 +51,7 @@
 					<td class="table__row-item dropdown" @click.stop>
 						<toggle-dropdown>
 							<template #dropdown-wrapper>
-								<img src="@/assets/icons/menu3dot.svg" svg-inline />
+								<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="showUser(item)">View User</li>
@@ -87,7 +90,7 @@
 
 			<div v-if="users && users.length < 1">
 				<div class="emptyState">
-					<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+					<img src="@/assets/icons/empty-state-image.svg" alt="empty state image" svg-inline />
 					<p class="emptyState-text">No user record found</p>
 				</div>
 			</div>

@@ -6,6 +6,7 @@ import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
+import VButton from '@/components/Button';
 
 import insightMixin from '@/mixins/insightMixin';
 
@@ -16,7 +17,8 @@ export default {
 		PieChart,
 		Tweet,
 		LoadIcon,
-		VHeader
+		VHeader,
+		VButton
 	},
 	mixins: [ScreenWidthMixin, insightMixin],
 	data() {
@@ -50,7 +52,8 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			insightsArray: []
+			showAllQuotes: false,
+			quoteList: []
 		};
 	},
 	async created() {
@@ -98,7 +101,9 @@ export default {
 			}
 		},
 		contactQuotes() {
-			return this.getSearchedResult.contact_insights.quotes;
+			if (this.showAllQuotes) {
+				return this.getSearchedResult.contact_insights.quotes;
+			} else return this.getSearchedResult.contact_insights.quotes.slice(0, 3);
 		},
 		company_insights: {
 			get() {
@@ -137,6 +142,10 @@ export default {
 			set(value) {
 				return value;
 			}
+		},
+		allQuotes() {
+			this.quoteList = this.getSearchedResult.contact_insights.quotes;
+			return this.quoteList;
 		},
 		company_insights_categories: {
 			get() {
@@ -194,33 +203,26 @@ export default {
 			return result;
 		},
 		getTabs() {
+			const insightsArray = [];
 			const insights = this.getSearchedResult.contact_insights;
 			if (Object.values(insights.snapshot).length) {
-				this.insightsArray.push({ title: 'Snapshot', ref: 'snapshot' });
+				insightsArray.push({ title: 'Snapshot', ref: 'snapshot' });
 			}
 			if (Object.values(insights.news).length) {
-				this.insightsArray.push({ title: 'News & articles', ref: 'news-section' });
+				insightsArray.push({ title: 'News & articles', ref: 'news-section' });
 			}
 			if (insights.quotes.length) {
-				this.insightsArray.push({ title: 'Quotes', ref: 'quotes' });
+				insightsArray.push({ title: 'Quotes', ref: 'quotes' });
 			}
 			if (Object.values(insights.topics).length) {
-				this.insightsArray.push({ title: 'Topics', ref: 'topics' });
+				insightsArray.push({ title: 'Topics', ref: 'topics' });
 			}
 			if (Object.values(insights.other_insights).length) {
-				this.insightsArray.push({ title: 'Other insights', ref: 'others' });
+				insightsArray.push({ title: 'Other insights', ref: 'others' });
 			}
-			return this.insightsArray;
+			return insightsArray;
 		}
 	},
-	// mounted() {
-	// 	// getQuotes() {
-	// 		console.log('1st', this.contactQuotes);
-	// 		const quotes = this.getSearchedResult.contact_insights.quotes;
-	// 		console.log('tester', this.getSearchedResult.contact_insights.quotes);
-	// 		this.contactQuotes = quotes;
-	// 	// }
-	// },
 	methods: {
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
@@ -308,7 +310,6 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
-				console.log('RES ----->>> ', response.data.data);
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;

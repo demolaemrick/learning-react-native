@@ -16,8 +16,8 @@
 				<div class="user__menu__wrapper">
 					<v-toggle-dropdown class="user__dropdown__menu">
 						<template #dropdown-wrapper>
-							<img class="mr-1" src="@/assets/icons/user-icon.svg" svg-inline />
-							<img src="@/assets/icons/carret-down.svg" svg-inline />
+							<img class="mr-1" src="@/assets/icons/user-icon.svg" alt="user icon" svg-inline />
+							<img src="@/assets/icons/carret-down.svg" alt="carret icon" svg-inline />
 						</template>
 						<template #dropdown-items>
 							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
@@ -78,7 +78,7 @@
 						>
 							<template>
 								<div class="upload__placeholder__content">
-									<img class="mr-1" src="@/assets/icons/upload-icon.svg" svg-inline />
+									<img class="mr-1" src="@/assets/icons/upload-icon.svg" alt="upload icon" svg-inline />
 									<div class="text__content">
 										<p><span class="link">Upload a file</span> or drag and drop</p>
 									</div>
@@ -92,7 +92,7 @@
 
 			<template v-if="activeTab === 'manual_search'">
 				<p class="more-filter" @click="showMoreSearch = !showMoreSearch">
-					More search options <img src="@/assets/icons/arrow-drop-down.svg" class="ml-1" svg-inline />
+					More search options <img src="@/assets/icons/arrow-drop-down.svg" alt="arrow-down icon" class="ml-1" svg-inline />
 				</p>
 			</template>
 			<!-- CONFIG MODAL -->
@@ -106,7 +106,7 @@
 										<div class="btn__content__wrapper">
 											<span class="text">Close</span>
 											<span class="icon">
-												<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+												<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
 											</span>
 										</div>
 									</v-button>
@@ -114,7 +114,7 @@
 							</div>
 							<div class="config__modal__content">
 								<div class="config__icon__wrapper">
-									<img src="@/assets/icons/empty-state-image.svg" class="ml-1" svg-inline />
+									<img src="@/assets/icons/empty-state-image.svg" alt="empty state image" class="ml-1" svg-inline />
 								</div>
 								<div class="config__text__wrapper">
 									<p>
@@ -140,7 +140,7 @@
 							<v-button class="table__wrapper__btn__close" @click="showMoreSearch = !showMoreSearch">
 								<div class="btn__content__wrapper">
 									<span class="icon pr-1">
-										<img src="@/assets/icons/close-sign.svg" class="ml-1" svg-inline />
+										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
 									</span>
 									<span class="text">Close</span>
 								</div>

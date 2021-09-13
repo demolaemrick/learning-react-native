@@ -100,8 +100,8 @@ export default {
 					title: 'Activate'
 				},
 				{
-					value: 'suspended',
-					title: 'Suspend'
+					value: 'deleted',
+					title: 'Delete'
 				},
 				{
 					value: 'inactive',
@@ -150,7 +150,7 @@ export default {
 			fetchApiKeys: 'users_management/fetchApiKeys',
 			activateKey: 'users_management/activateKey',
 			deactivateKey: 'users_management/deactivateKey',
-			suspendKey: 'users_management/suspendKey'
+			deleteKey: 'users_management/deleteKey'
 		}),
 		async getApiKeys() {
 			this.pageLoading = true;
@@ -195,20 +195,20 @@ export default {
 				case 'active':
 					this.ApiModalContent = {
 						title: 'Activate API Key',
-						description: 'You are about to activate an API key, click activate to continue with this action.'
+						description: 'You are about to activate an API key. Click activate to continue with this action.'
 					};
 					break;
-				case 'suspended':
+				case 'deleted':
 					this.ApiModalContent = {
-						title: 'Suspend API Key',
-						description: 'You are about to suspend an API key, click suspend to continue with this action.'
+						title: 'Delete API Key',
+						description: 'You are about to delete an API key. Click delete to continue with this action.'
 					};
 
 					break;
 				case 'inactive':
 					this.ApiModalContent = {
 						title: 'Deactivate API Key',
-						description: 'You are about to deactivate an API key, click deactivate to continue with this action.'
+						description: 'You are about to deactivate an API key. Click deactivate to continue with this action.'
 					};
 
 					break;
@@ -230,7 +230,6 @@ export default {
 						showAlert: true
 					});
 					this.toggleApiModal();
-					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -256,7 +255,6 @@ export default {
 						showAlert: true
 					});
 					this.toggleApiModal();
-					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({
@@ -268,21 +266,20 @@ export default {
 				this.loading = false;
 			}
 		},
-		async suspendApiKey() {
+		async deleteApiKey() {
 			const id = this.previousStatus.keyId;
 			const userId = this.$route.query.userId;
 			this.loading = true;
 			try {
-				const response = await this.suspendKey({ userId, id });
+				const response = await this.deleteKey({ userId, id });
 				const { status, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Api Keys suspended successfully',
+						message: 'Api Keys deleted successfully',
 						showAlert: true
 					});
 					this.toggleApiModal();
-					this.getApiKeys();
 				}
 			} catch (error) {
 				this.showAlert({

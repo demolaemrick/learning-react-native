@@ -349,10 +349,17 @@
 				</div>
 
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<div class="section-wrapper flex flex__space-center">
+					<div class="section-wrapper flex flex__space-center mb-1">
 						<h3 class="section-title">Quotes</h3>
-						<div @click="scrollSection">
-							<img src="@/assets/icons/arrow-up.svg" alt="arrow-up icon" svg-inline />
+						<v-button
+							v-if="!showAllQuotes && allQuotes.length >= 3"
+							@click="showAllQuotes = true"
+							size="icon"
+							buttonType="secondary"
+							>See all</v-button
+						>
+						<div v-if="showAllQuotes && allQuotes.length >= 3" @click="scrollSection">
+							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
 						</div>
 					</div>
 
