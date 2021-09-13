@@ -52,7 +52,6 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			insightsArray: [],
 			showAllQuotes: false,
 			quoteList: []
 		};
@@ -204,23 +203,24 @@ export default {
 			return result;
 		},
 		getTabs() {
+			const insightsArray = [];
 			const insights = this.getSearchedResult.contact_insights;
 			if (Object.values(insights.snapshot).length) {
-				this.insightsArray.push({ title: 'Snapshot', ref: 'snapshot' });
+				insightsArray.push({ title: 'Snapshot', ref: 'snapshot' });
 			}
 			if (Object.values(insights.news).length) {
-				this.insightsArray.push({ title: 'News & articles', ref: 'news-section' });
+				insightsArray.push({ title: 'News & articles', ref: 'news-section' });
 			}
 			if (insights.quotes.length) {
-				this.insightsArray.push({ title: 'Quotes', ref: 'quotes' });
+				insightsArray.push({ title: 'Quotes', ref: 'quotes' });
 			}
 			if (Object.values(insights.topics).length) {
-				this.insightsArray.push({ title: 'Topics', ref: 'topics' });
+				insightsArray.push({ title: 'Topics', ref: 'topics' });
 			}
 			if (Object.values(insights.other_insights).length) {
-				this.insightsArray.push({ title: 'Other insights', ref: 'others' });
+				insightsArray.push({ title: 'Other insights', ref: 'others' });
 			}
-			return this.insightsArray;
+			return insightsArray;
 		}
 	},
 	methods: {
