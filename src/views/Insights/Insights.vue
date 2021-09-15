@@ -278,6 +278,9 @@
 							searchIconColor="#3A434B"
 						/>
 					</div>
+					<!-- TODO: Refactor to use computed property to handle search result
+						and reuse one InsightCard Component
+					 -->
 					<div class="mt-2" v-if="contactFilter === 'search'">
 						<InsightCard
 							v-for="(article, j) in contactSearchResult"
@@ -320,7 +323,7 @@
 					<template v-if="!contactFilter">
 						<InsightCard
 							v-for="(article, j) in contact_insights_categories"
-							:key="contact_insights_categories[article]"
+							:key="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',

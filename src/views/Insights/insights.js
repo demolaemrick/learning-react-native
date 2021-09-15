@@ -24,7 +24,7 @@ export default {
 	data() {
 		return {
 			tweetId: '1417604296422694913',
-			searchType: 'contact_research',
+			searchType: 'contact_insights',
 			contact_details: '',
 			insightStatus: '',
 			loadMore: false,
@@ -88,7 +88,7 @@ export default {
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
-					this.searchType = '';
+					// this.searchType = '';
 					return 'large';
 				} else {
 					return 'small';
@@ -100,47 +100,9 @@ export default {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
 			}
 		},
-		contactQuotes() {
-			if (this.showAllQuotes) {
-				return this.getSearchedResult.contact_insights.quotes;
-			} else return this.getSearchedResult.contact_insights.quotes.slice(0, 3);
-		},
 		company_insights: {
 			get() {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
-			}
-		},
-		contact_insights_categories: {
-			get() {
-				let newObj = {};
-				const result = JSON.parse(JSON.stringify(this.getSearchedResult.contact_insights));
-				const data = result.news;
-				const tab = this.selectedTab;
-				this.tabs = Object.keys(data);
-
-				if (tab === 'All') {
-					let newArray = [];
-					for (const item in data) {
-						newArray = [...newArray, ...data[item]];
-					}
-					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-					this.sortByDislike(uniqueArray);
-					this.sortByBookmarked(uniqueArray);
-					return this.checkContactSort(uniqueArray);
-				} else {
-					const element = Object.keys(data).includes(tab) ? data[tab] : '';
-					newObj[tab] = element;
-
-					// bookmarked articles take precedence over disliked
-					// articles, hence why 'sortByBookmarked' is called last
-
-					this.sortByDislike(newObj[tab]);
-					this.sortByBookmarked(newObj[tab]);
-					return this.checkContactSort(newObj[tab]);
-				}
-			},
-			set(value) {
-				return value;
 			}
 		},
 		allQuotes() {
@@ -324,8 +286,8 @@ export default {
 		},
 		displaySearchItem(type, item) {
 			const data = {
-				type: type,
-				item: item
+				type,
+				item
 			};
 			this.saveSearchedItem(data);
 			this.$router.push({ name: 'InsightItem' });

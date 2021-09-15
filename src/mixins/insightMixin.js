@@ -58,6 +58,35 @@ export default {
 		...mapGetters({
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
+		contact_insights_categories: {
+			get() {
+				let newObj = {};
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
+				const data = result.news;
+				const tab = this.selectedTab;
+				this.tabs = Object.keys(data);
+
+				if (tab === 'All') {
+					let newArray = [];
+					for (const item in data) {
+						newArray = [...newArray, ...data[item]];
+					}
+					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.sortByDislike(uniqueArray);
+					this.sortByBookmarked(uniqueArray);
+					return this.checkContactSort(uniqueArray);
+				} else {
+					const element = Object.keys(data).includes(tab) ? data[tab] : '';
+					newObj[tab] = element;
+					this.sortByBookmarked(newObj[tab]);
+					this.sortByDislike(newObj[tab]);
+					return this.checkContactSort(newObj[tab]);
+				}
+			},
+			set(value) {
+				return value;
+			}
+		},
 		contact_other_insights: {
 			get() {
 				const data = this.getSearchedResult.contact_insights.other_insights;
@@ -70,6 +99,11 @@ export default {
 				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
 			}
+		},
+		contactQuotes() {
+			if (this.showAllQuotes) {
+				return this.getSearchedResult.contact_insights.quotes;
+			} else return this.getSearchedResult.contact_insights.quotes.slice(0, 3);
 		}
 	},
 	methods: {
@@ -293,7 +327,8 @@ export default {
 			await this.saveSearchedResult(searchResultClone);
 			try {
 				const response = await this.removeFromBookmarks({
-					url: article.url
+					url: article.url,
+					type: research_type
 				});
 				if (response.status === 200) {
 					this.showAlert({

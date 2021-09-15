@@ -74,21 +74,26 @@
 								@displayInsight="displaySearchItem('contact_insights', article)"
 							/>
 						</div>
-						<!-- <div class="quote-section" v-if="getSearchedResult[searchType].quotes.length > 0">
-							<div class="section-wrapper">
-								<h3 class="section-title">Quotes</h3>
-							</div>
+						<!-- Quote section -->
+
+						<div class="section-wrapper flex flex__space-center mb-1">
+							<h3 class="section-title">Quotes</h3>
+						</div>
+
+						<div ref="quoteList" class="quote-section__content">
 							<InsightCard
-								v-for="(quote, index) in getSearchedResult[searchType].quotes"
+								v-for="(quote, index) in contactQuotes"
 								:key="index"
-								:published="quote.published ? quote.published : null"
-								:url="quote.url"
-								:quote="quote.text"
+								:published="quote.date ? quote.date : null"
 								:article="quote"
-								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+								@bookmark="
+									btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)
+								"
 								@displayInsight="displaySearchItem('contact_insights', quote)"
 							/>
-						</div> -->
+						</div>
+
+						<!-- Other insights section -->
 						<div class="otherInsight-section" ref="others">
 							<div class="section-wrapper">
 								<h3 class="section-title">Other Insights</h3>
@@ -197,21 +202,18 @@
 					</textarea>
 				</div>
 			</div>
-			<div class="item__detail" ref="openArticle">
-				<h4 class="item__detail-title mr-1">{{ getSearchedItem.item.title }}</h4>
-				<a class="item__detail-url" :href="getSearchedItem.item.url" target="_blank">
+			<div v-if="quotedArticle && quotedArticle.meta" class="item__detail" ref="openArticle">
+				<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
+				<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 					<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
 				</a>
-				<p class="item__detail-date" v-if="getSearchedItem.item.meta.published">
-					{{ new Date(getSearchedItem.item.meta.published) | moment('Do, MMMM YYYY') }}
+				<p class="item__detail-date" v-if="quotedArticle.meta.published || quotedArticle.date">
+					{{ new Date(quotedArticle.meta.published || quotedArticle.date) | moment('Do, MMMM YYYY') }}
 				</p>
-				<div
-					class="filter__tags"
-					v-if="getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0"
-				>
+				<div class="filter__tags" v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
-						<span v-for="(tag, i) in getSearchedItem.item.meta.content.tag" :key="i"
+						<span v-for="(tag, i) in quotedArticle.meta.content.tag" :key="i"
 							><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
 						>
 					</div>
@@ -220,18 +222,11 @@
 				<template>
 					<div
 						class="item__detail-content"
-						v-if="getSearchedItem.item.meta.content && Object.keys(getSearchedItem.item.meta.content).length > 0"
+						v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0"
 					>
-						<div class="item-content" v-html="getSearchedItem.item.meta.content.html"></div>
+						<div class="item-content" v-html="quotedArticle.meta.content.html"></div>
 					</div>
-					<iframe
-						v-else
-						class="mt-2 iframe-wrapper"
-						id="myframe"
-						width="100%"
-						height="500"
-						:src="getSearchedItem.item.url"
-					></iframe>
+					<iframe v-else class="mt-2 iframe-wrapper" id="myframe" width="100%" height="500" :src="quotedArticle.url"></iframe>
 				</template>
 			</div>
 		</main>
