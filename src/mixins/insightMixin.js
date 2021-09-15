@@ -269,6 +269,7 @@ export default {
 			await this.initUserBookmarks();
 		},
 		async btnRemoveFromBookMarks(article) {
+			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
 			const obj = searchResultClone[article.type][article.section];
