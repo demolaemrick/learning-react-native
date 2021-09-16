@@ -11,7 +11,7 @@ export default {
 			type: String,
 			default: 'muted',
 			validator: function(value) {
-				return ['primary', 'outline', 'secondary', 'link', 'muted', 'warning'].indexOf(value) !== -1;
+				return ['primary', 'outline', 'secondary', 'link', 'muted', 'warning', 'clear'].indexOf(value) !== -1;
 			}
 		},
 		submitType: {
