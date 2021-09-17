@@ -396,12 +396,6 @@
 							@displayInsight="displaySearchItem('contact_insights', quote)"
 						/>
 					</div>
-
-					<!-- <div class="section-wrapper flex flex__space-center">
-						<div class="quote-scroll" @click="scrollSection">
-							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
-						</div>
-					</div> -->
 				</div>
 
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
