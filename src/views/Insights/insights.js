@@ -126,13 +126,11 @@ export default {
 			}
 		},
 		chartData() {
-			const news = this.getSearchedResult.contact_insights.news;
-			const data = { values: [], labels: [] };
-			for (const label in news) {
-				data.labels.push(label);
-				data.values.push(news[label].length);
-			}
-			return data;
+			const topTags = this.getSearchedResult.contact_insights.top_tags;
+			return {
+				values: topTags.map((item) => item.count),
+				labels: topTags.map((item) => item.tag)
+			};
 		},
 		userBookmarksCount() {
 			let total = 0;
@@ -204,6 +202,43 @@ export default {
 				section.activate();
 			}
 		},
+
+		/** API response structure for single research
+		 * changed. Function below is to handle the changes by refactoring the incoming data to it's previous structure
+		 * and prevent discrepancies.
+		 */
+		changeToLegacyResponse(newData) {
+			const oldData = JSON.parse(JSON.stringify(newData));
+			let oldNews = {};
+			newData.contact_insights.news.forEach((article) => {
+				article.content.tag = article.content.tags;
+				article.tags.forEach((tag) => {
+					if (oldNews[tag]) {
+						oldNews[tag].push(article);
+					} else {
+						oldNews[tag] = [article];
+					}
+				});
+			});
+			oldData.contact_insights.news = oldNews;
+
+			let oldOtherInsights = {};
+			newData.contact_insights.other_insights.forEach((article) => {
+				article.content.tag = article.content.tags;
+
+				// other insights no longer includes tags so we group
+				// by article url to adhere to the previous
+				// code structure
+				if (oldOtherInsights[article.url]) {
+					oldOtherInsights[article.url].push(article);
+				} else {
+					oldOtherInsights[article.url] = [article];
+				}
+			});
+			oldData.contact_insights.other_insights = oldOtherInsights;
+
+			return oldData;
+		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
 			this.rowId = rowId;
@@ -236,7 +271,8 @@ export default {
 						this.contact_details = contact_details;
 						this.insightStatus = status;
 						this.refreshLoading = false;
-						await this.saveSearchedResult(response.data.done);
+						const refactored = this.changeToLegacyResponse(response.data.done);
+						await this.saveSearchedResult(refactored);
 						this.showAlert({
 							status: 'success',
 							message: 'Research updated successfully',
@@ -275,7 +311,8 @@ export default {
 				const { contact_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.insightStatus = status;
-				this.saveSearchedResult(response.data.data);
+				const refactored = this.changeToLegacyResponse(response.data.data);
+				await this.saveSearchedResult(refactored);
 				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
 			} catch (error) {

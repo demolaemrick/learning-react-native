@@ -36,35 +36,6 @@ const researchMixin = {
 		...mapActions({
 			research: 'search_services/research'
 		}),
-		submitSearch() {
-			this.loading = true;
-			this.research(this.payload)
-				.then(async (response) => {
-					if (response.data.status === 'success') {
-						await this.saveSearchedResult(response.data.data);
-						await this.saveSearchPayload(this.payload);
-						this.$router.push({ name: 'SearchResult' });
-						return true;
-					}
-					// this.showAlert({
-					// 	status: 'error',
-					// 	message: 'Something went wrong',
-					// 	showAlert: true
-					// });
-					console.log(response);
-				})
-				.catch((error) => {
-					console.log(error);
-					// this.showAlert({
-					// 	status: 'error',
-					// 	message: error.response.data.message,
-					// 	showAlert: true
-					// });
-				})
-				.finally(() => {
-					this.loading = false;
-				});
-		},
 		getInitials(string) {
 			var names = string.split(' '),
 				initials = names[0].substring(0, 1).toUpperCase();

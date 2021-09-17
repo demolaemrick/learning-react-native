@@ -54,7 +54,7 @@
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>
 						<button v-else @click="$emit('removeDislike')">
-							<img class="mr-1 icon" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
+							<img class="icon" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
 						</button>
 					</template>
 				</div>

@@ -61,10 +61,14 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
+
+				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
+
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
+
 				const data = result.news;
 				const tab = this.selectedTab;
-				this.tabs = Object.keys(data);
+				this.tabs = result.top_tags.map((item) => item.tag);
 
 				if (tab === 'All') {
 					let newArray = [];
