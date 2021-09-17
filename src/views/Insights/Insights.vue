@@ -354,7 +354,7 @@
 				</div>
 
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<div class="section-wrapper flex flex__space-center mb-1">
+					<!-- <div class="section-wrapper flex flex__space-center mb-1">
 						<h3 class="section-title">Quotes</h3>
 						<v-button
 							v-if="!showAllQuotes && allQuotes.length >= 3"
@@ -366,6 +366,24 @@
 						<div v-if="showAllQuotes && allQuotes.length >= 3" @click="scrollSection">
 							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
 						</div>
+					</div> -->
+
+					<div class="section-wrapper flex flex__space-center mb-1">
+						<h3 class="section-title">Quotes</h3>
+						<v-button
+							v-if="!showAllQuotes && allQuotes.length >= 3"
+							@click="showAllQuotes = true"
+							size="icon"
+							buttonType="clear"
+							>See all</v-button
+						>
+						<v-button
+							v-if="showAllQuotes && allQuotes.length >= 3"
+							@click="showAllQuotes = false"
+							size="icon"
+							buttonType="clear"
+							>See less</v-button
+						>
 					</div>
 
 					<div ref="quoteList" class="quote-section__content">
