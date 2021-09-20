@@ -55,6 +55,15 @@
 .notepad {
 	padding: 15px 0 24px 24px;
 	background-color: #fafafa;
+
+	&-title {
+		font-weight: bold;
+		font-size: 17px;
+		line-height: 20px;
+		letter-spacing: -0.453333px;
+		color: #333758;
+		margin-bottom: 8px;
+	}
 	.title-wrapper {
 		display: flex;
 		align-items: center;
@@ -64,7 +73,10 @@
 		}
 	}
 	&-input {
-		width: 100%;
+		width: 95%;
+		background-color: transparent;
+		border: none;
+		resize: none;
 	}
 }
 .image-placeholder{

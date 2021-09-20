@@ -22,6 +22,10 @@
 		background: rgba(59, 72, 247, 0.08);
 		color: #3b48f7;
 	}
+	&-clear {
+		background: transparent;
+		color: #3b48f7;
+	}
 	&-outline {
 		color: #3a434b;
 		background: #ffffff;

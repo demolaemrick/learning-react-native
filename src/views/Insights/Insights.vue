@@ -278,6 +278,9 @@
 							searchIconColor="#3A434B"
 						/>
 					</div>
+					<!-- TODO: Refactor to use computed property to handle search result
+						and reuse one InsightCard Component
+					 -->
 					<div class="mt-2" v-if="contactFilter === 'search'">
 						<InsightCard
 							v-for="(article, j) in contactSearchResult"
@@ -289,6 +292,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -319,7 +323,7 @@
 					<template v-if="!contactFilter">
 						<InsightCard
 							v-for="(article, j) in contact_insights_categories"
-							:key="contact_insights_categories[article]"
+							:key="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -327,6 +331,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -349,7 +354,7 @@
 				</div>
 
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<div class="section-wrapper flex flex__space-center mb-1">
+					<!-- <div class="section-wrapper flex flex__space-center mb-1">
 						<h3 class="section-title">Quotes</h3>
 						<v-button
 							v-if="!showAllQuotes && allQuotes.length >= 3"
@@ -361,6 +366,24 @@
 						<div v-if="showAllQuotes && allQuotes.length >= 3" @click="scrollSection">
 							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
 						</div>
+					</div> -->
+
+					<div class="section-wrapper flex flex__space-center mb-1">
+						<h3 class="section-title">Quotes</h3>
+						<v-button
+							v-if="!showAllQuotes && allQuotes.length >= 3"
+							@click="showAllQuotes = true"
+							size="icon"
+							buttonType="clear"
+							>See all</v-button
+						>
+						<v-button
+							v-if="showAllQuotes && allQuotes.length >= 3"
+							@click="showAllQuotes = false"
+							size="icon"
+							buttonType="clear"
+							>See less</v-button
+						>
 					</div>
 
 					<div ref="quoteList" class="quote-section__content">
@@ -373,12 +396,6 @@
 							@displayInsight="displaySearchItem('contact_insights', quote)"
 						/>
 					</div>
-
-					<!-- <div class="section-wrapper flex flex__space-center">
-						<div class="quote-scroll" @click="scrollSection">
-							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
-						</div>
-					</div> -->
 				</div>
 
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
@@ -405,6 +422,7 @@
 								$event
 							)
 						"
+						@openHookModal="toggleModalClass('hookModal')"
 						@removeDislike="
 							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
@@ -537,6 +555,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -569,6 +588,7 @@
 									$event
 								)
 							"
+							@openHookModal="toggleModalClass('hookModal')"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 							:published="article.meta.published"
 							:article="article"
@@ -635,6 +655,54 @@
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
 							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+
+		<!-- Hook Modal -->
+		<modal
+			position="center"
+			v-if="hookModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('hookModal', '')"
+			maxWidth="457px"
+			borderRadius="12px"
+			marginTop="10%"
+			:showInfo="true"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Edit Research</h4>
+			</template>
+			<template #info>
+				<h5 class="email-recipient">Shane Holdaway, CEO @ Mission Lane</h5>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<label class="textLabel" for="dislikeForm">Subject</label>
+					<div class="key-group email-subject">
+						<p class="email-subject__wrapper">Your Honey Due Acquisition</p>
+					</div>
+
+					<form action="">
+						<textarea
+							class=" hookTextarea"
+							id="articleHook"
+							name="articleHook"
+							v-model="otherComment"
+							placeholder="Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord."
+						>
+							Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord.
+						</textarea
+						>
+					</form>
+
+					<div class="copyhook__btn">
+						<v-button buttonType="primary" size="medium" @click="dislikeResearch">
+							<template>Copy</template>
+							<!-- <Loader v-else /> -->
 						</v-button>
 					</div>
 				</div>

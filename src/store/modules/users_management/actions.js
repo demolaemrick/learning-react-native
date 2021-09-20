@@ -163,7 +163,7 @@ export default {
 	deleteKey: async (context, { userId, id }) => {
 		const url = `admin/user/${userId}/api-key/delete`;
 		try {
-			const response = await api.put(url, { id: id });
+			const response = await api.delete(url, { id: id });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
