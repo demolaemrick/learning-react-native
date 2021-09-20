@@ -329,6 +329,15 @@ export default {
 			this.saveSearchedItem(data);
 			this.$router.push({ name: 'InsightItem' });
 		},
+
+		generateIntroEmail(type, item) {
+			const data = {
+				type,
+				item
+			};
+			this.saveSearchedItem(data);
+			this.$router.push({ name: 'EmailHook' });
+		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
 				return link;

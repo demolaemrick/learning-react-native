@@ -1,7 +1,6 @@
 <template>
 	<div class="container container--lg">
 		<div class="dashboard-wrapper">
-			<!-- <home-header /> -->
 			<v-header />
 			<div class="loader" v-if="pageLoading">
 				<img src="@/assets/icons/page-loader.svg" alt="" />

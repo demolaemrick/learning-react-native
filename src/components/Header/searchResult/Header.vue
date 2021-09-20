@@ -6,7 +6,7 @@
 				<div class="text">Back to contact list</div>
 			</div>
 			<div class="nav__menu__right">
-				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact List</div>
 				<img
 					class="search__icon__wrapper"
 					src="@/assets/icons/search-icon.svg"

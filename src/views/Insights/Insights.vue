@@ -292,7 +292,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -331,7 +331,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -422,7 +422,7 @@
 								$event
 							)
 						"
-						@openHookModal="toggleModalClass('hookModal')"
+						@openHookModal="generateIntroEmail('other_insights', article)"
 						@removeDislike="
 							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
@@ -555,7 +555,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -588,7 +588,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 							:published="article.meta.published"
 							:article="article"
