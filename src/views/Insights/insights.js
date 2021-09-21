@@ -212,7 +212,13 @@ export default {
 			let oldNews = {};
 			newData.contact_insights.news.forEach((article) => {
 				article.content.tag = article.content.tags;
-				article.tags.forEach((tag) => {
+				const tags = [...article.tags]
+				if (!tags.length) {
+					// use article url to create a dummy 
+					// tag for articles that don't have tags
+					tags.push(article.url)
+				}
+				tags.forEach((tag) => {
 					if (oldNews[tag]) {
 						oldNews[tag].push(article);
 					} else {
