@@ -111,5 +111,14 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	generateAdditionalHooks: async (context, payload) => {
+		const url = 'ai/generate-mail-hook';
+		try {
+			const response = await api.post(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import Insights from '../views/Insights/Insights.vue';
 import InsightItem from '../views/InsightItem/InsightItem.vue';
+import EmailHook from '../views/EmailHook/EmailHook.vue';
 import SettingsView from '../views/Settings/Settings.vue';
 import ContactResearch from '../views/ContactResearch/ContactResearch.vue';
 import Bookmarks from '../views/Bookmarks/Bookmarks.vue';
@@ -108,6 +109,12 @@ const routes = [
 		path: '/insight-item',
 		name: 'InsightItem',
 		component: InsightItem,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/email-hook',
+		name: 'EmailHook',
+		component: EmailHook,
 		beforeEnter: requireUserAuth
 	},
 	{
