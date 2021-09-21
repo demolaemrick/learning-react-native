@@ -322,6 +322,7 @@ export default {
 			}
 		},
 		displaySearchItem(type, item) {
+			console.log('vfwhekfuwbulfijw', item);
 			const data = {
 				type,
 				item
@@ -331,6 +332,7 @@ export default {
 		},
 
 		generateIntroEmail(type, item) {
+			console.log(type, item);
 			const data = {
 				type,
 				item

@@ -388,11 +388,11 @@
 
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
-							v-for="(quote, index) in contactQuotes"
-							:key="index"
+							v-for="(quote, j) in contactQuotes"
+							:key="quote.id"
 							:published="quote.date"
 							:article="quote"
-							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
+							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', quote)"
 						/>
 					</div>
