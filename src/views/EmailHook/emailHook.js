@@ -94,7 +94,7 @@ export default {
 						message: 'Email intros generated successfully',
 						showAlert: true
 					});
-					this.emailHooks.push([...response.data.emails]);
+					this.emailHooks.push(...response.data.emails);
 				}
 			} catch (error) {
 				this.showAlert({
