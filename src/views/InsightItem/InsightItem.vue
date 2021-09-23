@@ -21,7 +21,7 @@
 					</div>
 					<div class="" v-if="searchType === 'contact_insights'">
 						<div class="news-section">
-							<div class="section-wrapper">
+							<div class="section-wrapper top-section">
 								<div class="news">
 									<h3 class="section-title">News & Articles</h3>
 									<div class="filter-sort">
