@@ -229,7 +229,9 @@ export default {
 			getSearchedItem: 'search_services/getSearchedItem',
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
-
+		contact_details() {
+			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
+		},
 		quotedArticle() {
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
@@ -238,14 +240,5 @@ export default {
 				(article) => article.url === this.getSearchedItem.item.article_url
 			);
 		}
-		// socials: {
-		// 	get() {
-		// 		if (this.searchedResult.socials) {
-		// 			return this.searchedResult.socials.filter((x) => {
-		// 				return !Object.values(x).every((i) => i === null);
-		// 			});
-		// 		}
-		// 	}
-		// },
 	}
 };

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<VHeaderitem />
-		<main ref="main" class="main container container--lg">
+		<main class="main container container--lg">
 			<div class="hook-section">
 				<div class="hook-section__header">
 					<h4 class="hook-section__header-text">Personalized Email Intros</h4>
@@ -60,67 +60,101 @@
 					</div>
 				</div>
 				<div class="section__3">
-					<p class="title">Generated Copy</p>
-					<div class="email-intro__group">
-						<template>
-							<div class="email-intro__single" v-for="(hook, index) in emailHooks" :key="index">
-								<div class="email-intro__single__header">
-									<p class="subject" :ref="`emailSubject-${index}`">{{ hook.email.subject }}</p>
-									<button @click="showIntroHook(index)">
-										<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
-									</button>
-								</div>
+					<div class="emptyState email-intro__group" v-if="!emailHooks.length">
+						<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+						<p class="emptyState-text">No content found!</p>
+						<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
+							<template v-if="!loading">Generate Email Intro</template>
+							<Loader v-else />
+						</v-button>
+					</div>
 
-								<div v-if="displayEmail[index]" :ref="`content-${index}`" class="email-intro__single__content">
-									<textarea
-										v-if="editText[index]"
-										class="hookTextarea"
-										id="articleHook"
-										name="articleHook"
-										v-model="hook.email.hook"
-									></textarea>
-									<p v-else class="text" :ref="`emailContentText-${index}`">
-										{{ hook.email.hook }}
-									</p>
-									<div class="editHook-icons">
-										<img
-											class="icon"
-											:ref="`copyBtn-${index}`"
-											@click="copyIntroEmail(hook.email.subject, hook.email.hook, index)"
-											src="@/assets/icons/copy-icon.svg"
-											alt="copy icon"
-											svg-inline
-										/>
-										<img
-											class="icon"
-											:ref="`editBtn-${index}`"
-											@click="editContent(index)"
-											src="@/assets/icons/edit-icon.svg"
-											alt="edit icon"
-											svg-inline
-										/>
-										<img
-											:ref="`deleteBtn-${index}`"
-											src="@/assets/icons/delete-icon.svg"
-											alt="delete icon"
-											svg-inline
-										/>
+					<template v-else>
+						<p class="title">Generated Copy</p>
+						<div class="email-intro__group">
+							<template>
+								<div class="email-intro__single" v-for="(hook, index) in emailHooks" :key="index">
+									<div class="email-intro__single__header">
+										<textarea
+											v-if="editText[index]"
+											class="subjectTextarea"
+											id="articleSubject"
+											name="articleSubject"
+											v-model="hook.email.subject"
+										></textarea>
+
+										<p v-else class="subject" :ref="`emailSubject-${index}`">{{ hook.email.subject }}</p>
+
+										<button v-if="!editText[index]" @click="showIntroHook(index)">
+											<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
+										</button>
+									</div>
+
+									<div v-if="displayEmail[index]" :ref="`content-${index}`" class="email-intro__single__content">
+										<textarea
+											v-if="editText[index]"
+											class="hookTextarea"
+											id="articleHook"
+											name="articleHook"
+											v-model="hook.email.hook"
+										></textarea>
+										<p v-else class="text" :ref="`emailContentText-${index}`">
+											{{ hook.email.hook }}
+										</p>
+										<div class="flex flex-end" v-if="editText[index]">
+											<button @click="editHook(hook, index)" class="mr-1">Save</button>
+											<!-- <button @click="editContent(index)">Cancel</button> -->
+										</div>
+										<div v-else class="editHook-icons">
+											<button>
+												<img
+													class="icon"
+													:ref="`copyBtn-${index}`"
+													@click="copyIntroEmail(hook.email.subject, hook.email.hook, index)"
+													src="@/assets/icons/copy-icon.svg"
+													alt="copy icon"
+													svg-inline
+												/>
+											</button>
+											<button>
+												<img
+													class="icon"
+													:ref="`editBtn-${index}`"
+													@click="editContent(index)"
+													src="@/assets/icons/edit-icon.svg"
+													alt="edit icon"
+													svg-inline
+												/>
+											</button>
+											<button>
+												<img
+													@click="deleteHook(hook)"
+													:ref="`deleteBtn-${index}`"
+													src="@/assets/icons/delete-icon.svg"
+													alt="delete icon"
+													svg-inline
+												/>
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
-						</template>
-						<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook"
-							>Generate more options</v-button
-						>
-					</div>
+							</template>
+							<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
+								<template v-if="!loading">Generate more options</template>
+								<Loader v-else />
+							</v-button>
+						</div>
+					</template>
 				</div>
 			</div>
 
-			<div class="article-section">
+			<div class="article-section" ref="main">
 				<div class="flex flex__end">
-					<v-button class="mt-1" size="large" buttonType="secondary">Create a personalized email intro</v-button>
+					<v-button @click="toggleModalClass('hookModal')" class="mt-1" size="large" buttonType="primary"
+						>Create a personalized email intro</v-button
+					>
 				</div>
-				<div v-if="quotedArticle && quotedArticle.meta" class="item__detail" ref="openArticle">
+				<div v-if="quotedArticle && quotedArticle.meta" class="item__detail">
 					<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
 					<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 						<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
@@ -149,6 +183,57 @@
 				</div>
 			</div>
 		</main>
+
+		<!-- Hook Modal -->
+		<modal
+			position="center"
+			v-if="hookModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('hookModal', '')"
+			maxWidth="492px"
+			borderRadius="12px"
+			marginTop="10%"
+			:showInfo="true"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Create a personalized email intro</h4>
+			</template>
+
+			<template #body>
+				<form @submit.prevent="">
+					<ValidationObserver v-slot="{}" color="#ff0000">
+						<div class="auth-input">
+							<text-input
+								type="text"
+								rules="required"
+								labelVisible
+								labelColor="gray"
+								v-model="createdEmailHook.createdSubject"
+								width="100%"
+								name="Subject"
+								placeholder="Enter email subject"
+							/>
+							<textarea
+								class=" hookTextarea"
+								id="emailHook"
+								name="emailHook"
+								v-model="createdEmailHook.createdMessage"
+								placeholder="Input your intro email..."
+							>
+							</textarea>
+
+							<div class="flex flex__end">
+								<v-button class="submit" size="large" buttonType="primary">
+									<template v-if="!loading">Save</template>
+									<Loader v-else />
+								</v-button>
+							</div>
+						</div>
+					</ValidationObserver>
+				</form>
+			</template>
+		</modal>
 	</div>
 </template>
 

@@ -6,12 +6,8 @@
 	max-width: 514px;
 	width: 350px;
   margin-top: 34px;
-  max-height: 75vh;
+  max-height: 90vh;
   overflow-y: scroll;
-	// &-content {
-	// 	max-height: 75vh;
-	// 	overflow-y: scroll;
-	// }
 
   &__header {
     display: flex;
@@ -152,6 +148,7 @@
     width: 300px;
     padding: 16px;
     margin-bottom: 12px;
+    transition: all 0.3s;
 
     &__header {
       display: flex;
@@ -225,23 +222,87 @@
   }
 }
 .generateBtn {
-  margin-top: 64px;
+  margin-top: 50px;
   margin-bottom: 82px;
 }
 .rad {
   border-radius: 8px;
 }
-.hookTextarea {
+.hookTextarea,
+.subjectTextarea {
   resize: none;
   min-height: 120px;
-  width: 100%;
+  width: 97%;
   padding: 14px;
-  font-size: 14px;
-  margin-top: 4px;
-  border: 1px solid lightgray;
+  margin-top: 24px;
+  border: 1px solid #EAEBEB;
   border-radius: 4px;
   overflow-y: scroll;
 	scroll-behavior: smooth;
   letter-spacing: -0.4px;
-  // color: #333758;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.3px;;
+  color: #333758;
+  margin-bottom: 20px;
+}
+.subjectTextarea{
+  min-height: 60px;
+  margin-bottom: 0;
+
+}
+.textLabel {
+	font-size: 14px;
+	line-height: 16px;
+	color: #989AAA;
+}
+.email-subject {
+	padding: 16px;
+	// border: 1px solid #d7dce0;
+	background-color: #FFF;
+  border: 1px solid #EAEBEB;
+	border-radius: 4px ;
+	flex-grow: 1;
+	// border-right: 0;
+	box-sizing: border-box;
+	line-height: 14px;
+	margin-top: 8px;
+	margin-bottom: 24px;
+
+	&__wrapper {
+		font-size: 16px;
+    font-weight: 500;
+		line-height: 20px;
+		letter-spacing: -0.3px;
+		color: #202F44;
+	}
+}
+.email-recipient {
+	font-size: 20px;
+	line-height: 24px;
+	letter-spacing: -0.3px;
+	color: #989AAA;
+	font-weight: 500;
+}
+.copyhook__btn {
+	display: flex;
+	justify-content: flex-end;
+}
+.emptyState {
+	margin-top: 62px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-text {
+		margin-top: 26px;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 24px;
+		text-align: center;
+		letter-spacing: -0.117188px;
+		color: #333758;
+	}
 }
