@@ -142,7 +142,7 @@ export default {
 			} else if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRelevance(uniqueArray);
 			}
 		},
 		checkCompanySort(uniqueArray) {
