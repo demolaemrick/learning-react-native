@@ -98,6 +98,12 @@
 					</div>
 				</div>
 				<div class="section__5">
+					<div class="text">Personalized Email Intros</div>
+					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+						See All
+					</div>
+				</div>
+				<div class="section__5">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
 						See All
