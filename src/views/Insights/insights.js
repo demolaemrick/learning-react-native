@@ -196,6 +196,9 @@ export default {
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
+			if (!element) {
+				return;
+			}
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
 			if (section.activate) {
