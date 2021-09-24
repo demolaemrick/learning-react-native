@@ -34,28 +34,16 @@
 					</div>
 					<div class="contact__icon__group">
 						<span v-for="(social, i) in contact_details.socials" :key="i">
-							<a
-								v-if="social.twitter && Object.entries(social.twitter).length > 0"
-								:href="validateURL(social.twitter)"
-								target="_blank"
+							<a v-if="social.twitter" :href="validateURL(social.twitter)" target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 							/></a>
-							<a
-								v-if="social.linkedin && Object.entries(social.linkedin).length > 0"
-								:href="validateURL(social.linkedin)"
-								target="_blank"
+							<a v-if="social.linkedin" :href="validateURL(social.linkedin)" target="_blank"
 								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 							/></a>
-							<a
-								v-if="social.website && Object.entries(social.website).length > 0"
-								:href="validateURL(social.website)"
-								target="_blank"
+							<a v-if="social.website" :href="validateURL(social.website)" target="_blank"
 								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 							/></a>
-							<a
-								v-if="social.crunchbase && Object.entries(social.crunchbase).length > 0"
-								:href="validateURL(social.crunchbase)"
-								target="_blank"
+							<a v-if="social.crunchbase" :href="validateURL(social.crunchbase)" target="_blank"
 								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 							/></a>
 						</span>

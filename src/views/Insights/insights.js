@@ -80,7 +80,7 @@ export default {
 		getLinkedinUrl: {
 			get() {
 				const url = this.contact_details.socials.find((element) => {
-					return Object.keys(element).includes('linkedin');
+					return Boolean(element.linkedin);
 				});
 				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
 			}
