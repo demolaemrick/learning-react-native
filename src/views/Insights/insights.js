@@ -80,10 +80,16 @@ export default {
 		getLinkedinUrl: {
 			get() {
 				const url = this.contact_details.socials.find((element) => {
-					return Object.keys(element).includes('linkedin');
+					return Boolean(element.linkedin);
 				});
 				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
 			}
+		},
+		getCrunchbaseUrl() {
+			const url = this.contact_details.socials.find((element) => {
+				return Boolean(element.crunchbase);
+			});
+			return url ? `https://${url.crunchbase}` : null;
 		},
 		screenType: {
 			get() {
@@ -196,6 +202,9 @@ export default {
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
 			var element = this.$refs[section.ref];
+			if (!element) {
+				return;
+			}
 			var top = element.offsetTop;
 			window.scrollTo(0, top);
 			if (section.activate) {
@@ -212,7 +221,14 @@ export default {
 			let oldNews = {};
 			newData.contact_insights.news.forEach((article) => {
 				article.content.tag = article.content.tags;
-				article.tags.forEach((tag) => {
+				const tags = [...article.tags];
+
+				if (!tags.length) {
+					// use article url to create a dummy
+					// tag for articles that don't have tags
+					tags.push(article.url);
+				}
+				tags.forEach((tag) => {
 					if (oldNews[tag]) {
 						oldNews[tag].push(article);
 					} else {
@@ -224,7 +240,9 @@ export default {
 
 			let oldOtherInsights = {};
 			newData.contact_insights.other_insights.forEach((article) => {
-				article.content.tag = article.content.tags;
+				if (article.content) {
+					article.content.tag = article.content.tags;
+				}
 
 				// other insights no longer includes tags so we group
 				// by article url to adhere to the previous
@@ -322,12 +340,23 @@ export default {
 			}
 		},
 		displaySearchItem(type, item) {
+			console.log('vfwhekfuwbulfijw', item);
 			const data = {
 				type,
 				item
 			};
 			this.saveSearchedItem(data);
 			this.$router.push({ name: 'InsightItem' });
+		},
+
+		generateIntroEmail(type, item) {
+			console.log(type, item);
+			const data = {
+				type,
+				item
+			};
+			this.saveSearchedItem(data);
+			this.$router.push({ name: 'EmailHook' });
 		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {

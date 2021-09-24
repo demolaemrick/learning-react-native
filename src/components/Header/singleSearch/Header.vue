@@ -3,10 +3,10 @@
 		<nav class="navbar">
 			<div class="nav__back" @click="$router.go(-1)">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
-				<div class="text">Back to contact research</div>
+				<div class="text">Back to previous page</div>
 			</div>
 			<div class="nav__menu__right">
-				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact Research</div>
+				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact List</div>
 				<img
 					class="search__icon__wrapper"
 					src="@/assets/icons/search-icon.svg"

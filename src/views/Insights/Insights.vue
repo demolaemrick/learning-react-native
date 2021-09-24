@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div>
 		<v-header />
 		<template v-if="loading">
 			<page-load />
@@ -34,28 +34,16 @@
 					</div>
 					<div class="contact__icon__group">
 						<span v-for="(social, i) in contact_details.socials" :key="i">
-							<a
-								v-if="social.twitter && Object.entries(social.twitter).length > 0"
-								:href="validateURL(social.twitter)"
-								target="_blank"
+							<a v-if="social.twitter" :href="validateURL(social.twitter)" target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 							/></a>
-							<a
-								v-if="social.linkedin && Object.entries(social.linkedin).length > 0"
-								:href="validateURL(social.linkedin)"
-								target="_blank"
+							<a v-if="social.linkedin" :href="validateURL(social.linkedin)" target="_blank"
 								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 							/></a>
-							<a
-								v-if="social.website && Object.entries(social.website).length > 0"
-								:href="validateURL(social.website)"
-								target="_blank"
+							<a v-if="social.website" :href="validateURL(social.website)" target="_blank"
 								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 							/></a>
-							<a
-								v-if="social.crunchbase && Object.entries(social.crunchbase).length > 0"
-								:href="validateURL(social.crunchbase)"
-								target="_blank"
+							<a v-if="social.crunchbase" :href="validateURL(social.crunchbase)" target="_blank"
 								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 							/></a>
 						</span>
@@ -95,6 +83,12 @@
 						>
 							{{ tab.title }}
 						</p>
+					</div>
+				</div>
+				<div class="section__5">
+					<div class="text">Personalized Email Intros</div>
+					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+						See All
 					</div>
 				</div>
 				<div class="section__5">
@@ -292,7 +286,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -331,7 +325,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -385,14 +379,15 @@
 							>See less</v-button
 						>
 					</div>
-
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
-							v-for="(quote, index) in contactQuotes"
-							:key="index"
+							v-for="(quote, j) in contactQuotes"
+							:key="
+								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
+							"
 							:published="quote.date"
 							:article="quote"
-							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...article }, $event)"
+							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', quote)"
 						/>
 					</div>
@@ -422,7 +417,7 @@
 								$event
 							)
 						"
-						@openHookModal="toggleModalClass('hookModal')"
+						@openHookModal="generateIntroEmail('other_insights', article)"
 						@removeDislike="
 							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
@@ -504,6 +499,15 @@
 									</span>
 								</p>
 							</div>
+
+							<div class="flex flex__item-center postion" v-if="getCrunchbaseUrl">
+								<img style="width: 24px" src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline />
+								<p class="ml">
+									Company is on
+									<a class="main-info" v-if="getCrunchbaseUrl" :href="getCrunchbaseUrl" target="_blank">Crunchbase</a>
+								</p>
+							</div>
+
 							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" alt="open jobs icon" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
@@ -555,7 +559,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -588,7 +592,7 @@
 									$event
 								)
 							"
-							@openHookModal="toggleModalClass('hookModal')"
+							@openHookModal="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 							:published="article.meta.published"
 							:article="article"

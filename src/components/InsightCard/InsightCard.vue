@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template>
+					<template v-if="!article.quote">
 						<button
 							class="mr-1 icon"
 							@click="$emit('openHookModal')"

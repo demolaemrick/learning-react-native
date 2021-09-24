@@ -4,20 +4,21 @@ import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import Insights from '../views/Insights/Insights.vue';
 import InsightItem from '../views/InsightItem/InsightItem.vue';
+import EmailHook from '../views/EmailHook/EmailHook.vue';
 import SettingsView from '../views/Settings/Settings.vue';
 import ContactResearch from '../views/ContactResearch/ContactResearch.vue';
 import Bookmarks from '../views/Bookmarks/Bookmarks.vue';
 
-const NotFound = () => import(/* webpackChunkName: 'login' */ '../views/NotFound.vue');
+const NotFound = () => import(/* webpackChunkName: 'NotFound' */ '../views/NotFound.vue');
 const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login');
-const ForgotPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword');
-const CheckInbox = () => import(/* webpackChunkName: 'login' */ '../views/auth/ForgotPassword/CheckInbox');
-const ResetPassword = () => import(/* webpackChunkName: 'login' */ '../views/auth/ResetPassword');
-const AdminInvite = () => import(/* webpackChunkName: 'login' */ '../views/auth/AdminInvite');
-const Dashboard = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Index.vue');
-const Admin = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Admin');
-const Users = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/Users');
-const User = () => import(/* webpackChunkName: 'login' */ '../views/Dashboard/User');
+const ForgotPassword = () => import(/* webpackChunkName: 'ForgotPassword' */ '../views/auth/ForgotPassword');
+const CheckInbox = () => import(/* webpackChunkName: 'CheckInbox' */ '../views/auth/ForgotPassword/CheckInbox');
+const ResetPassword = () => import(/* webpackChunkName: 'ResetPassword' */ '../views/auth/ResetPassword');
+const AdminInvite = () => import(/* webpackChunkName: 'AdminInvite' */ '../views/auth/AdminInvite');
+const Dashboard = () => import(/* webpackChunkName: 'Dashboard' */ '../views/Dashboard/Index.vue');
+const Admin = () => import(/* webpackChunkName: 'Admin' */ '../views/Dashboard/Admin');
+const Users = () => import(/* webpackChunkName: 'Users' */ '../views/Dashboard/Users');
+const User = () => import(/* webpackChunkName: 'User' */ '../views/Dashboard/User');
 const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
 
 Vue.use(VueRouter);
@@ -108,6 +109,12 @@ const routes = [
 		path: '/insight-item',
 		name: 'InsightItem',
 		component: InsightItem,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/email-hook',
+		name: 'EmailHook',
+		component: EmailHook,
 		beforeEnter: requireUserAuth
 	},
 	{

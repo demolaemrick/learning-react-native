@@ -122,7 +122,9 @@ export default {
 			updateUserNote: 'user/updateNote',
 			addToBookmarks: 'user/addToBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
-			dislike: 'search_services/dislike'
+			dislike: 'search_services/dislike',
+			bookmarkQuote: 'search_services/bookmarkQuote',
+			dislikeQuote: 'search_services/dislikeQuote'
 		}),
 		sortByDislike(data) {
 			data.sort(function(a, b) {
@@ -140,7 +142,7 @@ export default {
 			} else if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRelevance(uniqueArray);
 			}
 		},
 		checkCompanySort(uniqueArray) {
@@ -351,6 +353,62 @@ export default {
 				this.btnAddToBookMarks(article);
 			} else {
 				this.btnRemoveFromBookMarks(article);
+			}
+		},
+		async updateQuoteBookMarks(article, prop) {
+			console.log('property ---> ', prop);
+			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
+
+			try {
+				const response = await this.bookmarkQuote({
+					rowId: this.getSearchedResult.rowId,
+					url: article.article_url,
+					quoteId: article.id,
+					type: type
+				});
+				console.log('response ---->>>> ', response);
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: 'Unable to bookmark quote',
+					showAlert: true
+				});
+			}
+		},
+		async dislikeQuote(article, prop) {
+			console.log('property ---> ', prop);
+			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
+
+			try {
+				const response = await this.dislikeQuote({
+					rowId: this.getSearchedResult.rowId,
+					url: article.article_url,
+					quoteId: article.id,
+					type: type
+				});
+				console.log('response ---->>>> ', response);
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: 'Unable to dislike quote',
+					showAlert: true
+				});
 			}
 		},
 

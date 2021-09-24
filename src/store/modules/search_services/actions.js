@@ -128,5 +128,25 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	bookmarkQuote: async (context, payload) => {
+		// console.log('payload', payload);
+		const url = 'research/bookmark-quote';
+		try {
+			const response = await api.post(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	dislikeQuote: async (context, payload) => {
+		// console.log('payload', payload);
+		const url = 'research/quote/dislike';
+		try {
+			const response = await api.post(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

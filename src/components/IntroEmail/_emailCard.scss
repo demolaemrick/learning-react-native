@@ -1,0 +1,50 @@
+.email-intro__single {
+  background: #F7F9FB;
+  border-radius: 4px;
+  width: 300px;
+  padding: 16px;
+  margin-bottom: 12px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    
+    .subject {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: -0.01em;
+      color: #333758;
+    }
+  }
+
+  &__content {
+    // max-height: 0;
+    // transition: all 400ms ease-in-out;
+    // overflow: hidden;
+    
+    .text {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.4px;
+      color: #333758;
+    }
+  }
+
+}
+
+.editHook-icons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+
+  .icon {
+    margin-right: 9px;
+    cursor: pointer;
+  }
+}
