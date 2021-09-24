@@ -65,7 +65,8 @@ export default {
 			addEmailIntros: 'user/generateHooks',
 			fetchEmailIntros: 'user/fetchHooks',
 			deleteEmailHook: 'user/deleteEmailHook',
-			editEmailHook: 'user/editEmailHook'
+			editEmailHook: 'user/editEmailHook',
+			createEmailHook: 'user/createEmailHook'
 		}),
 		showIntroHook(index) {
 			// this.editContent(index) ;
@@ -191,10 +192,22 @@ export default {
 			}
 		},
 		async editHook(hook, index) {
+			
 			const mailHook = hook.email.hook;
 			const subject = hook.email.subject;
-			console.log('dhwniwnr', mailHook, subject);
-			console.log('id', hook._id);
+
+			if (!mailHook || !subject) {
+				this.showAlert({
+					status: 'error',
+					message: 'Ensure no input field is empty',
+					showAlert: true
+				});
+				return;
+			}
+			// console.log('dhwniwnr', mailHook, subject);
+			// console.log('id', hook._id);
+
+			// check that it isn't empty
 			try {
 				const response = await this.editEmailHook({
 					id: hook._id,
@@ -219,6 +232,37 @@ export default {
 				});
 			} finally {
 				this.editContent(index);
+			}
+		},
+		async addHook() {
+			this.loading = true;
+
+			const type = this.searchType === 'contact_insights' ? 'contact_research' : 'company_research';
+			try {
+				const response = await this.createEmailHook({
+					rowId: this.getSearchedResult.rowId,
+					url: this.quotedArticle.url,
+					type,
+					...this.createdEmailHook
+				});
+
+				console.log(response);
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: 'Email intro created successfully',
+						showAlert: true
+					});
+				}
+				this.fetchGeneratedHooks();
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
 			}
 		}
 	},
