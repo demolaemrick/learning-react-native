@@ -17,6 +17,9 @@ export default {
 	computed: {
 		...mapGetters({
 			loggedInUser: 'auth/getLoggedUser'
-		})
+		}),
+		loggedIn() {
+			return this.loggedInUser;
+		}
 	}
 };
