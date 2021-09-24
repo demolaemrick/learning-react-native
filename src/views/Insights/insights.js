@@ -216,6 +216,7 @@ export default {
 			newData.contact_insights.news.forEach((article) => {
 				article.content.tag = article.content.tags;
 				const tags = [...article.tags];
+
 				if (!tags.length) {
 					// use article url to create a dummy
 					// tag for articles that don't have tags
@@ -233,7 +234,9 @@ export default {
 
 			let oldOtherInsights = {};
 			newData.contact_insights.other_insights.forEach((article) => {
-				article.content.tag = article.content.tags;
+				if (article.content) {
+					article.content.tag = article.content.tags;
+				}
 
 				// other insights no longer includes tags so we group
 				// by article url to adhere to the previous

@@ -379,11 +379,12 @@
 							>See less</v-button
 						>
 					</div>
-
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
 							v-for="(quote, j) in contactQuotes"
-							:key="quote.id"
+							:key="
+								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
+							"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
