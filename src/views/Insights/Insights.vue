@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div>
 		<v-header />
 		<template v-if="loading">
 			<page-load />
@@ -499,6 +499,15 @@
 									</span>
 								</p>
 							</div>
+
+							<div class="flex flex__item-center postion" v-if="getCrunchbaseUrl">
+								<img style="width: 24px" src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline />
+								<p class="ml">
+									Company is on
+									<a class="main-info" v-if="getCrunchbaseUrl" :href="getCrunchbaseUrl" target="_blank">Crunchbase</a>
+								</p>
+							</div>
+
 							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" alt="open jobs icon" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>

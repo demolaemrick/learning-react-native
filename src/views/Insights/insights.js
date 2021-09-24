@@ -85,6 +85,12 @@ export default {
 				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
 			}
 		},
+		getCrunchbaseUrl() {
+			const url = this.contact_details.socials.find((element) => {
+				return Boolean(element.crunchbase);
+			});
+			return url ? `https://${url.crunchbase}` : null;
+		},
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
