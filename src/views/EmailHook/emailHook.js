@@ -22,24 +22,24 @@ export default {
 			loading: false,
 			emailContent: false,
 			emailHooks: [
-				{
-					email: {
-						subject: 'Dangote sets aside $1.2 billion for Nigerian foundation',
-						hook: 'How can a business person from a developing country give back to the community?'
-					}
-				},
-				{
-					_id: '6149f33dc23c03618436df10',
-					userId: '607ea1bf965bbe6414c00b13',
-					rowId: '478044c3-e841-40b2-bb2b-bf0241373985',
-					url:
-						'https://www.usatoday.com/story/tech/2020/03/13/bill-gates-steps-down-microsoft-and-warren-buffetts-firm-boards/5046369002/',
-					type: 'contact_research',
-					email: {
-						subject: 'Bill Gates to step down from Microsoft',
-						hook: 'Bill Gates says he&rsquo;s stepping down from Microsoft board'
-					}
-				}
+				// {
+				// 	email: {
+				// 		subject: 'Dangote sets aside $1.2 billion for Nigerian foundation',
+				// 		hook: 'How can a business person from a developing country give back to the community?'
+				// 	}
+				// },
+				// {
+				// 	_id: '6149f33dc23c03618436df10',
+				// 	userId: '607ea1bf965bbe6414c00b13',
+				// 	rowId: '478044c3-e841-40b2-bb2b-bf0241373985',
+				// 	url:
+				// 		'https://www.usatoday.com/story/tech/2020/03/13/bill-gates-steps-down-microsoft-and-warren-buffetts-firm-boards/5046369002/',
+				// 	type: 'contact_research',
+				// 	email: {
+				// 		subject: 'Bill Gates to step down from Microsoft',
+				// 		hook: 'Bill Gates says he&rsquo;s stepping down from Microsoft board'
+				// 	}
+				// }
 			],
 			editMode: false,
 			displayEmail: [],
@@ -52,7 +52,7 @@ export default {
 		};
 	},
 	async mounted() {
-		// this.fetchGeneratedHooks();
+		this.fetchGeneratedHooks();
 		this.searchType = this.getSearchedItem.type;
 		const page = this.$refs.main.offsetTop;
 		window.scrollTo(0, page);
@@ -69,7 +69,6 @@ export default {
 			createEmailHook: 'user/createEmailHook'
 		}),
 		showIntroHook(index) {
-			// this.editContent(index) ;
 			this.$set(this.displayEmail, index, !this.displayEmail[index]);
 		},
 		editContent(index) {
@@ -141,7 +140,6 @@ export default {
 					rowId: this.getSearchedResult.rowId
 				});
 
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK' && response.data.existingEmails.length) {
 					this.showAlert({
 						status: 'success',
@@ -149,11 +147,14 @@ export default {
 						showAlert: true
 					});
 					this.emailHooks.push(...response.data.existingEmails);
-				} else {
-					throw new Error('No generated emails found');
-				}
+					return;
+				} 
+				this.showAlert({
+					status: 'error',
+					message: 'No generated emails found',
+					showAlert: true
+				});
 			} catch (error) {
-				console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
