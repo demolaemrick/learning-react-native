@@ -202,29 +202,29 @@
 
 			<template #body>
 				<form @submit.prevent="">
-					<ValidationObserver v-slot="{}" color="#ff0000">
+					<ValidationObserver v-slot="{ invalid }" color="#ff0000">
 						<div class="auth-input">
+							<label class="hook-label">Subject</label>
 							<text-input
 								type="text"
 								rules="required"
-								labelVisible
 								labelColor="gray"
-								v-model="createdEmailHook.createdSubject"
+								v-model="createdEmailHook.subject"
 								width="100%"
 								name="Subject"
 								placeholder="Enter email subject"
 							/>
 							<textarea
-								class=" hookTextarea"
+								class="hookTextarea"
 								id="emailHook"
 								name="emailHook"
-								v-model="createdEmailHook.createdMessage"
-								placeholder="Input your intro email..."
+								v-model="createdEmailHook.hook"
+								placeholder="Input your email intro..."
 							>
 							</textarea>
 
 							<div class="flex flex__end">
-								<v-button class="submit" size="large" buttonType="primary">
+								<v-button @click="addHook" :disabled="invalid || !createdEmailHook.hook" submitType="submit">
 									<template v-if="!loading">Save</template>
 									<Loader v-else />
 								</v-button>

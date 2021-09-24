@@ -232,7 +232,7 @@
 .subjectTextarea {
   resize: none;
   min-height: 120px;
-  width: 97%;
+  width: 100%;
   padding: 14px;
   margin-top: 24px;
   border: 1px solid #EAEBEB;
@@ -247,6 +247,10 @@
   letter-spacing: -0.3px;;
   color: #333758;
   margin-bottom: 20px;
+
+  &::placeholder {
+    color: #979BAA;
+  }
 }
 .subjectTextarea{
   min-height: 60px;
@@ -305,4 +309,14 @@
 		letter-spacing: -0.117188px;
 		color: #333758;
 	}
+}
+.hook-label {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: -0.02em;
+  color: #989AAA;
+  opacity: 0.8;
+  display: block;
+  margin-bottom: 8px;
 }

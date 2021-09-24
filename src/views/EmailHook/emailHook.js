@@ -46,8 +46,8 @@ export default {
 			editText: [],
 			message: 'This is a mango',
 			createdEmailHook: {
-				createdSubject: '',
-				createdMessage: ''
+				subject: '',
+				hook: ''
 			}
 		};
 	},
@@ -192,7 +192,6 @@ export default {
 			}
 		},
 		async editHook(hook, index) {
-			
 			const mailHook = hook.email.hook;
 			const subject = hook.email.subject;
 
@@ -204,10 +203,7 @@ export default {
 				});
 				return;
 			}
-			// console.log('dhwniwnr', mailHook, subject);
-			// console.log('id', hook._id);
 
-			// check that it isn't empty
 			try {
 				const response = await this.editEmailHook({
 					id: hook._id,
