@@ -191,8 +191,6 @@ export default {
 			}
 		},
 		async editHook(hook, index) {
-			console.log('jrnoejnoen', hook);
-			console.log('index', index);
 			const mailHook = hook.email.hook;
 			const subject = hook.email.subject;
 			console.log('dhwniwnr', mailHook, subject);
