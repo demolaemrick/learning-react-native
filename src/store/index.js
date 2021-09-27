@@ -8,8 +8,19 @@ import users_management from './modules/users_management/';
 import admin_management from './modules/admin_management/';
 Vue.use(Vuex);
 
+const modules = {
+	search_services,
+	auth,
+	user,
+	users_management,
+	admin_management
+};
+
 const vuexPersistence = new VuexPersistence({
-	storage: window.localStorage
+	storage: window.localStorage,
+	// we won't persist state from "search_services"
+	// because research results can come as large as 5MB
+	modules: Object.keys(modules).filter((module) => module !== 'search_services')
 });
 
 const initialAlertState = {
@@ -72,13 +83,7 @@ export default new Vuex.Store({
 			}, 3000);
 		}
 	},
-	modules: {
-		search_services,
-		auth,
-		user,
-		users_management,
-		admin_management
-	},
+	modules,
 	plugins: [vuexPersistence.plugin],
 	strict: process.env.NODE_ENV !== 'production'
 });
