@@ -148,7 +148,7 @@ export default {
 					});
 					this.emailHooks.push(...response.data.existingEmails);
 					return;
-				} 
+				}
 				this.showAlert({
 					status: 'error',
 					message: 'No generated emails found',
