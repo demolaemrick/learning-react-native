@@ -27,6 +27,7 @@ export default {
 			bookmarked: false,
 			dislikeLoading: false,
 			selectedInsight: '',
+			showAllQuotes: false,
 			dislikeOptions: [
 				{
 					value: 'Not relevant to my search',
@@ -106,8 +107,18 @@ export default {
 		},
 		contactQuotes() {
 			if (this.showAllQuotes) {
-				return this.getSearchedResult.contact_insights.quotes;
-			} else return this.getSearchedResult.contact_insights.quotes.slice(0, 3);
+				const quoteArray = [...this.getSearchedResult.contact_insights.quotes];
+				this.sortByDislike(quoteArray);
+				return this.sortByBookmarked(quoteArray);
+			} else {
+				const quoteArray = [...this.getSearchedResult.contact_insights.quotes.slice(0, 3)];
+				this.sortByDislike(quoteArray);
+				return this.sortByBookmarked(quoteArray);
+			}
+		},
+		allQuotes() {
+			this.quoteList = this.getSearchedResult.contact_insights.quotes;
+			return this.quoteList;
 		}
 	},
 	methods: {
@@ -123,16 +134,18 @@ export default {
 			addToBookmarks: 'user/addToBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			dislike: 'search_services/dislike',
-			bookmarkQuote: 'search_services/bookmarkQuote',
-			dislikeQuote: 'search_services/dislikeQuote'
+			addQuoteBookmark: 'search_services/addQuoteBookmark',
+			removeQuoteBookmark: 'search_services/removeQuoteBookmark',
+			dislikeQuote: 'search_services/dislikeQuote',
+			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
 		sortByDislike(data) {
-			data.sort(function(a, b) {
+			return data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			data.sort(function(a, b) {
+			return data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
@@ -142,7 +155,7 @@ export default {
 			} else if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return this.sortByRelevance(uniqueArray);
+				return uniqueArray;
 			}
 		},
 		checkCompanySort(uniqueArray) {
@@ -164,6 +177,15 @@ export default {
 					new Date(b.meta.published) - new Date(a.meta.published)
 				);
 			});
+		},
+		generateIntroEmail(type, item) {
+			console.log(type, item);
+			const data = {
+				type,
+				item
+			};
+			this.saveSearchedItem(data);
+			this.$router.push({ name: 'EmailHook' });
 		},
 		async toggleDislike(article) {
 			this.selectedInsight = article;
@@ -355,44 +377,71 @@ export default {
 				this.btnRemoveFromBookMarks(article);
 			}
 		},
-		async updateQuoteBookMarks(article, prop) {
-			console.log('property ---> ', prop);
-			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
+		// async updateQuoteBookMarks(quote, prop) {
+		// 	console.log('property ---> ', prop);
+		// 	if (prop === 'add') {
+		// 		this.addQuoteToBookMarks(quote);
+		// 	} else {
+		// 		this.removeQuoteFromBookMarks(quote);
+		// 	}
+		// },
+		async updateQuoteBookMarks(quote) {
+			const type = quote.type === 'contact_insights' ? 'contact_research' : 'company_research';
 
+			let searchResultClone = JSON.parse(JSON.stringify(this.getSearchedResult));
+			let quoteArray = searchResultClone.contact_insights.quotes;
+
+			const quoteIndex = quoteArray.findIndex((obj) => obj.id === quote.id);
+			quoteArray[quoteIndex].is_bookmarked = quoteArray[quoteIndex].is_bookmarked ? false : true;
+
+			const isBookmarked = quoteArray[quoteIndex].is_bookmarked;
+			const bookmarkAction = isBookmarked ? 'addQuoteBookmark' : 'removeQuoteBookmark';
 			try {
-				const response = await this.bookmarkQuote({
+				const response = await this[bookmarkAction]({
 					rowId: this.getSearchedResult.rowId,
-					url: article.article_url,
-					quoteId: article.id,
-					type: type
+					url: quote.article_url,
+					quoteId: quote.id,
+					type
 				});
 				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: response.data.message,
+						message: 'Bookmark updated successfully',
 						showAlert: true
 					});
+					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
 				console.log(error);
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to bookmark quote',
+					message: error.response.data.message,
 					showAlert: true
 				});
 			}
 		},
-		async dislikeQuote(article, prop) {
-			console.log('property ---> ', prop);
-			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
+
+		async updateQuoteDislike(quote) {
+			// console.log('quote', quote);
+			// console.log('id', quote.id);
+			const type = quote.type === 'contact_insights' ? 'contact_research' : 'company_research';
+
+			let searchResultClone = JSON.parse(JSON.stringify(this.getSearchedResult));
+			let quoteArray = searchResultClone.contact_insights.quotes;
+
+			const quoteIndex = quoteArray.findIndex((obj) => obj.id === quote.id);
+			quoteArray[quoteIndex].is_disliked = quoteArray[quoteIndex].is_disliked ? false : true;
+
+			const isDisliked = quoteArray[quoteIndex].is_disliked;
+			const dislikeAction = isDisliked ? 'dislikeQuote' : 'removeQuoteDislike';
 
 			try {
-				const response = await this.dislikeQuote({
+				const response = await this[dislikeAction]({
 					rowId: this.getSearchedResult.rowId,
-					url: article.article_url,
-					quoteId: article.id,
-					type: type
+					url: quote.article_url,
+					quoteId: quote.id,
+					type
 				});
 				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
@@ -401,12 +450,13 @@ export default {
 						message: response.data.message,
 						showAlert: true
 					});
+					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
 				console.log(error);
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to dislike quote',
+					message: error.response.data.message,
 					showAlert: true
 				});
 			}
