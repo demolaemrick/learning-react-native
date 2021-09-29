@@ -52,7 +52,6 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			showAllQuotes: false,
 			quoteList: []
 		};
 	},
@@ -111,10 +110,7 @@ export default {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 			}
 		},
-		allQuotes() {
-			this.quoteList = this.getSearchedResult.contact_insights.quotes;
-			return this.quoteList;
-		},
+
 		company_insights_categories: {
 			get() {
 				let newObj = {};
@@ -340,7 +336,6 @@ export default {
 			}
 		},
 		displaySearchItem(type, item) {
-			console.log('vfwhekfuwbulfijw', item);
 			const data = {
 				type,
 				item
@@ -349,15 +344,6 @@ export default {
 			this.$router.push({ name: 'InsightItem' });
 		},
 
-		generateIntroEmail(type, item) {
-			console.log(type, item);
-			const data = {
-				type,
-				item
-			};
-			this.saveSearchedItem(data);
-			this.$router.push({ name: 'EmailHook' });
-		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
 				return link;
