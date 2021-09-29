@@ -94,7 +94,7 @@
 				</div>
 				<div class="section__5">
 					<div class="text">Personalized Email Intros</div>
-					<div @click="generateIntroEmail('contact_insights', article)" class="link">
+					<div @click="generateIntroEmail(null, null)" class="link">
 						See All
 					</div>
 				</div>

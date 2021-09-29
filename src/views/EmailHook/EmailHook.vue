@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<VHeaderitem />
-		<main class="main container container--lg">
-			<div class="hookArticles">
-				<div class="hookArticles__header">
+		<main class="">
+			<div class="hookArticles" :class="articlesOpened ? 'open' : 'closed'">
+				<div class="hookArticles__header mb-1">
 					<h3 class="section-title">News & Articles</h3>
 				</div>
 				<div class="hookArticles__body">
@@ -16,16 +16,16 @@
 					/>
 				</div>
 			</div>
-			<div class="emailgen-group">
+			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
 				<div class="hook-section">
-					<div class="toggle-arrow">
+					<div class="toggle-arrow" @click="toggleArticlePane">
 						<img src="@/assets/icons/hook-back-arrow.svg" alt="back-arrow icon" svg-inline />
 					</div>
 					<div class="hook-section__header">
 						<h4 class="hook-section__header-text">Personalized Email Intros</h4>
 					</div>
 
-					<div class="section section__1">
+					<div class="section__1">
 						<h5 class="title">Contact Details</h5>
 						<div class="contact__details">
 							<div class="text__initials" v-if="contact_details.full_name">
@@ -209,6 +209,10 @@
 							></iframe>
 						</template>
 					</div>
+				</div>
+				<div v-else class="emptyState article">
+					<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+					<p class="emptyState-text">No content found!</p>
 				</div>
 			</div>
 		</main>

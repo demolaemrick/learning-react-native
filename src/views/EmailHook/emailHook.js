@@ -53,14 +53,20 @@ export default {
 				subject: '',
 				hook: ''
 			},
-			searchType: 'contact_insights'
+			searchType: 'contact_insights',
+			articlesOpened: false
 		};
 	},
 	async mounted() {
-		this.fetchGeneratedHooks();
-		this.searchType = this.getSearchedItem.type;
-		const page = this.$refs.main.offsetTop;
-		window.scrollTo(0, page);
+		console.log('check', this.getSearchedItem);
+		if(this.getSearchedItem.item) {
+			this.fetchGeneratedHooks();
+			this.searchType = this.getSearchedItem.type;
+			const page = this.$refs.main.offsetTop;
+			window.scrollTo(0, page);
+		} else {
+			this.articlesOpened = true;
+		}
 		// document.querySelector('.article-section').scrollTop = 0;
 	},
 	methods: {
@@ -73,6 +79,9 @@ export default {
 			editEmailHook: 'user/editEmailHook',
 			createEmailHook: 'user/createEmailHook'
 		}),
+		toggleArticlePane() {
+			this.articlesOpened = !this.articlesOpened;
+		},
 		showIntroHook(index) {
 			this.$set(this.displayEmail, index, !this.displayEmail[index]);
 		},
@@ -269,15 +278,18 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		async displaySearchItem(type, item) {
+			this.emailHooks = [];
+			const data = {
+				type: type,
+				item: item
+			};
+			await this.saveSearchedItem(data);
+			this.fetchGeneratedHooks();
+
+			// this.$refs.openArticle.scrollTop = 0;
 		}
-		// async displaySearchItem(type, item) {
-		// 	const data = {
-		// 		type: type,
-		// 		item: item
-		// 	};
-		// 	await this.saveSearchedItem(data);
-		// 	this.$refs.openArticle.scrollTop = 0;
-		// }
 	},
 	computed: {
 		...mapGetters({
@@ -288,6 +300,9 @@ export default {
 			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
 		},
 		quotedArticle() {
+			if (!this.getSearchedItem.item) {
+				return null;
+			}
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
 			}
