@@ -179,7 +179,6 @@ export default {
 			});
 		},
 		generateIntroEmail(type, item) {
-			console.log(type, item);
 			const data = {
 				type,
 				item
@@ -377,14 +376,6 @@ export default {
 				this.btnRemoveFromBookMarks(article);
 			}
 		},
-		// async updateQuoteBookMarks(quote, prop) {
-		// 	console.log('property ---> ', prop);
-		// 	if (prop === 'add') {
-		// 		this.addQuoteToBookMarks(quote);
-		// 	} else {
-		// 		this.removeQuoteFromBookMarks(quote);
-		// 	}
-		// },
 		async updateQuoteBookMarks(quote) {
 			const type = quote.type === 'contact_insights' ? 'contact_research' : 'company_research';
 
