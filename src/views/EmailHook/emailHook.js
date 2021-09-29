@@ -137,20 +137,21 @@ export default {
 		async fetchGeneratedHooks() {
 			try {
 				const response = await this.fetchEmailIntros({
-					rowId: this.getSearchedResult.rowId
+					rowId: this.getSearchedResult.rowId,
+					url: this.quotedArticle.url
 				});
 
-				if (response.status === 200 && response.statusText === 'OK' && response.data.existingEmails.length) {
+				if (response.status === 200 && response.statusText === 'OK' && response.data.emails.length) {
 					this.showAlert({
 						status: 'success',
 						message: 'Generated email intros retrieved successfully',
 						showAlert: true
 					});
-					this.emailHooks.push(...response.data.existingEmails);
+					this.emailHooks.push(...response.data.emails);
 					return;
 				}
 				this.showAlert({
-					status: 'error',
+					status: 'info',
 					message: 'No generated emails found',
 					showAlert: true
 				});
@@ -163,26 +164,24 @@ export default {
 			}
 		},
 		async deleteHook(hook) {
-			console.log('hkrmtkr', hook);
-			const index = this.emailHooks.findIndex((x) => {
-				return x._id === hook._id;
-			});
-			if (index !== -1) {
-				this.emailHooks.splice(index, 1);
-			}
-
 			try {
-				const response = await this.deleteEmailHook({
-					id: hook._id
-				});
+				const response = await this.deleteEmailHook(hook._id);
 
 				console.log(response);
+
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
 						message: 'Email intro deleted successfully',
 						showAlert: true
 					});
+
+					const index = this.emailHooks.findIndex((x) => {
+						return x._id === hook._id;
+					});
+					if (index !== -1) {
+						this.emailHooks.splice(index, 1);
+					}
 				}
 			} catch (error) {
 				this.showAlert({
@@ -251,6 +250,10 @@ export default {
 						showAlert: true
 					});
 				}
+				this.createdEmailHook.subject = '';
+				this.createdEmailHook.hook = '';
+				this.toggleModalClass('hookModal');
+
 				this.fetchGeneratedHooks();
 			} catch (error) {
 				this.showAlert({

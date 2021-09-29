@@ -121,10 +121,10 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	fetchHooks: async (context, rowId) => {
-		const url = `ai/generate-mail-hook/${rowId}`;
+	fetchHooks: async (context, { rowId, url: articleUrl }) => {
+		const url = `ai/retrieve-mail-hook/${rowId}`;
 		try {
-			const response = await api.get(url);
+			const response = await api.get(url, { params: { url: articleUrl } });
 
 			return Promise.resolve(response);
 		} catch (error) {
@@ -159,7 +159,7 @@ export default {
 		console.log('subject here', payload);
 		const url = '/ai/add-mail-hook';
 		try {
-			const response = await api.post(url);
+			const response = await api.post(url, payload);
 
 			return Promise.resolve(response);
 		} catch (error) {

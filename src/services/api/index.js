@@ -1,8 +1,8 @@
 import instance from '../axios-instance';
 
 export default {
-	get(url) {
-		return instance.get(url);
+	get(url, data = null) {
+		return instance.get(url, data);
 	},
 	post(url, data) {
 		return instance.post(url, data);

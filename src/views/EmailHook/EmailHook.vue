@@ -102,8 +102,12 @@
 											{{ hook.email.hook }}
 										</p>
 										<div class="flex flex-end" v-if="editText[index]">
-											<button @click="editHook(hook, index)" class="mr-1">Save</button>
-											<!-- <button @click="editContent(index)">Cancel</button> -->
+											<button @click="editHook(hook, index)" style="margin-right: 9px">
+												<img class="icon" src="@/assets/icons/check.svg" alt="save icon" svg-inline />
+											</button>
+											<button @click="editContent(index)">
+												<img class="icon" src="@/assets/icons/cancel.svg" alt="cancel icon" svg-inline />
+											</button>
 										</div>
 										<div v-else class="editHook-icons">
 											<button>
@@ -150,8 +154,8 @@
 
 			<div class="article-section" ref="main">
 				<div class="flex flex__end">
-					<v-button @click="toggleModalClass('hookModal')" class="mt-1" size="large" buttonType="primary"
-						>Create a personalized email intro</v-button
+					<v-button @click="toggleModalClass('hookModal')" class="mt-1 mb-1" size="large" buttonType="primary"
+						>Create Email Intro</v-button
 					>
 				</div>
 				<div v-if="quotedArticle && quotedArticle.meta" class="item__detail">
