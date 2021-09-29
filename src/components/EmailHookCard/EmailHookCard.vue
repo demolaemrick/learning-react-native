@@ -27,7 +27,6 @@
 							<img class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
-				
 				</div>
 			</div>
 		</div>
