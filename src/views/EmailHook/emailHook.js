@@ -6,6 +6,8 @@ import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
 import insightMixin from '@/mixins/insightMixin';
+import InsightCard from '@/components/InsightCard';
+import EmailHookCard from '@/components/EmailHookCard';
 
 export default {
 	name: 'EmailHook',
@@ -14,7 +16,9 @@ export default {
 		VHeaderitem,
 		VButton,
 		TextInput,
-		Loader
+		Loader,
+		InsightCard,
+		EmailHookCard
 	},
 	mixins: [insightMixin],
 	data() {
@@ -48,7 +52,8 @@ export default {
 			createdEmailHook: {
 				subject: '',
 				hook: ''
-			}
+			},
+			searchType: 'contact_insights'
 		};
 	},
 	async mounted() {
@@ -265,6 +270,14 @@ export default {
 				this.loading = false;
 			}
 		}
+		// async displaySearchItem(type, item) {
+		// 	const data = {
+		// 		type: type,
+		// 		item: item
+		// 	};
+		// 	await this.saveSearchedItem(data);
+		// 	this.$refs.openArticle.scrollTop = 0;
+		// }
 	},
 	computed: {
 		...mapGetters({

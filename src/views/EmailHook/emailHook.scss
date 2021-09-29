@@ -1,12 +1,59 @@
 @import '@/assets/scss/main.scss';
+
+.hookArticles {
+  // border-right: 1px solid #f2f2f2;
+  margin-top: 34px;
+  // margin-right: 32px;
+  padding-right: 32px;
+  max-height: 90vh;
+  overflow-y: scroll;
+  // min-width: 342px;
+  position: fixed;
+  // width: 374px;
+  // left: 60px;
+  width: 25.97%;
+  left: 4.2%;
+
+  &__header {
+    padding: 0 16px;
+
+    .section-title {
+      width: fit-content;
+      padding: 0.5rem 0;
+      font-size: 20px;
+      font-size: 20px;
+      line-height: 22px;
+      letter-spacing: -0.64px;
+    }
+    
+    .section-title::after {
+      content: '';
+      border-bottom: 4px solid #3b48f7;
+      display: block;
+      margin-top: 4px;
+    }
+
+  }
+}
+
+.emailgen-group {
+  border-left: 1px solid #f2f2f2;
+  display: flex;
+  // margin-left: 300px;
+  /* margin-left: 347px; */
+  margin-left: 27.4%;
+}
 .hook-section {
 	border-left: none;
 	border-right: 1px solid #f2f2f2;
-	padding-bottom: 0;
+	// padding-bottom: 0;
 	max-width: 514px;
-	min-width: 350px;
+	// min-width: 350px;
+	// min-width: 364px;
+  min-width: 39.5%;
   margin-top: 34px;
   max-height: 90vh;
+  padding: 0 32px;
   overflow-y: scroll;
 
   &__header {
@@ -25,16 +72,21 @@
     }
   }
 }
-
+.toggle-arrow {
+  position: absolute;
+  left: 27%;
+  top: 36px;
+}
 .section__1 {
-		
+	border-bottom: 1px solid #eaebeb;
+
   .contact__details {
     margin-top: 1em;
-    margin-right: 50px;
+    // margin-right: 50px;
     display: flex;
     align-items: center;
     padding-bottom: 1em;
-    border-bottom: 1px solid #eaebeb;
+    // border-bottom: 1px solid #eaebeb;
 
     font-family: Karla;
     font-style: normal;
@@ -92,9 +144,10 @@
   }
 }
 .section__2 {
-  border-bottom: 1px solid #eaebeb;
+  // border-bottom: 1px solid #eaebeb;
   padding-bottom: 1em;
-  margin-right: 50px;
+  margin-left: 57px;
+  // margin-right: 50px;
 
 
   .contact__address {
@@ -139,9 +192,9 @@
     color: #202F44;
     margin: 20px 0;
   }
-  .email-intro__group {
-    margin-right: 50px;
-  }
+  // .email-intro__group {
+  //   margin-right: 50px;
+  // }
   .email-intro__single {
     background: #F7F9FB;
     border-radius: 4px;
