@@ -17,10 +17,10 @@ const modules = {
 };
 
 const vuexPersistence = new VuexPersistence({
-	storage: window.localStorage,
+	storage: window.localStorage
 	// we won't persist state from "search_services"
 	// because research results can come as large as 5MB
-	modules: Object.keys(modules).filter((module) => module !== 'search_services')
+	// modules: Object.keys(modules).filter((module) => module !== 'search_services')
 });
 
 const initialAlertState = {

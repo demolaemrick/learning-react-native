@@ -85,15 +85,16 @@
 						</p>
 					</div>
 				</div>
+
 				<div class="section__5">
-					<div class="text">Personalized Email Intros</div>
+					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
 						See All
 					</div>
 				</div>
 				<div class="section__5">
-					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+					<div class="text">Personalized Email Intros</div>
+					<div @click="generateIntroEmail('contact_insights', article)" class="link">
 						See All
 					</div>
 				</div>
@@ -239,6 +240,7 @@
 					</div>
 				</div>
 
+				<!-- News and Articles Section -->
 				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
@@ -347,21 +349,8 @@
 					</div>
 				</div>
 
+				<!-- Quotes Section -->
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<!-- <div class="section-wrapper flex flex__space-center mb-1">
-						<h3 class="section-title">Quotes</h3>
-						<v-button
-							v-if="!showAllQuotes && allQuotes.length >= 3"
-							@click="showAllQuotes = true"
-							size="icon"
-							buttonType="secondary"
-							>See all</v-button
-						>
-						<div v-if="showAllQuotes && allQuotes.length >= 3" @click="scrollSection">
-							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
-						</div>
-					</div> -->
-
 					<div class="section-wrapper flex flex__space-center mb-1">
 						<h3 class="section-title">Quotes</h3>
 						<v-button
@@ -389,9 +378,13 @@
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', quote)"
+							@openModal="updateQuoteDislike({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
+							@removeDislike="updateQuoteDislike({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 						/>
 					</div>
 				</div>
+
+				<!-- Topic Section -->
 
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
@@ -399,6 +392,8 @@
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
+
+				<!-- Other Insights -->
 				<div
 					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
 					class="otherInsight-section"
