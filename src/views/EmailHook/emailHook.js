@@ -58,8 +58,7 @@ export default {
 		};
 	},
 	async mounted() {
-		console.log('check', this.getSearchedItem);
-		if(this.getSearchedItem.item) {
+		if (this.getSearchedItem.item) {
 			this.fetchGeneratedHooks();
 			this.searchType = this.getSearchedItem.type;
 			const page = this.$refs.main.offsetTop;
