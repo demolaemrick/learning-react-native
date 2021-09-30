@@ -129,8 +129,7 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	bookmarkQuote: async (context, payload) => {
-		// console.log('payload', payload);
+	addQuoteBookmark: async (context, payload) => {
 		const url = 'research/bookmark-quote';
 		try {
 			const response = await api.post(url, payload);
@@ -139,11 +138,28 @@ export default {
 			return Promise.reject(error);
 		}
 	},
+	removeQuoteBookmark: async (context, payload) => {
+		const url = 'research/bookmark-quote';
+		try {
+			const response = await api.delete(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
 	dislikeQuote: async (context, payload) => {
-		// console.log('payload', payload);
 		const url = 'research/quote/dislike';
 		try {
 			const response = await api.post(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	removeQuoteDislike: async (context, payload) => {
+		const url = 'research/quote/dislike';
+		try {
+			const response = await api.delete(url, payload);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

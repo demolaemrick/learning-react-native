@@ -1,12 +1,78 @@
 @import '@/assets/scss/main.scss';
+
+.hook-page {
+  overflow: hidden;
+  // margin-top: 2em;
+}
+.hookArticles {
+  margin-top: 34px;
+  margin-bottom: 50px;
+  padding-right: 32px;
+  position: fixed;
+  width: 25.97%;
+  transition: .2s all ease-in;
+
+  &.closed {
+    left: -25.97%;
+  }
+
+  &.open {
+    left: 4.2%;
+  }
+
+  &__body {
+    max-height: 90vh;
+    overflow-y: scroll;
+    padding-bottom: 7em;
+  }
+
+  &__header {
+    padding: 0 16px;
+
+    .section-title {
+      width: fit-content;
+      padding: 0.5rem 0;
+      font-size: 20px;
+      font-size: 20px;
+      line-height: 22px;
+      letter-spacing: -0.64px;
+    }
+    
+    .section-title::after {
+      content: '';
+      border-bottom: 4px solid #3b48f7;
+      display: block;
+      margin-top: 4px;
+    }
+
+  }
+}
+
+
+.emailgen-group {
+  border-left: 1px solid #f2f2f2;
+  display: flex;
+  margin-left: 300px;
+  height: calc(100vh - 97px);
+  transition: .2s all ease-in;
+
+  &.closed {
+    margin-left: 25px;
+  }
+
+  &.open {
+    margin-left: 30%;
+  }
+}
 .hook-section {
 	border-left: none;
 	border-right: 1px solid #f2f2f2;
-	padding-bottom: 0;
 	max-width: 514px;
-	width: 350px;
+  width: 39.5%;
+  min-width: 364px;
   margin-top: 34px;
   max-height: 90vh;
+  padding: 0 32px;
   overflow-y: scroll;
 
   &__header {
@@ -25,33 +91,36 @@
     }
   }
 }
+.toggle-arrow {
+  position: absolute;
+  // left: 29%;
+  top: 133px;
+  margin-left: -44px;
+  cursor: pointer;
+}
 
 .section__1 {
-		
+	border-bottom: 1px solid #eaebeb;
+
+  .title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: -0.453333px;
+    color: #202F44;
+  }
+
   .contact__details {
     margin-top: 1em;
-    margin-right: 50px;
     display: flex;
     align-items: center;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #eaebeb;
-
-    font-family: Karla;
     font-style: normal;
     font-weight: 600;
     font-size: 17px;
     line-height: 20px;
     letter-spacing: -0.453333px;
     color: #202f44;
-
-    .title {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 17px;
-      line-height: 20px;
-      letter-spacing: -0.453333px;
-      color: #202F44;
-    }
 
     .text__initials {
       background: #e9e5ff;
@@ -69,9 +138,7 @@
       margin-left: 1em;
 
       .name {
-        font-family: Karla;
-        font-style: normal;
-        font-weight: normal;
+        font-weight: 500;
         font-size: 16px;
         line-height: 16px;
         letter-spacing: -0.4px;
@@ -80,8 +147,6 @@
       }
 
       .role {
-        font-family: Karla;
-        font-style: normal;
         font-weight: normal;
         font-size: 14px;
         line-height: 16px;
@@ -92,27 +157,24 @@
   }
 }
 .section__2 {
-  border-bottom: 1px solid #eaebeb;
   padding-bottom: 1em;
-  margin-right: 50px;
-
+  margin-left: 57px;
 
   .contact__address {
-    margin-top: 1em;
+    margin-top: 22px;
 
-    .title {
+    .title,
+    .text {
       font-style: normal;
       font-weight: normal;
       font-size: 12px;
       line-height: 16px;
       color: #989aaa;
+      letter-spacing: -0.4;
     }
 
     .text {
-      font-style: normal;
-      font-weight: normal;
       font-size: 14px;
-      line-height: 16px;
       color: #333758;
     }
   }
@@ -129,23 +191,12 @@
   }
 }
 .section__3 {
-  // margin-top: 20px;
-  .title {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 16px;
-    letter-spacing: -0.117188px;
-    color: #202F44;
-    margin: 20px 0;
-  }
-  .email-intro__group {
-    margin-right: 50px;
-  }
+  
   .email-intro__single {
+    margin-top: 20px;
     background: #F7F9FB;
     border-radius: 4px;
-    width: 300px;
+    width: 100%;
     padding: 16px;
     margin-bottom: 12px;
     transition: all 0.3s;
@@ -167,9 +218,6 @@
     }
 
     &__content {
-      // max-height: 0;
-      // transition: all 400ms ease-in-out;
-      // overflow: hidden;
       
       .text {
         font-style: normal;
@@ -184,7 +232,6 @@
   }
 }
 .item__detail {
-	padding: 40px 0 40px 64px;
 	height: calc(100vh - 97px);
 	overflow-y: scroll;
 	&-url {
@@ -203,7 +250,7 @@
 		margin-top: 32px;
 		line-height: 1.6;
 		letter-spacing: -0.4px;
-		max-width: 742px;
+		// max-width: 742px;
 		
 	}
 	&-date {
@@ -264,12 +311,10 @@
 }
 .email-subject {
 	padding: 16px;
-	// border: 1px solid #d7dce0;
 	background-color: #FFF;
   border: 1px solid #EAEBEB;
 	border-radius: 4px ;
 	flex-grow: 1;
-	// border-right: 0;
 	box-sizing: border-box;
 	line-height: 14px;
 	margin-top: 8px;
@@ -300,6 +345,9 @@
 	flex-direction: column;
 	align-items: center;
 
+  &.article {
+    margin: auto;
+  }
 	&-text {
 		margin-top: 26px;
 		font-weight: 500;
@@ -319,4 +367,7 @@
   opacity: 0.8;
   display: block;
   margin-bottom: 8px;
+}
+.article-section {
+  padding: 0 32px;
 }

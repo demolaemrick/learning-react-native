@@ -6,6 +6,8 @@ import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
 import insightMixin from '@/mixins/insightMixin';
+import InsightCard from '@/components/InsightCard';
+import EmailHookCard from '@/components/EmailHookCard';
 
 export default {
 	name: 'EmailHook',
@@ -14,7 +16,9 @@ export default {
 		VHeaderitem,
 		VButton,
 		TextInput,
-		Loader
+		Loader,
+		InsightCard,
+		EmailHookCard
 	},
 	mixins: [insightMixin],
 	data() {
@@ -48,15 +52,18 @@ export default {
 			createdEmailHook: {
 				subject: '',
 				hook: ''
-			}
+			},
+			searchType: 'contact_insights',
+			articlesOpened: false
 		};
 	},
 	async mounted() {
-		this.fetchGeneratedHooks();
-		this.searchType = this.getSearchedItem.type;
-		const page = this.$refs.main.offsetTop;
-		window.scrollTo(0, page);
-		// document.querySelector('.article-section').scrollTop = 0;
+		if (this.getSearchedItem.item) {
+			this.fetchGeneratedHooks();
+			this.searchType = this.getSearchedItem.type;
+		} else {
+			this.articlesOpened = true;
+		}
 	},
 	methods: {
 		...mapActions({
@@ -68,6 +75,9 @@ export default {
 			editEmailHook: 'user/editEmailHook',
 			createEmailHook: 'user/createEmailHook'
 		}),
+		toggleArticlePane() {
+			this.articlesOpened = !this.articlesOpened;
+		},
 		showIntroHook(index) {
 			this.$set(this.displayEmail, index, !this.displayEmail[index]);
 		},
@@ -137,21 +147,22 @@ export default {
 		async fetchGeneratedHooks() {
 			try {
 				const response = await this.fetchEmailIntros({
-					rowId: this.getSearchedResult.rowId
+					rowId: this.getSearchedResult.rowId,
+					url: this.quotedArticle.url
 				});
 
-				if (response.status === 200 && response.statusText === 'OK' && response.data.existingEmails.length) {
+				if (response.status === 200 && response.statusText === 'OK' && response.data.emails.length) {
 					this.showAlert({
 						status: 'success',
-						message: 'Generated email intros retrieved successfully',
+						message: 'Email intros retrieved successfully',
 						showAlert: true
 					});
-					this.emailHooks.push(...response.data.existingEmails);
+					this.emailHooks.push(...response.data.emails);
 					return;
-				} 
+				}
 				this.showAlert({
-					status: 'error',
-					message: 'No generated emails found',
+					status: 'info',
+					message: 'No Emails found',
 					showAlert: true
 				});
 			} catch (error) {
@@ -163,26 +174,24 @@ export default {
 			}
 		},
 		async deleteHook(hook) {
-			console.log('hkrmtkr', hook);
-			const index = this.emailHooks.findIndex((x) => {
-				return x._id === hook._id;
-			});
-			if (index !== -1) {
-				this.emailHooks.splice(index, 1);
-			}
-
 			try {
-				const response = await this.deleteEmailHook({
-					id: hook._id
-				});
+				const response = await this.deleteEmailHook(hook._id);
 
 				console.log(response);
+
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
 						message: 'Email intro deleted successfully',
 						showAlert: true
 					});
+
+					const index = this.emailHooks.findIndex((x) => {
+						return x._id === hook._id;
+					});
+					if (index !== -1) {
+						this.emailHooks.splice(index, 1);
+					}
 				}
 			} catch (error) {
 				this.showAlert({
@@ -251,6 +260,10 @@ export default {
 						showAlert: true
 					});
 				}
+				this.createdEmailHook.subject = '';
+				this.createdEmailHook.hook = '';
+				this.toggleModalClass('hookModal');
+
 				this.fetchGeneratedHooks();
 			} catch (error) {
 				this.showAlert({
@@ -261,6 +274,15 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		async displaySearchItem(type, item) {
+			this.emailHooks = [];
+			const data = {
+				type: type,
+				item: item
+			};
+			await this.saveSearchedItem(data);
+			this.fetchGeneratedHooks();
 		}
 	},
 	computed: {
@@ -272,6 +294,9 @@ export default {
 			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
 		},
 		quotedArticle() {
+			if (!this.getSearchedItem.item) {
+				return null;
+			}
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
 			}

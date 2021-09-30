@@ -33,20 +33,18 @@
 						<div class="text">{{ contact_details.company }}</div>
 					</div>
 					<div class="contact__icon__group">
-						<span v-for="(social, i) in contact_details.socials" :key="i">
-							<a v-if="social.twitter" :href="validateURL(social.twitter)" target="_blank"
-								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
-							/></a>
-							<a v-if="social.linkedin" :href="validateURL(social.linkedin)" target="_blank"
-								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
-							/></a>
-							<a v-if="social.website" :href="validateURL(social.website)" target="_blank"
-								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
-							/></a>
-							<a v-if="social.crunchbase" :href="validateURL(social.crunchbase)" target="_blank"
-								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
-							/></a>
-						</span>
+						<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
+							><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
+						/></a>
+						<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
+							><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
+						/></a>
+						<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
+							><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
+						/></a>
+						<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
+							><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
+						/></a>
 					</div>
 				</div>
 				<div class="section__3">
@@ -66,7 +64,6 @@
 								alt="refresh"
 							/>
 						</div>
-						<!-- <div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div> -->
 						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
@@ -85,15 +82,16 @@
 						</p>
 					</div>
 				</div>
+
 				<div class="section__5">
-					<div class="text">Personalized Email Intros</div>
+					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
 						See All
 					</div>
 				</div>
 				<div class="section__5">
-					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+					<div class="text">Personalized Email Intros</div>
+					<div @click="generateIntroEmail(null, null)" class="link">
 						See All
 					</div>
 				</div>
@@ -222,7 +220,7 @@
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" alt="twitter icon" svg-inline />
-								<p class="ml">Most viral tweet from the past 90 days:</p>
+								<p class="ml">Most viral tweet from the past 3 months:</p>
 							</div>
 						</div>
 						<template v-if="contact_insights.snapshot.most_viral_tweet">
@@ -239,6 +237,7 @@
 					</div>
 				</div>
 
+				<!-- News and Articles Section -->
 				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
@@ -286,7 +285,7 @@
 									$event
 								)
 							"
-							@openHookModal="generateIntroEmail('contact_insights', article)"
+							@createEmailIntro="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -325,7 +324,7 @@
 									$event
 								)
 							"
-							@openHookModal="generateIntroEmail('contact_insights', article)"
+							@createEmailIntro="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -347,21 +346,8 @@
 					</div>
 				</div>
 
+				<!-- Quotes Section -->
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
-					<!-- <div class="section-wrapper flex flex__space-center mb-1">
-						<h3 class="section-title">Quotes</h3>
-						<v-button
-							v-if="!showAllQuotes && allQuotes.length >= 3"
-							@click="showAllQuotes = true"
-							size="icon"
-							buttonType="secondary"
-							>See all</v-button
-						>
-						<div v-if="showAllQuotes && allQuotes.length >= 3" @click="scrollSection">
-							<img src="@/assets/icons/arrow-down.svg" alt="arrow-down icon" svg-inline />
-						</div>
-					</div> -->
-
 					<div class="section-wrapper flex flex__space-center mb-1">
 						<h3 class="section-title">Quotes</h3>
 						<v-button
@@ -389,9 +375,13 @@
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', quote)"
+							@openModal="updateQuoteDislike({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
+							@removeDislike="updateQuoteDislike({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
 						/>
 					</div>
 				</div>
+
+				<!-- Topic Section -->
 
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
@@ -399,6 +389,8 @@
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
+
+				<!-- Other Insights -->
 				<div
 					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
 					class="otherInsight-section"
@@ -417,7 +409,7 @@
 								$event
 							)
 						"
-						@openHookModal="generateIntroEmail('other_insights', article)"
+						@createEmailIntro="generateIntroEmail('other_insights', article)"
 						@removeDislike="
 							toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...otherInsight }, $event)
 						"
@@ -487,7 +479,7 @@
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion flex-center" v-if="company_insights.snapshot.interests.length > 0">
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
 								<span>
 									<img src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
 								</span>
@@ -559,7 +551,7 @@
 									$event
 								)
 							"
-							@openHookModal="generateIntroEmail('company_insights', article)"
+							@createEmailIntro="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							:published="article.meta.published"
 							:article="article"
@@ -592,7 +584,7 @@
 									$event
 								)
 							"
-							@openHookModal="generateIntroEmail('company_insights', article)"
+							@createEmailIntro="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 							:published="article.meta.published"
 							:article="article"

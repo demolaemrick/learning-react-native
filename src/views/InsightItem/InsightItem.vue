@@ -67,6 +67,7 @@
 										$event
 									)
 								"
+								@createEmailIntro="generateIntroEmail('contact_insights', article)"
 								@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article })"
 								:published="article.meta.published ? article.meta.published : null"
 								:article="article"
@@ -78,6 +79,22 @@
 
 						<div class="section-wrapper flex flex__space-center mb-1">
 							<h3 class="section-title">Quotes</h3>
+							<v-button
+								v-if="!showAllQuotes && allQuotes.length >= 3"
+								@click="showAllQuotes = true"
+								size="icon"
+								buttonType="clear"
+								padding="0"
+								>See all
+							</v-button>
+							<v-button
+								v-if="showAllQuotes && allQuotes.length >= 3"
+								@click="showAllQuotes = false"
+								size="icon"
+								buttonType="clear"
+								padding="0"
+								>See less</v-button
+							>
 						</div>
 
 						<div ref="quoteList" class="quote-section__content">

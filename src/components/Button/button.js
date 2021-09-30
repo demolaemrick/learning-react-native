@@ -17,6 +17,10 @@ export default {
 		submitType: {
 			type: String,
 			default: 'button'
+		},
+		padding: {
+			type: String,
+			default: ''
 		}
 	},
 	computed: {
@@ -25,6 +29,11 @@ export default {
 				btn: true,
 				[`btn-${this.buttonType}`]: true,
 				[`btn-${this.size}`]: true
+			};
+		},
+		style() {
+			return {
+				padding: this.padding
 			};
 		}
 	}

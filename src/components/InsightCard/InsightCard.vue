@@ -24,7 +24,7 @@
 					<template v-if="!article.quote">
 						<button
 							class="mr-1 icon"
-							@click="$emit('openHookModal')"
+							@click="$emit('createEmailIntro')"
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>

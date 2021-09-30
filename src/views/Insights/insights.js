@@ -26,6 +26,7 @@ export default {
 			tweetId: '1417604296422694913',
 			searchType: 'contact_insights',
 			contact_details: '',
+			company_details: '',
 			insightStatus: '',
 			loadMore: false,
 			searchedResult: {},
@@ -52,7 +53,6 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			showAllQuotes: false,
 			quoteList: []
 		};
 	},
@@ -68,28 +68,15 @@ export default {
 		}
 	},
 	computed: {
-		socials: {
-			get() {
-				if (this.searchedResult.socials) {
-					return this.searchedResult.socials.filter((x) => {
-						return !Object.values(x).every((i) => i === null);
-					});
-				}
-			}
-		},
 		getLinkedinUrl: {
 			get() {
-				const url = this.contact_details.socials.find((element) => {
-					return Boolean(element.linkedin);
-				});
-				return url ? `https://${url.linkedin}/detail/recent-activity` : null;
+				const url = this.contact_details.socials.linkedin;
+				return url ? `https://${url}/detail/recent-activity` : null;
 			}
 		},
 		getCrunchbaseUrl() {
-			const url = this.contact_details.socials.find((element) => {
-				return Boolean(element.crunchbase);
-			});
-			return url ? `https://${url.crunchbase}` : null;
+			const url = this.company_details.socials.crunchbase;
+			return url ? `https://${url}` : null;
 		},
 		screenType: {
 			get() {
@@ -111,10 +98,7 @@ export default {
 				return JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
 			}
 		},
-		allQuotes() {
-			this.quoteList = this.getSearchedResult.contact_insights.quotes;
-			return this.quoteList;
-		},
+
 		company_insights_categories: {
 			get() {
 				let newObj = {};
@@ -284,9 +268,10 @@ export default {
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					const { contact_details, status } = response.data.done;
+					const { contact_details, company_details, status } = response.data.done;
 					if (status.statusCode === 'READY') {
 						this.contact_details = contact_details;
+						this.company_details = company_details;
 						this.insightStatus = status;
 						this.refreshLoading = false;
 						const refactored = this.changeToLegacyResponse(response.data.done);
@@ -326,8 +311,9 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
-				const { contact_details, status } = response.data.data;
+				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
+				this.company_details = company_details;
 				this.insightStatus = status;
 				const refactored = this.changeToLegacyResponse(response.data.data);
 				await this.saveSearchedResult(refactored);
@@ -340,7 +326,6 @@ export default {
 			}
 		},
 		displaySearchItem(type, item) {
-			console.log('vfwhekfuwbulfijw', item);
 			const data = {
 				type,
 				item
@@ -349,15 +334,6 @@ export default {
 			this.$router.push({ name: 'InsightItem' });
 		},
 
-		generateIntroEmail(type, item) {
-			console.log(type, item);
-			const data = {
-				type,
-				item
-			};
-			this.saveSearchedItem(data);
-			this.$router.push({ name: 'EmailHook' });
-		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
 				return link;
