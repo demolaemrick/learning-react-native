@@ -556,6 +556,7 @@
 .tab-group {
   overflow: auto;
 	margin: 20px 0 24px;
+	justify-content: space-between;
 
 	&.sm {
 		width: 90%;

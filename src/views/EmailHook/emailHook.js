@@ -61,12 +61,9 @@ export default {
 		if (this.getSearchedItem.item) {
 			this.fetchGeneratedHooks();
 			this.searchType = this.getSearchedItem.type;
-			const page = this.$refs.main.offsetTop;
-			window.scrollTo(0, page);
 		} else {
 			this.articlesOpened = true;
 		}
-		// document.querySelector('.article-section').scrollTop = 0;
 	},
 	methods: {
 		...mapActions({
@@ -157,7 +154,7 @@ export default {
 				if (response.status === 200 && response.statusText === 'OK' && response.data.emails.length) {
 					this.showAlert({
 						status: 'success',
-						message: 'Generated email intros retrieved successfully',
+						message: 'Email intros retrieved successfully',
 						showAlert: true
 					});
 					this.emailHooks.push(...response.data.emails);
@@ -165,7 +162,7 @@ export default {
 				}
 				this.showAlert({
 					status: 'info',
-					message: 'No generated emails found',
+					message: 'No Emails found',
 					showAlert: true
 				});
 			} catch (error) {
@@ -286,8 +283,6 @@ export default {
 			};
 			await this.saveSearchedItem(data);
 			this.fetchGeneratedHooks();
-
-			// this.$refs.openArticle.scrollTop = 0;
 		}
 	},
 	computed: {

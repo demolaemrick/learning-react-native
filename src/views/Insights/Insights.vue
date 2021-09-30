@@ -33,20 +33,18 @@
 						<div class="text">{{ contact_details.company }}</div>
 					</div>
 					<div class="contact__icon__group">
-						<span v-for="(social, i) in contact_details.socials" :key="i">
-							<a v-if="social.twitter" :href="validateURL(social.twitter)" target="_blank"
+						<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
 								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 							/></a>
-							<a v-if="social.linkedin" :href="validateURL(social.linkedin)" target="_blank"
+							<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
 								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 							/></a>
-							<a v-if="social.website" :href="validateURL(social.website)" target="_blank"
+							<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
 								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 							/></a>
-							<a v-if="social.crunchbase" :href="validateURL(social.crunchbase)" target="_blank"
+							<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
 								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 							/></a>
-						</span>
 					</div>
 				</div>
 				<div class="section__3">
@@ -66,7 +64,6 @@
 								alt="refresh"
 							/>
 						</div>
-						<!-- <div class="icon notification"><img src="@/assets/icons/notification.svg" svg-inline alt="notification" /></div> -->
 						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text">Mark as done</div>
 					</div>
@@ -223,7 +220,7 @@
 							</div>
 							<div class="flex flex__item-center postion" v-if="contact_insights.snapshot.most_viral_tweet">
 								<img src="@/assets/icons/twitter-icon2.svg" alt="twitter icon" svg-inline />
-								<p class="ml">Most viral tweet from the past 90 days:</p>
+								<p class="ml">Most viral tweet from the past 3 months:</p>
 							</div>
 						</div>
 						<template v-if="contact_insights.snapshot.most_viral_tweet">
@@ -482,7 +479,7 @@
 									{{ company_insights.snapshot.last_funding | moment('MMMM YYYY') }}
 								</p>
 							</div>
-							<div class="flex flex__item-center postion flex-center" v-if="company_insights.snapshot.interests.length > 0">
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.interests.length > 0">
 								<span>
 									<img src="@/assets/icons/convo-bubble.svg" alt="convo icon" svg-inline />
 								</span>

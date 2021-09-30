@@ -59,6 +59,18 @@ export default {
 		...mapGetters({
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
+		socials: {
+			get() {
+				const socialObj = {};
+				const socials = this.contact_details.socials;
+				for (const name in socials) {
+					if (socials[name]) {
+						socialObj[name] = socials[name];
+					}
+				}
+				return socialObj;
+			}
+		},
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
@@ -414,8 +426,6 @@ export default {
 		},
 
 		async updateQuoteDislike(quote) {
-			// console.log('quote', quote);
-			// console.log('id', quote.id);
 			const type = quote.type === 'contact_insights' ? 'contact_research' : 'company_research';
 
 			let searchResultClone = JSON.parse(JSON.stringify(this.getSearchedResult));
