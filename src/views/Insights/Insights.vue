@@ -34,17 +34,17 @@
 					</div>
 					<div class="contact__icon__group">
 						<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
-								><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
-							/></a>
-							<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
-								><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
-							/></a>
-							<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
-								><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
-							/></a>
-							<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
-								><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
-							/></a>
+							><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
+						/></a>
+						<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
+							><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
+						/></a>
+						<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
+							><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
+						/></a>
+						<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
+							><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
+						/></a>
 					</div>
 				</div>
 				<div class="section__3">

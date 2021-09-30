@@ -48,18 +48,18 @@
 									<div class="text">{{ contact_details.company }}</div>
 								</div>
 								<div class="contact__icon__group">
-										<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
-											><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
-										/></a>
-										<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
-											><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
-										/></a>
-										<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
-											><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
-										/></a>
-										<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
-											><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
-										/></a>
+									<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
+										><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
+									/></a>
+									<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
+										><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
+									/></a>
+									<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
+										><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
+									/></a>
+									<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
+										><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
+									/></a>
 								</div>
 							</div>
 						</div>
@@ -169,7 +169,10 @@
 							<p class="item__detail-date" v-if="quotedArticle.meta.published || quotedArticle.date">
 								{{ new Date(quotedArticle.meta.published || quotedArticle.date) | moment('Do, MMMM YYYY') }}
 							</p>
-							<div class="filter__tags" v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0">
+							<div
+								class="filter__tags"
+								v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0"
+							>
 								<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 								<div class="tag__wrapper">
 									<span v-for="(tag, i) in quotedArticle.meta.content.tag" :key="i"
