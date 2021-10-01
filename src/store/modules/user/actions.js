@@ -151,10 +151,19 @@ export default {
 		}
 	},
 	createEmailHook: async (context, payload) => {
-		console.log('subject here', payload);
 		const url = '/ai/add-mail-hook';
 		try {
 			const response = await api.post(url, payload);
+
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	fetchArticlesWithEmailHook: async (context, rowId) => {
+		const url = `/ai/mail-articles/${rowId}`;
+		try {
+			const response = await api.get(url);
 
 			return Promise.resolve(response);
 		} catch (error) {

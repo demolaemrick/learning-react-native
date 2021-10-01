@@ -48,20 +48,23 @@ export default {
 			editMode: false,
 			displayEmail: [],
 			editText: [],
+			currentHooks: [],
 			message: 'This is a mango',
 			createdEmailHook: {
 				subject: '',
 				hook: ''
 			},
 			searchType: 'contact_insights',
-			articlesOpened: false
+			articlesOpened: false,
+			hookArticles: []
 		};
 	},
 	async mounted() {
 		if (this.getSearchedItem.item) {
-			this.fetchGeneratedHooks();
+			// await this.fetchGeneratedHooks();
 			this.searchType = this.getSearchedItem.type;
 		} else {
+			await this.fetchHookArticles();
 			this.articlesOpened = true;
 		}
 	},
@@ -73,7 +76,8 @@ export default {
 			fetchEmailIntros: 'user/fetchHooks',
 			deleteEmailHook: 'user/deleteEmailHook',
 			editEmailHook: 'user/editEmailHook',
-			createEmailHook: 'user/createEmailHook'
+			createEmailHook: 'user/createEmailHook',
+			fetchArticles: 'user/fetchArticlesWithEmailHook'
 		}),
 		toggleArticlePane() {
 			this.articlesOpened = !this.articlesOpened;
@@ -141,6 +145,7 @@ export default {
 				});
 			} finally {
 				this.loading = false;
+				await this.fetchHookArticles();
 			}
 		},
 		async fetchGeneratedHooks() {
