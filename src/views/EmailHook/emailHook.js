@@ -103,7 +103,7 @@ export default {
 						});
 					})
 					.catch((error) => {
-						console.log('eerrr', error);
+						console.log(error);
 						this.showAlert({
 							status: 'error',
 							message: 'Unable to copy email hook',
@@ -125,7 +125,6 @@ export default {
 					type: type
 				});
 
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -173,12 +172,28 @@ export default {
 				});
 			}
 		},
+		async fetchHookArticles() {
+			try {
+				const response = await this.fetchArticles(this.getSearchedResult.rowId);
+				if (response.status === 200 && response.statusText === 'OK') {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+					this.hookArticles = [...response.data.articles];
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
 		async deleteHook(hook) {
 			try {
 				const response = await this.deleteEmailHook(hook._id);
-
-				console.log(response);
-
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -221,7 +236,6 @@ export default {
 					subject: hook.email.subject
 				});
 
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -252,7 +266,6 @@ export default {
 					...this.createdEmailHook
 				});
 
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',

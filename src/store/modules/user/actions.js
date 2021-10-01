@@ -95,7 +95,6 @@ export default {
 	},
 	generateApiKey: async () => {
 		const url = 'user/api-key/generate';
-		console.log('generating 2');
 		try {
 			const response = await api.post(url);
 			return Promise.resolve(response);
@@ -132,7 +131,6 @@ export default {
 		}
 	},
 	deleteEmailHook: async (context, id) => {
-		console.log('id here', id);
 		const url = `ai/delete-mail-hook/${id}`;
 		try {
 			const response = await api.delete(url);
@@ -143,9 +141,6 @@ export default {
 		}
 	},
 	editEmailHook: async (context, { id, hook, subject }) => {
-		console.log('id here', id);
-		console.log('hook here', hook);
-		console.log('subject here', subject);
 		const url = `ai/edit-mail-hook/${id}`;
 		try {
 			const response = await api.put(url, { hook, subject });

@@ -406,7 +406,6 @@ export default {
 					quoteId: quote.id,
 					type
 				});
-				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -444,7 +443,6 @@ export default {
 					quoteId: quote.id,
 					type
 				});
-				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
