@@ -97,6 +97,17 @@
   top: 133px;
   margin-left: -44px;
   cursor: pointer;
+  // transition: all 0.2s 0.25s;
+  // transform: rotate(180deg);
+
+  &.open {
+    transform: rotate(0);
+    transition: transform .5s linear;
+  }
+  &.closed {
+    transform: rotate(180deg);
+    transition: transform .5s linear;
+  }
 }
 
 .section__1 {
@@ -214,6 +225,8 @@
         line-height: 20px;
         letter-spacing: -0.01em;
         color: #333758;
+        cursor: pointer;
+        max-width: 245px;
       }
     }
 

@@ -7,19 +7,19 @@
 					<h3 class="section-title">News & Articles</h3>
 				</div>
 				<div class="hookArticles__body">
-					<EmailHookCard
+					<!-- <EmailHookCard
 						v-for="(article, j) in contact_insights_categories"
 						:key="j"
 						:published="article.meta.published"
 						:article="article"
 						@displayInsight="displaySearchItem('contact_insights', article)"
-					/>
+					/> -->
 				</div>
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
 				<template v-if="quotedArticle && quotedArticle.meta">
 					<div class="hook-section">
-						<div class="toggle-arrow" @click="toggleArticlePane">
+						<div class="toggle-arrow" :class="articlesOpened ? 'open' : 'closed'" @click="toggleArticlePane">
 							<img src="@/assets/icons/hook-back-arrow.svg" alt="back-arrow icon" svg-inline />
 						</div>
 						<div class="hook-section__header">
@@ -86,7 +86,9 @@
 													v-model="hook.email.subject"
 												></textarea>
 
-												<p v-else class="subject" :ref="`emailSubject-${index}`">{{ hook.email.subject }}</p>
+												<p v-else @click="showIntroHook(index)" class="subject" :ref="`emailSubject-${index}`">
+													{{ hook.email.subject }}
+												</p>
 
 												<button v-if="!editText[index]" @click="showIntroHook(index)">
 													<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
