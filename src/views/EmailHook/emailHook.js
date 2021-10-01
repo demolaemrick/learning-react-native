@@ -85,7 +85,11 @@ export default {
 		showIntroHook(index) {
 			this.$set(this.displayEmail, index, !this.displayEmail[index]);
 		},
-		editContent(index) {
+		editContent(index, hook) {
+			this.$set(this.currentHooks, index, { subject: hook.email.subject, hook: hook.email.hook });
+			this.toggleEditMode(index);
+		},
+		toggleEditMode(index) {
 			this.$set(this.editText, index, !this.editText[index]);
 		},
 		validateURL(link) {
@@ -256,8 +260,13 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				this.editContent(index);
+				// this.editContent(index, hook);
+				this.toggleEditMode(index);
 			}
+		},
+		cancelEdit(index) {
+			this.emailHooks[index].email = this.currentHooks[index];
+			this.toggleEditMode(index);
 		},
 		async addHook() {
 			this.loading = true;

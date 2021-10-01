@@ -110,7 +110,7 @@
 													<button @click="editHook(hook, index)" style="margin-right: 9px">
 														<img class="icon" src="@/assets/icons/check.svg" alt="save icon" svg-inline />
 													</button>
-													<button @click="editContent(index)">
+													<button @click="cancelEdit(index)">
 														<img class="icon" src="@/assets/icons/cancel.svg" alt="cancel icon" svg-inline />
 													</button>
 												</div>
@@ -129,7 +129,7 @@
 														<img
 															class="icon"
 															:ref="`editBtn-${index}`"
-															@click="editContent(index)"
+															@click="editContent(index, hook)"
 															src="@/assets/icons/edit-icon.svg"
 															alt="edit icon"
 															svg-inline
