@@ -56,35 +56,6 @@ export default {
 				this.saveNotepad(value);
 			}
 		},
-		// contact_insights_categories: {
-		// 	get() {
-		// 		let newObj = {};
-		// 		let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
-		// 		const data = result.news;
-		// 		const tab = this.selectedTab;
-		// 		this.tabs = Object.keys(data);
-
-		// 		if (tab === 'All') {
-		// 			let newArray = [];
-		// 			for (const item in data) {
-		// 				newArray = [...newArray, ...data[item]];
-		// 			}
-		// 			const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-		// 			this.sortByDislike(uniqueArray);
-		// 			this.sortByBookmarked(uniqueArray);
-		// 			return this.checkContactSort(uniqueArray);
-		// 		} else {
-		// 			const element = Object.keys(data).includes(tab) ? data[tab] : '';
-		// 			newObj[tab] = element;
-		// 			this.sortByBookmarked(newObj[tab]);
-		// 			this.sortByDislike(newObj[tab]);
-		// 			return this.checkContactSort(newObj[tab]);
-		// 		}
-		// 	},
-		// 	set(value) {
-		// 		return value;
-		// 	}
-		// },
 		company_insights_categories: {
 			get() {
 				let newObj = {};
