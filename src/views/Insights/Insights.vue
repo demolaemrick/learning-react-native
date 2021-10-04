@@ -10,12 +10,17 @@
 					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
 						<div class="text__initials" v-if="contact_details.full_name">
-							{{
-								contact_details.full_name
-									.match(/\b(\w)/g)
-									.join('')
-									.toUpperCase()
-							}}
+							<template v-if="searchImage">
+								<img class="searchImage" :src="searchImage" alt="" />
+							</template>
+							<template v-else>
+								{{
+									contact_details.full_name
+										.match(/\b(\w)/g)
+										.join('')
+										.toUpperCase()
+								}}
+							</template>
 						</div>
 						<div class="text__name__role">
 							<div class="name">{{ contact_details.full_name }}</div>

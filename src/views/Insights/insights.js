@@ -135,6 +135,12 @@ export default {
 			}
 			return total;
 		},
+		searchImage() {
+			const images = this.getSearchedResult.contact_details.images;
+			if (images && images.length) {
+				return images[Math.floor(Math.random() * images.length)];
+			}
+		},
 		showFirstBookmark() {
 			let result = {
 				contact_research: '',

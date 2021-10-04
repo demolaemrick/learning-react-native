@@ -26,26 +26,31 @@
 							<h4 class="hook-section__header-text">Personalized Email Intros</h4>
 						</div>
 
-						<div class="section__1">
+						<div class="section__1" v-if="contactDetails">
 							<h5 class="title">Contact Details</h5>
 							<div class="contact__details">
-								<div class="text__initials" v-if="contact_details.full_name">
-									{{
-										contact_details.full_name
-											.match(/\b(\w)/g)
-											.join('')
-											.toUpperCase()
-									}}
+								<div class="text__initials" v-if="contactDetails.full_name">
+									<template v-if="searchImage">
+										<img class="searchImage" :src="searchImage" alt="" />
+									</template>
+									<template v-else>
+										{{
+											contact_details.full_name
+												.match(/\b(\w)/g)
+												.join('')
+												.toUpperCase()
+										}}
+									</template>
 								</div>
 								<div class="text__name__role">
-									<div class="name">{{ contact_details.full_name }}</div>
-									<div class="role">{{ contact_details.role }}</div>
+									<div class="name">{{ contactDetails.full_name }}</div>
+									<div class="role">{{ contactDetails.role }}</div>
 								</div>
 							</div>
 							<div class="section section__2">
 								<div class="contact__address">
 									<div class="title">Company</div>
-									<div class="text">{{ contact_details.company }}</div>
+									<div class="text">{{ contactDetails.company }}</div>
 								</div>
 								<div class="contact__icon__group">
 									<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"

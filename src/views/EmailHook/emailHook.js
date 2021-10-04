@@ -306,31 +306,39 @@ export default {
 		async displaySearchItem(type, item) {
 			this.emailHooks = [];
 			const data = {
-				type: type,
-				item: item
+				type,
+				item
 			};
-			await this.saveSearchedItem(data);
+			this.saveSearchedItem(data);
 			this.fetchGeneratedHooks();
 		}
 	},
 	computed: {
 		...mapGetters({
-			getSearchedItem: 'search_services/getSearchedItem',
+			getSearchedItem: 'search_notes/getSearchedItem',
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
-		contact_details() {
-			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
-		},
-		quotedArticle() {
-			if (!this.getSearchedItem.item) {
+		contactDetails() {
+			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}
-			if (this.getSearchedItem.item.meta) {
-				return this.getSearchedItem.item;
+			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
+		},
+		searchImage() {
+			const images = this.getSearchedResult.contact_details.images;
+			if (images) {
+				return images[Math.floor(Math.random() * images.length)];
 			}
-			return [...this.contact_insights_categories, ...this.contact_other_insights].find(
-				(article) => article.url === this.getSearchedItem.item.article_url
-			);
+		},
+		quotedArticle: {
+			get() {
+				if (!this.getSearchedItem.item) {
+					return null;
+				}
+				if (this.getSearchedItem.item.meta) {
+					return this.getSearchedItem.item;
+				}
+			}
 		}
 	}
 };

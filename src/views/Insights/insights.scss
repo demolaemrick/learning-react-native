@@ -220,7 +220,6 @@
 			padding-bottom: 1em;
 			border-bottom: 1px solid #eaebeb;
 
-			font-family: Karla;
 			font-style: normal;
 			font-weight: 600;
 			font-size: 17px;
@@ -228,7 +227,11 @@
 			letter-spacing: -0.453333px;
 			color: #202f44;
 
-			// grid-template-columns: 1fr 1fr;
+			.searchImage {
+				border-radius: 50%;
+				width: 100%;
+				height: 40px;
+			}
 			.text__initials {
 				background: #e9e5ff;
 				color: #333758;
@@ -245,7 +248,6 @@
 				margin-left: 1em;
 
 				.name {
-					font-family: Karla;
 					font-style: normal;
 					font-weight: normal;
 					font-size: 16px;
@@ -256,7 +258,6 @@
 				}
 
 				.role {
-					font-family: Karla;
 					font-style: normal;
 					font-weight: normal;
 					font-size: 14px;
@@ -276,7 +277,6 @@
 			margin-top: 1em;
 
 			.title {
-				font-family: Karla;
 				font-style: normal;
 				font-weight: normal;
 				font-size: 12px;
@@ -285,7 +285,6 @@
 			}
 
 			.text {
-				font-family: Karla;
 				font-style: normal;
 				font-weight: normal;
 				font-size: 14px;
@@ -312,7 +311,6 @@
 		border-bottom: 1px solid #eaebeb;
 
 		.title__text {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -412,7 +410,6 @@
 		border-bottom: 1px solid #eaebeb;
 
 		.text {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
@@ -422,7 +419,6 @@
 		}
 
 		.link {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
@@ -442,7 +438,6 @@
 		}
 
 		.title {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
@@ -453,7 +448,6 @@
 		}
 
 		.content {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
@@ -475,7 +469,6 @@
 		}
 
 		.text {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
@@ -485,7 +478,6 @@
 		}
 
 		.link {
-			font-family: Karla;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 15px;
