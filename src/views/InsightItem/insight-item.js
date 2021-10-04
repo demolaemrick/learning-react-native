@@ -109,8 +109,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveNotepad: 'search_services/saveNotepad',
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveNotepad: 'search_notes/saveNotepad',
+			saveSearchPayload: 'search_notes/saveSearchPayload'
 		}),
 		...mapActions({
 			content: 'search_services/content',

@@ -90,7 +90,7 @@ export default {
 	methods: {
 		...mapMutations({
 			saveSearchedResult: 'search_services/saveSearchedResult',
-			saveSearchedItem: 'search_services/saveSearchedItem'
+			saveSearchedItem: 'search_notes/saveSearchedItem'
 		}),
 		...mapActions({
 			getUserBookmarks: 'user/getBookmarks',

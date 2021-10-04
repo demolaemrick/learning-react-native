@@ -6,6 +6,7 @@ import auth from './modules/auth/index';
 import user from './modules/user/index';
 import users_management from './modules/users_management/';
 import admin_management from './modules/admin_management/';
+import search_notes from './modules/search_notes/';
 Vue.use(Vuex);
 
 const modules = {
@@ -13,14 +14,15 @@ const modules = {
 	auth,
 	user,
 	users_management,
+	search_notes,
 	admin_management
 };
 
 const vuexPersistence = new VuexPersistence({
-	storage: window.localStorage
+	storage: window.localStorage,
 	// we won't persist state from "search_services"
 	// because research results can come as large as 5MB
-	// modules: Object.keys(modules).filter((module) => module !== 'search_services')
+	modules: Object.keys(modules).filter((module) => module !== 'search_services')
 });
 
 const initialAlertState = {

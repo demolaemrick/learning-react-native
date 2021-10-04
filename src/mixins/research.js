@@ -30,7 +30,7 @@ const researchMixin = {
 	},
 	methods: {
 		...mapMutations({
-			saveSearchPayload: 'search_services/saveSearchPayload',
+			saveSearchPayload: 'search_notes/saveSearchPayload',
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({

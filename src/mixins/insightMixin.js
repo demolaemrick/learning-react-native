@@ -135,7 +135,7 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveSearchedItem: 'search_services/saveSearchedItem',
+			saveSearchedItem: 'search_notes/saveSearchedItem',
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
