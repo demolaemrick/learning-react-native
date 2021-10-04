@@ -270,6 +270,13 @@ export default {
 				this.subscribe();
 			}
 		},
+		validateURL(link) {
+			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
+				return link;
+			} else {
+				return `https://${link}`;
+			}
+		},
 		clickResearch(item) {
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
