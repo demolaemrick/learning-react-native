@@ -186,6 +186,7 @@
 										$event
 									)
 								"
+								@createEmailIntro="generateIntroEmail('company_insights', article)"
 								@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 								:published="article.meta.published ? article.meta.published : null"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"

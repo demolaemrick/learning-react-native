@@ -7,17 +7,17 @@
 					<h3 class="section-title">News & Articles</h3>
 				</div>
 				<div class="hookArticles__body">
-					<!-- <EmailHookCard
-						v-for="(article, j) in contact_insights_categories"
+					<EmailHookCard
+						v-for="(article, j) in hookArticles"
 						:key="j"
-						:published="article.meta.published"
 						:article="article"
-						@displayInsight="displaySearchItem('contact_insights', article)"
-					/> -->
+						:published="article.meta.published"
+						@displayInsight="displaySearchItem('hook_articles', article)"
+					/>
 				</div>
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
-				<template v-if="quotedArticle && quotedArticle.meta">
+				<template v-if="quotedArticle">
 					<div class="hook-section">
 						<div class="toggle-arrow" :class="articlesOpened ? 'open' : 'closed'" @click="toggleArticlePane">
 							<img src="@/assets/icons/hook-back-arrow.svg" alt="back-arrow icon" svg-inline />
@@ -162,13 +162,13 @@
 						</div>
 					</div>
 
-					<div v-if="quotedArticle && quotedArticle.meta" class="article-section" ref="main">
+					<div v-if="quotedArticle" class="article-section" ref="main">
 						<div class="flex flex__end">
 							<v-button @click="toggleModalClass('hookModal')" class="mt-1 mb-1" size="large" buttonType="primary"
 								>Create Email Intro</v-button
 							>
 						</div>
-						<div v-if="quotedArticle && quotedArticle.meta" class="item__detail">
+						<div v-if="quotedArticle" class="item__detail">
 							<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
 							<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 								<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />

@@ -28,7 +28,8 @@ export default {
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
 			dislikeOption: 'Not relevant to this search',
 			contactSortMethod: '',
-			companySortMethod: ''
+			companySortMethod: '',
+			rowId: ''
 		};
 	},
 	watch: {
@@ -104,6 +105,7 @@ export default {
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
 			}
+			// when a quote is clicked, the article is found using the url
 			return [...this.contact_insights_categories, ...this.contact_other_insights].find(
 				(article) => article.url === this.getSearchedItem.item.article_url
 			);
@@ -121,12 +123,12 @@ export default {
 		expandNotepad() {
 			this.hideSearch = true;
 		},
-		async displaySearchItem(type, item) {
+		displaySearchItem(type, item) {
 			const data = {
 				type: type,
 				item: item
 			};
-			await this.saveSearchedItem(data);
+			this.saveSearchedItem(data);
 			this.$refs.openArticle.scrollTop = 0;
 		}
 	}

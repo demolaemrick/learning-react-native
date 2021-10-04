@@ -62,7 +62,8 @@ export default {
 	},
 	async mounted() {
 		if (this.getSearchedItem.item) {
-			// await this.fetchGeneratedHooks();
+			await this.fetchGeneratedHooks();
+			await this.fetchHookArticles();
 			this.searchType = this.getSearchedItem.type;
 		} else {
 			await this.fetchHookArticles();
@@ -126,10 +127,9 @@ export default {
 
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
-
 			try {
 				const response = await this.addEmailIntros({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: article.item.url,
 					type: type
 				});
@@ -156,7 +156,7 @@ export default {
 		async fetchGeneratedHooks() {
 			try {
 				const response = await this.fetchEmailIntros({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: this.quotedArticle.url
 				});
 
@@ -184,7 +184,7 @@ export default {
 		},
 		async fetchHookArticles() {
 			try {
-				const response = await this.fetchArticles(this.getSearchedResult.rowId);
+				const response = await this.fetchArticles(this.rowId);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -261,7 +261,6 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				// this.editContent(index, hook);
 				this.toggleEditMode(index);
 			}
 		},
@@ -275,7 +274,7 @@ export default {
 			const type = this.searchType === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {
 				const response = await this.createEmailHook({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: this.quotedArticle.url,
 					type,
 					...this.createdEmailHook
