@@ -28,7 +28,8 @@
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>
-							<img class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+							<img v-if="article.has_mail" src="../../assets/icons/hook-added.svg" svg-inline alt="" />
+							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
 					<template>
