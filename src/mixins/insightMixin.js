@@ -76,7 +76,6 @@ export default {
 				let newObj = {};
 
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
-
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 
 				const data = result.news;
@@ -196,7 +195,7 @@ export default {
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'EmailHook' });
+			this.$router.push({ name: 'EmailHook', query: { id: this.rowId } });
 		},
 		async toggleDislike(article) {
 			this.selectedInsight = article;

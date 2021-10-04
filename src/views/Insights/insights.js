@@ -9,6 +9,7 @@ import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
 
 import insightMixin from '@/mixins/insightMixin';
+import routeMixin from '@/mixins/routeMixin';
 
 export default {
 	name: 'Insights',
@@ -20,7 +21,7 @@ export default {
 		VHeader,
 		VButton
 	},
-	mixins: [ScreenWidthMixin, insightMixin],
+	mixins: [ScreenWidthMixin, insightMixin, routeMixin],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -56,17 +57,19 @@ export default {
 			quoteList: []
 		};
 	},
-	async created() {
-		this.loading = true;
-		if (this.$route.query.id) {
-			this.rowId = this.$route.query.id;
-			await this.getResult();
-			await this.initUserBookmarks();
-			await this.initUserNote(this.rowId);
-		} else {
-			this.$router.push({ name: 'Search' });
-		}
-	},
+	// async created() {
+	// 	this.loading = true;
+	// 	if (this.$route.query.id) {
+	// 		// this.rowId = this.getSearchedResult.rowId;
+	// 		this.rowId = this.$route.query.id;
+	// 		console.log('insights', this.rowId);
+	// 		await this.getResult();
+	// 		await this.initUserBookmarks();
+	// 		await this.initUserNote(this.rowId);
+	// 	} else {
+	// 		this.$router.push({ name: 'Search' });
+	// 	}
+	// },
 	computed: {
 		getLinkedinUrl: {
 			get() {
@@ -307,31 +310,31 @@ export default {
 				console.log(error);
 			}
 		},
-		async getResult() {
-			this.loading = true;
-			try {
-				const response = await this.researchedResult(this.$route.query.id);
-				const { contact_details, company_details, status } = response.data.data;
-				this.contact_details = contact_details;
-				this.company_details = company_details;
-				this.insightStatus = status;
-				const refactored = this.changeToLegacyResponse(response.data.data);
-				await this.saveSearchedResult(refactored);
-				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
-				return true;
-			} catch (error) {
-				console.log(error);
-			} finally {
-				this.loading = false;
-			}
-		},
+		// async getResult() {
+		// 	this.loading = true;
+		// 	try {
+		// 		const response = await this.researchedResult(this.$route.query.id);
+		// 		const { contact_details, company_details, status } = response.data.data;
+		// 		this.contact_details = contact_details;
+		// 		this.company_details = company_details;
+		// 		this.insightStatus = status;
+		// 		const refactored = this.changeToLegacyResponse(response.data.data);
+		// 		await this.saveSearchedResult(refactored);
+		// 		this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
+		// 		return true;
+		// 	} catch (error) {
+		// 		console.log(error);
+		// 	} finally {
+		// 		this.loading = false;
+		// 	}
+		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem' });
+			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
 		},
 
 		validateURL(link) {

@@ -1,16 +1,17 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
-import LoadingState from '@/components/LoadingState';
+import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
+import routeMixin from '@/mixins/routeMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
 
 export default {
-	mixins: [insightMixin],
+	mixins: [insightMixin, routeMixin],
 	name: 'InsightItem',
 	components: {
 		CTag,
-		LoadingState,
-		VHeaderitem
+		VHeaderitem,
+		PageLoader
 	},
 	data() {
 		return {
@@ -36,14 +37,15 @@ export default {
 		}
 	},
 	async mounted() {
+		// this.rowId = this.getSearchedResult.rowId;
 		this.searchType = this.getSearchedItem.type;
-		await this.initUserBookmarks();
-		await this.initUserNote(this.getSearchedResult.rowId);
+		// await this.initUserBookmarks();
+		// await this.initUserNote(this.getSearchedResult.rowId);
 	},
 	computed: {
 		...mapGetters({
-			getNotepad: 'search_services/getNotepad',
-			getSearchedItem: 'search_services/getSearchedItem'
+			getNotepad: 'search_notes/getNotepad',
+			getSearchedItem: 'search_notes/getSearchedItem'
 		}),
 		notepad: {
 			get() {

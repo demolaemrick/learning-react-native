@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<v-headeritem />
-		<main class="main container container--lg">
+		<template v-if="loading"> <PageLoader /></template>
+		<main v-else class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content">
 					<div class="searched__wrapper-header">

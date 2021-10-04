@@ -8,6 +8,7 @@ import Loader from '@/components/Loader';
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
+import routeMixin from '@/mixins/routeMixin';
 
 export default {
 	name: 'EmailHook',
@@ -20,7 +21,7 @@ export default {
 		InsightCard,
 		EmailHookCard
 	},
-	mixins: [insightMixin],
+	mixins: [insightMixin, routeMixin],
 	data() {
 		return {
 			loading: false,
