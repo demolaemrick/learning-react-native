@@ -9,7 +9,7 @@
 			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Contact Research</h3>
-				</div>			
+				</div>
 				<div>
 					<template v-if="getSearchedResult.contact_insights">
 						<div v-for="(article, j) in contact_insights_categories" :key="j">

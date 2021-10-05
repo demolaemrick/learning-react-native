@@ -397,7 +397,7 @@ export default {
 			}
 			await this.initUserBookmarks();
 		},
-		async btnUpdateBookMarks(article, prop) {
+		btnUpdateBookMarks(article, prop) {
 			if (prop === 'add') {
 				this.btnAddToBookMarks(article);
 			} else {
