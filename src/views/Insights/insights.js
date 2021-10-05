@@ -57,24 +57,14 @@ export default {
 			quoteList: []
 		};
 	},
-	// async created() {
-	// 	this.loading = true;
-	// 	if (this.$route.query.id) {
-	// 		// this.rowId = this.getSearchedResult.rowId;
-	// 		this.rowId = this.$route.query.id;
-	// 		console.log('insights', this.rowId);
-	// 		await this.getResult();
-	// 		await this.initUserBookmarks();
-	// 		await this.initUserNote(this.rowId);
-	// 	} else {
-	// 		this.$router.push({ name: 'Search' });
-	// 	}
-	// },
+
 	computed: {
 		getLinkedinUrl: {
 			get() {
-				const url = this.contact_details.socials.linkedin;
-				return url ? `https://${url}/detail/recent-activity` : null;
+				if (this.contact_details.socials.linkedin) {
+					const url = this.contact_details.socials.linkedin;
+					return url ? `https://${url}/detail/recent-activity` : null;
+				}
 			}
 		},
 		getCrunchbaseUrl() {
