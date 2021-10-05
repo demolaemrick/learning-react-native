@@ -92,22 +92,6 @@ export default {
 			}
 		},
 
-		company_insights_categories: {
-			get() {
-				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
-				const data = result.news;
-				const tab = this.companyTab;
-				const element = Object.keys(data).includes(tab) ? data[tab] : '';
-				newObj[tab] = element;
-				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
-			},
-			set(value) {
-				return value;
-			}
-		},
 		chartData() {
 			const topTags = this.getSearchedResult.contact_insights.top_tags;
 			return {
@@ -120,7 +104,17 @@ export default {
 			if (this.userBookmarks) {
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
-					total = company_research.length + contact_research.length;
+					total += this.contact_insights_categories.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
+
+					total += this.contact_other_insights.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
+
+					total += this.company_insights_categories.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
 				}
 			}
 			return total;
