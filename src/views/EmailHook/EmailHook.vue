@@ -88,7 +88,7 @@
 								<div class="email-intro__group">
 									<template>
 										<div class="email-intro__single" v-for="(hook, index) in emailHooks" :key="index">
-											<div class="email-intro__single__header">
+											<div>
 												<textarea
 													v-if="editText[index]"
 													class="subjectTextarea"
@@ -97,13 +97,15 @@
 													v-model="hook.email.subject"
 												></textarea>
 
-												<p v-else @click="showIntroHook(index)" class="subject" :ref="`emailSubject-${index}`">
-													{{ hook.email.subject }}
-												</p>
+												<div class="email-intro__single__header" v-else @click="showIntroHook(index)">
+													<p class="subject" :ref="`emailSubject-${index}`">
+														{{ hook.email.subject }}
+													</p>
 
-												<button v-if="!editText[index]" @click="showIntroHook(index)">
-													<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
-												</button>
+													<button>
+														<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
+													</button>
+												</div>
 											</div>
 
 											<div v-if="displayEmail[index]" :ref="`content-${index}`" class="email-intro__single__content">
@@ -208,6 +210,7 @@
 									width="100%"
 									height="500"
 									:src="quotedArticle.url"
+									title=""
 								></iframe>
 							</template>
 						</div>
