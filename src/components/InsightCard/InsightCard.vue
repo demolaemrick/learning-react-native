@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote">
+					<template v-if="!article.quote && showEmailIcon">
 						<button
 							class="mr-1 icon"
 							@click="$emit('createEmailIntro')"
@@ -50,7 +50,7 @@
 							</svg>
 						</button>
 					</template>
-					<template>
+					<template v-if="showDislikeIcon">
 						<button v-if="!article.is_disliked" class="icon" @click="$emit('openModal')">
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>
