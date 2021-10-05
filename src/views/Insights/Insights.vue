@@ -88,7 +88,7 @@
 					</div>
 				</div>
 
-				<div class="section__5">
+				<div class="section__5 first">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { id: rowId } })" class="link">
 						See All
@@ -98,24 +98,6 @@
 					<div class="text">Personalized Email Intros</div>
 					<div @click="generateIntroEmail(null, null)" class="link">
 						See All
-					</div>
-				</div>
-				<div class="section__6 bookmarks">
-					<div
-						class=""
-						v-if="showFirstBookmark.contact_research !== ''"
-						@click="displaySearchItem('contact_research', showFirstBookmark['contact_research'])"
-					>
-						<div class="title">Contact Research</div>
-						<div class="content">
-							{{ showFirstBookmark['contact_research'].description || '' }}
-						</div>
-					</div>
-					<div class="" v-if="showFirstBookmark.company_research !== ''">
-						<div class="title">Company Research</div>
-						<div class="content">
-							{{ showFirstBookmark['company_research'].description || '' }}
-						</div>
 					</div>
 				</div>
 				<div class="section__7" @click="editNote = !editNote">

@@ -124,17 +124,6 @@ export default {
 			} finally {
 				this.bookmarkLoading = false;
 			}
-		},
-		async btnRemoveFromBookMarks(dataItem) {
-			await this.removeFromBookmarks({
-				url: dataItem.url
-			});
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Removed from bookmarks',
-				showAlert: true
-			});
 		}
 	}
 };
