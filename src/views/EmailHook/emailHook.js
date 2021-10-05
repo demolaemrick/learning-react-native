@@ -50,7 +50,7 @@ export default {
 			displayEmail: [],
 			editText: [],
 			currentHooks: [],
-			message: 'This is a mango',
+			message: '',
 			createdEmailHook: {
 				subject: '',
 				hook: ''
@@ -133,19 +133,25 @@ export default {
 					url: article.item.url,
 					type: type
 				});
-
-				if (response.status === 200 && response.statusText === 'OK') {
+				const { status, statusText, data } = response;
+				if ([200, 201].includes(status) && statusText === 'OK' && data.emails.length) {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intros generated successfully',
+						message: data.message,
 						showAlert: true
 					});
-					this.emailHooks.push(...response.data.emails);
+					this.emailHooks.push(...data.emails);
+					return;
 				}
+				this.showAlert({
+					status: 'info',
+					message: 'No email intros generated',
+					showAlert: true
+				});
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to generate email intros',
+					message: error.response.data.message,
 					showAlert: true
 				});
 			} finally {
@@ -161,12 +167,12 @@ export default {
 				});
 
 				if (response.status === 200 && response.statusText === 'OK' && response.data.emails.length) {
-					this.showAlert({
-						status: 'success',
-						message: 'Email intros retrieved successfully',
-						showAlert: true
-					});
-					this.emailHooks.push(...response.data.emails);
+					// this.showAlert({
+					// 	status: 'success',
+					// 	message: response.data.message,
+					// 	showAlert: true
+					// });
+					this.emailHooks = response.data.emails;
 					return;
 				}
 				this.showAlert({
@@ -186,11 +192,11 @@ export default {
 			try {
 				const response = await this.fetchArticles(this.rowId);
 				if (response.status === 200 && response.statusText === 'OK') {
-					this.showAlert({
-						status: 'success',
-						message: response.data.message,
-						showAlert: true
-					});
+					// this.showAlert({
+					// 	status: 'success',
+					// 	message: response.data.message,
+					// 	showAlert: true
+					// });
 					this.hookArticles = [...response.data.articles];
 				}
 			} catch (error) {
@@ -207,7 +213,7 @@ export default {
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro deleted successfully',
+						message: response.data.message,
 						showAlert: true
 					});
 
@@ -224,6 +230,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				await this.fetchHookArticles();
 			}
 		},
 		async editHook(hook, index) {
@@ -249,7 +257,7 @@ export default {
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro edited successfully',
+						message: response.data.message,
 						showAlert: true
 					});
 				}
@@ -279,27 +287,26 @@ export default {
 					type,
 					...this.createdEmailHook
 				});
-
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro created successfully',
+						message: response.data.message,
 						showAlert: true
 					});
+					await this.fetchGeneratedHooks();
 				}
-				this.createdEmailHook.subject = '';
-				this.createdEmailHook.hook = '';
 				this.toggleModalClass('hookModal');
-
-				this.fetchGeneratedHooks();
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: error.response.data.message,
+					message: error.response.message || error.response.data.message,
 					showAlert: true
 				});
 			} finally {
 				this.loading = false;
+				await this.fetchHookArticles();
+				this.createdEmailHook.subject = '';
+				this.createdEmailHook.hook = '';
 			}
 		},
 		async displaySearchItem(type, item) {
@@ -309,7 +316,7 @@ export default {
 				item
 			};
 			this.saveSearchedItem(data);
-			this.fetchGeneratedHooks();
+			await this.fetchGeneratedHooks();
 		}
 	},
 	computed: {
