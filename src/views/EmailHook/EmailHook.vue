@@ -161,7 +161,14 @@
 											</div>
 										</div>
 									</template>
-									<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
+									<v-button
+										:disabled="emailHooks.length >= 5"
+										:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
+										class="generateBtn rad"
+										size="full"
+										buttonType="secondary"
+										@click="generateHook"
+									>
 										<template v-if="!loading">Generate more options</template>
 										<Loader v-else />
 									</v-button>
@@ -172,9 +179,16 @@
 
 					<div v-if="quotedArticle" class="article-section" ref="main">
 						<div class="flex flex__end">
-							<v-button @click="toggleModalClass('hookModal')" class="mt-1 mb-1" size="large" buttonType="primary"
-								>Create Email Intro</v-button
+							<v-button
+								:disabled="emailHooks.length >= 5"
+								:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
+								@click="toggleModalClass('hookModal')"
+								class="mt-1 mb-1"
+								size="large"
+								buttonType="primary"
 							>
+								Create Email Intro
+							</v-button>
 						</div>
 						<div v-if="quotedArticle" class="item__detail">
 							<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
