@@ -21,52 +21,58 @@
 							<li class="dropdown__item" @click="searchType = 'contact_research'">Contact Research</li>
 						</template>
 					</toggle-dropdown>
-					<div class="filter-sort">
-						<toggle-dropdown>
-							<template #dropdown-wrapper> </template>
-							<template #dropdown-items>
-								<li class="dropdown__item" @click="sortByRecent('contact_research')">Recent</li>
-								<li class="dropdown__item" @click="sortByRelevance('contact_research')">Relevance</li>
-							</template>
-						</toggle-dropdown>
-						<dropdown-checkbox>
-							<template #dropdown-wrapper>
-								<span class="filter"><img src="@/assets/icons/filter.svg" alt="filter icon" svg-inline/></span>
-							</template>
-							<template #dropdown-items>
-								<span v-for="(data, i) in getSearchedResult.contact_research" :key="i">
-									<li class="dropdown__item" v-if="getSearchedResult.contact_research[i].length !== 0">
-										<d-checkbox v-model="contactFilter" inputType="checkbox" :truthValue="i" :name="i">
-											{{ i }}
-										</d-checkbox>
-									</li>
-								</span>
-							</template>
-						</dropdown-checkbox>
-					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in allBookMarks['contact_research']" :key="i">
-					<span>
-						<div class="searched__item">
-							<div @click="displaySearchItem('contact_research', data)">
-								<p class="searched__item-title">{{ data.title || '' }}</p>
-								<p class="searched__item-desc">{{ data.description }}</p>
-							</div>
-							<div class="url__bookmark__group">
-								<a :href="data.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" alt="planet earth icon" svg-inline />
-									<p class="url-text">{{ data.url }}</p></a
-								>
-								<img
-									@click="btnRemoveFromBookMarks(data)"
-									alt="bookmark icon"
-									src="@/assets/icons/bookman-icon-dark.svg"
-									svg-inline
+				<div>
+					<template v-if="getSearchedResult.contact_insights">
+						<div v-for="(article, j) in contact_insights_categories" :key="j">
+							<div v-if="article.is_bookmarked">
+								<InsightCard
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'contact_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@createEmailIntro="generateIntroEmail('contact_insights', article)"
+									@removeDislike="
+										toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
+									:published="article.meta.published"
+									:article="article"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
+									@displayInsight="displaySearchItem('contact_insights', article)"
 								/>
 							</div>
 						</div>
-					</span>
-					<dot-loader v-if="loadMore" />
+					</template>
+					<template v-if="getSearchedResult.contact_insights && getSearchedResult.contact_insights.other_insights">
+						<div v-for="(article, j) in contact_other_insights" :key="`${article.url}`">
+							<div v-if="article.is_bookmarked">
+								<InsightCard
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'contact_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@createEmailIntro="generateIntroEmail('contact_insights', article)"
+									@removeDislike="
+										toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
+									:published="article.meta.published"
+									:article="article"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
+									@displayInsight="displaySearchItem('contact_insights', article)"
+								/>
+							</div>
+						</div>
+					</template>
 				</div>
 			</div>
 
@@ -110,29 +116,27 @@
 						</dropdown-checkbox>
 					</div>
 				</div>
-				<div class="searched-result" v-for="(data, i) in companyResearch" :key="i">
-					<span>
-						<div class="searched__item" :id="`searched__item-${i}`">
-							<div @click="displaySearchItem('company_research', data)">
-								<p class="searched__item-title">{{ data.title }}</p>
-								<p class="searched__item-desc">{{ data.description }}</p>
-							</div>
-							<div class="url__bookmark__group">
-								<a :href="data.url" target="_blank" class="searched__item-url"
-									><img src="@/assets/icons/planet-earth.svg" alt="planet earth icon" svg-inline />
-									<p class="url-text">{{ data.url }}</p></a
-								>
-								<img
-									@click="btnRemoveFromBookMarks(data)"
-									alt="bookmark icon"
-									src="@/assets/icons/bookman-icon-dark.svg"
-									svg-inline
-								/>
-							</div>
+				<template v-if="getSearchedResult.company_insights">
+					<div v-for="(article, j) in company_insights_categories" :key="j">
+						<div v-if="article.is_bookmarked">
+							<InsightCard
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'contact_insights', index: j, section: 'news', ...article },
+										$event
+									)
+								"
+								@createEmailIntro="generateIntroEmail('contact_insights', article)"
+								@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+								:published="article.meta.published"
+								:article="article"
+								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
+								@displayInsight="displaySearchItem('contact_insights', article)"
+							/>
 						</div>
-					</span>
-					<dot-loader v-if="loadMore" />
-				</div>
+					</div>
+				</template>
 			</div>
 		</main>
 	</div>

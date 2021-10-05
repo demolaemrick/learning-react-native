@@ -71,6 +71,23 @@ export default {
 				return socialObj;
 			}
 		},
+
+		company_insights_categories: {
+			get() {
+				let newObj = {};
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
+				const data = result.news;
+				const tab = this.companyTab;
+				const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				newObj[tab] = element;
+				this.sortByDislike(newObj[tab]);
+				this.sortByBookmarked(newObj[tab]);
+				return this.checkCompanySort(newObj[tab]);
+			},
+			set(value) {
+				return value;
+			}
+		},
 		contact_insights_categories: {
 			get() {
 				let newObj = {};

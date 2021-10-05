@@ -90,7 +90,7 @@
 
 				<div class="section__5">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { rowId: rowId } })" class="link">
+					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { id: rowId } })" class="link">
 						See All
 					</div>
 				</div>

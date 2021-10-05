@@ -19,7 +19,7 @@ export default {
 			await this.getResult();
 			await this.initUserBookmarks();
 			await this.initUserNote(this.rowId);
-		} else {
+		} else if (this.$route.name === 'Insights') {
 			this.$router.push({ name: 'Search' });
 		}
 	},
