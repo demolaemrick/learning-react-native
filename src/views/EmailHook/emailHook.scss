@@ -11,6 +11,9 @@
   position: fixed;
   width: 25.97%;
   transition: .2s all ease-in;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 97px);
 
   &.closed {
     left: -25.97%;
@@ -359,11 +362,22 @@
 	justify-content: flex-end;
 }
 .emptyState {
-	margin-top: 62px;
+	// margin-top: 62px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
+  &-wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.emptySection {
+    height: 100vh;
+    margin: auto;
+  }
   &.article {
     margin: auto;
   }

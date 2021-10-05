@@ -6,7 +6,7 @@
 				<div class="hookArticles__header mb-1">
 					<h3 class="section-title">News & Articles</h3>
 				</div>
-				<div class="hookArticles__body">
+				<div v-if="hookArticles.length" class="hookArticles__body">
 					<EmailHookCard
 						v-for="(article, j) in hookArticles"
 						:key="j"
@@ -14,6 +14,12 @@
 						:published="article.meta.published"
 						@displayInsight="displaySearchItem('hook_articles', article)"
 					/>
+				</div>
+				<div class="emptyState-wrapper" v-else>
+					<div class="emptyState">
+						<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+						<p class="emptyState-text">No content found!</p>
+					</div>
 				</div>
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
