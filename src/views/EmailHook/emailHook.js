@@ -130,7 +130,6 @@ export default {
 			this.btnLoading = true;
 			this.loadIcon = true;
 
-
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {
@@ -335,7 +334,7 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		contactDetails() {
-			console.log('det', this.getSearchedResult.contact_details );
+			console.log('det', this.getSearchedResult.contact_details);
 			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}
