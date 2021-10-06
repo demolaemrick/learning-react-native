@@ -130,7 +130,6 @@ export default {
 			this.loading = true;
 			this.loadIcon = true;
 
-
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {

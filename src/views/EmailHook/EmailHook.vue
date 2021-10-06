@@ -85,7 +85,11 @@
 
 								<v-button
 									:disabled="loadIcon"
-									 class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
+									class="generateBtn rad"
+									size="full"
+									buttonType="secondary"
+									@click="generateHook"
+								>
 									<template>Generate Email Intro</template>
 									<!-- <Loader v-else /> -->
 								</v-button>
