@@ -35,7 +35,7 @@
 						<div class="section__1" v-if="contactDetails">
 							<h5 class="title">Contact Details</h5>
 							<div class="contact__details">
-								<div class="text__initials" v-if="contactDetails.full_name">
+								<div class="text__initials">
 									<template v-if="searchImage">
 										<img class="searchImage" :src="searchImage" alt="" />
 									</template>
@@ -180,7 +180,7 @@
 										buttonType="secondary"
 										@click="generateHook"
 									>
-										<template v-if="!loading">Generate more options</template>
+										<template v-if="!btnLoading">Generate more options</template>
 										<Loader v-else />
 									</v-button>
 								</div>
@@ -289,7 +289,7 @@
 
 							<div class="flex flex__end">
 								<v-button @click="addHook" :disabled="invalid || !createdEmailHook.hook" submitType="submit">
-									<template v-if="!loading">Save</template>
+									<template v-if="!btnLoading">Save</template>
 									<Loader v-else />
 								</v-button>
 							</div>

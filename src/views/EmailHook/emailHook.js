@@ -27,7 +27,7 @@ export default {
 	mixins: [insightMixin, routeMixin],
 	data() {
 		return {
-			loading: false,
+			btnLoading: false,
 			loadIcon: false,
 			emailContent: false,
 			emailHooks: [
@@ -127,8 +127,9 @@ export default {
 			}
 		},
 		async generateHook() {
-			this.loading = true;
+			this.btnLoading = true;
 			this.loadIcon = true;
+
 
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
@@ -160,7 +161,7 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				this.loading = false;
+				this.btnLoading = false;
 				this.loadIcon = false;
 				await this.fetchHookArticles();
 			}
@@ -286,7 +287,7 @@ export default {
 			this.toggleEditMode(index);
 		},
 		async addHook() {
-			this.loading = true;
+			this.btnLoading = true;
 
 			const type = this.searchType === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {
@@ -312,7 +313,7 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				this.loading = false;
+				this.btnLoading = false;
 				await this.fetchHookArticles();
 				this.createdEmailHook.subject = '';
 				this.createdEmailHook.hook = '';
@@ -334,11 +335,11 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		contactDetails() {
-			// console.log('det', this.getSearchedResult.contact_details );
-			if (!this.contact_details) {
+			console.log('det', this.getSearchedResult.contact_details );
+			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}
-			return this.contact_details;
+			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
 		},
 		searchImage() {
 			const images = this.getSearchedResult.contact_details.images;
