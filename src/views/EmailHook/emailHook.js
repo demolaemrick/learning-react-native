@@ -309,11 +309,11 @@ export default {
 				this.createdEmailHook.hook = '';
 			}
 		},
-		async displaySearchItem(type, item) {
+		async displaySearchItem(item) {
 			this.emailHooks = [];
 			const data = {
-				type,
-				item
+				item,
+				type: item.type
 			};
 			this.saveSearchedItem(data);
 			await this.fetchGeneratedHooks();

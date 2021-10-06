@@ -12,7 +12,7 @@
 						:key="j"
 						:article="article"
 						:published="article.meta.published"
-						@displayInsight="displaySearchItem('hook_articles', article)"
+						@displayInsight="displaySearchItem(article)"
 					/>
 				</div>
 				<div class="emptyState-wrapper" v-else>
