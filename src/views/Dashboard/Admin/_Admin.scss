@@ -16,6 +16,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.search-group h4 {
+  width: 100%;
+  margin-bottom: 10px;
+  
+}
+
+@media (min-width: 1024px){
+  .search-group h4 {
+    width: auto;
+    margin-bottom: 0;
+  }
 }
 
 .filter-icon {
@@ -203,6 +217,7 @@ margin: 4px 0;
     border: none;
     height: 32px;
     min-width: 176px;
+    flex-grow: 1;
   }
   .table__pagination__wrapper {
     display: flex;

@@ -124,14 +124,13 @@
 								</span>
 
 								<input
-									v-if="emailList.length < 1"
 									placeholder="johndoe@example.com"
 									class="inputField"
 									type="email"
-									@keyup.enter="addEmail"
+									@keydown.enter.prevent="addEmail"
 									v-model="emailInput"
 								/>
-								<input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
+								<!-- <input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" /> -->
 							</div>
 
 							<div class="flex flex__end" id="inviteAdmin">
