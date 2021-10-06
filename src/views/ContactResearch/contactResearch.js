@@ -101,7 +101,7 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveSearchPayload: 'search_services/saveSearchPayload',
+			saveSearchPayload: 'search_notes/saveSearchPayload',
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
@@ -268,6 +268,13 @@ export default {
 			});
 			if (pendingStatus.length > 0) {
 				this.subscribe();
+			}
+		},
+		validateURL(link) {
+			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
+				return link;
+			} else {
+				return `https://${link}`;
 			}
 		},
 		clickResearch(item) {

@@ -2,6 +2,7 @@
 .main {
 	display: grid;
     grid-template-columns: 1fr 1fr;
+		min-height: calc(100vh - 97px);
 }
 .notepad {
 	padding: 38px 48px 38px 0;

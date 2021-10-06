@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<v-headeritem />
-		<main class="main container container--lg">
+		<template v-if="loading"> <PageLoader /></template>
+		<main v-else class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
 				<div class="searched__wrapper-content">
 					<div class="searched__wrapper-header">
@@ -185,6 +186,7 @@
 										$event
 									)
 								"
+								@createEmailIntro="generateIntroEmail('company_insights', article)"
 								@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
 								:published="article.meta.published ? article.meta.published : null"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"

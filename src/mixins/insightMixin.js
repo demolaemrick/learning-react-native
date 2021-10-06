@@ -71,12 +71,28 @@ export default {
 				return socialObj;
 			}
 		},
+
+		company_insights_categories: {
+			get() {
+				let newObj = {};
+				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
+				const data = result.news;
+				const tab = this.companyTab;
+				const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				newObj[tab] = element;
+				this.sortByDislike(newObj[tab]);
+				this.sortByBookmarked(newObj[tab]);
+				return this.checkCompanySort(newObj[tab]);
+			},
+			set(value) {
+				return value;
+			}
+		},
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
 
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
-
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 
 				const data = result.news;
@@ -135,7 +151,7 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveSearchedItem: 'search_services/saveSearchedItem',
+			saveSearchedItem: 'search_notes/saveSearchedItem',
 			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		...mapActions({
@@ -196,7 +212,7 @@ export default {
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'EmailHook' });
+			this.$router.push({ name: 'EmailHook', query: { id: this.rowId } });
 		},
 		async toggleDislike(article) {
 			this.selectedInsight = article;
@@ -381,7 +397,7 @@ export default {
 			}
 			await this.initUserBookmarks();
 		},
-		async btnUpdateBookMarks(article, prop) {
+		btnUpdateBookMarks(article, prop) {
 			if (prop === 'add') {
 				this.btnAddToBookMarks(article);
 			} else {
@@ -406,7 +422,6 @@ export default {
 					quoteId: quote.id,
 					type
 				});
-				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
@@ -444,7 +459,6 @@ export default {
 					quoteId: quote.id,
 					type
 				});
-				console.log('response ---->>>> ', response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',

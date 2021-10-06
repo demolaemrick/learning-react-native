@@ -21,14 +21,15 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote">
+					<template v-if="!article.quote && showEmailIcon">
 						<button
 							class="mr-1 icon"
 							@click="$emit('createEmailIntro')"
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>
-							<img class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+							<img v-if="article.has_mail" src="../../assets/icons/hook-added.svg" svg-inline alt="" />
+							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
 					<template>
@@ -49,7 +50,7 @@
 							</svg>
 						</button>
 					</template>
-					<template>
+					<template v-if="showDislikeIcon">
 						<button v-if="!article.is_disliked" class="icon" @click="$emit('openModal')">
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>

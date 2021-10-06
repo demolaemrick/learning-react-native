@@ -6,6 +6,10 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import DotLoader from '@/components/DotLoader.vue';
 import PageLoad from '../Insights/PageLoad.vue';
+import insightMixin from '@/mixins/insightMixin';
+import routeMixin from '@/mixins/routeMixin';
+import InsightCard from '@/components/InsightCard';
+
 export default {
 	name: 'Bookmarks',
 	components: {
@@ -14,11 +18,13 @@ export default {
 		DropdownCheckbox,
 		DotLoader,
 		PageLoad,
-		VHeader
+		VHeader,
+		InsightCard
 	},
-	mixins: [ScreenWidthMixin],
+	mixins: [ScreenWidthMixin, insightMixin, routeMixin],
 	data() {
 		return {
+			searchType: 'contact_insights',
 			loadMore: false,
 			bookmarkLoading: true,
 			userBookmarks: null
@@ -39,7 +45,7 @@ export default {
 		screenType: {
 			get() {
 				if (this.screenWidth > 796) {
-					this.searchType = '';
+					// this.searchType = '';
 					return 'large';
 				} else {
 					return 'small';
@@ -90,7 +96,7 @@ export default {
 	methods: {
 		...mapMutations({
 			saveSearchedResult: 'search_services/saveSearchedResult',
-			saveSearchedItem: 'search_services/saveSearchedItem'
+			saveSearchedItem: 'search_notes/saveSearchedItem'
 		}),
 		...mapActions({
 			getUserBookmarks: 'user/getBookmarks',
@@ -103,7 +109,7 @@ export default {
 				item: item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem' });
+			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
 		},
 		async initUserBookmarks() {
 			this.bookmarkLoading = true;
@@ -118,17 +124,6 @@ export default {
 			} finally {
 				this.bookmarkLoading = false;
 			}
-		},
-		async btnRemoveFromBookMarks(dataItem) {
-			await this.removeFromBookmarks({
-				url: dataItem.url
-			});
-			await this.initUserBookmarks();
-			this.showAlert({
-				status: 'success',
-				message: 'Removed from bookmarks',
-				showAlert: true
-			});
 		}
 	}
 };
