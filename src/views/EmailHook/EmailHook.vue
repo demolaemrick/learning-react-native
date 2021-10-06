@@ -76,11 +76,18 @@
 						</div>
 						<div class="section__3">
 							<div class="emptyState email-intro__group" v-if="!emailHooks.length">
-								<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
-								<p class="emptyState-text">No content found!</p>
-								<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
-									<template v-if="!loading">Generate Email Intro</template>
-									<Loader v-else />
+								<img v-if="!loadIcon" src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+								<p v-if="!loadIcon" class="emptyState-text">No content found!</p>
+
+								<div v-if="loadIcon" class="spinner">
+									<LoadIcon />
+								</div>
+
+								<v-button
+									:disabled="loadIcon"
+									 class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
+									<template>Generate Email Intro</template>
+									<!-- <Loader v-else /> -->
 								</v-button>
 							</div>
 

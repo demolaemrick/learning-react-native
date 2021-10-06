@@ -5,6 +5,8 @@ import VHeaderitem from '@/components/Header/singleSearch/Header';
 import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
+import LoadIcon from '@/components/LoadIcon';
+
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
@@ -19,12 +21,14 @@ export default {
 		TextInput,
 		Loader,
 		InsightCard,
-		EmailHookCard
+		EmailHookCard,
+		LoadIcon
 	},
 	mixins: [insightMixin, routeMixin],
 	data() {
 		return {
 			loading: false,
+			loadIcon: false,
 			emailContent: false,
 			emailHooks: [
 				// {
@@ -124,6 +128,8 @@ export default {
 		},
 		async generateHook() {
 			this.loading = true;
+			this.loadIcon = true;
+
 
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
@@ -156,10 +162,12 @@ export default {
 				});
 			} finally {
 				this.loading = false;
+				this.loadIcon = false;
 				await this.fetchHookArticles();
 			}
 		},
 		async fetchGeneratedHooks() {
+			this.loadIcon = true;
 			try {
 				const response = await this.fetchEmailIntros({
 					rowId: this.rowId,
@@ -186,6 +194,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loadIcon = false;
 			}
 		},
 		async fetchHookArticles() {
@@ -325,10 +335,11 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		contactDetails() {
-			if (!this.getSearchedResult.contact_details) {
+			// console.log('det', this.getSearchedResult.contact_details );
+			if (!this.contact_details) {
 				return null;
 			}
-			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
+			return this.contact_details;
 		},
 		searchImage() {
 			const images = this.getSearchedResult.contact_details.images;
