@@ -214,6 +214,7 @@ export default {
 				});
 			} finally {
 				this.loading = false;
+				this.checkedPermissions = [];
 			}
 		},
 		openEditModal(item) {
@@ -224,6 +225,7 @@ export default {
 			this.adminInfo = item;
 			console.log(item);
 			this.toggleModalClass('showEditPermission');
+			this.checkedPermissions = [];
 		},
 		toggleModalClass(modal) {
 			if (!this[modal]) {

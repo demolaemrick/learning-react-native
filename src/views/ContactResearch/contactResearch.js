@@ -92,7 +92,9 @@ export default {
 			toggleClass: true,
 			showModal: false,
 			contactToDelete: {},
-			exportLoading: false
+			exportLoading: false,
+			sortType: 'asc',
+			target: ''
 		};
 	},
 	async mounted() {
@@ -113,6 +115,12 @@ export default {
 			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
+		sortTable(data, sort, target) {
+			// console.log(data);
+			this.sortType = sort;
+			this.target = target;
+			this.history = data;
+		},
 		async RefreshResearch(id) {
 			try {
 				const response = await this.refresh(id);
@@ -191,6 +199,7 @@ export default {
 			}
 		},
 		clickCallback(page) {
+			console.log(page);
 			this.page = page;
 			this.getHistory();
 		},
@@ -241,6 +250,26 @@ export default {
 				});
 			}
 		},
+		sortTableFunc() {
+			let id = this.target.toLowerCase();
+			if (this.sortType !== 'asc') {
+				if (this.target === 'createdAt' || this.target === 'updatedAt') {
+					this.history.sort((a, b) => {
+						return new Date(a[this.target]) - new Date(b[this.target]);
+					});
+				} else {
+					this.history.sort((a, b) => (a[id] < b[id] ? -1 : 1));
+				}
+			} else {
+				if (this.target === 'createdAt' || this.target === 'updatedAt') {
+					this.history.sort((a, b) => {
+						return new Date(b[this.target]) - new Date(a[this.target]);
+					});
+				} else {
+					this.history.sort((a, b) => (b[id] < a[id] ? -1 : 1));
+				}
+			}
+		},
 		async getHistory() {
 			try {
 				const response = await this.research_history({ page: this.page, limit: this.limit });
@@ -250,6 +279,7 @@ export default {
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
 				this.checkPendngStatus();
+				this.sortTableFunc();
 				return true;
 			} catch (error) {
 				this.showAlert({

@@ -311,6 +311,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
+				console.log(response);
 				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.company_details = company_details;

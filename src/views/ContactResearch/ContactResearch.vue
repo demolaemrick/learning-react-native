@@ -41,6 +41,7 @@
 					theme="contact__research"
 					:loading="pageLoading"
 					@checkAll="checkAll"
+					@sortedTable="sortTable"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td class="table__row-item">
