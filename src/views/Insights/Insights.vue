@@ -311,10 +311,9 @@
 								placeholder="Enter article url here"
 							/>
 
-
 							<div class="flex flex__end" id="addArticle">
 								<v-button
-									:disabled="!articleUrl || sending"
+									:disabled="!articleUrl || sending || !validURL(articleUrl)"
 									class="submit"
 									size="large"
 									submitType="submit"
@@ -570,7 +569,8 @@
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											{{ loggedInUser.is_settings ? 'Relevant' : 'Sort by' }} <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+											{{ loggedInUser.is_settings ? 'Relevant' : 'Sort by' }}
+											<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
 									<template #dropdown-items>

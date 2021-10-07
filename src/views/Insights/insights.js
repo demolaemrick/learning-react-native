@@ -11,6 +11,7 @@ import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
 
 import insightMixin from '@/mixins/insightMixin';
+import inputMixin from '@/mixins/input';
 
 export default {
 	name: 'Insights',
@@ -24,7 +25,7 @@ export default {
 		Loader,
 		TextInput
 	},
-	mixins: [ScreenWidthMixin, insightMixin],
+	mixins: [ScreenWidthMixin, insightMixin, inputMixin],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
