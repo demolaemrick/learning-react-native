@@ -84,5 +84,23 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	adminPermissions: async () => {
+		const url = 'admin/permissions';
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	saveAdminPermissions: async (context, data) => {
+		const url = 'admin/grant-permission';
+		try {
+			const response = await api.post(url, data);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

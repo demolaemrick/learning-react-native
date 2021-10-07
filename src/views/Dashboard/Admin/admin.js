@@ -12,6 +12,7 @@ import InputTag from '@/components/InputTag';
 import StatusTag from '@/components/StatusTag';
 import VButton from '@/components/Button';
 import debounce from 'lodash.debounce';
+import CheckBoxes from '../../../components/CheckBoxes';
 
 export default {
 	name: 'Dashboard',
@@ -56,6 +57,7 @@ export default {
 			],
 			emailList: [],
 			showEditModal: false,
+			showEditPermission: false,
 			toggleClass: true,
 			adminLoading: false,
 			currentPage: 1,
@@ -71,7 +73,9 @@ export default {
 			adminId: null,
 			searchQuery: null,
 			adminToModify: {},
-			roles: ['User', 'Admin', 'Super Admin']
+			roles: ['User', 'Admin', 'Super Admin'],
+			permissions: [],
+			checkedPermissions: []
 		};
 	},
 	props: {
@@ -89,7 +93,8 @@ export default {
 		InputTag,
 		Loader,
 		StatusTag,
-		VButton
+		VButton,
+		CheckBoxes
 	},
 	mounted() {
 		this.getAdmins();
@@ -103,6 +108,8 @@ export default {
 		...mapActions({
 			adminInvite: 'admin_management/adminInvite',
 			allAdmins: 'admin_management/allAdmins',
+			adminPermissions: 'admin_management/adminPermissions',
+			saveAdminPermissions: 'admin_management/saveAdminPermissions',
 			deactivateAdmin: 'admin_management/deactivateAdmin',
 			activateAdmin: 'admin_management/activateAdmin',
 			suspendAdmin: 'admin_management/suspendAdmin',
@@ -114,6 +121,22 @@ export default {
 			this.adminLoading = true;
 			try {
 				const response = await this.allAdmins({ page: this.page, limit: this.limit });
+				const resp = await this.adminPermissions();
+				// console.log(resp);
+				const { status: pStatus, data: pData, statusText: pStatusText } = resp;
+				if (pStatus === 200 && pStatusText === 'OK') {
+					let permissionsData = pData.data;
+
+					this.permissions = permissionsData.map((res, index) => {
+						let value = res.split('-').join(' ');
+						value = `${value[0].toUpperCase()}${value.slice(1)}`;
+						return {
+							id: index + 1,
+							name: value,
+							value: res
+						};
+					});
+				}
 				const { status, data, statusText } = response;
 				if (status === 200 && statusText === 'OK') {
 					this.admins = data.data.data;
@@ -130,10 +153,10 @@ export default {
 		},
 		async inviteAdmin() {
 			this.loading = true;
-			if (this.emailInput !== '') {
-				this.emailList.push(this.emailInput);
-				this.emailInput = '';
-			}
+			// if (this.emailInput.length === 0) {
+			// 	this.emailList.push(this.emailInput);
+			// 	this.emailInput = '';
+			// }
 			try {
 				const response = await this.adminInvite({ email: this.emailList });
 				if (response.status === 200) {
@@ -156,9 +179,51 @@ export default {
 				this.loading = false;
 			}
 		},
+		async savePermission() {
+			const adminId = this.adminInfo._id;
+			const permissions = this.checkedPermissions;
+
+			this.loading = true;
+
+			let data = {
+				permissions,
+				adminId
+			};
+			console.log(data);
+
+			try {
+				const response = await this.saveAdminPermissions(data);
+				console.log(response);
+				this.loading = false;
+				// return;
+				if (response.status === 201) {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+					this.toggleModalClass('showEditPermission');
+					return true;
+				}
+			} catch (error) {
+				console.log(error.response);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
+		},
 		openEditModal(item) {
 			this.adminInfo = item;
 			this.toggleModalClass('showEditModal');
+		},
+		openEditPermissionModal(item) {
+			this.adminInfo = item;
+			console.log(item);
+			this.toggleModalClass('showEditPermission');
 		},
 		toggleModalClass(modal) {
 			if (!this[modal]) {
@@ -323,6 +388,9 @@ export default {
 		},
 		clearSearch() {
 			this.searchQuery = '';
+		},
+		checkUpdate(value) {
+			this.checkedPermissions = value;
 		}
 	},
 	watch: {
