@@ -1,8 +1,10 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
+import TextInput from '@/components/Input';
 import PageLoad from './PageLoad.vue';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
+import Loader from '@/components/Loader';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
@@ -18,7 +20,9 @@ export default {
 		Tweet,
 		LoadIcon,
 		VHeader,
-		VButton
+		VButton,
+		Loader,
+		TextInput
 	},
 	mixins: [ScreenWidthMixin, insightMixin],
 	data() {
@@ -29,8 +33,11 @@ export default {
 			company_details: '',
 			insightStatus: '',
 			loadMore: false,
+			addArticle: false,
+			articleUrl: '',
 			searchedResult: {},
 			loading: true,
+			sending: false,
 			userBookmarks: '',
 			bookmarkLoading: true,
 			markDone: false,
@@ -68,6 +75,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		}),
 		getLinkedinUrl: {
 			get() {
 				const url = this.contact_details.socials.linkedin;

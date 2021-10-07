@@ -240,7 +240,7 @@
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
-							<div class="filter-sort">
+							<div class="filter-sort" v-if="!loggedInUser.is_settings">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
@@ -253,6 +253,31 @@
 									</template>
 								</toggle-dropdown>
 							</div>
+						</div>
+
+						<div v-if="loggedInUser.is_settings" class="relevant_add_article">
+							<div class="filter-sort">
+								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+									<template #dropdown-wrapper>
+										<p class="sort">
+											Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+										</p>
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+									</template>
+								</toggle-dropdown>
+							</div>
+
+							<v-button class="submit" size="small" buttonType="primary" @click="toggleModalClass('addArticle')">
+								<div class="flex">
+									<span class="add-icon mr-1">
+										<img src="@/assets/icons/add-icon.svg" alt="add admin icon" svg-inline />
+									</span>
+									<p>Add Article</p>
+								</div>
+							</v-button>
 						</div>
 
 						<TextInput
@@ -269,6 +294,39 @@
 							searchIconColor="#3A434B"
 						/>
 					</div>
+					<modal position="right" v-if="addArticle" :toggleClass="toggleClass" @close="toggleModalClass('addArticle')">
+						<template #title>
+							<h3>Add Article</h3>
+						</template>
+
+						<template #body>
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="articleUrl"
+								width="100%"
+								name="URL"
+								type="url"
+								placeholder="Enter article url here"
+							/>
+
+
+							<div class="flex flex__end" id="addArticle">
+								<v-button
+									:disabled="!articleUrl || sending"
+									class="submit"
+									size="large"
+									submitType="submit"
+									buttonType="primary"
+									ref="addArticle"
+								>
+									<template v-if="!sending">Add Article</template>
+									<Loader v-else />
+								</v-button>
+							</div>
+						</template>
+					</modal>
 					<!-- TODO: Refactor to use computed property to handle search result
 						and reuse one InsightCard Component
 					 -->
@@ -512,7 +570,7 @@
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+											{{ loggedInUser.is_settings ? 'Relevant' : 'Sort by' }} <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
 									<template #dropdown-items>
