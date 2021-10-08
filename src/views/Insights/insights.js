@@ -37,6 +37,8 @@ export default {
 			loadMore: false,
 			addArticle: false,
 			articleUrl: '',
+			articleTitle: '',
+			articleDecript: '',
 			searchedResult: {},
 			loading: true,
 			sending: false,

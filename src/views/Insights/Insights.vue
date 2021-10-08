@@ -287,6 +287,28 @@
 						</template>
 
 						<template #body>
+
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="articleTitle"
+								width="100%"
+								name="Title"
+								type="text"
+								placeholder="Enter article title"
+							/>
+
+							<text-input
+								labelVisible
+								rules="required"
+								labelColor="gray"
+								v-model="articleDecript"
+								width="100%"
+								name="Description"
+								type="text"
+								placeholder="Enter article descriptrion"
+							/>
 							<text-input
 								labelVisible
 								rules="required"
@@ -300,7 +322,7 @@
 
 							<div class="flex flex__end" id="addArticle">
 								<v-button
-									:disabled="!articleUrl || sending || !validURL(articleUrl)"
+									:disabled="!articleUrl || !articleTitle || !articleDecript || sending || !validURL(articleUrl)"
 									class="submit"
 									size="large"
 									submitType="submit"
