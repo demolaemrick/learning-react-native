@@ -1,16 +1,17 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
-import LoadingState from '@/components/LoadingState';
+import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
+import routeMixin from '@/mixins/routeMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
 
 export default {
-	mixins: [insightMixin],
+	mixins: [insightMixin, routeMixin],
 	name: 'InsightItem',
 	components: {
 		CTag,
-		LoadingState,
-		VHeaderitem
+		VHeaderitem,
+		PageLoader
 	},
 	data() {
 		return {
@@ -27,7 +28,8 @@ export default {
 			tabs: ['All', 'Data', 'E-signature', 'Non-profit'],
 			dislikeOption: 'Not relevant to this search',
 			contactSortMethod: '',
-			companySortMethod: ''
+			companySortMethod: '',
+			rowId: ''
 		};
 	},
 	watch: {
@@ -36,14 +38,15 @@ export default {
 		}
 	},
 	async mounted() {
+		// this.rowId = this.getSearchedResult.rowId;
 		this.searchType = this.getSearchedItem.type;
-		await this.initUserBookmarks();
-		await this.initUserNote(this.getSearchedResult.rowId);
+		// await this.initUserBookmarks();
+		// await this.initUserNote(this.getSearchedResult.rowId);
 	},
 	computed: {
 		...mapGetters({
-			getNotepad: 'search_services/getNotepad',
-			getSearchedItem: 'search_services/getSearchedItem'
+			getNotepad: 'search_notes/getNotepad',
+			getSearchedItem: 'search_notes/getSearchedItem'
 		}),
 		notepad: {
 			get() {
@@ -53,35 +56,6 @@ export default {
 				this.saveNotepad(value);
 			}
 		},
-		// contact_insights_categories: {
-		// 	get() {
-		// 		let newObj = {};
-		// 		let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
-		// 		const data = result.news;
-		// 		const tab = this.selectedTab;
-		// 		this.tabs = Object.keys(data);
-
-		// 		if (tab === 'All') {
-		// 			let newArray = [];
-		// 			for (const item in data) {
-		// 				newArray = [...newArray, ...data[item]];
-		// 			}
-		// 			const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-		// 			this.sortByDislike(uniqueArray);
-		// 			this.sortByBookmarked(uniqueArray);
-		// 			return this.checkContactSort(uniqueArray);
-		// 		} else {
-		// 			const element = Object.keys(data).includes(tab) ? data[tab] : '';
-		// 			newObj[tab] = element;
-		// 			this.sortByBookmarked(newObj[tab]);
-		// 			this.sortByDislike(newObj[tab]);
-		// 			return this.checkContactSort(newObj[tab]);
-		// 		}
-		// 	},
-		// 	set(value) {
-		// 		return value;
-		// 	}
-		// },
 		company_insights_categories: {
 			get() {
 				let newObj = {};
@@ -102,6 +76,7 @@ export default {
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
 			}
+			// when a quote is clicked, the article is found using the url
 			return [...this.contact_insights_categories, ...this.contact_other_insights].find(
 				(article) => article.url === this.getSearchedItem.item.article_url
 			);
@@ -109,8 +84,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			saveNotepad: 'search_services/saveNotepad',
-			saveSearchPayload: 'search_services/saveSearchPayload'
+			saveNotepad: 'search_notes/saveNotepad',
+			saveSearchPayload: 'search_notes/saveSearchPayload'
 		}),
 		...mapActions({
 			content: 'search_services/content',
@@ -119,12 +94,12 @@ export default {
 		expandNotepad() {
 			this.hideSearch = true;
 		},
-		async displaySearchItem(type, item) {
+		displaySearchItem(type, item) {
 			const data = {
 				type: type,
 				item: item
 			};
-			await this.saveSearchedItem(data);
+			this.saveSearchedItem(data);
 			this.$refs.openArticle.scrollTop = 0;
 		}
 	}

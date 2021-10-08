@@ -12,6 +12,7 @@ import VButton from '@/components/Button';
 
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
+import routeMixin from '@/mixins/routeMixin';
 
 export default {
 	name: 'Insights',
@@ -25,7 +26,7 @@ export default {
 		Loader,
 		TextInput
 	},
-	mixins: [ScreenWidthMixin, insightMixin, inputMixin],
+	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -66,25 +67,17 @@ export default {
 			quoteList: []
 		};
 	},
-	async created() {
-		this.loading = true;
-		if (this.$route.query.id) {
-			this.rowId = this.$route.query.id;
-			await this.getResult();
-			await this.initUserBookmarks();
-			await this.initUserNote(this.rowId);
-		} else {
-			this.$router.push({ name: 'Search' });
-		}
-	},
+
 	computed: {
 		...mapGetters({
 			loggedInUser: 'auth/getLoggedUser'
 		}),
 		getLinkedinUrl: {
 			get() {
-				const url = this.contact_details.socials.linkedin;
-				return url ? `https://${url}/detail/recent-activity` : null;
+				if (this.contact_details.socials.linkedin) {
+					const url = this.contact_details.socials.linkedin;
+					return url ? `https://${url}/detail/recent-activity` : null;
+				}
 			}
 		},
 		getCrunchbaseUrl() {
@@ -112,22 +105,6 @@ export default {
 			}
 		},
 
-		company_insights_categories: {
-			get() {
-				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult.company_insights));
-				const data = result.news;
-				const tab = this.companyTab;
-				const element = Object.keys(data).includes(tab) ? data[tab] : '';
-				newObj[tab] = element;
-				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
-			},
-			set(value) {
-				return value;
-			}
-		},
 		chartData() {
 			const topTags = this.getSearchedResult.contact_insights.top_tags;
 			return {
@@ -140,10 +117,26 @@ export default {
 			if (this.userBookmarks) {
 				const { company_research, contact_research } = this.userBookmarks;
 				if (company_research && contact_research) {
-					total = company_research.length + contact_research.length;
+					total += this.contact_insights_categories.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
+
+					total += this.contact_other_insights.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
+
+					total += this.company_insights_categories.filter((article) => {
+						return article.is_bookmarked;
+					}).length;
 				}
 			}
 			return total;
+		},
+		searchImage() {
+			const images = this.getSearchedResult.contact_details.images;
+			if (images && images.length) {
+				return images[Math.floor(Math.random() * images.length)];
+			}
 		},
 		showFirstBookmark() {
 			let result = {
@@ -339,13 +332,31 @@ export default {
 				this.loading = false;
 			}
 		},
+		// async getResult() {
+		// 	this.loading = true;
+		// 	try {
+		// 		const response = await this.researchedResult(this.$route.query.id);
+		// 		const { contact_details, company_details, status } = response.data.data;
+		// 		this.contact_details = contact_details;
+		// 		this.company_details = company_details;
+		// 		this.insightStatus = status;
+		// 		const refactored = this.changeToLegacyResponse(response.data.data);
+		// 		await this.saveSearchedResult(refactored);
+		// 		this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
+		// 		return true;
+		// 	} catch (error) {
+		// 		console.log(error);
+		// 	} finally {
+		// 		this.loading = false;
+		// 	}
+		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem' });
+			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
 		},
 
 		validateURL(link) {

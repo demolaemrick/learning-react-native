@@ -6,46 +6,57 @@
 				<div class="hookArticles__header mb-1">
 					<h3 class="section-title">News & Articles</h3>
 				</div>
-				<div class="hookArticles__body">
+				<div v-if="hookArticles.length" class="hookArticles__body">
 					<EmailHookCard
-						v-for="(article, j) in contact_insights_categories"
+						v-for="(article, j) in hookArticles"
 						:key="j"
-						:published="article.meta.published"
 						:article="article"
-						@displayInsight="displaySearchItem('contact_insights', article)"
+						:published="article.meta.published"
+						@displayInsight="displaySearchItem(article)"
 					/>
+				</div>
+				<div class="emptyState-wrapper" v-else>
+					<div class="emptyState">
+						<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+						<p class="emptyState-text">No content found!</p>
+					</div>
 				</div>
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
-				<template v-if="quotedArticle && quotedArticle.meta">
+				<template v-if="quotedArticle">
 					<div class="hook-section">
-						<div class="toggle-arrow" @click="toggleArticlePane">
+						<div class="toggle-arrow" :class="articlesOpened ? 'open' : 'closed'" @click="toggleArticlePane">
 							<img src="@/assets/icons/hook-back-arrow.svg" alt="back-arrow icon" svg-inline />
 						</div>
 						<div class="hook-section__header">
 							<h4 class="hook-section__header-text">Personalized Email Intros</h4>
 						</div>
 
-						<div class="section__1">
+						<div class="section__1" v-if="contactDetails">
 							<h5 class="title">Contact Details</h5>
 							<div class="contact__details">
-								<div class="text__initials" v-if="contact_details.full_name">
-									{{
-										contact_details.full_name
-											.match(/\b(\w)/g)
-											.join('')
-											.toUpperCase()
-									}}
+								<div class="text__initials">
+									<template v-if="searchImage">
+										<img class="searchImage" :src="searchImage" alt="" />
+									</template>
+									<template v-else>
+										{{
+											contact_details.full_name
+												.match(/\b(\w)/g)
+												.join('')
+												.toUpperCase()
+										}}
+									</template>
 								</div>
 								<div class="text__name__role">
-									<div class="name">{{ contact_details.full_name }}</div>
-									<div class="role">{{ contact_details.role }}</div>
+									<div class="name">{{ contactDetails.full_name }}</div>
+									<div class="role">{{ contactDetails.role }}</div>
 								</div>
 							</div>
 							<div class="section section__2">
 								<div class="contact__address">
 									<div class="title">Company</div>
-									<div class="text">{{ contact_details.company }}</div>
+									<div class="text">{{ contactDetails.company }}</div>
 								</div>
 								<div class="contact__icon__group">
 									<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
@@ -65,11 +76,22 @@
 						</div>
 						<div class="section__3">
 							<div class="emptyState email-intro__group" v-if="!emailHooks.length">
-								<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
-								<p class="emptyState-text">No content found!</p>
-								<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
-									<template v-if="!loading">Generate Email Intro</template>
-									<Loader v-else />
+								<img v-if="!loadIcon" src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+								<p v-if="!loadIcon" class="emptyState-text">No content found!</p>
+
+								<div v-if="loadIcon" class="spinner">
+									<LoadIcon />
+								</div>
+
+								<v-button
+									:disabled="loadIcon"
+									class="generateBtn rad"
+									size="full"
+									buttonType="secondary"
+									@click="generateHook"
+								>
+									<template>Generate Email Intro</template>
+									<!-- <Loader v-else /> -->
 								</v-button>
 							</div>
 
@@ -77,7 +99,7 @@
 								<div class="email-intro__group">
 									<template>
 										<div class="email-intro__single" v-for="(hook, index) in emailHooks" :key="index">
-											<div class="email-intro__single__header">
+											<div>
 												<textarea
 													v-if="editText[index]"
 													class="subjectTextarea"
@@ -86,11 +108,15 @@
 													v-model="hook.email.subject"
 												></textarea>
 
-												<p v-else class="subject" :ref="`emailSubject-${index}`">{{ hook.email.subject }}</p>
+												<div class="email-intro__single__header" v-else @click="showIntroHook(index)">
+													<p class="subject" :ref="`emailSubject-${index}`">
+														{{ hook.email.subject }}
+													</p>
 
-												<button v-if="!editText[index]" @click="showIntroHook(index)">
-													<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
-												</button>
+													<button>
+														<img src="@/assets/icons/email-hook-arrow.svg" alt="down-arrow icon" svg-inline />
+													</button>
+												</div>
 											</div>
 
 											<div v-if="displayEmail[index]" :ref="`content-${index}`" class="email-intro__single__content">
@@ -108,7 +134,7 @@
 													<button @click="editHook(hook, index)" style="margin-right: 9px">
 														<img class="icon" src="@/assets/icons/check.svg" alt="save icon" svg-inline />
 													</button>
-													<button @click="editContent(index)">
+													<button @click="cancelEdit(index)">
 														<img class="icon" src="@/assets/icons/cancel.svg" alt="cancel icon" svg-inline />
 													</button>
 												</div>
@@ -127,7 +153,7 @@
 														<img
 															class="icon"
 															:ref="`editBtn-${index}`"
-															@click="editContent(index)"
+															@click="editContent(index, hook)"
 															src="@/assets/icons/edit-icon.svg"
 															alt="edit icon"
 															svg-inline
@@ -146,8 +172,15 @@
 											</div>
 										</div>
 									</template>
-									<v-button class="generateBtn rad" size="full" buttonType="secondary" @click="generateHook">
-										<template v-if="!loading">Generate more options</template>
+									<v-button
+										:disabled="emailHooks.length >= 5"
+										:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
+										class="generateBtn rad"
+										size="full"
+										buttonType="secondary"
+										@click="generateHook"
+									>
+										<template v-if="!btnLoading">Generate more options</template>
 										<Loader v-else />
 									</v-button>
 								</div>
@@ -155,13 +188,20 @@
 						</div>
 					</div>
 
-					<div v-if="quotedArticle && quotedArticle.meta" class="article-section" ref="main">
+					<div v-if="quotedArticle" class="article-section" ref="main">
 						<div class="flex flex__end">
-							<v-button @click="toggleModalClass('hookModal')" class="mt-1 mb-1" size="large" buttonType="primary"
-								>Create Email Intro</v-button
+							<v-button
+								:disabled="emailHooks.length >= 5"
+								:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
+								@click="toggleModalClass('hookModal')"
+								class="mt-1 mb-1"
+								size="large"
+								buttonType="primary"
 							>
+								Create Email Intro
+							</v-button>
 						</div>
-						<div v-if="quotedArticle && quotedArticle.meta" class="item__detail">
+						<div v-if="quotedArticle" class="item__detail">
 							<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
 							<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 								<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
@@ -195,6 +235,7 @@
 									width="100%"
 									height="500"
 									:src="quotedArticle.url"
+									title=""
 								></iframe>
 							</template>
 						</div>
@@ -248,7 +289,7 @@
 
 							<div class="flex flex__end">
 								<v-button @click="addHook" :disabled="invalid || !createdEmailHook.hook" submitType="submit">
-									<template v-if="!loading">Save</template>
+									<template v-if="!btnLoading">Save</template>
 									<Loader v-else />
 								</v-button>
 							</div>

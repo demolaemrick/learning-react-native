@@ -24,7 +24,7 @@
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>
-							<img class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+							<img class="icon" src="../../assets/icons/hook-added.svg" svg-inline alt="generated-hook icon" />
 						</button>
 					</template>
 				</div>

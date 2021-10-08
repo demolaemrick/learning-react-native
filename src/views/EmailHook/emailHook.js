@@ -5,9 +5,12 @@ import VHeaderitem from '@/components/Header/singleSearch/Header';
 import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
+import LoadIcon from '@/components/LoadIcon';
+
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
+import routeMixin from '@/mixins/routeMixin';
 
 export default {
 	name: 'EmailHook',
@@ -18,12 +21,14 @@ export default {
 		TextInput,
 		Loader,
 		InsightCard,
-		EmailHookCard
+		EmailHookCard,
+		LoadIcon
 	},
-	mixins: [insightMixin],
+	mixins: [insightMixin, routeMixin],
 	data() {
 		return {
-			loading: false,
+			btnLoading: false,
+			loadIcon: false,
 			emailContent: false,
 			emailHooks: [
 				// {
@@ -48,20 +53,24 @@ export default {
 			editMode: false,
 			displayEmail: [],
 			editText: [],
-			message: 'This is a mango',
+			currentHooks: [],
+			message: '',
 			createdEmailHook: {
 				subject: '',
 				hook: ''
 			},
 			searchType: 'contact_insights',
-			articlesOpened: false
+			articlesOpened: false,
+			hookArticles: []
 		};
 	},
 	async mounted() {
 		if (this.getSearchedItem.item) {
-			this.fetchGeneratedHooks();
+			await this.fetchGeneratedHooks();
+			await this.fetchHookArticles();
 			this.searchType = this.getSearchedItem.type;
 		} else {
+			await this.fetchHookArticles();
 			this.articlesOpened = true;
 		}
 	},
@@ -73,7 +82,8 @@ export default {
 			fetchEmailIntros: 'user/fetchHooks',
 			deleteEmailHook: 'user/deleteEmailHook',
 			editEmailHook: 'user/editEmailHook',
-			createEmailHook: 'user/createEmailHook'
+			createEmailHook: 'user/createEmailHook',
+			fetchArticles: 'user/fetchArticlesWithEmailHook'
 		}),
 		toggleArticlePane() {
 			this.articlesOpened = !this.articlesOpened;
@@ -81,7 +91,11 @@ export default {
 		showIntroHook(index) {
 			this.$set(this.displayEmail, index, !this.displayEmail[index]);
 		},
-		editContent(index) {
+		editContent(index, hook) {
+			this.$set(this.currentHooks, index, { subject: hook.email.subject, hook: hook.email.hook });
+			this.toggleEditMode(index);
+		},
+		toggleEditMode(index) {
 			this.$set(this.editText, index, !this.editText[index]);
 		},
 		validateURL(link) {
@@ -103,7 +117,7 @@ export default {
 						});
 					})
 					.catch((error) => {
-						console.log('eerrr', error);
+						console.log(error);
 						this.showAlert({
 							status: 'error',
 							message: 'Unable to copy email hook',
@@ -113,51 +127,59 @@ export default {
 			}
 		},
 		async generateHook() {
-			this.loading = true;
+			this.btnLoading = true;
+			this.loadIcon = true;
 
 			const article = { ...this.getSearchedItem };
 			const type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
-
 			try {
 				const response = await this.addEmailIntros({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: article.item.url,
 					type: type
 				});
-
-				console.log(response);
-				if (response.status === 200 && response.statusText === 'OK') {
+				const { status, statusText, data } = response;
+				if ([200, 201].includes(status) && statusText === 'OK' && data.emails.length) {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intros generated successfully',
+						message: data.message,
 						showAlert: true
 					});
-					this.emailHooks.push(...response.data.emails);
+					this.emailHooks.push(...data.emails);
+					return;
 				}
+				this.showAlert({
+					status: 'info',
+					message: 'No email intros generated',
+					showAlert: true
+				});
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Unable to generate email intros',
+					message: error.response.data.message,
 					showAlert: true
 				});
 			} finally {
-				this.loading = false;
+				this.btnLoading = false;
+				this.loadIcon = false;
+				await this.fetchHookArticles();
 			}
 		},
 		async fetchGeneratedHooks() {
+			this.loadIcon = true;
 			try {
 				const response = await this.fetchEmailIntros({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: this.quotedArticle.url
 				});
 
 				if (response.status === 200 && response.statusText === 'OK' && response.data.emails.length) {
-					this.showAlert({
-						status: 'success',
-						message: 'Email intros retrieved successfully',
-						showAlert: true
-					});
-					this.emailHooks.push(...response.data.emails);
+					// this.showAlert({
+					// 	status: 'success',
+					// 	message: response.data.message,
+					// 	showAlert: true
+					// });
+					this.emailHooks = response.data.emails;
 					return;
 				}
 				this.showAlert({
@@ -171,18 +193,36 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loadIcon = false;
+			}
+		},
+		async fetchHookArticles() {
+			try {
+				const response = await this.fetchArticles(this.rowId);
+				if (response.status === 200 && response.statusText === 'OK') {
+					// this.showAlert({
+					// 	status: 'success',
+					// 	message: response.data.message,
+					// 	showAlert: true
+					// });
+					this.hookArticles = [...response.data.articles];
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		async deleteHook(hook) {
 			try {
 				const response = await this.deleteEmailHook(hook._id);
-
-				console.log(response);
-
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro deleted successfully',
+						message: response.data.message,
 						showAlert: true
 					});
 
@@ -199,6 +239,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				await this.fetchHookArticles();
 			}
 		},
 		async editHook(hook, index) {
@@ -221,11 +263,10 @@ export default {
 					subject: hook.email.subject
 				});
 
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro edited successfully',
+						message: response.data.message,
 						showAlert: true
 					});
 				}
@@ -237,72 +278,83 @@ export default {
 					showAlert: true
 				});
 			} finally {
-				this.editContent(index);
+				this.toggleEditMode(index);
 			}
 		},
+		cancelEdit(index) {
+			this.emailHooks[index].email = this.currentHooks[index];
+			this.toggleEditMode(index);
+		},
 		async addHook() {
-			this.loading = true;
+			this.btnLoading = true;
 
 			const type = this.searchType === 'contact_insights' ? 'contact_research' : 'company_research';
 			try {
 				const response = await this.createEmailHook({
-					rowId: this.getSearchedResult.rowId,
+					rowId: this.rowId,
 					url: this.quotedArticle.url,
 					type,
 					...this.createdEmailHook
 				});
-
-				console.log(response);
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Email intro created successfully',
+						message: response.data.message,
 						showAlert: true
 					});
+					await this.fetchGeneratedHooks();
 				}
-				this.createdEmailHook.subject = '';
-				this.createdEmailHook.hook = '';
 				this.toggleModalClass('hookModal');
-
-				this.fetchGeneratedHooks();
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: error.response.data.message,
+					message: error.response.message || error.response.data.message,
 					showAlert: true
 				});
 			} finally {
-				this.loading = false;
+				this.btnLoading = false;
+				await this.fetchHookArticles();
+				this.createdEmailHook.subject = '';
+				this.createdEmailHook.hook = '';
 			}
 		},
-		async displaySearchItem(type, item) {
+		async displaySearchItem(item) {
 			this.emailHooks = [];
 			const data = {
-				type: type,
-				item: item
+				item,
+				type: item.type
 			};
-			await this.saveSearchedItem(data);
-			this.fetchGeneratedHooks();
+			this.saveSearchedItem(data);
+			await this.fetchGeneratedHooks();
 		}
 	},
 	computed: {
 		...mapGetters({
-			getSearchedItem: 'search_services/getSearchedItem',
+			getSearchedItem: 'search_notes/getSearchedItem',
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
-		contact_details() {
-			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
-		},
-		quotedArticle() {
-			if (!this.getSearchedItem.item) {
+		contactDetails() {
+			console.log('det', this.getSearchedResult.contact_details);
+			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}
-			if (this.getSearchedItem.item.meta) {
-				return this.getSearchedItem.item;
+			return JSON.parse(JSON.stringify(this.getSearchedResult.contact_details));
+		},
+		searchImage() {
+			const images = this.getSearchedResult.contact_details.images;
+			if (images) {
+				return images[Math.floor(Math.random() * images.length)];
 			}
-			return [...this.contact_insights_categories, ...this.contact_other_insights].find(
-				(article) => article.url === this.getSearchedItem.item.article_url
-			);
+		},
+		quotedArticle: {
+			get() {
+				if (!this.getSearchedItem.item) {
+					return null;
+				}
+				if (this.getSearchedItem.item.meta) {
+					return this.getSearchedItem.item;
+				}
+			}
 		}
 	}
 };

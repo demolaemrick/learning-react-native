@@ -12,6 +12,14 @@ export default {
 		published: {
 			type: String,
 			default: null
+		},
+		showEmailIcon: {
+			type: Boolean,
+			default: true
+		},
+		showDislikeIcon: {
+			type: Boolean,
+			default: true
 		}
 	},
 	computed: {
