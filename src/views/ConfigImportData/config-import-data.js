@@ -23,6 +23,12 @@ export default {
 		dataFields: {
 			type: Array,
 			default: []
+		},
+		csvFields: {
+			type: Object,
+			default () {
+				return {}
+			}
 		}
 	},
 	data() {
