@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<nav class="navbar">
-			<div class="nav__back" @click="[$router.go(-1), window.location.reload()]">
+			<div class="nav__back" @click="[$router.go(-1), $forceUpdate()]">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to previous page</div>
 			</div>

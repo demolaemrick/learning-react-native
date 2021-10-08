@@ -559,7 +559,16 @@
 .tab-group {
   overflow: auto;
 	margin: 20px 0 24px;
-	justify-content: space-between;
+
+	&::-webkit-scrollbar {
+		width: 0;
+	}
+
+	& > * {
+		&:not(:last-child){
+			margin-left: 5px;
+		}
+	}
 
 	&.sm {
 		width: 90%;
@@ -705,9 +714,9 @@ label {
 		color: #3B48F7;
   }
 
-  &:not(:last-child) {
-    margin-right: 8px;
-  }
+//   &:not(:last-child) {
+//     margin-right: 8px;
+//   }
 }
 
 .topics-chart {
