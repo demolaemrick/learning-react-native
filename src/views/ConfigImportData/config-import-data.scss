@@ -226,3 +226,9 @@
 	margin-left: 3.89%;
 	margin-right: 12.8%;
   }
+	.ellipsis {
+		max-width: 500px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
