@@ -45,6 +45,8 @@ export default {
 			tabs: [],
 			contactFilter: null,
 			companyFilter: null,
+			editNote: false,
+			hide_aside: false,
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
 				{ title: 'News & articles', ref: 'news-section' },

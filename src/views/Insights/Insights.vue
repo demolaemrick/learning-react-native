@@ -255,7 +255,7 @@
 							</div>
 						</div>
 
-						<div v-if="loggedInUser.is_settings" class="relevant_add_article">
+						<div v-if="loggedInUser.role !== 'user'" class="relevant_add_article">
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
@@ -569,7 +569,7 @@
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											{{ loggedInUser.is_settings ? 'Relevant' : 'Sort by' }}
+											{{ loggedInUser.role !== 'user' ? 'Relevant' : 'Sort by' }}
 											<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
