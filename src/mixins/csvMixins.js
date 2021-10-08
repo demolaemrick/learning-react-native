@@ -77,21 +77,20 @@ export default {
 					complete: (res) => {
 						this.csvHeaders = res.meta.fields;
 						this.csvImport.contacts = res.data;
-	
+
 						const contactData = JSON.parse(JSON.stringify(res.data));
-	
+
 						this.csvFields = contactData.slice(0, 3).reduce((curr, acc) => {
-							Object.keys(acc).forEach(key => {
-	
+							Object.keys(acc).forEach((key) => {
 								if (curr[key]) {
 									curr[key].push(acc[key]);
 								} else {
-									curr[key] = [acc[key]] 
+									curr[key] = [acc[key]];
 								}
-							})
+							});
 							return curr;
 						}, {});
-	
+
 						this.dataFields = this.dataFields.map((field) => {
 							field.csvKey = this.csvHeaders.find((header) => header === field.mainKey);
 							return field;

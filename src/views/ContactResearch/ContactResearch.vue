@@ -6,6 +6,7 @@
 			@closeConfig="openConfigPage = false"
 			:headers="csvHeaders"
 			:dataFields="dataFields"
+			:csvFields="csvFields"
 			@submitImportCSV="submitImportCSV"
 		/>
 		<main class="main-section">
@@ -53,9 +54,14 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__name">
-								<div class="initials__logo">
+								<template v-if="item.status.statusCode === 'READY' && item.images && item.images.length">
+									<img class="searchImage" :src="item.images[0]" alt="" />
+								</template>
+
+								<div v-else class="initials__logo">
 									{{ getInitials(item.full_name) }}
 								</div>
+
 								<div class="name__email__wrapper">
 									<div class="text__name">{{ item.full_name }}</div>
 									<div class="text__email">{{ item.email }}</div>

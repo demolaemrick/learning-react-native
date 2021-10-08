@@ -26,8 +26,8 @@ export default {
 		},
 		csvFields: {
 			type: Object,
-			default () {
-				return {}
+			default() {
+				return {};
 			}
 		}
 	},
