@@ -136,7 +136,14 @@
 											<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 										</template>
 										<template #dropdown-items>
-											<li class="dropdown__item">Delete</li>
+											<!-- <li class="dropdown__item">Delete</li> -->
+											<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId, item._id)]">Refresh</li>
+											<li
+												class="dropdown__item"
+												@click.prevent="[openDeleteModal($event, item.rowId, item.full_name)]"
+											>
+												Delete
+											</li>
 										</template>
 									</toggle-dropdown>
 								</td>
@@ -271,6 +278,22 @@
 				</v-tab>
 			</v-tabs>
 		</div>
+		<modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Delete Research</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="toggleModal">Cancel</div>
+						<c-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">Delete</c-button>
+					</div>
+				</div>
+			</template>
+		</modal>
 		<modal v-if="showApiModal" position="center" :toggleClass="toggleClass" @close="cancelApiModal" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">{{ ApiModalContent.title }}</h4>

@@ -22,7 +22,13 @@ export default {
 	},
 	methods: {
 		onClose() {
+			console.log('here');
 			this.showDropdown = false;
+		},
+		toggleDropDown(e) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+			this.showDropdown = !this.showDropdown;
 		}
 	},
 	watch: {

@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<nav class="navbar">
-			<div class="nav__back" @click="$router.go(-1)">
+			<div class="nav__back" @click="[$router.go(-1), window.location.reload()]">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to previous page</div>
 			</div>
@@ -109,8 +109,6 @@ export default {
 		line-height: 18px;
 		letter-spacing: -0.117188px;
 		color: #394141;
-	}
-	.icon {
 	}
 }
 .nav__menu__right {

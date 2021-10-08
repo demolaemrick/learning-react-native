@@ -16,7 +16,7 @@
 			<tbody>
 				<tr
 					class="table__row"
-					@click="$emit('rowClick', item)"
+					@click.prevent="$emit('rowClick', item)"
 					:class="{
 						'disable-row':
 							(item.status && item.status.statusCode === 'IN_PROGRESS') ||

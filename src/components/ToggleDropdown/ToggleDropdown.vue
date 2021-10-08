@@ -1,6 +1,6 @@
 <template>
-	<div class="u-relative">
-		<span class="dropdown__wrapper" :style="{ padding: itemPadding }" @click="showDropdown = !showDropdown">
+	<div class="u-relative" @onclose="onClose">
+		<span class="dropdown__wrapper" :style="{ padding: itemPadding }" @click="toggleDropDown">
 			<slot name="dropdown-wrapper"></slot>
 		</span>
 		<template v-if="showDropdown">

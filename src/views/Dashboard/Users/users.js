@@ -111,8 +111,8 @@ export default {
 		StatusTag,
 		VButton
 	},
-	async mounted() {
-		await this.getAllUsers();
+	mounted() {
+		this.getAllUsers();
 	},
 	methods: {
 		...mapActions({

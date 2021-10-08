@@ -35,27 +35,26 @@ export default {
 			if (value) {
 				let id = value.toLowerCase();
 				this.target = value;
-				let mySort = this.tableData.slice();
 				if (this.sortType === 'asc') {
 					if (value === 'createdAt' || value === 'updatedAt') {
-						mySort.sort((a, b) => {
+						this.sortedData.sort((a, b) => {
 							return new Date(a[value]) - new Date(b[value]);
 						});
 					} else {
-						mySort.sort((a, b) => (a[id] < b[id] ? -1 : 1));
+						this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
 					}
 					this.sortType = 'desc';
 				} else {
 					if (value === 'createdAt' || value === 'updatedAt') {
-						mySort.sort((a, b) => {
+						this.sortedData.sort((a, b) => {
 							return new Date(b[value]) - new Date(a[value]);
 						});
 					} else {
-						mySort.sort((a, b) => (b[id] < a[id] ? -1 : 1));
+						this.sortedData.sort((a, b) => (b[id] < a[id] ? -1 : 1));
 					}
 					this.sortType = 'asc';
 				}
-				this.$emit('sortedTable', mySort, this.sortType, value);
+				// this.$emit('sortedTable', mySort, this.sortType, value);
 			}
 		}
 	},

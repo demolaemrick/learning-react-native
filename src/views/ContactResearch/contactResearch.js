@@ -121,9 +121,11 @@ export default {
 			this.target = target;
 			this.history = data;
 		},
-		async RefreshResearch(id) {
+		async RefreshResearch(e, id) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
 			try {
-				const response = await this.refresh(id);
+				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
 					this.getHistory();
 				}
@@ -142,7 +144,9 @@ export default {
 				}, 500);
 			}
 		},
-		openDeleteModal(rowId, full_name) {
+		openDeleteModal(e, rowId, full_name) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
 			this.contactToDelete = { rowId, full_name };
 			this.showModal = true;
 		},

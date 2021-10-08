@@ -322,7 +322,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
-				console.log(response);
+				console.table(response.data.data);
 				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.company_details = company_details;
@@ -332,7 +332,7 @@ export default {
 				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
 			} catch (error) {
-				console.log(error);
+				console.log(error.response);
 			} finally {
 				this.loading = false;
 			}

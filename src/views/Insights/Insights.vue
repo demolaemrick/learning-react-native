@@ -33,16 +33,16 @@
 						<div class="text">{{ contact_details.company }}</div>
 					</div>
 					<div class="contact__icon__group">
-						<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
+						<a v-if="contact_details.socials.twitter" :href="validateURL(contact_details.socials.twitter)" target="_blank"
 							><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 						/></a>
-						<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
+						<a v-if="contact_details.socials.linkedin" :href="validateURL(contact_details.socials.linkedin)" target="_blank"
 							><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 						/></a>
-						<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
+						<a v-if="contact_details.socials.website" :href="validateURL(contact_details.socials.website)" target="_blank"
 							><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 						/></a>
-						<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
+						<a v-if="contact_details.socials.crunchbase" :href="validateURL(contact_details.socials.crunchbase)" target="_blank"
 							><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 						/></a>
 					</div>
