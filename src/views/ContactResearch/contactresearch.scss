@@ -257,6 +257,17 @@ thead.table__header {
 		text-align: center;
 		color: #333758;
 	}
+	.searchImage {
+		border-radius: 50%;
+		width: 32px;
+		height: 32px;
+		background: #e9e5ff;
+		display: flex;
+		justify-content: center;
+		margin-right: 1em;
+		align-items: center;
+		object-fit: cover;
+	}
 	.text__name {
 		font-family: Karla;
 		font-style: normal;

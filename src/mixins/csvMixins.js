@@ -46,7 +46,8 @@ export default {
 					csvKey: '',
 					placeholder: 'google.com, twitter.com, facebook.com'
 				}
-			]
+			],
+			csvFields: {}
 		};
 	},
 	methods: {
@@ -54,35 +55,51 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		inputFile(newFile) {
-			if (newFile.size > 10485760) {
-				this.showAlert({
-					status: 'error',
-					message: 'file size is more that 10MB',
-					showAlert: true
-				});
-				return true;
-			}
-			if (newFile.name.split('.').pop() !== 'csv') {
-				this.showAlert({
-					status: 'error',
-					message: 'file type is not csv',
-					showAlert: true
-				});
-				return true;
-			}
-			var file = newFile.file;
-			Papa.parse(file, {
-				complete: (res) => {
-					this.csvHeaders = res.meta.fields;
-					this.csvImport.contacts = res.data;
-					this.dataFields = this.dataFields.map((field) => {
-						field.csvKey = this.csvHeaders.find((header) => header === field.mainKey);
-						return field;
+			if (newFile) {
+				if (newFile.size > 10485760) {
+					this.showAlert({
+						status: 'error',
+						message: 'file size is more that 10MB',
+						showAlert: true
 					});
-					this.openConfigPage = true;
-				},
-				header: true
-			});
+					return true;
+				}
+				if (newFile.name.split('.').pop() !== 'csv') {
+					this.showAlert({
+						status: 'error',
+						message: 'file type is not csv',
+						showAlert: true
+					});
+					return true;
+				}
+				var file = newFile.file;
+				Papa.parse(file, {
+					complete: (res) => {
+						this.csvHeaders = res.meta.fields;
+						this.csvImport.contacts = res.data;
+
+						const contactData = JSON.parse(JSON.stringify(res.data));
+
+						this.csvFields = contactData.slice(0, 3).reduce((curr, acc) => {
+							Object.keys(acc).forEach((key) => {
+								if (curr[key]) {
+									curr[key].push(acc[key]);
+								} else {
+									curr[key] = [acc[key]];
+								}
+							});
+							return curr;
+						}, {});
+
+						this.dataFields = this.dataFields.map((field) => {
+							field.csvKey = this.csvHeaders.find((header) => header === field.mainKey);
+							return field;
+						});
+						this.openConfigPage = true;
+					},
+					header: true
+				});
+			}
 		},
 		submitImportCSV() {
 			this.csvImport.contacts = this.csvImport.contacts.map((el) => {
