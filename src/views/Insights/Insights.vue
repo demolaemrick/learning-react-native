@@ -257,7 +257,12 @@
 								</toggle-dropdown>
 							</div>
 
-							<v-button class="submit" size="small" buttonType="primary" @click="toggleModalClass('addArticle')">
+							<v-button
+								class="submit"
+								size="small"
+								buttonType="primary"
+								@click="[toggleModalClass('addArticle'), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+							>
 								<div class="flex">
 									<span class="add-icon mr-1">
 										<img src="@/assets/icons/add-icon.svg" alt="add admin icon" svg-inline />
@@ -287,7 +292,6 @@
 						</template>
 
 						<template #body>
-
 							<text-input
 								labelVisible
 								rules="required"
