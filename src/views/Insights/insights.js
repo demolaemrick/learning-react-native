@@ -136,7 +136,6 @@ export default {
 			}
 
 			if (total > 0) {
-				
 				console.log('here for what');
 				this.$emit('hasBookmark', true);
 			}
