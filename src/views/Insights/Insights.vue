@@ -261,7 +261,7 @@
 								class="submit"
 								size="small"
 								buttonType="primary"
-								@click="[toggleModalClass('addArticle'), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
 							>
 								<div class="flex">
 									<span class="add-icon mr-1">

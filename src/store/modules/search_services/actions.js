@@ -111,6 +111,7 @@ export default {
 		const url = `research/refresh/${id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
+		console.table({id, userId});
 		try {
 			const response = await api.post(url, { userId });
 			return Promise.resolve(response);

@@ -34,6 +34,8 @@ export default {
 			contact_details: '',
 			company_details: '',
 			insightStatus: '',
+			toggleClass: true,
+			modalData: {},
 			loadMore: false,
 			addArticle: false,
 			articleUrl: '',
@@ -131,6 +133,12 @@ export default {
 						return article.is_bookmarked;
 					}).length;
 				}
+			}
+
+			if (total > 0) {
+				
+				console.log('here for what');
+				this.$emit('hasBookmark', true);
 			}
 			return total;
 		},
@@ -334,24 +342,22 @@ export default {
 				this.loading = false;
 			}
 		},
-		// async getResult() {
-		// 	this.loading = true;
-		// 	try {
-		// 		const response = await this.researchedResult(this.$route.query.id);
-		// 		const { contact_details, company_details, status } = response.data.data;
-		// 		this.contact_details = contact_details;
-		// 		this.company_details = company_details;
-		// 		this.insightStatus = status;
-		// 		const refactored = this.changeToLegacyResponse(response.data.data);
-		// 		await this.saveSearchedResult(refactored);
-		// 		this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
-		// 		return true;
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	} finally {
-		// 		this.loading = false;
-		// 	}
-		// },
+		addArticleModal(data) {
+			console.log(data, '-------------');
+			this.modalData = data;
+			this.addArticle = true;
+		},
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
 		displaySearchItem(type, item) {
 			const data = {
 				type,

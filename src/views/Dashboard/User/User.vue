@@ -131,7 +131,7 @@
 									<Status :status="item.status" />
 								</td>
 								<td class="table__row-item dropdown">
-									<toggle-dropdown>
+									<toggle-dropdown v-if="item.status.message.toLowerCase() !== 'updating'">
 										<template #dropdown-wrapper>
 											<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 										</template>
@@ -159,7 +159,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table__pagination__wrapper" v-if="!usersLoading">
+					<div class="table__pagination__wrapper" v-if="!usersLoading && history.length !== 0">
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>
