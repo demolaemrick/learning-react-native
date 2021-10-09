@@ -2,6 +2,5 @@
 // import CheckBoxes from '../../../src/components/CheckBoxes';
 
 // describe('CheckBoxes.vu', () => {
-    
-// });
 
+// });
