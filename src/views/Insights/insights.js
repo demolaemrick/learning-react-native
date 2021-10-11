@@ -235,15 +235,15 @@ export default {
 				console.log(response);
 				const { status } = response;
 				if (status === 200) {
-					// this.showAlert({
-					// 	status: 'info',
-					// 	message: 'Research update in progress',
-					// 	showAlert: true
-					// });
+					this.showAlert({
+						status: 'success',
+						message: 'Article Added',
+						showAlert: true
+					});
 				}
 				this.sending = false;
 			} catch (error) {
-				console.log(error);
+				console.log(error.response);
 			} finally {
 				this.sending = false;
 			}
