@@ -129,7 +129,7 @@ export default {
 					this.total = Math.ceil(data.data.count / this.limit);
 					this.nextPage = data.data.nextPage;
 				}
-				const resp = await this.adminPermissions();
+				const resp = await this.adminPermissions({ type: 'admin' });
 				// console.log(resp);
 				const { status: pStatus, data: pData, statusText: pStatusText } = resp;
 				if (pStatus === 200 && pStatusText === 'OK') {
@@ -223,7 +223,7 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.adminInfo = item;
-			console.log(item);
+			// console.log(item);
 			this.toggleModalClass('showEditPermission');
 			this.checkedPermissions = [];
 		},

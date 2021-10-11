@@ -164,7 +164,8 @@
 				<div>
 					<div class="privileges_section">
 						<h4>Admin Pemissions</h4>
-						<CheckBoxes @checkUpdate="checkUpdate" :datas="permissions" inputName="privileges" />
+						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
+						<CheckBoxes v-else @checkUpdate="checkUpdate" :datas="permissions" inputName="privileges" />
 					</div>
 
 					<div class="flex flex__end" id="adminPermission">
