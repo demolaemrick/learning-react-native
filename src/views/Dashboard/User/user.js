@@ -573,7 +573,23 @@ export default {
 		showResearch(item) {
 			console.table(item, '--------------------');
 			if (item.status.statusCode !== 'IN_PROGRESS') {
-				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
+				if (item.status.statusCode === 'READY') {
+					if (item.linkedin) {
+						this.$router.push({ name: 'Insights', query: { id: item.rowId } });
+					} else {
+						this.showAlert({
+							status: 'error',
+							message: 'Please refresh this row',
+							showAlert: true
+						});
+					}
+				} else {
+					this.showAlert({
+						status: 'caution',
+						message: 'Please wait while row finishes updating',
+						showAlert: true
+					});
+				}
 			}
 		},
 		async checkPendngStatus() {
