@@ -10,8 +10,8 @@
 					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
 						<div class="text__initials" v-if="contact_details.full_name">
-							<template v-if="searchImage">
-								<img class="searchImage" :src="searchImage" alt="" />
+							<template v-if="contactImage">
+								<img class="searchImage" @error="removeBrokenImage" :src="contactImage" alt="" />
 							</template>
 							<template v-else>
 								{{
@@ -223,7 +223,6 @@
 						</template>
 					</div>
 				</div>
-
 				<!-- News and Articles Section -->
 				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
@@ -320,7 +319,6 @@
 						/>
 					</template>
 				</div>
-
 				<div v-else class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
@@ -332,7 +330,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- Quotes Section -->
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper flex flex__space-center mb-1">
@@ -367,16 +364,13 @@
 						/>
 					</div>
 				</div>
-
 				<!-- Topic Section -->
-
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
-
 				<!-- Other Insights -->
 				<div
 					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
@@ -409,7 +403,6 @@
 					/>
 				</div>
 			</div>
-
 			<!-- company search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
 				<div class="section-wrapper">
@@ -478,7 +471,6 @@
 									</span>
 								</p>
 							</div>
-
 							<div class="flex flex__item-center postion" v-if="getCrunchbaseUrl">
 								<img style="width: 24px" src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline />
 								<p class="ml">
@@ -638,54 +630,6 @@
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
 							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
-						</v-button>
-					</div>
-				</div>
-			</template>
-		</modal>
-
-		<!-- Hook Modal -->
-		<modal
-			position="center"
-			v-if="hookModal"
-			:active="true"
-			:toggleClass="toggleClass"
-			@close="toggleModalClass('hookModal', '')"
-			maxWidth="457px"
-			borderRadius="12px"
-			marginTop="10%"
-			:showInfo="true"
-		>
-			<template #title>
-				<h4 class="modal__header-title">Edit Research</h4>
-			</template>
-			<template #info>
-				<h5 class="email-recipient">Shane Holdaway, CEO @ Mission Lane</h5>
-			</template>
-			<template #body>
-				<div class="modal__content">
-					<label class="textLabel" for="dislikeForm">Subject</label>
-					<div class="key-group email-subject">
-						<p class="email-subject__wrapper">Your Honey Due Acquisition</p>
-					</div>
-
-					<form action="">
-						<textarea
-							class=" hookTextarea"
-							id="articleHook"
-							name="articleHook"
-							v-model="otherComment"
-							placeholder="Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord."
-						>
-							Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord.
-						</textarea
-						>
-					</form>
-
-					<div class="copyhook__btn">
-						<v-button buttonType="primary" size="medium" @click="dislikeResearch">
-							<template>Copy</template>
-							<!-- <Loader v-else /> -->
 						</v-button>
 					</div>
 				</div>

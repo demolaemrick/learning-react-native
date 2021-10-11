@@ -54,7 +54,8 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			quoteList: []
+			quoteList: [],
+			userImages: []
 		};
 	},
 
@@ -119,10 +120,14 @@ export default {
 			}
 			return total;
 		},
-		searchImage() {
-			const images = this.getSearchedResult.contact_details.images;
-			if (images && images.length) {
-				return images[Math.floor(Math.random() * images.length)];
+		contactImage() {
+			if (!this.contact_details.images) {
+				return;
+			}
+			const images = [...this.contact_details.images];
+			this.userImages = this.userImages.length ? this.userImages : images;
+			if (this.userImages && this.userImages.length) {
+				return this.userImages[Math.floor(Math.random() * this.userImages.length)];
 			}
 		},
 		showFirstBookmark() {
@@ -173,6 +178,15 @@ export default {
 			refresh: 'search_services/refresh',
 			subscribeResearch: 'search_services/subscribeResearch'
 		}),
+		removeBrokenImage(event) {
+			const brokenSrc = event.target.currentSrc;
+			const brokenSrcIndex = this.userImages.indexOf(brokenSrc);
+
+			if (brokenSrcIndex > -1) {
+				this.userImages.splice(brokenSrcIndex, 1);
+			}
+			this.$forceUpdate();
+		},
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
 		},
@@ -187,52 +201,6 @@ export default {
 			if (section.activate) {
 				section.activate();
 			}
-		},
-
-		/** API response structure for single research
-		 * changed. Function below is to handle the changes by refactoring the incoming data to it's previous structure
-		 * and prevent discrepancies.
-		 */
-		changeToLegacyResponse(newData) {
-			const oldData = JSON.parse(JSON.stringify(newData));
-			let oldNews = {};
-			newData.contact_insights.news.forEach((article) => {
-				article.content.tag = article.content.tags;
-				const tags = [...article.tags];
-
-				if (!tags.length) {
-					// use article url to create a dummy
-					// tag for articles that don't have tags
-					tags.push(article.url);
-				}
-				tags.forEach((tag) => {
-					if (oldNews[tag]) {
-						oldNews[tag].push(article);
-					} else {
-						oldNews[tag] = [article];
-					}
-				});
-			});
-			oldData.contact_insights.news = oldNews;
-
-			let oldOtherInsights = {};
-			newData.contact_insights.other_insights.forEach((article) => {
-				if (article.content) {
-					article.content.tag = article.content.tags;
-				}
-
-				// other insights no longer includes tags so we group
-				// by article url to adhere to the previous
-				// code structure
-				if (oldOtherInsights[article.url]) {
-					oldOtherInsights[article.url].push(article);
-				} else {
-					oldOtherInsights[article.url] = [article];
-				}
-			});
-			oldData.contact_insights.other_insights = oldOtherInsights;
-
-			return oldData;
 		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
@@ -300,24 +268,6 @@ export default {
 				console.log(error);
 			}
 		},
-		// async getResult() {
-		// 	this.loading = true;
-		// 	try {
-		// 		const response = await this.researchedResult(this.$route.query.id);
-		// 		const { contact_details, company_details, status } = response.data.data;
-		// 		this.contact_details = contact_details;
-		// 		this.company_details = company_details;
-		// 		this.insightStatus = status;
-		// 		const refactored = this.changeToLegacyResponse(response.data.data);
-		// 		await this.saveSearchedResult(refactored);
-		// 		this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
-		// 		return true;
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	} finally {
-		// 		this.loading = false;
-		// 	}
-		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,
@@ -383,7 +333,6 @@ export default {
 			this.companySearchQuery = '';
 		},
 		scrollSection() {
-			console.log('dgddggsfhkjfljf');
 			this.$refs.quoteList.scrollTop += 600;
 		}
 	},
