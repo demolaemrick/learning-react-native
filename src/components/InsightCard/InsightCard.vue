@@ -10,7 +10,7 @@
 			</div>
 
 			<p class="content" v-if="article.meta && article.meta.html" v-html="article.meta.html.snippet"></p>
-			<p v-else class="quote"> {{ article.description }}</p>
+			<p v-else class="quote">{{ article.description }}</p>
 			<div @click.stop="" class="details flex flex__item-center flex-spaced">
 				<div class="article-details flex flex__item-center">
 					<img class="gap" src="../../assets/icons/calendar.svg" alt="" />
