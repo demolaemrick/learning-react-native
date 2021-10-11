@@ -169,6 +169,20 @@ export default {
 				insightsArray.push({ title: 'Other insights', ref: 'others' });
 			}
 			return insightsArray;
+		},
+		showSnapshots() {
+			return Object.keys(this.company_insights.snapshot).some((key) => {
+				if (this.company_insights.snapshot[key] && this.company_insights.snapshot[key].length) {
+					return true;
+				}
+			});
+		},
+		showNewsSection() {
+			return Object.keys(this.company_insights.news).some((key) => {
+				if (this.company_insights.news[key].length) {
+					return true;
+				}
+			});
 		}
 	},
 	methods: {

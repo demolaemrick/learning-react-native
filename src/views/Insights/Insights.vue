@@ -421,10 +421,10 @@
 							</template>
 						</toggle-dropdown>
 					</div>
-					<div v-if="Object.values(company_insights.snapshot).length" class="snapshot-section">
+					<div v-if="showSnapshots" class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="company_insights.snapshot" class="snapshot-info">
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.mentions">
 								<span>
 									<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
 								</span>
@@ -487,7 +487,7 @@
 					</div>
 				</div>
 
-				<div v-if="Object.values(company_insights.news).length" class="news-section" ref="company-news-section">
+				<div v-if="showNewsSection" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -571,6 +571,18 @@
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
 					</template>
+				</div>
+
+				<div v-else class="news-section" ref="company-news-section">
+					<div class="section-wrapper">
+						<div class="news mt-1">
+							<h3 class="section-title">News</h3>
+						</div>
+						<div class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
+					</div>
 				</div>
 				<div class="jobs-section" v-if="company_insights.jobs.length > 0">
 					<div class="jobs-header flex flex__space-center">
