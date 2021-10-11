@@ -203,7 +203,13 @@ export default {
 						message: response.data.message,
 						showAlert: true
 					});
-					this.toggleModalClass('showEditPermission');
+					this.admins = this.admins.map((res) => {
+						if (res._id === userId) {
+							res.permissions = permissions;
+						}
+						return res;
+					});
+					// this.toggleModalClass('showEditPermission');
 					return true;
 				}
 			} catch (error) {
@@ -224,7 +230,8 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.adminInfo = item;
-			// this.checkedPermissions = items.permissions;
+			console.log(item);
+			this.checkedPermissions = item.permissions;
 			// console.log(item);
 			this.toggleModalClass('showEditPermission');
 		},

@@ -36,7 +36,7 @@
 							<c-button
 								class="submit"
 								submitType="submit"
-								:disabled="invalid || form.password.length < 8"
+								:disabled="!form.password || !form.email || form['password'].length < 8 || invalid"
 								size="full"
 								buttonType="primary"
 							>
