@@ -168,12 +168,12 @@ export default {
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
 		sortByDislike(data) {
-			return data.sort(function(a, b) {
+			return data.sort(function (a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			return data.sort(function(a, b) {
+			return data.sort(function (a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},

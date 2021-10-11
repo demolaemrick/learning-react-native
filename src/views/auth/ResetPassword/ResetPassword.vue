@@ -21,7 +21,13 @@
 								:showPasswordBar="false"
 								placeholder="Enter Password"
 							/>
-							<c-button class="" :disabled="invalid" size="full" buttonType="primary" submitType="submit">
+							<c-button
+								class=""
+								:disabled="invalid || form['password'].length < 8"
+								size="full"
+								buttonType="primary"
+								submitType="submit"
+							>
 								<template v-if="!loading">Reset Password</template>
 								<Loader v-else />
 							</c-button>

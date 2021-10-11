@@ -38,16 +38,16 @@
 						<div class="text">{{ contact_details.company }}</div>
 					</div>
 					<div class="contact__icon__group">
-						<a v-if="socials.twitter" :href="validateURL(socials.twitter)" target="_blank"
+						<a v-if="contact_details.socials.twitter" :href="validateURL(contact_details.socials.twitter)" target="_blank"
 							><img src="@/assets/icons/twitter-icon.svg" alt="twitter icon" svg-inline
 						/></a>
-						<a v-if="socials.linkedin" :href="validateURL(socials.linkedin)" target="_blank"
+						<a v-if="contact_details.socials.linkedin" :href="validateURL(contact_details.socials.linkedin)" target="_blank"
 							><img src="@/assets/icons/linkedin-icon.svg" alt="linkedin icon" svg-inline
 						/></a>
-						<a v-if="socials.website" :href="validateURL(socials.website)" target="_blank"
+						<a v-if="contact_details.socials.website" :href="validateURL(contact_details.socials.website)" target="_blank"
 							><img src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline
 						/></a>
-						<a v-if="socials.crunchbase" :href="validateURL(socials.crunchbase)" target="_blank"
+						<a v-if="contact_details.socials.crunchbase" :href="validateURL(contact_details.socials.crunchbase)" target="_blank"
 							><img src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline
 						/></a>
 					</div>
@@ -96,9 +96,7 @@
 				</div>
 				<div class="section__5">
 					<div class="text">Personalized Email Intros</div>
-					<div @click="generateIntroEmail(null, null)" class="link">
-						See All
-					</div>
+					<div @click="generateIntroEmail(null, null)" class="link">See All</div>
 				</div>
 				<div class="section__7" @click="editNote = !editNote">
 					<div class="text">Notes</div>
@@ -197,7 +195,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -229,7 +227,7 @@
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
-							<div class="filter-sort">
+							<div class="filter-sort" v-if="loggedInUser.role === 'user'">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
@@ -242,6 +240,36 @@
 									</template>
 								</toggle-dropdown>
 							</div>
+						</div>
+
+						<div v-if="loggedInUser.role !== 'user'" class="relevant_add_article">
+							<div class="filter-sort">
+								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+									<template #dropdown-wrapper>
+										<p class="sort">
+											Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+										</p>
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+									</template>
+								</toggle-dropdown>
+							</div>
+
+							<v-button
+								class="submit"
+								size="large"
+								buttonType="primary"
+								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+							>
+								<div class="flex">
+									<span class="add-icon mr-1">
+										<img src="@/assets/icons/add-icon.svg" alt="add admin icon" svg-inline />
+									</span>
+									<p>Add Article</p>
+								</div>
+							</v-button>
 						</div>
 
 						<TextInput
@@ -258,6 +286,66 @@
 							searchIconColor="#3A434B"
 						/>
 					</div>
+					<modal position="right" v-if="addArticle" :toggleClass="toggleClass" @close="toggleModalClass('addArticle')">
+						<template #title>
+							<h3>Add Article</h3>
+						</template>
+
+						<template #body>
+							<text-input
+								labelVisible
+								labelColor="gray"
+								v-model="articleUrl"
+								width="100%"
+								name="URL"
+								type="url"
+								placeholder="Enter article url here"
+							/>
+
+							<text-input
+								labelVisible
+								labelColor="gray"
+								v-model="articleTitle"
+								width="100%"
+								name="Title"
+								type="text"
+								placeholder="Enter article title"
+							/>
+
+							<div class="artcile_des_conatiner">
+								<label for="article_desc">Description</label>
+								<textarea
+									required
+									rows="5"
+									name="article_desc"
+									id=""
+									class="article_snippet"
+									v-model="articleDecript"
+								></textarea>
+							</div>
+
+							<div class="mb-2 mt-1">
+								<radio-boxes :datas="articleTypes" inputName="Article Type" @radiocheckUpdate="radiocheckUpdate" />
+							</div>
+
+							<div class="flex flex__end" id="addArticle">
+								<v-button
+									:disabled="
+										!articleUrl || !articleTitle || !articleDecript || !articleType || sending || !validURL(articleUrl)
+									"
+									class="submit"
+									size="large"
+									submitType="submit"
+									buttonType="primary"
+									ref="addArticle"
+									@click="addArticleFunc"
+								>
+									<template v-if="!sending">Add Article</template>
+									<Loader v-else />
+								</v-button>
+							</div>
+						</template>
+					</modal>
 					<!-- TODO: Refactor to use computed property to handle search result
 						and reuse one InsightCard Component
 					 -->
@@ -355,9 +443,7 @@
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
 							v-for="(quote, j) in contactQuotes"
-							:key="
-								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
-							"
+							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
@@ -503,7 +589,8 @@
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+											{{ loggedInUser.role !== 'user' ? 'Relevant' : 'Sort by' }}
+											<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
 									<template #dropdown-items>
@@ -671,7 +758,7 @@
 
 					<form action="">
 						<textarea
-							class=" hookTextarea"
+							class="hookTextarea"
 							id="articleHook"
 							name="articleHook"
 							v-model="otherComment"

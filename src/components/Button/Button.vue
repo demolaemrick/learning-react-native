@@ -60,7 +60,7 @@
 		width: initial !important;
 	}
 	&-large {
-		padding: 0 32px;
+		padding: 0 22px;
 		border-radius: 8px;
 	}
 	&-full {

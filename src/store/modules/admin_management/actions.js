@@ -76,10 +76,32 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	adminSearch: async (context, searchdata) => {
-		const url = `admin/search?role=admin&q=${searchdata}`;
+	adminSearch: async (context, queries) => {
+		let url = 'admin/search?role=admin&';
+		Object.keys(queries).forEach((key) => {
+			url += `${key}=${encodeURIComponent(queries[key])}&`;
+		});
+		console.log(url);
 		try {
 			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	adminPermissions: async (context, { type }) => {
+		const url = `admin/permissions?type=${type}`;
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	saveAdminPermissions: async (context, data) => {
+		const url = 'admin/grant-permission';
+		try {
+			const response = await api.post(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

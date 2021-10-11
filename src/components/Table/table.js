@@ -21,7 +21,8 @@ export default {
 	data() {
 		return {
 			sortBy: null,
-			sortType: 'asc'
+			sortType: 'asc',
+			target: ''
 		};
 	},
 	computed: {
@@ -33,6 +34,7 @@ export default {
 		sortData(value) {
 			if (value) {
 				let id = value.toLowerCase();
+				this.target = value;
 				if (this.sortType === 'asc') {
 					if (value === 'createdAt' || value === 'updatedAt') {
 						this.sortedData.sort((a, b) => {
@@ -41,7 +43,6 @@ export default {
 					} else {
 						this.sortedData.sort((a, b) => (a[id] < b[id] ? -1 : 1));
 					}
-
 					this.sortType = 'desc';
 				} else {
 					if (value === 'createdAt' || value === 'updatedAt') {
@@ -51,9 +52,9 @@ export default {
 					} else {
 						this.sortedData.sort((a, b) => (b[id] < a[id] ? -1 : 1));
 					}
-
 					this.sortType = 'asc';
 				}
+				// this.$emit('sortedTable', mySort, this.sortType, value);
 			}
 		}
 	},

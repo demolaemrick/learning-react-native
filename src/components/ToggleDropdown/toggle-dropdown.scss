@@ -39,7 +39,7 @@
 				position: absolute;
 				top: 135%;
 				right: 0;
-				z-index: 100;
+				z-index: 7;
                 background: #fff;
 				min-width: 100px;
 				@include query(mobile, max) {

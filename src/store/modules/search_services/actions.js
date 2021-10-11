@@ -107,12 +107,13 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	refresh: async ({ commit }, id) => {
+	refresh: async ({ commit }, { id, userId }) => {
 		const url = `research/refresh/${id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
+		console.table({ id, userId });
 		try {
-			const response = await api.post(url);
+			const response = await api.post(url, { userId });
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
@@ -160,6 +161,16 @@ export default {
 		const url = 'research/quote/dislike';
 		try {
 			const response = await api.delete(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	addArticleURL: async (context, payload) => {
+		const url = 'admin/user/research/add/article';
+		console.log(payload);
+		try {
+			const response = await api.put(url, payload);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

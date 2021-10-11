@@ -19,8 +19,15 @@
 				autocomplete
 			/>
 			<span @click="show_password = !show_password" class="form-password--icon">
-				<img v-if="show_password" svg-inline src="../../../assets/icons/visibility-on.svg" />
-				<img v-if="!show_password" svg-inline src="../../../assets/icons/visibility-off.svg" />
+				<img
+					svg-inline
+					:src="
+						show_password
+							? require('../../../assets/icons/visibility-on.svg')
+							: require('../../../assets/icons/visibility-off.svg')
+					"
+				/>
+				<!-- <img v-if="!show_password" svg-inline src="../../../assets/icons/visibility-off.svg" /> -->
 			</span>
 		</span>
 	</input-wrapper>

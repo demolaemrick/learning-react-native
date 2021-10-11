@@ -12,6 +12,7 @@ import Status from '@/components/Status';
 import StatusTag from '@/components/StatusTag';
 import { mapActions } from 'vuex';
 import debounce from 'lodash.debounce';
+import CheckBoxes from '@/components/CheckBoxes';
 
 export default {
 	name: 'Users',
@@ -75,6 +76,7 @@ export default {
 					name: ' '
 				}
 			],
+			showEditPermission: false,
 			currentPage: 0,
 			total: 0,
 			limit: 50,
@@ -91,7 +93,9 @@ export default {
 			userDetails: [],
 			contactToModify: {},
 			searchQuery: '',
-			filterData: ''
+			filterData: '',
+			permissions: [],
+			checkedPermissions: []
 		};
 	},
 	props: {
@@ -109,16 +113,19 @@ export default {
 		RadioBtn,
 		Status,
 		StatusTag,
-		VButton
+		VButton,
+		CheckBoxes
 	},
-	async mounted() {
-		await this.getAllUsers();
+	mounted() {
+		this.getAllUsers();
 	},
 	methods: {
 		...mapActions({
 			allUsers: 'users_management/allUsers',
 			deactivateUser: 'users_management/deactivateUser',
 			activateUser: 'users_management/activateUser',
+			adminPermissions: 'admin_management/adminPermissions',
+			saveAdminPermissions: 'admin_management/saveAdminPermissions',
 			suspendUser: 'users_management/suspendUser',
 			getSingleUser: 'users_management/singleUser',
 			updateUser: 'users_management/updateUser',
@@ -139,10 +146,72 @@ export default {
 					this.total = Math.ceil(data.response.count / this.limit);
 					this.nextPage = data.response.nextPage;
 				}
+				const resp = await this.adminPermissions({
+					type: 'user'
+				});
+				// console.log(resp);
+				const { status: pStatus, data: pData, statusText: pStatusText } = resp;
+				if (pStatus === 200 && pStatusText === 'OK') {
+					let permissionsData = pData.data;
+
+					this.permissions = permissionsData.map((res, index) => {
+						let value = res.split('-').join(' ');
+						value = `${value[0].toUpperCase()}${value.slice(1)}`;
+						return {
+							id: index + 1,
+							name: value,
+							value: res
+						};
+					});
+				}
 			} catch (error) {
 				console.log(error);
 			} finally {
 				this.usersLoading = false;
+			}
+		},
+		async savePermission() {
+			const userId = this.userInfo._id;
+			const permissions = this.checkedPermissions;
+
+			this.loading = true;
+
+			let data = {
+				permissions,
+				userId
+			};
+			console.log(data);
+
+			try {
+				const response = await this.saveAdminPermissions(data);
+				console.log(response);
+				this.loading = false;
+				// return;
+				if (response.status === 201) {
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
+					this.users = this.users.map((res) => {
+						if (res._id === userId) {
+							res.permissions = permissions;
+						}
+						return res;
+					});
+					// this.toggleModalClass('showEditPermission');
+					return true;
+				}
+			} catch (error) {
+				console.log(error.response);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+				// this.checkedPermissions = [];
 			}
 		},
 		clickCallback(page) {
@@ -179,6 +248,13 @@ export default {
 			} finally {
 				this.loading = false;
 			}
+		},
+		openEditPermissionModal(item) {
+			this.userInfo = item;
+			console.log(item);
+			this.checkedPermissions = item.permissions;
+			// console.log(item);
+			this.toggleModalClass('showEditPermission');
 		},
 		toggleModalClass(modal) {
 			if (!this[modal]) {
@@ -320,10 +396,9 @@ export default {
 		},
 
 		async searchPage(payload) {
-			this.loading = true;
 			try {
 				const response = await this.search(payload);
-				if (response.data.response.data.length) {
+				if (response.data.response.data.length > 0) {
 					this.users = response.data.response.data;
 					if (this.filter) {
 						this.toggleModalClass('filter');
@@ -337,16 +412,17 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
-			} finally {
-				this.loading = false;
 			}
 		},
 		clearSearch() {
 			this.searchQuery = '';
+		},
+		checkUpdate(value) {
+			this.checkedPermissions = value;
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

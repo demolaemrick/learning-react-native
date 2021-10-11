@@ -15,17 +15,49 @@
 .search-group {
   display: flex;
   align-items: center;
+  flex-flow: row wrap;
   justify-content: space-between;
   margin-bottom: 24px;
 }
 .search-section {
   display: flex;
   align-items: center;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
+
 .filter-icon {
-  margin-left: 8px;
+	margin-left: 8px;
 }
+
+.search-section {
+  & > span {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 1024px){
+  .search-section {
+  	&>span {
+  		margin-left: 10px;
+      margin-top: unset;
+  	}
+  }
+}
+
+.privileges_section {
+	margin: 0.9rem 0;
+
+	&>h4 {
+		font-size: 1.0rem;
+	}
+
+	&>p {
+		margin: 0.5rem 0;
+		font-style: italic;
+	}
+}
+
 .flex {
   display: flex;
   justify-content: space-between;

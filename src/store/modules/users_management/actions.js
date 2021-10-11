@@ -104,7 +104,7 @@ export default {
 	search: async (context, queries) => {
 		let url = 'admin/search?role=user&';
 		Object.keys(queries).forEach((key) => {
-			url += `${key}=${queries[key]}&`;
+			url += `${key}=${encodeURIComponent(queries[key])}&`;
 		});
 		try {
 			const response = await api.get(url);
