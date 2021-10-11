@@ -137,7 +137,7 @@
 										</template>
 										<template #dropdown-items>
 											<!-- <li class="dropdown__item">Delete</li> -->
-											<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId, item._id)]">Refresh</li>
+											<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId)]">Refresh</li>
 											<li
 												class="dropdown__item"
 												@click.prevent="[openDeleteModal($event, item.rowId, item.full_name)]"

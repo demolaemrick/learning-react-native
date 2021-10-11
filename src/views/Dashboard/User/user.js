@@ -517,11 +517,11 @@ export default {
 			this.page = page;
 			this.getHistory();
 		},
-		async RefreshResearch(e, id, userId) {
+		async RefreshResearch(e, id) {
 			// e.stopImmediatePropagation();
 			e.stopPropagation();
 			try {
-				const response = await this.refresh({ id, userId });
+				const response = await this.refresh({ id, userId: this.userId });
 				if (response.status === 200) {
 					this.getHistory(true);
 				}
