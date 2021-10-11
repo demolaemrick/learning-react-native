@@ -795,3 +795,23 @@ label {
 	display: flex;
 	justify-content: flex-end;
 }
+
+.artcile_des_conatiner {
+	
+	// margin-bottom: 1rem;
+
+	& > .article_snippet {
+		width: 100%;
+		background-color: transparent;
+		border-radius: 1px;
+		border: solid 1px #ebebf2;
+		resize: none;
+		padding: 1rem;
+	}
+
+	& > label {
+		color: #989AAA;
+		display: block;
+		margin-bottom: 0.6rem;
+	}
+}

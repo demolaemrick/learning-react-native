@@ -121,6 +121,14 @@ export default {
 			this.adminLoading = true;
 			try {
 				const response = await this.allAdmins({ page: this.page, limit: this.limit });
+				const { status, data, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					this.admins = data.data.data;
+					this.count = data.data.count;
+					this.currentPage = data.data.currentPage;
+					this.total = Math.ceil(data.data.count / this.limit);
+					this.nextPage = data.data.nextPage;
+				}
 				const resp = await this.adminPermissions();
 				// console.log(resp);
 				const { status: pStatus, data: pData, statusText: pStatusText } = resp;
@@ -136,14 +144,6 @@ export default {
 							value: res
 						};
 					});
-				}
-				const { status, data, statusText } = response;
-				if (status === 200 && statusText === 'OK') {
-					this.admins = data.data.data;
-					this.count = data.data.count;
-					this.currentPage = data.data.currentPage;
-					this.total = Math.ceil(data.data.count / this.limit);
-					this.nextPage = data.data.nextPage;
 				}
 			} catch (error) {
 				console.log(error);

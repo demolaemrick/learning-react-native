@@ -259,7 +259,7 @@
 
 							<v-button
 								class="submit"
-								size="small"
+								size="large"
 								buttonType="primary"
 								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
 							>
@@ -294,28 +294,6 @@
 						<template #body>
 							<text-input
 								labelVisible
-								rules="required"
-								labelColor="gray"
-								v-model="articleTitle"
-								width="100%"
-								name="Title"
-								type="text"
-								placeholder="Enter article title"
-							/>
-
-							<text-input
-								labelVisible
-								rules="required"
-								labelColor="gray"
-								v-model="articleDecript"
-								width="100%"
-								name="Description"
-								type="text"
-								placeholder="Enter article descriptrion"
-							/>
-							<text-input
-								labelVisible
-								rules="required"
 								labelColor="gray"
 								v-model="articleUrl"
 								width="100%"
@@ -324,14 +302,41 @@
 								placeholder="Enter article url here"
 							/>
 
+							<text-input
+								labelVisible
+								labelColor="gray"
+								v-model="articleTitle"
+								width="100%"
+								name="Title"
+								type="text"
+								placeholder="Enter article title"
+							/>
+
+							<div class="artcile_des_conatiner">
+								<label for="article_desc">Description</label>
+								<textarea
+									required
+									rows="5"
+									name="article_desc"
+									id=""
+									class="article_snippet"
+									v-model="articleDecript"
+								></textarea>
+							</div>
+
+							<div class="mb-2 mt-1">
+								<radio-boxes :datas="articleTypes" inputName="Article Type" @radiocheckUpdate="radiocheckUpdate" />
+							</div>
+
 							<div class="flex flex__end" id="addArticle">
 								<v-button
-									:disabled="!articleUrl || !articleTitle || !articleDecript || sending || !validURL(articleUrl)"
+									:disabled="!articleUrl || !articleTitle || !articleDecript || !articleType || sending || !validURL(articleUrl)"
 									class="submit"
 									size="large"
 									submitType="submit"
 									buttonType="primary"
 									ref="addArticle"
+									@click="addArticleFunc"
 								>
 									<template v-if="!sending">Add Article</template>
 									<Loader v-else />

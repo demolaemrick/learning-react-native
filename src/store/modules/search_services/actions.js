@@ -165,5 +165,15 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	addArticleURL: async (context, payload) => {
+		const url = 'admin/user/research/add/article';
+		console.log(payload);
+		try {
+			const response = await api.put(url, payload);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

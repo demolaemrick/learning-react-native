@@ -9,6 +9,7 @@ import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
+import RadioBoxes from '@/components/RadioBoxes';
 
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
@@ -24,7 +25,8 @@ export default {
 		VHeader,
 		VButton,
 		Loader,
-		TextInput
+		TextInput,
+		RadioBoxes
 	},
 	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin],
 	data() {
@@ -68,6 +70,18 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
+			row_Id: '',
+			articleType: '',
+			articleTypes: [
+				{
+					name: 'Contact Research',
+					value: 'contact_research'
+				},
+				{
+					name: 'Company Research',
+					value: 'company_research'
+				}
+			],
 			quoteList: []
 		};
 	},
@@ -188,15 +202,46 @@ export default {
 			return insightsArray;
 		}
 	},
+	mounted() {
+		this.row_Id = this.$route.query.id;
+	},
 	methods: {
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
-			subscribeResearch: 'search_services/subscribeResearch'
+			subscribeResearch: 'search_services/subscribeResearch',
+			addArticleURL: 'search_services/addArticleURL'
 		}),
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
+		},
+		radiocheckUpdate(value) {
+			this.articleType = value;
+		},
+		async addArticleFunc() {
+			let articleData = {
+				rowId: this.row_Id,
+				snippet: this.articleDecript,
+				title: this.articleTitle,
+				url: this.articleUrl,
+				type: this.articleType
+			};
+
+			try {
+				const response = await this.addArticleURL(articleData);
+				console.log(response);
+				const { status } = response;
+				if (status === 200) {
+					// this.showAlert({
+					// 	status: 'info',
+					// 	message: 'Research update in progress',
+					// 	showAlert: true
+					// });
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
