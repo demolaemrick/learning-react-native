@@ -330,7 +330,9 @@
 
 							<div class="flex flex__end" id="addArticle">
 								<v-button
-									:disabled="!articleUrl || !articleTitle || !articleDecript || !articleType || sending || !validURL(articleUrl)"
+									:disabled="
+										!articleUrl || !articleTitle || !articleDecript || !articleType || sending || !validURL(articleUrl)
+									"
 									class="submit"
 									size="large"
 									submitType="submit"
