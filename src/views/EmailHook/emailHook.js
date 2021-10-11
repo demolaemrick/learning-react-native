@@ -182,11 +182,11 @@ export default {
 					this.emailHooks = response.data.emails;
 					return;
 				}
-				this.showAlert({
-					status: 'info',
-					message: 'No Emails found',
-					showAlert: true
-				});
+				// this.showAlert({
+				// 	status: 'info',
+				// 	message: 'No Emails found',
+				// 	showAlert: true
+				// });
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -334,7 +334,6 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		contactDetails() {
-			console.log('det', this.getSearchedResult.contact_details);
 			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}

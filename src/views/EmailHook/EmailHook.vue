@@ -189,19 +189,7 @@
 					</div>
 
 					<div v-if="quotedArticle" class="article-section" ref="main">
-						<div class="flex flex__end">
-							<v-button
-								:disabled="emailHooks.length >= 5"
-								:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
-								@click="toggleModalClass('hookModal')"
-								class="mt-1 mb-1"
-								size="large"
-								buttonType="primary"
-							>
-								Create Email Intro
-							</v-button>
-						</div>
-						<div v-if="quotedArticle" class="item__detail">
+						<div v-if="quotedArticle" class="item__detail mt-2">
 							<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
 							<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 								<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
@@ -247,57 +235,6 @@
 				</div>
 			</div>
 		</main>
-
-		<!-- Hook Modal -->
-		<modal
-			position="center"
-			v-if="hookModal"
-			:active="true"
-			:toggleClass="toggleClass"
-			@close="toggleModalClass('hookModal', '')"
-			maxWidth="492px"
-			borderRadius="12px"
-			marginTop="10%"
-			:showInfo="true"
-		>
-			<template #title>
-				<h4 class="modal__header-title">Create a personalized email intro</h4>
-			</template>
-
-			<template #body>
-				<form @submit.prevent="">
-					<ValidationObserver v-slot="{ invalid }" color="#ff0000">
-						<div class="auth-input">
-							<label class="hook-label">Subject</label>
-							<text-input
-								type="text"
-								rules="required"
-								labelColor="gray"
-								v-model="createdEmailHook.subject"
-								width="100%"
-								name="Subject"
-								placeholder="Enter email subject"
-							/>
-							<textarea
-								class="hookTextarea"
-								id="emailHook"
-								name="emailHook"
-								v-model="createdEmailHook.hook"
-								placeholder="Input your email intro..."
-							>
-							</textarea>
-
-							<div class="flex flex__end">
-								<v-button @click="addHook" :disabled="invalid || !createdEmailHook.hook" submitType="submit">
-									<template v-if="!btnLoading">Save</template>
-									<Loader v-else />
-								</v-button>
-							</div>
-						</div>
-					</ValidationObserver>
-				</form>
-			</template>
-		</modal>
 	</div>
 </template>
 
