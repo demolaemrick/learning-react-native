@@ -371,7 +371,6 @@ export default {
 			}
 		},
 		async searchPage(payload) {
-			this.adminLoading = true;
 			console.log(this.searchQuery);
 			try {
 				const response = await this.adminSearch(payload);
@@ -387,8 +386,6 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
-			} finally {
-				this.adminLoading = false;
 			}
 		},
 		clearSearch() {

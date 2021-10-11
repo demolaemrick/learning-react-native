@@ -320,7 +320,6 @@ export default {
 		},
 
 		async searchPage(payload) {
-			this.loading = true;
 			try {
 				const response = await this.search(payload);
 				if (response.data.response.data.length > 0) {
@@ -337,8 +336,6 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
-			} finally {
-				this.loading = false;
 			}
 		},
 		clearSearch() {
