@@ -23,7 +23,7 @@
 							/>
 							<c-button
 								class=""
-								:disabled="invalid || form.password.length < 8"
+								:disabled="invalid || form['password'].length < 8"
 								size="full"
 								buttonType="primary"
 								submitType="submit"
