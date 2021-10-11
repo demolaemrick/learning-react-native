@@ -12,7 +12,7 @@ import InputTag from '@/components/InputTag';
 import StatusTag from '@/components/StatusTag';
 import VButton from '@/components/Button';
 import debounce from 'lodash.debounce';
-import CheckBoxes from '../../../components/CheckBoxes';
+import CheckBoxes from '@/components/CheckBoxes';
 
 export default {
 	name: 'Dashboard',
@@ -75,8 +75,7 @@ export default {
 			adminToModify: {},
 			roles: ['User', 'Admin', 'Super Admin'],
 			permissions: [],
-			checkedPermissions: ['add-article', 'hide-article'],
-			admin_permissions: ['add-article', 'hide-article']
+			checkedPermissions: []
 		};
 	},
 	props: {

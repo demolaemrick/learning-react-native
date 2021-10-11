@@ -40,10 +40,10 @@ export default {
 	}
 }
 .radios_container {
-	display: flex;
-	align-items: center;
+	// display: flex;
+	// align-items: center;
 	& > *:not(:last-child) {
-		margin-right: 1rem;
+		margin-bottom: 1rem;
 	}
 }
 .radio_box_row {

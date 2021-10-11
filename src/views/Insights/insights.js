@@ -74,11 +74,11 @@ export default {
 			articleType: '',
 			articleTypes: [
 				{
-					name: 'Contact Research',
+					name: 'Contact Insight',
 					value: 'contact_research'
 				},
 				{
-					name: 'Company Research',
+					name: 'Company Insight',
 					value: 'company_research'
 				}
 			],

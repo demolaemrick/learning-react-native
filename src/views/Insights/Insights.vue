@@ -227,7 +227,7 @@
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
-							<div class="filter-sort" v-if="!loggedInUser.is_settings">
+							<div class="filter-sort" v-if="loggedInUser.role === 'user'">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
