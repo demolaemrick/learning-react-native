@@ -85,8 +85,8 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	adminPermissions: async () => {
-		const url = 'admin/permissions';
+	adminPermissions: async (context, type) => {
+		const url = `admin/permissions?type=${type}`;
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);
