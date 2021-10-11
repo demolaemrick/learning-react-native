@@ -76,8 +76,12 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	adminSearch: async (context, searchdata) => {
-		const url = `admin/search?role=admin&q=${searchdata}`;
+	adminSearch: async (context, queries) => {
+		let url = 'admin/search?role=admin&';
+		Object.keys(queries).forEach((key) => {
+			url += `${key}=${encodeURIComponent(queries[key])}&`;
+		});
+		console.log(url);
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);

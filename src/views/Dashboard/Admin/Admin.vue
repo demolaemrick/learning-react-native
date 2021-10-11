@@ -53,6 +53,10 @@
 							{{ item.updatedAt | moment('MMMM D, YYYY') }} |
 							<span class="time">{{ item.updatedAt | moment(' h:mm:ss a') }}</span>
 						</template>
+						<template v-else-if="item.createdAt">
+							{{ item.createdAt | moment('MMMM D, YYYY') }} |
+							<span class="time">{{ item.createdAt | moment(' h:mm:ss a') }}</span>
+						</template>
 						<template v-else>-</template>
 					</td>
 					<td class="">
@@ -165,7 +169,13 @@
 					<div class="privileges_section">
 						<h4>Admin Pemissions</h4>
 						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
-						<CheckBoxes v-else @checkUpdate="checkUpdate" :datas="permissions" inputName="privileges" />
+						<CheckBoxes
+							:permissions="checkedPermissions"
+							v-else
+							@checkUpdate="checkUpdate"
+							:datas="permissions"
+							inputName="privileges"
+						/>
 					</div>
 
 					<div class="flex flex__end" id="adminPermission">

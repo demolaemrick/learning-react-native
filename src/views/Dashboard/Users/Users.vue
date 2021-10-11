@@ -21,7 +21,7 @@
 
 				<!-- </form> -->
 
-				<span class="ml-1">
+				<span class="">
 					<v-button size="small" buttonType="outline" @click="toggleModalClass('filter')">
 						Filter
 						<img class="filter-icon" src="@/assets/icons/filter-icon.svg" alt="filter icon" svg-inline />

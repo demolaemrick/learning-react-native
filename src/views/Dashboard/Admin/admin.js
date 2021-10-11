@@ -75,7 +75,8 @@ export default {
 			adminToModify: {},
 			roles: ['User', 'Admin', 'Super Admin'],
 			permissions: [],
-			checkedPermissions: []
+			checkedPermissions: ['add-article', 'hide-article'],
+			admin_permissions: ['add-article', 'hide-article']
 		};
 	},
 	props: {
@@ -180,14 +181,14 @@ export default {
 			}
 		},
 		async savePermission() {
-			const adminId = this.adminInfo._id;
+			const userId = this.adminInfo._id;
 			const permissions = this.checkedPermissions;
 
 			this.loading = true;
 
 			let data = {
 				permissions,
-				adminId
+				userId
 			};
 			console.log(data);
 
@@ -214,7 +215,7 @@ export default {
 				});
 			} finally {
 				this.loading = false;
-				this.checkedPermissions = [];
+				// this.checkedPermissions = [];
 			}
 		},
 		openEditModal(item) {
@@ -223,9 +224,9 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.adminInfo = item;
+			// this.checkedPermissions = items.permissions;
 			// console.log(item);
 			this.toggleModalClass('showEditPermission');
-			this.checkedPermissions = [];
 		},
 		toggleModalClass(modal) {
 			if (!this[modal]) {
@@ -369,11 +370,13 @@ export default {
 				this.loading = false;
 			}
 		},
-		async searchPage() {
+		async searchPage(payload) {
 			this.adminLoading = true;
+			console.log(this.searchQuery);
 			try {
-				const response = await this.adminSearch(this.searchQuery);
-				if (response.data.response.data.length) {
+				const response = await this.adminSearch(payload);
+				if (response.data.response.data.length > 0) {
+					console.log(response.data.response.data, '------------');
 					this.admins = response.data.response.data;
 				} else {
 					this.showAlert({

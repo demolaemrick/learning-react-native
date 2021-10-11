@@ -228,6 +228,8 @@ export default {
 				type: this.articleType
 			};
 
+			this.sending = true;
+
 			try {
 				const response = await this.addArticleURL(articleData);
 				console.log(response);
@@ -239,8 +241,11 @@ export default {
 					// 	showAlert: true
 					// });
 				}
+				this.sending = false;
 			} catch (error) {
 				console.log(error);
+			} finally {
+				this.sending = false;
 			}
 		},
 		scrollToSection(section) {

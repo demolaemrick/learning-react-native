@@ -323,7 +323,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.search(payload);
-				if (response.data.response.data.length) {
+				if (response.data.response.data.length > 0) {
 					this.users = response.data.response.data;
 					if (this.filter) {
 						this.toggleModalClass('filter');

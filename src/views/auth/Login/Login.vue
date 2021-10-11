@@ -33,7 +33,13 @@
 							<div class="forgot-password">
 								<router-link to="/forgot-password">Forgot Password?</router-link>
 							</div>
-							<c-button class="submit" submitType="submit" :disabled="invalid" size="full" buttonType="primary">
+							<c-button
+								class="submit"
+								submitType="submit"
+								:disabled="invalid || form.password.length < 8"
+								size="full"
+								buttonType="primary"
+							>
 								<template v-if="!loading">Login</template>
 								<Loader v-else />
 							</c-button>
