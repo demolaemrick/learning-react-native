@@ -199,6 +199,7 @@
 		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleModalClass('showEditModal')">
 			<template #title>
 				<h3>Edit Info</h3>
+				<!-- {{:disabled="loggedInUser.role.toLowerCase() !== 'superadmin'"}} -->
 			</template>
 			<template #body>
 				<form @submit.prevent="editAdmin">
