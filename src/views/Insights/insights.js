@@ -232,14 +232,22 @@ export default {
 
 			try {
 				const response = await this.addArticleURL(articleData);
-				console.log(response);
-				const { status } = response;
+				// console.log(response);
+				const { data, status } = response;
+				// let resp = data.response;
+				// console.log(resp);
 				if (status === 200) {
+					this.articleTitle = '';
+					this.articleUrl = '';
+					this.articleDecript = '';
+					this.articleType = '';
+
 					this.showAlert({
 						status: 'success',
-						message: 'Article Added',
+						message: data.message,
 						showAlert: true
 					});
+					this.getResult();
 				}
 				this.sending = false;
 			} catch (error) {
@@ -376,7 +384,7 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.researchedResult(this.$route.query.id);
-				console.table(response.data.data);
+				console.log(response.data.data);
 				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.company_details = company_details;

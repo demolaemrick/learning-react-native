@@ -344,7 +344,7 @@
 									@click="addArticleFunc"
 								>
 									<template v-if="!sending">Add Article</template>
-									<Loader v-else />
+									<Loader v-else color="#3B48F7" />
 								</v-button>
 							</div>
 						</template>
