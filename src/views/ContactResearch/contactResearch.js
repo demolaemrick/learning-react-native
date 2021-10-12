@@ -93,8 +93,7 @@ export default {
 			showModal: false,
 			contactToDelete: {},
 			exportLoading: false,
-			sortType: 'asc',
-			target: ''
+			sortQuery: null
 		};
 	},
 	async mounted() {
@@ -115,11 +114,9 @@ export default {
 			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
-		sortTable(data, sort, target) {
-			// console.log(data);
-			this.sortType = sort;
-			this.target = target;
-			this.history = data;
+		sortTable(data) {
+			this.sortQuery = { ...this.sortQuery, ...data };
+			this.getHistory();
 		},
 		async RefreshResearch(e, id) {
 			e.stopImmediatePropagation();
@@ -254,36 +251,15 @@ export default {
 				});
 			}
 		},
-		sortTableFunc() {
-			let id = this.target.toLowerCase();
-			if (this.sortType !== 'asc') {
-				if (this.target === 'createdAt' || this.target === 'updatedAt') {
-					this.history.sort((a, b) => {
-						return new Date(a[this.target]) - new Date(b[this.target]);
-					});
-				} else {
-					this.history.sort((a, b) => (a[id] < b[id] ? -1 : 1));
-				}
-			} else {
-				if (this.target === 'createdAt' || this.target === 'updatedAt') {
-					this.history.sort((a, b) => {
-						return new Date(b[this.target]) - new Date(a[this.target]);
-					});
-				} else {
-					this.history.sort((a, b) => (b[id] < a[id] ? -1 : 1));
-				}
-			}
-		},
 		async getHistory() {
 			try {
-				const response = await this.research_history({ page: this.page, limit: this.limit });
+				const response = await this.research_history({ page: this.page, limit: this.limit, ...this.sortQuery });
 				this.history = response.data.data.history;
 				this.count = response.data.data.count;
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
 				this.checkPendngStatus();
-				this.sortTableFunc();
 				return true;
 			} catch (error) {
 				this.showAlert({
@@ -316,31 +292,6 @@ export default {
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
 			}
-
-			// if (item.status.statusCode !== 'IN_PROGRESS') {
-			// 	if (item.status.statusCode === 'READY') {
-			// 		if (item.linkedin) {
-			// 			this.$router.push({
-			// 				name: 'Insights',
-			// 				query: {
-			// 					id: item.rowId
-			// 				}
-			// 			});
-			// 		} else {
-			// 			this.showAlert({
-			// 				status: 'error',
-			// 				message: 'Please refresh this row',
-			// 				showAlert: true
-			// 			});
-			// 		}
-			// 	} else {
-			// 		this.showAlert({
-			// 			status: 'caution',
-			// 			message: 'Please wait while row finishes updating',
-			// 			showAlert: true
-			// 		});
-			// 	}
-			// }
 		}
 	},
 	computed: {

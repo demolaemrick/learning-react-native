@@ -42,7 +42,7 @@
 					theme="contact__research"
 					:loading="pageLoading"
 					@checkAll="checkAll"
-					@sortedTable="sortTable"
+					@sortTable="sortTable"
 					@rowClick="clickResearch"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">

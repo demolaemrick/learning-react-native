@@ -38,8 +38,10 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	research_history: async ({ commit }, { page, limit }) => {
-		const url = `research/history?page=${page}&limit=${limit}`;
+	research_history: async ({ commit }, query) => {
+		const urlParams = new URLSearchParams(query);
+		console.log(urlParams.toString());
+		let url = `research/history?${urlParams.toString()}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
