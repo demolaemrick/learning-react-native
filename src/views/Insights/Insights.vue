@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-header />
+		<v-header :isFromAdmin="isFromAdmin" />
 		<template v-if="loading">
 			<page-load />
 		</template>

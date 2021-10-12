@@ -49,6 +49,11 @@ const routes = [
 				name: 'User',
 				component: User,
 				meta: 'user'
+			},
+			{
+				path: 'insights',
+				name: 'AdminInsights',
+				component: Insights
 			}
 		]
 	},

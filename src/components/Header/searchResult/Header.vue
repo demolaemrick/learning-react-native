@@ -5,7 +5,7 @@
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to previous page</div>
 			</div>
-			<div class="nav__menu__right">
+			<div class="nav__menu__right" v-if="!isFromAdmin">
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact List</div>
 				<img
 					class="search__icon__wrapper"
@@ -45,6 +45,7 @@ import { mapMutations, mapGetters } from 'vuex';
 
 export default {
 	name: 'searchResultHeader',
+	props: ['isFromAdmin'],
 	components: {
 		VToggleDropdown
 	},

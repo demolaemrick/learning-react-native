@@ -84,7 +84,8 @@ export default {
 				}
 			],
 			quoteList: [],
-			params: null
+			params: null,
+			isFromAdmin: false
 		};
 	},
 
@@ -206,6 +207,7 @@ export default {
 	},
 	mounted() {
 		this.row_Id = this.$route.query.id;
+		this.isFromAdmin = this.$route.name === 'AdminInsights' ? true : false;
 	},
 	methods: {
 		...mapActions({

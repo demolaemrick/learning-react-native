@@ -574,7 +574,7 @@ export default {
 			console.table(item, '--------------------');
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({
-					name: 'Insights',
+					name: 'AdminInsights',
 					query: {
 						id: item.rowId
 					},

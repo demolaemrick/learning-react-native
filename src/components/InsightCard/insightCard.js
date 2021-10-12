@@ -1,4 +1,5 @@
 import { tippy } from 'vue-tippy';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -26,7 +27,10 @@ export default {
 		cleanUrl() {
 			const url = this.article.url || this.article.article_url;
 			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
-		}
+		},
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		})
 	},
 	mounted() {
 		// console.log(this.article,'========');

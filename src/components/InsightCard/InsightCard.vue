@@ -52,11 +52,16 @@
 						</button>
 					</template>
 					<template v-if="showDislikeIcon">
-						<button v-if="!article.is_disliked" class="icon" @click="$emit('openModal')">
+						<button v-if="!article.is_disliked" class="icon mr-1" @click="$emit('openModal')">
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>
 						<button v-else @click="$emit('removeDislike')">
 							<img class="icon" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
+						</button>
+					</template>
+					<template>
+						<button v-if="loggedInUser.role !== 'user'" class="icon">
+							<img class="icon" src="../../assets/icons/open-eye.svg" svg-inline alt="" />
 						</button>
 					</template>
 				</div>
