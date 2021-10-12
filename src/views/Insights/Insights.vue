@@ -14,13 +14,16 @@
 								<img class="searchImage" :src="searchImage" alt="" />
 							</template>
 							<template v-else>
+								{{ profileImagePlaceholder(contact_details.full_name) }}
+							</template>
+							<!-- <template v-else>
 								{{
 									contact_details.full_name
 										.match(/\b(\w)/g)
 										.join('')
 										.toUpperCase()
 								}}
-							</template>
+							</template> -->
 						</div>
 						<div class="text__name__role">
 							<div class="name">{{ contact_details.full_name }}</div>
