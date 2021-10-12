@@ -115,7 +115,7 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		sortTable(data) {
-			this.sortQuery = { ...this.sortQuery, ...data };
+			this.sortQuery = data;
 			this.getHistory();
 		},
 		async RefreshResearch(e, id) {
