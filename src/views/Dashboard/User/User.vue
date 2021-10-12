@@ -159,7 +159,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table__pagination__wrapper" v-if="!usersLoading && history.length !== 0">
+					<div class="table__pagination__wrapper" v-if="!usersLoading && history.length !== 0 && history.length > 50">
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>

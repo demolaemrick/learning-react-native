@@ -14,7 +14,8 @@ import RadioBoxes from '@/components/RadioBoxes';
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
 import routeMixin from '@/mixins/routeMixin';
-
+import globalMixins from '@/mixins/globalMixins';
+console.log(globalMixins);
 export default {
 	name: 'Insights',
 	components: {
@@ -28,7 +29,7 @@ export default {
 		TextInput,
 		RadioBoxes
 	},
-	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin],
+	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin, globalMixins],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -82,7 +83,8 @@ export default {
 					value: 'company_research'
 				}
 			],
-			quoteList: []
+			quoteList: [],
+			params: null
 		};
 	},
 
@@ -383,6 +385,7 @@ export default {
 		async getResult() {
 			this.loading = true;
 			try {
+				console.log(this.$route);
 				const response = await this.researchedResult(this.$route.query.id);
 				console.log(response.data.data);
 				const { contact_details, company_details, status } = response.data.data;
@@ -394,6 +397,19 @@ export default {
 				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
 			} catch (error) {
+				let err = error.response;
+				let params = this.$route.params;
+				if (err.data.status === 'fail') {
+					if (Object.keys(params).length > 0) {
+						let urlParams = this.getURLParams(params.data);
+						this.showAlert({
+							status: 'caution',
+							message: `Please try refresh that user with name ${params.name} and try again`,
+							showAlert: true
+						});
+						this.$router.push({ path: `${params.path}${urlParams.toString()}` });
+					}
+				}
 				console.log(error.response);
 			} finally {
 				this.loading = false;

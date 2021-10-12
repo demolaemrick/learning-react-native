@@ -577,6 +577,13 @@ export default {
 					name: 'Insights',
 					query: {
 						id: item.rowId
+					},
+					params: {
+						data: {
+							userId: this.userId
+						},
+						path: '/dashboard/user?',
+						name: item.full_name
 					}
 				});
 				// if (item.status.statusCode === 'READY') {
