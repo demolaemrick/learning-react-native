@@ -1,6 +1,6 @@
 import { mapActions } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
-import PageLoad from './PageLoad.vue';
+import PageLoad from '@/components/PageLoader';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import LoadIcon from '@/components/LoadIcon';
@@ -171,12 +171,19 @@ export default {
 			return insightsArray;
 		},
 		showSnapshots() {
-			return Object.keys(this.company_insights.snapshot).some((key) => {
-				if (this.company_insights.snapshot[key] && this.company_insights.snapshot[key].length) {
-					return true;
-				}
+			const snapshot = this.company_insights.snapshot;
+			return Object.keys(snapshot).some((key) => {
+				const snapshotItem = snapshot[key];
+				return Array.isArray(snapshotItem) ? Boolean(snapshotItem.length) : Boolean(snapshotItem);
 			});
 		},
+		// 	showContactSnapshots() {
+		// 		const snapshot = this.contact_insights.snapshot
+		// 		return Object.keys(snapshot).some((key) => {
+		// 				const snapshotItem = snapshot[key]
+		// 				return Array.isArray(snapshotItem) ? Boolean(snapshotItem.length) : Boolean(snapshotItem)
+		// 		});
+		// },
 		showNewsSection() {
 			return Object.keys(this.company_insights.news).some((key) => {
 				if (this.company_insights.news[key].length) {

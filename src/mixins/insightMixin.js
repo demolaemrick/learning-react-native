@@ -91,7 +91,6 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 
