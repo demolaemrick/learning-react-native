@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote && showEmailIcon">
+					<template v-if="!article.quote && showEmailIcon && loggedInUser.can_generate_email">
 						<button
 							class="mr-1 icon"
 							@click="$emit('createEmailIntro')"
@@ -32,7 +32,7 @@
 							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
-					<template>
+					<template v-if="showBookmarkIcon">
 						<button class="mr-1 icon" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
 							<svg
 								width="20"
