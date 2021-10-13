@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div class="contact__details" v-for="contact in 3" :key="contact">
-					<div class="">
+					<div class="item__wrapper">
 						<div class="title item"></div>
 						<div class="content item" v-for="item in 6" :key="item"></div>
 					</div>
@@ -71,20 +71,20 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/main.scss';
 .main {
 	display: flex;
 }
 .aside__left {
-	width: 300px;
+	width: 100%;
 	padding-right: 1em;
 	padding-top: 1em;
 	margin: 0 auto;
 	.section__loader {
 		border-left: none;
 		.header {
-			width: 125px;
+			width: 80%;
 			height: 20px;
 		}
 		.contact__details {
@@ -93,6 +93,9 @@ export default {
 			align-items: center;
 			padding-bottom: 1em;
 			border-bottom: 1px solid #eaebeb;
+			.item__wrapper {
+				width: 100%;
+			}
 			.text__initials {
 				border-radius: 50%;
 				width: 40px;
@@ -112,11 +115,12 @@ export default {
 			}
 			.title {
 				height: 15px;
-				width: 115px;
+				width: 80%;
 				margin-bottom: 10px;
 			}
 			.content {
 				width: 223px;
+				width: 100%;
 				height: 6px;
 				margin-bottom: 11px;
 			}

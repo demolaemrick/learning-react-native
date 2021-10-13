@@ -40,7 +40,7 @@
 	&--lg {
 		max-width: 1300px;
 		@include query(desktop-xl, min){
-			max-width: 1600px;
+			max-width: 1500px;
 		}
 	}
 }
