@@ -1,0 +1,10 @@
+
+.check_box_row{
+    display: flex;
+    margin-top: 0.9rem;
+    align-items: center;
+
+    & > input[type="checkbox"]{
+        margin-right: 0.5rem;
+    }
+}

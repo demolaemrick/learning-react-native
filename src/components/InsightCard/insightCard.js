@@ -35,5 +35,8 @@ export default {
 			const url = this.article.url || this.article.article_url;
 			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
 		}
+	},
+	mounted() {
+		// console.log(this.article,'========');
 	}
 };

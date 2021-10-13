@@ -53,6 +53,10 @@
 							{{ item.updatedAt | moment('MMMM D, YYYY') }} |
 							<span class="time">{{ item.updatedAt | moment(' h:mm:ss a') }}</span>
 						</template>
+						<template v-else-if="item.createdAt">
+							{{ item.createdAt | moment('MMMM D, YYYY') }} |
+							<span class="time">{{ item.createdAt | moment(' h:mm:ss a') }}</span>
+						</template>
 						<template v-else>-</template>
 					</td>
 					<td class="">
@@ -63,6 +67,7 @@
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="openEditModal({ ...item })">Edit Info</li>
 								<template v-if="loggedInUser && loggedInUser.role === 'superadmin'">
+									<li class="dropdown__item" @click="openEditPermissionModal({ ...item })">Permissions</li>
 									<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">Suspend</li>
 									<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
 										Activate
@@ -124,24 +129,69 @@
 								</span>
 
 								<input
-									v-if="emailList.length < 1"
-									placeholder="johndoe@example.com"
+									:placeholder="emailList.length === 0 ? 'johndoe@example.com' : ''"
 									class="inputField"
 									type="email"
-									@keyup.enter="addEmail"
+									@keydown.enter.prevent="addEmail"
 									v-model="emailInput"
+									@keydown.delete="deleteEmail(emailList.length > 0 && !emailInput ? emailList['length'] - 1 : 0)"
 								/>
-								<input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" />
+								<!-- <input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" /> -->
 							</div>
 
 							<div class="flex flex__end" id="inviteAdmin">
-								<v-button class="submit" size="large" submitType="submit" buttonType="primary" ref="inviteAdmin">
+								<v-button
+									:disabled="emailList.length === 0"
+									class="submit"
+									size="large"
+									submitType="submit"
+									buttonType="primary"
+									ref="inviteAdmin"
+								>
 									<template v-if="!loading">Send Invite</template>
 									<Loader v-else />
 								</v-button>
 							</div>
 						</form>
 					</ValidationObserver>
+				</div>
+			</template>
+		</modal>
+
+		<modal position="right" v-if="showEditPermission" :toggleClass="toggleClass" @close="toggleModalClass('showEditPermission')">
+			<template #title>
+				<h3>Permission</h3>
+			</template>
+			<template #body>
+				<p class="modal-text">Select the check box to assign permissions</p>
+
+				<div>
+					<div class="privileges_section">
+						<h4>Admin Pemissions</h4>
+						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
+						<CheckBoxes
+							:permissions="checkedPermissions"
+							v-else
+							@checkUpdate="checkUpdate"
+							:datas="permissions"
+							inputName="privileges"
+						/>
+					</div>
+
+					<div class="flex flex__end" id="adminPermission">
+						<v-button
+							:disabled="checkedPermissions.length === 0 || loading"
+							class="submit"
+							size="large"
+							submitType="submit"
+							buttonType="primary"
+							ref="adminPermission"
+							@click="savePermission"
+						>
+							<template v-if="!loading">Save</template>
+							<Loader v-else color="#3B48F7" />
+						</v-button>
+					</div>
 				</div>
 			</template>
 		</modal>

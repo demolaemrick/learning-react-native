@@ -1,14 +1,18 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import PageLoad from '@/components/PageLoader';
+import TextInput from '@/components/Input';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
+import Loader from '@/components/Loader';
 import LoadIcon from '@/components/LoadIcon';
 import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
+import RadioBoxes from '@/components/RadioBoxes';
 
 import insightMixin from '@/mixins/insightMixin';
+import inputMixin from '@/mixins/input';
 import routeMixin from '@/mixins/routeMixin';
 
 export default {
@@ -19,9 +23,12 @@ export default {
 		Tweet,
 		LoadIcon,
 		VHeader,
-		VButton
+		VButton,
+		Loader,
+		TextInput,
+		RadioBoxes
 	},
-	mixins: [ScreenWidthMixin, insightMixin, routeMixin],
+	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -29,15 +36,24 @@ export default {
 			contact_details: '',
 			company_details: '',
 			insightStatus: '',
+			toggleClass: true,
+			modalData: {},
 			loadMore: false,
+			addArticle: false,
+			articleUrl: '',
+			articleTitle: '',
+			articleDecript: '',
 			searchedResult: {},
 			loading: true,
+			sending: false,
 			userBookmarks: '',
 			bookmarkLoading: true,
 			markDone: false,
 			tabs: [],
 			contactFilter: null,
 			companyFilter: null,
+			editNote: false,
+			hide_aside: false,
 			contactInsightsTab: [
 				{ title: 'Snapshot', ref: 'snapshot' },
 				{ title: 'News & articles', ref: 'news-section' },
@@ -55,11 +71,26 @@ export default {
 			contactSortMethod: '',
 			companySortMethod: '',
 			quoteList: [],
-			userImages: []
+			userImages: [],
+			row_Id: '',
+			articleType: '',
+			articleTypes: [
+				{
+					name: 'Contact Insight',
+					value: 'contact_research'
+				},
+				{
+					name: 'Company Insight',
+					value: 'company_research'
+				}
+			]
 		};
 	},
 
 	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		}),
 		getLinkedinUrl: {
 			get() {
 				if (this.contact_details.socials.linkedin) {
@@ -117,6 +148,11 @@ export default {
 						return article.is_bookmarked;
 					}).length;
 				}
+			}
+
+			if (total > 0) {
+				console.log('here for what');
+				this.$emit('hasBookmark', true);
 			}
 			return total;
 		},
@@ -192,12 +228,16 @@ export default {
 			});
 		}
 	},
+	mounted() {
+		this.row_Id = this.$route.query.id;
+	},
 	methods: {
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
-			subscribeResearch: 'search_services/subscribeResearch'
+			subscribeResearch: 'search_services/subscribeResearch',
+			addArticleURL: 'search_services/addArticleURL'
 		}),
 		removeBrokenImage(event) {
 			const brokenSrc = event.target.currentSrc;
@@ -210,6 +250,38 @@ export default {
 		},
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
+		},
+		radiocheckUpdate(value) {
+			this.articleType = value;
+		},
+		async addArticleFunc() {
+			let articleData = {
+				rowId: this.row_Id,
+				snippet: this.articleDecript,
+				title: this.articleTitle,
+				url: this.articleUrl,
+				type: this.articleType
+			};
+
+			this.sending = true;
+
+			try {
+				const response = await this.addArticleURL(articleData);
+				console.log(response);
+				const { status } = response;
+				if (status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: 'Article Added',
+						showAlert: true
+					});
+				}
+				this.sending = false;
+			} catch (error) {
+				console.log(error.response);
+			} finally {
+				this.sending = false;
+			}
 		},
 		scrollToSection(section) {
 			this.selectedInsightTab = section.title;
@@ -287,6 +359,41 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
+			}
+		},
+		async getResult() {
+			this.loading = true;
+			try {
+				const response = await this.researchedResult(this.$route.query.id);
+				console.table(response.data.data);
+				const { contact_details, company_details, status } = response.data.data;
+				this.contact_details = contact_details;
+				this.company_details = company_details;
+				this.insightStatus = status;
+				const refactored = this.changeToLegacyResponse(response.data.data);
+				await this.saveSearchedResult(refactored);
+				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
+				return true;
+			} catch (error) {
+				console.log(error.response);
+			} finally {
+				this.loading = false;
+			}
+		},
+		addArticleModal(data) {
+			console.log(data, '-------------');
+			this.modalData = data;
+			this.addArticle = true;
+		},
+		toggleModalClass(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
 			}
 		},
 		displaySearchItem(type, item) {

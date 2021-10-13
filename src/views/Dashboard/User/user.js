@@ -113,6 +113,8 @@ export default {
 			statusIndex: '',
 			showApiModal: false,
 			ApiModalContent: {},
+			showModal: false,
+			contactToDelete: {},
 			keys: [],
 			showApiKey: false
 		};
@@ -135,6 +137,10 @@ export default {
 		ConfigData,
 		RadioBtn
 	},
+	mounted() {
+		this.userId = this.$route.query.userId;
+		this.fetchUser();
+	},
 	methods: {
 		...mapActions({
 			showAlert: 'showAlert',
@@ -150,7 +156,9 @@ export default {
 			fetchApiKeys: 'users_management/fetchApiKeys',
 			activateKey: 'users_management/activateKey',
 			deactivateKey: 'users_management/deactivateKey',
-			deleteKey: 'users_management/deleteKey'
+			deleteKey: 'users_management/deleteKey',
+			refresh: 'search_services/refresh',
+			deleteSingleResearch: 'search_services/deleteSingleResearch'
 		}),
 		async getApiKeys() {
 			this.pageLoading = true;
@@ -479,8 +487,10 @@ export default {
 				this.loading = false;
 			}
 		},
-		async getHistory() {
-			this.pageLoading = true;
+		async getHistory(refresh = false) {
+			if (!refresh) {
+				this.pageLoading = true;
+			}
 			try {
 				const response = await this.research_history({ id: this.userId, page: this.page, limit: this.limit });
 				const { status, data, statusText } = response;
@@ -507,9 +517,85 @@ export default {
 			this.page = page;
 			this.getHistory();
 		},
+		async RefreshResearch(e, id) {
+			// e.stopImmediatePropagation();
+			e.stopPropagation();
+			try {
+				const response = await this.refresh({ id, userId: this.userId });
+				if (response.status === 200) {
+					this.getHistory(true);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		openDeleteModal(e, rowId, full_name) {
+			// e.stopImmediatePropagation();
+			e.stopPropagation();
+			this.contactToDelete = {
+				rowId,
+				full_name
+			};
+			this.showModal = true;
+		},
+		toggleModal() {
+			if (!this.showModal) {
+				this.showModal = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this.showModal = !this.showModal;
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
+		},
+		async deleteResearch() {
+			try {
+				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
+				const { status, statusText } = research;
+				if (status === 200 && statusText === 'OK') {
+					await this.getHistory();
+					this.toggleModal();
+					this.showAlert({
+						status: 'success',
+						message: 'Research deleted successfully',
+						showAlert: true
+					});
+				}
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
 		showResearch(item) {
-			if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
-				this.$router.push({ name: 'Insights', query: { rowId: item.rowId } });
+			console.table(item, '--------------------');
+			if (item.status.statusCode !== 'IN_PROGRESS') {
+				this.$router.push({
+					name: 'Insights',
+					query: {
+						id: item.rowId
+					}
+				});
+				// if (item.status.statusCode === 'READY') {
+				// 	if (item.linkedin) {
+				// 		this.$router.push({ name: 'Insights', query: { id: item.rowId } });
+				// 	} else {
+				// 		this.showAlert({
+				// 			status: 'error',
+				// 			message: 'Please refresh this row',
+				// 			showAlert: true
+				// 		});
+				// 	}
+				// } else {
+				// 	this.showAlert({
+				// 		status: 'caution',
+				// 		message: 'Please wait while row finishes updating',
+				// 		showAlert: true
+				// 	});
+				// }
 			}
 		},
 		async checkPendngStatus() {
@@ -591,9 +677,5 @@ export default {
 				this.loading = false;
 			}
 		}
-	},
-	mounted() {
-		this.userId = this.$route.query.userId;
-		this.fetchUser();
 	}
 };
