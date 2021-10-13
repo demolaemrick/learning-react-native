@@ -34,7 +34,9 @@ export default {
 	data() {
 		return {
 			sending: false,
-			sendingImp: false
+			sendingImp: false,
+			ranked_by_admin: false,
+			hidden: false
 		};
 	},
 	computed: {
@@ -49,38 +51,50 @@ export default {
 			return this.article;
 		}
 	},
-	mounted() {},
+	mounted() {
+		this.hidden = this.article.hidden ? true : false;
+		this.ranked_by_admin = this.article.ranked_by_admin ? true : false;
+	},
 	methods: {
 		...mapActions({
 			toggleArticle: 'users_management/toggleArticle',
-			toggleImportance: 'users_management/toggleImportance'
+			toggleImportance: 'users_management/toggleImportance',
+			showAlert: 'showAlert'
 		}),
 		async toggleArticleFunc() {
 			// console.log(this.article);
+
+			// return;
 			const rowId = this.$route.query.id;
+			let hide = this.hidden ? false : true;
 			let data = {
 				data: {
 					rowId,
 					url: this.article.url,
 					type: this.isContact ? 'contact_research' : 'company_research'
 				},
-				hide: this.article.hidden ? false : true
+				hide
 			};
 			this.sending = true;
 
 			try {
 				const response = await this.toggleArticle(data);
-				console.log(response);
+				// console.log(response);
 				this.showAlert({
 					status: 'success',
 					message: response.data.message,
 					showAlert: true
 				});
 				this.sending = false;
+				this.hidden = hide;
+				this.$emit('hideArticle', {
+					id: rowId,
+					hide
+				});
 			} catch (error) {
-				console.log(error.response);
+				// console.log(error.response);
 				this.showAlert({
-					status: 'success',
+					status: 'erro',
 					message: error.response.data.message,
 					showAlert: true
 				});
@@ -88,29 +102,33 @@ export default {
 		},
 		async toggleImportanceFunc() {
 			const rowId = this.$route.query.id;
+			let important = this.ranked_by_admin ? false : true;
+
 			let data = {
 				data: {
 					rowId,
 					url: this.article.url,
 					type: this.isContact ? 'contact_research' : 'company_research'
 				},
-				important: this.article.ranked_by_admin ? false : true
+				important
 			};
 			this.sendingImp = true;
 
 			try {
 				const response = await this.toggleImportance(data);
-				console.log(response);
+				// console.log(response);
 				this.showAlert({
 					status: 'success',
 					message: response.data.message,
 					showAlert: true
 				});
 				this.sendingImp = false;
+				this.ranked_by_admin = important;
+				this.$emit('rankArticle', { id: rowId, important });
 			} catch (error) {
-				console.log(error.response);
+				// console.log(error.response);
 				this.showAlert({
-					status: 'success',
+					status: 'error',
 					message: error.response.data.message,
 					showAlert: true
 				});

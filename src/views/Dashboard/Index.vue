@@ -41,8 +41,22 @@ export default {
 	overflow: auto;
 }
 
-.dashboard-body.active {
+@media (min-width: 769px) {
+	.dashboard-body.active {
+		width: 75vw;
+		margin: 0 0 0 auto;
+	}
+}
+
+@media (min-width: 1024px) {
+	.dashboard-body.active {
+		width: 80vw;
+		margin: 0 0 0 auto;
+	}
+}
+
+/* .dashboard-body.active {
 	width: 80vw;
 	margin: 0 0 0 auto;
-}
+} */
 </style>

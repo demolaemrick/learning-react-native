@@ -64,7 +64,7 @@
 							<img
 								class="icon"
 								:src="
-									article.ranked_by_admin
+									ranked_by_admin
 										? require('../../assets/icons/thumbs-up-on.svg')
 										: require('../../assets/icons/thumbs-up-off.svg')
 								"
@@ -80,11 +80,7 @@
 						<button :disabled="sending" class="iconBtn ml-1" @click="toggleArticleFunc()">
 							<img
 								class="icon"
-								:src="
-									article.hidden
-										? require('../../assets/icons/close-eye.svg')
-										: require('../../assets/icons/open-eye.svg')
-								"
+								:src="hidden ? require('../../assets/icons/close-eye.svg') : require('../../assets/icons/open-eye.svg')"
 								svg-inline
 								alt=""
 							/>

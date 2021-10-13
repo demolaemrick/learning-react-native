@@ -215,7 +215,8 @@ export default {
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
 			subscribeResearch: 'search_services/subscribeResearch',
-			addArticleURL: 'search_services/addArticleURL'
+			addArticleURL: 'search_services/addArticleURL',
+			showAlert: 'showAlert'
 		}),
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
@@ -383,6 +384,12 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		rankArticle() {
+			// this.getResult();
+		},
+		hideArticle() {
+			// this.getResult();
 		},
 		async getResult() {
 			this.loading = true;

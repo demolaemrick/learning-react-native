@@ -356,6 +356,8 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
+							@rankArticle="rankArticle"
+							@hideArticle="hideArticle"
 							v-for="(article, j) in contactSearchResult"
 							:key="contactSearchResult[article]"
 							@openModal="
