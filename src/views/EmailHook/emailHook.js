@@ -10,6 +10,7 @@ import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
+import Checkbox from '@/components/Checkbox';
 import routeMixin from '@/mixins/routeMixin';
 
 export default {
@@ -23,7 +24,8 @@ export default {
 		InsightCard,
 		EmailHookCard,
 		LoadIcon,
-		PageLoader
+		PageLoader,
+		Checkbox
 	},
 	mixins: [insightMixin, routeMixin],
 	data() {
@@ -65,7 +67,12 @@ export default {
 			hookArticles: [],
 			contactSortMethod: '',
 			companySortMethod: '',
-			tabs: []
+			tabs: [],
+			filterContactOptions: [],
+			filterCompanyOptions: [],
+			bookmarkFilterOption: 'bookmarks',
+			introFilterOption: 'intros',
+			dislikeOption: 'Not relevant to this search'
 		};
 	},
 	async mounted() {
@@ -89,6 +96,31 @@ export default {
 			createEmailHook: 'user/createEmailHook',
 			fetchArticles: 'user/fetchArticlesWithEmailHook'
 		}),
+		filterCompanyArticles(articles) {
+			return this.filterArticles(articles, this.filterCompanyOptions);
+		},
+		filterContactArticles(articles) {
+			return this.filterArticles(articles, this.filterContactOptions);
+		},
+		filterArticles(articles, options) {
+			const filteredArticles = [];
+			const bookmarkSelected = options.includes(this.bookmarkFilterOption);
+			const introsSelected = options.includes(this.introFilterOption);
+			articles.forEach((article) => {
+				if (!options.length) {
+					filteredArticles.push(article);
+					return;
+				}
+				if (bookmarkSelected && article.is_bookmarked) {
+					filteredArticles.push(article);
+					return;
+				}
+				if (introsSelected && article.has_mail) {
+					filteredArticles.push(article);
+				}
+			});
+			return filteredArticles;
+		},
 		toggleArticlePane() {
 			this.articlesOpened = !this.articlesOpened;
 		},

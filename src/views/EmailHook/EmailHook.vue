@@ -56,7 +56,7 @@
 
 										<span class="btn-separator"></span>
 
-										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin" :closeOnClick="false">
 											<template #dropdown-wrapper>
 												<p class="sort">
 													Filter
@@ -64,8 +64,30 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Bookmarks</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Email Intros</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="bookmarks"
+															class="check-input"
+															type="checkbox"
+															:value="bookmarkFilterOption"
+															v-model="filterContactOptions"
+														/>
+														<label for="bookmarks">Bookmarks</label>
+													</div>
+												</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="intros"
+															class="check-input"
+															type="checkbox"
+															:value="introFilterOption"
+															v-model="filterContactOptions"
+														/>
+														<label for="intros">Email Intros</label>
+													</div>
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -90,13 +112,22 @@
 							</div>
 							<template v-if="contact_insights_categories.length">
 								<InsightCard
-									v-for="article in contact_insights_categories"
+									v-for="(article, j) in filterContactArticles(contact_insights_categories)"
 									:key="contact_insights_categories[article]"
 									:published="article.meta.published ? article.meta.published : null"
 									:article="article"
-									:showDislikeIcon="false"
-									:showBookmarkIcon="false"
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'contact_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article })"
 									@displayInsight="displaySearchItem(article, 'contact_insights')"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
 								/>
 							</template>
 							<div class="emptyState-wrapper" v-else>
@@ -109,17 +140,31 @@
 
 						<!-- Other insights section -->
 						<div class="otherInsight-section" ref="others" v-if="contact_other_insights.length">
-							<div class="section-wrapper">
+							<div class="section-wrapper" v-if="filterContactArticles(contact_other_insights)">
 								<h3 class="section-title">Other Insights</h3>
 							</div>
 							<InsightCard
-								v-for="article in contact_other_insights"
+								v-for="(article, j) in filterContactArticles(contact_other_insights)"
 								:key="contact_other_insights[article]"
 								:published="article.meta.published"
 								:article="article"
-								:showDislikeIcon="false"
-								:showBookmarkIcon="false"
-								@displayInsight="displaySearchItem(article, 'contact_insights')"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
+										$event
+									)
+								"
+								@removeDislike="
+									toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...article })
+								"
+								@bookmark="
+									btnUpdateBookMarks(
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
+										$event
+									)
+								"
+								@displayInsight="displaySearchItem('contact_insights', article)"
 							/>
 						</div>
 					</div>
@@ -145,7 +190,7 @@
 
 										<span class="btn-separator"></span>
 
-										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin" :closeOnClick="false">
 											<template #dropdown-wrapper>
 												<p class="sort">
 													Filter
@@ -153,8 +198,30 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Bookmarks</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Email Intros</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="bookmarks"
+															class="check-input"
+															type="checkbox"
+															:value="bookmarkFilterOption"
+															v-model="filterCompanyOptions"
+														/>
+														<label for="bookmarks">Bookmarks</label>
+													</div>
+												</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="intros"
+															class="check-input"
+															type="checkbox"
+															:value="introFilterOption"
+															v-model="filterCompanyOptions"
+														/>
+														<label for="intros">Email Intros</label>
+													</div>
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -178,12 +245,21 @@
 							</div>
 							<template v-if="company_insights_categories.length">
 								<InsightCard
-									v-for="article in company_insights_categories"
+									v-for="(article, j) in filterCompanyArticles(company_insights_categories)"
 									:key="company_insights_categories[article]"
 									:published="article.meta.published ? article.meta.published : null"
 									:article="article"
-									:showDislikeIcon="false"
-									:showBookmarkIcon="false"
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'company_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)
+									"
 									@displayInsight="displaySearchItem(article, 'company_insights')"
 								/>
 							</template>
@@ -416,6 +492,51 @@
 				</div>
 			</div>
 		</main>
+
+		<modal
+			position="center"
+			v-if="dislikeModal"
+			:active="true"
+			:toggleClass="toggleClass"
+			@close="toggleModalClass('dislikeModal', '')"
+			maxWidth="400px"
+			borderRadius="12px"
+			marginTop="10%"
+			:showInfo="true"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Not Relevant?</h4>
+			</template>
+			<template #info>
+				<h5>Your feedback will help us improve your results.</h5>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						<RadioBtn
+							style="display: block"
+							marginBottom="24px"
+							id="dislikeOption"
+							:options="dislikeOptions"
+							name="dislikeChoices"
+							v-model="dislikeOption"
+						/>
+					</p>
+
+					<form v-if="dislikeOption === 'Other'" action="">
+						<label class="textLabel" for="dislikeForm">Comment</label>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+					</form>
+
+					<div class="modal__content-btn">
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
+							<template v-if="!dislikeLoading">Submit</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
 	</div>
 </template>
 
