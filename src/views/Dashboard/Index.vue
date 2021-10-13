@@ -39,6 +39,7 @@ export default {
 	padding: 16px;
 	width: 100vw;
 	overflow: auto;
+	margin: 0 auto;
 }
 
 @media (min-width: 769px) {
@@ -50,7 +51,7 @@ export default {
 
 @media (min-width: 1024px) {
 	.dashboard-body.active {
-		width: 80vw;
+		width: 82vw;
 		margin: 0 0 0 auto;
 	}
 }

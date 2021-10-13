@@ -72,8 +72,13 @@
 								alt="refresh"
 							/>
 						</div>
-						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
-						<div class="input__label__text">Mark as done</div>
+						<input
+							v-if="!isFromAdmin"
+							type="checkbox"
+							:checked="insightStatus.statusCode === 'DONE'"
+							@change="markResearch($event)"
+						/>
+						<div class="input__label__text" v-if="!isFromAdmin">Mark as done</div>
 					</div>
 				</div>
 				<div class="section section__4">
@@ -91,17 +96,17 @@
 					</div>
 				</div>
 
-				<div class="section__5 first">
+				<div class="section__5 first" v-if="!isFromAdmin">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="$router.push({ name: 'Bookmarks', query: { id: rowId } })" class="link">
 						See All
 					</div>
 				</div>
-				<div class="section__5">
+				<div class="section__5" v-if="!isFromAdmin">
 					<div class="text">Personalized Email Intros</div>
 					<div @click="generateIntroEmail(null, null)" class="link">See All</div>
 				</div>
-				<div class="section__7" @click="editNote = !editNote">
+				<div class="section__7" v-if="!isFromAdmin" @click="editNote = !editNote">
 					<div class="text">Notes</div>
 					<div class="link"></div>
 				</div>

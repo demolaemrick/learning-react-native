@@ -252,11 +252,17 @@ export default {
 						message: data.message,
 						showAlert: true
 					});
+					this.toggleModalClass('addArticle');
 					this.getResult();
 				}
 				this.sending = false;
 			} catch (error) {
 				console.log(error.response);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.sending = false;
 			}

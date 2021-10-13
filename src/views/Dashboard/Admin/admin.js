@@ -62,7 +62,7 @@ export default {
 			adminLoading: false,
 			currentPage: 1,
 			totalPages: 5,
-			limit: 50,
+			limit: 10,
 			page: 1,
 			total: 0,
 			count: 0,

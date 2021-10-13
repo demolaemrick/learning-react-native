@@ -60,7 +60,13 @@
 						</button>
 					</template>
 					<template v-if="isFromAdmin && !article.quote">
-						<button :disabled="sendingImp" class="iconBtn ml-1" @click="toggleImportanceFunc()">
+						<button
+							:disabled="sendingImp"
+							class="iconBtn ml-1"
+							:content="`<div>${ranked_by_admin ? 'Derank Article' : 'Rank Article'}</div>`"
+							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
+							@click="toggleImportanceFunc()"
+						>
 							<img
 								class="icon"
 								:src="
@@ -77,7 +83,13 @@
 						</button>
 					</template>
 					<template v-if="isFromAdmin && !article.quote">
-						<button :disabled="sending" class="iconBtn ml-1" @click="toggleArticleFunc()">
+						<button
+							:disabled="sending"
+							class="iconBtn ml-1"
+							:content="`<div>${hidden ? 'Unhide Article' : 'Hide Article'}</div>`"
+							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
+							@click="toggleArticleFunc()"
+						>
 							<img
 								class="icon"
 								:src="hidden ? require('../../assets/icons/close-eye.svg') : require('../../assets/icons/open-eye.svg')"

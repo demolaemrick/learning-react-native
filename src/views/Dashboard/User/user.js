@@ -87,7 +87,7 @@ export default {
 			nextPage: null,
 			currentPage: 0,
 			total: 0,
-			limit: 50,
+			limit: 10,
 			page: 1,
 			count: 0,
 			settings: {
