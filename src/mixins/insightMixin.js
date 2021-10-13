@@ -80,9 +80,9 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
+				this.checkCompanySort(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
+				return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -104,15 +104,15 @@ export default {
 						newArray = [...newArray, ...data[item]];
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.checkContactSort(uniqueArray);
 					this.sortByDislike(uniqueArray);
-					this.sortByBookmarked(uniqueArray);
-					return this.checkContactSort(uniqueArray);
+					return this.sortByBookmarked(uniqueArray);
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
+					this.checkContactSort(uniqueArray);
 					this.sortByDislike(newObj[tab]);
-					return this.checkContactSort(newObj[tab]);
+					return this.sortByBookmarked(uniqueArray);
 				}
 			},
 			set(value) {
