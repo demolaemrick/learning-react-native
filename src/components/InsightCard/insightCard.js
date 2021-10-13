@@ -82,6 +82,11 @@ export default {
 				this.sending = false;
 			} catch (error) {
 				console.log(error.response);
+				this.showAlert({
+					status: 'success',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		async toggleImportanceFunc() {
@@ -107,6 +112,11 @@ export default {
 				this.sendingImp = false;
 			} catch (error) {
 				console.log(error.response);
+				this.showAlert({
+					status: 'success',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		}
 	}
