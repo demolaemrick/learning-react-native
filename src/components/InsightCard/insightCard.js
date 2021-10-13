@@ -66,9 +66,6 @@ export default {
 				},
 				hide: this.article.hidden ? false : true
 			};
-
-
-			// console.log(data);
 			this.sending = true;
 
 			try {
