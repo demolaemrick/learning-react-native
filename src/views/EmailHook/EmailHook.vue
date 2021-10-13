@@ -1,12 +1,15 @@
 <template>
 	<div>
 		<VHeaderitem />
-		<main class="hook-page">
+		<template v-if="loading">
+			<PageLoader />
+		</template>
+		<main class="hook-page" v-else>
 			<div class="hookArticles" :class="articlesOpened ? 'open' : 'closed'">
-				<div class="hookArticles__header mb-1">
+				<!-- <div class="hookArticles__header mb-1">
 					<h3 class="section-title">News & Articles</h3>
-				</div>
-				<div v-if="hookArticles.length" class="hookArticles__body">
+				</div> -->
+				<!-- <div v-if="hookArticles.length" class="hookArticles__body">
 					<EmailHookCard
 						v-for="(article, j) in hookArticles"
 						:key="j"
@@ -14,13 +17,191 @@
 						:published="article.meta.published"
 						@displayInsight="displaySearchItem(article)"
 					/>
+				</div> -->
+
+				<div class="searched__wrapper-content">
+					<div class="searched__wrapper-header">
+						<toggle-dropdown itemPadding="0">
+							<template #dropdown-wrapper>
+								<h3 class="title">
+									<template v-if="searchType === 'contact_insights'">Contact Insights</template>
+									<template v-else>Company Insights</template>
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+								</h3>
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" @click="searchType = 'company_insights'">Company Insights</li>
+								<li class="dropdown__item" @click="searchType = 'contact_insights'">Contact Insights</li>
+							</template>
+						</toggle-dropdown>
+					</div>
+					<div class="" v-if="searchType === 'contact_insights'">
+						<div class="news-section mt-2">
+							<div class="section-wrapper top-section">
+								<div class="news">
+									<h3 class="section-title">News & Articles</h3>
+									<div class="filter-sort flex flex__item-center" v-if="contact_insights_categories.length">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="mr-1">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Sort by
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+											</template>
+										</toggle-dropdown>
+
+										<span class="btn-separator"></span>
+
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Filter
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Bookmarks</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Email Intros</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+										<h5
+											v-for="(tab, index) in tabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === selectedTab }"
+											@click="selectedTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" alt="arrow right icon" svg-inline />
+									</div>
+								</div>
+							</div>
+							<template v-if="contact_insights_categories.length">
+								<InsightCard
+									v-for="article in contact_insights_categories"
+									:key="contact_insights_categories[article]"
+									:published="article.meta.published ? article.meta.published : null"
+									:article="article"
+									:showDislikeIcon="false"
+									:showBookmarkIcon="false"
+									@displayInsight="displaySearchItem(article, 'contact_insights')"
+								/>
+							</template>
+							<div class="emptyState-wrapper" v-else>
+								<div class="emptyState">
+									<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+									<p class="emptyState-text">No content found!</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Other insights section -->
+						<div class="otherInsight-section" ref="others" v-if="contact_other_insights.length">
+							<div class="section-wrapper">
+								<h3 class="section-title">Other Insights</h3>
+							</div>
+							<InsightCard
+								v-for="article in contact_other_insights"
+								:key="contact_other_insights[article]"
+								:published="article.meta.published"
+								:article="article"
+								:showDislikeIcon="false"
+								:showBookmarkIcon="false"
+								@displayInsight="displaySearchItem(article, 'contact_insights')"
+							/>
+						</div>
+					</div>
+
+					<div class="" v-if="searchType === 'company_insights'">
+						<div class="news-section mt-2">
+							<div class="section-wrapper">
+								<div class="news">
+									<h3 class="section-title">News</h3>
+									<div class="filter-sort flex flex__item-center" v-if="company_insights_categories.length">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="mr-1">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Sort by
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+											</template>
+										</toggle-dropdown>
+
+										<span class="btn-separator"></span>
+
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Filter
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Bookmarks</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Email Intros</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5
+											v-for="(tab, index) in companyTabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === companyTab }"
+											@click="companyTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" alt="arrow right icon" svg-inline />
+									</div>
+								</div>
+							</div>
+							<template v-if="company_insights_categories.length">
+								<InsightCard
+									v-for="article in company_insights_categories"
+									:key="company_insights_categories[article]"
+									:published="article.meta.published ? article.meta.published : null"
+									:article="article"
+									:showDislikeIcon="false"
+									:showBookmarkIcon="false"
+									@displayInsight="displaySearchItem(article, 'company_insights')"
+								/>
+							</template>
+							<div class="emptyState-wrapper" v-else>
+								<div class="emptyState">
+									<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+									<p class="emptyState-text">No content found!</p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="emptyState-wrapper" v-else>
+				<!-- <div class="emptyState-wrapper" v-else>
 					<div class="emptyState">
 						<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
 						<p class="emptyState-text">No content found!</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
 				<template v-if="quotedArticle">

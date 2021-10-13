@@ -6,7 +6,7 @@ import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
 import LoadIcon from '@/components/LoadIcon';
-
+import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
@@ -22,7 +22,8 @@ export default {
 		Loader,
 		InsightCard,
 		EmailHookCard,
-		LoadIcon
+		LoadIcon,
+		PageLoader
 	},
 	mixins: [insightMixin, routeMixin],
 	data() {
@@ -321,11 +322,11 @@ export default {
 				this.createdEmailHook.hook = '';
 			}
 		},
-		async displaySearchItem(item) {
+		async displaySearchItem(item, type = null) {
 			this.emailHooks = [];
 			const data = {
 				item,
-				type: item.type
+				type
 			};
 			this.saveSearchedItem(data);
 			await this.fetchGeneratedHooks();
