@@ -312,7 +312,6 @@ export default {
 			}
 		},
 		clickResearch(item) {
-			console.log(item);
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
 			}
