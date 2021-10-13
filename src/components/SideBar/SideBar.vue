@@ -1,5 +1,5 @@
 <template>
-	<aside class="sidebar">
+	<aside class="sidebar" :class="{ active: activeside }">
 		<div class="sidebar__header">
 			<span>
 				<img src="@/assets/icons/volley-logo-white.svg" alt="" />
@@ -45,12 +45,20 @@
 
 <script>
 export default {
+	name: 'SideBar',
+	props: {
+		activeside: {
+			type: Boolean
+		}
+	},
 	data() {
 		return {
-			activeTab: ''
+			activeTab: '',
+			activeAside: true
 		};
 	},
 	created() {
+		// console.log(this.activeAside);
 		this.activeTab = this.$route.meta;
 	},
 	watch: {

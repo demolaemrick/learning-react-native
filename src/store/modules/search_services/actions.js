@@ -52,8 +52,8 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	researchedResult: async ({ commit }, id) => {
-		const url = `research/single/${id}`;
+	researchedResult: async ({ commit }, { id, isFromAdmin }) => {
+		const url = isFromAdmin ? `research/single/${id}` : `admin/user/research/single/${id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {

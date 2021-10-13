@@ -189,11 +189,11 @@ export default {
 				permissions,
 				userId
 			};
-			console.log(data);
+			// console.log(data);
 
 			try {
 				const response = await this.saveAdminPermissions(data);
-				console.log(response);
+				// console.log(response);
 				this.loading = false;
 				// return;
 				if (response.status === 201) {
@@ -229,7 +229,7 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.adminInfo = item;
-			console.log(item);
+			// console.log(item);
 			this.checkedPermissions = item.permissions;
 			// console.log(item);
 			this.toggleModalClass('showEditPermission');

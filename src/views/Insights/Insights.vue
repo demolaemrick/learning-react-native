@@ -354,6 +354,8 @@
 					 -->
 					<div class="mt-2" v-if="contactFilter === 'search'">
 						<InsightCard
+							:isFromAdmin="isFromAdmin"
+							:isContact="true"
 							v-for="(article, j) in contactSearchResult"
 							:key="contactSearchResult[article]"
 							@openModal="
@@ -393,6 +395,8 @@
 					</div>
 					<template v-if="!contactFilter">
 						<InsightCard
+							:isFromAdmin="isFromAdmin"
+							:isContact="true"
 							v-for="(article, j) in contact_insights_categories"
 							:key="j"
 							@openModal="
@@ -445,6 +449,8 @@
 					</div>
 					<div ref="quoteList" class="quote-section__content">
 						<InsightCard
+							:isFromAdmin="isFromAdmin"
+							:isContact="true"
 							v-for="(quote, j) in contactQuotes"
 							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
 							:published="quote.date"
@@ -476,6 +482,8 @@
 						<h3 class="section-title">Other Insights</h3>
 					</div>
 					<InsightCard
+						:isFromAdmin="isFromAdmin"
+						:isContact="true"
 						v-for="(otherInsight, j) in contact_other_insights"
 						:key="contact_other_insights[otherInsight]"
 						@openModal="
@@ -619,6 +627,8 @@
 					</div>
 					<div class="mt-2" v-if="companyFilter === 'search'">
 						<InsightCard
+							:isFromAdmin="isFromAdmin"
+							:isContact="false"
 							v-for="(article, j) in companySearchResult"
 							:key="companySearchResult[article]"
 							@openModal="
@@ -652,6 +662,8 @@
 					</div>
 					<template v-if="!companyFilter">
 						<InsightCard
+							:isFromAdmin="isFromAdmin"
+							:isContact="false"
 							v-for="(article, j) in company_insights_categories"
 							:key="company_insights_categories[article]"
 							@openModal="

@@ -2,6 +2,11 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import { mapMutations, mapGetters } from 'vuex';
 export default {
 	name: 'DashboardHeader',
+	props: {
+		toggleActive: {
+			type: Function
+		}
+	},
 	components: {
 		ToggleDropdown
 	},

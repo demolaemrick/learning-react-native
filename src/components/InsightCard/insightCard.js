@@ -1,9 +1,11 @@
 import { tippy } from 'vue-tippy';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import Loader from '@/components/Loader';
 
 export default {
 	components: {
-		tippy
+		tippy,
+		Loader
 	},
 	props: {
 		article: {
@@ -21,7 +23,19 @@ export default {
 		showDislikeIcon: {
 			type: Boolean,
 			default: true
+		},
+		isFromAdmin: {
+			type: Boolean
+		},
+		isContact: {
+			type: Boolean
 		}
+	},
+	data() {
+		return {
+			sending: false,
+			sendingImp: false
+		};
 	},
 	computed: {
 		cleanUrl() {
@@ -30,9 +44,70 @@ export default {
 		},
 		...mapGetters({
 			loggedInUser: 'auth/getLoggedUser'
-		})
+		}),
+		computedArticle() {
+			return this.article;
+		}
 	},
-	mounted() {
-		// console.log(this.article,'========');
+	mounted() {},
+	methods: {
+		...mapActions({
+			toggleArticle: 'users_management/toggleArticle',
+			toggleImportance: 'users_management/toggleImportance'
+		}),
+		async toggleArticleFunc() {
+			// console.log(this.article);
+			const rowId = this.$route.query.id;
+			let data = {
+				data: {
+					rowId,
+					url: this.article.url,
+					type: this.isContact ? 'contact_research' : 'company_research'
+				},
+				hide: this.article.hidden ? false : true
+			};
+
+
+			// console.log(data);
+			this.sending = true;
+
+			try {
+				const response = await this.toggleArticle(data);
+				console.log(response);
+				this.showAlert({
+					status: 'success',
+					message: response.data.message,
+					showAlert: true
+				});
+				this.sending = false;
+			} catch (error) {
+				console.log(error.response);
+			}
+		},
+		async toggleImportanceFunc() {
+			const rowId = this.$route.query.id;
+			let data = {
+				data: {
+					rowId,
+					url: this.article.url,
+					type: this.isContact ? 'contact_research' : 'company_research'
+				},
+				important: this.article.ranked_by_admin ? false : true
+			};
+			this.sendingImp = true;
+
+			try {
+				const response = await this.toggleImportance(data);
+				console.log(response);
+				this.showAlert({
+					status: 'success',
+					message: response.data.message,
+					showAlert: true
+				});
+				this.sendingImp = false;
+			} catch (error) {
+				console.log(error.response);
+			}
+		}
 	}
 };

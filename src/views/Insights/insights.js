@@ -15,7 +15,7 @@ import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
 import routeMixin from '@/mixins/routeMixin';
 import globalMixins from '@/mixins/globalMixins';
-console.log(globalMixins);
+// console.log(globalMixins);
 export default {
 	name: 'Insights',
 	components: {
@@ -387,9 +387,9 @@ export default {
 		async getResult() {
 			this.loading = true;
 			try {
-				console.log(this.$route);
-				const response = await this.researchedResult(this.$route.query.id);
-				console.log(response.data.data);
+				// console.log(this.$route);
+				const response = await this.researchedResult({ id: this.$route.query.id, isFromAdmin: this.isFromAdmin });
+				// console.log(response.data.data);
 				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.company_details = company_details;

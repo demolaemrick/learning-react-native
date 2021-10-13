@@ -168,5 +168,25 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	toggleArticle: async (context, { data, hide }) => {
+		const url = hide ? 'admin/user/research/hide/article' : 'admin/user/research/unhide/article';
+		// console.log(url);
+		// return;
+		try {
+			const response = hide ? await api.put(url, data) : await api.delete(url, data);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	toggleImportance: async (context, { data, important }) => {
+		const url = important ? 'admin/user/research/article/rank-relevant' : 'admin/user/research/article/derank-relevant';
+		try {
+			const response = important ? await api.put(url, data) : await api.delete(url, data);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

@@ -22,7 +22,7 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote && showEmailIcon">
+					<template v-if="!article.quote && showEmailIcon && !isFromAdmin">
 						<button
 							class="mr-1 icon"
 							@click="$emit('createEmailIntro')"
@@ -33,7 +33,7 @@
 							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
-					<template>
+					<template v-if="!isFromAdmin">
 						<button class="mr-1 icon" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
 							<svg
 								width="20"
@@ -51,7 +51,7 @@
 							</svg>
 						</button>
 					</template>
-					<template v-if="showDislikeIcon">
+					<template v-if="showDislikeIcon && !isFromAdmin">
 						<button v-if="!article.is_disliked" class="icon mr-1" @click="$emit('openModal')">
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>
@@ -59,9 +59,38 @@
 							<img class="icon" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
 						</button>
 					</template>
-					<template>
-						<button v-if="loggedInUser.role !== 'user'" class="icon">
-							<img class="icon" src="../../assets/icons/open-eye.svg" svg-inline alt="" />
+					<template v-if="isFromAdmin && !article.quote">
+						<button :disabled="sendingImp" class="iconBtn ml-1" @click="toggleImportanceFunc()">
+							<img
+								class="icon"
+								:src="
+									article.ranked_by_admin
+										? require('../../assets/icons/thumbs-up-on.svg')
+										: require('../../assets/icons/thumbs-up-off.svg')
+								"
+								svg-inline
+								alt=""
+							/>
+							<div class="loaderContainer" v-if="sendingImp">
+								<Loader color="#3B48F7" />
+							</div>
+						</button>
+					</template>
+					<template v-if="isFromAdmin && !article.quote">
+						<button :disabled="sending" class="iconBtn ml-1" @click="toggleArticleFunc()">
+							<img
+								class="icon"
+								:src="
+									article.hidden
+										? require('../../assets/icons/close-eye.svg')
+										: require('../../assets/icons/open-eye.svg')
+								"
+								svg-inline
+								alt=""
+							/>
+							<div class="loaderContainer" v-if="sending">
+								<Loader color="#3B48F7" />
+							</div>
 						</button>
 					</template>
 				</div>
