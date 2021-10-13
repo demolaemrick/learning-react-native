@@ -61,7 +61,10 @@ export default {
 			},
 			searchType: 'contact_insights',
 			articlesOpened: false,
-			hookArticles: []
+			hookArticles: [],
+			contactSortMethod: '',
+			companySortMethod: '',
+			tabs: []
 		};
 	},
 	async mounted() {

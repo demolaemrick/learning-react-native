@@ -178,21 +178,17 @@ export default {
 			});
 		},
 		checkContactSort(uniqueArray) {
-			if (this.contactSortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.contactSortMethod === 'relevance') {
+			if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		checkCompanySort(uniqueArray) {
-			if (this.companySortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.companySortMethod === 'relevance') {
+			if (this.companySortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		sortByRelevance(data) {
