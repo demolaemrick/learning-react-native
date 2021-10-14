@@ -204,8 +204,8 @@ export default {
 		sortByRecent(data) {
 			return data.sort((a, b) => {
 				return (
-					new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-					new Date(b.meta.published) - new Date(a.meta.published)
+					new Date(b.meta.published || b.meta.timestamp != null) - new Date(a.meta.published || a.meta.timestamp != null) ||
+					new Date(b.meta.published || b.meta.timestamp) - new Date(a.meta.published || a.meta.timestamp)
 				);
 			});
 		},
