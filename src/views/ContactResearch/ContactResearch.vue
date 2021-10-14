@@ -43,7 +43,6 @@
 					:loading="pageLoading"
 					@checkAll="checkAll"
 					@sortTable="sortTable"
-					@rowClick="clickResearch"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td class="table__row-item">
@@ -54,7 +53,7 @@
 								:disabled="item.status.statusCode === 'IN_PROGRESS' || item.status.statesCode === 'IN_PROGRESS'"
 							/>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__name">
 								<template v-if="item.status.statusCode === 'READY' && item.images && item.images.length">
 									<img class="searchImage" :src="item.images[0]" alt="" />
@@ -70,30 +69,30 @@
 								</div>
 							</div>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.company }}
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="!item.role">-</template>
 							<template v-else
 								><p class="text__title">{{ item.role }}</p></template
 							>
 						</td>
-						<td class="table__row-item row-link">
+						<td class="table__row-item row-link" @click="clickResearch(item)">
 							<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
 							<template v-else
 								><a class="table__td__link" :href="validateURL(item.linkedin)" target="_blank">
 									<img src="@/assets/icons/link.svg" svg-inline /> </a
 							></template>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<template v-if="item.research_score === 0.1">-</template>
 							<template v-else>{{ (item.research_score * 100).toFixed(2) }}%</template>
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch">
 							{{ item.updatedAt | moment('from', 'now') }}
 						</td>
-						<td class="table__row-item">
+						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
 								<span class="status_done" v-if="item.status.statusCode === 'READY' || item.status.statusCode === 'DONE'">
 									<span class="white__circle">
