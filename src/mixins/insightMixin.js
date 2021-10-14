@@ -110,9 +110,9 @@ export default {
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.checkContactSort(uniqueArray);
+					this.checkContactSort(newObj[tab]);
 					this.sortByDislike(newObj[tab]);
-					return this.sortByBookmarked(uniqueArray);
+					return this.sortByBookmarked(newObj[tab]);
 				}
 			},
 			set(value) {
