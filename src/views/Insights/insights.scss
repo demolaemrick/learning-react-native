@@ -6,6 +6,17 @@
 	overflow: auto;
 }
 
+// .main {
+// 	display: grid;
+// 	grid-template-columns: 25% 35% 35%;
+// }
+
+@media (min-width: 1560px) {
+	.main {
+		grid-template-columns: auto 40% 40%;
+	}
+}
+
 .relevant_add_article{
 	margin: 0.9rem 0;
 	display: flex;

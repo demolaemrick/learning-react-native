@@ -4,7 +4,7 @@
 			<h4 v-if="article.title" class="title">
 				{{ article.title }}
 			</h4>
-			<!-- <q v-if="article.quote" class="quote"> {{ article.quote }}</q> -->
+			<q v-if="article.quote" class="quote"> {{ article.quote }}</q>
 			<div v-if="article.speaker" class="quotee mb-1">
 				<p>- {{ article.speaker }}</p>
 			</div>

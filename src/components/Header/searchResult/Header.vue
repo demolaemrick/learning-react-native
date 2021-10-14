@@ -1,6 +1,6 @@
 <template>
 	<header class="header">
-		<nav class="navbar">
+		<nav :class="{ navbar: !isFromAdmin, navbar_admin: isFromAdmin }">
 			<div class="nav__back" @click="[$router.go(-1), $forceUpdate()]">
 				<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 				<div class="text">Back to previous page</div>
@@ -96,6 +96,11 @@ export default {
 	align-items: center;
 	padding: 1em 3em;
 	border-bottom: 1px solid #f2f2f2;
+}
+.navbar_admin {
+	@extend .navbar;
+	padding: 1em 0 1.5rem;
+	transform: translateY(-1rem);
 }
 .nav__back {
 	display: flex;

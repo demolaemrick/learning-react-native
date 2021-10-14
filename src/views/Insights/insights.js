@@ -205,7 +205,7 @@ export default {
 			return insightsArray;
 		}
 	},
-	mounted() {
+	created() {
 		this.row_Id = this.$route.query.id;
 		this.isFromAdmin = this.$route.name === 'AdminInsights' ? true : false;
 	},
@@ -237,23 +237,22 @@ export default {
 
 			try {
 				const response = await this.addArticleURL(articleData);
-				// console.log(response);
 				const { data, status } = response;
-				// let resp = data.response;
-				// console.log(resp);
 				if (status === 200) {
 					this.articleTitle = '';
 					this.articleUrl = '';
 					this.articleDecript = '';
 					this.articleType = '';
 
+					console.log(data, 'new article');
+
 					this.showAlert({
 						status: 'success',
 						message: data.message,
 						showAlert: true
 					});
-					this.toggleModalClass('addArticle');
-					this.getResult();
+					// this.toggleModalClass('addArticle');
+					this.getResult(false);
 				}
 				this.sending = false;
 			} catch (error) {
@@ -391,61 +390,21 @@ export default {
 				console.log(error);
 			}
 		},
-		rankArticle() {
-			// this.getResult();
-		},
-		hideArticle() {
-			// this.getResult();
-		},
-		async getResult() {
-			this.loading = true;
-			try {
-				// console.log(this.$route);
-				const response = await this.researchedResult({ id: this.$route.query.id, isFromAdmin: this.isFromAdmin });
-				// console.log(response.data.data);
-				const { contact_details, company_details, status } = response.data.data;
-				this.contact_details = contact_details;
-				this.company_details = company_details;
-				this.insightStatus = status;
-				const refactored = this.changeToLegacyResponse(response.data.data);
-				await this.saveSearchedResult(refactored);
-				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
-				return true;
-			} catch (error) {
-				let err = error.response;
-				let params = this.$route.params;
-				if (err.data.status === 'fail') {
-					if (Object.keys(params).length > 0) {
-						let urlParams = this.getURLParams(params.data);
-						this.showAlert({
-							status: 'caution',
-							message: `Please try refresh that user with name ${params.name} and try again`,
-							showAlert: true
-						});
-						this.$router.push({ path: `${params.path}${urlParams.toString()}` });
-					}
-				}
-				console.log(error.response);
-			} finally {
-				this.loading = false;
-			}
-		},
 		addArticleModal(data) {
-			console.log(data, '-------------');
 			this.modalData = data;
 			this.addArticle = true;
 		},
-		toggleModalClass(modal) {
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
+		// toggleModalClass(modal) {
+		// 	if (!this[modal]) {
+		// 		this[modal] = true;
+		// 	} else {
+		// 		this.toggleClass = !this.toggleClass;
+		// 		setTimeout(() => {
+		// 			this[modal] = !this[modal];
+		// 			this.toggleClass = !this.toggleClass;
+		// 		}, 500);
+		// 	}
+		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,

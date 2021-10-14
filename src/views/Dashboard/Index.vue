@@ -40,6 +40,7 @@ export default {
 	width: 100vw;
 	overflow: auto;
 	margin: 0 auto;
+	transition: all 0.3s ease-in-out;
 }
 
 @media (min-width: 769px) {
@@ -52,7 +53,12 @@ export default {
 @media (min-width: 1024px) {
 	.dashboard-body.active {
 		width: 82vw;
-		margin: 0 0 0 auto;
+	}
+}
+
+@media (min-width: 1560px) {
+	.dashboard-body.active {
+		width: 85vw;
 	}
 }
 

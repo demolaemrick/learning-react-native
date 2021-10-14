@@ -256,6 +256,8 @@ export default {
 		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
+			console.log(this.selectedInsight.type);
+			console.log(this.selectedInsight.section);
 			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
