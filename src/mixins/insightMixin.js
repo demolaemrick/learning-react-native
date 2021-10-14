@@ -81,6 +81,7 @@ export default {
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
 				this.checkCompanySort(newObj[tab]);
+				this.sortByImportant(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
 				return this.sortByBookmarked(newObj[tab]);
 			},
@@ -199,14 +200,13 @@ export default {
 			}
 		},
 		sortByRelevance(data) {
-			return data.sort((a, b) => (a.meta.relevanceScore < b.meta.relevanceScore ? 1 : -1));
+			return data.sort((a, b) => b.meta.relevanceScore - a.meta.relevanceScore);
 		},
 		sortByRecent(data) {
 			return data.sort((a, b) => {
-				return (
-					new Date(b.meta.published || b.meta.timestamp != null) - new Date(a.meta.published || a.meta.timestamp != null) ||
-					new Date(b.meta.published || b.meta.timestamp) - new Date(a.meta.published || a.meta.timestamp)
-				);
+				const date1 = new Date(a.meta.published || a.meta.timestamp);
+				const date2 = new Date(b.meta.published || b.meta.timestamp);
+				return date2.getTime() - date1.getTime();
 			});
 		},
 		generateIntroEmail(type, item) {
@@ -259,8 +259,6 @@ export default {
 		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
-			console.log(this.selectedInsight.type);
-			console.log(this.selectedInsight.section);
 			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
