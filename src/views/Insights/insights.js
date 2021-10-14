@@ -278,19 +278,15 @@ export default {
 					this.articleDecript = '';
 					this.articleType = '';
 
-					console.log(data, 'new article');
-
 					this.showAlert({
 						status: 'success',
 						message: data.message,
 						showAlert: true
 					});
-					// this.toggleModalClass('addArticle');
 					this.getResult(false);
 				}
 				this.sending = false;
 			} catch (error) {
-				// console.log(error.response);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -325,7 +321,7 @@ export default {
 					if (data.data.status.statusCode === 'UPDATING') {
 						this.showAlert({
 							status: 'info',
-							message: 'Research update in progress',
+							message: data.message,
 							showAlert: true
 						});
 						this.subscribe();
@@ -349,7 +345,7 @@ export default {
 						await this.saveSearchedResult(refactored);
 						this.showAlert({
 							status: 'success',
-							message: 'Research updated successfully',
+							message: response.data.message,
 							showAlert: true
 						});
 					}
@@ -399,7 +395,12 @@ export default {
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
+			this.$router.push({
+				name: this.isFromAdmin ? 'AdminInsightItem' : 'InsightItem',
+				query: {
+					id: this.rowId
+				}
+			});
 		},
 
 		validateURL(link) {

@@ -54,6 +54,11 @@ const routes = [
 				path: 'insights',
 				name: 'AdminInsights',
 				component: Insights
+			},
+			{
+				path: 'insight-item',
+				name: 'AdminInsightItem',
+				component: InsightItem
 			}
 		]
 	},

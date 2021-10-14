@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<div>
+			{{loggedInUser}}
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
@@ -60,13 +61,13 @@
 						<template v-else>-</template>
 					</td>
 					<td class="">
-						<toggle-dropdown itemPadding="0">
+						<toggle-dropdown itemPadding="0" v-if="loggedInUser && loggedInUser.role === 'superadmin'">
 							<template #dropdown-wrapper>
 								<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="openEditModal({ ...item })">Edit Info</li>
-								<template v-if="loggedInUser && loggedInUser.role === 'superadmin'">
+								<template>
 									<li class="dropdown__item" @click="openEditPermissionModal({ ...item })">Permissions</li>
 									<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">Suspend</li>
 									<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">

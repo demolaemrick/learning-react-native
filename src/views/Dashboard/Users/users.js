@@ -199,11 +199,9 @@ export default {
 						}
 						return res;
 					});
-					// this.toggleModalClass('showEditPermission');
 					return true;
 				}
 			} catch (error) {
-				console.log(error.response);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -235,14 +233,14 @@ export default {
 					this.form = {};
 					this.showAlert({
 						status: 'success',
-						message: 'User created successfully',
+						message: response.data.message || 'User created successfully',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
-					message: 'Whoops! User not created',
+					message: error.response.data.message || 'Whoops! User not created',
 					showAlert: true
 				});
 			} finally {
@@ -288,7 +286,7 @@ export default {
 					this.getAllUsers();
 					this.showAlert({
 						status: 'success',
-						message: 'user successfully updated',
+						message: response.data.message || 'user successfully updated',
 						showAlert: true
 					});
 				}

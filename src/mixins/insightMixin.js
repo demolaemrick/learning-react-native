@@ -500,23 +500,26 @@ export default {
 		},
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
-			try {
-				await this.updateUserNote({
-					rowId: this.getSearchedResult.rowId,
-					note: this.notepadTXT
-				});
-				this.userNote = this.notepadTXT;
-				this.showAlert({
-					status: 'success',
-					message: 'Note updated successfully',
-					showAlert: true
-				});
-			} catch (error) {
-				this.showAlert({
-					status: 'error',
-					message: 'error updating note',
-					showAlert: true
-				});
+			if (this.notepadTXT) {
+				try {
+					const response = await this.updateUserNote({
+						rowId: this.getSearchedResult.rowId,
+						note: this.notepadTXT
+					});
+					this.userNote = this.notepadTXT;
+					this.showAlert({
+						status: 'success',
+						message: response.data.message || 'Note updated successfully',
+						showAlert: true
+					});
+				} catch (error) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
+
 			}
 		},
 		toggleModalClass(modal, insight) {

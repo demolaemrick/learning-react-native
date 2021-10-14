@@ -46,15 +46,14 @@
 	overflow: hidden;
 	width: 35px;
 	height: 35px;
-	border-radius: 100vh;
-	border: 1px solid rgb(189, 189, 189);
-	background-color: #162a56;
+	border-radius: 10vh;
 
 	& > span {
 		display: block;
 		height: 2px;
 		width: 100%;
-		background-color: rgb(255, 255, 255);
+		background-color: #162a56;
+		opacity: 0.7;
 		border-radius: 20%;
 		&:not(:last-child) {
 			margin-bottom: 4px;
