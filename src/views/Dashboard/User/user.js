@@ -571,8 +571,8 @@ export default {
 			}
 		},
 		showResearch(item) {
-			console.table(item, '--------------------');
 			if (item.status.statusCode !== 'IN_PROGRESS') {
+				this.$emit('closeSideMenu');
 				this.$router.push({
 					name: 'AdminInsights',
 					query: {
@@ -586,23 +586,6 @@ export default {
 						name: item.full_name
 					}
 				});
-				// if (item.status.statusCode === 'READY') {
-				// 	if (item.linkedin) {
-				// 		this.$router.push({ name: 'Insights', query: { id: item.rowId } });
-				// 	} else {
-				// 		this.showAlert({
-				// 			status: 'error',
-				// 			message: 'Please refresh this row',
-				// 			showAlert: true
-				// 		});
-				// 	}
-				// } else {
-				// 	this.showAlert({
-				// 		status: 'caution',
-				// 		message: 'Please wait while row finishes updating',
-				// 		showAlert: true
-				// 	});
-				// }
 			}
 		},
 		async checkPendngStatus() {

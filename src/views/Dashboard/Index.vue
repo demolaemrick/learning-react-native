@@ -3,7 +3,7 @@
 		<SideBar :activeside="activeSide" />
 		<div class="dashboard-body" :class="{ active: activeSide }">
 			<MainHeader :toggleActive="toggleActive" />
-			<router-view />
+			<router-view @closeSideMenu="closeSideMenuF" />
 		</div>
 	</div>
 </template>
@@ -25,9 +25,11 @@ export default {
 	},
 	methods: {
 		toggleActive() {
-			console.log('here');
 			this.activeSide = !this.activeSide;
 			this.$emit('toggleSide');
+		},
+		closeSideMenuF() {
+			this.activeSide = false;
 		}
 	}
 };

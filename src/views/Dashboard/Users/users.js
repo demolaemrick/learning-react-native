@@ -10,7 +10,7 @@ import PasswordInput from '@/components/Input/PasswordInput';
 import RadioBtn from '@/components/RadioButton';
 import Status from '@/components/Status';
 import StatusTag from '@/components/StatusTag';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import debounce from 'lodash.debounce';
 import CheckBoxes from '@/components/CheckBoxes';
 
@@ -118,6 +118,11 @@ export default {
 	},
 	mounted() {
 		this.getAllUsers();
+	},
+	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		})
 	},
 	methods: {
 		...mapActions({
