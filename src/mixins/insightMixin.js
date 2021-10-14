@@ -105,12 +105,14 @@ export default {
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
 					this.checkContactSort(uniqueArray);
+					this.sortByImportant(uniqueArray);
 					this.sortByDislike(uniqueArray);
 					return this.sortByBookmarked(uniqueArray);
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
 					this.checkContactSort(newObj[tab]);
+					this.sortByImportant(newObj[tab]);
 					this.sortByDislike(newObj[tab]);
 					return this.sortByBookmarked(newObj[tab]);
 				}
@@ -127,6 +129,7 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				this.sortByImportant(uniqueArray);
 				this.sortByDislike(uniqueArray);
 				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
@@ -174,6 +177,11 @@ export default {
 		sortByBookmarked(data) {
 			return data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
+			});
+		},
+		sortByImportant(data) {
+			return data.sort(function(a, b) {
+				return b.important - a.important;
 			});
 		},
 		checkContactSort(uniqueArray) {
