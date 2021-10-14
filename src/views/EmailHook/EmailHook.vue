@@ -114,7 +114,7 @@
 								<InsightCard
 									v-for="(article, j) in filterContactArticles(contact_insights_categories)"
 									:key="contact_insights_categories[article]"
-									:published="article.meta.published ? article.meta.published : null"
+									:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
 									:article="article"
 									@openModal="
 										toggleModalClass(
@@ -146,7 +146,7 @@
 							<InsightCard
 								v-for="(article, j) in filterContactArticles(contact_other_insights)"
 								:key="contact_other_insights[article]"
-								:published="article.meta.published"
+								:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
 								:article="article"
 								@openModal="
 									toggleModalClass(
@@ -247,7 +247,7 @@
 								<InsightCard
 									v-for="(article, j) in filterCompanyArticles(company_insights_categories)"
 									:key="company_insights_categories[article]"
-									:published="article.meta.published ? article.meta.published : null"
+									:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
 									:article="article"
 									@openModal="
 										toggleModalClass(
