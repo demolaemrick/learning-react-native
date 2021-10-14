@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<div>
-			{{loggedInUser}}
+			{{ loggedInUser }}
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">

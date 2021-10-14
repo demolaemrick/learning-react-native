@@ -519,7 +519,6 @@ export default {
 						showAlert: true
 					});
 				}
-
 			}
 		},
 		toggleModalClass(modal, insight) {
