@@ -170,17 +170,17 @@ export default {
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
 		sortByDislike(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
 		sortByImportant(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return b.important - a.important;
 			});
 		},
@@ -535,7 +535,10 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value.trim().toUpperCase().split(' ');
+			const placeHolder = value
+				.trim()
+				.toUpperCase()
+				.split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}

@@ -70,7 +70,9 @@
 								"
 								@createEmailIntro="generateIntroEmail('contact_insights', article)"
 								@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article })"
-								:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
+								:published="
+									article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null
+								"
 								:article="article"
 								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 								@displayInsight="displaySearchItem('contact_insights', article)"
@@ -129,7 +131,9 @@
 								@removeDislike="
 									toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...article })
 								"
-								:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
+								:published="
+									article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null
+								"
 								:article="article"
 								@bookmark="
 									btnUpdateBookMarks(
@@ -188,7 +192,9 @@
 								"
 								@createEmailIntro="generateIntroEmail('company_insights', article)"
 								@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
-								:published="article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null"
+								:published="
+									article.meta.published ? article.meta.published : article.meta.timestamp ? article.meta.timestamp : null
+								"
 								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 								:article="article"
 								@displayInsight="displaySearchItem('company_insights', article)"
