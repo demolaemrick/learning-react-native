@@ -94,7 +94,7 @@
 						See All
 					</div>
 				</div>
-				<div class="section__5">
+				<div class="section__5" v-if="loggedInUser.can_generate_email">
 					<div class="text">Personalized Email Intros</div>
 					<div @click="generateIntroEmail(null, null)" class="link">See All</div>
 				</div>

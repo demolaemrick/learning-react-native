@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { noAuthOnly, requireUserAuth, requireAdminAuth } from '../utils/auth';
+import { noAuthOnly, emailGenerationAuth, requireUserAuth, requireAdminAuth } from '../utils/auth';
 import VueRouter from 'vue-router';
 import Search from '../views/Search/Search.vue';
 import Insights from '../views/Insights/Insights.vue';
@@ -115,7 +115,7 @@ const routes = [
 		path: '/email-hook',
 		name: 'EmailHook',
 		component: EmailHook,
-		beforeEnter: requireUserAuth
+		beforeEnter: emailGenerationAuth
 	},
 	{
 		path: '/contact-research',
