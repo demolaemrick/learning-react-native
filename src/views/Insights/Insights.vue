@@ -627,7 +627,7 @@
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+										<li class="dropdown__item" @click="companySortMethod = 'relevance'">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>
