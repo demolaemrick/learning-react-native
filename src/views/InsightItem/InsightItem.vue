@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-headeritem />
+		<v-headeritem :isFromAdmin="isFromAdmin" />
 		<template v-if="loading"> <PageLoader /></template>
 		<main v-else class="main container container--lg">
 			<div class="searched__wrapper" :class="{ 'grey-color': hideSearch }">
@@ -59,6 +59,7 @@
 								</div>
 							</div>
 							<InsightCard
+								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in contact_insights_categories"
 								:key="contact_insights_categories[article]"
 								@openModal="
@@ -100,6 +101,7 @@
 
 						<div ref="quoteList" class="quote-section__content">
 							<InsightCard
+								:isFromAdmin="isFromAdmin"
 								v-for="(quote, index) in contactQuotes"
 								:key="index"
 								:published="quote.date ? quote.date : null"
@@ -117,6 +119,7 @@
 								<h3 class="section-title">Other Insights</h3>
 							</div>
 							<InsightCard
+								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in contact_other_insights"
 								:key="contact_other_insights[article]"
 								@openModal="
@@ -177,6 +180,7 @@
 							</div>
 
 							<InsightCard
+								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in company_insights_categories"
 								:key="company_insights_categories[article]"
 								@openModal="

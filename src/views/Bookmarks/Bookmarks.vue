@@ -8,7 +8,7 @@
 			<!-- contact search -->
 			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Contact Research</h3>
+					<h3 class="title" v-if="screenType === 'large'">Contact Insight</h3>
 				</div>
 				<div>
 					<template v-if="getSearchedResult.contact_insights">
@@ -49,7 +49,7 @@
 			<!-- company search -->
 			<div class="contact searched__wrapper">
 				<div class="searched__wrapper-header">
-					<h3 class="title" v-if="screenType === 'large'">Company Research</h3>
+					<h3 class="title" v-if="screenType === 'large'">Company Insight</h3>
 				</div>
 				<template v-if="getSearchedResult.company_insights">
 					<div v-for="(article, j) in company_insights_categories" :key="j">

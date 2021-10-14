@@ -17,6 +17,14 @@ export function userRole() {
 }
 
 /**
+ * Checks for logged in user
+ * @returns {Object} logged user state
+ */
+export function loggedInUser() {
+	return store.getters['auth/getLoggedUser'];
+}
+
+/**
  * Auth guard that allows non-authenticated users only.
  * @param to - next route
  * @param from - previous route
@@ -29,6 +37,20 @@ export function noAuthOnly(to, from, next) {
 		next('/dashboard');
 	} else {
 		next();
+	}
+}
+/**
+ * Auth guard allows users with permissions go to the email hook page.
+ * @param to - next route
+ * @param from - previous route
+ * @param next - callback to transfer control to the next middleware
+ */
+
+export function emailGenerationAuth(to, from, next) {
+	if (isLoggedIn() && loggedInUser().can_generate_email) {
+		next();
+	} else {
+		next(from.path);
 	}
 }
 

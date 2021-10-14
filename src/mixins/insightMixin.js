@@ -80,9 +80,9 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
+				this.checkCompanySort(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
+				return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -91,7 +91,6 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 
@@ -105,15 +104,17 @@ export default {
 						newArray = [...newArray, ...data[item]];
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.checkContactSort(uniqueArray);
+					this.sortByImportant(uniqueArray);
 					this.sortByDislike(uniqueArray);
-					this.sortByBookmarked(uniqueArray);
-					return this.checkContactSort(uniqueArray);
+					return this.sortByBookmarked(uniqueArray);
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
+					this.checkContactSort(newObj[tab]);
+					this.sortByImportant(newObj[tab]);
 					this.sortByDislike(newObj[tab]);
-					return this.checkContactSort(newObj[tab]);
+					return this.sortByBookmarked(newObj[tab]);
 				}
 			},
 			set(value) {
@@ -128,6 +129,7 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				this.sortByImportant(uniqueArray);
 				this.sortByDislike(uniqueArray);
 				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
@@ -177,22 +179,23 @@ export default {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
+		sortByImportant(data) {
+			return data.sort(function (a, b) {
+				return b.important - a.important;
+			});
+		},
 		checkContactSort(uniqueArray) {
-			if (this.contactSortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.contactSortMethod === 'relevance') {
+			if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		checkCompanySort(uniqueArray) {
-			if (this.companySortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.companySortMethod === 'relevance') {
+			if (this.companySortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		sortByRelevance(data) {
@@ -256,6 +259,8 @@ export default {
 		updateDislikeResult() {
 			const searchResultClone = { ...this.getSearchedResult };
 			let result = {};
+			console.log(this.selectedInsight.type);
+			console.log(this.selectedInsight.section);
 			const obj = searchResultClone[this.selectedInsight.type][this.selectedInsight.section];
 			for (const key in obj) {
 				Object.values(obj[key]).find((item, index) => {
@@ -495,23 +500,25 @@ export default {
 		},
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
-			try {
-				await this.updateUserNote({
-					rowId: this.getSearchedResult.rowId,
-					note: this.notepadTXT
-				});
-				this.userNote = this.notepadTXT;
-				this.showAlert({
-					status: 'success',
-					message: 'Note updated successfully',
-					showAlert: true
-				});
-			} catch (error) {
-				this.showAlert({
-					status: 'error',
-					message: 'error updating note',
-					showAlert: true
-				});
+			if (this.notepadTXT) {
+				try {
+					const response = await this.updateUserNote({
+						rowId: this.getSearchedResult.rowId,
+						note: this.notepadTXT
+					});
+					this.userNote = this.notepadTXT;
+					this.showAlert({
+						status: 'success',
+						message: response.data.message || 'Note updated successfully',
+						showAlert: true
+					});
+				} catch (error) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
 			}
 		},
 		toggleModalClass(modal, insight) {
@@ -528,6 +535,10 @@ export default {
 		},
 		scrollTab() {
 			this.$refs.content.scrollLeft += 200;
+		},
+		profileImagePlaceholder(value) {
+			const placeHolder = value.trim().toUpperCase().split(' ');
+			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}
 };

@@ -87,7 +87,7 @@ export default {
 			nextPage: null,
 			currentPage: 0,
 			total: 0,
-			limit: 50,
+			limit: 10,
 			page: 1,
 			count: 0,
 			settings: {
@@ -574,9 +574,16 @@ export default {
 			console.table(item, '--------------------');
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({
-					name: 'Insights',
+					name: 'AdminInsights',
 					query: {
 						id: item.rowId
+					},
+					params: {
+						data: {
+							userId: this.userId
+						},
+						path: '/dashboard/user?',
+						name: item.full_name
 					}
 				});
 				// if (item.status.statusCode === 'READY') {

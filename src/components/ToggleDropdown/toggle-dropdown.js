@@ -13,6 +13,10 @@ export default {
 		width: {
 			type: String,
 			default: ''
+		},
+		closeOnClick: {
+			type: Boolean,
+			default: true
 		}
 	},
 	computed: {
@@ -35,7 +39,7 @@ export default {
 		showDropdown() {
 			this.$nextTick(() => {
 				const dropdownList = document.getElementsByClassName('dropdown__item');
-				if (dropdownList) {
+				if (dropdownList && this.closeOnClick) {
 					dropdownList.forEach((element) => {
 						element.addEventListener('click', () => {
 							this.showDropdown = false;
@@ -44,7 +48,13 @@ export default {
 				}
 				const dropdown = document.getElementById('dropdown-list');
 				if (dropdown) {
-					dropdown.addEventListener('blur', () => {
+					dropdown.addEventListener('blur', (event) => {
+						// if a child element of the dropdown is clicked
+						// it should not be considered as blur
+						if (event.currentTarget.contains(event.relatedTarget)) {
+							dropdown.focus();
+							return;
+						}
 						setTimeout(() => {
 							this.showDropdown = false;
 						}, 200);

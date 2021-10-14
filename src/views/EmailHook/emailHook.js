@@ -6,10 +6,11 @@ import VButton from '@/components/Button';
 import TextInput from '@/components/Input';
 import Loader from '@/components/Loader';
 import LoadIcon from '@/components/LoadIcon';
-
+import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
 import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
+import Checkbox from '@/components/Checkbox';
 import routeMixin from '@/mixins/routeMixin';
 
 export default {
@@ -22,7 +23,9 @@ export default {
 		Loader,
 		InsightCard,
 		EmailHookCard,
-		LoadIcon
+		LoadIcon,
+		PageLoader,
+		Checkbox
 	},
 	mixins: [insightMixin, routeMixin],
 	data() {
@@ -61,7 +64,15 @@ export default {
 			},
 			searchType: 'contact_insights',
 			articlesOpened: false,
-			hookArticles: []
+			hookArticles: [],
+			contactSortMethod: '',
+			companySortMethod: '',
+			tabs: [],
+			filterContactOptions: [],
+			filterCompanyOptions: [],
+			bookmarkFilterOption: 'bookmarks',
+			introFilterOption: 'intros',
+			dislikeOption: 'Not relevant to this search'
 		};
 	},
 	async mounted() {
@@ -85,6 +96,31 @@ export default {
 			createEmailHook: 'user/createEmailHook',
 			fetchArticles: 'user/fetchArticlesWithEmailHook'
 		}),
+		filterCompanyArticles(articles) {
+			return this.filterArticles(articles, this.filterCompanyOptions);
+		},
+		filterContactArticles(articles) {
+			return this.filterArticles(articles, this.filterContactOptions);
+		},
+		filterArticles(articles, options) {
+			const filteredArticles = [];
+			const bookmarkSelected = options.includes(this.bookmarkFilterOption);
+			const introsSelected = options.includes(this.introFilterOption);
+			articles.forEach((article) => {
+				if (!options.length) {
+					filteredArticles.push(article);
+					return;
+				}
+				if (bookmarkSelected && article.is_bookmarked) {
+					filteredArticles.push(article);
+					return;
+				}
+				if (introsSelected && article.has_mail) {
+					filteredArticles.push(article);
+				}
+			});
+			return filteredArticles;
+		},
 		toggleArticlePane() {
 			this.articlesOpened = !this.articlesOpened;
 		},
@@ -182,11 +218,11 @@ export default {
 					this.emailHooks = response.data.emails;
 					return;
 				}
-				this.showAlert({
-					status: 'info',
-					message: 'No Emails found',
-					showAlert: true
-				});
+				// this.showAlert({
+				// 	status: 'info',
+				// 	message: 'No Emails found',
+				// 	showAlert: true
+				// });
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -318,11 +354,11 @@ export default {
 				this.createdEmailHook.hook = '';
 			}
 		},
-		async displaySearchItem(item) {
+		async displaySearchItem(item, type = null) {
 			this.emailHooks = [];
 			const data = {
 				item,
-				type: item.type
+				type
 			};
 			this.saveSearchedItem(data);
 			await this.fetchGeneratedHooks();
@@ -334,7 +370,6 @@ export default {
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		contactDetails() {
-			console.log('det', this.getSearchedResult.contact_details);
 			if (!this.getSearchedResult.contact_details) {
 				return null;
 			}

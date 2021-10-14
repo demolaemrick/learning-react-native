@@ -1,8 +1,8 @@
 <template>
 	<div class="dashboard-wrapper">
-		<SideBar />
-		<div class="dashboard-body">
-			<MainHeader />
+		<SideBar :activeside="activeSide" />
+		<div class="dashboard-body" :class="{ active: activeSide }">
+			<MainHeader :toggleActive="toggleActive" />
 			<router-view />
 		</div>
 	</div>
@@ -17,14 +17,53 @@ export default {
 	components: {
 		SideBar,
 		MainHeader
+	},
+	data() {
+		return {
+			activeSide: true
+		};
+	},
+	methods: {
+		toggleActive() {
+			console.log('here');
+			this.activeSide = !this.activeSide;
+			this.$emit('toggleSide');
+		}
 	}
 };
 </script>
 
 <style scoped>
 .dashboard-body {
-	margin-left: 248px;
 	background-color: #ffffff;
-	padding: 16px 32px;
+	padding: 16px;
+	width: 100vw;
+	overflow: auto;
+	margin: 0 auto;
+	transition: all 0.3s ease-in-out;
 }
+
+@media (min-width: 769px) {
+	.dashboard-body.active {
+		width: 75vw;
+		margin: 0 0 0 auto;
+	}
+}
+
+@media (min-width: 1024px) {
+	.dashboard-body.active {
+		width: 82vw;
+	}
+}
+
+@media (min-width: 1560px) {
+	.dashboard-body.active {
+		width: 85vw;
+	}
+}
+
+/* .dashboard-body.active {
+	width: 80vw;
+	margin: 0 0 0 auto;
+} */
 </style>

@@ -1,8 +1,12 @@
 .dashboard-header {
+  width: 100%;
   display: flex; 
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding-bottom: 32px;
+}
+.dashboard-header > div {
+  display: flex;
 }
 .user-details {
   margin-right: 12px;

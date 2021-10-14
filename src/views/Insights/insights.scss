@@ -2,6 +2,19 @@
 
 .main {
 	display: flex;
+	width: 100%;
+	overflow: auto;
+}
+
+// .main {
+// 	display: grid;
+// 	grid-template-columns: 25% 35% 35%;
+// }
+
+@media (min-width: 1560px) {
+	.main {
+		grid-template-columns: auto 40% 40%;
+	}
 }
 
 .relevant_add_article{
@@ -203,7 +216,7 @@
 	height: 80vh;
   overflow-y: scroll;
 	position: sticky;
-	top: 97px;
+	top: 15px;
 	flex-shrink: 0;
 
 	.section {
@@ -560,6 +573,7 @@
   overflow: auto;
 	margin: 20px 0 24px;
 
+
 	&::-webkit-scrollbar {
 		width: 0;
 	}
@@ -568,6 +582,10 @@
 		&:not(:last-child){
 			margin-left: 5px;
 		}
+	}
+	
+	@include query(desktop-xl, min){
+		justify-content: space-between;
 	}
 
 	&.sm {

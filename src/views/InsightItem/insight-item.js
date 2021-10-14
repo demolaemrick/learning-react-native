@@ -29,13 +29,17 @@ export default {
 			dislikeOption: 'Not relevant to this search',
 			contactSortMethod: '',
 			companySortMethod: '',
-			rowId: ''
+			rowId: '',
+			isFromAdmin: false
 		};
 	},
 	watch: {
 		hideSearch(value) {
 			value ? (this.rows = 30) : (this.rows = 1);
 		}
+	},
+	created() {
+		this.isFromAdmin = this.$route.name === 'AdminInsightItem' ? true : false;
 	},
 	async mounted() {
 		// this.rowId = this.getSearchedResult.rowId;

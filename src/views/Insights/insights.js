@@ -1,7 +1,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
+import PageLoad from '@/components/PageLoader';
 import TextInput from '@/components/Input';
-import PageLoad from './PageLoad.vue';
 import PieChart from '@/components/PieChart';
 import { Tweet } from 'vue-tweet-embed';
 import Loader from '@/components/Loader';
@@ -14,7 +14,8 @@ import RadioBoxes from '@/components/RadioBoxes';
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
 import routeMixin from '@/mixins/routeMixin';
-
+import globalMixins from '@/mixins/globalMixins';
+// console.log(globalMixins);
 export default {
 	name: 'Insights',
 	components: {
@@ -28,7 +29,7 @@ export default {
 		TextInput,
 		RadioBoxes
 	},
-	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin],
+	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin, globalMixins],
 	data() {
 		return {
 			tweetId: '1417604296422694913',
@@ -70,6 +71,8 @@ export default {
 			companySearchResult: [],
 			contactSortMethod: '',
 			companySortMethod: '',
+			quoteList: [],
+			userImages: [],
 			row_Id: '',
 			articleType: '',
 			articleTypes: [
@@ -82,7 +85,8 @@ export default {
 					value: 'company_research'
 				}
 			],
-			quoteList: []
+			params: null,
+			isFromAdmin: false
 		};
 	},
 
@@ -150,15 +154,18 @@ export default {
 			}
 
 			if (total > 0) {
-				console.log('here for what');
 				this.$emit('hasBookmark', true);
 			}
 			return total;
 		},
-		searchImage() {
-			const images = this.getSearchedResult.contact_details.images;
-			if (images && images.length) {
-				return images[Math.floor(Math.random() * images.length)];
+		contactImage() {
+			if (!this.contact_details.images) {
+				return;
+			}
+			const images = [...this.contact_details.images];
+			this.userImages = this.userImages.length ? this.userImages : images;
+			if (this.userImages && this.userImages.length) {
+				return this.userImages[Math.floor(Math.random() * this.userImages.length)];
 			}
 		},
 		showFirstBookmark() {
@@ -200,10 +207,32 @@ export default {
 				insightsArray.push({ title: 'Other insights', ref: 'others' });
 			}
 			return insightsArray;
+		},
+		showSnapshots() {
+			const snapshot = this.company_insights.snapshot;
+			return Object.keys(snapshot).some((key) => {
+				const snapshotItem = snapshot[key];
+				return Array.isArray(snapshotItem) ? Boolean(snapshotItem.length) : Boolean(snapshotItem);
+			});
+		},
+		// 	showContactSnapshots() {
+		// 		const snapshot = this.contact_insights.snapshot
+		// 		return Object.keys(snapshot).some((key) => {
+		// 				const snapshotItem = snapshot[key]
+		// 				return Array.isArray(snapshotItem) ? Boolean(snapshotItem.length) : Boolean(snapshotItem)
+		// 		});
+		// },
+		showNewsSection() {
+			return Object.keys(this.company_insights.news).some((key) => {
+				if (this.company_insights.news[key].length) {
+					return true;
+				}
+			});
 		}
 	},
-	mounted() {
+	created() {
 		this.row_Id = this.$route.query.id;
+		this.isFromAdmin = this.$route.name === 'AdminInsights' ? true : false;
 	},
 	methods: {
 		...mapActions({
@@ -211,8 +240,18 @@ export default {
 			researchDone: 'search_services/researchDone',
 			refresh: 'search_services/refresh',
 			subscribeResearch: 'search_services/subscribeResearch',
-			addArticleURL: 'search_services/addArticleURL'
+			addArticleURL: 'search_services/addArticleURL',
+			showAlert: 'showAlert'
 		}),
+		removeBrokenImage(event) {
+			const brokenSrc = event.target.currentSrc;
+			const brokenSrcIndex = this.userImages.indexOf(brokenSrc);
+
+			if (brokenSrcIndex > -1) {
+				this.userImages.splice(brokenSrcIndex, 1);
+			}
+			this.$forceUpdate();
+		},
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
 		},
@@ -232,18 +271,27 @@ export default {
 
 			try {
 				const response = await this.addArticleURL(articleData);
-				console.log(response);
-				const { status } = response;
+				const { data, status } = response;
 				if (status === 200) {
+					this.articleTitle = '';
+					this.articleUrl = '';
+					this.articleDecript = '';
+					this.articleType = '';
+
 					this.showAlert({
 						status: 'success',
-						message: 'Article Added',
+						message: data.message,
 						showAlert: true
 					});
+					this.getResult(false);
 				}
 				this.sending = false;
 			} catch (error) {
-				console.log(error.response);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.sending = false;
 			}
@@ -260,52 +308,6 @@ export default {
 				section.activate();
 			}
 		},
-
-		/** API response structure for single research
-		 * changed. Function below is to handle the changes by refactoring the incoming data to it's previous structure
-		 * and prevent discrepancies.
-		 */
-		changeToLegacyResponse(newData) {
-			const oldData = JSON.parse(JSON.stringify(newData));
-			let oldNews = {};
-			newData.contact_insights.news.forEach((article) => {
-				article.content.tag = article.content.tags;
-				const tags = [...article.tags];
-
-				if (!tags.length) {
-					// use article url to create a dummy
-					// tag for articles that don't have tags
-					tags.push(article.url);
-				}
-				tags.forEach((tag) => {
-					if (oldNews[tag]) {
-						oldNews[tag].push(article);
-					} else {
-						oldNews[tag] = [article];
-					}
-				});
-			});
-			oldData.contact_insights.news = oldNews;
-
-			let oldOtherInsights = {};
-			newData.contact_insights.other_insights.forEach((article) => {
-				if (article.content) {
-					article.content.tag = article.content.tags;
-				}
-
-				// other insights no longer includes tags so we group
-				// by article url to adhere to the previous
-				// code structure
-				if (oldOtherInsights[article.url]) {
-					oldOtherInsights[article.url].push(article);
-				} else {
-					oldOtherInsights[article.url] = [article];
-				}
-			});
-			oldData.contact_insights.other_insights = oldOtherInsights;
-
-			return oldData;
-		},
 		getRowID() {
 			const { rowId } = this.getSearchedResult;
 			this.rowId = rowId;
@@ -319,7 +321,7 @@ export default {
 					if (data.data.status.statusCode === 'UPDATING') {
 						this.showAlert({
 							status: 'info',
-							message: 'Research update in progress',
+							message: data.message,
 							showAlert: true
 						});
 						this.subscribe();
@@ -343,7 +345,7 @@ export default {
 						await this.saveSearchedResult(refactored);
 						this.showAlert({
 							status: 'success',
-							message: 'Research updated successfully',
+							message: response.data.message,
 							showAlert: true
 						});
 					}
@@ -372,48 +374,33 @@ export default {
 				console.log(error);
 			}
 		},
-		async getResult() {
-			this.loading = true;
-			try {
-				const response = await this.researchedResult(this.$route.query.id);
-				console.table(response.data.data);
-				const { contact_details, company_details, status } = response.data.data;
-				this.contact_details = contact_details;
-				this.company_details = company_details;
-				this.insightStatus = status;
-				const refactored = this.changeToLegacyResponse(response.data.data);
-				await this.saveSearchedResult(refactored);
-				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
-				return true;
-			} catch (error) {
-				console.log(error.response);
-			} finally {
-				this.loading = false;
-			}
-		},
 		addArticleModal(data) {
-			console.log(data, '-------------');
 			this.modalData = data;
 			this.addArticle = true;
 		},
-		toggleModalClass(modal) {
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
-		},
+		// toggleModalClass(modal) {
+		// 	if (!this[modal]) {
+		// 		this[modal] = true;
+		// 	} else {
+		// 		this.toggleClass = !this.toggleClass;
+		// 		setTimeout(() => {
+		// 			this[modal] = !this[modal];
+		// 			this.toggleClass = !this.toggleClass;
+		// 		}, 500);
+		// 	}
+		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,
 				item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
+			this.$router.push({
+				name: this.isFromAdmin ? 'AdminInsightItem' : 'InsightItem',
+				query: {
+					id: this.rowId
+				}
+			});
 		},
 
 		validateURL(link) {
@@ -472,7 +459,6 @@ export default {
 			this.companySearchQuery = '';
 		},
 		scrollSection() {
-			console.log('dgddggsfhkjfljf');
 			this.$refs.quoteList.scrollTop += 600;
 		}
 	},

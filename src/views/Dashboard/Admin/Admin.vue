@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<div>
+			{{ loggedInUser }}
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
@@ -60,13 +61,13 @@
 						<template v-else>-</template>
 					</td>
 					<td class="">
-						<toggle-dropdown itemPadding="0">
+						<toggle-dropdown itemPadding="0" v-if="loggedInUser && loggedInUser.role === 'superadmin'">
 							<template #dropdown-wrapper>
 								<img src="@/assets/icons/menu3dot.svg" alt="menu icon" svg-inline />
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" @click="openEditModal({ ...item })">Edit Info</li>
-								<template v-if="loggedInUser && loggedInUser.role === 'superadmin'">
+								<template>
 									<li class="dropdown__item" @click="openEditPermissionModal({ ...item })">Permissions</li>
 									<li v-if="item.status === 'active'" class="dropdown__item" @click="openSuspendModal(item)">Suspend</li>
 									<li v-if="item.status !== 'active'" class="dropdown__item" @click="openActivateModal(item)">
@@ -91,7 +92,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="table__pagination__wrapper" v-if="!adminLoading">
+		<div class="table__pagination__wrapper" v-if="!adminLoading && admins.length > 10">
 			<div class="title__left">
 				<span>Showing Page</span>
 				<span>
@@ -133,6 +134,7 @@
 									class="inputField"
 									type="email"
 									@keydown.enter.prevent="addEmail"
+									@blur="addEmail"
 									v-model="emailInput"
 									@keydown.delete="deleteEmail(emailList.length > 0 && !emailInput ? emailList['length'] - 1 : 0)"
 								/>
@@ -199,6 +201,7 @@
 		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleModalClass('showEditModal')">
 			<template #title>
 				<h3>Edit Info</h3>
+				<!-- {{:disabled="loggedInUser.role.toLowerCase() !== 'superadmin'"}} -->
 			</template>
 			<template #body>
 				<form @submit.prevent="editAdmin">

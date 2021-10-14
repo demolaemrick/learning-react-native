@@ -5,6 +5,11 @@
   background-color:  #162A56;
   padding: 25px 16px;
   z-index: 9;
+  left: -1000px;
+  
+  &.active {
+    left: 0;
+  }
 
   &__header {
     padding-left: 12px;
@@ -13,6 +18,11 @@
   &__tabs {
     margin-top: 24px;
   }
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
 }
 .single-tab {
   padding: 12px 16px;

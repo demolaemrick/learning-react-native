@@ -4,7 +4,7 @@
 			<h4 v-if="article.title" class="title">
 				{{ article.title }}
 			</h4>
-			<!-- <q v-if="article.quote" class="quote"> {{ article.quote }}</q> -->
+			<q v-if="article.quote" class="quote"> {{ article.quote }}</q>
 			<div v-if="article.speaker" class="quotee mb-1">
 				<p>- {{ article.speaker }}</p>
 			</div>
@@ -22,19 +22,19 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote && showEmailIcon">
+					<template v-if="!article.quote && showEmailIcon && loggedInUser.can_generate_email && !isFromAdmin">
 						<button
-							class="mr-1 icon"
+							class="icon icon-margin"
 							@click="$emit('createEmailIntro')"
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>
 							<img v-if="article.has_mail" src="../../assets/icons/hook-added.svg" svg-inline alt="" />
-							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+							<img v-else class="icon" src="../../assets/icons/noHooks.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
-					<template>
-						<button class="mr-1 icon" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
+					<template v-if="showBookmarkIcon && !isFromAdmin">
+						<button class="icon icon-margin" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
 							<svg
 								width="20"
 								height="20"
@@ -51,12 +51,54 @@
 							</svg>
 						</button>
 					</template>
-					<template v-if="showDislikeIcon">
-						<button v-if="!article.is_disliked" class="icon" @click="$emit('openModal')">
+					<template v-if="showDislikeIcon && !isFromAdmin">
+						<button v-if="!article.is_disliked" class="icon mr-1" @click="$emit('openModal')">
 							<img src="../../assets/icons/dislike-icon.svg" svg-inline alt="" />
 						</button>
 						<button v-else @click="$emit('removeDislike')">
 							<img class="icon" src="../../assets/icons/disliked-icon.svg" svg-inline alt="" />
+						</button>
+					</template>
+					<template v-if="isFromAdmin && !article.quote">
+						<button
+							:disabled="sendingImp"
+							class="iconBtn ml-1"
+							:content="`<div>${ranked_by_admin ? 'Derank Article' : 'Rank Article'}</div>`"
+							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
+							@click="toggleImportanceFunc()"
+						>
+							<img
+								class="icon"
+								:src="
+									ranked_by_admin
+										? require('../../assets/icons/thumbs-up-on.svg')
+										: require('../../assets/icons/thumbs-up-off.svg')
+								"
+								svg-inline
+								alt=""
+							/>
+							<div class="loaderContainer" v-if="sendingImp">
+								<Loader color="#3B48F7" />
+							</div>
+						</button>
+					</template>
+					<template v-if="isFromAdmin && !article.quote">
+						<button
+							:disabled="sending"
+							class="iconBtn ml-1"
+							:content="`<div>${hidden ? 'Unhide Article' : 'Hide Article'}</div>`"
+							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
+							@click="toggleArticleFunc()"
+						>
+							<img
+								class="icon"
+								:src="hidden ? require('../../assets/icons/close-eye.svg') : require('../../assets/icons/open-eye.svg')"
+								svg-inline
+								alt=""
+							/>
+							<div class="loaderContainer" v-if="sending">
+								<Loader color="#3B48F7" />
+							</div>
 						</button>
 					</template>
 				</div>
