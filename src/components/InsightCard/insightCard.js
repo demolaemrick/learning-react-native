@@ -29,6 +29,10 @@ export default {
 		},
 		isContact: {
 			type: Boolean
+		},
+		showBookmarkIcon: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
@@ -40,6 +44,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		}),
 		cleanUrl() {
 			const url = this.article.url || this.article.article_url;
 			return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];

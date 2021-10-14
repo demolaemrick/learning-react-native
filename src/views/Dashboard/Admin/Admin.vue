@@ -133,6 +133,7 @@
 									class="inputField"
 									type="email"
 									@keydown.enter.prevent="addEmail"
+									@blur="addEmail"
 									v-model="emailInput"
 									@keydown.delete="deleteEmail(emailList.length > 0 && !emailInput ? emailList['length'] - 1 : 0)"
 								/>

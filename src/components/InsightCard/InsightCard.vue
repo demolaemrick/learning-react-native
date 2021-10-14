@@ -22,19 +22,19 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote && showEmailIcon && !isFromAdmin">
+					<template v-if="!article.quote && showEmailIcon && loggedInUser.can_generate_email && !isFromAdmin">
 						<button
-							class="mr-1 icon"
+							class="icon icon-margin"
 							@click="$emit('createEmailIntro')"
 							content="<div>Generate<br/>email hook</div>"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 						>
 							<img v-if="article.has_mail" src="../../assets/icons/hook-added.svg" svg-inline alt="" />
-							<img v-else class="icon" src="../../assets/icons/edit.svg" svg-inline alt="tooltip icon" />
+							<img v-else class="icon" src="../../assets/icons/noHooks.svg" svg-inline alt="tooltip icon" />
 						</button>
 					</template>
-					<template v-if="!isFromAdmin">
-						<button class="mr-1 icon" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
+					<template v-if="showBookmarkIcon && !isFromAdmin">
+						<button class="icon icon-margin" @click="$emit('bookmark', !article.is_bookmarked ? 'add' : 'remove')">
 							<svg
 								width="20"
 								height="20"

@@ -80,9 +80,9 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
+				this.checkCompanySort(newObj[tab]);
 				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
+				return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -91,7 +91,6 @@ export default {
 		contact_insights_categories: {
 			get() {
 				let newObj = {};
-
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
 				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 
@@ -105,15 +104,17 @@ export default {
 						newArray = [...newArray, ...data[item]];
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+					this.checkContactSort(uniqueArray);
+					this.sortByImportant(uniqueArray);
 					this.sortByDislike(uniqueArray);
-					this.sortByBookmarked(uniqueArray);
-					return this.checkContactSort(uniqueArray);
+					return this.sortByBookmarked(uniqueArray);
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.sortByBookmarked(newObj[tab]);
+					this.checkContactSort(newObj[tab]);
+					this.sortByImportant(newObj[tab]);
 					this.sortByDislike(newObj[tab]);
-					return this.checkContactSort(newObj[tab]);
+					return this.sortByBookmarked(newObj[tab]);
 				}
 			},
 			set(value) {
@@ -128,6 +129,7 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				this.sortByImportant(uniqueArray);
 				this.sortByDislike(uniqueArray);
 				this.sortByBookmarked(uniqueArray);
 				return uniqueArray;
@@ -177,22 +179,23 @@ export default {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
+		sortByImportant(data) {
+			return data.sort(function (a, b) {
+				return b.important - a.important;
+			});
+		},
 		checkContactSort(uniqueArray) {
-			if (this.contactSortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.contactSortMethod === 'relevance') {
+			if (this.contactSortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		checkCompanySort(uniqueArray) {
-			if (this.companySortMethod === 'recent') {
-				return this.sortByRecent(uniqueArray);
-			} else if (this.companySortMethod === 'relevance') {
+			if (this.companySortMethod === 'relevance') {
 				return this.sortByRelevance(uniqueArray);
 			} else {
-				return uniqueArray;
+				return this.sortByRecent(uniqueArray);
 			}
 		},
 		sortByRelevance(data) {

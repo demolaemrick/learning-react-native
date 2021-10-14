@@ -10,8 +10,8 @@
 					<h5 class="title">Contact Details</h5>
 					<div class="contact__details">
 						<div class="text__initials" v-if="contact_details.full_name">
-							<template v-if="searchImage">
-								<img class="searchImage" :src="searchImage" alt="" />
+							<template v-if="contactImage">
+								<img class="searchImage" @error="removeBrokenImage" :src="contactImage" alt="" />
 							</template>
 							<template v-else>
 								{{ profileImagePlaceholder(contact_details.full_name) }}
@@ -63,7 +63,7 @@
 							{{ contact_details.last_refresh | moment(' h:mm a') }}</span
 						>
 					</h5>
-					<div class="input__group">
+					<div class="input__group" v-if="!isFromAdmin">
 						<div @click="RefreshResearch" class="icon refresh mr-1">
 							<img
 								:class="{ refresh__loading: insightStatus.statusCode === 'UPDATING' || refreshLoading }"
@@ -72,12 +72,7 @@
 								alt="refresh"
 							/>
 						</div>
-						<input
-							v-if="!isFromAdmin"
-							type="checkbox"
-							:checked="insightStatus.statusCode === 'DONE'"
-							@change="markResearch($event)"
-						/>
+						<input type="checkbox" :checked="insightStatus.statusCode === 'DONE'" @change="markResearch($event)" />
 						<div class="input__label__text" v-if="!isFromAdmin">Mark as done</div>
 					</div>
 				</div>
@@ -102,7 +97,7 @@
 						See All
 					</div>
 				</div>
-				<div class="section__5" v-if="!isFromAdmin">
+				<div class="section__5" v-if="loggedInUser.can_generate_email && !isFromAdmin">
 					<div class="text">Personalized Email Intros</div>
 					<div @click="generateIntroEmail(null, null)" class="link">See All</div>
 				</div>
@@ -229,13 +224,12 @@
 						</template>
 					</div>
 				</div>
-
 				<!-- News and Articles Section -->
 				<div v-if="Object.values(contact_insights.news).length" class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
-							<div class="filter-sort" v-if="loggedInUser.role === 'user'">
+							<div class="filter-sort" v-if="!isFromAdmin">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
@@ -250,12 +244,12 @@
 							</div>
 						</div>
 
-						<div v-if="loggedInUser.role !== 'user'" class="relevant_add_article">
+						<div v-if="isFromAdmin" class="relevant_add_article">
 							<div class="filter-sort">
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											Relevant <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
 									<template #dropdown-items>
@@ -420,7 +414,6 @@
 						/>
 					</template>
 				</div>
-
 				<div v-else class="news-section" ref="news-section">
 					<div class="section-wrapper">
 						<div class="news">
@@ -432,7 +425,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- Quotes Section -->
 				<div v-if="!contactFilter && contact_insights.quotes.length > 0" class="quote-section" ref="quotes">
 					<div class="section-wrapper flex flex__space-center mb-1">
@@ -467,16 +459,13 @@
 						/>
 					</div>
 				</div>
-
 				<!-- Topic Section -->
-
 				<div v-if="!contactFilter && Object.values(contact_insights.topics).length" class="topics-section" ref="topics">
 					<div class="section-wrapper">
 						<h3 class="section-title">Topics</h3>
 					</div>
 					<PieChart class="topics-chart" :chartData="chartData.values" :labels="chartData.labels" />
 				</div>
-
 				<!-- Other Insights -->
 				<div
 					v-if="!contactFilter && Object.values(contact_insights.other_insights).length"
@@ -511,7 +500,6 @@
 					/>
 				</div>
 			</div>
-
 			<!-- company search -->
 			<div class="contact searched__wrapper" v-if="searchType === 'company_research' || screenType === 'large'">
 				<div class="section-wrapper">
@@ -530,10 +518,10 @@
 							</template>
 						</toggle-dropdown>
 					</div>
-					<div v-if="Object.values(company_insights.snapshot).length" class="snapshot-section">
+					<div v-if="showSnapshots" class="snapshot-section">
 						<h3 class="section-title">Snapshot</h3>
 						<div v-if="company_insights.snapshot" class="snapshot-info">
-							<div class="flex flex__item-center postion">
+							<div class="flex flex__item-center postion" v-if="company_insights.snapshot.mentions">
 								<span>
 									<img src="@/assets/icons/articles.svg" alt="company article icon" svg-inline />
 								</span>
@@ -580,7 +568,6 @@
 									</span>
 								</p>
 							</div>
-
 							<div class="flex flex__item-center postion" v-if="getCrunchbaseUrl">
 								<img style="width: 24px" src="@/assets/icons/crunchbase.svg" alt="crunchbase icon" svg-inline />
 								<p class="ml">
@@ -597,7 +584,7 @@
 					</div>
 				</div>
 
-				<div v-if="Object.values(company_insights.news).length" class="news-section" ref="company-news-section">
+				<div v-if="showNewsSection" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -605,7 +592,7 @@
 								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
 									<template #dropdown-wrapper>
 										<p class="sort">
-											{{ loggedInUser.role !== 'user' ? 'Relevant' : 'Sort by' }}
+											Sort by
 											<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
 										</p>
 									</template>
@@ -687,6 +674,18 @@
 						/>
 					</template>
 				</div>
+
+				<div v-else class="news-section" ref="company-news-section">
+					<div class="section-wrapper">
+						<div class="news mt-1">
+							<h3 class="section-title">News</h3>
+						</div>
+						<div class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
+					</div>
+				</div>
 				<div class="jobs-section" v-if="company_insights.jobs.length > 0">
 					<div class="jobs-header flex flex__space-center">
 						<h3 class="section-title">Open Jobs</h3>
@@ -745,54 +744,6 @@
 						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
 							<template v-if="!dislikeLoading">Submit</template>
 							<Loader v-else />
-						</v-button>
-					</div>
-				</div>
-			</template>
-		</modal>
-
-		<!-- Hook Modal -->
-		<modal
-			position="center"
-			v-if="hookModal"
-			:active="true"
-			:toggleClass="toggleClass"
-			@close="toggleModalClass('hookModal', '')"
-			maxWidth="457px"
-			borderRadius="12px"
-			marginTop="10%"
-			:showInfo="true"
-		>
-			<template #title>
-				<h4 class="modal__header-title">Edit Research</h4>
-			</template>
-			<template #info>
-				<h5 class="email-recipient">Shane Holdaway, CEO @ Mission Lane</h5>
-			</template>
-			<template #body>
-				<div class="modal__content">
-					<label class="textLabel" for="dislikeForm">Subject</label>
-					<div class="key-group email-subject">
-						<p class="email-subject__wrapper">Your Honey Due Acquisition</p>
-					</div>
-
-					<form action="">
-						<textarea
-							class="hookTextarea"
-							id="articleHook"
-							name="articleHook"
-							v-model="otherComment"
-							placeholder="Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord."
-						>
-							Saw the press release about your acquisition of Honeydue and felt inspired. Your views on reducing financial stress by using tech to make finance more transparent and accessible struck a chord.
-						</textarea
-						>
-					</form>
-
-					<div class="copyhook__btn">
-						<v-button buttonType="primary" size="medium" @click="dislikeResearch">
-							<template>Copy</template>
-							<!-- <Loader v-else /> -->
 						</v-button>
 					</div>
 				</div>

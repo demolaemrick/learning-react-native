@@ -288,7 +288,6 @@ export default {
 			}
 		},
 		clickResearch(item) {
-			console.log(item);
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
 			}
@@ -296,7 +295,6 @@ export default {
 	},
 	computed: {
 		contactImage(item) {
-			console.log(item.images);
 			const images = item.images;
 			if (images && images.length) {
 				return images[Math.floor(Math.random() * images.length)];

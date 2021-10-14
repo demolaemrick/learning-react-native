@@ -67,10 +67,13 @@
 .icon:hover{
   cursor: pointer;
 }
+.icon-margin {
+  margin-right: 10px;
+}
 .article-link{
   color: #989AAA;
    p{
-    max-width: 240px;
+    max-width: 216px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

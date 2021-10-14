@@ -1,12 +1,15 @@
 <template>
 	<div>
 		<VHeaderitem />
-		<main class="hook-page">
+		<template v-if="loading">
+			<PageLoader />
+		</template>
+		<main class="hook-page" v-else>
 			<div class="hookArticles" :class="articlesOpened ? 'open' : 'closed'">
-				<div class="hookArticles__header mb-1">
+				<!-- <div class="hookArticles__header mb-1">
 					<h3 class="section-title">News & Articles</h3>
-				</div>
-				<div v-if="hookArticles.length" class="hookArticles__body">
+				</div> -->
+				<!-- <div v-if="hookArticles.length" class="hookArticles__body">
 					<EmailHookCard
 						v-for="(article, j) in hookArticles"
 						:key="j"
@@ -14,13 +17,267 @@
 						:published="article.meta.published"
 						@displayInsight="displaySearchItem(article)"
 					/>
+				</div> -->
+
+				<div class="searched__wrapper-content">
+					<div class="searched__wrapper-header">
+						<toggle-dropdown itemPadding="0">
+							<template #dropdown-wrapper>
+								<h3 class="title">
+									<template v-if="searchType === 'contact_insights'">Contact Insights</template>
+									<template v-else>Company Insights</template>
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+								</h3>
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" @click="searchType = 'company_insights'">Company Insights</li>
+								<li class="dropdown__item" @click="searchType = 'contact_insights'">Contact Insights</li>
+							</template>
+						</toggle-dropdown>
+					</div>
+					<div class="" v-if="searchType === 'contact_insights'">
+						<div class="news-section mt-2">
+							<div class="section-wrapper top-section">
+								<div class="news">
+									<h3 class="section-title">News & Articles</h3>
+									<div class="filter-sort flex flex__item-center" v-if="contact_insights_categories.length">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="mr-1">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Sort by
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+											</template>
+										</toggle-dropdown>
+
+										<span class="btn-separator"></span>
+
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin" :closeOnClick="false">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Filter
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="bookmarks"
+															class="check-input"
+															type="checkbox"
+															:value="bookmarkFilterOption"
+															v-model="filterContactOptions"
+														/>
+														<label for="bookmarks">Bookmarks</label>
+													</div>
+												</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="intros"
+															class="check-input"
+															type="checkbox"
+															:value="introFilterOption"
+															v-model="filterContactOptions"
+														/>
+														<label for="intros">Email Intros</label>
+													</div>
+												</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5 class="tab" :class="{ active: selectedTab === 'All' }" @click="selectedTab = 'All'">All</h5>
+										<h5
+											v-for="(tab, index) in tabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === selectedTab }"
+											@click="selectedTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" alt="arrow right icon" svg-inline />
+									</div>
+								</div>
+							</div>
+							<template v-if="filterContactArticles(contact_insights_categories).length">
+								<InsightCard
+									v-for="(article, j) in filterContactArticles(contact_insights_categories)"
+									:key="contact_insights_categories[article]"
+									:published="article.meta.published ? article.meta.published : null"
+									:article="article"
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'contact_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article })"
+									@displayInsight="displaySearchItem(article, 'contact_insights')"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)
+									"
+								/>
+							</template>
+							<div class="emptyState-wrapper" v-else>
+								<div class="emptyState">
+									<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+									<p class="emptyState-text">No content found!</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Other insights section -->
+						<div class="otherInsight-section" ref="others" v-if="filterContactArticles(contact_other_insights).length">
+							<div class="section-wrapper" v-if="filterContactArticles(contact_other_insights)">
+								<h3 class="section-title">Other Insights</h3>
+							</div>
+							<InsightCard
+								v-for="(article, j) in filterContactArticles(contact_other_insights)"
+								:key="contact_other_insights[article]"
+								:published="article.meta.published"
+								:article="article"
+								@openModal="
+									toggleModalClass(
+										'dislikeModal',
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
+										$event
+									)
+								"
+								@removeDislike="
+									toggleDislike({ type: 'contact_insights', index: j, section: 'other_insights', ...article })
+								"
+								@bookmark="
+									btnUpdateBookMarks(
+										{ type: 'contact_insights', index: j, section: 'other_insights', ...article },
+										$event
+									)
+								"
+								@displayInsight="displaySearchItem('contact_insights', article)"
+							/>
+						</div>
+					</div>
+
+					<div class="" v-if="searchType === 'company_insights'">
+						<div class="news-section mt-2">
+							<div class="section-wrapper">
+								<div class="news">
+									<h3 class="section-title">News</h3>
+									<div class="filter-sort flex flex__item-center" v-if="company_insights_categories.length">
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="mr-1">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Sort by
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+											</template>
+										</toggle-dropdown>
+
+										<span class="btn-separator"></span>
+
+										<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem" class="btn-margin" :closeOnClick="false">
+											<template #dropdown-wrapper>
+												<p class="sort">
+													Filter
+													<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+												</p>
+											</template>
+											<template #dropdown-items>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="bookmarks"
+															class="check-input"
+															type="checkbox"
+															:value="bookmarkFilterOption"
+															v-model="filterCompanyOptions"
+														/>
+														<label for="bookmarks">Bookmarks</label>
+													</div>
+												</li>
+												<li class="dropdown__item">
+													<div class="flex flex__item-center">
+														<input
+															id="intros"
+															class="check-input"
+															type="checkbox"
+															:value="introFilterOption"
+															v-model="filterCompanyOptions"
+														/>
+														<label for="intros">Email Intros</label>
+													</div>
+												</li>
+											</template>
+										</toggle-dropdown>
+									</div>
+								</div>
+								<div class="flex flex__space-center">
+									<div ref="content" class="tab-group sm flex">
+										<h5
+											v-for="(tab, index) in companyTabs"
+											:key="index"
+											class="tab"
+											:class="{ active: tab === companyTab }"
+											@click="companyTab = tab"
+										>
+											{{ tab }}
+										</h5>
+									</div>
+									<div class="tab-circle" @click="scrollTab">
+										<img src="@/assets/icons/arrow-right.svg" alt="arrow right icon" svg-inline />
+									</div>
+								</div>
+							</div>
+							<template v-if="filterCompanyArticles(company_insights_categories).length">
+								<InsightCard
+									v-for="(article, j) in filterCompanyArticles(company_insights_categories)"
+									:key="company_insights_categories[article]"
+									:published="article.meta.published ? article.meta.published : null"
+									:article="article"
+									@openModal="
+										toggleModalClass(
+											'dislikeModal',
+											{ type: 'company_insights', index: j, section: 'news', ...article },
+											$event
+										)
+									"
+									@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
+									@bookmark="
+										btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)
+									"
+									@displayInsight="displaySearchItem(article, 'company_insights')"
+								/>
+							</template>
+							<div class="emptyState-wrapper" v-else>
+								<div class="emptyState">
+									<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+									<p class="emptyState-text">No content found!</p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="emptyState-wrapper" v-else>
+				<!-- <div class="emptyState-wrapper" v-else>
 					<div class="emptyState">
 						<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
 						<p class="emptyState-text">No content found!</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="emailgen-group" :class="articlesOpened ? 'open' : 'closed'">
 				<template v-if="quotedArticle">
@@ -189,19 +446,7 @@
 					</div>
 
 					<div v-if="quotedArticle" class="article-section" ref="main">
-						<div class="flex flex__end">
-							<v-button
-								:disabled="emailHooks.length >= 5"
-								:title="emailHooks.length >= 5 ? 'Maximum of 5 email hooks' : ''"
-								@click="toggleModalClass('hookModal')"
-								class="mt-1 mb-1"
-								size="large"
-								buttonType="primary"
-							>
-								Create Email Intro
-							</v-button>
-						</div>
-						<div v-if="quotedArticle" class="item__detail">
+						<div v-if="quotedArticle" class="item__detail mt-2">
 							<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>
 							<a class="item__detail-url" :href="quotedArticle.url" target="_blank">
 								<img src="@/assets/icons/link.svg" alt="link icon" svg-inline />
@@ -248,54 +493,48 @@
 			</div>
 		</main>
 
-		<!-- Hook Modal -->
 		<modal
 			position="center"
-			v-if="hookModal"
+			v-if="dislikeModal"
 			:active="true"
 			:toggleClass="toggleClass"
-			@close="toggleModalClass('hookModal', '')"
-			maxWidth="492px"
+			@close="toggleModalClass('dislikeModal', '')"
+			maxWidth="400px"
 			borderRadius="12px"
 			marginTop="10%"
 			:showInfo="true"
 		>
 			<template #title>
-				<h4 class="modal__header-title">Create a personalized email intro</h4>
+				<h4 class="modal__header-title">Not Relevant?</h4>
 			</template>
-
+			<template #info>
+				<h5>Your feedback will help us improve your results.</h5>
+			</template>
 			<template #body>
-				<form @submit.prevent="">
-					<ValidationObserver v-slot="{ invalid }" color="#ff0000">
-						<div class="auth-input">
-							<label class="hook-label">Subject</label>
-							<text-input
-								type="text"
-								rules="required"
-								labelColor="gray"
-								v-model="createdEmailHook.subject"
-								width="100%"
-								name="Subject"
-								placeholder="Enter email subject"
-							/>
-							<textarea
-								class="hookTextarea"
-								id="emailHook"
-								name="emailHook"
-								v-model="createdEmailHook.hook"
-								placeholder="Input your email intro..."
-							>
-							</textarea>
+				<div class="modal__content">
+					<p class="modal__content-text">
+						<RadioBtn
+							style="display: block"
+							marginBottom="24px"
+							id="dislikeOption"
+							:options="dislikeOptions"
+							name="dislikeChoices"
+							v-model="dislikeOption"
+						/>
+					</p>
 
-							<div class="flex flex__end">
-								<v-button @click="addHook" :disabled="invalid || !createdEmailHook.hook" submitType="submit">
-									<template v-if="!btnLoading">Save</template>
-									<Loader v-else />
-								</v-button>
-							</div>
-						</div>
-					</ValidationObserver>
-				</form>
+					<form v-if="dislikeOption === 'Other'" action="">
+						<label class="textLabel" for="dislikeForm">Comment</label>
+						<textarea class="textarea" id="dislikeForm" name="dislikeForm" placeholder="Comment here..."> </textarea>
+					</form>
+
+					<div class="modal__content-btn">
+						<v-button class="config__btn" buttonType="primary" size="full" @click="dislikeResearch">
+							<template v-if="!dislikeLoading">Submit</template>
+							<Loader v-else />
+						</v-button>
+					</div>
+				</div>
 			</template>
 		</modal>
 	</div>

@@ -573,6 +573,7 @@
   overflow: auto;
 	margin: 20px 0 24px;
 
+
 	&::-webkit-scrollbar {
 		width: 0;
 	}
@@ -581,6 +582,10 @@
 		&:not(:last-child){
 			margin-left: 5px;
 		}
+	}
+	
+	@include query(desktop-xl, min){
+		justify-content: space-between;
 	}
 
 	&.sm {
