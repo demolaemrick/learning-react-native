@@ -110,7 +110,7 @@
 									</div>
 								</div>
 							</div>
-							<template v-if="contact_insights_categories.length">
+							<template v-if="filterContactArticles(contact_insights_categories).length">
 								<InsightCard
 									v-for="(article, j) in filterContactArticles(contact_insights_categories)"
 									:key="contact_insights_categories[article]"
@@ -139,7 +139,7 @@
 						</div>
 
 						<!-- Other insights section -->
-						<div class="otherInsight-section" ref="others" v-if="contact_other_insights.length">
+						<div class="otherInsight-section" ref="others" v-if="filterContactArticles(contact_other_insights).length">
 							<div class="section-wrapper" v-if="filterContactArticles(contact_other_insights)">
 								<h3 class="section-title">Other Insights</h3>
 							</div>
@@ -243,7 +243,7 @@
 									</div>
 								</div>
 							</div>
-							<template v-if="company_insights_categories.length">
+							<template v-if="filterCompanyArticles(company_insights_categories).length">
 								<InsightCard
 									v-for="(article, j) in filterCompanyArticles(company_insights_categories)"
 									:key="company_insights_categories[article]"
