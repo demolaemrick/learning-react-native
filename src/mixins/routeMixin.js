@@ -85,13 +85,11 @@ export default {
 					id: this.$route.query.id,
 					isFromAdmin: this.isFromAdmin
 				});
-				console.log(response.data.data);
 				const { contact_details, company_details, status } = response.data.data;
 				this.contact_details = contact_details;
 				this.company_details = company_details;
 				this.insightStatus = status;
 				const refactored = this.changeToLegacyResponse(response.data.data);
-				console.log(refactored, 'refactored');
 				this.saveSearchedResult(refactored);
 				this.insightStatus.statusCode === 'UPDATING' ? this.subscribe() : null;
 				return true;
