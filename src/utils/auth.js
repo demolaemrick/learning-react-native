@@ -48,7 +48,7 @@ export function noAuthOnly(to, from, next) {
 
 export function emailGenerationAuth(to, from, next) {
 	if (isLoggedIn() && loggedInUser().can_generate_email) {
-		next(true);
+		next();
 	} else {
 		next(from.path);
 	}
