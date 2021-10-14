@@ -420,7 +420,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

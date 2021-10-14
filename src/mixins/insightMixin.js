@@ -170,17 +170,17 @@ export default {
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
 		sortByDislike(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return a.is_disliked - b.is_disliked;
 			});
 		},
 		sortByBookmarked(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return b.is_bookmarked - a.is_bookmarked;
 			});
 		},
 		sortByImportant(data) {
-			return data.sort(function (a, b) {
+			return data.sort(function(a, b) {
 				return b.important - a.important;
 			});
 		},
@@ -204,8 +204,8 @@ export default {
 		sortByRecent(data) {
 			return data.sort((a, b) => {
 				return (
-					new Date(b.meta.published != null) - new Date(a.meta.published != null) ||
-					new Date(b.meta.published) - new Date(a.meta.published)
+					new Date(b.meta.published || b.meta.timestamp != null) - new Date(a.meta.published || a.meta.timestamp != null) ||
+					new Date(b.meta.published || b.meta.timestamp) - new Date(a.meta.published || a.meta.timestamp)
 				);
 			});
 		},
@@ -537,7 +537,10 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value.trim().toUpperCase().split(' ');
+			const placeHolder = value
+				.trim()
+				.toUpperCase()
+				.split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}
