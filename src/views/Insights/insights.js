@@ -463,7 +463,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function(newVal) {
+		contactSearchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -471,7 +471,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function(newVal) {
+		companySearchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

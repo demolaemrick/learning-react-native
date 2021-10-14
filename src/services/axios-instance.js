@@ -30,14 +30,14 @@ instance.interceptors.response.use(undefined, function axiosRetryInterceptor(err
 	config.__retryCount += 1;
 
 	// Create new promise to handle exponential backoff
-	var backoff = new Promise(function(resolve) {
-		setTimeout(function() {
+	var backoff = new Promise(function (resolve) {
+		setTimeout(function () {
 			resolve();
 		}, config.retryDelay || 1);
 	});
 
 	// Return the promise in which recalls axios to retry the request
-	return backoff.then(function() {
+	return backoff.then(function () {
 		return axios(config);
 	});
 });
