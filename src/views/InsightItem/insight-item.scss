@@ -89,28 +89,33 @@
 		border: none;
 		resize: none;
 		margin-top: 1rem;
-		padding: 1rem;
 		
 		&.active {
 			border: 1px solid #3B48F7;
+			padding: 15px;
 			border-radius: 6px;
 			-webkit-border-radius: 6px;
 			-moz-border-radius: 6px;
 			-ms-border-radius: 6px;
 			-o-border-radius: 6px;
-}
-	}
+			}
+			transition: all 0.3s ease-in-out;
+			-webkit-transition: all 0.3s ease-in-out;
+			-moz-transition: all 0.3s ease-in-out;
+			-ms-transition: all 0.3s ease-in-out;
+			-o-transition: all 0.3s ease-in-out;
+	 }
 
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	transition: all 0.5s ease-in-out;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-}
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		transition: all 0.5s ease-in-out;
+		-webkit-transition: all 0.5s ease-in-out;
+		-moz-transition: all 0.5s ease-in-out;
+		-ms-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+	}
 .image-placeholder{
 	text-align: center;
 	svg{
