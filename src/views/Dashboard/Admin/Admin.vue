@@ -91,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="table__pagination__wrapper" v-if="!adminLoading && admins && admins.length > 10">
+		<div class="table__pagination__wrapper" v-if="!adminLoading">
 			<div class="title__left">
 				<span>Showing Page</span>
 				<span>
