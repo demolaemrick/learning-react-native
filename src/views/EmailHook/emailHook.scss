@@ -280,6 +280,7 @@
 		
 	}
 	&-date {
+    margin-top: 16px;
 		letter-spacing: -0.4px;
 		opacity: 0.23;
 	}
@@ -530,4 +531,19 @@
 }
 label {
   cursor: pointer;
+}
+.filter__tags {
+  display: flex;
+  margin-top: 20px;
+  align-items: flex-start;
+  .tag__badge {
+    margin: 6px 18px 0 0;
+  }
+  .tag {
+    margin: 6px 6px 6px 0;
+    &__wrapper {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
 }
