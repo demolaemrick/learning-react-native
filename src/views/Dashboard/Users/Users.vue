@@ -216,7 +216,7 @@
 
 				<div>
 					<div class="privileges_section">
-						<h4>User Pemissions</h4>
+						<h4>User Permissions</h4>
 						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
 						<CheckBoxes
 							:permissions="checkedPermissions"

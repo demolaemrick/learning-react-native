@@ -159,6 +159,44 @@
 			</template>
 		</modal>
 
+		<modal position="right" v-if="showEditPermission" :toggleClass="toggleClass" @close="toggleModalClass('showEditPermission')">
+			<template #title>
+				<h3>Permission</h3>
+			</template>
+			<template #body>
+				<p class="modal-text">Select the check box to assign permissions</p>
+
+				<div>
+					<div class="privileges_section">
+						<h4>Admin Permissions</h4>
+						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
+						<CheckBoxes
+							:permissions="checkedPermissions"
+							v-else
+							@checkUpdate="checkUpdate"
+							:datas="permissions"
+							inputName="privileges"
+						/>
+					</div>
+
+					<div class="flex flex__end" id="adminPermission">
+						<v-button
+							:disabled="checkedPermissions.length === 0 || loading"
+							class="submit"
+							size="large"
+							submitType="submit"
+							buttonType="primary"
+							ref="adminPermission"
+							@click="savePermission"
+						>
+							<template v-if="!loading">Save</template>
+							<Loader v-else color="#3B48F7" />
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</modal>
+
 		<modal position="right" v-if="showEditModal" :toggleClass="toggleClass" @close="toggleModalClass('showEditModal')">
 			<template #title>
 				<h3>Edit Info</h3>
