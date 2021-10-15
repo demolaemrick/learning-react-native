@@ -206,7 +206,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="notepad" :class="{ active: activeTetxArea }">
+				<div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">
 							<span>Notepad</span>
@@ -222,6 +222,7 @@
 					</span>
 					<textarea
 						class="notepad-input"
+						:class="{ active: activeTetxArea }"
 						:rows="rows"
 						cols="50"
 						name="text"

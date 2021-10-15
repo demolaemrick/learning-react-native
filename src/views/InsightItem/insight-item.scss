@@ -57,9 +57,6 @@
 	padding: 15px 0 24px 24px;
 	background-color: #fafafa;
 
-	&.active{
-		border: 1px solid #333758;
-	}
 	
 
 	&-title {
@@ -85,6 +82,12 @@
 		background-color: transparent;
 		border: none;
 		resize: none;
+		margin-top: 1rem;
+		padding: 0.5rem;
+		
+		&.active {
+			border: 1px solid #3B48F7;
+		}
 	}
 
 	position: absolute;
