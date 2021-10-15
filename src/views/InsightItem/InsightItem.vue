@@ -210,7 +210,9 @@
 					<span class="title-wrapper">
 						<p class="notepad-title">
 							<span>Notepad</span>
-							<Loader v-if="sending" color="#3B48F7" />
+							<small class="loader_container">
+								<Loader v-if="sending" color="#3B48F7" />
+							</small>
 						</p>
 						<img
 							src="@/assets/icons/collapse.svg"

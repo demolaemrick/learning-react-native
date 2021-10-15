@@ -54,7 +54,7 @@
 }
 
 .notepad {
-	padding: 15px 0 24px 24px;
+	padding: 15px 24px;
 	background-color: #fafafa;
 
 	
@@ -75,19 +75,30 @@
 		justify-content: space-between;
 		svg {
 			cursor: pointer;
+			color: #3B48F7;
+		}
+
+		& .loader_container {
+			display: block;
+			width: 5px;
 		}
 	}
 	&-input {
-		width: 95%;
+		width: 100%;
 		background-color: transparent;
 		border: none;
 		resize: none;
 		margin-top: 1rem;
-		padding: 0.5rem;
+		padding: 1rem;
 		
 		&.active {
 			border: 1px solid #3B48F7;
-		}
+			border-radius: 6px;
+			-webkit-border-radius: 6px;
+			-moz-border-radius: 6px;
+			-ms-border-radius: 6px;
+			-o-border-radius: 6px;
+}
 	}
 
 	position: absolute;
