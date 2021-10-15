@@ -12,6 +12,7 @@ import InsightCard from '@/components/InsightCard';
 import EmailHookCard from '@/components/EmailHookCard';
 import Checkbox from '@/components/Checkbox';
 import routeMixin from '@/mixins/routeMixin';
+import CTag from '@/components/Tag';
 
 export default {
 	name: 'EmailHook',
@@ -25,7 +26,8 @@ export default {
 		EmailHookCard,
 		LoadIcon,
 		PageLoader,
-		Checkbox
+		Checkbox,
+		CTag
 	},
 	mixins: [insightMixin, routeMixin],
 	data() {
