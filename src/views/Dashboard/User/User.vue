@@ -93,16 +93,15 @@
 							:loading="pageLoading"
 							:tableData="history"
 							theme="contact__research"
-							@rowClick="showResearch"
 							@checkAll="checkAll"
 						>
 							<template name="table-row" slot-scope="{ item }">
-								<td class="table__row-item">
+								<!-- <td class="table__row-item">
 									<div class="check-input">
 										<input type="checkbox" :value="item.rowId" v-model="checkedContacts" :disabled="false" />
 									</div>
-								</td>
-								<td class="table__row-item">
+								</td> -->
+								<td class="table__row-item" @click="showResearch(item)">
 									<div class="table__td__name">
 										<div class="initials__logo">
 											{{ getInitials(item.full_name) }}
@@ -113,8 +112,8 @@
 										</div>
 									</div>
 								</td>
-								<td class="table__row-item text-capitalize">{{ item.company }}</td>
-								<td class="table__row-item text-capitalize">{{ item.role }}</td>
+								<td class="table__row-item text-capitalize" @click="showResearch(item)">{{ item.company }}</td>
+								<td class="table__row-item text-capitalize" @click="showResearch(item)">{{ item.role }}</td>
 								<td class="table__row-item linkedin">
 									<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
 									<template v-else
@@ -122,12 +121,12 @@
 											<img src="@/assets/icons/link.svg" alt="link icon" svg-inline /> </a
 									></template>
 								</td>
-								<td class="table__row-item">
+								<td class="table__row-item" @click="showResearch(item)">
 									<template v-if="item.research_score === 0.1 || item.research_score === null">-</template>
 									<template v-else>{{ (item.research_score * 100).toFixed(2) }}%</template>
 								</td>
-								<td class="table__row-item">{{ item.updatedAt | moment('from', 'now') }}</td>
-								<td class="table__row-item status">
+								<td class="table__row-item" @click="showResearch(item)">{{ item.updatedAt | moment('from', 'now') }}</td>
+								<td class="table__row-item status" @click="showResearch(item)">
 									<Status :status="item.status" />
 								</td>
 								<td class="table__row-item dropdown">
@@ -154,12 +153,12 @@
 							<div class="emptyState">
 								<img src="@/assets/icons/empty-state-image.svg" alt="empty state image" svg-inline />
 								<p class="emptyState-text">No user record found</p>
-								<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
+								<p class="emptyState-subtext">Click on the button to Upload Contact</p>
 								<c-button size="large" buttonType="primary" @click="toggleUploadContact">Upload Contact</c-button>
 							</div>
 						</div>
 					</div>
-					<div class="table__pagination__wrapper" v-if="!usersLoading && history.length !== 0 && history.length > 10">
+					<div class="table__pagination__wrapper" v-if="!usersLoading">
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>

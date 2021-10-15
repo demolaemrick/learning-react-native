@@ -2,14 +2,7 @@
 
 .main {
 	display: flex;
-	width: 100%;
-	overflow: auto;
 }
-
-// .main {
-// 	display: grid;
-// 	grid-template-columns: 25% 35% 35%;
-// }
 
 @media (min-width: 1560px) {
 	.main {
@@ -216,8 +209,12 @@
 	height: 80vh;
   overflow-y: scroll;
 	position: sticky;
-	top: 15px;
+	top: 97px;
 	flex-shrink: 0;
+
+	&_adminSide {
+		top: 15px;
+	}
 
 	.section {
 		.title {

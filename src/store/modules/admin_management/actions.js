@@ -34,7 +34,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -81,7 +80,6 @@ export default {
 		Object.keys(queries).forEach((key) => {
 			url += `${key}=${encodeURIComponent(queries[key])}&`;
 		});
-		console.log(url);
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);

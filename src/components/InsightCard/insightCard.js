@@ -69,9 +69,6 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		async toggleArticleFunc() {
-			// console.log(this.article);
-
-			// return;
 			const rowId = this.$route.query.id;
 			let hide = this.hidden ? false : true;
 			let data = {
@@ -86,20 +83,19 @@ export default {
 
 			try {
 				const response = await this.toggleArticle(data);
-				// console.log(response);
+				this.sending = false;
 				this.showAlert({
 					status: 'success',
 					message: response.data.message,
 					showAlert: true
 				});
-				this.sending = false;
 				this.hidden = hide;
 				this.$emit('hideArticle', {
 					id: rowId,
 					hide
 				});
 			} catch (error) {
-				// console.log(error.response);
+				this.sending = false;
 				this.showAlert({
 					status: 'erro',
 					message: error.response.data.message,
@@ -123,17 +119,16 @@ export default {
 
 			try {
 				const response = await this.toggleImportance(data);
-				// console.log(response);
+				this.sendingImp = false;
 				this.showAlert({
 					status: 'success',
 					message: response.data.message,
 					showAlert: true
 				});
-				this.sendingImp = false;
 				this.ranked_by_admin = important;
 				this.$emit('rankArticle', { id: rowId, important });
 			} catch (error) {
-				// console.log(error.response);
+				this.sendingImp = false;
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,

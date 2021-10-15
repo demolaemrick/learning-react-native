@@ -208,7 +208,12 @@
 				</div>
 				<div class="notepad">
 					<span class="title-wrapper">
-						<p class="notepad-title">Notepad</p>
+						<p class="notepad-title">
+							<span>Notepad</span>
+							<small class="loader_container">
+								<Loader v-if="sending" color="#3B48F7" />
+							</small>
+						</p>
 						<img
 							src="@/assets/icons/collapse.svg"
 							alt="close notepad icon"
@@ -219,6 +224,7 @@
 					</span>
 					<textarea
 						class="notepad-input"
+						:class="{ active: activeTetxArea }"
 						:rows="rows"
 						cols="50"
 						name="text"
@@ -242,7 +248,7 @@
 				<div class="filter__tags" v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0">
 					<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 					<div class="tag__wrapper">
-						<span v-for="(tag, i) in quotedArticle.meta.content.tag" :key="i"
+						<span v-for="(tag, i) in quotedArticle.meta.content.tags" :key="i"
 							><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
 						>
 					</div>

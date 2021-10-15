@@ -419,6 +419,35 @@
 						<div class="news">
 							<h3 class="section-title">News & Articles</h3>
 						</div>
+						<div v-if="isFromAdmin" class="relevant_add_article">
+							<div class="filter-sort">
+								<toggle-dropdown itemPadding=".5rem 0 .5rem .5rem">
+									<template #dropdown-wrapper>
+										<p class="sort">
+											Sort by <img src="@/assets/icons/arrow-dropdown-plane.svg" alt="dropdown icon" svg-inline />
+										</p>
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+									</template>
+								</toggle-dropdown>
+							</div>
+
+							<v-button
+								class="submit"
+								size="large"
+								buttonType="primary"
+								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+							>
+								<div class="flex">
+									<span class="add-icon mr-1">
+										<img src="@/assets/icons/add-icon.svg" alt="add admin icon" svg-inline />
+									</span>
+									<p>Add Article</p>
+								</div>
+							</v-button>
+						</div>
 						<div class="emptyState">
 							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
 							<p class="emptyState-text">No content found!</p>
@@ -584,7 +613,7 @@
 					</div>
 				</div>
 
-				<div v-if="showNewsSection" class="news-section" ref="company-news-section">
+				<div v-if="showNewsSection && Object.keys(company_insights.news).length" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>
@@ -598,7 +627,7 @@
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+										<li class="dropdown__item" @click="companySortMethod = 'relevance'">Relevant</li>
 									</template>
 								</toggle-dropdown>
 							</div>

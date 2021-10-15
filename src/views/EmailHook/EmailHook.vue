@@ -49,8 +49,8 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 
@@ -172,7 +172,7 @@
 										$event
 									)
 								"
-								@displayInsight="displaySearchItem('contact_insights', article)"
+								@displayInsight="displaySearchItem(article, 'contact_insights')"
 							/>
 						</div>
 					</div>
@@ -192,7 +192,7 @@
 											</template>
 											<template #dropdown-items>
 												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevance'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 
@@ -474,7 +474,7 @@
 							>
 								<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
 								<div class="tag__wrapper">
-									<span v-for="(tag, i) in quotedArticle.meta.content.tag" :key="i"
+									<span v-for="(tag, i) in quotedArticle.meta.content.tags" :key="i"
 										><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
 									>
 								</div>

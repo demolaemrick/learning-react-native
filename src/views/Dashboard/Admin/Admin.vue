@@ -27,7 +27,6 @@
 			</div>
 		</div>
 		<div>
-			{{ loggedInUser }}
 			<v-table :loading="adminLoading" :tableHeaders="tableHeaders" :tableData="admins" theme="contact__research">
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">
@@ -92,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="table__pagination__wrapper" v-if="!adminLoading && admins.length > 10">
+		<div class="table__pagination__wrapper" v-if="!adminLoading">
 			<div class="title__left">
 				<span>Showing Page</span>
 				<span>
@@ -169,7 +168,7 @@
 
 				<div>
 					<div class="privileges_section">
-						<h4>Admin Pemissions</h4>
+						<h4>Admin Permissions</h4>
 						<p v-if="permissions.length === 0 || !permissions">No Permission available</p>
 						<CheckBoxes
 							:permissions="checkedPermissions"

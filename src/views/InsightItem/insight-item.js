@@ -4,6 +4,7 @@ import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
 import routeMixin from '@/mixins/routeMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
+import Loader from '@/components/Loader';
 
 export default {
 	mixins: [insightMixin, routeMixin],
@@ -11,7 +12,8 @@ export default {
 	components: {
 		CTag,
 		VHeaderitem,
-		PageLoader
+		PageLoader,
+		Loader
 	},
 	data() {
 		return {
@@ -30,22 +32,21 @@ export default {
 			contactSortMethod: '',
 			companySortMethod: '',
 			rowId: '',
-			isFromAdmin: false
+			isFromAdmin: false,
+			sending: false,
+			activeTetxArea: false
 		};
 	},
 	watch: {
 		hideSearch(value) {
-			value ? (this.rows = 30) : (this.rows = 1);
+			value ? (this.rows = 10) : (this.rows = 1);
 		}
 	},
 	created() {
 		this.isFromAdmin = this.$route.name === 'AdminInsightItem' ? true : false;
 	},
 	async mounted() {
-		// this.rowId = this.getSearchedResult.rowId;
 		this.searchType = this.getSearchedItem.type;
-		// await this.initUserBookmarks();
-		// await this.initUserNote(this.getSearchedResult.rowId);
 	},
 	computed: {
 		...mapGetters({
@@ -97,6 +98,7 @@ export default {
 		}),
 		expandNotepad() {
 			this.hideSearch = true;
+			this.activeTetxArea = true;
 		},
 		displaySearchItem(type, item) {
 			const data = {

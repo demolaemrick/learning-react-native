@@ -381,17 +381,21 @@ export default {
 			try {
 				const response = await this.adminSearch(payload);
 				if (response.data.response.data.length > 0) {
-					console.log(response.data.response.data, '------------');
 					this.admins = response.data.response.data;
 				} else {
 					this.showAlert({
-						status: 'error',
+						status: 'caution',
 						message: 'No admin found',
 						showAlert: true
 					});
 				}
 			} catch (error) {
 				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		clearSearch() {
