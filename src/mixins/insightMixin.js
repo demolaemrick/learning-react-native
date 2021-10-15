@@ -541,6 +541,7 @@ export default {
 		},
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
+			this.activeTetxArea = false;
 			if (this.notepadTXT) {
 				this.sending = true;
 				try {

@@ -33,12 +33,13 @@ export default {
 			companySortMethod: '',
 			rowId: '',
 			isFromAdmin: false,
-			sending: false
+			sending: false,
+			activeTetxArea: false
 		};
 	},
 	watch: {
 		hideSearch(value) {
-			value ? (this.rows = 20) : (this.rows = 1);
+			value ? (this.rows = 10) : (this.rows = 1);
 		}
 	},
 	created() {
@@ -100,6 +101,7 @@ export default {
 		}),
 		expandNotepad() {
 			this.hideSearch = true;
+			this.activeTetxArea = true;
 		},
 		displaySearchItem(type, item) {
 			const data = {

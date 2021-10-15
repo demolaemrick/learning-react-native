@@ -206,7 +206,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="notepad">
+				<div class="notepad" :class="{ active: activeTetxArea }">
 					<span class="title-wrapper">
 						<p class="notepad-title">
 							<span>Notepad</span>

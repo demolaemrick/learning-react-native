@@ -56,6 +56,10 @@
 .notepad {
 	padding: 15px 0 24px 24px;
 	background-color: #fafafa;
+
+	&.active{
+		border: 1px solid #333758;
+	}
 	
 
 	&-title {
