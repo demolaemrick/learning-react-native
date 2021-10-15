@@ -40,7 +40,6 @@ export default {
 	background-color: #ffffff;
 	padding: 16px;
 	width: 100vw;
-	overflow: auto;
 	margin: 0 auto;
 	transition: all 0.3s ease-in-out;
 }

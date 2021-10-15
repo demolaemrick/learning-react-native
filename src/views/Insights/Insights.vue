@@ -613,7 +613,7 @@
 					</div>
 				</div>
 
-				<div v-if="showNewsSection" class="news-section" ref="company-news-section">
+				<div v-if="showNewsSection && Object.keys(company_insights.news).length" class="news-section" ref="company-news-section">
 					<div class="section-wrapper">
 						<div class="news">
 							<h3 class="section-title">News</h3>

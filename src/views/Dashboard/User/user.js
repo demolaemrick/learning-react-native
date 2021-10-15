@@ -40,10 +40,10 @@ export default {
 			loading: false,
 			toggleClass: true,
 			tableHeaders: [
-				{
-					name: '',
-					elementSlot: true
-				},
+				// {
+				// 	name: '',
+				// 	elementSlot: true
+				// },
 				{
 					name: 'Name',
 					sortHeader: 'full_name'

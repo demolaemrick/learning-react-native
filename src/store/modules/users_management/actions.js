@@ -12,7 +12,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -64,7 +63,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -171,8 +169,6 @@ export default {
 	},
 	toggleArticle: async (context, { data, hide }) => {
 		const url = hide ? 'admin/user/research/hide/article' : 'admin/user/research/unhide/article';
-		// console.log(url);
-		// return;
 		try {
 			const response = hide ? await api.put(url, data) : await api.delete(url, data);
 			return Promise.resolve(response);

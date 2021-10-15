@@ -80,10 +80,16 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				this.checkCompanySort(newObj[tab]);
-				this.sortByImportant(newObj[tab]);
-				this.sortByDislike(newObj[tab]);
-				return this.sortByBookmarked(newObj[tab]);
+				const sortedList = this.checkCompanySort(newObj[tab]);
+				let bookMarked = this.sortByBookmarked(sortedList);
+				let byImportance = this.sortByImportant(sortedList);
+				let justOrdinary = this.getOrdinaryArticles(sortedList);
+				let byDisliked = this.sortByDislike(sortedList);
+				return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
+				// this.checkCompanySort(newObj[tab]);
+				// this.sortByImportant(newObj[tab]);
+				// this.sortByDislike(newObj[tab]);
+				// return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -105,18 +111,42 @@ export default {
 						newArray = [...newArray, ...data[item]];
 					}
 					const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-					this.checkContactSort(uniqueArray);
-					this.sortByImportant(uniqueArray);
-					this.sortByDislike(uniqueArray);
-					return this.sortByBookmarked(uniqueArray);
+					const sortedList = this.checkContactSort(uniqueArray);
+					let bookMarked = this.sortByBookmarked(sortedList);
+					let byImportance = this.sortByImportant(sortedList);
+					let justOrdinary = this.getOrdinaryArticles(sortedList);
+					let byDisliked = this.sortByDislike(sortedList);
+
+					return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
 				} else {
 					const element = Object.keys(data).includes(tab) ? data[tab] : '';
 					newObj[tab] = element;
-					this.checkContactSort(newObj[tab]);
-					this.sortByImportant(newObj[tab]);
-					this.sortByDislike(newObj[tab]);
-					return this.sortByBookmarked(newObj[tab]);
+					const sortedList = this.checkContactSort(newObj[tab]);
+					let bookMarked = this.sortByBookmarked(sortedList);
+					let byImportance = this.sortByImportant(sortedList);
+					let justOrdinary = this.getOrdinaryArticles(sortedList);
+					let byDisliked = this.sortByDislike(sortedList);
+					return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
 				}
+
+				// if (tab === 'All') {
+				// 	let newArray = [];
+				// 	for (const item in data) {
+				// 		newArray = [...newArray, ...data[item]];
+				// 	}
+				// 	const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
+				// 	constthis.checkContactSort(uniqueArray);
+				// 	this.sortByImportant(uniqueArray);
+				// 	this.sortByDislike(uniqueArray);
+				// 	return this.sortByBookmarked(uniqueArray);
+				// } else {
+				// 	const element = Object.keys(data).includes(tab) ? data[tab] : '';
+				// 	newObj[tab] = element;
+				// 	this.checkContactSort(newObj[tab]);
+				// 	this.sortByImportant(newObj[tab]);
+				// 	this.sortByDislike(newObj[tab]);
+				// 	return this.sortByBookmarked(newObj[tab]);
+				// }
 			},
 			set(value) {
 				return value;
@@ -130,10 +160,11 @@ export default {
 					newArray = [...newArray, ...data[item]];
 				}
 				const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				this.sortByImportant(uniqueArray);
-				this.sortByDislike(uniqueArray);
-				this.sortByBookmarked(uniqueArray);
-				return uniqueArray;
+				let bookMarked = this.sortByBookmarked(uniqueArray);
+				let byImportance = this.sortByImportant(uniqueArray);
+				let justOrdinary = this.getOrdinaryArticles(uniqueArray);
+				let byDisliked = this.sortByDislike(uniqueArray);
+				return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
 			}
 		},
 		contactQuotes() {
@@ -170,20 +201,32 @@ export default {
 			dislikeQuote: 'search_services/dislikeQuote',
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
-		sortByDislike(data) {
-			return data.sort(function (a, b) {
-				return a.is_disliked - b.is_disliked;
-			});
-		},
+		// sortByDislike(data) {
+		// 	return data.sort(function (a, b) {
+		// 		return a.is_disliked - b.is_disliked;
+		// 	});
+		// },
+		// sortByBookmarked(data) {
+		// 	return data.sort(function (a, b) {
+		// 		return b.is_bookmarked - a.is_bookmarked;
+		// 	});
+		// },
+		// sortByImportant(data) {
+		// 	return data.sort(function (a, b) {
+		// 		return b.important - a.important;
+		// 	});
+		// },
 		sortByBookmarked(data) {
-			return data.sort(function (a, b) {
-				return b.is_bookmarked - a.is_bookmarked;
-			});
+			return data.filter((x) => x.is_bookmarked && !x.is_disliked);
 		},
 		sortByImportant(data) {
-			return data.sort(function (a, b) {
-				return b.important - a.important;
-			});
+			return data.filter((x) => x.important && !x.is_bookmarked && !x.is_disliked);
+		},
+		getOrdinaryArticles(data) {
+			return data.filter((x) => !x.important && !x.is_bookmarked && !x.is_disliked);
+		},
+		sortByDislike(data) {
+			return data.filter((x) => x.is_disliked);
 		},
 		checkContactSort(uniqueArray) {
 			if (this.contactSortMethod === 'relevance') {
@@ -499,6 +542,7 @@ export default {
 		async handleTextareaBlur() {
 			this.editNote = !this.editNote;
 			if (this.notepadTXT) {
+				this.sending = true;
 				try {
 					const response = await this.updateUserNote({
 						rowId: this.getSearchedResult.rowId,
@@ -510,12 +554,14 @@ export default {
 						message: response.data.message || 'Note updated successfully',
 						showAlert: true
 					});
+					this.sending = false;
 				} catch (error) {
 					this.showAlert({
 						status: 'error',
 						message: error.response.data.message,
 						showAlert: true
 					});
+					this.sending = false;
 				}
 			}
 		},

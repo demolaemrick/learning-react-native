@@ -4,6 +4,7 @@ import PageLoader from '@/components/PageLoader';
 import insightMixin from '@/mixins/insightMixin';
 import routeMixin from '@/mixins/routeMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
+import Loader from '@/components/Loader';
 
 export default {
 	mixins: [insightMixin, routeMixin],
@@ -11,7 +12,8 @@ export default {
 	components: {
 		CTag,
 		VHeaderitem,
-		PageLoader
+		PageLoader,
+		Loader
 	},
 	data() {
 		return {
@@ -30,12 +32,13 @@ export default {
 			contactSortMethod: '',
 			companySortMethod: '',
 			rowId: '',
-			isFromAdmin: false
+			isFromAdmin: false,
+			sending: false
 		};
 	},
 	watch: {
 		hideSearch(value) {
-			value ? (this.rows = 30) : (this.rows = 1);
+			value ? (this.rows = 20) : (this.rows = 1);
 		}
 	},
 	created() {

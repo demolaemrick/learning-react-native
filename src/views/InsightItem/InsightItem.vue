@@ -208,7 +208,10 @@
 				</div>
 				<div class="notepad">
 					<span class="title-wrapper">
-						<p class="notepad-title">Notepad</p>
+						<p class="notepad-title">
+							<span>Notepad</span>
+							<Loader v-if="sending" color="#3B48F7" />
+						</p>
 						<img
 							src="@/assets/icons/collapse.svg"
 							alt="close notepad icon"

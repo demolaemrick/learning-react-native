@@ -83,8 +83,6 @@ export default {
 		}
 	},
 	fetchApiKeys: async () => {
-		// const userId = context.rootState.auth.loggedUser.id;
-		// console.log(context);
 		const url = 'user/api-keys';
 		try {
 			const response = await api.get(url);

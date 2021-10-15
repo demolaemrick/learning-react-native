@@ -12,7 +12,6 @@ export default {
 			const response = await api.post(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -40,7 +39,6 @@ export default {
 	},
 	research_history: async ({ commit }, query) => {
 		const urlParams = new URLSearchParams(query);
-		console.log(urlParams.toString());
 		let url = `research/history?${urlParams.toString()}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
@@ -48,7 +46,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -60,7 +57,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -72,7 +68,6 @@ export default {
 			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
-			console.log('err', error);
 			return Promise.reject(error);
 		}
 	},
@@ -170,7 +165,6 @@ export default {
 	},
 	addArticleURL: async (context, payload) => {
 		const url = 'admin/user/research/add/article';
-		console.log(payload);
 		try {
 			const response = await api.put(url, payload);
 			return Promise.resolve(response);
