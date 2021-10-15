@@ -49,8 +49,8 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
+												<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 
@@ -172,7 +172,7 @@
 										$event
 									)
 								"
-								@displayInsight="displaySearchItem('contact_insights', article)"
+								@displayInsight="displaySearchItem(article, 'contact_insights')"
 							/>
 						</div>
 					</div>
@@ -192,7 +192,7 @@
 											</template>
 											<template #dropdown-items>
 												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li class="dropdown__item" @click="companySortMethod = 'relevance'">Relevant</li>
 											</template>
 										</toggle-dropdown>
 
@@ -469,16 +469,16 @@
 								{{ new Date(quotedArticle.meta.published || quotedArticle.date) | moment('Do, MMMM YYYY') }}
 							</p>
 							<div
-                class="filter__tags"
+								class="filter__tags"
 								v-if="quotedArticle.meta.content && Object.keys(quotedArticle.meta.content).length > 0"
-              >
-                <img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
-                <div class="tag__wrapper">
-                  <span v-for="(tag, i) in quotedArticle.meta.content.tags" :key="i"
-                    ><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
-                  >
-                </div>
-              </div>
+							>
+								<img class="tag__badge" src="@/assets/icons/tag.svg" alt="" />
+								<div class="tag__wrapper">
+									<span v-for="(tag, i) in quotedArticle.meta.content.tags" :key="i"
+										><c-tag v-if="tag !== null || tag !== ''">{{ tag }}</c-tag></span
+									>
+								</div>
+							</div>
 
 							<template>
 								<div
