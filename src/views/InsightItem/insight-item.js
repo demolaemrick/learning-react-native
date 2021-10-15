@@ -46,10 +46,7 @@ export default {
 		this.isFromAdmin = this.$route.name === 'AdminInsightItem' ? true : false;
 	},
 	async mounted() {
-		// this.rowId = this.getSearchedResult.rowId;
 		this.searchType = this.getSearchedItem.type;
-		// await this.initUserBookmarks();
-		// await this.initUserNote(this.getSearchedResult.rowId);
 	},
 	computed: {
 		...mapGetters({
