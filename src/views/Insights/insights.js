@@ -331,7 +331,13 @@ export default {
 					}
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error.response, '************');
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+				this.refreshLoading = false;
 			}
 		},
 		async subscribe() {
@@ -351,6 +357,7 @@ export default {
 							message: response.data.message,
 							showAlert: true
 						});
+						this.refreshLoading = false;
 					}
 				}
 				return true;
@@ -360,6 +367,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+				this.refreshLoading = false;
 			}
 		},
 		async markResearch() {
