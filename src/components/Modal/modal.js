@@ -45,7 +45,9 @@ export default {
 	},
 	methods: {
 		closeModal() {
-			this.$emit('close');
+			if (!active) {
+				this.$emit('close');
+			}
 		},
 		submit() {
 			this.$emit('submit');

@@ -10,6 +10,7 @@ import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
 import RadioBoxes from '@/components/RadioBoxes';
+import Notepad from '@/components/Notepad';
 
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
@@ -27,7 +28,8 @@ export default {
 		VButton,
 		Loader,
 		TextInput,
-		RadioBoxes
+		RadioBoxes,
+		Notepad
 	},
 	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin, globalMixins],
 	data() {
@@ -86,7 +88,8 @@ export default {
 				}
 			],
 			params: null,
-			isFromAdmin: false
+			isFromAdmin: false,
+			sendingNote: false
 		};
 	},
 

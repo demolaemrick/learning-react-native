@@ -539,23 +539,24 @@ export default {
 				this.noteLoading = false;
 			}
 		},
-		async handleTextareaBlur() {
+		async handleTextareaBlur(notepadTXT) {
 			this.editNote = !this.editNote;
-			this.activeTetxArea = false;
-			if (this.notepadTXT) {
+			if (notepadTXT) {
 				this.sending = true;
+				this.sendingNote = true;
 				try {
 					const response = await this.updateUserNote({
 						rowId: this.getSearchedResult.rowId,
-						note: this.notepadTXT
+						note: notepadTXT
 					});
-					this.userNote = this.notepadTXT;
+					this.userNote = notepadTXT;
 					this.showAlert({
 						status: 'success',
 						message: response.data.message || 'Note updated successfully',
 						showAlert: true
 					});
 					this.sending = false;
+					this.sendingNote = false;
 				} catch (error) {
 					this.showAlert({
 						status: 'error',
@@ -563,6 +564,7 @@ export default {
 						showAlert: true
 					});
 					this.sending = false;
+					this.sendingNote = false;
 				}
 			}
 		},

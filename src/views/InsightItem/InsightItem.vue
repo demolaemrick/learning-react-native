@@ -206,7 +206,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="notepad">
+
+				<notepad :handleTextareaBlur="handleTextareaBlur" :sending="sending" />
+				<!-- <div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">
 							<span>Notepad</span>
@@ -235,7 +237,7 @@
 						placeholder="Write down findings from research."
 					>
 					</textarea>
-				</div>
+				</div> -->
 			</div>
 			<div v-if="quotedArticle && quotedArticle.meta" class="item__detail" ref="openArticle">
 				<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>

@@ -112,6 +112,9 @@
 					</div>
 				</template>
 			</div>
+			<!-- <div v-else class="notePad">
+				<notepad :handleTextareaBlur="handleTextareaBlur" :sending="sendingNote" @editNoteF="editNote = false" />
+			</div> -->
 			<div v-else class="notepad">
 				<span class="title-wrapper">
 					<p class="notepad-title">Notepad</p>
@@ -124,7 +127,7 @@
 					name="text"
 					id="textArea"
 					v-model="notepadTXT"
-					@blur="handleTextareaBlur"
+					@blur="handleTextareaBlur(notepadTXT)"
 					placeholder="Write down findings from research."
 				>
 				</textarea>
