@@ -34,8 +34,20 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: contactSortMethod === 'recent' }"
+													@click="contactSortMethod = 'recent'"
+												>
+													Recent
+												</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: contactSortMethod === 'relevance' }"
+													@click="contactSortMethod = 'relevance'"
+												>
+													Relevant
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -163,8 +175,20 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: companySortMethod === 'recent' }"
+													@click="companySortMethod = 'recent'"
+												>
+													Recent
+												</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: companySortMethod === 'relevance' }"
+													@click="companySortMethod = 'relevant'"
+												>
+													Relevant
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
