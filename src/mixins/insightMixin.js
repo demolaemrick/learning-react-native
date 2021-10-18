@@ -404,6 +404,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+				return false;
 			}
 
 			const searchResultClone = { ...this.getSearchedResult };
@@ -460,12 +461,18 @@ export default {
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
-						message: 'Article removed from bookmarks',
+						message: response.data.message || 'Article removed from bookmarks',
 						showAlert: true
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+				return false;
 			}
 			await this.initUserBookmarks();
 		},
