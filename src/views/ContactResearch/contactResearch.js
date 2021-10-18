@@ -93,7 +93,8 @@ export default {
 			showModal: false,
 			contactToDelete: {},
 			exportLoading: false,
-			sortQuery: null
+			sortQuery: null,
+			deleting: false
 		};
 	},
 	async mounted() {
@@ -119,8 +120,8 @@ export default {
 			this.getHistory();
 		},
 		async RefreshResearch(e, id) {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
+			// e.stopImmediatePropagation();
+			// e.stopPropagation();
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
@@ -149,6 +150,8 @@ export default {
 		},
 		async deleteResearch() {
 			try {
+				this.deleting = true;
+
 				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
@@ -160,12 +163,14 @@ export default {
 						showAlert: true
 					});
 				}
+				this.deleting = false;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
 					showAlert: true
 				});
+				this.deleting = false;
 			}
 		},
 		async uploadBulkResearch() {

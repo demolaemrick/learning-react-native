@@ -10,6 +10,7 @@ import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
 import RadioBoxes from '@/components/RadioBoxes';
+import Notepad from '@/components/Notepad';
 
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
@@ -27,7 +28,8 @@ export default {
 		VButton,
 		Loader,
 		TextInput,
-		RadioBoxes
+		RadioBoxes,
+		Notepad
 	},
 	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin, globalMixins],
 	data() {
@@ -86,7 +88,8 @@ export default {
 				}
 			],
 			params: null,
-			isFromAdmin: false
+			isFromAdmin: false,
+			sendingNote: false
 		};
 	},
 
@@ -328,7 +331,13 @@ export default {
 					}
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error.response, '************');
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+				this.refreshLoading = false;
 			}
 		},
 		async subscribe() {
@@ -348,6 +357,7 @@ export default {
 							message: response.data.message,
 							showAlert: true
 						});
+						this.refreshLoading = false;
 					}
 				}
 				return true;
@@ -357,6 +367,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+				this.refreshLoading = false;
 			}
 		},
 		async markResearch() {
@@ -371,7 +382,12 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		addArticleModal(data) {

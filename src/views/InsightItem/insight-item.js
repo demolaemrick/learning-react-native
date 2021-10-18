@@ -5,6 +5,7 @@ import insightMixin from '@/mixins/insightMixin';
 import routeMixin from '@/mixins/routeMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
 import Loader from '@/components/Loader';
+import Notepad from '@/components/Notepad';
 
 export default {
 	mixins: [insightMixin, routeMixin],
@@ -13,7 +14,8 @@ export default {
 		CTag,
 		VHeaderitem,
 		PageLoader,
-		Loader
+		Loader,
+		Notepad
 	},
 	data() {
 		return {
@@ -33,8 +35,7 @@ export default {
 			companySortMethod: '',
 			rowId: '',
 			isFromAdmin: false,
-			sending: false,
-			activeTetxArea: false
+			sending: false
 		};
 	},
 	watch: {

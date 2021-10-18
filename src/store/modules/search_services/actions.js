@@ -104,13 +104,13 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	refresh: async ({ commit }, { id, userId }) => {
+	refresh: async ({ commit }, id) => {
 		const url = `research/refresh/${id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
-		console.table({ id, userId });
+		// console.table({ id, userId });
 		try {
-			const response = await api.post(url, { userId });
+			const response = await api.post(url);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);
