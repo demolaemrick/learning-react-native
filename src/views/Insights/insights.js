@@ -382,7 +382,12 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		addArticleModal(data) {

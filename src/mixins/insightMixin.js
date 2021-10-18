@@ -291,12 +291,17 @@ export default {
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
-						message: 'Article removed from disliked group',
+						message: response.data.message || 'Article removed from disliked group',
 						showAlert: true
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		updateDislikeResult() {
@@ -334,13 +339,18 @@ export default {
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
-						message: 'Article disliked successfully.',
+						message: response.data.message || 'Article disliked successfully.',
 						showAlert: true
 					});
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.dislikeLoading = false;
 			}
@@ -351,9 +361,20 @@ export default {
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
 					this.userBookmarks = data.response;
+
+					this.showAlert({
+						status: 'success',
+						message: response.data.message,
+						showAlert: true
+					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.loading = false;
 			}
@@ -372,12 +393,17 @@ export default {
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
-						message: 'Added to bookmarks',
+						message: response.data.message || 'Added to bookmarks',
 						showAlert: true
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 
 			const searchResultClone = { ...this.getSearchedResult };
@@ -471,13 +497,13 @@ export default {
 				if (response.status === 200 && response.statusText === 'OK') {
 					this.showAlert({
 						status: 'success',
-						message: 'Bookmark updated successfully',
+						message: response.data.message || 'Bookmark updated successfully',
 						showAlert: true
 					});
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -514,7 +540,7 @@ export default {
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -535,6 +561,11 @@ export default {
 				}
 			} catch (error) {
 				console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			} finally {
 				this.noteLoading = false;
 			}
