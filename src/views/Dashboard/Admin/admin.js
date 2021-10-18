@@ -246,7 +246,7 @@ export default {
 			}
 		},
 		addEmail(e) {
-			if (this.emailInput !== null && e.target.validity.valid) {
+			if (this.emailInput && e.target.validity.valid) {
 				this.emailList.push(this.emailInput);
 				this.emailInput = '';
 			}
