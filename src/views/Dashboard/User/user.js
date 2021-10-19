@@ -526,7 +526,12 @@ export default {
 					this.getHistory(true);
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		openDeleteModal(e, rowId, full_name) {
@@ -590,8 +595,9 @@ export default {
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode !== 'IN_PROGRESS';
+				return data.status.statusCode !== 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
+			// console.log(pendingStatus.length);
 			if (pendingStatus.length > 0) {
 				this.subscribe();
 			}

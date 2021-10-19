@@ -117,6 +117,7 @@ export default {
 		CheckBoxes
 	},
 	mounted() {
+		this.usersLoading = true;
 		this.getAllUsers();
 	},
 	computed: {
@@ -140,7 +141,6 @@ export default {
 		}),
 
 		async getAllUsers() {
-			this.usersLoading = true;
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = users;

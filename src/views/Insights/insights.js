@@ -318,7 +318,7 @@ export default {
 		async RefreshResearch() {
 			this.refreshLoading = true;
 			try {
-				const response = await this.refresh(this.$route.query.id);
+				const response = await this.refresh({ id: this.$route.query.id, userId: null });
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
