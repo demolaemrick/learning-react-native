@@ -5,6 +5,7 @@
 			@closeConfig="openConfigPage = false"
 			:headers="csvHeaders"
 			:dataFields="dataFields"
+			:csvFields="csvFields"
 			@submitImportCSV="submitImportCSV"
 		/>
 
@@ -158,7 +159,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table__pagination__wrapper" v-if="!usersLoading">
+					<div class="table__pagination__wrapper" v-if="!pageLoading">
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>
@@ -442,12 +443,12 @@
 						</template>
 					</file-upload>
 				</div>
-				<div class="flex flex-end">
+				<!-- <div class="flex flex-end">
 					<c-button class="mt-2 submit" size="large" buttonType="primary">
 						<template v-if="!loading">Search</template>
 						<Loader v-else />
 					</c-button>
-				</div>
+				</div> -->
 			</template>
 		</modal>
 	</div>

@@ -62,7 +62,7 @@ export default {
 					sortHeader: 'company'
 				},
 				{
-					name: 'Researched Contact',
+					name: 'Research Count',
 					sortHeader: 'research_score'
 				},
 				{

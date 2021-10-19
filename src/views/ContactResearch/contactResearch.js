@@ -125,7 +125,7 @@ export default {
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
-					this.getHistory();
+					this.getHistory(true);
 				}
 			} catch (error) {
 				console.log(error);
@@ -239,6 +239,8 @@ export default {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
 							data.research_score = response.data.done.research_score;
+							data.linkedin = response.data.done.linkedin;
+							data.images = response.data.done.images;
 						}
 						return data;
 					});
@@ -256,7 +258,7 @@ export default {
 				});
 			}
 		},
-		async getHistory() {
+		async getHistory(refresh = false) {
 			try {
 				const response = await this.research_history({ page: this.page, limit: this.limit, ...this.sortQuery });
 				this.history = response.data.data.history;
@@ -264,7 +266,9 @@ export default {
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
-				this.checkPendngStatus();
+				if (refresh) {
+					this.checkPendngStatus();
+				}
 				return true;
 			} catch (error) {
 				this.showAlert({

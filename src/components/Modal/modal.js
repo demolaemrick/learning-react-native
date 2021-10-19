@@ -45,7 +45,7 @@ export default {
 	},
 	methods: {
 		closeModal() {
-			if (!active) {
+			if (!this.active) {
 				this.$emit('close');
 			}
 		},

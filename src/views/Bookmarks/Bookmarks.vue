@@ -59,8 +59,8 @@
 								:article="article"
 								:showEmailIcon="false"
 								:showDislikeIcon="false"
-								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
-								@displayInsight="displaySearchItem('contact_insights', article)"
+								@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
+								@displayInsight="displaySearchItem('company_insights', article)"
 							/>
 						</div>
 					</div>
