@@ -16,14 +16,6 @@
 							<template v-else>
 								{{ profileImagePlaceholder(contact_details.full_name) }}
 							</template>
-							<!-- <template v-else>
-								{{
-									contact_details.full_name
-										.match(/\b(\w)/g)
-										.join('')
-										.toUpperCase()
-								}}
-							</template> -->
 						</div>
 						<div class="text__name__role">
 							<div class="name">{{ contact_details.full_name }}</div>
@@ -439,6 +431,10 @@
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
+						<div v-if="contact_insights_categories.length === 0" class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</template>
 				</div>
 				<div v-else class="news-section" ref="news-section">
@@ -752,6 +748,10 @@
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
+						<div v-if="company_insights_categories.length === 0" class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</template>
 				</div>
 

@@ -470,7 +470,15 @@ export default {
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
-				await this.bulk_research({ id: this.userId, contacts: this.csvImport });
+				let { data, status } = await this.bulk_research({ id: this.userId, contacts: this.csvImport });
+
+				if (status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: data.message || 'Has Started search',
+						showAlert: true
+					});
+				}
 				this.page = 1;
 				this.openConfigPage = false;
 				this.pageLoading = true;
@@ -500,7 +508,9 @@ export default {
 					this.currentPage = data.data.currentPage;
 					this.total = Math.ceil(data.data.count / this.limit);
 					this.nextPage = data.data.nextPage;
-					this.checkPendngStatus();
+					if (refresh) {
+						this.checkPendngStatus();
+					}
 					return true;
 				}
 			} catch (error) {
