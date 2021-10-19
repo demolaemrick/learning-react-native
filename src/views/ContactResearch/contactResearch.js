@@ -125,7 +125,7 @@ export default {
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
-					this.getHistory(true);
+					this.getHistory();
 				}
 			} catch (error) {
 				console.log(error);
@@ -258,7 +258,7 @@ export default {
 				});
 			}
 		},
-		async getHistory(refresh = false) {
+		async getHistory() {
 			try {
 				const response = await this.research_history({ page: this.page, limit: this.limit, ...this.sortQuery });
 				this.history = response.data.data.history;
@@ -266,9 +266,7 @@ export default {
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
-				if (refresh) {
-					this.checkPendngStatus();
-				}
+				this.checkPendngStatus();
 				return true;
 			} catch (error) {
 				this.showAlert({
