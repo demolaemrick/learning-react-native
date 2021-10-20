@@ -590,7 +590,7 @@ export default {
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode !== 'IN_PROGRESS';
+				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			if (pendingStatus.length > 0) {
 				this.subscribe();

@@ -276,6 +276,7 @@ export default {
 			let pendingStatus = await this.history.filter((data) => {
 				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
+			// console.log(pendingStatus);
 			if (pendingStatus.length > 0) {
 				this.subscribe();
 			}
