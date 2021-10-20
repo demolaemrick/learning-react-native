@@ -79,7 +79,7 @@ export default {
 			showEditPermission: false,
 			currentPage: 0,
 			total: 0,
-			limit: 50,
+			limit: 10,
 			page: 1,
 			count: 0,
 			nextPage: null,
@@ -401,8 +401,13 @@ export default {
 		async searchPage(payload) {
 			try {
 				const response = await this.search(payload);
-				if (response.data.response.data.length > 0) {
+				let { data } = response;
+				if (data.response.data.length > 0) {
 					this.users = response.data.response.data;
+					this.count = data.response.count;
+					this.currentPage = data.response.currentPage;
+					this.total = Math.ceil(data.response.count / this.limit);
+					this.nextPage = data.response.nextPage;
 					if (this.filter) {
 						this.toggleModalClass('filter');
 					}
