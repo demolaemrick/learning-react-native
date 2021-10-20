@@ -603,7 +603,7 @@ export default {
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode !== 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
+				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
 			// console.log(pendingStatus.length);
 			if (pendingStatus.length > 0) {
