@@ -508,9 +508,7 @@ export default {
 					this.currentPage = data.data.currentPage;
 					this.total = Math.ceil(data.data.count / this.limit);
 					this.nextPage = data.data.nextPage;
-					if (refresh) {
-						this.checkPendngStatus();
-					}
+					this.checkPendngStatus();
 					return true;
 				}
 			} catch (error) {
@@ -525,7 +523,7 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
-			this.getHistory();
+			this.getHistory(true);
 		},
 		async RefreshResearch(e, id) {
 			// e.stopImmediatePropagation();
