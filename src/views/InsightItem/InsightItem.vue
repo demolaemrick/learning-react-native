@@ -34,8 +34,20 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: contactSortMethod === 'recent' }"
+													@click="contactSortMethod = 'recent'"
+												>
+													Recent
+												</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: contactSortMethod === 'relevance' }"
+													@click="contactSortMethod = 'relevance'"
+												>
+													Relevant
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -163,8 +175,20 @@
 												</p>
 											</template>
 											<template #dropdown-items>
-												<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-												<li class="dropdown__item" @click="companySortMethod = 'relevant'">Relevant</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: companySortMethod === 'recent' }"
+													@click="companySortMethod = 'recent'"
+												>
+													Recent
+												</li>
+												<li
+													class="dropdown__item"
+													:class="{ active: companySortMethod === 'relevance' }"
+													@click="companySortMethod = 'relevant'"
+												>
+													Relevant
+												</li>
 											</template>
 										</toggle-dropdown>
 									</div>
@@ -206,7 +230,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="notepad">
+
+				<notepad :handleTextareaBlur="handleTextareaBlur" :sending="sending" />
+				<!-- <div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">
 							<span>Notepad</span>
@@ -235,7 +261,7 @@
 						placeholder="Write down findings from research."
 					>
 					</textarea>
-				</div>
+				</div> -->
 			</div>
 			<div v-if="quotedArticle && quotedArticle.meta" class="item__detail" ref="openArticle">
 				<h4 class="item__detail-title mr-1">{{ quotedArticle.title }}</h4>

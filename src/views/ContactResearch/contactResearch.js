@@ -93,7 +93,8 @@ export default {
 			showModal: false,
 			contactToDelete: {},
 			exportLoading: false,
-			sortQuery: null
+			sortQuery: null,
+			deleting: false
 		};
 	},
 	async mounted() {
@@ -147,6 +148,8 @@ export default {
 		},
 		async deleteResearch() {
 			try {
+				this.deleting = true;
+
 				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
@@ -158,12 +161,14 @@ export default {
 						showAlert: true
 					});
 				}
+				this.deleting = false;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
 					showAlert: true
 				});
+				this.deleting = false;
 			}
 		},
 		async uploadBulkResearch() {
@@ -198,7 +203,7 @@ export default {
 			}
 		},
 		clickCallback(page) {
-			console.log(page);
+			// console.log(page);
 			this.page = page;
 			this.getHistory();
 		},
@@ -232,6 +237,8 @@ export default {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
 							data.research_score = response.data.done.research_score;
+							data.linkedin = response.data.done.linkedin;
+							data.images = response.data.done.images;
 						}
 						return data;
 					});

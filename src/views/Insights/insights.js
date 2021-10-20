@@ -10,6 +10,7 @@ import { debounce } from 'lodash';
 import VHeader from '@/components/Header/searchResult/Header';
 import VButton from '@/components/Button';
 import RadioBoxes from '@/components/RadioBoxes';
+import Notepad from '@/components/Notepad';
 
 import insightMixin from '@/mixins/insightMixin';
 import inputMixin from '@/mixins/input';
@@ -27,7 +28,8 @@ export default {
 		VButton,
 		Loader,
 		TextInput,
-		RadioBoxes
+		RadioBoxes,
+		Notepad
 	},
 	mixins: [ScreenWidthMixin, insightMixin, inputMixin, routeMixin, globalMixins],
 	data() {
@@ -86,7 +88,8 @@ export default {
 				}
 			],
 			params: null,
-			isFromAdmin: false
+			isFromAdmin: false,
+			sendingNote: false
 		};
 	},
 
@@ -98,13 +101,19 @@ export default {
 			get() {
 				if (this.contact_details.socials.linkedin) {
 					const url = this.contact_details.socials.linkedin;
-					return url ? `https://${url}/detail/recent-activity` : null;
+					if (url && (url.startsWith('http') || url.startsWith('https'))) {
+						return `${url}/detail/recent-activity`;
+					}
+					return null;
 				}
 			}
 		},
 		getCrunchbaseUrl() {
 			const url = this.company_details.socials.crunchbase;
-			return url ? `https://${url}` : null;
+			if (url && (url.startsWith('http') || url.startsWith('https'))) {
+				return url;
+			}
+			return null;
 		},
 		screenType: {
 			get() {
@@ -317,7 +326,7 @@ export default {
 		async RefreshResearch() {
 			this.refreshLoading = true;
 			try {
-				const response = await this.refresh(this.$route.query.id);
+				const response = await this.refresh({ id: this.$route.query.id, userId: null });
 				const { data, status } = response;
 				if (status === 200) {
 					if (data.data.status.statusCode === 'UPDATING') {
@@ -330,7 +339,13 @@ export default {
 					}
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error.response, '************');
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+				this.refreshLoading = false;
 			}
 		},
 		async subscribe() {
@@ -350,6 +365,7 @@ export default {
 							message: response.data.message,
 							showAlert: true
 						});
+						this.refreshLoading = false;
 					}
 				}
 				return true;
@@ -359,6 +375,7 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+				this.refreshLoading = false;
 			}
 		},
 		async markResearch() {
@@ -373,7 +390,12 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		addArticleModal(data) {

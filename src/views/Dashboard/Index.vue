@@ -30,6 +30,9 @@ export default {
 		},
 		closeSideMenuF() {
 			this.activeSide = false;
+		},
+		openSideMenu() {
+			this.activeSide = true;
 		}
 	}
 };
