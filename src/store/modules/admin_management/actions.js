@@ -76,10 +76,11 @@ export default {
 		}
 	},
 	adminSearch: async (context, queries) => {
-		let url = 'admin/search?role=admin&';
-		Object.keys(queries).forEach((key) => {
-			url += `${key}=${encodeURIComponent(queries[key])}&`;
-		});
+		const urlParams = new URLSearchParams(queries);
+		let url = `admin/search?role=admin&${urlParams.toString()}`;
+		// Object.keys(queries).forEach((key) => {
+		// 	url += `${key}=${encodeURIComponent(queries[key])}&`;
+		// });
 		try {
 			const response = await api.get(url);
 			return Promise.resolve(response);
