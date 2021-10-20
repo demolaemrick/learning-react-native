@@ -101,13 +101,19 @@ export default {
 			get() {
 				if (this.contact_details.socials.linkedin) {
 					const url = this.contact_details.socials.linkedin;
-					return url ? `https://${url}/detail/recent-activity` : null;
+					if (url && (url.startsWith('http') || url.startsWith('https'))) {
+						return `${url}/detail/recent-activity`;
+					}
+					return null;
 				}
 			}
 		},
 		getCrunchbaseUrl() {
 			const url = this.company_details.socials.crunchbase;
-			return url ? `https://${url}` : null;
+			if (url && (url.startsWith('http') || url.startsWith('https'))) {
+				return url;
+			}
+			return null;
 		},
 		screenType: {
 			get() {
