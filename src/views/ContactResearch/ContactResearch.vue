@@ -116,7 +116,7 @@
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click.prevent="[RefreshResearch($event, item.rowId)]">Refresh</li>
+										<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId)]">Refresh</li>
 										<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId, item.full_name)]">
 											Delete
 										</li>

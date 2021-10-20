@@ -119,8 +119,6 @@ export default {
 			this.getHistory();
 		},
 		async RefreshResearch(e, id) {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
