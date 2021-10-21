@@ -104,7 +104,7 @@ export default {
 					if (url && (url.startsWith('http') || url.startsWith('https'))) {
 						return `${url}/detail/recent-activity`;
 					}
-					return null;
+					return url ? `https://${url}/detail/recent-activity` : null;
 				}
 			}
 		},
@@ -113,7 +113,7 @@ export default {
 			if (url && (url.startsWith('http') || url.startsWith('https'))) {
 				return url;
 			}
-			return null;
+			return url ? `https://${url}` : null;
 		},
 		screenType: {
 			get() {
