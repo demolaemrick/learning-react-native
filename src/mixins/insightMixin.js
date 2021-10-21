@@ -170,12 +170,16 @@ export default {
 		contactQuotes() {
 			if (this.showAllQuotes) {
 				const quoteArray = [...this.getSearchedResult.contact_insights.quotes];
-				this.sortByDislike(quoteArray);
-				return this.sortByBookmarked(quoteArray);
+				let bookMarked = this.sortByBookmarked(quoteArray);
+				let justOrdinary = this.getOrdinaryArticles(quoteArray);
+				let byDisliked = this.sortByDislike(quoteArray);
+				return [...bookMarked, ...justOrdinary, ...byDisliked];
 			} else {
 				const quoteArray = [...this.getSearchedResult.contact_insights.quotes.slice(0, 3)];
-				this.sortByDislike(quoteArray);
-				return this.sortByBookmarked(quoteArray);
+				let bookMarked = this.sortByBookmarked(quoteArray);
+				let justOrdinary = this.getOrdinaryArticles(quoteArray);
+				let byDisliked = this.sortByDislike(quoteArray);
+				return [...bookMarked, ...justOrdinary, ...byDisliked];
 			}
 		},
 		allQuotes() {
@@ -370,11 +374,13 @@ export default {
 				}
 			} catch (error) {
 				// console.log(error);
-				this.showAlert({
-					status: 'error',
-					message: error.response.data.message,
-					showAlert: true
-				});
+				if (error.response) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
 			} finally {
 				this.loading = false;
 			}

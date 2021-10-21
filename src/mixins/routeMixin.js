@@ -40,13 +40,18 @@ export default {
 			let oldNews = {};
 			newData.contact_insights.news.forEach((article) => {
 				article.content.tag = article.content.tags;
-				const tags = [...article.tags];
-
+				let tags = [];
+				if (article.tags) {
+					tags = [...article.tags];
+				} else {
+					// console.log(article);
+				}
 				if (!tags.length) {
 					// use article url to create a dummy
 					// tagf for articles that don't have tags
 					tags.push(article.url);
 				}
+
 				tags.forEach((tag) => {
 					if (oldNews[tag]) {
 						oldNews[tag].push(article);
@@ -55,6 +60,9 @@ export default {
 					}
 				});
 			});
+			// console.log(oldNews);
+
+			// return;
 			oldData.contact_insights.news = oldNews;
 			// console.log(oldData);
 			// return;
