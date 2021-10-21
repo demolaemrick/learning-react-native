@@ -470,7 +470,15 @@ export default {
 		async uploadBulkResearch() {
 			this.loading = true;
 			try {
-				await this.bulk_research({ id: this.userId, contacts: this.csvImport });
+				let { data, status } = await this.bulk_research({ id: this.userId, contacts: this.csvImport });
+
+				if (status === 200) {
+					this.showAlert({
+						status: 'success',
+						message: data.message || 'Has Started search',
+						showAlert: true
+					});
+				}
 				this.page = 1;
 				this.openConfigPage = false;
 				this.pageLoading = true;
@@ -515,18 +523,23 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
-			this.getHistory();
+			this.getHistory(true);
 		},
 		async RefreshResearch(e, id) {
 			// e.stopImmediatePropagation();
-			e.stopPropagation();
+			// e.stopPropagation();
 			try {
 				const response = await this.refresh({ id, userId: this.userId });
 				if (response.status === 200) {
 					this.getHistory(true);
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
 			}
 		},
 		openDeleteModal(e, rowId, full_name) {
@@ -590,8 +603,9 @@ export default {
 		},
 		async checkPendngStatus() {
 			let pendingStatus = await this.history.filter((data) => {
-				return data.status.statusCode !== 'IN_PROGRESS';
+				return data.status.statusCode === 'IN_PROGRESS' || data.status.statusCode === 'UPDATING';
 			});
+			// console.log(pendingStatus.length);
 			if (pendingStatus.length > 0) {
 				this.subscribe();
 			}

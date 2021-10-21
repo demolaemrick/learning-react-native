@@ -60,7 +60,7 @@ export default {
 			showEditPermission: false,
 			toggleClass: true,
 			adminLoading: false,
-			currentPage: 1,
+			currentPage: 0,
 			totalPages: 5,
 			limit: 10,
 			page: 1,
@@ -97,6 +97,7 @@ export default {
 		CheckBoxes
 	},
 	mounted() {
+		this.adminLoading = true;
 		this.getAdmins();
 	},
 	computed: {
@@ -118,7 +119,6 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		async getAdmins() {
-			this.adminLoading = true;
 			try {
 				const response = await this.allAdmins({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = response;
@@ -246,7 +246,7 @@ export default {
 			}
 		},
 		addEmail(e) {
-			if (this.emailInput !== null && e.target.validity.valid) {
+			if (this.emailInput && e.target.validity.valid) {
 				this.emailList.push(this.emailInput);
 				this.emailInput = '';
 			}
@@ -256,7 +256,8 @@ export default {
 			list.splice(index, 1);
 		},
 		clickCallback(page) {
-			this.currentPage = page;
+			this.page = page;
+			this.getAdmins();
 		},
 		openDeactivateModal(item) {
 			const { _id, last_name, first_name } = item;

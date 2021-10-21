@@ -40,13 +40,18 @@ export default {
 			let oldNews = {};
 			newData.contact_insights.news.forEach((article) => {
 				article.content.tag = article.content.tags;
-				const tags = [...article.tags];
-
+				let tags = [];
+				if (article.tags) {
+					tags = [...article.tags];
+				} else {
+					// console.log(article);
+				}
 				if (!tags.length) {
 					// use article url to create a dummy
 					// tagf for articles that don't have tags
 					tags.push(article.url);
 				}
+
 				tags.forEach((tag) => {
 					if (oldNews[tag]) {
 						oldNews[tag].push(article);
@@ -55,7 +60,12 @@ export default {
 					}
 				});
 			});
+			// console.log(oldNews);
+
+			// return;
 			oldData.contact_insights.news = oldNews;
+			// console.log(oldData);
+			// return;
 
 			let oldOtherInsights = {};
 			newData.contact_insights.other_insights.forEach((article) => {
@@ -96,17 +106,25 @@ export default {
 			} catch (error) {
 				// console.log(error);
 				let err = error.response;
-				let params = this.$route.params;
-				if (err.data.status === 'fail') {
-					if (Object.keys(params).length > 0) {
-						let urlParams = this.getURLParams(params.data);
+				// let params = this.$route.params;
+				if (err) {
+					if (err.data.status === 'fail') {
+						if (Object.keys(params).length > 0) {
+							let urlParams = this.getURLParams(params.data);
+							this.showAlert({
+								status: 'caution',
+								message: `Please try refresh that user with name ${params.name} and try again`,
+								showAlert: true
+							});
+							this.$router.push({
+								path: `${params.path}${urlParams.toString()}`
+							});
+						}
+					} else {
 						this.showAlert({
-							status: 'caution',
-							message: `Please try refresh that user with name ${params.name} and try again`,
+							status: 'error',
+							message: err.data.message || '',
 							showAlert: true
-						});
-						this.$router.push({
-							path: `${params.path}${urlParams.toString()}`
 						});
 					}
 				}

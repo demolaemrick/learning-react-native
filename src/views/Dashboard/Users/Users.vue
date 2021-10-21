@@ -33,8 +33,8 @@
 		<div>
 			<v-table :loading="usersLoading" :tableHeaders="tableHeaders" :tableData="users" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
-					<td class="table__row-item">{{ item.last_name }} {{ item.first_name }}</td>
-					<td class="table__row-item">{{ item.email }}</td>
+					<td class="table__row-item">{{ item.last_name || '' }} {{ item.first_name || '' }}</td>
+					<td class="table__row-item">{{ item.email || '' }}</td>
 					<td class="table__row-item">{{ item.researches_performed }}/{{ item.monthly_research }}</td>
 					<td class="table__row-item status">
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"

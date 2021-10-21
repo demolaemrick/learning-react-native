@@ -16,14 +16,6 @@
 							<template v-else>
 								{{ profileImagePlaceholder(contact_details.full_name) }}
 							</template>
-							<!-- <template v-else>
-								{{
-									contact_details.full_name
-										.match(/\b(\w)/g)
-										.join('')
-										.toUpperCase()
-								}}
-							</template> -->
 						</div>
 						<div class="text__name__role">
 							<div class="name">{{ contact_details.full_name }}</div>
@@ -112,6 +104,9 @@
 					</div>
 				</template>
 			</div>
+			<!-- <div v-else class="notePad">
+				<notepad :handleTextareaBlur="handleTextareaBlur" :sending="sendingNote" @editNoteF="editNote = false" />
+			</div> -->
 			<div v-else class="notepad">
 				<span class="title-wrapper">
 					<p class="notepad-title">Notepad</p>
@@ -124,7 +119,7 @@
 					name="text"
 					id="textArea"
 					v-model="notepadTXT"
-					@blur="handleTextareaBlur"
+					@blur="handleTextareaBlur(notepadTXT)"
 					placeholder="Write down findings from research."
 				>
 				</textarea>
@@ -237,8 +232,20 @@
 										</p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'recent' }"
+											@click="contactSortMethod = 'recent'"
+										>
+											Recent
+										</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'relevance' }"
+											@click="contactSortMethod = 'relevance'"
+										>
+											Relevant
+										</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -253,8 +260,20 @@
 										</p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'recent' }"
+											@click="contactSortMethod = 'recent'"
+										>
+											Recent
+										</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'relevance' }"
+											@click="contactSortMethod = 'relevance'"
+										>
+											Relevant
+										</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -412,6 +431,10 @@
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
 						/>
+						<div v-if="contact_insights_categories.length === 0" class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</template>
 				</div>
 				<div v-else class="news-section" ref="news-section">
@@ -428,8 +451,20 @@
 										</p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="contactSortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="contactSortMethod = 'relevance'">Relevant</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'recent' }"
+											@click="contactSortMethod = 'recent'"
+										>
+											Recent
+										</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: contactSortMethod === 'relevance' }"
+											@click="contactSortMethod = 'relevance'"
+										>
+											Relevant
+										</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -628,8 +663,20 @@
 										</p>
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click="companySortMethod = 'recent'">Recent</li>
-										<li class="dropdown__item" @click="companySortMethod = 'relevance'">Relevant</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: companySortMethod === 'recent' }"
+											@click="companySortMethod = 'recent'"
+										>
+											Recent
+										</li>
+										<li
+											class="dropdown__item"
+											:class="{ active: companySortMethod === 'relevance' }"
+											@click="companySortMethod = 'relevance'"
+										>
+											Relevant
+										</li>
 									</template>
 								</toggle-dropdown>
 							</div>
@@ -703,6 +750,10 @@
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
 						/>
+						<div v-if="company_insights_categories.length === 0" class="emptyState">
+							<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+							<p class="emptyState-text">No content found!</p>
+						</div>
 					</template>
 				</div>
 

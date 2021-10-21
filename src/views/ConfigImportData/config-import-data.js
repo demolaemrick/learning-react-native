@@ -6,7 +6,7 @@ import { ValidationObserver } from 'vee-validate';
 import { mapMutations, mapActions } from 'vuex';
 import Loader from '@/components/Loader';
 export default {
-	name: 'SearchSettings',
+	name: 'ConfigData',
 	components: {
 		VCheckbox,
 		VTextInput,

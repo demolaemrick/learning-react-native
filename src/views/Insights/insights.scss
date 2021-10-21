@@ -244,9 +244,8 @@
 			color: #202f44;
 
 			.searchImage {
-				border-radius: 50%;
 				width: 100%;
-				height: 40px;
+				height: 100%;
 				object-fit: cover;
 			}
 			.text__initials {
@@ -259,6 +258,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				overflow: hidden;
 			}
 
 			.text__name__role {
@@ -828,5 +828,16 @@ label {
 		color: #989AAA;
 		display: block;
 		margin-bottom: 0.6rem;
+	}
+}
+
+.notePad{
+	position: relative;
+}
+
+.dropdown__item {
+	&.active {
+		background-color: rgba(59, 72, 247, .05);
+		color: #3b48f7;
 	}
 }

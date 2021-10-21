@@ -5,6 +5,7 @@
 			@closeConfig="openConfigPage = false"
 			:headers="csvHeaders"
 			:dataFields="dataFields"
+			:csvFields="csvFields"
 			@submitImportCSV="submitImportCSV"
 		/>
 
@@ -137,10 +138,7 @@
 										<template #dropdown-items>
 											<!-- <li class="dropdown__item">Delete</li> -->
 											<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId)]">Refresh</li>
-											<li
-												class="dropdown__item"
-												@click.prevent="[openDeleteModal($event, item.rowId, item.full_name)]"
-											>
+											<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId, item.full_name)]">
 												Delete
 											</li>
 										</template>
@@ -158,7 +156,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table__pagination__wrapper" v-if="!usersLoading">
+					<div class="table__pagination__wrapper" v-if="!pageLoading">
 						<div class="title__left">
 							<span>Showing Page</span>
 							<span>
@@ -442,12 +440,12 @@
 						</template>
 					</file-upload>
 				</div>
-				<div class="flex flex-end">
+				<!-- <div class="flex flex-end">
 					<c-button class="mt-2 submit" size="large" buttonType="primary">
 						<template v-if="!loading">Search</template>
 						<Loader v-else />
 					</c-button>
-				</div>
+				</div> -->
 			</template>
 		</modal>
 	</div>

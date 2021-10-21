@@ -110,13 +110,13 @@
 						</td>
 						<td class="table__row-item dropdown">
 							<!-- menu3dot -->
-							<div class="user__menu__wrapper">
+							<div class="user__menu__wrapper" v-if="item.status.message.toLowerCase() !== 'updating'">
 								<v-toggle-dropdown class="user__dropdown__menu">
 									<template #dropdown-wrapper>
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
 									</template>
 									<template #dropdown-items>
-										<li class="dropdown__item" @click.prevent="[RefreshResearch($event, item.rowId)]">Refresh</li>
+										<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId)]">Refresh</li>
 										<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId, item.full_name)]">
 											Delete
 										</li>
@@ -166,7 +166,10 @@
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleModal">Cancel</div>
-						<v-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">Delete</v-button>
+						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
+							<Loader v-if="deleting" color="#ca1c1c" />
+							<span v-else>Delete</span>
+						</v-button>
 					</div>
 				</div>
 			</template>

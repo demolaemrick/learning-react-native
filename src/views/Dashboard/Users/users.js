@@ -62,7 +62,7 @@ export default {
 					sortHeader: 'company'
 				},
 				{
-					name: 'Researched Contact',
+					name: 'Research Count',
 					sortHeader: 'research_score'
 				},
 				{
@@ -79,7 +79,7 @@ export default {
 			showEditPermission: false,
 			currentPage: 0,
 			total: 0,
-			limit: 50,
+			limit: 10,
 			page: 1,
 			count: 0,
 			nextPage: null,
@@ -117,6 +117,7 @@ export default {
 		CheckBoxes
 	},
 	mounted() {
+		this.usersLoading = true;
 		this.getAllUsers();
 	},
 	computed: {
@@ -140,7 +141,6 @@ export default {
 		}),
 
 		async getAllUsers() {
-			this.usersLoading = true;
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
 				const { status, data, statusText } = users;
@@ -401,8 +401,13 @@ export default {
 		async searchPage(payload) {
 			try {
 				const response = await this.search(payload);
-				if (response.data.response.data.length > 0) {
+				let { data } = response;
+				if (data.response.data.length > 0) {
 					this.users = response.data.response.data;
+					this.count = data.response.count;
+					this.currentPage = data.response.currentPage;
+					this.total = Math.ceil(data.response.count / this.limit);
+					this.nextPage = data.response.nextPage;
 					if (this.filter) {
 						this.toggleModalClass('filter');
 					}
