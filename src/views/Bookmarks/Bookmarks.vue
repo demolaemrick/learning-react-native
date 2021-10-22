@@ -15,7 +15,7 @@
 						<div v-for="(article, j) in contact_insights_categories" :key="j">
 							<div v-if="article.is_bookmarked">
 								<InsightCard
-									:published="article.meta.published"
+									:published="article.meta.published || article.content.date || article.meta.timestamp"
 									:article="article"
 									:showEmailIcon="false"
 									:showDislikeIcon="false"
@@ -31,7 +31,7 @@
 						<div v-for="(article, j) in contact_other_insights" :key="`${article.url}`">
 							<div v-if="article.is_bookmarked">
 								<InsightCard
-									:published="article.meta.published"
+									:published="article.meta.published || article.content.date || article.meta.timestamp"
 									:article="article"
 									:showEmailIcon="false"
 									:showDislikeIcon="false"
@@ -55,7 +55,7 @@
 					<div v-for="(article, j) in company_insights_categories" :key="j">
 						<div v-if="article.is_bookmarked">
 							<InsightCard
-								:published="article.meta.published"
+								:published="article.meta.published || article.content.date || article.meta.timestamp"
 								:article="article"
 								:showEmailIcon="false"
 								:showDislikeIcon="false"
