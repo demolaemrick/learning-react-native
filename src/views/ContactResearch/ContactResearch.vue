@@ -185,6 +185,9 @@
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
 			cursor: pointer;
+			&:hover {
+				background-color: #ebedfe57;
+			}
 			&-item {
 				white-space: nowrap;
 				overflow: hidden;

@@ -193,7 +193,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -385,7 +385,7 @@
 							"
 							@createEmailIntro="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
-							:published="article.meta.published || article.meta.timestamp"
+							:published="article.meta.published || article.content.date || article.meta.timestamp || null"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
@@ -426,7 +426,7 @@
 							"
 							@createEmailIntro="generateIntroEmail('contact_insights', article)"
 							@removeDislike="toggleDislike({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
-							:published="article.meta.published || article.meta.timestamp"
+							:published="article.meta.published || article.content.date || article.meta.timestamp || null"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('contact_insights', article)"
@@ -513,7 +513,9 @@
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
 							v-for="(quote, j) in contactQuotes"
-							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
+							:key="
+								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
+							"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
@@ -708,7 +710,7 @@
 							"
 							@createEmailIntro="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
-							:published="article.meta.published || article.meta.timestamp"
+							:published="article.meta.published || article.content.date || article.meta.timestamp || null"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"
@@ -743,7 +745,7 @@
 							"
 							@createEmailIntro="generateIntroEmail('company_insights', article)"
 							@removeDislike="toggleDislike({ type: 'company_insights', index: j, section: 'news', ...article })"
-							:published="article.meta.published || article.meta.timestamp"
+							:published="article.meta.published || article.content.date || article.meta.timestamp || null"
 							:article="article"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"
 							@displayInsight="displaySearchItem('company_insights', article)"

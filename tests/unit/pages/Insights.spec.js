@@ -204,8 +204,13 @@ describe('Insights', () => {
 						getSearchedResult: () => researchResponse.data.data
 					},
 					mutations: {
-						saveSearchedItem: jest.fn(),
 						saveSearchedResult: jest.fn()
+					},
+					namespaced: true
+				},
+				search_notes: {
+					mutations: {
+						saveSearchedItem: jest.fn()
 					},
 					namespaced: true
 				},

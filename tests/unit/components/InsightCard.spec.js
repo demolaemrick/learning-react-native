@@ -23,22 +23,22 @@ describe('InsightCard.vue', () => {
 		expect(wrapper.vm).toBeTruthy();
 	});
 
-	it('tests the default article prop is used', () => {
-		const wrapper = shallowMount(InsightCard, {
-			propsData: {
-				published: 'some value',
-				article: {
-					url: '',
-					meta: {
-						html: {
-							snippet: ''
-						}
-					}
-				}
-			},
-			localVue
-		});
+	// it('tests the default article prop is used', () => {
+	// 	const wrapper = shallowMount(InsightCard, {
+	// 		propsData: {
+	// 			published: 'some value',
+	// 			article: {
+	// 				url: '',
+	// 				meta: {
+	// 					html: {
+	// 						snippet: ''
+	// 					}
+	// 				}
+	// 			}
+	// 		},
+	// 		localVue
+	// 	});
 
-		console.log(wrapper.vm.article);
-	});
+	// 	console.log(wrapper.vm.article);
+	// });
 });

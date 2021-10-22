@@ -109,12 +109,17 @@ describe('search', () => {
 				search_services: {
 					namespaced: true,
 					mutations: {
-						saveSearchedResult: jest.fn(),
-						saveSearchPayload: jest.fn()
+						saveSearchedResult: jest.fn()
 					},
 					actions: {
 						research: jest.fn().mockResolvedValue(researchResponse),
 						bulk_research: jest.fn()
+					}
+				},
+				search_notes: {
+					namespaced: true,
+					mutations: {
+						saveSearchPayload: jest.fn()
 					}
 				}
 			},
