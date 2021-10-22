@@ -91,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="table__pagination__wrapper" v-if="!adminLoading">
+		<div class="table__pagination__wrapper" v-if="!adminLoading || (admins && admins.length)">
 			<div class="title__left">
 				<span>Showing Page</span>
 				<span>
@@ -181,7 +181,7 @@
 
 					<div class="flex flex__end" id="adminPermission">
 						<v-button
-							:disabled="checkedPermissions.length === 0 || loading"
+							:disabled="loading"
 							class="submit"
 							size="large"
 							submitType="submit"

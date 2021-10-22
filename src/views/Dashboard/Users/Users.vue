@@ -73,7 +73,7 @@
 					</td>
 				</template>
 			</v-table>
-			<div class="table__pagination__wrapper" v-if="!usersLoading">
+			<div class="table__pagination__wrapper" v-if="!usersLoading || (users && users.length)">
 				<div class="title__left">
 					<span>Showing Page</span>
 					<span>
@@ -229,7 +229,7 @@
 
 					<div class="flex flex__end" id="adminPermission">
 						<v-button
-							:disabled="checkedPermissions.length === 0 || loading"
+							:disabled="loading"
 							class="submit"
 							size="large"
 							submitType="submit"

@@ -14,8 +14,11 @@ import VButton from '@/components/Button';
 import debounce from 'lodash.debounce';
 import CheckBoxes from '@/components/CheckBoxes';
 
+import globalMixins from '@/mixins/globalMixins';
+
 export default {
 	name: 'Dashboard',
+	mixins: [globalMixins],
 	data() {
 		return {
 			form: {
@@ -181,7 +184,10 @@ export default {
 		},
 		async savePermission() {
 			const userId = this.adminInfo._id;
-			const permissions = this.checkedPermissions;
+			let permissions = this.checkedPermissions;
+
+			let mainPermissions = this.permissions.map((res) => res.value);
+			permissions = this.compareArray(mainPermissions, permissions);
 
 			this.loading = true;
 
@@ -208,7 +214,7 @@ export default {
 						}
 						return res;
 					});
-					// this.toggleModalClass('showEditPermission');
+					this.toggleModalClass('showEditPermission');
 					return true;
 				}
 			} catch (error) {
@@ -229,9 +235,7 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.adminInfo = item;
-			// console.log(item);
 			this.checkedPermissions = item.permissions;
-			// console.log(item);
 			this.toggleModalClass('showEditPermission');
 		},
 		toggleModalClass(modal) {
@@ -378,11 +382,16 @@ export default {
 			}
 		},
 		async searchPage(payload) {
-			console.log(this.searchQuery);
+			// console.log(this.searchQuery);
 			try {
 				const response = await this.adminSearch(payload);
+				let { data } = response;
 				if (response.data.response.data.length > 0) {
 					this.admins = response.data.response.data;
+					this.count = data.data.count;
+					this.currentPage = data.data.currentPage;
+					this.total = Math.ceil(data.data.count / this.limit);
+					this.nextPage = data.data.nextPage;
 				} else {
 					this.showAlert({
 						status: 'caution',
