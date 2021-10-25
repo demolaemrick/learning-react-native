@@ -132,7 +132,13 @@ describe('ContactResearch.vue', () => {
 				search_services: {
 					namespaced: true,
 					mutations: {
-						saveSearchedResult: jest.fn(),
+						saveSearchedResult: jest.fn()
+					},
+					actions
+				},
+				search_notes: {
+					namespaced: true,
+					mutations: {
 						saveSearchPayload: jest.fn()
 					},
 					actions

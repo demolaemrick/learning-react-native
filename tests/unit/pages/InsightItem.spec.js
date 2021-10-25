@@ -172,13 +172,20 @@ describe('InsightItem', () => {
 						research: jest.fn().mockResolvedValue()
 					},
 					getters: {
-						getSearchedResult: () => researchResponse.data.data,
+						getSearchedResult: () => researchResponse.data.data
+					},
+					mutations: {
+						saveSearchedResult: jest.fn()
+					},
+					namespaced: true
+				},
+				search_notes: {
+					getters: {
 						getNotepad: () => '',
 						getSearchedItem: () => getSearchedItem
 					},
 					mutations: {
 						saveSearchedItem: jest.fn(),
-						saveSearchedResult: jest.fn(),
 						saveNotepad: jest.fn(),
 						saveSearchPayload: jest.fn()
 					},
