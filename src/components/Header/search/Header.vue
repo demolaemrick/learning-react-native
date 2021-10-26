@@ -44,7 +44,7 @@ import Logo from '@/components/Logo';
 import { mapMutations, mapGetters } from 'vuex';
 
 export default {
-	name: 'searchResultHeader',
+	name: 'mainSearchHeader',
 	components: {
 		VToggleDropdown,
 		Logo
