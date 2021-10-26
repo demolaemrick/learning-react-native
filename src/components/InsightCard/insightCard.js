@@ -97,7 +97,7 @@ export default {
 			} catch (error) {
 				this.sending = false;
 				this.showAlert({
-					status: 'erro',
+					status: 'error',
 					message: error.response.data.message,
 					showAlert: true
 				});

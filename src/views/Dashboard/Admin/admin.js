@@ -15,10 +15,11 @@ import debounce from 'lodash.debounce';
 import CheckBoxes from '@/components/CheckBoxes';
 
 import globalMixins from '@/mixins/globalMixins';
+import inputMixins from '@/mixins/input';
 
 export default {
 	name: 'Dashboard',
-	mixins: [globalMixins],
+	mixins: [globalMixins, inputMixins],
 	data() {
 		return {
 			form: {
@@ -149,7 +150,7 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 			} finally {
 				this.adminLoading = false;
 			}
@@ -218,7 +219,7 @@ export default {
 					return true;
 				}
 			} catch (error) {
-				console.log(error.response);
+				// console.log(error.response);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -249,15 +250,17 @@ export default {
 				}, 500);
 			}
 		},
-		addEmail(e) {
-			if (this.emailInput && e.target.validity.valid) {
+		addEmail() {
+			if (this.emailInput && this.validateEmail(this.emailInput)) {
 				this.emailList.push(this.emailInput);
 				this.emailInput = '';
 			}
 		},
 		deleteEmail(index) {
 			const list = this.emailList;
-			list.splice(index, 1);
+			if (index !== null) {
+				list.splice(index, 1);
+			}
 		},
 		clickCallback(page) {
 			this.page = page;
@@ -388,10 +391,10 @@ export default {
 				let { data } = response;
 				if (response.data.response.data.length > 0) {
 					this.admins = response.data.response.data;
-					this.count = data.data.count;
-					this.currentPage = data.data.currentPage;
-					this.total = Math.ceil(data.data.count / this.limit);
-					this.nextPage = data.data.nextPage;
+					this.count = data.response.count;
+					this.currentPage = data.response.currentPage;
+					this.total = Math.ceil(data.response.count / this.limit);
+					this.nextPage = data.response.nextPage;
 				} else {
 					this.showAlert({
 						status: 'caution',
@@ -400,12 +403,14 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log(error);
-				this.showAlert({
-					status: 'error',
-					message: error.response.data.message,
-					showAlert: true
-				});
+				// console.log(error);
+				if (error.response) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
 			}
 		},
 		clearSearch() {
