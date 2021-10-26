@@ -4,7 +4,10 @@
 			<logo />
 		</header>
 		<main class="main">
-			<div class="auth">
+			<div class="tokenExpired" v-if="isExpired">
+				<p>Token Already Expired</p>
+			</div>
+			<div class="auth" v-else>
 				<div class="auth-header">
 					<h3>Admin Invite</h3>
 					<p>Enter details to proceed</p>

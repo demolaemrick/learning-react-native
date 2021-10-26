@@ -464,6 +464,8 @@ export default {
 					url: article.url,
 					type: research_type
 				});
+				console.log(obj);
+				console.log(response);
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
