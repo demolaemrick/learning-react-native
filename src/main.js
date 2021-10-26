@@ -47,6 +47,11 @@ new Vue({
 				this.startSession(this.loggedUser);
 				this.userId = this.loggedUser.id;
 			}
+		},
+		'$route.path'() {
+			if (!this.isLoggedIn && this.$session.exists()) {
+				this.endSession();
+			}
 		}
 	},
 	computed: {
@@ -86,9 +91,11 @@ new Vue({
 			store.commit('auth/logout');
 			setTimeout(() => {
 				// redirect to login
-				this.$router.push('/login');
+				if (this.$route.path !== '/login') {
+					this.$router.push('/login');
+				}
 				document.location.reload();
-			}, 500);
+			}, 1000);
 		},
 		/**
 		 * Resumes user session
