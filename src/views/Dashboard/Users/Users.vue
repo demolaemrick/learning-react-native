@@ -35,7 +35,11 @@
 				<template name="table-row" slot-scope="{ item }">
 					<td class="table__row-item">{{ item.last_name || '' }} {{ item.first_name || '' }}</td>
 					<td class="table__row-item">{{ item.email || '' }}</td>
-					<td class="table__row-item">{{ item.researches_performed }}/{{ item.monthly_research }}</td>
+					<td class="table__row-item">
+						{{ item.researches_performed > item.monthly_research ? item.monthly_research : item.researches_performed }}/{{
+							item.monthly_research
+						}}
+					</td>
 					<td class="table__row-item status">
 						<status-tag :status="item.status === 'active' ? 'active' : item.status === 'inactive' ? 'inactive' : 'pending'"
 							>{{ item.status }}
@@ -73,7 +77,7 @@
 					</td>
 				</template>
 			</v-table>
-			<div class="table__pagination__wrapper" v-if="!usersLoading">
+			<div class="table__pagination__wrapper" v-if="!usersLoading || (users && users.length)">
 				<div class="title__left">
 					<span>Showing Page</span>
 					<span>
@@ -229,7 +233,7 @@
 
 					<div class="flex flex__end" id="adminPermission">
 						<v-button
-							:disabled="checkedPermissions.length === 0 || loading"
+							:disabled="loading"
 							class="submit"
 							size="large"
 							submitType="submit"

@@ -464,6 +464,8 @@ export default {
 					url: article.url,
 					type: research_type
 				});
+				console.log(obj);
+				console.log(response);
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
@@ -573,7 +575,7 @@ export default {
 					}
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -628,10 +630,7 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value
-				.trim()
-				.toUpperCase()
-				.split(' ');
+			const placeHolder = value.trim().toUpperCase().split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}

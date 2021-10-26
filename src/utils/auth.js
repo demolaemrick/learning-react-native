@@ -24,6 +24,10 @@ export function loggedInUser() {
 	return store.getters['auth/getLoggedUser'];
 }
 
+export function loggedInUserStatus() {
+	return store.getters['auth/getLoggedUser'].status;
+}
+
 /**
  * Auth guard that allows non-authenticated users only.
  * @param to - next route
@@ -75,7 +79,9 @@ export function requireUserAuth(to, from, next) {
  */
 export function requireAdminAuth(to, from, next) {
 	if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
-		next();
+		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
+			next();
+		}
 	} else {
 		next({ name: 'Login' });
 	}

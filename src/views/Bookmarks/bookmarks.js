@@ -114,7 +114,7 @@ export default {
 		async initUserBookmarks() {
 			this.bookmarkLoading = true;
 			try {
-				const userBookmarks = await this.getUserBookmarks(this.$route.query.rowId);
+				const userBookmarks = await this.getUserBookmarks(this.$route.query.id);
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
 					this.userBookmarks = data.response;

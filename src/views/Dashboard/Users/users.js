@@ -14,8 +14,11 @@ import { mapActions, mapGetters } from 'vuex';
 import debounce from 'lodash.debounce';
 import CheckBoxes from '@/components/CheckBoxes';
 
+import globalMixins from '@/mixins/globalMixins';
+
 export default {
 	name: 'Users',
+	mixins: [globalMixins],
 	data() {
 		return {
 			form: {
@@ -177,7 +180,10 @@ export default {
 		},
 		async savePermission() {
 			const userId = this.userInfo._id;
-			const permissions = this.checkedPermissions;
+			let permissions = this.checkedPermissions;
+
+			let mainPermissions = this.permissions.map((res) => res.value);
+			permissions = this.compareArray(mainPermissions, permissions);
 
 			this.loading = true;
 
@@ -185,11 +191,9 @@ export default {
 				permissions,
 				userId
 			};
-			console.log(data);
 
 			try {
 				const response = await this.saveAdminPermissions(data);
-				console.log(response);
 				this.loading = false;
 				// return;
 				if (response.status === 201) {
@@ -204,6 +208,7 @@ export default {
 						}
 						return res;
 					});
+					this.toggleModalClass('showEditPermission');
 					return true;
 				}
 			} catch (error) {
@@ -254,9 +259,7 @@ export default {
 		},
 		openEditPermissionModal(item) {
 			this.userInfo = item;
-			console.log(item);
 			this.checkedPermissions = item.permissions;
-			// console.log(item);
 			this.toggleModalClass('showEditPermission');
 		},
 		toggleModalClass(modal) {
@@ -430,7 +433,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {
