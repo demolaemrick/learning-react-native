@@ -57,7 +57,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			getSearchedResult: 'search_services/getSearchedResult'
+			getSearchedResult: 'search_services/getSearchedResult',
+			bookmarkValue: 'user/getBookmarkvalue'
 		}),
 		socials: {
 			get() {
@@ -437,52 +438,81 @@ export default {
 			await this.initUserBookmarks();
 		},
 		async btnRemoveFromBookMarks(article) {
-			const research_type = article.type === 'contact_insights' ? 'contact_research' : 'company_research';
-			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
-			const obj = searchResultClone[article.type][article.section];
+			const research_type =
+				article.type === 'contact_insights' || article.type === 'contact_research' ? 'contact_research' : 'company_research';
 
-			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
-					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
-						};
-						return;
-					}
-				});
-			}
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: false
-			};
-			await this.saveSearchedResult(searchResultClone);
-			try {
-				const response = await this.removeFromBookmarks({
-					url: article.url,
-					type: research_type
-				});
-				console.log(obj);
-				console.log(response);
-				if (response.status === 200) {
-					this.showAlert({
-						status: 'success',
-						message: response.data.message || 'Article removed from bookmarks',
-						showAlert: true
+			if (Object.keys(this.getSearchedResult).length) {
+				const searchResultClone = { ...this.getSearchedResult };
+				let result = {};
+				const obj = searchResultClone[article.type][article.section];
+
+				for (const key in obj) {
+					Object.values(obj[key]).find((item, index) => {
+						if (item.url === article.url) {
+							result = {
+								key,
+								index,
+								data: { ...item }
+							};
+							return;
+						}
 					});
 				}
-			} catch (error) {
-				// console.log(error);
-				this.showAlert({
-					status: 'error',
-					message: error.response.data.message,
-					showAlert: true
-				});
-				return false;
+				searchResultClone[article.type][article.section][result.key][result.index] = {
+					...searchResultClone[article.type][article.section][result.key][result.index],
+					is_bookmarked: false
+				};
+				await this.saveSearchedResult(searchResultClone);
+				try {
+					const response = await this.removeFromBookmarks({
+						url: article.url,
+						type: research_type
+					});
+					console.log(obj);
+					console.log(response);
+					if (response.status === 200) {
+						this.showAlert({
+							status: 'success',
+							message: response.data.message || 'Article removed from bookmarks',
+							showAlert: true
+						});
+					}
+				} catch (error) {
+					// console.log(error);
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+					return false;
+				}
+				await this.initUserBookmarks();
+			} else {
+				console.log('no result');
+				try {
+					const response = await this.removeFromBookmarks({
+						url: article.url,
+						type: research_type
+					});
+
+					if (response.status === 200) {
+						await this.initUserBookmarks();
+						this.showAlert({
+							status: 'success',
+							message: response.data.message || 'Article removed from bookmarks',
+							showAlert: true
+						});
+					}
+				} catch (error) {
+					// console.log(error);
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+					return false;
+				}
 			}
-			await this.initUserBookmarks();
 		},
 		btnUpdateBookMarks(article, prop) {
 			if (prop === 'add') {

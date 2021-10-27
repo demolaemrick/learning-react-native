@@ -31,16 +31,23 @@ export default {
 		};
 	},
 	async created() {
-		await this.initUserBookmarks();
+		await this.showUserBookmarks();
 	},
 	watch: {
-		'$route.query.rowId'() {
-			this.initUserBookmarks();
+		'$route.query': {
+			handler(value) {
+				if (!value.id) {
+					console.log('got in');
+					this.showUserBookmarks();
+				}
+			},
+			deep: true
 		}
 	},
 	computed: {
 		...mapGetters({
-			getSearchedResult: 'search_services/getSearchedResult'
+			getSearchedResult: 'search_services/getSearchedResult',
+			bookmarkValue: 'user/getBookmarkvalue'
 		}),
 		screenType: {
 			get() {
@@ -111,7 +118,7 @@ export default {
 			this.saveSearchedItem(data);
 			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
 		},
-		async initUserBookmarks() {
+		async showUserBookmarks() {
 			this.bookmarkLoading = true;
 			try {
 				const userBookmarks = await this.getUserBookmarks(this.$route.query.id);
