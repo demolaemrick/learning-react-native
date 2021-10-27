@@ -307,3 +307,15 @@
 		margin: 40px 0 0;
 	}
 }
+
+
+.tokenExpired {
+	color: rgb(182, 5, 5);
+	font-weight: bold;
+	text-transform: capitalize;
+	padding: 15px;
+
+	P {
+		font-size: 1.1rem;
+	}
+}

@@ -15,13 +15,25 @@ export default {
 				token: null,
 				password: null
 			},
+			expiresAt: null,
+			isExpired: false,
 			loading: false
 		};
 	},
 	created() {
 		const token = this.$route.query.token;
 		if (token) {
-			this.form.token = token;
+			const decode = Buffer.from(token, 'base64').toString('utf-8');
+			const decoded = JSON.parse(decode);
+			const date = new Date(decoded.expiresAt);
+			this.expiresAt = date.getTime();
+			this.form.token = decoded.token || token;
+		}
+	},
+	mounted() {
+		const date = new Date();
+		if (this.expiresAt && date.getTime() > this.expiresAt) {
+			this.isExpired = true;
 		}
 	},
 	methods: {

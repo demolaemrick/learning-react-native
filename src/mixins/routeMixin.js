@@ -21,6 +21,8 @@ export default {
 			await this.initUserNote(this.rowId);
 		} else if (this.$route.name === 'Insights') {
 			this.$router.push({ name: 'Search' });
+		} else {
+			this.loading = false;
 		}
 	},
 	methods: {

@@ -135,7 +135,7 @@
 									@keydown.enter.prevent="addEmail"
 									@blur="addEmail"
 									v-model.trim="emailInput"
-									@keydown.delete="deleteEmail(emailList.length > 0 && !emailInput ? emailList['length'] - 1 : 0)"
+									@keydown.delete="deleteEmail(emailList.length > 0 && !emailInput ? emailList['length'] - 1 : null)"
 								/>
 								<!-- <input v-else class="inputField" type="email" @keyup.enter="addEmail" v-model="emailInput" /> -->
 							</div>

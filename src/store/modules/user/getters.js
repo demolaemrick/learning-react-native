@@ -1,3 +1,4 @@
 export default {
-	getError: (state) => state.error
+	getError: (state) => state.error,
+	getBookmarkvalue: (state) => state.bookmarkValue
 };

@@ -288,7 +288,6 @@
 		<modal
 			position="center"
 			v-if="dislikeModal"
-			:active="true"
 			:toggleClass="toggleClass"
 			@close="toggleModalClass('dislikeModal', '')"
 			maxWidth="400px"

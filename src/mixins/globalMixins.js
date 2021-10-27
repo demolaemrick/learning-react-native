@@ -10,6 +10,9 @@ export default {
 		compareArray(mainArray, toBeCompared) {
 			//Filter element not found in the mainArray
 			return mainArray.filter((x) => toBeCompared.includes(x));
+		},
+		base64ToObj(str) {
+			return JSON.parse(atob(str));
 		}
 	}
 };

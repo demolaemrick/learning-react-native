@@ -20,17 +20,19 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
-							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
-							<li
-								class="dropdown__item"
-								v-if="loggedInUser.role !== 'user'"
-								@click="$router.push({ path: '/dashboard/users' })"
-							>
-								Dashboard
-							</li>
-							<li class="dropdown__item" @click="gotoSettings">Settings</li>
-							<li class="dropdown__item" @click="logoutUser">Logout</li>
+							<ul>
+								<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
+								<li class="dropdown__item" @click="goToBookmarks">Bookmarks</li>
+								<li
+									class="dropdown__item"
+									v-if="loggedInUser.role !== 'user'"
+									@click="$router.push({ path: '/dashboard/users' })"
+								>
+									Dashboard
+								</li>
+								<li class="dropdown__item" @click="gotoSettings">Settings</li>
+								<li class="dropdown__item" @click="logoutUser">Logout</li>
+							</ul>
 						</template>
 					</v-toggle-dropdown>
 				</div>
@@ -57,7 +59,9 @@ export default {
 	methods: {
 		...mapMutations({
 			logout: 'auth/logout',
-			setLastSearchResult: 'auth/setLastSearchResult'
+			setLastSearchResult: 'auth/setLastSearchResult',
+			setBookmarkValue: 'user/setBookmarkValue',
+			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		gotoSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
@@ -67,7 +71,7 @@ export default {
 			const route = this.$router.currentRoute.fullPath;
 			const email = this.loggedInUser.email;
 
-			const substring = '/insights?rowId=';
+			const substring = '/insights?id=';
 			if (route.indexOf(substring) !== -1) {
 				this.setLastSearchResult({ email, route });
 				this.logout();
@@ -76,6 +80,11 @@ export default {
 				this.logout();
 				this.$router.push('/login');
 			}
+		},
+		goToBookmarks() {
+			console.log(this.bookmarkValue);
+			this.$router.push({ name: 'Bookmarks' });
+			this.setBookmarkValue('allBookmarks');
 		}
 	}
 };
