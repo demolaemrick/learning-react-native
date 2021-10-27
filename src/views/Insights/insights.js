@@ -1,4 +1,4 @@
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import PageLoad from '@/components/PageLoader';
 import TextInput from '@/components/Input';
@@ -246,6 +246,9 @@ export default {
 		this.isFromAdmin = this.$route.name === 'AdminInsights' ? true : false;
 	},
 	methods: {
+		...mapMutations({
+			setBookmarkValue: 'user/setBookmarkValue'
+		}),
 		...mapActions({
 			researchedResult: 'search_services/researchedResult',
 			researchDone: 'search_services/researchDone',
@@ -262,6 +265,10 @@ export default {
 				this.userImages.splice(brokenSrcIndex, 1);
 			}
 			this.$forceUpdate();
+		},
+		goToBookmarks() {
+			this.$router.push({ name: 'Bookmarks', query: { id: this.rowId } });
+			this.setBookmarkValue('contactBookmarks');
 		},
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
@@ -402,17 +409,6 @@ export default {
 			this.modalData = data;
 			this.addArticle = true;
 		},
-		// toggleModalClass(modal) {
-		// 	if (!this[modal]) {
-		// 		this[modal] = true;
-		// 	} else {
-		// 		this.toggleClass = !this.toggleClass;
-		// 		setTimeout(() => {
-		// 			this[modal] = !this[modal];
-		// 			this.toggleClass = !this.toggleClass;
-		// 		}, 500);
-		// 	}
-		// },
 		displaySearchItem(type, item) {
 			const data = {
 				type,
