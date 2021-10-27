@@ -22,7 +22,7 @@
 						</template>
 						<template #dropdown-items>
 							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
-							<li class="dropdown__item" @click="$router.push({ name: 'Bookmarks' })">Bookmarks</li>
+							<li class="dropdown__item" @click="goToBookmarks">Bookmarks</li>
 							<li
 								class="dropdown__item"
 								v-if="loggedInUser.role !== 'user'"
@@ -62,11 +62,17 @@ export default {
 	methods: {
 		...mapMutations({
 			logout: 'auth/logout',
-			setLastSearchResult: 'auth/setLastSearchResult'
+			setLastSearchResult: 'auth/setLastSearchResult',
+			setBookmarkValue: 'user/setBookmarkValue',
+			saveSearchedResult: 'search_services/saveSearchedResult'
 		}),
 		gotoSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
+		},
+		goToBookmarks() {
+			this.$router.push({ name: 'Bookmarks' });
+			this.setBookmarkValue('allBookmarks');
 		},
 		logoutUser() {
 			const route = this.$router.currentRoute.fullPath;
