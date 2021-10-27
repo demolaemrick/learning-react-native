@@ -1,4 +1,5 @@
 export default {
 	userSettings: {},
-	showMoreSearchSettings: false
+	showMoreSearchSettings: false,
+	bookmarkValue: ''
 };
