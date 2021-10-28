@@ -64,7 +64,7 @@
 								</div>
 
 								<div class="name__email__wrapper">
-									<div class="text__name">{{ item.full_name }}</div>
+									<div class="text__name">{{ stringElipsis(item.full_name, 15)}}</div>
 									<div class="text__email">{{ item.email }}</div>
 								</div>
 							</div>
