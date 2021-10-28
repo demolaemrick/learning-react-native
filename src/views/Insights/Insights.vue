@@ -346,7 +346,13 @@
 							</div>
 
 							<div class="mb-2 mt-1">
-								<radio-boxes :datas="articleTypes" inputName="Article Type" @radiocheckUpdate="radiocheckUpdate" />
+								<radio-boxes
+									:resetChecked="articleType"
+									v-model="articleType"
+									:datas="articleTypes"
+									inputName="Article Type"
+									@radiocheckUpdate="radiocheckUpdate"
+								/>
 							</div>
 
 							<div class="flex flex__end" id="addArticle">
