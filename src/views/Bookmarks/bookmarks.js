@@ -27,7 +27,7 @@ export default {
 			loadMore: false,
 			bookmarkLoading: true,
 			userBookmarks: null,
-			rowId: '',
+			rowId: ''
 		};
 	},
 	async created() {
