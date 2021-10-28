@@ -197,8 +197,6 @@ export default {
 		getTabs() {
 			const insightsArray = [];
 			const insights = this.getSearchedResult.contact_insights;
-			// console.log(insights);
-			// return
 			if (Object.values(insights.snapshot).length) {
 				insightsArray.push({ title: 'Snapshot', ref: 'snapshot' });
 			}

@@ -87,10 +87,6 @@ export default {
 				let justOrdinary = this.getOrdinaryArticles(sortedList);
 				let byDisliked = this.sortByDislike(sortedList);
 				return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
-				// this.checkCompanySort(newObj[tab]);
-				// this.sortByImportant(newObj[tab]);
-				// this.sortByDislike(newObj[tab]);
-				// return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -100,8 +96,8 @@ export default {
 			get() {
 				let newObj = {};
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
-
+				let result = {};
+				result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 				const data = result.news;
 				const tab = this.selectedTab;
 				this.tabs = result.top_tags.map((item) => item.tag);
@@ -129,25 +125,6 @@ export default {
 					let byDisliked = this.sortByDislike(sortedList);
 					return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
 				}
-
-				// if (tab === 'All') {
-				// 	let newArray = [];
-				// 	for (const item in data) {
-				// 		newArray = [...newArray, ...data[item]];
-				// 	}
-				// 	const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				// 	constthis.checkContactSort(uniqueArray);
-				// 	this.sortByImportant(uniqueArray);
-				// 	this.sortByDislike(uniqueArray);
-				// 	return this.sortByBookmarked(uniqueArray);
-				// } else {
-				// 	const element = Object.keys(data).includes(tab) ? data[tab] : '';
-				// 	newObj[tab] = element;
-				// 	this.checkContactSort(newObj[tab]);
-				// 	this.sortByImportant(newObj[tab]);
-				// 	this.sortByDislike(newObj[tab]);
-				// 	return this.sortByBookmarked(newObj[tab]);
-				// }
 			},
 			set(value) {
 				return value;
@@ -206,21 +183,6 @@ export default {
 			dislikeQuote: 'search_services/dislikeQuote',
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
-		// sortByDislike(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return a.is_disliked - b.is_disliked;
-		// 	});
-		// },
-		// sortByBookmarked(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return b.is_bookmarked - a.is_bookmarked;
-		// 	});
-		// },
-		// sortByImportant(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return b.important - a.important;
-		// 	});
-		// },
 		sortByBookmarked(data) {
 			return data.filter((x) => x.is_bookmarked && !x.is_disliked);
 		},
@@ -382,8 +344,6 @@ export default {
 						showAlert: true
 					});
 				}
-			} finally {
-				this.loading = false;
 			}
 		},
 		async btnAddToBookMarks(article) {

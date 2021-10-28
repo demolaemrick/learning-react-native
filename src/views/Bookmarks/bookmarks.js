@@ -26,7 +26,8 @@ export default {
 			searchType: 'contact_insights',
 			loadMore: false,
 			bookmarkLoading: true,
-			userBookmarks: null
+			userBookmarks: null,
+			rowId: '',
 		};
 	},
 	async created() {
@@ -41,6 +42,9 @@ export default {
 			},
 			deep: true
 		}
+	},
+	async mounted() {
+		this.rowId = this.$route.query.id;
 	},
 	computed: {
 		...mapGetters({
@@ -107,13 +111,13 @@ export default {
 			showAlert: 'showAlert',
 			removeFromBookmarks: 'user/removeFromBookmarks'
 		}),
-		displaySearchItem(type, item) {
+		displayArticle(type, item) {
 			const data = {
 				type: type,
 				item: item
 			};
 			this.saveSearchedItem(data);
-			this.$router.push({ name: 'InsightItem', query: { id: this.rowId } });
+			this.$router.push({ name: 'InsightItem', query: { id: item.rowId } });
 		},
 		async showUserBookmarks() {
 			this.bookmarkLoading = true;
