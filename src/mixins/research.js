@@ -46,7 +46,7 @@ const researchMixin = {
 			return initials;
 		},
 		stringElipsis(str, max) {
-			return str.length > max ? str.slice(0, max) + '...' : str
+			return str.length > max ? str.slice(0, max) + '...' : str;
 		}
 	}
 };
