@@ -301,7 +301,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -350,7 +349,6 @@ export default {
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -362,10 +360,13 @@ export default {
 		},
 		async initUserBookmarks() {
 			try {
-				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
+				const userBookmarks = await this.getUserBookmarks(this.$route.query.id);
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
-					this.userBookmarks = data.response;
+					const resp = data.response;
+					this.allBookmarks = resp;
+
+					// this.bookmarkCount = [...resp.contact_research, ...resp.company_research].length;
 
 					this.showAlert({
 						status: 'success',
@@ -374,7 +375,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				if (error.response) {
 					this.showAlert({
 						status: 'error',
@@ -405,7 +405,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -441,7 +440,34 @@ export default {
 			const research_type =
 				article.type === 'contact_insights' || article.type === 'contact_research' ? 'contact_research' : 'company_research';
 
-			if (Object.keys(this.getSearchedResult).length) {
+			if (this.userBookmarks && Object.keys(this.userBookmarks).length) {
+				const bookmarkedArticles = JSON.parse(JSON.stringify(this.userBookmarks));
+				let articles = bookmarkedArticles[article.type];
+
+				articles = articles.filter(({ url }) => url !== article.url);
+				try {
+					const response = await this.removeFromBookmarks({
+						url: article.url,
+						type: research_type
+					});
+
+					if (response.status === 200) {
+						this.userBookmarks[article.type] = articles;
+						this.showAlert({
+							status: 'success',
+							message: response.data.message || 'Article removed from bookmarks',
+							showAlert: true
+						});
+					}
+				} catch (error) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+					return false;
+				}
+			} else {
 				const searchResultClone = { ...this.getSearchedResult };
 				let result = {};
 				const obj = searchResultClone[article.type][article.section];
@@ -468,8 +494,6 @@ export default {
 						url: article.url,
 						type: research_type
 					});
-					console.log(obj);
-					console.log(response);
 					if (response.status === 200) {
 						this.showAlert({
 							status: 'success',
@@ -478,7 +502,6 @@ export default {
 						});
 					}
 				} catch (error) {
-					// console.log(error);
 					this.showAlert({
 						status: 'error',
 						message: error.response.data.message,
@@ -487,31 +510,6 @@ export default {
 					return false;
 				}
 				await this.initUserBookmarks();
-			} else {
-				console.log('no result');
-				try {
-					const response = await this.removeFromBookmarks({
-						url: article.url,
-						type: research_type
-					});
-
-					if (response.status === 200) {
-						await this.initUserBookmarks();
-						this.showAlert({
-							status: 'success',
-							message: response.data.message || 'Article removed from bookmarks',
-							showAlert: true
-						});
-					}
-				} catch (error) {
-					// console.log(error);
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-					return false;
-				}
 			}
 		},
 		btnUpdateBookMarks(article, prop) {
@@ -548,7 +546,6 @@ export default {
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -585,7 +582,6 @@ export default {
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -605,7 +601,6 @@ export default {
 					}
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,

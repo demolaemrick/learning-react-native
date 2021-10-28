@@ -6,9 +6,8 @@ import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import DotLoader from '@/components/DotLoader.vue';
 import PageLoad from '../Insights/PageLoad.vue';
-import insightMixin from '@/mixins/insightMixin';
-import routeMixin from '@/mixins/routeMixin';
 import InsightCard from '@/components/InsightCard';
+import insightMixin from '../../mixins/insightMixin';
 
 export default {
 	name: 'Bookmarks',
@@ -21,7 +20,7 @@ export default {
 		VHeader,
 		InsightCard
 	},
-	mixins: [ScreenWidthMixin, insightMixin, routeMixin],
+	mixins: [ScreenWidthMixin, insightMixin],
 	data() {
 		return {
 			searchType: 'contact_insights',
@@ -37,7 +36,6 @@ export default {
 		'$route.query': {
 			handler(value) {
 				if (!value.id) {
-					console.log('got in');
 					this.showUserBookmarks();
 				}
 			},
@@ -46,7 +44,6 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			getSearchedResult: 'search_services/getSearchedResult',
 			bookmarkValue: 'user/getBookmarkvalue'
 		}),
 		screenType: {

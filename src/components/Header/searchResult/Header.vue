@@ -82,7 +82,6 @@ export default {
 			}
 		},
 		goToBookmarks() {
-			console.log(this.bookmarkValue);
 			this.$router.push({ name: 'Bookmarks' });
 			this.setBookmarkValue('allBookmarks');
 		}

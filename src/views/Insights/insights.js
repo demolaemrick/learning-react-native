@@ -49,7 +49,7 @@ export default {
 			searchedResult: {},
 			loading: true,
 			sending: false,
-			userBookmarks: '',
+			allBookmarks: '',
 			bookmarkLoading: true,
 			markDone: false,
 			tabs: [],
@@ -89,7 +89,8 @@ export default {
 			],
 			params: null,
 			isFromAdmin: false,
-			sendingNote: false
+			sendingNote: false,
+			bookmarkCount: 0
 		};
 	},
 
@@ -145,8 +146,8 @@ export default {
 		},
 		userBookmarksCount() {
 			let total = 0;
-			if (this.userBookmarks) {
-				const { company_research, contact_research } = this.userBookmarks;
+			if (this.allBookmarks) {
+				const { company_research, contact_research } = this.allBookmarks;
 				if (company_research && contact_research) {
 					total += this.contact_insights_categories.filter((article) => {
 						return article.is_bookmarked;
@@ -160,10 +161,6 @@ export default {
 						return article.is_bookmarked;
 					}).length;
 				}
-			}
-
-			if (total > 0) {
-				this.$emit('hasBookmark', true);
 			}
 			return total;
 		},
@@ -182,8 +179,8 @@ export default {
 				contact_research: '',
 				company_research: ''
 			};
-			if (this.userBookmarks) {
-				const { company_research, contact_research } = this.userBookmarks;
+			if (this.allBookmarks) {
+				const { company_research, contact_research } = this.allBookmarks;
 				if (company_research && company_research.length) {
 					const { type } = company_research[0];
 					result[type] = company_research[0];
