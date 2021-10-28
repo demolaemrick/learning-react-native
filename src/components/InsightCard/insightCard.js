@@ -68,6 +68,15 @@ export default {
 			toggleImportance: 'users_management/toggleImportance',
 			showAlert: 'showAlert'
 		}),
+		openArticle() {
+			let render = this.article.render;
+			if (render !== false) {
+				this.$emit('displayInsight');
+			} else {
+				// open new tab here
+				window.open(this.article.url, '_blank');
+			}
+		},
 		async toggleArticleFunc() {
 			const rowId = this.$route.query.id;
 			let hide = this.hidden ? false : true;
