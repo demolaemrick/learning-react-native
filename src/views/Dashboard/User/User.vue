@@ -289,7 +289,7 @@
 						<c-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
 							<Loader v-if="loading" />
 							<span v-else class="text">Delete</span>
-							</c-button>
+						</c-button>
 					</div>
 				</div>
 			</template>
