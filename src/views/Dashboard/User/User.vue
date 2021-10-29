@@ -286,7 +286,10 @@
 					</p>
 					<div class="modal__content-btn">
 						<div class="cancel" @click="toggleModal">Cancel</div>
-						<c-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">Delete</c-button>
+						<c-button class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
+							<Loader v-if="loading" />
+							<span v-else class="text">Delete</span>
+							</c-button>
 					</div>
 				</div>
 			</template>

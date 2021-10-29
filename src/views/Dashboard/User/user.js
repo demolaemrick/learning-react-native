@@ -563,6 +563,7 @@ export default {
 			}
 		},
 		async deleteResearch() {
+			this.loading = true;
 			try {
 				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
 				const { status, statusText } = research;
@@ -581,6 +582,8 @@ export default {
 					message: error.response.data.message,
 					showAlert: true
 				});
+			} finally {
+				this.loading = false;
 			}
 		},
 		showResearch(item) {
