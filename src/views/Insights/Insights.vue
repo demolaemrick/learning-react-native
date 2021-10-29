@@ -380,8 +380,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
+							type="contact_insights"
+							section="news"
 							v-for="(article, j) in contactSearchResult"
 							:key="contactSearchResult[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -423,6 +426,9 @@
 							:isContact="true"
 							v-for="(article, j) in contact_insights_categories"
 							:key="j"
+							:index="j"
+							type="contact_insights"
+							section="news"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -518,7 +524,10 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
+							type="contact_insights"
+							section="quotes"
 							v-for="(quote, j) in contactQuotes"
+							:index="j"
 							:key="
 								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
 							"
@@ -550,8 +559,11 @@
 					<InsightCard
 						:isFromAdmin="isFromAdmin"
 						:isContact="true"
+						type="contact_insights"
+						section="other_insights"
 						v-for="(otherInsight, j) in contact_other_insights"
 						:key="contact_other_insights[otherInsight]"
+						:index="j"
 						@openModal="
 							toggleModalClass(
 								'dislikeModal',
@@ -705,8 +717,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="false"
+							type="company_insights"
+							section="news"
 							v-for="(article, j) in companySearchResult"
 							:key="companySearchResult[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -740,8 +755,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="false"
+							type="company_insights"
+							section="news"
 							v-for="(article, j) in company_insights_categories"
 							:key="company_insights_categories[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',

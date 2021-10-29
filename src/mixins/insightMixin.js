@@ -374,27 +374,19 @@ export default {
 			}
 
 			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
 			const obj = searchResultClone[article.type][article.section];
 			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
+				Object.values(obj[key]).filter(async (item, index) => {
 					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
+						searchResultClone[article.type][article.section][key][index] = {
+							...searchResultClone[article.type][article.section][key][index],
+							is_bookmarked: true
 						};
-						return;
+
+						await this.saveSearchedResult(searchResultClone);
 					}
 				});
 			}
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: true
-			};
-
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
 		},
 		async btnRemoveFromBookMarks(article) {
 			const research_type =
@@ -429,26 +421,19 @@ export default {
 				}
 			} else {
 				const searchResultClone = { ...this.getSearchedResult };
-				let result = {};
 				const obj = searchResultClone[article.type][article.section];
 
 				for (const key in obj) {
-					Object.values(obj[key]).find((item, index) => {
+					Object.values(obj[key]).filter(async (item, index) => {
 						if (item.url === article.url) {
-							result = {
-								key,
-								index,
-								data: { ...item }
+							searchResultClone[article.type][article.section][key][index] = {
+								...searchResultClone[article.type][article.section][key][index],
+								is_bookmarked: false
 							};
-							return;
+							await this.saveSearchedResult(searchResultClone);
 						}
 					});
 				}
-				searchResultClone[article.type][article.section][result.key][result.index] = {
-					...searchResultClone[article.type][article.section][result.key][result.index],
-					is_bookmarked: false
-				};
-				await this.saveSearchedResult(searchResultClone);
 				try {
 					const response = await this.removeFromBookmarks({
 						url: article.url,
@@ -469,7 +454,7 @@ export default {
 					});
 					return false;
 				}
-				await this.initUserBookmarks();
+				// await this.initUserBookmarks();
 			}
 		},
 		btnUpdateBookMarks(article, prop) {

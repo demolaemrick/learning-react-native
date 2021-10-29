@@ -74,6 +74,9 @@
 								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in contact_insights_categories"
 								:key="contact_insights_categories[article]"
+								:index="j"
+								type="contact_insights"
+								section="news"
 								@openModal="
 									toggleModalClass(
 										'dislikeModal',
@@ -88,6 +91,10 @@
 								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
 								@displayInsight="displaySearchItem('contact_insights', article)"
 							/>
+							<div v-if="contact_insights_categories.length === 0" class="emptyState">
+								<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+								<p class="emptyState-text">No content found!</p>
+							</div>
 						</div>
 						<!-- Quote section -->
 
@@ -116,6 +123,9 @@
 								:isFromAdmin="isFromAdmin"
 								v-for="(quote, index) in contactQuotes"
 								:key="index"
+								:index="index"
+								type="contact_insights"
+								section="quotes"
 								:published="quote.date ? quote.date : null"
 								:article="quote"
 								@bookmark="
@@ -134,6 +144,9 @@
 								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in contact_other_insights"
 								:key="contact_other_insights[article]"
+								:index="j"
+								type="contact_insights"
+								section="other_insights"
 								@openModal="
 									toggleModalClass(
 										'dislikeModal',
@@ -207,6 +220,9 @@
 								:isFromAdmin="isFromAdmin"
 								v-for="(article, j) in company_insights_categories"
 								:key="company_insights_categories[article]"
+								:index="j"
+								type="company_insights"
+								section="news"
 								@openModal="
 									toggleModalClass(
 										'dislikeModal',
@@ -221,6 +237,10 @@
 								:article="article"
 								@displayInsight="displaySearchItem('company_insights', article)"
 							/>
+							<div v-if="company_insights_categories.length === 0" class="emptyState">
+								<img src="@/assets/icons/no-content.svg" alt="empty content" svg-inline />
+								<p class="emptyState-text">No content found!</p>
+							</div>
 						</div>
 					</div>
 				</div>

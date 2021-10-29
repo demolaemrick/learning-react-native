@@ -16,6 +16,9 @@
 							<InsightCard
 								:published="article.meta.published || article.content.date || article.meta.timestamp"
 								:article="article"
+								:index="j"
+								type="contact_insights"
+								section="news"
 								:showEmailIcon="false"
 								:showDislikeIcon="false"
 								@bookmark="btnUpdateBookMarks({ type: 'contact_insights', index: j, section: 'news', ...article }, $event)"
@@ -42,6 +45,9 @@
 						<InsightCard
 							:published="article.meta.published || article.content.date || article.meta.timestamp"
 							:article="article"
+							type="company_insights"
+							:index="j"
+							section="news"
 							:showEmailIcon="false"
 							:showDislikeIcon="false"
 							@bookmark="btnUpdateBookMarks({ type: 'company_insights', index: j, section: 'news', ...article }, $event)"

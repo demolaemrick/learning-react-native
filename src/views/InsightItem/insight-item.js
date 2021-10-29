@@ -70,9 +70,12 @@ export default {
 				const tab = this.companyTab;
 				const element = Object.keys(data).includes(tab) ? data[tab] : '';
 				newObj[tab] = element;
-				this.sortByDislike(newObj[tab]);
-				this.sortByBookmarked(newObj[tab]);
-				return this.checkCompanySort(newObj[tab]);
+				const sorted = this.checkCompanySort(newObj[tab]);
+				const disLiked = this.sortByDislike(sorted);
+				const byImportance = this.sortByImportant(sorted);
+				const bookMarked = this.sortByBookmarked(sorted);
+				const ordinary = this.getOrdinaryArticles(sorted);
+				return [...bookMarked, ...byImportance, ...ordinary, ...disLiked];
 			},
 			set(value) {
 				return value;
