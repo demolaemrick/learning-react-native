@@ -328,8 +328,6 @@ export default {
 					const resp = data.response;
 					this.allBookmarks = resp;
 
-					// this.bookmarkCount = [...resp.contact_research, ...resp.company_research].length;
-
 					this.showAlert({
 						status: 'success',
 						message: response.data.message,
