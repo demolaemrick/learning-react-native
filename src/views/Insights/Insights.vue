@@ -85,9 +85,7 @@
 
 				<div class="section__5 first" v-if="!isFromAdmin">
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
-					<div v-if="userBookmarksCount !== 0" @click="goToBookmarks" class="link">
-						See All
-					</div>
+					<div v-if="userBookmarksCount !== 0" @click="goToBookmarks" class="link">See All</div>
 				</div>
 				<div class="section__5" v-if="loggedInUser.can_generate_email && !isFromAdmin">
 					<div class="text">Personalized Email Intros</div>
@@ -193,7 +191,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -346,7 +344,13 @@
 							</div>
 
 							<div class="mb-2 mt-1">
-								<radio-boxes :datas="articleTypes" inputName="Article Type" @radiocheckUpdate="radiocheckUpdate" />
+								<radio-boxes
+									:resetChecked="articleType"
+									v-model="articleType"
+									:datas="articleTypes"
+									inputName="Article Type"
+									@radiocheckUpdate="radiocheckUpdate"
+								/>
 							</div>
 
 							<div class="flex flex__end" id="addArticle">
@@ -374,8 +378,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
+							type="contact_insights"
+							section="news"
 							v-for="(article, j) in contactSearchResult"
 							:key="contactSearchResult[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -417,6 +424,9 @@
 							:isContact="true"
 							v-for="(article, j) in contact_insights_categories"
 							:key="j"
+							:index="j"
+							type="contact_insights"
+							section="news"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -512,10 +522,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="true"
+							type="contact_insights"
+							section="quotes"
 							v-for="(quote, j) in contactQuotes"
-							:key="
-								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
-							"
+							:index="j"
+							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
@@ -544,8 +555,11 @@
 					<InsightCard
 						:isFromAdmin="isFromAdmin"
 						:isContact="true"
+						type="contact_insights"
+						section="other_insights"
 						v-for="(otherInsight, j) in contact_other_insights"
 						:key="contact_other_insights[otherInsight]"
+						:index="j"
 						@openModal="
 							toggleModalClass(
 								'dislikeModal',
@@ -699,8 +713,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="false"
+							type="company_insights"
+							section="news"
 							v-for="(article, j) in companySearchResult"
 							:key="companySearchResult[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',
@@ -734,8 +751,11 @@
 						<InsightCard
 							:isFromAdmin="isFromAdmin"
 							:isContact="false"
+							type="company_insights"
+							section="news"
 							v-for="(article, j) in company_insights_categories"
 							:key="company_insights_categories[article]"
+							:index="j"
 							@openModal="
 								toggleModalClass(
 									'dislikeModal',

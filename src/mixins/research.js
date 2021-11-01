@@ -44,6 +44,9 @@ const researchMixin = {
 				initials += names[names.length - 1].substring(0, 1).toUpperCase();
 			}
 			return initials;
+		},
+		stringElipsis(str, max) {
+			return str.length > max ? str.slice(0, max) + '...' : str;
 		}
 	}
 };

@@ -3,7 +3,13 @@
 		<label for="articletype">{{ inputName }}</label>
 		<div class="radios_container">
 			<div v-for="(data, index) in datas" :key="index" class="radio_box_row">
-				<input @change="$emit('radiocheckUpdate', checked)" type="radio" :name="inputName" :value="data.value" v-model="checked" />
+				<input
+					:checked="resetChecked === data.value"
+					@change="$emit('radiocheckUpdate', $event.target.value)"
+					type="radio"
+					:name="inputName"
+					:value="data.value"
+				/>
 				<span>{{ data.name }}</span>
 			</div>
 		</div>
@@ -21,6 +27,10 @@ export default {
 		datas: {
 			type: Array,
 			default: () => []
+		},
+		resetChecked: {
+			type: String,
+			default: () => ''
 		}
 	},
 	data() {

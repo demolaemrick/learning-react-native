@@ -87,10 +87,6 @@ export default {
 				let justOrdinary = this.getOrdinaryArticles(sortedList);
 				let byDisliked = this.sortByDislike(sortedList);
 				return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
-				// this.checkCompanySort(newObj[tab]);
-				// this.sortByImportant(newObj[tab]);
-				// this.sortByDislike(newObj[tab]);
-				// return this.sortByBookmarked(newObj[tab]);
 			},
 			set(value) {
 				return value;
@@ -100,8 +96,8 @@ export default {
 			get() {
 				let newObj = {};
 				this.searchType = this.searchType === 'contact_research' ? 'contact_insights' : this.searchType;
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
-
+				let result = {};
+				result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
 				const data = result.news;
 				const tab = this.selectedTab;
 				this.tabs = result.top_tags.map((item) => item.tag);
@@ -129,25 +125,6 @@ export default {
 					let byDisliked = this.sortByDislike(sortedList);
 					return [...bookMarked, ...byImportance, ...justOrdinary, ...byDisliked];
 				}
-
-				// if (tab === 'All') {
-				// 	let newArray = [];
-				// 	for (const item in data) {
-				// 		newArray = [...newArray, ...data[item]];
-				// 	}
-				// 	const uniqueArray = [...new Map(newArray.map((item) => [item['url'], item])).values()];
-				// 	constthis.checkContactSort(uniqueArray);
-				// 	this.sortByImportant(uniqueArray);
-				// 	this.sortByDislike(uniqueArray);
-				// 	return this.sortByBookmarked(uniqueArray);
-				// } else {
-				// 	const element = Object.keys(data).includes(tab) ? data[tab] : '';
-				// 	newObj[tab] = element;
-				// 	this.checkContactSort(newObj[tab]);
-				// 	this.sortByImportant(newObj[tab]);
-				// 	this.sortByDislike(newObj[tab]);
-				// 	return this.sortByBookmarked(newObj[tab]);
-				// }
 			},
 			set(value) {
 				return value;
@@ -206,21 +183,6 @@ export default {
 			dislikeQuote: 'search_services/dislikeQuote',
 			removeQuoteDislike: 'search_services/removeQuoteDislike'
 		}),
-		// sortByDislike(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return a.is_disliked - b.is_disliked;
-		// 	});
-		// },
-		// sortByBookmarked(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return b.is_bookmarked - a.is_bookmarked;
-		// 	});
-		// },
-		// sortByImportant(data) {
-		// 	return data.sort(function (a, b) {
-		// 		return b.important - a.important;
-		// 	});
-		// },
 		sortByBookmarked(data) {
 			return data.filter((x) => x.is_bookmarked && !x.is_disliked);
 		},
@@ -301,7 +263,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -350,7 +311,6 @@ export default {
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -362,10 +322,11 @@ export default {
 		},
 		async initUserBookmarks() {
 			try {
-				const userBookmarks = await this.getUserBookmarks(this.getSearchedResult.rowId);
+				const userBookmarks = await this.getUserBookmarks(this.$route.query.id);
 				const { status, data, statusText } = userBookmarks;
 				if (status === 200 && statusText === 'OK') {
-					this.userBookmarks = data.response;
+					const resp = data.response;
+					this.allBookmarks = resp;
 
 					this.showAlert({
 						status: 'success',
@@ -374,7 +335,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				if (error.response) {
 					this.showAlert({
 						status: 'error',
@@ -382,8 +342,6 @@ export default {
 						showAlert: true
 					});
 				}
-			} finally {
-				this.loading = false;
 			}
 		},
 		async btnAddToBookMarks(article) {
@@ -405,7 +363,6 @@ export default {
 					});
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -415,61 +372,71 @@ export default {
 			}
 
 			const searchResultClone = { ...this.getSearchedResult };
-			let result = {};
 			const obj = searchResultClone[article.type][article.section];
 			for (const key in obj) {
-				Object.values(obj[key]).find((item, index) => {
+				Object.values(obj[key]).filter(async (item, index) => {
 					if (item.url === article.url) {
-						result = {
-							key,
-							index,
-							data: { ...item }
+						searchResultClone[article.type][article.section][key][index] = {
+							...searchResultClone[article.type][article.section][key][index],
+							is_bookmarked: true
 						};
-						return;
+
+						await this.saveSearchedResult(searchResultClone);
 					}
 				});
 			}
-			searchResultClone[article.type][article.section][result.key][result.index] = {
-				...searchResultClone[article.type][article.section][result.key][result.index],
-				is_bookmarked: true
-			};
-
-			await this.saveSearchedResult(searchResultClone);
-			await this.initUserBookmarks();
 		},
 		async btnRemoveFromBookMarks(article) {
 			const research_type =
 				article.type === 'contact_insights' || article.type === 'contact_research' ? 'contact_research' : 'company_research';
 
-			if (Object.keys(this.getSearchedResult).length) {
+			if (this.userBookmarks && Object.keys(this.userBookmarks).length) {
+				const bookmarkedArticles = JSON.parse(JSON.stringify(this.userBookmarks));
+				let articles = bookmarkedArticles[article.type];
+
+				articles = articles.filter(({ url }) => url !== article.url);
+				try {
+					const response = await this.removeFromBookmarks({
+						url: article.url,
+						type: research_type
+					});
+
+					if (response.status === 200) {
+						this.userBookmarks[article.type] = articles;
+						this.showAlert({
+							status: 'success',
+							message: response.data.message || 'Article removed from bookmarks',
+							showAlert: true
+						});
+					}
+				} catch (error) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+					return false;
+				}
+			} else {
 				const searchResultClone = { ...this.getSearchedResult };
-				let result = {};
 				const obj = searchResultClone[article.type][article.section];
 
 				for (const key in obj) {
-					Object.values(obj[key]).find((item, index) => {
+					Object.values(obj[key]).filter(async (item, index) => {
 						if (item.url === article.url) {
-							result = {
-								key,
-								index,
-								data: { ...item }
+							searchResultClone[article.type][article.section][key][index] = {
+								...searchResultClone[article.type][article.section][key][index],
+								is_bookmarked: false
 							};
-							return;
+							await this.saveSearchedResult(searchResultClone);
 						}
 					});
 				}
-				searchResultClone[article.type][article.section][result.key][result.index] = {
-					...searchResultClone[article.type][article.section][result.key][result.index],
-					is_bookmarked: false
-				};
-				await this.saveSearchedResult(searchResultClone);
 				try {
 					const response = await this.removeFromBookmarks({
 						url: article.url,
 						type: research_type
 					});
-					console.log(obj);
-					console.log(response);
 					if (response.status === 200) {
 						this.showAlert({
 							status: 'success',
@@ -478,7 +445,6 @@ export default {
 						});
 					}
 				} catch (error) {
-					// console.log(error);
 					this.showAlert({
 						status: 'error',
 						message: error.response.data.message,
@@ -486,32 +452,7 @@ export default {
 					});
 					return false;
 				}
-				await this.initUserBookmarks();
-			} else {
-				console.log('no result');
-				try {
-					const response = await this.removeFromBookmarks({
-						url: article.url,
-						type: research_type
-					});
-
-					if (response.status === 200) {
-						await this.initUserBookmarks();
-						this.showAlert({
-							status: 'success',
-							message: response.data.message || 'Article removed from bookmarks',
-							showAlert: true
-						});
-					}
-				} catch (error) {
-					// console.log(error);
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-					return false;
-				}
+				// await this.initUserBookmarks();
 			}
 		},
 		btnUpdateBookMarks(article, prop) {
@@ -548,7 +489,6 @@ export default {
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -585,7 +525,6 @@ export default {
 					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -605,7 +544,6 @@ export default {
 					}
 				}
 			} catch (error) {
-				// console.log(error);
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -660,10 +598,7 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value
-				.trim()
-				.toUpperCase()
-				.split(' ');
+			const placeHolder = value.trim().toUpperCase().split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}

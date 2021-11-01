@@ -16,8 +16,8 @@ export default {
 		this.loading = true;
 		if (this.$route.query.id) {
 			this.rowId = this.$route.query.id;
-			await this.getResult();
 			await this.initUserBookmarks();
+			await this.getResult();
 			await this.initUserNote(this.rowId);
 		} else if (this.$route.name === 'Insights') {
 			this.$router.push({ name: 'Search' });
