@@ -415,11 +415,7 @@ export default {
 						this.toggleModalClass('filter');
 					}
 				} else {
-					this.showAlert({
-						status: 'error',
-						message: 'No user found',
-						showAlert: true
-					});
+					this.users = [];
 				}
 			} catch (error) {
 				console.log(error);
@@ -438,6 +434,7 @@ export default {
 				this.searchPage({ q: newVal });
 			} else {
 				this.getAllUsers();
+				this.usersLoading = true;
 			}
 		}, 600)
 	}

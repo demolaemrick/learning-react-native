@@ -77,27 +77,29 @@
 					</td>
 				</template>
 			</v-table>
-			<div class="table__pagination__wrapper" v-if="!usersLoading || (users && users.length)">
-				<div class="title__left">
-					<span>Showing Page</span>
-					<span>
-						{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
-						<template v-else>{{ count }}</template>
-					</span>
-					<span>of</span>
-					<span>{{ count }}</span>
-				</div>
+			<template v-if="users && users.length">
+				<div class="table__pagination__wrapper" v-if="!usersLoading || (users && users.length)">
+					<div class="title__left">
+						<span>Showing Page</span>
+						<span>
+							{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+							<template v-else>{{ count }}</template>
+						</span>
+						<span>of</span>
+						<span>{{ count }}</span>
+					</div>
 
-				<paginate
-					:page-count="total"
-					:click-handler="clickCallback"
-					:prev-text="'Prev'"
-					:next-text="'Next'"
-					:container-class="'pagination__list'"
-					:page-class="'pagination__list-item'"
-				>
-				</paginate>
-			</div>
+					<paginate
+						:page-count="total"
+						:click-handler="clickCallback"
+						:prev-text="'Prev'"
+						:next-text="'Next'"
+						:container-class="'pagination__list'"
+						:page-class="'pagination__list-item'"
+					>
+					</paginate>
+				</div>
+			</template>
 
 			<div v-if="users && users.length < 1">
 				<div class="emptyState">

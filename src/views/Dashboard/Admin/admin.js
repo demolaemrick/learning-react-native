@@ -396,11 +396,7 @@ export default {
 					this.total = Math.ceil(data.response.count / this.limit);
 					this.nextPage = data.response.nextPage;
 				} else {
-					this.showAlert({
-						status: 'caution',
-						message: 'No admin found',
-						showAlert: true
-					});
+					this.admins = [];
 				}
 			} catch (error) {
 				// console.log(error);
@@ -426,6 +422,7 @@ export default {
 				this.searchPage({ q: newVal });
 			} else {
 				this.getAdmins();
+				this.adminLoading = true;
 			}
 		}, 600)
 	}
