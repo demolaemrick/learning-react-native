@@ -94,7 +94,7 @@ new Vue({
 				if (this.$route.path !== '/login') {
 					this.$router.push('/login');
 				}
-				document.location.reload();
+				// document.location.reload();
 			}, 1000);
 		},
 		/**
