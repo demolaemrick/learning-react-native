@@ -5,6 +5,7 @@
 			@closeConfig="openConfigPage = false"
 			:headers="csvHeaders"
 			:dataFields="dataFields"
+			:csvFields="csvFields"
 			@submitImportCSV="submitImportCSV"
 		/>
 		<nav class="navbar">

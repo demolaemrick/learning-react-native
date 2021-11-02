@@ -81,36 +81,38 @@
 					</td>
 				</template>
 			</v-table>
+			<template v-if="admins && admins.length">
+				<div class="table__pagination__wrapper" v-if="!adminLoading || (admins && admins.length)">
+					<div class="title__left">
+						<span>Showing Page</span>
+						<span>
+							{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
+							<template v-else>{{ count }}</template>
+						</span>
+						<span>of</span>
+						<span>{{ count }}</span>
+					</div>
+
+					<paginate
+						:page-count="total"
+						:click-handler="clickCallback"
+						:prev-text="'Prev'"
+						:next-text="'Next'"
+						:container-class="'pagination__list'"
+						:page-class="'pagination__list-item'"
+					>
+					</paginate>
+				</div>
+			</template>
 
 			<div v-if="admins && admins.length < 1">
 				<div class="emptyState">
 					<img src="@/assets/icons/empty-state-image.svg" alt="empty table icon" svg-inline />
-					<p class="emptyState-text">No user record found</p>
-					<p class="emptyState-subtext">Click on the button to to Upload Contact</p>
-					<v-button size="large" buttonType="primary">Upload Contact</v-button>
+					<p class="emptyState-text">No admin record found</p>
+					<!-- <p class="emptyState-subtext">Click on the button to to Upload Contact</p>
+					<v-button size="large" buttonType="primary">Upload Contact</v-button> -->
 				</div>
 			</div>
-		</div>
-		<div class="table__pagination__wrapper" v-if="!adminLoading || (admins && admins.length)">
-			<div class="title__left">
-				<span>Showing Page</span>
-				<span>
-					{{ (currentPage - 1) * 10 + 1 }} - <template v-if="nextPage !== null">{{ currentPage * 10 }}</template>
-					<template v-else>{{ count }}</template>
-				</span>
-				<span>of</span>
-				<span>{{ count }}</span>
-			</div>
-
-			<paginate
-				:page-count="total"
-				:click-handler="clickCallback"
-				:prev-text="'Prev'"
-				:next-text="'Next'"
-				:container-class="'pagination__list'"
-				:page-class="'pagination__list-item'"
-			>
-			</paginate>
 		</div>
 
 		<modal position="right" v-if="sendInvites" :toggleClass="toggleClass" @close="toggleModalClass('sendInvites')">

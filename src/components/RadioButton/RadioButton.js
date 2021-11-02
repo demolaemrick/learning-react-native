@@ -15,6 +15,10 @@ export default {
 		marginBottom: {
 			type: String,
 			default: '2.4rem'
+		},
+		resetChecked: {
+			type: String,
+			default: () => ''
 		}
 	}
 	// watch: {

@@ -81,6 +81,8 @@ export function requireAdminAuth(to, from, next) {
 	if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
 		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 			next();
+		} else {
+			next('/');
 		}
 	} else {
 		next({ name: 'Login' });

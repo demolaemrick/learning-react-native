@@ -214,8 +214,8 @@ export default {
 		},
 		sortByRecent(data) {
 			return data.sort((a, b) => {
-				const date1 = new Date(a.meta.published || a.meta.timestamp);
-				const date2 = new Date(b.meta.published || b.meta.timestamp);
+				const date1 = new Date(a.meta.published || a.content.date || a.meta.timestamp);
+				const date2 = new Date(b.meta.published || b.content.date || b.meta.timestamp);
 				return date2.getTime() - date1.getTime();
 			});
 		},
@@ -308,6 +308,7 @@ export default {
 						message: response.data.message || 'Article disliked successfully.',
 						showAlert: true
 					});
+					this.dislikeOption = null;
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
@@ -351,7 +352,7 @@ export default {
 					rowId: this.getSearchedResult.rowId,
 					url: article.url,
 					type: research_type,
-					description: article.description,
+					description: article.description.slice(0, 254),
 					relevance_score: article.meta.relevanceScore,
 					title: article.title
 				});

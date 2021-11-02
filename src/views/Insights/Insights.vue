@@ -827,6 +827,7 @@
 				<div class="modal__content">
 					<p class="modal__content-text">
 						<RadioBtn
+							:resetChecked="dislikeOption"
 							style="display: block"
 							marginBottom="24px"
 							id="dislikeOption"
