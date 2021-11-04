@@ -108,9 +108,9 @@ export default {
 			} catch (error) {
 				// console.log(error);
 				let err = error.response;
-				// let params = this.$route.params;
+				let params = this.$route.params;
 				if (err) {
-					if (err.data.status === 'fail') {
+					if (err.data.status === 'fail' && params) {
 						if (Object.keys(params).length > 0) {
 							let urlParams = this.getURLParams(params.data);
 							this.showAlert({

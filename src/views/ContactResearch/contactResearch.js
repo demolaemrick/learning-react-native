@@ -237,9 +237,17 @@ export default {
 			}
 		},
 		async subscribe() {
+			let done = false;
+			let self = this;
+			setTimeout(() => {
+				if (!done) {
+					self.getHistory();
+				}
+			}, 120000);
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
+					done = true;
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
