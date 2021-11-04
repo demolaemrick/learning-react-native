@@ -94,7 +94,8 @@ export default {
 			contactToDelete: {},
 			exportLoading: false,
 			sortQuery: null,
-			deleting: false
+			deleting: false,
+			subscriptionDone: false
 		};
 	},
 	async mounted() {
@@ -237,17 +238,16 @@ export default {
 			}
 		},
 		async subscribe() {
-			let done = false;
 			let self = this;
 			setTimeout(() => {
-				if (!done) {
+				if (!self.subscriptionDone) {
 					self.getHistory();
 				}
 			}, 120000);
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
-					done = true;
+					this.subscriptionDone = true;
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status;
