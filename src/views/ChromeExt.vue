@@ -1,5 +1,5 @@
 <template>
-	<div>Please wait</div>
+	<div>Please wait...</div>
 </template>
 
 <script>
