@@ -349,7 +349,7 @@
 									v-model="articleType"
 									:datas="articleTypes"
 									inputName="Article Type"
-									@radiocheckUpdate="radiocheckUpdate"
+									@radiocheckUpdate="radiocheckUpdate('articleType', $event)"
 								/>
 							</div>
 
@@ -833,6 +833,7 @@
 							id="dislikeOption"
 							:options="dislikeOptions"
 							name="dislikeChoices"
+							@radiocheckUpdate="radiocheckUpdate('dislikeOption', $event)"
 							v-model="dislikeOption"
 						/>
 					</p>

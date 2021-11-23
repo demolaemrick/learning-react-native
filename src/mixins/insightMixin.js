@@ -308,7 +308,7 @@ export default {
 						message: response.data.message || 'Article disliked successfully.',
 						showAlert: true
 					});
-					this.dislikeOption = null;
+					this.dislikeOption = '';
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
@@ -594,6 +594,9 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
+
+			this.dislikeOption = '';
+			this.articleType = '';
 		},
 		scrollTab() {
 			this.$refs.content.scrollLeft += 200;

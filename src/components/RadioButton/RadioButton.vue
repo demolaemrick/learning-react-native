@@ -3,12 +3,11 @@
 		<div class="status-type" v-for="(option, index) in options" :key="index">
 			<input
 				:checked="resetChecked === option.value"
+				@change="$emit('radiocheckUpdate', $event.target.value)"
 				type="radio"
 				:id="option.title"
 				:value="option.value"
 				:name="name"
-				v-model="innerValue"
-				v-on="$listeners"
 			/>
 			<label :style="{ marginBottom }" :for="option.title">{{ option.title }}</label>
 			<br />

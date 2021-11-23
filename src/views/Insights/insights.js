@@ -66,7 +66,7 @@ export default {
 			],
 			selectedInsightTab: 'Snapshot',
 			refreshLoading: false,
-			dislikeOption: null,
+			dislikeOption: '',
 			otherComment: null,
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
 			contactSearchResult: [],
@@ -268,8 +268,8 @@ export default {
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
 		},
-		radiocheckUpdate(value) {
-			this.articleType = value;
+		radiocheckUpdate(type, value) {
+			this[type] = value;
 		},
 		async addArticleFunc() {
 			let articleData = {
