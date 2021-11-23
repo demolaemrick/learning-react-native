@@ -66,7 +66,11 @@ export function emailGenerationAuth(to, from, next) {
  */
 export function requireUserAuth(to, from, next) {
 	if (isLoggedIn()) {
-		next();
+		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
+			next();
+		} else if (loggedInUserStatus() === 'suspended' && to.name !== 'Search') {
+			next();
+		}
 	} else {
 		next({ name: 'Login' });
 	}
