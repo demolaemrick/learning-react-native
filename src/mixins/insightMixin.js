@@ -309,6 +309,7 @@ export default {
 						showAlert: true
 					});
 					this.dislikeOption = '';
+					this.otherComment = '';
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
@@ -539,6 +540,7 @@ export default {
 				const userNote = await this.getUserNote(rowID);
 				const { status, data, statusText } = userNote;
 				if (status === 200 && statusText === 'OK') {
+
 					if (data.data) {
 						this.userNote = data.data;
 						this.notepadTXT = data.data.note;
@@ -565,6 +567,7 @@ export default {
 						note: notepadTXT
 					});
 					this.userNote = notepadTXT;
+					this.notepadTXT = notepadTXT;
 					this.showAlert({
 						status: 'success',
 						message: response.data.message || 'Note updated successfully',
@@ -594,8 +597,8 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
-
 			this.dislikeOption = '';
+			this.otherComment = '';
 			this.articleType = '';
 		},
 		scrollTab() {
