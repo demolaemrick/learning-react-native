@@ -309,6 +309,7 @@ export default {
 						showAlert: true
 					});
 					this.dislikeOption = null;
+					this.otherComment = '';
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {

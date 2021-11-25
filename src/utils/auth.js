@@ -64,9 +64,18 @@ export function emailGenerationAuth(to, from, next) {
  * @param from - previous route
  * @param next - callback to transfer control to the next middleware
  */
-export function requireUserAuth(to, from, next) {
+
+ export function requireUserAuth(to, from, next) {
 	if (isLoggedIn()) {
-		next();
+		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
+			next();
+		} else {
+			if (loggedInUserStatus() === 'suspended' && to.name === 'Search') {
+				next(from.path);
+			} else {
+				next();
+			}
+		}
 	} else {
 		next({ name: 'Login' });
 	}

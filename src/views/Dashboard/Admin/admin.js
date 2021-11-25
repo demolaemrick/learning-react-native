@@ -370,7 +370,7 @@ export default {
 					this.toggleModalClass('showEditModal');
 					this.showAlert({
 						status: 'success',
-						message: 'user successfully updated',
+						message: 'Admin successfully updated',
 						showAlert: true
 					});
 				}

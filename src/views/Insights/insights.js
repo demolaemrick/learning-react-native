@@ -66,7 +66,7 @@ export default {
 			],
 			selectedInsightTab: 'Snapshot',
 			refreshLoading: false,
-			dislikeOption: null,
+			dislikeOption: '',
 			otherComment: null,
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
 			contactSearchResult: [],
