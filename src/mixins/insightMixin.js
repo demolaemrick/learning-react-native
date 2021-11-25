@@ -540,7 +540,6 @@ export default {
 				const userNote = await this.getUserNote(rowID);
 				const { status, data, statusText } = userNote;
 				if (status === 200 && statusText === 'OK') {
-
 					if (data.data) {
 						this.userNote = data.data;
 						this.notepadTXT = data.data.note;
