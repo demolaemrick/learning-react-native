@@ -244,8 +244,7 @@
 						</div>
 					</div>
 				</div>
-
-				<notepad :handleTextareaBlur="handleTextareaBlur" :sending="sending" />
+				<notepad :notepadtxt="notepadTXT" :handleTextareaBlur="handleTextareaBlur" :sending="sending" />
 				<!-- <div class="notepad">
 					<span class="title-wrapper">
 						<p class="notepad-title">

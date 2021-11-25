@@ -1,5 +1,12 @@
 <template>
-	<div>Please wait...</div>
+	<div>
+		<p v-if="!done">Please wait...</p>
+		<div v-else class="can_close">
+			<img class="" src="@/assets/icons/volley-icon.svg" width="80" height="80" svg-inline />
+			<p>You can close this window</p>
+			<span v-if="canClose">Page automatically closes in 10sec</span>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -7,7 +14,9 @@ import { mapMutations } from 'vuex';
 export default {
 	data() {
 		return {
-			popup: false
+			popup: false,
+			done: false,
+			canClose: true
 		};
 	},
 	methods: {
@@ -28,22 +37,47 @@ export default {
 				if (!this.popup && id) {
 					this.$router.push({ path: '/insights', query: { id } });
 				} else {
+					this.done = true;
+					this.$router.replace({ path: '/chrome-ext' });
 					setTimeout(() => {
 						window.close();
-					}, 1000);
+					}, 10000);
 				}
 			} else {
 				this.logout();
-				this.$router.push('/login');
-				if (this.popup) {
-					setTimeout(() => {
-						window.close();
-					}, 10);
-				}
+				this.$router.replace({ path: '/chrome-ext' });
+				this.done = true;
+				setTimeout(() => {
+					window.close();
+				}, 10000);
 			}
+		} else {
+			this.done = true;
+			this.canClose = false;
 		}
 	}
 };
 </script>
 
-<style></style>
+<style>
+.can_close {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column;
+	width: 100%;
+	height: 100vh;
+	padding: 15px;
+}
+.can_close svg {
+	margin-bottom: 10px;
+	transform: translateY(-50px);
+	filter: drop-shadow(0px 0px 5px #ccc);
+}
+.can_close p {
+	font-size: 2rem;
+	font-weight: lighter;
+	color: #333758;
+	text-align: center;
+}
+</style>

@@ -1,8 +1,8 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import CTag from '@/components/Tag';
 import PageLoader from '@/components/PageLoader';
-import insightMixin from '@/mixins/insightMixin';
 import routeMixin from '@/mixins/routeMixin';
+import insightMixin from '@/mixins/insightMixin';
 import VHeaderitem from '@/components/Header/singleSearch/Header';
 import Loader from '@/components/Loader';
 import Notepad from '@/components/Notepad';
@@ -45,6 +45,7 @@ export default {
 	},
 	created() {
 		this.isFromAdmin = this.$route.name === 'AdminInsightItem' ? true : false;
+		this.initUserNote(this.$route.query.id);
 	},
 	async mounted() {
 		this.searchType = this.getSearchedItem.type;

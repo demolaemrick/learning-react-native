@@ -63,14 +63,14 @@
 						<button
 							:disabled="sendingImp"
 							class="iconBtn ml-1"
-							:content="`<div>${ranked_by_admin ? 'Derank Article' : 'Rank Article'}</div>`"
+							:content="`<div>${article.ranked_by_admin ? 'Derank Article' : 'Rank Article'}</div>`"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 							@click="toggleImportanceFunc()"
 						>
 							<img
 								class="icon"
 								:src="
-									ranked_by_admin
+									article.ranked_by_admin
 										? require('../../assets/icons/thumbs-up-on.svg')
 										: require('../../assets/icons/thumbs-up-off.svg')
 								"
@@ -86,13 +86,17 @@
 						<button
 							:disabled="sending"
 							class="iconBtn ml-1"
-							:content="`<div>${hidden ? 'Unhide Article' : 'Hide Article'}</div>`"
+							:content="`<div>${article.hidden ? 'Unhide Article' : 'Hide Article'}</div>`"
 							v-tippy="{ placement: 'right', delay: [50, 0], arrow: true, allowHTML: true }"
 							@click="toggleArticleFunc()"
 						>
 							<img
 								class="icon"
-								:src="hidden ? require('../../assets/icons/close-eye.svg') : require('../../assets/icons/open-eye.svg')"
+								:src="
+									article.hidden
+										? require('../../assets/icons/close-eye.svg')
+										: require('../../assets/icons/open-eye.svg')
+								"
 								svg-inline
 								alt=""
 							/>
