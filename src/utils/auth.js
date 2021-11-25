@@ -65,7 +65,7 @@ export function emailGenerationAuth(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 
- export function requireUserAuth(to, from, next) {
+export function requireUserAuth(to, from, next) {
 	if (isLoggedIn()) {
 		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 			next();
