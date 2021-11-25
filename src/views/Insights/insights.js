@@ -66,8 +66,8 @@ export default {
 			],
 			selectedInsightTab: 'Snapshot',
 			refreshLoading: false,
-			dislikeOption: null,
-			otherComment: null,
+			dislikeOption: '',
+			otherComment: '',
 			mainTopics: ['Data', 'E-signature', 'Non-profit'],
 			contactSearchResult: [],
 			companySearchResult: [],
@@ -268,8 +268,8 @@ export default {
 		switchToCompanyTab(tab) {
 			this.companyTab = tab;
 		},
-		radiocheckUpdate(value) {
-			this.articleType = value;
+		radiocheckUpdate(type, value) {
+			this[type] = value;
 		},
 		async addArticleFunc() {
 			let articleData = {
@@ -478,7 +478,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -486,7 +486,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

@@ -411,14 +411,14 @@ export default {
 					this.currentPage = data.response.currentPage;
 					this.total = Math.ceil(data.response.count / this.limit);
 					this.nextPage = data.response.nextPage;
-					if (this.filter) {
-						this.toggleModalClass('filter');
-					}
 				} else {
 					this.users = [];
 				}
 			} catch (error) {
 				console.log(error);
+			} finally {
+				this.statusOption = '';
+				this.toggleModalClass('filter');
 			}
 		},
 		clearSearch() {
@@ -429,7 +429,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

@@ -48,6 +48,10 @@ export default {
 		placeholder: {
 			type: String,
 			default: 'Write down findings from research.'
+		},
+		notepadtxt: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -57,6 +61,9 @@ export default {
 			hideSearch: false,
 			rows: 1
 		};
+	},
+	mounted() {
+		this.notepadTXT = this.notepadtxt;
 	},
 	watch: {
 		hideSearch(value) {
@@ -70,7 +77,9 @@ export default {
 		},
 		handleTextarea() {
 			this.activeTetxArea = false;
-			this.handleTextareaBlur(this.notepadTXT);
+			if (this.notepadTXT.toLowerCase() !== this.notepadtxt.toLowerCase()) {
+				this.handleTextareaBlur(this.notepadTXT);
+			}
 		}
 	}
 };

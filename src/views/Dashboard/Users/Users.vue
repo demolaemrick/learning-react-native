@@ -187,7 +187,6 @@
 									<select class="select-input" v-model="form.role" width="204px" name="adminRole" id="adminRole">
 										<option value="user">User</option>
 										<option value="admin">Admin</option>
-										<option value="superAdmin">Super Admin</option>
 									</select>
 								</div>
 							</div>
@@ -358,7 +357,6 @@
 									<select class="select-input" v-model="userInfo.role" width="204px" name="adminRole" id="adminRole">
 										<option value="user">User</option>
 										<option value="admin">Admin</option>
-										<option value="superAdmin">Super Admin</option>
 									</select>
 								</div>
 							</div>

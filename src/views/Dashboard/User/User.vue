@@ -108,7 +108,7 @@
 											{{ getInitials(item.full_name) }}
 										</div>
 										<div class="name__email__wrapper">
-											<div class="text__name text-capitalize">{{ item.full_name }}</div>
+											<div class="text__name text-capitalize">{{ stringElipsis(item.full_name, 15) }}</div>
 											<div class="text__email">{{ item.email }}</div>
 										</div>
 									</div>

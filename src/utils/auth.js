@@ -64,9 +64,14 @@ export function emailGenerationAuth(to, from, next) {
  * @param from - previous route
  * @param next - callback to transfer control to the next middleware
  */
+
 export function requireUserAuth(to, from, next) {
 	if (isLoggedIn()) {
-		next();
+		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
+			next();
+		} else if (loggedInUserStatus() === 'suspended' && to.name !== 'Search') {
+			next();
+		}
 	} else {
 		next({ name: 'Login' });
 	}
@@ -78,14 +83,16 @@ export function requireUserAuth(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 export function requireAdminAuth(to, from, next) {
-	if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
-		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
-			next();
+	if (from.name !== 'ChromeExte') {
+		if (isLoggedIn() && (userRole() == 'admin' || userRole() == 'superadmin')) {
+			if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
+				next();
+			} else {
+				next('/');
+			}
 		} else {
-			next('/');
+			next({ name: 'Login' });
 		}
-	} else {
-		next({ name: 'Login' });
 	}
 }
 

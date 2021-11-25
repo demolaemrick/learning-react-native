@@ -308,7 +308,8 @@ export default {
 						message: response.data.message || 'Article disliked successfully.',
 						showAlert: true
 					});
-					this.dislikeOption = null;
+					this.dislikeOption = '';
+					this.otherComment = '';
 					this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
@@ -565,6 +566,7 @@ export default {
 						note: notepadTXT
 					});
 					this.userNote = notepadTXT;
+					this.notepadTXT = notepadTXT;
 					this.showAlert({
 						status: 'success',
 						message: response.data.message || 'Note updated successfully',
@@ -594,12 +596,18 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
+			this.dislikeOption = '';
+			this.otherComment = '';
+			this.articleType = '';
 		},
 		scrollTab() {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value.trim().toUpperCase().split(' ');
+			const placeHolder = value
+				.trim()
+				.toUpperCase()
+				.split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}
