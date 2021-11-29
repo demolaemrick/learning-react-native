@@ -33,7 +33,7 @@
 		<div>
 			<v-table :loading="usersLoading" :tableHeaders="tableHeaders" :tableData="users" theme="contact__research" @rowClick="showUser">
 				<template name="table-row" slot-scope="{ item }">
-					<td class="table__row-item">{{ item.last_name || '' }} {{ item.first_name || '' }}</td>
+					<td class="table__row-item">{{ item.first_name || '' }} {{ item.last_name || '' }}</td>
 					<td class="table__row-item">{{ item.email || '' }}</td>
 					<td class="table__row-item">
 						{{ item.researches_performed > item.monthly_research ? item.monthly_research : item.researches_performed }}/{{
@@ -187,7 +187,6 @@
 									<select class="select-input" v-model="form.role" width="204px" name="adminRole" id="adminRole">
 										<option value="user">User</option>
 										<option value="admin">Admin</option>
-										<option value="superAdmin">Super Admin</option>
 									</select>
 								</div>
 							</div>
@@ -358,7 +357,6 @@
 									<select class="select-input" v-model="userInfo.role" width="204px" name="adminRole" id="adminRole">
 										<option value="user">User</option>
 										<option value="admin">Admin</option>
-										<option value="superAdmin">Super Admin</option>
 									</select>
 								</div>
 							</div>

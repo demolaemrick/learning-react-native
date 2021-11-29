@@ -7,7 +7,7 @@ import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
 import VTable from '@/components/Table';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
@@ -99,6 +99,9 @@ export default {
 		};
 	},
 	async mounted() {
+		if (this.loggedInUser.status === 'suspended') {
+			this.tableHeaders = this.tableHeaders.slice(1);
+		}
 		this.pageLoading = true;
 		await this.getHistory();
 	},
@@ -315,6 +318,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			loggedInUser: 'auth/getLoggedUser'
+		}),
 		contactImage(item) {
 			const images = item.images;
 			if (images && images.length) {

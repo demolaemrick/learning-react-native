@@ -604,7 +604,10 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value.trim().toUpperCase().split(' ');
+			const placeHolder = value
+				.trim()
+				.toUpperCase()
+				.split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}

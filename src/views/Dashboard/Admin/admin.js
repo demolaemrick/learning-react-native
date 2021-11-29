@@ -370,7 +370,7 @@ export default {
 					this.toggleModalClass('showEditModal');
 					this.showAlert({
 						status: 'success',
-						message: 'user successfully updated',
+						message: 'Admin successfully updated',
 						showAlert: true
 					});
 				}
@@ -417,7 +417,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {
