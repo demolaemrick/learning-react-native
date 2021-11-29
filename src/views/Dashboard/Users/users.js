@@ -417,8 +417,9 @@ export default {
 			} catch (error) {
 				console.log(error);
 			} finally {
-				this.statusOption = '';
-				this.toggleModalClass('filter');
+				if (this.filter === true) {
+					this.toggleModalClass('filter');
+				}
 			}
 		},
 		clearSearch() {
