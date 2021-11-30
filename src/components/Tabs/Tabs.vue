@@ -19,6 +19,7 @@
 	border-bottom: 1px solid #d7dce0;
 	overflow-x: scroll;
 	display: flex;
+	z-index: 0;
 }
 .tab {
 	margin-right: 30px;

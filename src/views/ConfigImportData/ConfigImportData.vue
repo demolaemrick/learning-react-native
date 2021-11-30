@@ -38,7 +38,7 @@
 						</tbody>
 					</table>
 					<div class="flex flex-end mt-2">
-						<v-button class="config__btn__close" @click="[(loading = true), $emit('submitImportCSV')]" ref="settingsBtn">
+						<v-button class="config__btn__close" @click="$emit('submitImportCSV')" ref="settingsBtn">
 							<div class="btn__content__wrapper">
 								<Loader v-if="loading" />
 								<span v-else class="text">Apply</span>

@@ -8,6 +8,7 @@
 			:dataFields="dataFields"
 			:csvFields="csvFields"
 			@submitImportCSV="submitImportCSV"
+			:loading="loading"
 		/>
 		<main class="main-section">
 			<div class="contact__research__menu">

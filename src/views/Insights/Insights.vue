@@ -191,7 +191,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -526,9 +526,7 @@
 							section="quotes"
 							v-for="(quote, j) in contactQuotes"
 							:index="j"
-							:key="
-								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
-							"
+							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"
