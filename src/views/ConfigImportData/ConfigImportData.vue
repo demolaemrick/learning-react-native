@@ -41,7 +41,7 @@
 						<v-button class="config__btn__close" @click="$emit('submitImportCSV')" ref="settingsBtn">
 							<div class="btn__content__wrapper">
 								<Loader v-if="loading" />
-								<span v-else class="text">Apply</span>
+								<span v-else class="text white">Apply</span>
 							</div>
 						</v-button>
 					</div>
