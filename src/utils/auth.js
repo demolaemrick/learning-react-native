@@ -71,6 +71,8 @@ export function requireUserAuth(to, from, next) {
 			next();
 		} else if (loggedInUserStatus() === 'suspended' && to.name !== 'Search') {
 			next();
+		} else {
+			next('/contact-research');
 		}
 	} else {
 		next({ name: 'Login' });
@@ -88,7 +90,7 @@ export function requireAdminAuth(to, from, next) {
 			if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 				next();
 			} else {
-				next('/');
+				next('/contact-research');
 			}
 		} else {
 			next({ name: 'Login' });
