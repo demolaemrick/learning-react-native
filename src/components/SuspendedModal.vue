@@ -18,16 +18,16 @@
 					</div>
 					<div class="suspended__modal__content">
 						<div class="suspended__icon__wrapper">
-							<img src="@/assets/icons/empty-state-image.svg" alt="empty state image" class="ml-1" svg-inline />
+							<img src="@/assets/icons/suspended-icon.svg" alt=" image" class="ml-1" svg-inline />
 						</div>
 						<div class="suspended__text__wrapper">
 							<p>
-								Seems your account has been suspended. <br />
-								To reactivate, send a message by clicking the button below.
+								Your account has been suspended. <br />
+								Click the button below to request reactivation.
 							</p>
 						</div>
 						<div class="suspended__btn__wrapper">
-							<v-button class="suspended__btn" @click="sendmail()">Request Activation</v-button>
+							<v-button class="suspended__btn" @click="sendmail()">Reactivate Account</v-button>
 						</div>
 					</div>
 				</div>
@@ -116,7 +116,7 @@ export default {
 		justify-content: center;
 		.suspended__text__wrapper {
 			p {
-				margin: 1em 0;
+				margin: 27px 0;
 				text-align: center;
 				font-family: Karla;
 				font-style: normal;

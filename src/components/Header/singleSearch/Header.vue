@@ -8,6 +8,7 @@
 			<div class="nav__menu__right" v-if="!isFromAdmin">
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact List</div>
 				<img
+					v-if="loggedInUser.status !== 'suspended'"
 					class="search__icon__wrapper"
 					src="@/assets/icons/search-icon.svg"
 					@click="$router.push({ name: 'Search' })"
@@ -21,16 +22,16 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
+							<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
 							<li class="dropdown__item" @click="goToBookmarks">Bookmarks</li>
 							<li
 								class="dropdown__item"
-								v-if="loggedInUser.role !== 'user'"
+								v-if="loggedInUser.role !== 'user' && loggedInUser.status !== 'suspended'"
 								@click="$router.push({ path: '/dashboard/users' })"
 							>
 								Dashboard
 							</li>
-							<li class="dropdown__item" @click="gotoSettings">Settings</li>
+							<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="gotoSettings">Settings</li>
 							<li class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>
 					</v-toggle-dropdown>
