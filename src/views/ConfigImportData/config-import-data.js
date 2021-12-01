@@ -29,11 +29,14 @@ export default {
 			default() {
 				return {};
 			}
+		},
+		loading: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
 		return {
-			loading: false,
 			showMoreSearchSettings: false,
 			initialKeywords: [],
 			initialCompanyKeywords: [],

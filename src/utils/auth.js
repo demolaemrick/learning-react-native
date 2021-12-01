@@ -66,11 +66,14 @@ export function emailGenerationAuth(to, from, next) {
  */
 
 export function requireUserAuth(to, from, next) {
+	let blockedRoutes = ['Search', 'SearchSettings', 'ApiPortal'];
 	if (isLoggedIn()) {
 		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 			next();
-		} else if (loggedInUserStatus() === 'suspended' && to.name !== 'Search') {
+		} else if (loggedInUserStatus() === 'suspended' && blockedRoutes.indexOf(to.name) === -1) {
 			next();
+		} else {
+			next('/contact-research');
 		}
 	} else {
 		next({ name: 'Login' });
@@ -88,7 +91,7 @@ export function requireAdminAuth(to, from, next) {
 			if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 				next();
 			} else {
-				next('/');
+				next('/contact-research');
 			}
 		} else {
 			next({ name: 'Login' });

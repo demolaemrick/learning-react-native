@@ -2,6 +2,7 @@ import VCheckbox from '@/components/Checkbox';
 import VButton from '@/components/Button';
 import VTextInput from '@/components/Input';
 import VModal from '@/components/Modal';
+import SuspendedModal from '@/components/SuspendedModal.vue';
 import VTabs from '@/components/Tabs';
 import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
@@ -32,7 +33,8 @@ export default {
 		FileUpload,
 		Logo,
 		VHeader,
-		ConfigData
+		ConfigData,
+		SuspendedModal
 	},
 	data() {
 		return {
@@ -95,12 +97,14 @@ export default {
 			exportLoading: false,
 			sortQuery: null,
 			deleting: false,
-			subscriptionDone: false
+			subscriptionDone: false,
+			showSuspendedModal: false
 		};
 	},
 	async mounted() {
 		if (this.loggedInUser.status === 'suspended') {
 			this.tableHeaders = this.tableHeaders.slice(1);
+			this.showSuspendedModal = true;
 		}
 		this.pageLoading = true;
 		await this.getHistory();
@@ -315,6 +319,9 @@ export default {
 			if (item.status.statusCode !== 'IN_PROGRESS') {
 				this.$router.push({ name: 'Insights', query: { id: item.rowId } });
 			}
+		},
+		closeSuspendedModal() {
+			this.showSuspendedModal = false;
 		}
 	},
 	computed: {
