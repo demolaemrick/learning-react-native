@@ -22,7 +22,13 @@
 						</template>
 						<template #dropdown-items>
 							<ul>
-								<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
+								<li
+									v-if="loggedInUser.status !== 'suspended'"
+									class="dropdown__item"
+									@click="$router.push({ name: 'ApiPortal' })"
+								>
+									API Keys
+								</li>
 								<li class="dropdown__item" @click="goToBookmarks">Bookmarks</li>
 								<li
 									class="dropdown__item"

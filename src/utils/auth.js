@@ -66,7 +66,7 @@ export function emailGenerationAuth(to, from, next) {
  */
 
 export function requireUserAuth(to, from, next) {
-	let blockedRoutes = ['Search', 'SearchSettings', 'ApiPortal']
+	let blockedRoutes = ['Search', 'SearchSettings', 'ApiPortal'];
 	if (isLoggedIn()) {
 		if (['active', 'inactive'].indexOf(loggedInUserStatus()) > -1) {
 			next();

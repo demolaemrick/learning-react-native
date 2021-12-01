@@ -22,7 +22,13 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="$router.push({ name: 'ApiPortal' })">API Keys</li>
+							<li
+								v-if="loggedInUser.status !== 'suspended'"
+								class="dropdown__item"
+								@click="$router.push({ name: 'ApiPortal' })"
+							>
+								API Keys
+							</li>
 							<li class="dropdown__item" @click="goToBookmarks">Bookmarks</li>
 							<li
 								class="dropdown__item"
