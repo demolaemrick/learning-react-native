@@ -155,6 +155,10 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- SUSPENDED USER NOTIFICATION MODAL -->
+			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" />
+			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
 			<template #title>
