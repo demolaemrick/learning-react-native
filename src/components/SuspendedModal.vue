@@ -53,11 +53,29 @@ export default {
 		},
 		close: {
 			type: Function
+		},
+		user: {
+			type: Object,
+			default: () => {}
 		}
 	},
 	methods: {
 		sendmail() {
-			window.location.href = `mailto:support@volley.com?subject=${'Suspended User'}&body=${'this is the body'}`;
+			const subject = 'Request Reactivation';
+			const body = `Hello Volley Team.%0D%0A %0D%0A 
+			I noticed my account has been suspended and I will like to request that it be reactivated.
+			%0D%0A %0D%0A
+			My Volley details are:
+			%0D%0A %0D%0A
+			Full Name: ${this.user.first_name} ${this.user.last_name}
+			%0D%0A
+			Email: ${this.user.email}
+			%0D%0A %0D%0A
+			Best Regards,
+			%0D%0A
+			${this.user.first_name} ${this.user.last_name}.
+			`;
+			window.location.href = `mailto:support@volley.com?subject=${subject}&body=${body}`;
 		}
 	}
 };
