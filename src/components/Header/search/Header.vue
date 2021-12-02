@@ -4,7 +4,7 @@
 			<div class="nav-item logo">
 				<logo />
 			</div>
-			<div class="nav__menu__right">
+			<div v-if="notglobal" class="nav__menu__right">
 				<img
 					v-if="loggedInUser.status !== 'suspended'"
 					class="search__icon__wrapper"
@@ -52,6 +52,12 @@ import { mapMutations, mapGetters } from 'vuex';
 
 export default {
 	name: 'mainSearchHeader',
+	props: {
+		notglobal: {
+			type: Boolean,
+			default: true
+		}
+	},
 	components: {
 		VToggleDropdown,
 		Logo

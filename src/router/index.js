@@ -11,7 +11,7 @@ import Bookmarks from '../views/Bookmarks/Bookmarks.vue';
 
 const NotFound = () => import(/* webpackChunkName: 'NotFound' */ '../views/NotFound.vue');
 const ChromeExt = () => import(/* webpackChunkName: 'NotFound' */ '../views/ChromeExt.vue');
-const PrivacyPolicy = () => import(/* webpackChunkName: 'NotFound' */ '../views/PrivacyPolicy.vue');
+const PrivacyPolicy = () => import(/* webpackChunkName: 'NotFound' */ '../views/PrivacyPolicy/index.vue');
 const Login = () => import(/* webpackChunkName: 'login' */ '../views/auth/Login');
 const ForgotPassword = () => import(/* webpackChunkName: 'ForgotPassword' */ '../views/auth/ForgotPassword');
 const CheckInbox = () => import(/* webpackChunkName: 'CheckInbox' */ '../views/auth/ForgotPassword/CheckInbox');
