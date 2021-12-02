@@ -102,8 +102,6 @@ export default {
 						letter-spacing: -0.4px;
 						color: #333758;
 					}
-					.icon {
-					}
 				}
 			}
 		}

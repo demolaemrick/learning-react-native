@@ -248,7 +248,6 @@ export default {
 					}
 				});
 			}
-			this.saveSearchedResult(searchResultClone);
 
 			try {
 				const response = await this.dislike({
@@ -261,6 +260,7 @@ export default {
 						message: response.data.message || 'Article removed from disliked group',
 						showAlert: true
 					});
+					this.saveSearchedResult(searchResultClone);
 				}
 			} catch (error) {
 				this.showAlert({
@@ -295,7 +295,6 @@ export default {
 		async dislikeResearch() {
 			this.dislikeLoading = true;
 			let comment = this.dislikeOption !== 'Other' ? this.dislikeOption : this.otherComment;
-			this.updateDislikeResult();
 			try {
 				const response = await this.dislike({
 					url: this.selectedInsight.url,
@@ -310,7 +309,8 @@ export default {
 					});
 					this.dislikeOption = '';
 					this.otherComment = '';
-					this.toggleModalClass('dislikeModal', '');
+					this.updateDislikeResult();
+					// this.toggleModalClass('dislikeModal', '');
 				}
 			} catch (error) {
 				this.showAlert({
@@ -319,6 +319,7 @@ export default {
 					showAlert: true
 				});
 			} finally {
+				this.toggleModalClass('dislikeModal', '');
 				this.dislikeLoading = false;
 			}
 		},
@@ -604,10 +605,7 @@ export default {
 			this.$refs.content.scrollLeft += 200;
 		},
 		profileImagePlaceholder(value) {
-			const placeHolder = value
-				.trim()
-				.toUpperCase()
-				.split(' ');
+			const placeHolder = value.trim().toUpperCase().split(' ');
 			return placeHolder.length > 1 ? `${placeHolder[0][0]}${placeHolder[1][0] ? placeHolder[1][0] : ''}` : `${placeHolder[0][0]}`;
 		}
 	}
