@@ -16,7 +16,9 @@
 			</p>
 
 			<h4>Other legal requirements</h4>
-			<p class="list_heading">The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:</p>
+			<p class="list_heading">
+				The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:
+			</p>
 
 			<ul>
 				<li>Comply with a legal obligation</li>
