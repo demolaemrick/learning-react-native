@@ -14,7 +14,7 @@ export default {
 const Template = (args, { argTypes }) => ({
 	props: Object.keys(argTypes),
 	components: { Alert, AlertIcon },
-	template: '<alert v-bind="$props" @click="close"></alert>',
+	template: '<alert v-bind="$props" @click="close"> <slot>This is a message</slot> </alert>',
 	methods: {
 		close() {
 			console.log('closed');

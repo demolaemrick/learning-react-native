@@ -2,7 +2,12 @@ import InsightCard from './';
 
 export default {
 	title: 'Library/InsightCard',
-	component: InsightCard
+	component: InsightCard,
+	argTypes: {
+		article: {
+			control: {}
+		}
+	}
 };
 
 const Template = (args, { argTypes }) => ({
@@ -14,7 +19,10 @@ const Template = (args, { argTypes }) => ({
 export const Default = Template.bind({});
 
 Default.args = {
-	title: 'Title',
-	content: 'Content',
-	quote: 'Quote'
+	article: {
+		title: 'Title',
+		content: 'Content',
+		quote: 'Quote',
+		url: 'https://food.jumia.com.ng/order/finishorder/n4ei/n4ei-hw4j'
+	}
 };

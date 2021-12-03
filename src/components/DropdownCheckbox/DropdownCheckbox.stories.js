@@ -8,7 +8,7 @@ export default {
 export const Navbar = (args, { argTypes }) => ({
 	props: Object.keys(argTypes),
 	components: { DropdownCheckbox },
-	template: `<toggle-dropdown v-bind="$props">
+	template: `<DropdownCheckbox v-bind="$props">
     <template #dropdown-wrapper>
         <svg width="17" height="3">
             <g fill="#D5D5D5" fill-rule="evenodd">
@@ -26,5 +26,5 @@ export const Navbar = (args, { argTypes }) => ({
             Logout
         </li>
     </template>
-</toggle-dropdown>`
+</DropdownCheckbox>`
 });
