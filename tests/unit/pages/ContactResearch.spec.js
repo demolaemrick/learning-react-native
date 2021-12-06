@@ -169,6 +169,7 @@ describe('ContactResearch.vue', () => {
 					count: 0,
 					currentPage: 0,
 					nextPage: null,
+					sortQuery: null,
 					pageLoading: true
 				};
 			}
@@ -196,6 +197,7 @@ describe('ContactResearch.vue', () => {
 					currentPage: 0,
 					nextPage: null,
 					pageLoading: true,
+					sortQuery: null,
 					history: research.data.data.history
 				};
 			},
