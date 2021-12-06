@@ -1,7 +1,6 @@
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
-import DCheckbox from '@/components/DefaultCheckbox';
 import TextInput from '@/components/Input';
 import InsightCard from '@/components/InsightCard';
 import RadioBtn from '@/components/RadioButton';
@@ -46,7 +45,6 @@ export default {
 	},
 	components: {
 		ToggleDropdown,
-		DCheckbox,
 		DropdownCheckbox,
 		TextInput,
 		InsightCard,

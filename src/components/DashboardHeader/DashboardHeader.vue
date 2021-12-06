@@ -15,8 +15,8 @@
 					<template #dropdown-wrapper>
 						<div class="flex flex__item-center">
 							<div class="topCircle">
-								<p class="user__initials">
-									{{ loggedIn.first_name.charAt(0).toUpperCase() }}{{ loggedIn.last_name.charAt(0).toUpperCase() }}
+								<p class="user__initials" v-if="loggedInUser.first_name">
+									{{ loggedInUser.first_name.charAt(0).toUpperCase() }}{{ loggedInUser.last_name.charAt(0).toUpperCase() }}
 								</p>
 							</div>
 							<img src="@/assets/icons/arrow-dropdown-plane.svg" alt="drop down arrow" svg-inline />
