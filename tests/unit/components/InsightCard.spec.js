@@ -16,7 +16,9 @@ describe('InsightCard.vue', () => {
 							snippet: ''
 						}
 					}
-				}
+				},
+				isFromAdmin: false,
+				isContact: true
 			},
 			localVue
 		});
