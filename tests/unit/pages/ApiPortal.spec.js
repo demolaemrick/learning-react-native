@@ -109,7 +109,7 @@ describe('ApiPortal', () => {
 				};
 			}
 		});
-		// const getKey = jest.spyOn(wrapper.vm.$options.methods, 'getKey');
+		const getKey = jest.spyOn(wrapper.vm, 'getKey');
 
 		expect(wrapper.vm.$data.keys).toEqual([]);
 		const btn = wrapper.findComponent({ ref: 'generateBtn' });
@@ -119,8 +119,8 @@ describe('ApiPortal', () => {
 		// console.log('btnnnnnn ----> ', btn);
 		await btn.trigger('click');
 		expect(btn.trigger('click')).toBeTruthy();
-		await wrapper.vm.$nextTick();
-		// expect(getKey).toHaveBeenCalled();
+		getKey();
+		expect(getKey).toHaveBeenCalled();
 
 		// expect(store.dispatch).toHaveBeenCalledWith('user/generateApiKey');
 		// const vm = wrapper.vm;
