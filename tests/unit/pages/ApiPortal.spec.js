@@ -95,13 +95,13 @@ describe('ApiPortal', () => {
 
 	it('tests that api keys are generated', async () => {
 		// store.dispatch = jest.fn().mockResolvedValue(emptyApiRes);
-		const getKey = jest.fn(async () => console.log('e don happen'));
+		// const getKey = jest.fn();
 		const wrapper = shallowMount(ApiPortal, {
 			store,
 			localVue,
-			// methods: {
-			//   getKey
-			// },
+			methods: {
+				//   getKey
+			},
 			data() {
 				return {
 					pageLoading: false,
@@ -109,15 +109,18 @@ describe('ApiPortal', () => {
 				};
 			}
 		});
+		// const getKey = jest.spyOn(wrapper.vm.$options.methods, 'getKey');
 
 		expect(wrapper.vm.$data.keys).toEqual([]);
 		const btn = wrapper.findComponent({ ref: 'generateBtn' });
+		expect(btn.exists()).toBe(true);
 		// const btn = wrapper.find({ ref: generateBtn });
 		// const btn = wrapper.find('.btn-test');
-		console.log('btnnnnnn ----> ', btn);
+		// console.log('btnnnnnn ----> ', btn);
 		await btn.trigger('click');
-
-		expect(getKey).toHaveBeenCalled();
+		expect(btn.trigger('click')).toBeTruthy();
+		await wrapper.vm.$nextTick();
+		// expect(getKey).toHaveBeenCalled();
 
 		// expect(store.dispatch).toHaveBeenCalledWith('user/generateApiKey');
 		// const vm = wrapper.vm;

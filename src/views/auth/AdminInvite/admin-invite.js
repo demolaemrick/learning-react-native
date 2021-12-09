@@ -38,13 +38,13 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			AdminInvite: 'admin_management/processAdminInvite',
+			processAdminInvite: 'admin_management/processAdminInvite',
 			showAlert: 'showAlert'
 		}),
 		async submit() {
 			this.loading = true;
 			try {
-				const response = await this.AdminInvite(this.form);
+				const response = await this.processAdminInvite(this.form);
 				if (response.status === 200) {
 					this.showAlert({
 						status: 'success',
