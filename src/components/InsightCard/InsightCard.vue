@@ -22,7 +22,7 @@
 				</div>
 
 				<div class="flex flex__item-center">
-					<template v-if="!article.quote && showEmailIcon && loggedInUser.can_generate_email && !isFromAdmin">
+					<template v-if="!article.quote && showEmailIcon && getLoggedUser.can_generate_email && !isFromAdmin">
 						<button
 							class="icon icon-margin"
 							@click="$emit('createEmailIntro')"

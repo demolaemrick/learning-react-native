@@ -160,7 +160,14 @@ describe('Bookmarks.vue', () => {
 		const wrapper = shallowMount(Bookmarks, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					loadMore: false,
+					bookmarkLoading: true,
+					userBookmarks: bookmarks.data.response
+				};
+			}
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
@@ -169,15 +176,29 @@ describe('Bookmarks.vue', () => {
 		const wrapper = shallowMount(Bookmarks, {
 			store,
 			localVue,
-			router: searchRoute
+			router: searchRoute,
+			data() {
+				return {
+					loadMore: false,
+					bookmarkLoading: true,
+					userBookmarks: bookmarks.data.response
+				};
+			}
 		});
-		expect(wrapper.vm.displaySearchItem());
+		expect(wrapper.vm.showUserBookmarks());
 	});
 	it('calls initUserBookmarks method', () => {
 		const wrapper = shallowMount(Bookmarks, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					loadMore: false,
+					bookmarkLoading: true,
+					userBookmarks: bookmarks.data.response
+				};
+			}
 		});
 		expect(wrapper.vm.initUserBookmarks());
 	});
@@ -202,7 +223,14 @@ describe('Bookmarks.vue', () => {
 		const wrapper = shallowMount(Bookmarks, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					loadMore: false,
+					bookmarkLoading: true,
+					userBookmarks: bookmarks.data.response
+				};
+			}
 		});
 		expect(wrapper.vm.btnRemoveFromBookMarks(bookmarks.data.response));
 	});
