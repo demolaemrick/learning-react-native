@@ -31,14 +31,14 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			userDetails: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser'
 		})
 	},
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_notes/saveSearchPayload',
 			saveSearchedResult: 'search_services/saveSearchedResult',
-			saveUserSession: 'auth/loginSuccess'
+			loginSuccess: 'auth/loginSuccess'
 		}),
 		...mapActions({
 			research: 'search_services/research',
@@ -84,7 +84,7 @@ export default {
 						message: response.data.message,
 						showAlert: true
 					});
-					this.saveUserSession({ ...this.userDetails, is_settings: true });
+					this.loginSuccess({ ...this.getLoggedUser, is_settings: true });
 					this.closeMoreSearchSettings();
 					return true;
 				}

@@ -60,6 +60,13 @@ let item = {
 	_id: '60992e95baa22116bb37d258'
 };
 
+const permissions = [
+	{
+		name: 'Generate Email',
+		value: 'generate-email'
+	}
+];
+
 describe('Admin', () => {
 	let store;
 
@@ -79,6 +86,7 @@ describe('Admin', () => {
 						activateAdmin: jest.fn().mockResolvedValue(statusRes),
 						suspendAdmin: jest.fn().mockResolvedValue(statusRes),
 						updateAdmin: jest.fn().mockResolvedValue(statusRes),
+						adminPermissions: jest.fn().mockResolvedValue(permissions),
 						adminSearch: jest.fn(),
 						showAlert: jest.fn()
 					},
@@ -108,7 +116,7 @@ describe('Admin', () => {
 	});
 
 	it('tests that send invite modal is called on button click', async () => {
-		const inviteAdmin = jest.fn();
+		// const inviteAdmin = jest.fn();
 		const wrapper = mount(Admin, {
 			store,
 			data() {
@@ -120,9 +128,10 @@ describe('Admin', () => {
 				};
 			},
 			methods: {
-				inviteAdmin
+				// inviteAdmin
 			}
 		});
+
 		expect(wrapper.vm.toggleClass).toBe(true);
 
 		expect(wrapper.vm.$data.emailInput).not.toEqual('');

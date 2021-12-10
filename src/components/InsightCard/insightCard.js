@@ -55,7 +55,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser',
+			getLoggedUser: 'auth/getLoggedUser',
 			getSearchedResult: 'search_services/getSearchedResult'
 		}),
 		cleanUrl() {
