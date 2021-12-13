@@ -99,8 +99,8 @@ export default {
 			saveSearchPayload: 'search_notes/saveSearchPayload'
 		}),
 		...mapActions({
-			content: 'search_services/content',
-			fetchResearch: 'search_services/research'
+			content: 'search_services/content'
+			// fetchResearch: 'search_services/research'
 		}),
 		expandNotepad() {
 			this.hideSearch = true;

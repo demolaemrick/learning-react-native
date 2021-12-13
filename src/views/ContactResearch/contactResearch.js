@@ -102,7 +102,7 @@ export default {
 		};
 	},
 	async mounted() {
-		if (this.loggedInUser.status === 'suspended') {
+		if (this.getLoggedUser.status === 'suspended') {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
 		}
@@ -326,7 +326,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser'
 		}),
 		contactImage(item) {
 			const images = item.images;

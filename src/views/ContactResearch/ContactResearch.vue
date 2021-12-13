@@ -15,7 +15,7 @@
 				<div class="text__title">
 					<h2>Contact Research</h2>
 				</div>
-				<div class="action__group" v-if="loggedInUser.status !== 'suspended'">
+				<div class="action__group" v-if="getLoggedUser.status !== 'suspended'">
 					<div class="btn__wrapper">
 						<v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
 							<template v-if="!exportLoading">Export CSV</template>
@@ -46,7 +46,7 @@
 					@sortTable="sortTable"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
-						<td v-if="loggedInUser.status !== 'suspended'" class="table__row-item">
+						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
 							<input
 								type="checkbox"
 								:value="item.rowId"
@@ -157,7 +157,7 @@
 			</div>
 
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
-			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="loggedInUser" />
+			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
