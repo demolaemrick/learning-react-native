@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Insights from '../../../src/views/Insights/Insights.vue';
 import VueRouter from 'vue-router';
+import Insights from '../../../src/views/Insights/Insights.vue';
 
 jest.mock('lodash', () => ({
 	debounce: (fn) => fn
@@ -10,6 +10,7 @@ jest.mock('lodash', () => ({
 const localVue = createLocalVue();
 localVue.filter('moment', (val, val2) => val + val2);
 localVue.use(Vuex);
+localVue.use(VueRouter);
 
 let researchResponse = {
 	status: 200,
@@ -22,7 +23,13 @@ let researchResponse = {
 				full_name: 'Ian Carnevale',
 				last_refresh: '2021-07-30T15:19:51.743Z',
 				role: 'CEO',
-				socials: [{ angel: 'angel.co/ian-carnevale' }],
+				socials: {
+					angel: 'angel.co/ian-carnevale',
+					linkedin: 'https://linkedin.com',
+					twitter: 'https://twitter.com',
+					website: 'angel.co/ian-carnevale',
+					crunchbase: 'https://crunchbase.com'
+				},
 				url: 'https://volley.com'
 			},
 			company_insights: {
@@ -62,10 +69,14 @@ let researchResponse = {
 								},
 								content: { html: '<div></div>', tag: ['San Francisco'], date: null },
 								relevanceScore: 0.6954999999999999
+							},
+							content: {
+								date: new Date()
 							}
 						}
 					]
 				},
+				other_insights: [],
 				quotes: [],
 				snapshot: {
 					current_employer: {
@@ -76,6 +87,7 @@ let researchResponse = {
 					mentions: 6,
 					most_viral_tweet: '5'
 				},
+				top_tags: ['Andela'],
 				topics: {
 					Andela: 1,
 					Jeremy: 1,
@@ -172,20 +184,40 @@ let err = {
 	}
 };
 
+const userdetails = {
+	id: '607ea1bf965bbe6414c00b13',
+	first_name: 'Abass',
+	last_name: 'Adamo',
+	email: 'abass@enyata.com',
+	token: '1',
+	status: 'active',
+	is_settings: true,
+	role: 'superadmin',
+	can_generate_email: true
+};
+
 describe('Insights', () => {
 	let store;
+	let wrapper;
 	const router = new VueRouter({
 		routes: [
-			{ path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } },
+			{ path: '/insights', name: 'Insights', query: { id: '1' } },
+			{
+				path: '/dashboard/insights',
+				name: 'AdminInsights',
+				query: {
+					id: '1'
+				}
+			},
 			{ path: '/', name: 'Search' }
 		]
 	});
-	const insightItemRoute = new VueRouter({
-		routes: [
-			{ path: '/insight-item', name: 'InsightItem' },
-			{ path: '/', name: 'Search' }
-		]
-	});
+	// const insightItemRoute = new VueRouter({
+	// 	routes: [
+	// 		{ path: '/insight-item', name: 'InsightItem' },
+	// 		{ path: '/', name: 'Search' }
+	// 	]
+	// });
 	beforeEach(() => {
 		store = new Vuex.Store({
 			actions: {
@@ -198,7 +230,8 @@ describe('Insights', () => {
 						researchDone: jest.fn().mockResolvedValue(researchDoneRes),
 						refresh: jest.fn().mockResolvedValue(researchResponse),
 						subscribeResearch: jest.fn().mockResolvedValue(subResponse),
-						dislike: jest.fn().mockResolvedValue()
+						dislike: jest.fn().mockResolvedValue(),
+						addArticleURL: jest.fn()
 					},
 					getters: {
 						getSearchedResult: () => researchResponse.data.data
@@ -223,73 +256,60 @@ describe('Insights', () => {
 						removeFromBookmarks: jest.fn().mockResolvedValue(bookmarkResponse)
 					},
 					getters: {},
-					mutations: {},
+					mutations: {
+						setBookmarkValue: () => ''
+					},
 					namespaced: true
+				},
+				auth: {
+					namespaced: true,
+					getters: {
+						getLoggedUser: () => userdetails
+					}
 				}
+			}
+		});
+
+		wrapper = shallowMount(Insights, {
+			localVue,
+			store,
+			router,
+			data() {
+				return {
+					searchType: 'contact_insights',
+					contact_details: researchResponse.data.data.contact_details,
+					company_details: '',
+					isFromAdmin: false
+				};
 			}
 		});
 	});
 
 	it('Render without errors', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			store,
-			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
-			}
-		});
 		expect(wrapper.vm).toBeTruthy();
 	});
 
 	it('Render with a different tab', () => {
 		const tab = researchResponse.data.data.contact_insights.news;
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			data() {
-				return {
-					selectedTab: Object.keys(tab)[0]
-				};
-			},
-			mocks: {
-				$route: { path: '/insights', name: 'Insights', query: { id: researchResponse.data.data.rowId } }
-			},
-			store
+		wrapper.setData({
+			selectedTab: Object.keys(tab)[0]
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
 
 	it('routes to search page', async () => {
-		localVue.use(VueRouter);
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			store,
-			router
-		});
-		await wrapper.vm.$nextTick();
+		wrapper.vm.$nextTick();
 		expect(wrapper.vm.$route.name).toBe('Search');
 	});
 
 	it('should throw an error when markResearch is called', async () => {
 		store.dispatch = jest.fn().mockRejectedValue(err);
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.markResearch());
+		expect(wrapper.vm.markResearch()).toBeTruthy();
 	});
 
 	it('tests that contactSearch is called', async () => {
-		const wrapper = shallowMount(Insights, {
-			store,
-			localVue,
-			router,
-			data() {
-				return {
-					contactSearchQuery: ''
-				};
-			}
+		wrapper.setData({
+			contactSearchQuery: ''
 		});
 		const vm = wrapper.vm;
 		const contactSearch = jest.spyOn(vm, 'contactSearch');
@@ -304,15 +324,8 @@ describe('Insights', () => {
 	});
 
 	it('tests that companySearch is called', async () => {
-		const wrapper = shallowMount(Insights, {
-			store,
-			localVue,
-			router,
-			data() {
-				return {
-					companySearchQuery: ''
-				};
-			}
+		wrapper.setData({
+			companySearchQuery: ''
 		});
 		const vm = wrapper.vm;
 		const companySearch = jest.spyOn(vm, 'companySearch');
@@ -327,83 +340,41 @@ describe('Insights', () => {
 	});
 
 	it('tests for RefreshResearch method is called', () => {
-		const wrapper = shallowMount(Insights, {
-			router,
-			store,
-			localVue
-		});
-		expect(wrapper.vm.RefreshResearch());
+		expect(wrapper.vm.RefreshResearch()).toBeTruthy();
 	});
 
 	it('tests for subscribe method is called', () => {
-		const wrapper = shallowMount(Insights, {
-			router,
-			store,
-			localVue
-		});
-		expect(wrapper.vm.subscribe());
+		expect(wrapper.vm.subscribe()).toBeTruthy();
 	});
 
 	it('tests for error in subscribe', () => {
 		store.dispatch = jest.fn().mockRejectedValue(err);
-		const wrapper = shallowMount(Insights, {
-			router,
-			store,
-			localVue
-		});
-		expect(wrapper.vm.subscribe());
+		expect(wrapper.vm.subscribe()).toBeTruthy();
 	});
 
 	it('should call handleTextareaBlur', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store,
-			data() {
-				return {
-					editNote: true
-				};
-			}
+		wrapper.setData({
+			editNote: true
 		});
 		await wrapper.vm.handleTextareaBlur();
 	});
 
 	it('should call markResearch', async () => {
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			store
-		});
-		expect(wrapper.vm.markResearch());
+		expect(wrapper.vm.markResearch()).toBeTruthy();
 	});
 
 	it('calls displaySearchItem method', async () => {
-		const wrapper = shallowMount(Insights, {
-			store,
-			localVue,
-			router: insightItemRoute
-		});
-		wrapper.vm.displaySearchItem();
-		await wrapper.vm.$nextTick();
+		await wrapper.vm.displaySearchItem();
+		wrapper.vm.$nextTick();
 		expect(wrapper.vm.$route.name).toBe('InsightItem');
 	});
 
 	it('calls validateURL method', async () => {
-		const wrapper = shallowMount(Insights, {
-			store,
-			localVue,
-			router
-		});
-		expect(wrapper.vm.validateURL('https://js.com'));
+		expect(wrapper.vm.validateURL('https://js.com')).toBeTruthy();
 	});
 
 	it('adds https on link when validateURL is called', async () => {
-		const wrapper = shallowMount(Insights, {
-			store,
-			localVue,
-			router
-		});
-		expect(wrapper.vm.validateURL('js.com'));
+		expect(wrapper.vm.validateURL('js.com')).toBeTruthy();
 	});
 
 	it('should call btnAddToBookMarks', async () => {
@@ -418,13 +389,7 @@ describe('Insights', () => {
 				relevanceScore: 0.2
 			}
 		};
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			article,
-			store
-		});
-		expect(wrapper.vm.btnAddToBookMarks(article));
+		expect(wrapper.vm.btnAddToBookMarks(article)).toBeTruthy();
 	});
 
 	it('should call btnRemoveFromBookMarks', async () => {
@@ -439,12 +404,6 @@ describe('Insights', () => {
 				relevanceScore: 0.2
 			}
 		};
-		const wrapper = shallowMount(Insights, {
-			localVue,
-			router,
-			article,
-			store
-		});
-		expect(wrapper.vm.btnRemoveFromBookMarks(article));
+		expect(wrapper.vm.btnRemoveFromBookMarks(article)).toBeTruthy();
 	});
 });

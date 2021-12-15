@@ -62,7 +62,7 @@
 								<li class="dropdown__item" @click="openEditModal({ ...item })">Edit Info</li>
 								<li
 									class="dropdown__item"
-									v-if="loggedInUser && loggedInUser.role === 'superadmin'"
+									v-if="getLoggedUser && getLoggedUser.role === 'superadmin'"
 									@click="openEditPermissionModal({ ...item })"
 								>
 									Permissions
@@ -286,7 +286,7 @@
 			</template>
 			<template #body>
 				<form @submit.prevent="">
-					<ValidationObserver v-slot="{}" color="#ff0000">
+					<ValidationObserver color="#ff0000">
 						<div class="auth-input">
 							<div class="flex flex-spaced">
 								<text-input

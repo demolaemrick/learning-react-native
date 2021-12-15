@@ -10,7 +10,7 @@ jest.useFakeTimers();
 const localVue = createLocalVue();
 
 localVue.use(VueRouter);
-
+localVue.filter('moment', (val, val2) => val + val2);
 localVue.use(Vuex);
 localVue.component('paginate', Paginate);
 let statusRes = {
@@ -128,7 +128,29 @@ let subscribeResult = {
 
 describe('User', () => {
 	let store;
-	const router = new VueRouter({ routes: [{ path: 'user/:userId?', name: 'User', meta: 'user', query: { userId: '1' } }] });
+	const router = new VueRouter({
+		routes: [
+			{
+				path: 'user/:userId?',
+				name: 'User',
+				meta: 'user',
+				query: {
+					userId: '1'
+				}
+			},
+			{
+				path: 'users',
+				name: 'Users'
+			},
+			{
+				path: '/dashboard/insights',
+				name: 'AdminInsights',
+				query: {
+					id: '1'
+				}
+			}
+		]
+	});
 
 	beforeEach(() => {
 		store = new Vuex.Store({
