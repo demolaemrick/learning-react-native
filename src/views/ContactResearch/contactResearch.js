@@ -298,7 +298,18 @@ export default {
 		},
 		async getHistory() {
 			try {
-				const response = await this.research_history({ page: this.page, limit: this.limit, ...this.sortQuery });
+				// console.log(this.searchQuery);
+				// return;
+				let historyData = {
+					page: this.page,
+					limit: this.limit,
+					...this.sortQuery
+				};
+				if (this.searchQuery && this.searchQuery.trim().length) {
+					historyData.keyword = this.searchQuery;
+				}
+
+				const response = await this.research_history(historyData);
 				this.history = response.data.data.history;
 				this.count = response.data.data.count;
 				this.currentPage = response.data.data.currentPage;
@@ -362,9 +373,10 @@ export default {
 				// this.searchPage({
 				// 	q: newVal
 				// });
+				this.getHistory();
 			} else {
-				// this.getAllUsers();
-				// this.usersLoading = true;
+				this.getHistory();
+				this.usersLoading = true;
 			}
 		}, 600)
 	}
