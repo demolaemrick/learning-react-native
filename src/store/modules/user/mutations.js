@@ -4,5 +4,8 @@ export default {
 	},
 	setBookmarkValue: (state, data) => {
 		state.bookmarkValue = data;
+	},
+	setContactPageData: (state, data) => {
+		state.contactPageData = data;
 	}
 };
