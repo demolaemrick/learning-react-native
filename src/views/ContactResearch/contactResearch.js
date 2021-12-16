@@ -16,6 +16,8 @@ import VHeader from '@/components/Header/search/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
+import debounce from 'lodash.debounce';
+
 export default {
 	name: 'ContactResearch',
 	mixins: [researchMixin, csvMixins],
@@ -98,7 +100,8 @@ export default {
 			sortQuery: null,
 			deleting: false,
 			subscriptionDone: false,
-			showSuspendedModal: false
+			showSuspendedModal: false,
+			searchQuery: ''
 		};
 	},
 	async mounted() {
@@ -164,8 +167,17 @@ export default {
 		async deleteResearch() {
 			try {
 				this.deleting = true;
-
-				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
+				let deleteData = null;
+				if (this.checkedContacts.length && !this.contactToDelete.rowId) {
+					deleteData = {
+						rows: this.checkedContacts
+					};
+				} else {
+					deleteData = {
+						id: this.contactToDelete.rowId
+					};
+				}
+				const research = await this.deleteSingleResearch(deleteData);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
 					await this.getHistory();
@@ -225,7 +237,13 @@ export default {
 		async exportCSV() {
 			this.exportLoading = true;
 			try {
-				const response = await this.export_history({ rows: this.checkedContacts });
+				let exportData = null;
+				if (this.checkedContacts.length) {
+					exportData = {
+						rows: this.checkedContacts
+					};
+				}
+				const response = await this.export_history(exportData);
 				let csvContent = 'data:text/csv;charset=utf-8,';
 				csvContent += [response.data];
 
@@ -322,6 +340,9 @@ export default {
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	computed: {
@@ -334,5 +355,17 @@ export default {
 				return images[Math.floor(Math.random() * images.length)];
 			}
 		}
+	},
+	watch: {
+		searchQuery: debounce(function (newVal) {
+			if (newVal) {
+				// this.searchPage({
+				// 	q: newVal
+				// });
+			} else {
+				// this.getAllUsers();
+				// this.usersLoading = true;
+			}
+		}, 600)
 	}
 };
