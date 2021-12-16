@@ -109,6 +109,12 @@ let err = {
 		}
 	}
 };
+const contactPageData = {
+	limit: 10,
+	page: 1,
+	sortQuery: null,
+	keyword: ''
+};
 describe('ContactResearch.vue', () => {
 	let store;
 	let actions;
@@ -154,6 +160,15 @@ describe('ContactResearch.vue', () => {
 						saveSearchPayload: jest.fn()
 					},
 					actions
+				},
+				user: {
+					namespaced: true,
+					getters: {
+						getContactPageData: () => contactPageData
+					},
+					mutations: {
+						setContactPageData: jest.fn()
+					}
 				},
 				auth: {
 					namespaced: true,

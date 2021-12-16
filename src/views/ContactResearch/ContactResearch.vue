@@ -180,6 +180,7 @@
 
 					<paginate
 						:page-count="total"
+						v-model="page"
 						:click-handler="clickCallback"
 						:prev-text="'Prev'"
 						:next-text="'Next'"

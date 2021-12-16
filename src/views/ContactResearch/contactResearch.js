@@ -109,13 +109,26 @@ export default {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
 		}
+
+		console.log(this.getContactPageData);
+		let { page, limit, sortQuery, keyword, currentPage, count, nextPage, total } = this.getContactPageData;
+		this.page = page;
+		this.limit = limit;
+		this.sortQuery = sortQuery ? sortQuery : null;
+		this.searchQuery = keyword;
+		this.currentPage = currentPage;
+		this.total = total;
+		this.count = count;
+		this.nextPage = nextPage ? nextPage : null;
+
 		this.pageLoading = true;
 		await this.getHistory();
 	},
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_notes/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			setContactPageData: 'user/setContactPageData'
 		}),
 		...mapActions({
 			research_history: 'search_services/research_history',
@@ -315,6 +328,16 @@ export default {
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
+				this.setContactPageData({
+					page: this.page,
+					limit: this.limit,
+					sortQuery: this.sortQuery,
+					keyword: this.searchQuery,
+					currentPage: response.data.data.currentPage,
+					count: response.data.data.count,
+					nextPage: response.data.data.nextPage,
+					total: Math.ceil(response.data.data.count / this.limit)
+				});
 				this.checkPendngStatus();
 				return true;
 			} catch (error) {
@@ -358,7 +381,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			getLoggedUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser',
+			getContactPageData: 'user/getContactPageData'
 		}),
 		contactImage(item) {
 			const images = item.images;

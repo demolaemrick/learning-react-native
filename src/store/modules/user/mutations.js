@@ -6,6 +6,6 @@ export default {
 		state.bookmarkValue = data;
 	},
 	setContactPageData: (state, data) => {
-		state.contactPageData = data;
+		state.contactpage = data;
 	}
 };
