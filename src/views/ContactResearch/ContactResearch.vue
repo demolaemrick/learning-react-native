@@ -25,7 +25,9 @@
 								</p>
 							</template>
 							<template #dropdown-items>
-								<li class="dropdown__item" v-if="checkedContacts.length === 0" @click="exportCSV">Export Contacts</li>
+								<li class="dropdown__item" v-if="checkedContacts.length === 0" :disabled="history && history.length === 0">
+									<button @click="exportCSV" :disabled="history && history.length === 0">Export Contacts</button>
+								</li>
 								<li class="dropdown__item" v-else :disabled="checkedContacts.length === 0">
 									<button :disabled="checkedContacts.length === 0" @click="exportCSV">Export Contacts</button>
 								</li>
