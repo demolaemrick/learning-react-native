@@ -5,7 +5,6 @@
 			<page-load />
 		</template>
 		<main v-else class="main container container--lg">
-			
 			<div v-if="!editNote" class="aside__left">
 				<div class="section section__1">
 					<h5 class="title">Contact Details</h5>
