@@ -101,7 +101,8 @@ export default {
 			deleting: false,
 			subscriptionDone: false,
 			showSuspendedModal: false,
-			searchQuery: ''
+			searchQuery: '',
+			showExportModal: false
 		};
 	},
 	async mounted() {
@@ -159,13 +160,13 @@ export default {
 				}
 			}
 		},
-		toggleModal() {
-			if (!this.showModal) {
-				this.showModal = true;
+		toggleModal(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
 			} else {
 				this.toggleClass = !this.toggleClass;
 				setTimeout(() => {
-					this.showModal = !this.showModal;
+					this[modal] = !this[modal];
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}

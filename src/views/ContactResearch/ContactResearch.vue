@@ -26,7 +26,9 @@
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" v-if="checkedContacts.length === 0" :disabled="history && history.length === 0">
-									<button @click="exportCSV" :disabled="history && history.length === 0">Export Contacts</button>
+									<button @click="showExportModal = true" :disabled="history && history.length === 0">
+										Export Contacts
+									</button>
 								</li>
 								<li class="dropdown__item" v-else :disabled="checkedContacts.length === 0">
 									<button :disabled="checkedContacts.length === 0" @click="exportCSV">Export Contacts</button>
@@ -201,7 +203,7 @@
 			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
-		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
+		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal('showModal')" maxWidth="400px">
 			<template #title>
 				<h4 class="modal__header-title">Delete Research</h4>
 			</template>
@@ -219,6 +221,34 @@
 						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
 							<Loader v-if="deleting" color="#ca1c1c" />
 							<span v-else>Delete</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
+
+		<v-modal
+			v-if="showExportModal"
+			position="center"
+			:toggleClass="toggleClass"
+			@close="toggleModal('showExportModal')"
+			maxWidth="400px"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Export Research</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">This action will download all your contact researches.</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="[toggleModal('showExportModal'), (checkedContacts = [])]">Cancel</div>
+						<v-button
+							class="config__btn"
+							buttonType="primary"
+							size="modal"
+							@click="[exportCSV(), toggleModal('showExportModal')]"
+						>
+							<span style="color: #fff">Continue</span>
 						</v-button>
 					</div>
 				</div>
