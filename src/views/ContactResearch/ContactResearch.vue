@@ -26,15 +26,13 @@
 							</template>
 							<template #dropdown-items>
 								<li class="dropdown__item" v-if="checkedContacts.length === 0" @click="exportCSV">Export Contacts</li>
-								<li class="dropdown__item" v-else :disabled="checkedContacts.length === 0" @click="exportCSV">
-									Export Contacts
+								<li class="dropdown__item" v-else :disabled="checkedContacts.length === 0">
+									<button :disabled="checkedContacts.length === 0" @click="exportCSV">Export Contacts</button>
 								</li>
-								<li
-									class="dropdown__item"
-									:disabled="checkedContacts.length === 0"
-									@click="[openDeleteModal($event, null, null)]"
-								>
-									Delete
+								<li class="dropdown__item" :disabled="checkedContacts.length === 0">
+									<button :disabled="checkedContacts.length === 0" @click="[openDeleteModal($event, null, null)]">
+										Delete
+									</button>
 								</li>
 							</template>
 						</v-toggle-dropdown>
