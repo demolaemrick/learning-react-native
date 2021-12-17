@@ -5,6 +5,7 @@
 			<page-load />
 		</template>
 		<main v-else class="main container container--lg">
+			
 			<div v-if="!editNote" class="aside__left">
 				<div class="section section__1">
 					<h5 class="title">Contact Details</h5>
@@ -23,6 +24,7 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="section section__2">
 					<div class="contact__address" v-if="contact_details.email !== ''">
 						<div class="title">Email Address</div>
@@ -191,7 +193,7 @@
 									class="ml"
 									v-if="
 										contact_insights.snapshot.last_linkedin_activity &&
-										Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
+											Object.entries(contact_insights.snapshot.last_linkedin_activity).length !== 0
 									"
 								>
 									Posted on <a :href="getLinkedinUrl" target="_blank" class="main-info">LinkedIn</a>
@@ -526,7 +528,9 @@
 							section="quotes"
 							v-for="(quote, j) in contactQuotes"
 							:index="j"
-							:key="`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */"
+							:key="
+								`${quote.id}-${quote.article_url}` /* some quotes may have the same id so the article url and id are used as the key */
+							"
 							:published="quote.date"
 							:article="quote"
 							@bookmark="updateQuoteBookMarks({ type: 'contact_insights', index: j, section: 'quotes', ...quote }, $event)"

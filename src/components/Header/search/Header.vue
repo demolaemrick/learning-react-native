@@ -21,9 +21,29 @@
 						</template>
 						<template #dropdown-items>
 							<li v-for="(dropdown, i) in dropdowns" :key="i">
-								<p class="dropdown__item" v-if="dropdown.path && dropdown.for === 'all'" @click="$router.push({ path: dropdown.path })">{{ dropdown.name }}</p>
-								<p class="dropdown__item" v-else-if="loggedInUser.role !== 'user' && loggedInUser.status !== 'suspended' && dropdown.name === 'Dashboard'" @click="$router.push({ path: dropdown.path })">{{ dropdown.name }}</p>
-									<p class="dropdown__item" v-else-if="dropdown.path && loggedInUser.status !== 'suspended'" @click="$router.push({ path: dropdown.path })">{{ dropdown.name }}</p>
+								<p
+									class="dropdown__item"
+									v-if="dropdown.path && dropdown.for === 'all'"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
+								<p
+									class="dropdown__item"
+									v-else-if="
+										loggedInUser.role !== 'user' && loggedInUser.status !== 'suspended' && dropdown.name === 'Dashboard'
+									"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
+								<p
+									class="dropdown__item"
+									v-else-if="dropdown.path && loggedInUser.status !== 'suspended'"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
 								<p class="dropdown__item" v-if="dropdown.name === 'Logout'" @click="logoutUser">{{ dropdown.name }}</p>
 							</li>
 							<!-- <li
@@ -91,9 +111,9 @@ export default {
 					name: 'Logout',
 					path: '',
 					for: 'all'
-				},
+				}
 			]
-		}
+		};
 	},
 	components: {
 		VToggleDropdown,
