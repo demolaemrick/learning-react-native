@@ -208,6 +208,8 @@ export default {
 					showAlert: true
 				});
 				this.deleting = false;
+			} finally {
+				this.checkedContacts = [];
 			}
 		},
 		async uploadBulkResearch() {
@@ -281,6 +283,7 @@ export default {
 				});
 			} finally {
 				this.exportLoading = false;
+				this.checkedContacts = [];
 			}
 		},
 		async subscribe() {
