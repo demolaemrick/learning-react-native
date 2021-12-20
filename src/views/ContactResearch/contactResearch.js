@@ -101,7 +101,8 @@ export default {
 			deleting: false,
 			subscriptionDone: false,
 			showSuspendedModal: false,
-			searchQuery: ''
+			searchQuery: '',
+			showExportModal: false
 		};
 	},
 	async mounted() {
@@ -110,7 +111,6 @@ export default {
 			this.showSuspendedModal = true;
 		}
 
-		console.log(this.getContactPageData);
 		let { page, limit, sortQuery, keyword, currentPage, count, nextPage, total } = this.getContactPageData;
 		this.page = page;
 		this.limit = limit;
@@ -160,13 +160,13 @@ export default {
 				}
 			}
 		},
-		toggleModal() {
-			if (!this.showModal) {
-				this.showModal = true;
+		toggleModal(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
 			} else {
 				this.toggleClass = !this.toggleClass;
 				setTimeout(() => {
-					this.showModal = !this.showModal;
+					this[modal] = !this[modal];
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
@@ -209,6 +209,8 @@ export default {
 					showAlert: true
 				});
 				this.deleting = false;
+			} finally {
+				this.checkedContacts = [];
 			}
 		},
 		async uploadBulkResearch() {
@@ -257,12 +259,21 @@ export default {
 					};
 				}
 				const response = await this.export_history(exportData);
+				// console.log(response.data);
 				let csvContent = 'data:text/csv;charset=utf-8,';
-				csvContent += [response.data];
+				let csvData = new Blob([response.data], {
+					type: csvContent
+				});
 
-				const data = encodeURI(csvContent);
+				// console.log(csvData);
+				var csvUrl = URL.createObjectURL(csvData);
+				// console.log(csvUrl);
+
+				// csvContent += [response.data];
+
+				// const data = encodeURI(csvContent);
 				const link = document.createElement('a');
-				link.setAttribute('href', data);
+				link.setAttribute('href', csvUrl);
 				link.setAttribute('download', 'export.csv');
 				link.click();
 			} catch (error) {
@@ -273,6 +284,7 @@ export default {
 				});
 			} finally {
 				this.exportLoading = false;
+				this.checkedContacts = [];
 			}
 		},
 		async subscribe() {

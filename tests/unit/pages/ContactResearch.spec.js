@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import ContactResearch from '../../../src/views/ContactResearch/ContactResearch.vue';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
+
 const Paginate = require('vuejs-paginate');
 jest.useFakeTimers();
 jest.mock('vuejs-paginate');
@@ -344,7 +345,7 @@ describe('ContactResearch.vue', () => {
 		});
 		wrapper.vm.showModal = true;
 		wrapper.vm.$nextTick();
-		wrapper.vm.toggleModal();
+		wrapper.vm.toggleModal('showModal');
 		expect(wrapper.vm.toggleClass).toBe(false);
 		jest.advanceTimersByTime(500);
 		wrapper.vm.$nextTick();
@@ -372,6 +373,7 @@ describe('ContactResearch.vue', () => {
 		wrapper.vm.$nextTick();
 		expect(wrapper.vm.showModal).toBe(true);
 	});
+
 	it('upload bulk research', async () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,
