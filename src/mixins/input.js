@@ -32,6 +32,10 @@ const InputMixin = {
 			type: Boolean,
 			default: false
 		},
+		list: {
+			type: String,
+			default: ''
+		},
 		width: {
 			type: String,
 			default: ''
