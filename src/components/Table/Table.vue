@@ -12,6 +12,7 @@
 				:headers="tableHeaders"
 				@sortTable="sortData"
 				@change="$emit('checkAll', $event)"
+				:checked="allchecked"
 			/>
 			<tbody>
 				<tr

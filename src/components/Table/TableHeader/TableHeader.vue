@@ -9,7 +9,7 @@
 			>
 				{{ header.name }}
 				<template v-if="header.elementSlot">
-					<input class="check-input" type="checkbox" @change="$emit('change', $event)" />
+					<input :checked="checked" class="check-input" type="checkbox" @change="$emit('change', $event)" />
 				</template>
 				<span class="table__header-icon" @click="$emit('sortTable', header.sortHeader)" v-if="header.sortable">
 					<svg width="13" height="9" xmlns="http://www.w3.org/2000/svg">

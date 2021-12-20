@@ -80,6 +80,7 @@
 					:loading="pageLoading"
 					@checkAll="checkAll"
 					@sortTable="sortTable"
+					:allchecked="checkedContacts.length === limit"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">

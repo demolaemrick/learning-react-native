@@ -247,6 +247,7 @@ export default {
 		clickCallback(page) {
 			// console.log(page);
 			this.page = page;
+			this.checkedContacts = [];
 			this.getHistory();
 		},
 		async exportCSV() {
