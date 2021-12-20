@@ -194,7 +194,7 @@
 												<li
 													class="dropdown__item"
 													:class="{ active: companySortMethod === 'relevance' }"
-													@click="companySortMethod = 'relevant'"
+													@click="companySortMethod = 'relevance'"
 												>
 													Relevant
 												</li>

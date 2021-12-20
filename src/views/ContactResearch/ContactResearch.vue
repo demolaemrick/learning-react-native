@@ -11,18 +11,52 @@
 			:loading="loading"
 		/>
 		<main class="main-section">
+			<div class="text__title main_title">
+				<h2>Contact Research</h2>
+			</div>
 			<div class="contact__research__menu">
-				<div class="text__title">
-					<h2>Contact Research</h2>
+				<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
+					<div class="btn__export__csv user__menu__wrapper">
+						<v-toggle-dropdown class="user__dropdown__menu" width="185px" left="0" itemPadding="0.9rem">
+							<template #dropdown-wrapper>
+								<p class="flex action_text">
+									<span>Actions</span>
+									<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+								</p>
+							</template>
+							<template #dropdown-items>
+								<li class="dropdown__item" v-if="checkedContacts.length === 0" @click="exportCSV">Export Contacts</li>
+								<li class="dropdown__item" v-else :disabled="checkedContacts.length === 0" @click="exportCSV">
+									Export Contacts
+								</li>
+								<li
+									class="dropdown__item"
+									:disabled="checkedContacts.length === 0"
+									@click="[openDeleteModal($event, null, null)]"
+								>
+									Delete
+								</li>
+							</template>
+						</v-toggle-dropdown>
+					</div>
 				</div>
-				<div class="action__group" v-if="loggedInUser.status !== 'suspended'">
-					<div class="btn__wrapper">
-						<v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
+				<div class="action__group">
+					<!-- <div class="btn__wrapper"> -->
+					<VTextInput
+						class="mb-0"
+						type="text"
+						placeholder="Search"
+						v-model="searchQuery"
+						:icon="{ type: 'search' }"
+						width="509px"
+						@clear="clearSearch"
+					/>
+					<!-- <v-button :disabled="checkedContacts.length === 0" class="btn__export__csv" @click="exportCSV">
 							<template v-if="!exportLoading">Export CSV</template>
 							<Loader v-else />
-						</v-button>
-					</div>
-					<div class="btn__wrapper">
+						</v-button> -->
+					<!-- </div> -->
+					<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
 						<file-upload
 							:drop="false"
 							ref="upload"
@@ -46,7 +80,7 @@
 					@sortTable="sortTable"
 				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
-						<td v-if="loggedInUser.status !== 'suspended'" class="table__row-item">
+						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
 							<input
 								type="checkbox"
 								:value="item.rowId"
@@ -95,7 +129,13 @@
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
-								<span class="status_done" v-if="item.status.statusCode === 'READY' || item.status.statusCode === 'DONE'">
+								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status.message }}</span>
+								</span>
+								<span class="status_ready" v-else-if="item.status.statusCode === 'READY'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
@@ -140,6 +180,7 @@
 
 					<paginate
 						:page-count="total"
+						v-model="page"
 						:click-handler="clickCallback"
 						:prev-text="'Prev'"
 						:next-text="'Next'"
@@ -157,7 +198,7 @@
 			</div>
 
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
-			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="loggedInUser" />
+			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal" maxWidth="400px">
@@ -166,11 +207,15 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<p class="modal__content-text">
+					<p class="modal__content-text" v-if="contactToDelete.rowId">
 						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
 					</p>
+					<p class="modal__content-text" v-else>
+						Kindly confirm that you want to delete
+						{{ checkedContacts.length > 1 ? `${checkedContacts.length} researches` : `${checkedContacts.length} research` }}.
+					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="toggleModal">Cancel</div>
+						<div class="cancel" @click="[toggleModal(), (deleting = false)]">Cancel</div>
 						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
 							<Loader v-if="deleting" color="#ca1c1c" />
 							<span v-else>Delete</span>

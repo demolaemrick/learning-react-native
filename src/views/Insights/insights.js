@@ -96,7 +96,7 @@ export default {
 
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser'
 		}),
 		getLinkedinUrl: {
 			get() {

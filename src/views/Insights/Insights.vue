@@ -88,7 +88,7 @@
 					<div class="text">Bookmarked {{ userBookmarksCount }}</div>
 					<div v-if="userBookmarksCount !== 0" @click="goToBookmarks" class="link">See All</div>
 				</div>
-				<div class="section__5" v-if="loggedInUser.can_generate_email && !isFromAdmin">
+				<div class="section__5" v-if="getLoggedUser.can_generate_email && !isFromAdmin">
 					<div class="text">Personalized Email Intros</div>
 					<div @click="generateIntroEmail(null, null)" class="link">See All</div>
 				</div>
@@ -281,7 +281,7 @@
 								class="submit"
 								size="large"
 								buttonType="primary"
-								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+								@click="[addArticleModal(getLoggedUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
 							>
 								<div class="flex">
 									<span class="add-icon mr-1">
@@ -484,7 +484,7 @@
 								class="submit"
 								size="large"
 								buttonType="primary"
-								@click="[addArticleModal(loggedInUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
+								@click="[addArticleModal(getLoggedUser), (articleDecript = ''), (articleTitle = ''), (articleUrl = '')]"
 							>
 								<div class="flex">
 									<span class="add-icon mr-1">

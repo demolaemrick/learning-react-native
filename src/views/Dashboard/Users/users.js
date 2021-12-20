@@ -87,7 +87,7 @@ export default {
 			count: 0,
 			nextPage: null,
 			usersLoading: false,
-			users: null,
+			users: [],
 			stat: {
 				statusCode: 'ACTIVE',
 				message: 'Active'
@@ -125,7 +125,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser'
 		})
 	},
 	methods: {

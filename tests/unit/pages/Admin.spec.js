@@ -1,11 +1,9 @@
-import Admin from '../../../src/views/Dashboard/Admin';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import Admin from '../../../src/views/Dashboard/Admin';
+import Paginate from 'vuejs-paginate';
 
 jest.useFakeTimers();
-
-import Vuex from 'vuex';
-
-const Paginate = require('vuejs-paginate');
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
@@ -60,6 +58,13 @@ let item = {
 	_id: '60992e95baa22116bb37d258'
 };
 
+const permissions = [
+	{
+		name: 'Generate Email',
+		value: 'generate-email'
+	}
+];
+
 describe('Admin', () => {
 	let store;
 
@@ -79,6 +84,7 @@ describe('Admin', () => {
 						activateAdmin: jest.fn().mockResolvedValue(statusRes),
 						suspendAdmin: jest.fn().mockResolvedValue(statusRes),
 						updateAdmin: jest.fn().mockResolvedValue(statusRes),
+						adminPermissions: jest.fn().mockResolvedValue(permissions),
 						adminSearch: jest.fn(),
 						showAlert: jest.fn()
 					},
@@ -108,7 +114,7 @@ describe('Admin', () => {
 	});
 
 	it('tests that send invite modal is called on button click', async () => {
-		const inviteAdmin = jest.fn();
+		// const inviteAdmin = jest.fn();
 		const wrapper = mount(Admin, {
 			store,
 			data() {
@@ -120,9 +126,10 @@ describe('Admin', () => {
 				};
 			},
 			methods: {
-				inviteAdmin
+				// inviteAdmin
 			}
 		});
+
 		expect(wrapper.vm.toggleClass).toBe(true);
 
 		expect(wrapper.vm.$data.emailInput).not.toEqual('');
@@ -214,9 +221,8 @@ describe('Admin', () => {
 	});
 
 	it('tests that the editAdmin method is called', async () => {
+		const editAdmin = jest.spyOn(Admin.methods, 'editAdmin');
 		const wrapper = mount(Admin, {
-			store,
-			response: statusRes,
 			data() {
 				return {
 					showEditModal: true,
@@ -225,10 +231,10 @@ describe('Admin', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		const btn = wrapper.findAllComponents({ ref: 'editAdmin' });
-		btn.trigger('click');
-		await expect(wrapper.vm.editAdmin());
-		expect(wrapper.vm.$data.loading).toBe(false);
+		const btn = await wrapper.findComponent({ ref: 'editAdmin' });
+		await btn.trigger('click');
+		expect(editAdmin).toHaveBeenCalled();
+		// expect(wrapper.vm.$data.loading).toBe(false);
 	});
 
 	it('tests that the add email method is called', () => {

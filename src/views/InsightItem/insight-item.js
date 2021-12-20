@@ -63,25 +63,26 @@ export default {
 				this.saveNotepad(value);
 			}
 		},
-		company_insights_categories: {
-			get() {
-				let newObj = {};
-				let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
-				const data = result.news;
-				const tab = this.companyTab;
-				const element = Object.keys(data).includes(tab) ? data[tab] : '';
-				newObj[tab] = element;
-				const sorted = this.checkCompanySort(newObj[tab]);
-				const disLiked = this.sortByDislike(sorted);
-				const byImportance = this.sortByImportant(sorted);
-				const bookMarked = this.sortByBookmarked(sorted);
-				const ordinary = this.getOrdinaryArticles(sorted);
-				return [...bookMarked, ...byImportance, ...ordinary, ...disLiked];
-			},
-			set(value) {
-				return value;
-			}
-		},
+		// company_insights_categories: {
+		// 	get() {
+		// 		let newObj = {};
+		// 		let result = JSON.parse(JSON.stringify(this.getSearchedResult[this.searchType]));
+		// 		const data = result.news;
+		// 		const tab = this.companyTab;
+		// 		const element = Object.keys(data).includes(tab) ? data[tab] : '';
+		// 		newObj[tab] = element;
+		// 		const sorted = this.checkCompanySort(newObj[tab]);
+		// 		console.log(sorted);
+		// 		const disLiked = this.sortByDislike(sorted);
+		// 		const byImportance = this.sortByImportant(sorted);
+		// 		const bookMarked = this.sortByBookmarked(sorted);
+		// 		const ordinary = this.getOrdinaryArticles(sorted);
+		// 		return [...bookMarked, ...byImportance, ...ordinary, ...disLiked];
+		// 	},
+		// 	set(value) {
+		// 		return value;
+		// 	}
+		// },
 		quotedArticle() {
 			if (this.getSearchedItem.item.meta) {
 				return this.getSearchedItem.item;
@@ -98,8 +99,8 @@ export default {
 			saveSearchPayload: 'search_notes/saveSearchPayload'
 		}),
 		...mapActions({
-			content: 'search_services/content',
-			fetchResearch: 'search_services/research'
+			content: 'search_services/content'
+			// fetchResearch: 'search_services/research'
 		}),
 		expandNotepad() {
 			this.hideSearch = true;

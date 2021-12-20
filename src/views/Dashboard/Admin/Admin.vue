@@ -205,7 +205,7 @@
 				<!-- {{:disabled="loggedInUser.role.toLowerCase() !== 'superadmin'"}} -->
 			</template>
 			<template #body>
-				<form @submit.prevent="editAdmin">
+				<form @submit.prevent="">
 					<div class="auth-input">
 						<div class="flex flex-spaced">
 							<text-input
@@ -269,7 +269,14 @@
 						</div>
 
 						<div class="flex flex-end">
-							<v-button class="submit" size="large" buttonType="primary" submitType="submit" ref="editAdmin">
+							<v-button
+								class="submit"
+								size="large"
+								buttonType="primary"
+								submitType="submit"
+								@click="editAdmin"
+								ref="editAdmin"
+							>
 								<template v-if="!loading">Save Changes</template>
 								<Loader v-else />
 							</v-button>

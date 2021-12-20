@@ -72,14 +72,48 @@
 	}
 	.action__group {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: auto auto;
+		& > .form-group {
+			margin-right: 16px;
+		}
 	}
 }
 
 .btn__wrapper {
 	.btn__export__csv {
-		padding: 0 24px;
-		width: 128px;
+		padding: 0;
+		width: 115px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #FFFFFF;
+		border: 1px solid #DDE5EE;
+		box-sizing: border-box;
+
+		& > .user__dropdown__menu {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			& .dropdown__list-wrapper {
+				width: 155px;
+
+			}
+		}
+
+		.action_text {
+			justify-content: center;
+			align-items: center;
+
+			& > span:not(:last-child) {
+				font-size: 14px;
+				line-height: 16px;
+				letter-spacing: 0.4px;
+				color: #3A434B;
+				margin-right: 15px;
+			}
+		}
 	}
 	.btn__import__contact {
 		padding: 0 24px;
@@ -291,6 +325,9 @@ thead.table__header {
 .text__title{
 	text-transform: capitalize;
 }
+.main_title {
+	margin-bottom: 20px;
+}
 .row-link{
 	max-width: 136px;
 	white-space: nowrap;
@@ -310,8 +347,8 @@ thead.table__header {
 
 .table__td__status {
 	.status_done {
-		background: #eafbf1;
-		border: 1px solid #c0f2d4;
+		background: #eee;
+		border: 1px solid #eee;
 		box-sizing: border-box;
 		border-radius: 4px;
 		display: flex;
@@ -331,10 +368,47 @@ thead.table__header {
 			.pin {
 				width: 6px;
 				height: 6px;
+				background: #767676;
+				border-radius: 50%;
+			}
+		}
+		.text {
+			font-family: Karla;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 12px;
+			color: #767676;
+		}
+	}
+	.status_ready {
+		background: #eafbf1;
+		border: 1px solid #c0f2d4;
+		box-sizing: border-box;
+		border-radius: 4px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 7px 8px;
+		max-width: 70px;
+
+		.white__circle {
+			width: 12px;
+			height: 12px;
+			background-color: #fff;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.pin {
+				width: 6px;
+				height: 6px;
 				background: #1e944d;
 				border-radius: 50%;
 			}
 		}
+
 		.text {
 			font-family: Karla;
 			font-style: normal;

@@ -16,6 +16,18 @@ jest.mock('axios', () => ({
 	get: Promise.resolve(true)
 }));
 
+const userdetails = {
+	id: '607ea1bf965bbe6414c00b13',
+	first_name: 'Abass',
+	last_name: 'Adamo',
+	email: 'abass@enyata.com',
+	token: '1',
+	status: 'active',
+	is_settings: true,
+	role: 'superadmin',
+	can_generate_email: true
+};
+
 const csv = `
 S/N,FIirst Name,Last Name,Age
 1,Lani,Michael,12
@@ -97,6 +109,16 @@ let err = {
 		}
 	}
 };
+const contactPageData = {
+	limit: 10,
+	page: 1,
+	sortQuery: null,
+	keyword: '',
+	currentPage: 0,
+	count: 0,
+	nextPage: null,
+	total: 0
+};
 describe('ContactResearch.vue', () => {
 	let store;
 	let actions;
@@ -142,6 +164,21 @@ describe('ContactResearch.vue', () => {
 						saveSearchPayload: jest.fn()
 					},
 					actions
+				},
+				user: {
+					namespaced: true,
+					getters: {
+						getContactPageData: () => contactPageData
+					},
+					mutations: {
+						setContactPageData: jest.fn()
+					}
+				},
+				auth: {
+					namespaced: true,
+					getters: {
+						getLoggedUser: () => userdetails
+					}
 				}
 			}
 		});
@@ -150,7 +187,19 @@ describe('ContactResearch.vue', () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					limit: 10,
+					page: 1,
+					total: 0,
+					count: 0,
+					currentPage: 0,
+					nextPage: null,
+					sortQuery: null,
+					pageLoading: true
+				};
+			}
 		});
 
 		expect(wrapper.vm).toBeTruthy();
@@ -169,6 +218,7 @@ describe('ContactResearch.vue', () => {
 					count: 0,
 					currentPage: 0,
 					nextPage: null,
+					sortQuery: null,
 					pageLoading: true
 				};
 			}
@@ -196,6 +246,7 @@ describe('ContactResearch.vue', () => {
 					currentPage: 0,
 					nextPage: null,
 					pageLoading: true,
+					sortQuery: null,
 					history: research.data.data.history
 				};
 			},
@@ -304,12 +355,16 @@ describe('ContactResearch.vue', () => {
 	it('should open delete modal', async () => {
 		const rowId = 1;
 		const full_name = 'Jeff Bezos';
+		const e = {
+			stopPropagation: jest.fn(),
+			stopImmediatePropagation: jest.fn()
+		};
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
 			router
 		});
-		wrapper.vm.openDeleteModal(rowId, full_name);
+		wrapper.vm.openDeleteModal(e, rowId, full_name);
 		expect(wrapper.vm.contactToDelete).toStrictEqual({
 			rowId,
 			full_name

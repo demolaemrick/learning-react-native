@@ -8,6 +8,18 @@ const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
+const userdetails = {
+	id: '607ea1bf965bbe6414c00b13',
+	first_name: 'Abass',
+	last_name: 'Adamo',
+	email: 'abass@enyata.com',
+	token: '1',
+	status: 'active',
+	is_settings: true,
+	role: 'superadmin',
+	can_generate_email: true
+};
+
 let statusRes = {
 	status: 200,
 	statusText: 'OK',
@@ -72,6 +84,15 @@ describe('Settings', () => {
 					namespaced: true,
 					actions: {
 						research: jest.fn().mockResolvedValue(statusRes)
+					}
+				},
+				auth: {
+					namespaced: true,
+					mutations: {
+						loginSuccess: jest.fn().mockResolvedValue(userdetails)
+					},
+					getters: {
+						getLoggedUser: () => userdetails
 					}
 				}
 			}
@@ -141,7 +162,7 @@ describe('Settings', () => {
 				};
 			}
 		});
-		const btn = wrapper.find({ ref: 'settingsBtn' });
+		const btn = wrapper.findComponent({ ref: 'settingsBtn' });
 		btn.trigger('click');
 
 		expect(store.dispatch).toHaveBeenCalledWith('user/settings', {
@@ -165,7 +186,7 @@ describe('Settings', () => {
 				};
 			}
 		});
-		const btn = wrapper.find({ ref: 'settingsBtn' });
+		const btn = wrapper.findComponent({ ref: 'settingsBtn' });
 		btn.trigger('click');
 
 		await expect(store.dispatch).toHaveBeenCalledWith('user/settings', {
@@ -196,7 +217,7 @@ describe('Settings', () => {
 	});
 
 	it('tests that the settings page modal is opened', () => {
-		const toggleModal = jest.fn();
+		// const toggleModal = jest.fn();
 
 		const wrapper = mount(Settings, {
 			store,
@@ -212,13 +233,13 @@ describe('Settings', () => {
 				};
 			},
 			methods: {
-				toggleModal
+				// toggleModal
 			}
 		});
 		const btn = wrapper.findComponent(VButton);
 		btn.trigger('click');
 
 		expect(wrapper.vm.$data.initialCompanyKeywords).not.toStrictEqual(wrapper.vm.$data.settings.company_research);
-		expect(toggleModal).toHaveBeenCalled();
+		expect(wrapper.vm.toggleModal());
 	});
 });

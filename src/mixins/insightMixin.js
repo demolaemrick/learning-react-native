@@ -170,9 +170,9 @@ export default {
 		}),
 		...mapActions({
 			showAlert: 'showAlert',
-			getUserBookmarks: 'user/getBookmarks',
-			getUserNote: 'user/getNote',
-			updateUserNote: 'user/updateNote',
+			getBookmarks: 'user/getBookmarks',
+			getNote: 'user/getNote',
+			updateNote: 'user/updateNote',
 			addToBookmarks: 'user/addToBookmarks',
 			removeFromBookmarks: 'user/removeFromBookmarks',
 			dislike: 'search_services/dislike',
@@ -536,7 +536,7 @@ export default {
 
 		async initUserNote(rowID) {
 			try {
-				const userNote = await this.getUserNote(rowID);
+				const userNote = await this.getNote(rowID);
 				const { status, data, statusText } = userNote;
 				if (status === 200 && statusText === 'OK') {
 					if (data.data) {
@@ -560,7 +560,7 @@ export default {
 				this.sending = true;
 				this.sendingNote = true;
 				try {
-					const response = await this.updateUserNote({
+					const response = await this.updateNote({
 						rowId: this.getSearchedResult.rowId,
 						note: notepadTXT
 					});
