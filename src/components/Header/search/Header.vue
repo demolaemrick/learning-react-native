@@ -128,7 +128,8 @@ export default {
 		...mapMutations({
 			logout: 'auth/logout',
 			setBookmarkValue: 'user/setBookmarkValue',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			setContactPageData: 'user/setContactPageData'
 		}),
 		gotoSettings() {
 			// this.showMoreSearchSettings = !this.showMoreSearchSettings;
@@ -149,10 +150,9 @@ export default {
 				this.$router.push('/login');
 			} else {
 				this.logout();
+				this.setContactPageData(null);
 				this.$router.push('/login');
 			}
-			// this.logout();
-			// this.$router.push('/login');
 		}
 	}
 };

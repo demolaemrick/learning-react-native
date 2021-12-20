@@ -4,6 +4,9 @@ export default {
 		headers: {
 			required: true,
 			default: []
+		},
+		checked: {
+			default: false
 		}
 	},
 	components: {}
