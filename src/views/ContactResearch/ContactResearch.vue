@@ -243,6 +243,7 @@
 					<div class="modal__content-btn">
 						<div class="cancel" @click="[toggleModal('showExportModal'), (checkedContacts = [])]">Cancel</div>
 						<v-button
+							ref="exportCsvBtn"
 							class="config__btn"
 							buttonType="primary"
 							size="modal"

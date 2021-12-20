@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import ContactResearch from '../../../src/views/ContactResearch/ContactResearch.vue';
 import VueRouter from 'vue-router';
@@ -372,6 +372,25 @@ describe('ContactResearch.vue', () => {
 		});
 		wrapper.vm.$nextTick();
 		expect(wrapper.vm.showModal).toBe(true);
+	});
+
+	it('should open export all contacts modal', async () => {
+		const wrapper = mount(ContactResearch, {
+			store,
+			localVue,
+			data() {
+				return {
+					showExportModal: true
+				};
+			}
+		});
+
+		expect(wrapper.vm.toggleClass).toBe(true);
+		let btn = await wrapper.find({
+			ref: 'exportCsvBtn'
+		});
+		await btn.trigger('click');
+		// expect(wrapper.vm.showExportModal).toBe(false);
 	});
 
 	it('upload bulk research', async () => {
