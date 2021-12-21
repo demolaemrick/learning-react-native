@@ -218,7 +218,7 @@
 						{{ checkedContacts.length > 1 ? `${checkedContacts.length} researches` : `${checkedContacts.length} research` }}.
 					</p>
 					<div class="modal__content-btn">
-						<div class="cancel" @click="[toggleModal(), (deleting = false), (checkedContacts = [])]">Cancel</div>
+						<div class="cancel" @click="[toggleModal('showModal'), (deleting = false), (checkedContacts = [])]">Cancel</div>
 						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
 							<Loader v-if="deleting" color="#ca1c1c" />
 							<span v-else>Delete</span>
