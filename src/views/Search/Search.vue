@@ -101,7 +101,7 @@
 								placeholder="Company Url (optional)"
 								name="companyUrl"
 								width="222px"
-								v-model="payload.company_Url"
+								v-model="payload.url"
 							/>
 							<v-button :disabled="invalid" id="search_btn" padding="0 31px" class="search_btn" submitType="submit">
 								<template v-if="!loading">Search</template>
