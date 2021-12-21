@@ -194,7 +194,7 @@ export default {
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
 					await this.getHistory();
-					this.toggleModal();
+					this.toggleModal('showModal');
 					this.showAlert({
 						status: 'success',
 						message: 'Research deleted successfully',
@@ -405,7 +405,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function(newVal) {
+		searchQuery: debounce(function (newVal) {
 			if (newVal) {
 				// this.searchPage({
 				// 	q: newVal

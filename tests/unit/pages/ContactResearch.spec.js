@@ -334,7 +334,7 @@ describe('ContactResearch.vue', () => {
 			localVue,
 			router
 		});
-		wrapper.vm.toggleModal();
+		wrapper.vm.toggleModal('showModal');
 	});
 
 	it('should close modal', async () => {
