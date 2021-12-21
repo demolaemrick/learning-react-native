@@ -41,7 +41,7 @@ export default {
 				full_name: '',
 				company: '',
 				role: '',
-				company_Url: '',
+				url: '',
 				company_research: [],
 				contact_research: []
 			},
@@ -114,6 +114,7 @@ export default {
 			this.payload.full_name = suggestion.name;
 			this.payload.role = suggestion.role;
 			this.payload.company = suggestion.company;
+			this.payload.url = suggestion.url;
 		},
 		async submitSearch() {
 			this.loading = true;
