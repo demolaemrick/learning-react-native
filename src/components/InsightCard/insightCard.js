@@ -1,6 +1,6 @@
 import { tippy } from 'vue-tippy';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import Loader from '@/components/Loader';
+import Loader from '../Loader';
 
 export default {
 	components: {
@@ -25,10 +25,12 @@ export default {
 			default: true
 		},
 		isFromAdmin: {
-			type: Boolean
+			type: Boolean,
+			default: false
 		},
 		isContact: {
-			type: Boolean
+			type: Boolean,
+			default: false
 		},
 		showBookmarkIcon: {
 			type: Boolean,

@@ -14,6 +14,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		left: {
+			type: String,
+			default: null
+		},
 		closeOnClick: {
 			type: Boolean,
 			default: true

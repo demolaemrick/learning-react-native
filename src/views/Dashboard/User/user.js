@@ -593,14 +593,14 @@ export default {
 					name: 'AdminInsights',
 					query: {
 						id: item.rowId
-					},
-					params: {
-						data: {
-							userId: this.userId
-						},
-						path: '/dashboard/user?',
-						name: item.full_name
 					}
+					// params: {
+					// 	data: {
+					// 		userId: this.userId
+					// 	},
+					// 	path: '/dashboard/user?',
+					// 	name: item.full_name
+					// }
 				});
 			}
 		},

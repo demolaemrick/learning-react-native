@@ -7,6 +7,7 @@ const localVue = createLocalVue();
 localVue.filter('moment', (val, val2) => val + val2);
 
 localVue.use(Vuex);
+localVue.use(VueRouter);
 
 let meta = {
 	timestamp: '2021-06-21T14:21:35.384Z',
@@ -60,10 +61,14 @@ let researchResponse = {
 							dontRender: null,
 							is_bookmarked: false,
 							is_disliked: false,
-							meta: meta
+							meta: meta,
+							content: {
+								date: new Date()
+							}
 						}
 					]
 				},
+				other_insights: [],
 				quotes: [],
 				snapshot: {
 					current_employer: {
@@ -74,6 +79,7 @@ let researchResponse = {
 					mentions: 6,
 					most_viral_tweet: '5'
 				},
+				top_tags: ['Andela'],
 				topics: {
 					Andela: 1,
 					Jeremy: 1,
@@ -153,9 +159,22 @@ let getSearchedItem = {
 
 describe('InsightItem', () => {
 	let store;
-	const insightItemRoute = new VueRouter({
+	const router = new VueRouter({
 		routes: [
-			{ path: '/insight-item', name: 'InsightItem' },
+			{
+				path: '/insight-item',
+				name: 'InsightItem',
+				query: {
+					id: '1'
+				}
+			},
+			{
+				path: '/dashboard/insight-item',
+				name: 'AdminInsightItem',
+				query: {
+					id: '1'
+				}
+			},
 			{ path: '/', name: 'Search' }
 		]
 	});
@@ -168,8 +187,8 @@ describe('InsightItem', () => {
 				search_services: {
 					actions: {
 						dislike: jest.fn().mockResolvedValue(),
-						content: jest.fn().mockResolvedValue(),
-						research: jest.fn().mockResolvedValue()
+						content: jest.fn().mockResolvedValue()
+						// research: jest.fn().mockResolvedValue()
 					},
 					getters: {
 						getSearchedResult: () => researchResponse.data.data
@@ -209,9 +228,16 @@ describe('InsightItem', () => {
 
 	it('Render without errors', async () => {
 		const wrapper = shallowMount(InsightItem, {
-			localVue,
 			store,
-			insightItemRoute
+			router,
+			localVue,
+			data() {
+				return {
+					searchType: 'company_insights',
+					rowId: '',
+					isFromAdmin: false
+				};
+			}
 		});
 		expect(wrapper.vm).toBeTruthy();
 	});
@@ -219,9 +245,10 @@ describe('InsightItem', () => {
 		const tab = researchResponse.data.data.contact_insights.news;
 		const wrapper = shallowMount(InsightItem, {
 			localVue,
-			insightItemRoute,
+			router,
 			data() {
 				return {
+					searchType: 'contact_insights',
 					selectedTab: Object.keys(tab)[0]
 				};
 			},
@@ -232,7 +259,7 @@ describe('InsightItem', () => {
 	it('Render company_insights', () => {
 		const wrapper = shallowMount(InsightItem, {
 			localVue,
-			insightItemRoute,
+			router,
 			data() {
 				return {
 					searchType: 'company_insights'

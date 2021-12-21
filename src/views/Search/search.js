@@ -12,6 +12,8 @@ import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
 import csvMixins from '@/mixins/csvMixins';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
+import Datalist from '@/components/Datalist';
+
 export default {
 	name: 'Search',
 	mixins: [csvMixins],
@@ -27,7 +29,8 @@ export default {
 		Loader,
 		FileUpload,
 		Logo,
-		ConfigData
+		ConfigData,
+		Datalist
 	},
 	data() {
 		return {
@@ -38,6 +41,7 @@ export default {
 				full_name: '',
 				company: '',
 				role: '',
+				company_Url: '',
 				company_research: [],
 				contact_research: []
 			},
@@ -45,7 +49,8 @@ export default {
 			accept: 'csv',
 			extensions: 'csv',
 			files: [],
-			activeTab: 'manual_search'
+			activeTab: 'manual_search',
+			nameSuggestions: []
 		};
 	},
 	methods: {
@@ -56,6 +61,7 @@ export default {
 		}),
 		...mapActions({
 			research: 'search_services/research',
+			researchSuggestions: 'search_services/researchSuggestions',
 			bulk_research: 'search_services/bulk_research',
 			getSettings: 'user/getSettings',
 			showAlert: 'showAlert'
@@ -103,6 +109,11 @@ export default {
 
 		onKeywordsChange(searchType, event) {
 			this.payload[searchType] = event.target.value.split(',');
+		},
+		setSuggestion(suggestion) {
+			this.payload.full_name = suggestion.name;
+			this.payload.role = suggestion.role;
+			this.payload.company = suggestion.company;
 		},
 		async submitSearch() {
 			this.loading = true;
@@ -156,12 +167,43 @@ export default {
 					this.activeTab = evt;
 					break;
 			}
+		},
+		async getSuggestion(event, queryType) {
+			const searchQuery = event.target.value;
+			// when data list suggestion is selected, weirdly
+			// the keyup event is still triggered, but with
+			// keyCode as undefined. So we'll check keyCode to
+			// validate if it's an actuall keyup event.
+			const notAnActualKeyPress = event.keyCode === undefined;
+			if (searchQuery.length < 2 || notAnActualKeyPress) {
+				return;
+			}
+
+			try {
+				const response = await this.researchSuggestions({
+					type: queryType,
+					query: searchQuery
+				});
+
+				let suggestions = response.data.data;
+				suggestions = suggestions.map((item) => {
+					const label = `${item.name} (${item.role}, ${item.company})`;
+					return { ...item, suggestionLabel: label };
+				});
+				this.nameSuggestions = suggestions;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
 		}
 	},
 	watch: {
 		$route: {
 			immediate: true,
-			handler: function (newVal) {
+			handler: function(newVal) {
 				this.showMoreSearchSettings = newVal.meta && newVal.meta.showMoreSearchSettings ? true : false;
 				if (this.showMoreSearchSettings) {
 					this.showConfigModal = false;

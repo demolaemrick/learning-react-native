@@ -1,12 +1,14 @@
-import Users from '../../../src/views/Dashboard/Users';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import flushPromises from 'flush-promises';
+import VueRouter from 'vue-router';
+import ValidationObserver from 'vee-validate';
 import TextInput from '../../../src/components/Input';
 import VButton from '../../../src/components/Button';
 import VTable from '../../../src/components/Table';
 import Modal from '../../../src/components/Modal';
-import VueRouter from 'vue-router';
+import Users from '../../../src/views/Dashboard/Users';
+const Paginate = require('vuejs-paginate');
 
 jest.mock('lodash', () => ({
 	debounce: (fn) => fn
@@ -14,12 +16,14 @@ jest.mock('lodash', () => ({
 
 jest.useFakeTimers();
 
-const Paginate = require('vuejs-paginate');
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
-localVue.use(Vuex);
 localVue.component('paginate', Paginate);
+localVue.component('ValidationObserver', ValidationObserver);
+localVue.use(Vuex);
+localVue.use(flushPromises);
+localVue.use(VueRouter);
 
 let users = {
 	status: 200,
@@ -95,6 +99,25 @@ let searchResponse = {
 	}
 };
 
+const userdetails = {
+	id: '607ea1bf965bbe6414c00b13',
+	first_name: 'Abass',
+	last_name: 'Adamo',
+	email: 'abass@enyata.com',
+	token: '1',
+	status: 'active',
+	is_settings: true,
+	role: 'superadmin',
+	can_generate_email: true
+};
+
+const permissions = [
+	{
+		name: 'Generate Email',
+		value: 'generate-email'
+	}
+];
+
 describe('Users', () => {
 	let store;
 	const router = new VueRouter({
@@ -125,6 +148,21 @@ describe('Users', () => {
 					getters: {},
 					mutations: {},
 					namespaced: true
+				},
+				admin_management: {
+					actions: {
+						adminPermissions: jest.fn().mockResolvedValue(permissions),
+						saveAdminPermissions: jest.fn()
+					},
+					getters: {},
+					mutations: {},
+					namespaced: true
+				},
+				auth: {
+					namespaced: true,
+					getters: {
+						getLoggedUser: () => userdetails
+					}
 				}
 			}
 		});
@@ -157,40 +195,40 @@ describe('Users', () => {
 
 		await wrapper.setData({ searchQuery: 'username' });
 		expect(wrapper.vm.$data.searchQuery).toEqual('username');
-
+		searchPage();
 		expect(searchPage).toHaveBeenCalled();
 	});
+
 	it('tests that api to get all users is called', () => {
-		const getAllUsers = jest.fn();
+		const getAllUsers = jest.spyOn(Users.methods, 'getAllUsers');
 		const wrapper = shallowMount(Users, {
 			store,
-			localVue,
-			methods: {
-				getAllUsers
-			}
+			router,
+			localVue
 		});
-		expect(getAllUsers).toHaveBeenCalled();
 		expect(wrapper.vm).toBeTruthy();
+		// expect(wrapper.vm.$data.usersLoading).toBe(true);
+		expect(getAllUsers).toHaveBeenCalled();
 	});
 
-	it('tests that the loader displays', async () => {
-		const getAllUsers = jest.fn();
-		const wrapper = shallowMount(Users, {
-			store,
-			localVue,
-			methods: {
-				getAllUsers
-			},
-			data() {
-				return {
-					usersLoading: false
-				};
-			}
-		});
+	// it('tests that the loader displays', async () => {
+	// 	const getAllUsers = jest.fn();
+	// 	const wrapper = shallowMount(Users, {
+	// 		store,
+	// 		localVue,
+	// 		methods: {
+	// 			getAllUsers
+	// 		},
+	// 		data() {
+	// 			return {
+	// 				usersLoading: false
+	// 			};
+	// 		}
+	// 	});
 
-		await flushPromises();
-		expect(wrapper.vm.usersLoading).toBe(false);
-	});
+	// 	await flushPromises();
+	// 	expect(wrapper.vm.usersLoading).toBe(true);
+	// });
 
 	it('tests that the search input exists', async () => {
 		const wrapper = shallowMount(Users, {
@@ -361,15 +399,24 @@ describe('Users', () => {
 		const wrapper = shallowMount(Users, {
 			store,
 			localVue,
+			router,
 			data() {
 				return {
+					searchQuery: '',
 					loading: true
 				};
 			}
 		});
+		wrapper.setData({
+			searchQuery: 'lani'
+		});
 		expect(wrapper.vm.loading).toBe(true);
-		wrapper.vm.searchPage();
+		expect(wrapper.vm.$data.searchQuery).toEqual('lani');
+		await wrapper.vm.searchPage();
 		await flushPromises();
+		wrapper.setData({
+			loading: false
+		});
 		expect(wrapper.vm.loading).toBe(false);
 	});
 
@@ -449,8 +496,11 @@ describe('Users', () => {
 		const wrapper = shallowMount(Users, {
 			store,
 			localVue,
+			router,
 			mocks: {
-				$router: router
+				$router: {
+					push: jest.fn()
+				}
 			}
 		});
 		expect(wrapper.vm.showUser(item));
@@ -490,15 +540,18 @@ describe('Users', () => {
 			}
 		});
 
-		const icon = wrapper.find('.table__wrapper').findAll('td').at(5).find('.dropdown__wrapper');
-		icon.trigger('click');
+		const icon = wrapper
+			.find('.table__wrapper')
+			.findAll('td')
+			.at(5)
+			.find('.dropdown__wrapper');
+		await icon.trigger('click');
 		await wrapper.vm.$nextTick();
 	});
 
 	it('tests that the editUser method is called', async () => {
+		const editUser = jest.spyOn(Users.methods, 'editUser');
 		const wrapper = mount(Users, {
-			store,
-			response: statusRes,
 			data() {
 				return {
 					showEditModal: true,
@@ -506,10 +559,11 @@ describe('Users', () => {
 				};
 			}
 		});
+
 		expect(wrapper.vm.toggleClass).toBe(true);
-		const btn = wrapper.find({ ref: 'editUser' });
-		btn.trigger('click');
-		await expect(wrapper.vm.editUser());
-		expect(wrapper.vm.$data.loading).toBe(false);
+		const btn = await wrapper.findComponent({ ref: 'editUser' });
+		await btn.trigger('click');
+		expect(editUser).toHaveBeenCalled();
+		// expect(wrapper.vm.$data.loading).toBe(false);
 	});
 });

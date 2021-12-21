@@ -23,7 +23,13 @@ export default {
 	data() {
 		return {
 			form: {
+				first_name: '',
+				last_name: '',
 				email: '',
+				organisation: '',
+				monthly_research: '',
+				profession: '',
+				password: '',
 				role: ''
 			},
 			info: {
@@ -72,7 +78,7 @@ export default {
 			count: 0,
 			nextPage: null,
 			admins: null,
-			adminInfo: {},
+			adminInfo: null,
 			currentAdmin: {},
 			adminId: null,
 			searchQuery: null,
@@ -417,7 +423,7 @@ export default {
 		}
 	},
 	watch: {
-		searchQuery: debounce(function (newVal) {
+		searchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.searchPage({ q: newVal });
 			} else {

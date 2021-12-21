@@ -2,7 +2,6 @@ import ToggleDropdown from '@/components/ToggleDropdown';
 import DropdownCheckbox from '@/components/DropdownCheckbox';
 import VHeader from '@/components/Header/searchResult/Header';
 import { mapMutations, mapGetters, mapActions } from 'vuex';
-import DCheckbox from '@/components/DefaultCheckbox';
 import ScreenWidthMixin from '@/mixins/screen-width';
 import DotLoader from '@/components/DotLoader.vue';
 import PageLoad from '../Insights/PageLoad.vue';
@@ -13,7 +12,6 @@ export default {
 	name: 'Bookmarks',
 	components: {
 		ToggleDropdown,
-		DCheckbox,
 		DropdownCheckbox,
 		DotLoader,
 		PageLoad,

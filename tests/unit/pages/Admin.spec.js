@@ -1,11 +1,9 @@
-import Admin from '../../../src/views/Dashboard/Admin';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import Admin from '../../../src/views/Dashboard/Admin';
+import Paginate from 'vuejs-paginate';
 
 jest.useFakeTimers();
-
-import Vuex from 'vuex';
-
-const Paginate = require('vuejs-paginate');
 jest.mock('vuejs-paginate');
 
 const localVue = createLocalVue();
@@ -223,9 +221,8 @@ describe('Admin', () => {
 	});
 
 	it('tests that the editAdmin method is called', async () => {
+		const editAdmin = jest.spyOn(Admin.methods, 'editAdmin');
 		const wrapper = mount(Admin, {
-			store,
-			response: statusRes,
 			data() {
 				return {
 					showEditModal: true,
@@ -234,10 +231,10 @@ describe('Admin', () => {
 			}
 		});
 		expect(wrapper.vm.toggleClass).toBe(true);
-		const btn = wrapper.findAllComponents({ ref: 'editAdmin' });
-		btn.trigger('click');
-		await expect(wrapper.vm.editAdmin());
-		expect(wrapper.vm.$data.loading).toBe(false);
+		const btn = await wrapper.findComponent({ ref: 'editAdmin' });
+		await btn.trigger('click');
+		expect(editAdmin).toHaveBeenCalled();
+		// expect(wrapper.vm.$data.loading).toBe(false);
 	});
 
 	it('tests that the add email method is called', () => {

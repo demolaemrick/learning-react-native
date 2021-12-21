@@ -50,17 +50,60 @@
 								rules="required"
 								placeholder="Name"
 								name="name"
+								width="222px"
+								list="contactName"
+								@keyup="getSuggestion($event, 'name')"
 								v-model="payload.full_name"
 							/>
-							<v-text-input class="search-input" rules="required" placeholder="Title" name="title" v-model="payload.role" />
+							<Datalist
+								:items="nameSuggestions"
+								name="contactName"
+								labelField="suggestionLabel"
+								@selected="setSuggestion"
+								inputId="name"
+							/>
+							<v-text-input
+								class="search-input"
+								rules="required"
+								placeholder="Title"
+								name="title"
+								width="222px"
+								list="contactRole"
+								@keyup="getSuggestion($event, 'role')"
+								v-model="payload.role"
+							/>
+							<Datalist
+								:items="nameSuggestions"
+								name="contactRole"
+								labelField="suggestionLabel"
+								@selected="setSuggestion"
+								inputId="title"
+							/>
 							<v-text-input
 								class="search-input"
 								rules="required"
 								placeholder="Company"
-								name="company"
+								name="companyName"
+								width="222px"
+								list="contactCompany"
+								@keyup="getSuggestion($event, 'company')"
 								v-model="payload.company"
 							/>
-							<v-button :disabled="invalid" id="search_btn" class="search_btn" submitType="submit">
+							<Datalist
+								:items="nameSuggestions"
+								name="contactCompany"
+								labelField="suggestionLabel"
+								@selected="setSuggestion"
+								inputId="companyName"
+							/>
+							<v-text-input
+								class="search-input"
+								placeholder="Company Url (optional)"
+								name="companyUrl"
+								width="222px"
+								v-model="payload.company_Url"
+							/>
+							<v-button :disabled="invalid" id="search_btn" padding="0 31px" class="search_btn" submitType="submit">
 								<template v-if="!loading">Search</template>
 								<Loader v-else />
 							</v-button>

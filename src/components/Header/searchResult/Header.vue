@@ -68,7 +68,8 @@ export default {
 			logout: 'auth/logout',
 			setLastSearchResult: 'auth/setLastSearchResult',
 			setBookmarkValue: 'user/setBookmarkValue',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			setContactPageData: 'user/setContactPageData'
 		}),
 		gotoSettings() {
 			this.showMoreSearchSettings = !this.showMoreSearchSettings;
@@ -77,6 +78,8 @@ export default {
 		logoutUser() {
 			const route = this.$router.currentRoute.fullPath;
 			const email = this.loggedInUser.email;
+
+			this.setContactPageData(null);
 
 			const substring = '/insights?id=';
 			if (route.indexOf(substring) !== -1) {

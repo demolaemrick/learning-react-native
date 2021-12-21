@@ -18,6 +18,7 @@
 				}"
 				:type="type"
 				:placeholder="placeholder"
+				:list="list"
 				v-bind="ariaInput"
 				v-on="$listeners"
 			/>

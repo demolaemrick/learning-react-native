@@ -16,6 +16,8 @@ import VHeader from '@/components/Header/search/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
+import debounce from 'lodash.debounce';
+
 export default {
 	name: 'ContactResearch',
 	mixins: [researchMixin, csvMixins],
@@ -98,21 +100,35 @@ export default {
 			sortQuery: null,
 			deleting: false,
 			subscriptionDone: false,
-			showSuspendedModal: false
+			showSuspendedModal: false,
+			searchQuery: '',
+			showExportModal: false
 		};
 	},
 	async mounted() {
-		if (this.loggedInUser.status === 'suspended') {
+		if (this.getLoggedUser.status === 'suspended') {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
 		}
+
+		let { page, limit, sortQuery, keyword, currentPage, count, nextPage, total } = this.getContactPageData;
+		this.page = page;
+		this.limit = limit;
+		this.sortQuery = sortQuery ? sortQuery : null;
+		this.searchQuery = keyword;
+		this.currentPage = currentPage;
+		this.total = total;
+		this.count = count;
+		this.nextPage = nextPage ? nextPage : null;
+
 		this.pageLoading = true;
 		await this.getHistory();
 	},
 	methods: {
 		...mapMutations({
 			saveSearchPayload: 'search_notes/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			setContactPageData: 'user/setContactPageData'
 		}),
 		...mapActions({
 			research_history: 'search_services/research_history',
@@ -144,13 +160,13 @@ export default {
 				}
 			}
 		},
-		toggleModal() {
-			if (!this.showModal) {
-				this.showModal = true;
+		toggleModal(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
 			} else {
 				this.toggleClass = !this.toggleClass;
 				setTimeout(() => {
-					this.showModal = !this.showModal;
+					this[modal] = !this[modal];
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
@@ -164,8 +180,17 @@ export default {
 		async deleteResearch() {
 			try {
 				this.deleting = true;
-
-				const research = await this.deleteSingleResearch(this.contactToDelete.rowId);
+				let deleteData = null;
+				if (this.checkedContacts.length && !this.contactToDelete.rowId) {
+					deleteData = {
+						rows: this.checkedContacts
+					};
+				} else {
+					deleteData = {
+						id: this.contactToDelete.rowId
+					};
+				}
+				const research = await this.deleteSingleResearch(deleteData);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
 					await this.getHistory();
@@ -184,6 +209,8 @@ export default {
 					showAlert: true
 				});
 				this.deleting = false;
+			} finally {
+				this.checkedContacts = [];
 			}
 		},
 		async uploadBulkResearch() {
@@ -220,18 +247,34 @@ export default {
 		clickCallback(page) {
 			// console.log(page);
 			this.page = page;
+			this.checkedContacts = [];
 			this.getHistory();
 		},
 		async exportCSV() {
 			this.exportLoading = true;
 			try {
-				const response = await this.export_history({ rows: this.checkedContacts });
+				let exportData = null;
+				if (this.checkedContacts.length) {
+					exportData = {
+						rows: this.checkedContacts
+					};
+				}
+				const response = await this.export_history(exportData);
+				// console.log(response.data);
 				let csvContent = 'data:text/csv;charset=utf-8,';
-				csvContent += [response.data];
+				let csvData = new Blob([response.data], {
+					type: csvContent
+				});
 
-				const data = encodeURI(csvContent);
+				// console.log(csvData);
+				var csvUrl = URL.createObjectURL(csvData);
+				// console.log(csvUrl);
+
+				// csvContent += [response.data];
+
+				// const data = encodeURI(csvContent);
 				const link = document.createElement('a');
-				link.setAttribute('href', data);
+				link.setAttribute('href', csvUrl);
 				link.setAttribute('download', 'export.csv');
 				link.click();
 			} catch (error) {
@@ -242,6 +285,7 @@ export default {
 				});
 			} finally {
 				this.exportLoading = false;
+				this.checkedContacts = [];
 			}
 		},
 		async subscribe() {
@@ -280,12 +324,33 @@ export default {
 		},
 		async getHistory() {
 			try {
-				const response = await this.research_history({ page: this.page, limit: this.limit, ...this.sortQuery });
+				// console.log(this.searchQuery);
+				// return;
+				let historyData = {
+					page: this.page,
+					limit: this.limit,
+					...this.sortQuery
+				};
+				if (this.searchQuery && this.searchQuery.trim().length) {
+					historyData.keyword = this.searchQuery;
+				}
+
+				const response = await this.research_history(historyData);
 				this.history = response.data.data.history;
 				this.count = response.data.data.count;
 				this.currentPage = response.data.data.currentPage;
 				this.total = Math.ceil(response.data.data.count / this.limit);
 				this.nextPage = response.data.data.nextPage;
+				this.setContactPageData({
+					page: this.page,
+					limit: this.limit,
+					sortQuery: this.sortQuery,
+					keyword: this.searchQuery,
+					currentPage: response.data.data.currentPage,
+					count: response.data.data.count,
+					nextPage: response.data.data.nextPage,
+					total: Math.ceil(response.data.data.count / this.limit)
+				});
 				this.checkPendngStatus();
 				return true;
 			} catch (error) {
@@ -322,11 +387,15 @@ export default {
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;
+		},
+		clearSearch() {
+			this.searchQuery = '';
 		}
 	},
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser',
+			getContactPageData: 'user/getContactPageData'
 		}),
 		contactImage(item) {
 			const images = item.images;
@@ -334,5 +403,18 @@ export default {
 				return images[Math.floor(Math.random() * images.length)];
 			}
 		}
+	},
+	watch: {
+		searchQuery: debounce(function(newVal) {
+			if (newVal) {
+				// this.searchPage({
+				// 	q: newVal
+				// });
+				this.getHistory();
+			} else {
+				this.getHistory();
+				this.usersLoading = true;
+			}
+		}, 600)
 	}
 };

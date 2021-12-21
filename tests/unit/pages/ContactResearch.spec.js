@@ -1,8 +1,9 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import ContactResearch from '../../../src/views/ContactResearch/ContactResearch.vue';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
+
 const Paginate = require('vuejs-paginate');
 jest.useFakeTimers();
 jest.mock('vuejs-paginate');
@@ -15,6 +16,18 @@ localVue.component('paginate', Paginate);
 jest.mock('axios', () => ({
 	get: Promise.resolve(true)
 }));
+
+const userdetails = {
+	id: '607ea1bf965bbe6414c00b13',
+	first_name: 'Abass',
+	last_name: 'Adamo',
+	email: 'abass@enyata.com',
+	token: '1',
+	status: 'active',
+	is_settings: true,
+	role: 'superadmin',
+	can_generate_email: true
+};
 
 const csv = `
 S/N,FIirst Name,Last Name,Age
@@ -97,6 +110,16 @@ let err = {
 		}
 	}
 };
+const contactPageData = {
+	limit: 10,
+	page: 1,
+	sortQuery: null,
+	keyword: '',
+	currentPage: 0,
+	count: 0,
+	nextPage: null,
+	total: 0
+};
 describe('ContactResearch.vue', () => {
 	let store;
 	let actions;
@@ -142,6 +165,21 @@ describe('ContactResearch.vue', () => {
 						saveSearchPayload: jest.fn()
 					},
 					actions
+				},
+				user: {
+					namespaced: true,
+					getters: {
+						getContactPageData: () => contactPageData
+					},
+					mutations: {
+						setContactPageData: jest.fn()
+					}
+				},
+				auth: {
+					namespaced: true,
+					getters: {
+						getLoggedUser: () => userdetails
+					}
 				}
 			}
 		});
@@ -150,7 +188,19 @@ describe('ContactResearch.vue', () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
-			router
+			router,
+			data() {
+				return {
+					limit: 10,
+					page: 1,
+					total: 0,
+					count: 0,
+					currentPage: 0,
+					nextPage: null,
+					sortQuery: null,
+					pageLoading: true
+				};
+			}
 		});
 
 		expect(wrapper.vm).toBeTruthy();
@@ -169,6 +219,7 @@ describe('ContactResearch.vue', () => {
 					count: 0,
 					currentPage: 0,
 					nextPage: null,
+					sortQuery: null,
 					pageLoading: true
 				};
 			}
@@ -196,6 +247,7 @@ describe('ContactResearch.vue', () => {
 					currentPage: 0,
 					nextPage: null,
 					pageLoading: true,
+					sortQuery: null,
 					history: research.data.data.history
 				};
 			},
@@ -293,7 +345,7 @@ describe('ContactResearch.vue', () => {
 		});
 		wrapper.vm.showModal = true;
 		wrapper.vm.$nextTick();
-		wrapper.vm.toggleModal();
+		wrapper.vm.toggleModal('showModal');
 		expect(wrapper.vm.toggleClass).toBe(false);
 		jest.advanceTimersByTime(500);
 		wrapper.vm.$nextTick();
@@ -304,12 +356,16 @@ describe('ContactResearch.vue', () => {
 	it('should open delete modal', async () => {
 		const rowId = 1;
 		const full_name = 'Jeff Bezos';
+		const e = {
+			stopPropagation: jest.fn(),
+			stopImmediatePropagation: jest.fn()
+		};
 		const wrapper = shallowMount(ContactResearch, {
 			store,
 			localVue,
 			router
 		});
-		wrapper.vm.openDeleteModal(rowId, full_name);
+		wrapper.vm.openDeleteModal(e, rowId, full_name);
 		expect(wrapper.vm.contactToDelete).toStrictEqual({
 			rowId,
 			full_name
@@ -317,6 +373,26 @@ describe('ContactResearch.vue', () => {
 		wrapper.vm.$nextTick();
 		expect(wrapper.vm.showModal).toBe(true);
 	});
+
+	it('should open export all contacts modal', async () => {
+		const wrapper = mount(ContactResearch, {
+			store,
+			localVue,
+			data() {
+				return {
+					showExportModal: true
+				};
+			}
+		});
+
+		expect(wrapper.vm.toggleClass).toBe(true);
+		let btn = await wrapper.find({
+			ref: 'exportCsvBtn'
+		});
+		await btn.trigger('click');
+		// expect(wrapper.vm.showExportModal).toBe(false);
+	});
+
 	it('upload bulk research', async () => {
 		const wrapper = shallowMount(ContactResearch, {
 			store,

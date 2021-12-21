@@ -87,7 +87,7 @@ export default {
 					value: 'company_research'
 				}
 			],
-			params: null,
+			// params: null,
 			isFromAdmin: false,
 			sendingNote: false,
 			bookmarkCount: 0
@@ -96,7 +96,7 @@ export default {
 
 	computed: {
 		...mapGetters({
-			loggedInUser: 'auth/getLoggedUser'
+			getLoggedUser: 'auth/getLoggedUser'
 		}),
 		getLinkedinUrl: {
 			get() {
@@ -478,7 +478,7 @@ export default {
 		}
 	},
 	watch: {
-		contactSearchQuery: debounce(function (newVal) {
+		contactSearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.contactSearch(newVal);
 			} else {
@@ -486,7 +486,7 @@ export default {
 				this.contactFilter = null;
 			}
 		}, 600),
-		companySearchQuery: debounce(function (newVal) {
+		companySearchQuery: debounce(function(newVal) {
 			if (newVal) {
 				this.companySearch(newVal);
 			} else {

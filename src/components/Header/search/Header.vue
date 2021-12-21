@@ -20,7 +20,33 @@
 							<img src="@/assets/icons/carret-down.svg" svg-inline />
 						</template>
 						<template #dropdown-items>
-							<li
+							<li v-for="(dropdown, i) in dropdowns" :key="i">
+								<p
+									class="dropdown__item"
+									v-if="dropdown.path && dropdown.for === 'all'"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
+								<p
+									class="dropdown__item"
+									v-else-if="
+										loggedInUser.role !== 'user' && loggedInUser.status !== 'suspended' && dropdown.name === 'Dashboard'
+									"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
+								<p
+									class="dropdown__item"
+									v-else-if="dropdown.path && loggedInUser.status !== 'suspended'"
+									@click="$router.push({ path: dropdown.path })"
+								>
+									{{ dropdown.name }}
+								</p>
+								<p class="dropdown__item" v-if="dropdown.name === 'Logout'" @click="logoutUser">{{ dropdown.name }}</p>
+							</li>
+							<!-- <li
 								v-if="loggedInUser.status !== 'suspended'"
 								class="dropdown__item"
 								@click="$router.push({ name: 'ApiPortal' })"
@@ -36,7 +62,7 @@
 								Dashboard
 							</li>
 							<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="gotoSettings">Settings</li>
-							<li class="dropdown__item" @click="logoutUser">Logout</li>
+							<li class="dropdown__item" @click="logoutUser">Logout</li> -->
 						</template>
 					</v-toggle-dropdown>
 				</div>
@@ -58,6 +84,37 @@ export default {
 			default: true
 		}
 	},
+	data() {
+		return {
+			dropdowns: [
+				{
+					name: 'API Keys',
+					path: '/api-portal',
+					for: 'active'
+				},
+				{
+					name: 'Bookmarks',
+					path: '/bookmarks',
+					for: 'all'
+				},
+				{
+					name: 'Dashboard',
+					path: '/dashboard/users',
+					for: 'active'
+				},
+				{
+					name: 'Settings',
+					path: '/settings',
+					for: 'active'
+				},
+				{
+					name: 'Logout',
+					path: '',
+					for: 'all'
+				}
+			]
+		};
+	},
 	components: {
 		VToggleDropdown,
 		Logo
@@ -71,19 +128,31 @@ export default {
 		...mapMutations({
 			logout: 'auth/logout',
 			setBookmarkValue: 'user/setBookmarkValue',
-			saveSearchedResult: 'search_services/saveSearchedResult'
+			saveSearchedResult: 'search_services/saveSearchedResult',
+			setContactPageData: 'user/setContactPageData'
 		}),
 		gotoSettings() {
-			this.showMoreSearchSettings = !this.showMoreSearchSettings;
+			// this.showMoreSearchSettings = !this.showMoreSearchSettings;
 			this.$router.push('/settings');
 		},
 		goToBookmarks() {
 			this.$router.push({ name: 'Bookmarks' });
-			this.setBookmarkValue('allBookmarks');
+			// this.setBookmarkValue('allBookmarks');
 		},
 		logoutUser() {
-			this.logout();
-			this.$router.push('/login');
+			const route = this.$router.currentRoute.fullPath;
+			const email = this.loggedInUser.email;
+
+			const substring = '/insights?id=';
+			if (route.indexOf(substring) !== -1) {
+				this.setLastSearchResult({ email, route });
+				this.logout();
+				this.$router.push('/login');
+			} else {
+				this.logout();
+				this.setContactPageData(null);
+				this.$router.push('/login');
+			}
 		}
 	}
 };

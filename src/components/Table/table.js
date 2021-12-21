@@ -16,6 +16,9 @@ export default {
 		},
 		loading: {
 			default: false
+		},
+		allchecked: {
+			default: false
 		}
 	},
 	data() {

@@ -15,6 +15,18 @@ export default {
 			return Promise.reject(error);
 		}
 	},
+	researchSuggestions: async ({ commit }, { type, query }) => {
+		let url = `research/suggestions?${type}=${query}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+
 	content: async ({ commit }, data) => {
 		const url = 'content';
 		commit('resetReq', null, { root: true });
@@ -72,7 +84,7 @@ export default {
 		}
 	},
 	export_history: async ({ commit }, data) => {
-		const url = 'research/export';
+		const url = data ? 'research/export' : 'research/export-all';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
@@ -93,12 +105,12 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	deleteSingleResearch: async ({ commit }, id) => {
-		const url = `research/single/${id}`;
+	deleteSingleResearch: async ({ commit }, data) => {
+		const url = data.id ? `research/single/${data.id}` : 'research/bulk-delete';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
-			const response = await api.delete(url);
+			const response = await api.delete(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

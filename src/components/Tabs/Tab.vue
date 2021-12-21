@@ -57,7 +57,7 @@ export default {
 	animation: fadeIn 0.3s;
 	overflow-x: scroll;
 	width: 100%;
-	max-width: 930px;
+	// max-width: 930px;
 }
 @-webkit-keyframes fadeIn {
 	0% {
