@@ -117,7 +117,6 @@ export default {
 		},
 		async submitSearch() {
 			this.loading = true;
-			console.log(this.payload);
 			try {
 				await this.research(this.payload);
 				this.saveSearchPayload(this.payload);
@@ -169,22 +168,29 @@ export default {
 					break;
 			}
 		},
-		async getSuggestion($event) {
-			const searchQuery = $event.target.value;
-			if (searchQuery.length < 2) {
+		async getSuggestion(event, queryType) {
+			const searchQuery = event.target.value;
+			// when data list suggestion is selected, weirdly
+			// the keyup event is still triggered, but with
+			// keyCode as undefined. So we'll check keyCode to
+			// validate if it's an actuall keyup event.
+			const notAnActualKeyPress = event.keyCode === undefined
+			if (searchQuery.length < 2 || notAnActualKeyPress) {
 				return;
 			}
 
 			try {
-				const response = await this.researchSuggestions(searchQuery);
-				console.log('suggestions', response);
+				const response = await this.researchSuggestions({
+					type: queryType,
+					query: searchQuery
+				})
+
 				let suggestions = response.data.data;
 				suggestions = suggestions.map((item) => {
 					const label = `${item.name} (${item.role}, ${item.company})`;
 					return { ...item, suggestionLabel: label };
 				});
 				this.nameSuggestions = suggestions;
-				console.log(suggestions);
 			} catch (error) {
 				this.showAlert({
 					status: 'error',

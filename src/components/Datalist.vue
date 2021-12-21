@@ -31,7 +31,7 @@ export default {
 	},
 	methods: {
 		emitSelected(event) {
-			console.log('selected event');
+			// console.log('selected event');
 			const value = event.target.value;
 			const selected = this.items.find((item) => {
 				return item[this.labelField] === value;

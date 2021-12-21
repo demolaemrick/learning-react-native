@@ -52,7 +52,7 @@
 								name="name"
 								width="222px"
 								list="contactName"
-								@keypress="getSuggestion($event)"
+								@keyup="getSuggestion($event, 'name')"
 								v-model="payload.full_name"
 							/>
 							<Datalist
@@ -68,15 +68,33 @@
 								placeholder="Title"
 								name="title"
 								width="222px"
+								list="contactRole"
+								@keyup="getSuggestion($event, 'role')"
 								v-model="payload.role"
+							/>
+							<Datalist
+								:items="nameSuggestions"
+								name="contactRole"
+								labelField="suggestionLabel"
+								@selected="setSuggestion"
+								inputId="title"
 							/>
 							<v-text-input
 								class="search-input"
 								rules="required"
 								placeholder="Company"
 								name="companyName"
-								v-model="payload.company"
 								width="222px"
+								list="contactCompany"
+								@keyup="getSuggestion($event, 'company')"
+								v-model="payload.company"
+							/>
+							<Datalist
+								:items="nameSuggestions"
+								name="contactCompany"
+								labelField="suggestionLabel"
+								@selected="setSuggestion"
+								inputId="companyName"
 							/>
 							<v-text-input
 								class="search-input"
