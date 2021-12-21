@@ -15,7 +15,7 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	researchSuggestions: async ({ commit }, {type, query}) => {
+	researchSuggestions: async ({ commit }, { type, query }) => {
 		let url = `research/suggestions?${type}=${query}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });

@@ -174,7 +174,7 @@ export default {
 			// the keyup event is still triggered, but with
 			// keyCode as undefined. So we'll check keyCode to
 			// validate if it's an actuall keyup event.
-			const notAnActualKeyPress = event.keyCode === undefined
+			const notAnActualKeyPress = event.keyCode === undefined;
 			if (searchQuery.length < 2 || notAnActualKeyPress) {
 				return;
 			}
@@ -183,7 +183,7 @@ export default {
 				const response = await this.researchSuggestions({
 					type: queryType,
 					query: searchQuery
-				})
+				});
 
 				let suggestions = response.data.data;
 				suggestions = suggestions.map((item) => {
