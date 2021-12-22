@@ -660,7 +660,8 @@
 							<div class="flex flex__item-center postion" v-if="company_details.website">
 								<img style="width: 24px" src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline />
 								<p class="ml">
-									<a class="main-info" :href="validateURL(company_details.website)" target="_blank">Website</a>
+									{{ contact_details.company }}
+									<a class="main-info" :href="validateURL(company_details.website)" target="_blank">website</a>
 								</p>
 							</div>
 
