@@ -657,6 +657,13 @@
 								</p>
 							</div>
 
+							<div class="flex flex__item-center postion" v-if="company_details.website">
+								<img style="width: 24px" src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline />
+								<p class="ml">
+									<a class="main-info" :href="validateURL(company_details.website)" target="_blank">Website</a>
+								</p>
+							</div>
+
 							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" alt="open jobs icon" svg-inline />
 								<p class="ml">Have {{ company_insights.snapshot.jobs }} <span class="main-info">open jobs</span></p>
