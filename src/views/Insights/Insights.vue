@@ -657,13 +657,13 @@
 								</p>
 							</div>
 
-							<div class="flex flex__item-center postion" v-if="company_details.website && contact_details.company">
+							<!-- <div class="flex flex__item-center postion" v-if="company_details.website && contact_details.company">
 								<img style="width: 24px" src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline />
 								<p class="ml">
 									{{ contact_details.company }}
 									<a class="main-info" :href="validateURL(company_details.website)" target="_blank">website</a>
 								</p>
-							</div>
+							</div> -->
 
 							<div class="flex flex__item-center postion" v-if="company_insights.jobs.length > 0">
 								<img src="@/assets/icons/jobs.svg" alt="open jobs icon" svg-inline />
