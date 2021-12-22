@@ -185,6 +185,10 @@ export default {
 					deleteData = {
 						rows: this.checkedContacts
 					};
+					if (this.checkedContacts.length === this.limit && this.page === this.total) {
+						let page = this.page - 1;
+						this.page = page !== 0 ? page : 1;
+					}
 				} else {
 					deleteData = {
 						id: this.contactToDelete.rowId
