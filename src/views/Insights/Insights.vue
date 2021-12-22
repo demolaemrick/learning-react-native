@@ -657,7 +657,7 @@
 								</p>
 							</div>
 
-							<div class="flex flex__item-center postion" v-if="company_details.website">
+							<div class="flex flex__item-center postion" v-if="company_details.website && contact_details.company">
 								<img style="width: 24px" src="@/assets/icons/world-icon.svg" alt="website icon" svg-inline />
 								<p class="ml">
 									{{ contact_details.company }}
