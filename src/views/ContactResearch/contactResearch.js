@@ -197,8 +197,8 @@ export default {
 				const research = await this.deleteSingleResearch(deleteData);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
-					this.searchQuery = '';
-					this.page = 1;
+					// this.searchQuery = '';
+					// this.page = 1;
 					await this.getHistory();
 					this.toggleModal('showModal');
 					this.showAlert({
@@ -417,8 +417,10 @@ export default {
 				// this.searchPage({
 				// 	q: newVal
 				// });
-				this.page = 1;
-				this.getHistory();
+				if (!this.pageLoading) {
+					this.page = 1;
+					this.getHistory();
+				}
 			} else {
 				this.getHistory();
 				this.usersLoading = true;
