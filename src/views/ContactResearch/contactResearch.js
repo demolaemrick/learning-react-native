@@ -197,6 +197,8 @@ export default {
 				const research = await this.deleteSingleResearch(deleteData);
 				const { status, statusText } = research;
 				if (status === 200 && statusText === 'OK') {
+					// this.searchQuery = '';
+					// this.page = 1;
 					await this.getHistory();
 					this.toggleModal('showModal');
 					this.showAlert({
@@ -214,6 +216,7 @@ export default {
 				});
 				this.deleting = false;
 			} finally {
+				this.searchQuery = '';
 				this.checkedContacts = [];
 			}
 		},
@@ -411,13 +414,13 @@ export default {
 	watch: {
 		searchQuery: debounce(function (newVal) {
 			if (newVal) {
-				// this.searchPage({
-				// 	q: newVal
-				// });
-				this.getHistory();
+				if (!this.pageLoading) {
+					this.page = 1;
+					this.getHistory();
+				}
 			} else {
+				this.page = 1;
 				this.getHistory();
-				this.usersLoading = true;
 			}
 		}, 600)
 	}
