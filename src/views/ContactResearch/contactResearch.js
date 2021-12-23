@@ -414,16 +414,13 @@ export default {
 	watch: {
 		searchQuery: debounce(function (newVal) {
 			if (newVal) {
-				// this.searchPage({
-				// 	q: newVal
-				// });
 				if (!this.pageLoading) {
 					this.page = 1;
 					this.getHistory();
 				}
 			} else {
+				this.page = 1;
 				this.getHistory();
-				this.usersLoading = true;
 			}
 		}, 600)
 	}
