@@ -23,6 +23,7 @@ const Users = () => import(/* webpackChunkName: 'Users' */ '../views/Dashboard/U
 const User = () => import(/* webpackChunkName: 'User' */ '../views/Dashboard/User');
 const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
 const ChoosePlatform = () => import(/* webpackChunkName: 'ChoosePlatform' */ '../views/ChoosePlatform');
+const DataPlatform = () => import(/* webpackChunkName: 'DataPlatform' */ '../views/DataPlatform');
 
 Vue.use(VueRouter);
 
@@ -162,6 +163,12 @@ const routes = [
 		path: '/choose-platform',
 		name: 'ChoosePlatform',
 		component: ChoosePlatform,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/data-platform',
+		name: 'DataPlatform',
+		component: DataPlatform,
 		beforeEnter: requireUserAuth
 	}
 ];
