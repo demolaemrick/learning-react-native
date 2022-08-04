@@ -22,6 +22,7 @@ const Admin = () => import(/* webpackChunkName: 'Admin' */ '../views/Dashboard/A
 const Users = () => import(/* webpackChunkName: 'Users' */ '../views/Dashboard/Users');
 const User = () => import(/* webpackChunkName: 'User' */ '../views/Dashboard/User');
 const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
+const ChoosePlatform = () => import(/* webpackChunkName: 'ChoosePlatform' */ '../views/ChoosePlatform');
 
 Vue.use(VueRouter);
 
@@ -155,6 +156,12 @@ const routes = [
 		path: '/api-portal',
 		name: 'ApiPortal',
 		component: Api,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/choose-platform',
+		name: 'ChoosePlatform',
+		component: ChoosePlatform,
 		beforeEnter: requireUserAuth
 	}
 ];
