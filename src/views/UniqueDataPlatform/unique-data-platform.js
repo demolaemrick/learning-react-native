@@ -119,8 +119,8 @@ export default {
 		this.count = count;
 		this.nextPage = nextPage ? nextPage : null;
 
-		this.pageLoading = true;
-		await this.getHistory();
+		// this.pageLoading = true;
+		// await this.getHistory();
 	},
 	methods: {
 		...mapMutations({
@@ -229,11 +229,11 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		clickResearch(item) {
+		clickResearch() {
 			// if (item.status.statusCode !== 'IN_PROGRESS') {
 			// 	this.$router.push({ name: 'Insights', query: { id: item.rowId } });
 			// }
-			this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.search_id } });
+			// this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.search_id } });
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;

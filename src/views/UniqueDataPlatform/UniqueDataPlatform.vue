@@ -29,14 +29,15 @@
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.title }}
 						</td>
-						<td class="table__row-item row-link" @click="clickResearch(item)">
+						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.company }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.company_ll }}
+							<!-- {{ item.company_ll }} -->
+							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.company_contact_ll }}
+							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.outreach_status }}

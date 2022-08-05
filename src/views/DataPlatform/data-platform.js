@@ -90,7 +90,7 @@ export default {
 				outreach_owner_email: 'jane@acme.com',
 				bdr_owner: 'John Doe',
 				date: 'July 1, 2022',
-				status: 'Ready'
+				status: 'status'
 			},
 			count: 0,
 			currentPage: 0,
@@ -127,8 +127,8 @@ export default {
 		this.count = count;
 		this.nextPage = nextPage ? nextPage : null;
 
-		this.pageLoading = true;
-		await this.getHistory();
+		// this.pageLoading = true;
+		// await this.getHistory();
 	},
 	methods: {
 		...mapMutations({
