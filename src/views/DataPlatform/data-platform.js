@@ -231,7 +231,7 @@ export default {
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;
-		},
+		}
 	},
 	computed: {
 		...mapGetters({

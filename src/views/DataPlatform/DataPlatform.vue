@@ -4,19 +4,11 @@
 		<main class="main-section">
 			<div class="text__title main_title flex flex-spaced">
 				<h2>My Data Enrichments</h2>
-				<v-button class="btn__import__contact">Start new enrichment</v-button>
+				<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })">Start new enrichment</v-button>
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<v-table
-					:tableHeaders="tableHeaders"
-					:tableData="history"
-					theme="contact__research"
-					:loading="pageLoading"
-					@checkAll="checkAll"
-					@sortTable="sortTable"
-					:allchecked="checkedContacts.length === limit"
-				>
+				<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" :loading="pageLoading">
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
 							<input

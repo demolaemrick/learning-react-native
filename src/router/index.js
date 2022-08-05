@@ -24,6 +24,7 @@ const User = () => import(/* webpackChunkName: 'User' */ '../views/Dashboard/Use
 const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
 const ChoosePlatform = () => import(/* webpackChunkName: 'ChoosePlatform' */ '../views/ChoosePlatform');
 const DataPlatform = () => import(/* webpackChunkName: 'DataPlatform' */ '../views/DataPlatform');
+const NewEnrichment = () => import(/* webpackChunkName: 'NewEnrichment' */ '../views/NewEnrichment');
 
 Vue.use(VueRouter);
 
@@ -169,6 +170,12 @@ const routes = [
 		path: '/data-platform',
 		name: 'DataPlatform',
 		component: DataPlatform,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/new-enrichment',
+		name: 'NewEnrichment',
+		component: NewEnrichment,
 		beforeEnter: requireUserAuth
 	}
 ];
