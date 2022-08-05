@@ -8,56 +8,53 @@
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<v-table :tableHeaders="tableHeaders" :tableData="history" theme="contact__research" :loading="pageLoading">
+				<v-table
+					:tableHeaders="tableHeaders"
+					:tableData="Array(4).fill(tableData)"
+					theme="contact__research"
+					:loading="pageLoading"
+				>
 					<template name="table-row" slot-scope="{ item }" class="pu">
-						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
-							<input
-								type="checkbox"
-								:value="item.rowId"
-								v-model="checkedContacts"
-								:disabled="item.status.statusCode === 'IN_PROGRESS' || item.status.statesCode === 'IN_PROGRESS'"
-							/>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.search_id }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<div class="table__td__name">
-								<template v-if="item.status.statusCode === 'READY' && item.images && item.images.length">
-									<img class="searchImage" :src="item.images[0]" alt="" />
-								</template>
-
-								<div v-else class="initials__logo">
-									{{ getInitials(item.full_name) }}
-								</div>
-
-								<div class="name__email__wrapper">
-									<div class="text__name">{{ stringElipsis(item.full_name, 15) }}</div>
-									<div class="text__email">{{ item.email }}</div>
-								</div>
-							</div>
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.company }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="!item.role">-</template>
-							<template v-else
-								><p class="text__title">{{ item.role }}</p></template
-							>
+							{{ item.search_type }}
 						</td>
 						<td class="table__row-item row-link" @click="clickResearch(item)">
-							<template v-if="!item.linkedin"><p class="table__td__link">-</p></template>
-							<template v-else
-								><a class="table__td__link" :href="validateURL(item.linkedin)" target="_blank">
-									<img src="@/assets/icons/link.svg" svg-inline /> </a
-							></template>
+							{{ item.original_data_source }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<template v-if="item.research_score === 0.1">-</template>
-							<template v-else>{{ (item.research_score * 100).toFixed(2) }}%</template>
-						</td>
-						<td class="table__row-item" @click="clickResearch">
-							{{ item.updatedAt | moment('from', 'now') }}
+							{{ item.original_data_source }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.total_contacts }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.emails_found }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.client }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.outreach_owner_email }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.bdr_owner }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.date }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							<span class="status_ready">
+								<span class="white__circle">
+									<span class="pin"></span>
+								</span>
+								<span class="text">{{ item.status }}</span>
+							</span>
+						</td>
+
+						<!-- <td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
 								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
 									<span class="white__circle">
@@ -78,7 +75,7 @@
 									<span class="text">{{ item.status.message }}</span>
 								</span>
 							</div>
-						</td>
+						</td> -->
 					</template>
 				</v-table>
 				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
@@ -120,6 +117,7 @@
 
 <script src="./data-platform.js"></script>
 <style lang="scss" scoped src="./data-platform.scss"></style>
+<style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style>
 <style lang="scss">
 .table--contact__research {
 	tbody {

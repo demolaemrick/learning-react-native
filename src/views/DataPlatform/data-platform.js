@@ -79,6 +79,19 @@ export default {
 					name: 'Status'
 				}
 			],
+			tableData: {
+				search_id: 'ABc',
+				search_type: 'Lead',
+				parameters: 'Industry: finance CompanySize: 1-500 Seniority: VP+Keywords',
+				original_data_source: 'Linkedin Sales Nav Saved Search',
+				total_contacts: '500',
+				emails_found: '300',
+				client: 'Acme',
+				outreach_owner_email: 'jane@acme.com',
+				bdr_owner: 'John Doe',
+				date: 'July 1, 2022',
+				status: 'Ready'
+			},
 			count: 0,
 			currentPage: 0,
 			history: null,
