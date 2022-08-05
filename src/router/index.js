@@ -99,7 +99,7 @@ const routes = [
 		beforeEnter: noAuthOnly
 	},
 	{
-		path: '/',
+		path: '/search',
 		name: 'Search',
 		component: Search,
 		beforeEnter: requireUserAuth,
@@ -162,7 +162,7 @@ const routes = [
 		beforeEnter: requireUserAuth
 	},
 	{
-		path: '/choose-platform',
+		path: '/',
 		name: 'ChoosePlatform',
 		component: ChoosePlatform,
 		beforeEnter: requireUserAuth

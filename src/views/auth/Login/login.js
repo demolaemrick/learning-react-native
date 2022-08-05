@@ -37,8 +37,11 @@ export default {
 						: historyLength
 							? 'contact-research'
 							: '/';
+				
+				console.log(path);
+				
 
-				this.$router.push({ path }).then(() => {
+				this.$router.push({ name: 'ChoosePlatform' }).then(() => {
 					this.lastSearch.route && this.setLastSearchResult({});
 				});
 				return true;
@@ -58,7 +61,7 @@ export default {
 				if (status === 200 && statusText === 'OK') {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
-						const loggedOutFromInsights = this.lastSearch?.route && this.lastSearch.email === this.form.email
+						const loggedOutFromInsights = this.lastSearch?.route && this.lastSearch.email === this.form.email;
 						const path = loggedOutFromInsights ? this.lastSearch.route : '/dashboard/users';
 
 						this.$router.push({ path }).then(() => {
