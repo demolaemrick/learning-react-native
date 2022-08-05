@@ -23,14 +23,21 @@
 				</div>
 				<form @submit.prevent="submit" :class="animation">
 					<div class="form-container-input" v-for="(field, index) in formGroup[formPosition].fields" :key="'field' + index">
+						<div class="select-group flex flex__column" v-if="!isLastFormPosition">
+							<label for="">{{ field.label }}</label>
+							<select :name="field.label" id="">
+								<option value="">Select</option>
+							</select>
+						</div>
+
 						<text-input
 							type="email"
-							rules="required"
 							labelVisible
 							v-model="field.value"
 							width="100%"
 							:name="field.label"
 							placeholder="yourmail@email.com"
+							v-else
 						/>
 					</div>
 					<div class="flex mt-2" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
@@ -74,7 +81,9 @@
 								</p>
 							</div>
 							<div class="config__btn__wrapper">
-								<c-button buttonType="primary">Return to Data Platform</c-button>
+								<c-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"
+									>Return to Data Platform</c-button
+								>
 							</div>
 						</div>
 					</div>
