@@ -22,6 +22,10 @@ const Admin = () => import(/* webpackChunkName: 'Admin' */ '../views/Dashboard/A
 const Users = () => import(/* webpackChunkName: 'Users' */ '../views/Dashboard/Users');
 const User = () => import(/* webpackChunkName: 'User' */ '../views/Dashboard/User');
 const Api = () => import(/* webpackChunkName: 'ApiPortal' */ '../views/ApiPortal');
+const ChoosePlatform = () => import(/* webpackChunkName: 'ChoosePlatform' */ '../views/ChoosePlatform');
+const DataPlatform = () => import(/* webpackChunkName: 'DataPlatform' */ '../views/DataPlatform');
+const NewEnrichment = () => import(/* webpackChunkName: 'NewEnrichment' */ '../views/NewEnrichment');
+const UniqueDataPlatform = () => import(/* webpackChunkName: 'UniqueDataPlatform' */ '../views/UniqueDataPlatform');
 
 Vue.use(VueRouter);
 
@@ -95,7 +99,7 @@ const routes = [
 		beforeEnter: noAuthOnly
 	},
 	{
-		path: '/',
+		path: '/search',
 		name: 'Search',
 		component: Search,
 		beforeEnter: requireUserAuth,
@@ -155,6 +159,30 @@ const routes = [
 		path: '/api-portal',
 		name: 'ApiPortal',
 		component: Api,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/',
+		name: 'ChoosePlatform',
+		component: ChoosePlatform,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/data-platform',
+		name: 'DataPlatform',
+		component: DataPlatform,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/new-enrichment',
+		name: 'NewEnrichment',
+		component: NewEnrichment,
+		beforeEnter: requireUserAuth
+	},
+	{
+		path: '/data-platform/:id',
+		name: 'UniqueDataPlatform',
+		component: UniqueDataPlatform,
 		beforeEnter: requireUserAuth
 	}
 ];

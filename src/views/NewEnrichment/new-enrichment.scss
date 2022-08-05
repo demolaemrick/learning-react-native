@@ -1,0 +1,182 @@
+@import '../../assets/scss/main.scss';
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
+    position: relative;
+
+    @include query(mobile, max) {
+        padding: 0 25px;
+    }
+
+    .header {
+        margin: 12% 0 33px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .main {
+        max-width: 496px;
+        margin: 12% auto;
+        padding: 32px;
+        border: 1px solid #EAEBEB;
+        border-radius: 4px;
+    }
+}
+
+.form-group {
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #333758;
+    letter-spacing: -0.12px;
+    font-family: "Karla", sans-serif;
+    font-weight: 400;
+    position: relative;
+}
+
+.main {
+
+    @include query(mobile, max) {
+        @include flexcol;
+        margin: 20px 0;
+    }
+
+    .form-container {
+        width: 100%;
+       
+        &-header {
+            // max-width: 341px;
+            h3 {
+                font-size: 32px;
+                letter-spacing: -0.5px;
+                text-align: center;
+                margin-bottom: 16px;
+
+            }
+            p {
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.67;
+                letter-spacing: -0.12px;
+                text-align: center;
+            }
+            .details-wrapper{
+                
+                background: #FBFBFF;
+                border-radius: 4px;
+                padding: 14px 20px;
+
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    list-style-type: disc !important;
+
+                    li {
+                        font-size: 14px;
+                        font-weight: 400;
+
+                        a{
+                            color: #3B48F7;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-input {
+            width: 100%;
+            margin-top: 32px;
+
+            .select-group {
+                
+                label{
+                    font-size: 14px;
+                    margin-bottom: 12px !important;
+                    color: #989AAA;
+                }
+                select{
+                    height: 48px;
+                    padding-left: 16px;
+                    background: #FFFFFF;
+                    border: 1px solid #D7DCE0;
+                    border-radius: 4px;
+                    color: #333758;
+                   
+                }
+            }
+        }
+      
+    }
+}
+
+
+
+.animation-in {
+    transform-origin: left;
+    animation: in .6s ease-in-out;
+}
+
+.animation-out {
+    transform-origin: bottom left;
+    animation: out .6s ease-in-out;
+}
+
+// Modal
+.config__modal__wrapper {
+    .config__modal__header {
+        .config__modal__header__btn__wrapper {
+            display: flex;
+            justify-content: flex-end;
+
+            .config__btn__close {
+                padding: 1em;
+                border: 0;
+                background: 0;
+                outline: none;
+
+                .btn__content__wrapper {
+                    .text {
+                        font-family: Karla;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 15px;
+                        letter-spacing: -0.4px;
+                        color: #333758;
+                    }
+
+                    .icon {}
+                }
+            }
+        }
+    }
+
+    .config__modal__content {
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .config__text__wrapper {
+            p {
+                margin: 1em 0;
+                text-align: center;
+                font-family: Karla;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 18px;
+                line-height: 34px;
+                letter-spacing: -0.3px;
+                color: #202f44;
+            }
+        }
+
+        .config__btn {
+            padding: 10px 40px;
+        }
+    }
+}
