@@ -46,7 +46,7 @@
 }
 
 .main-section {
-    margin-block: 100px;
+    margin-block: 40px;
 
     .hero {
         max-width: 535px;
@@ -306,6 +306,13 @@ thead.table__header {
 
 .text__title {
     text-transform: capitalize;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+
+    color: #333758;
 }
 
 .main_title {
@@ -472,7 +479,12 @@ thead.table__header {
 }
 
  .emails-text {
+    font-style: normal;
     font-weight: 600;
     font-size: 18px;
-     color: #333758;
+    line-height: 24px;
+    text-align: right;
+    letter-spacing: -0.64px;
+    color: #333758;
+    margin-right: 40px;
  }

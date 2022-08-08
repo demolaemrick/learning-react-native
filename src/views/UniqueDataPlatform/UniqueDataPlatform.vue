@@ -2,15 +2,15 @@
 	<div class="container container--lg">
 		<v-header />
 		<main class="main-section">
-			<div class="text__title main_title flex flex-spaced">
+			<div class="main_title flex flex-spaced">
 				<div class="flex flex__item-center">
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
 						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 					</div>
-					<h2>Unique ID/tag</h2>
+					<h2 class="text__title">Unique ID/tag</h2>
 				</div>
 				<div class="flex flex__item-center">
-					<p class="mr-3 emails-text">Emails Found: 50/100 (50%)</p>
+					<p class="emails-text">Emails Found: 50/100 (50%)</p>
 					<v-button class="btn__import__contact">Export to Outreach.io</v-button>
 				</div>
 			</div>
@@ -143,7 +143,7 @@
 <script src="./unique-data-platform.js"></script>
 <style lang="scss" scoped src="./unique-data-platform.scss"></style>
 <!-- <style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style> -->
-<style scoped lang="scss">
+<style lang="scss">
 .table--contact__research {
 	tbody {
 		.table__row {
