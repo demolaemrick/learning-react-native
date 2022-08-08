@@ -51,6 +51,33 @@
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.seniority }}
 						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.function }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_headcount }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_industry }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_revenue }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_city }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_state }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_country }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_keywords }}
+						</td>
+						<td class="table__row-item" @click="clickResearch(item)">
+							{{ item.company_websites }}
+						</td>
 
 						<!-- <td class="table__row-item" @click="clickResearch(item)">
 							<div class="table__td__status">
@@ -115,8 +142,8 @@
 
 <script src="./unique-data-platform.js"></script>
 <style lang="scss" scoped src="./unique-data-platform.scss"></style>
-<style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style>
-<style lang="scss">
+<!-- <style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style> -->
+<style scoped lang="scss">
 .table--contact__research {
 	tbody {
 		.table__row {
@@ -162,5 +189,10 @@
 			}
 		}
 	}
+}
+.table {
+	overflow: auto;
+	display: block;
+	width: 100%;
 }
 </style>
