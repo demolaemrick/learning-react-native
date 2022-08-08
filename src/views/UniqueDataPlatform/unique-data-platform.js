@@ -106,9 +106,12 @@ export default {
 				company: 'Enyata',
 				company_ll: 'link-url',
 				company_contact_ll: 'link-url',
-				outreach_status: 'ready',
+				status: {
+					statusCode: 'READY',
+					message: 'Ready'
+				},
 				email: 'Kingsleyomin@enyata.com',
-				email_verification: 'valid',
+				email_verification: 'Valid',
 				seniority: 'Manager',
 				function: 'Function',
 				company_headcount: '200',

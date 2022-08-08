@@ -24,7 +24,7 @@
 							</td>
 							<td class="table__row-item" @click="clickResearch(item)">
 								<div v-for="[key, value] of Object.entries(item.parameters)" :key="key">
-									<strong class="bold"> {{ key }}: </strong>
+									<strong> {{ key }}: </strong>
 									<span>{{ value }}</span>
 								</div>
 							</td>
