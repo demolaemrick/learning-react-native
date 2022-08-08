@@ -1,7 +1,8 @@
 <template>
 	<div>
-		<v-header />
 		<div class="container container--lg">
+			<v-header />
+
 			<main class="main-section">
 				<div class="main_title flex flex-spaced ml-2">
 					<h2 class="text__title">My Data Enrichments</h2>
