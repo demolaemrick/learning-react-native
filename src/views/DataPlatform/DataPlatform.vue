@@ -23,10 +23,10 @@
 								{{ item.search_type }}
 							</td>
 							<td class="table__row-item" @click="clickResearch(item)">
-								{{ item.parameters }}
-								<template>
-									<span> </span>
-								</template>
+								<div v-for="[key, value] of Object.entries(item.parameters)" :key="key">
+									<strong class="bold"> {{ key }}: </strong>
+									<span>{{ value }}</span>
+								</div>
 							</td>
 							<td class="table__row-item row-link" @click="clickResearch(item)">
 								{{ item.original_data_source }}
