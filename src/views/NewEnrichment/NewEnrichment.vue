@@ -57,7 +57,7 @@
 			</div>
 		</main>
 		<template v-if="showModal">
-			<v-modal position="center" :useSlot="false">
+			<v-modal position="center" :useSlot="false" marginTop="6%">
 				<template #settings>
 					<div class="config__modal__wrapper">
 						<div class="config__modal__header">
