@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="contact__research__menu"></div>
-			<div class="mt-2">
+			<div class="mt-1">
 				<v-table
 					:tableHeaders="tableHeaders"
 					:tableData="Array(4).fill(tableData)"
@@ -39,8 +39,28 @@
 						<td class="table__row-item" @click="clickResearch(item)">
 							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 						</td>
+
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.outreach_status }}
+							<div class="table__td__status">
+								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status.message }}</span>
+								</span>
+								<span class="status_ready" v-else-if="item.status.statusCode === 'READY'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status.message }}</span>
+								</span>
+								<span class="status_pending" v-else>
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status.message }}</span>
+								</span>
+							</div>
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.email }}
@@ -78,29 +98,6 @@
 						<td class="table__row-item" @click="clickResearch(item)">
 							{{ item.company_websites }}
 						</td>
-
-						<!-- <td class="table__row-item" @click="clickResearch(item)">
-							<div class="table__td__status">
-								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-								<span class="status_ready" v-else-if="item.status.statusCode === 'READY'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-								<span class="status_pending" v-else>
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-							</div>
-						</td> -->
 					</template>
 				</v-table>
 				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">

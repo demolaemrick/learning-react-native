@@ -5,7 +5,10 @@
 				<div class="form-container-header">
 					<template v-if="formPosition === 0"
 						><h3>Start a new enrichment</h3>
-						<p>Choose a data source and client to start building a lead list</p></template
+						<p>
+							Choose a data source and client to start <br />
+							building a lead list
+						</p></template
 					>
 					<template v-else>
 						<h3>Details</h3>
@@ -31,12 +34,12 @@
 						</div>
 
 						<text-input
-							type="email"
+							type="text"
 							labelVisible
 							v-model="field.value"
 							width="100%"
 							:name="field.label"
-							placeholder="yourmail@email.com"
+							:placeholder="field.label"
 							v-else
 						/>
 					</div>

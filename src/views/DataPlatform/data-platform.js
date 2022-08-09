@@ -85,7 +85,8 @@ export default {
 				parameters: {
 					Industry: 'finance',
 					CompanySize: '1-500',
-					Seniority: 'VP+Keywords'
+					Seniority: 'VP+',
+					Keywords: ''
 				},
 				original_data_source: 'Linkedin Sales Nav Saved Search',
 				total_contacts: '500',
