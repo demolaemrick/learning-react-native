@@ -25,7 +25,7 @@ export default {
 		return {
 			form: {
 				lickedInCookie: null,
-				searchType: "lead",
+				searchType: 'lead',
 				source: '',
 				sourceUrl: null,
 				clientName: '',
