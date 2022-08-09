@@ -39,7 +39,7 @@
 							v-model="field.value"
 							width="100%"
 							:name="field.label"
-							:placeholder="field.label"
+							:placeholder="field.placeholder"
 							v-else
 						/>
 					</div>
@@ -59,11 +59,11 @@
 		<template v-if="showModal">
 			<v-modal position="center" :useSlot="false" marginTop="6%">
 				<template #settings>
-					<div class="config__modal__wrapper">
-						<div class="config__modal__header">
-							<div class="config__modal__header__btn__wrapper">
-								<c-button class="config__btn__close" ref="config__btn__close" @click="closeModal()">
-									<div class="btn__content__wrapper">
+					<div class="modal__wrapper">
+						<div class="modal__header">
+							<div class="modal__header__btn__wrapper">
+								<c-button class="modal__btn__close" ref="modal__btn__close" @click="closeModal()">
+									<div class="modal__btn__content__wrapper">
 										<span class="text">Close</span>
 										<span class="icon">
 											<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
@@ -72,18 +72,18 @@
 								</c-button>
 							</div>
 						</div>
-						<div class="config__modal__content">
-							<div class="config__icon__wrapper">
+						<div class="modal__content">
+							<div class="modal__content__icon__wrapper">
 								<img src="@/assets/icons/warning-icon.svg" alt="volley warning icon" class="ml-1" svg-inline />
 							</div>
 							<h3>Your run is in progress</h3>
-							<div class="config__text__wrapper">
+							<div class="modal__text__wrapper">
 								<p>
 									volley robots are currently working hard to get your data! You can close this window without affecting
 									your results – we'll email you when your list is ready!
 								</p>
 							</div>
-							<div class="config__btn__wrapper">
+							<div class="modal__btn__wrapper">
 								<c-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"
 									>Return to Data Platform</c-button
 								>

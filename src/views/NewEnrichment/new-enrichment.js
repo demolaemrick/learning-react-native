@@ -30,8 +30,8 @@ export default {
 				{
 					title: 'Details',
 					fields: [
-						{ label: 'Sales Nav Cookie', value: '' },
-						{ label: 'Saved Search URL', value: '' }
+						{ label: 'Sales Nav Cookie', value: '', placeholder: 'Linkedin Sales Nav Cookie' },
+						{ label: 'Saved Search URL', value: '', placeholder: 'Linkedin Sales Nav Saved Search URL' }
 					]
 				}
 			],
@@ -60,7 +60,6 @@ export default {
 				this.nextStep();
 				return;
 			}
-			console.log(this.formGroup);
 			this.showModal = true;
 		},
 		prevStep() {
