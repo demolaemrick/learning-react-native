@@ -86,7 +86,6 @@
 								/>
 							</div>
 							<div class="form-container-input">
-								{{ invalid }}
 								<text-input
 									type="text"
 									rules="required"
