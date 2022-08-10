@@ -10,8 +10,8 @@
 					<h2 class="text__title">Unique ID/tag</h2>
 				</div>
 				<div class="flex flex__item-center">
-					<p class="emails-text">Emails Found: 50/100 (50%)</p>
-					<v-button class="btn__import__contact">Export to Outreach.io</v-button>
+					<p class="emails-text mr-3">Emails Found: 50/100 (50%)</p>
+					<v-button class="btn__import__contact" @click="toggleModal">Export to Outreach.io</v-button>
 				</div>
 			</div>
 			<div class="contact__research__menu"></div>
@@ -43,23 +43,23 @@
 								</td>
 								<td class="table__row-item" @click="clickResearch(item)">
 									<div class="table__td__status">
-										<span class="status_done" v-if="item.outreach_status === 'DONE'">
+										<span class="status_done" v-if="item.status === 'DONE'">
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
-											<span class="text">{{ item.outreach_status }}</span>
+											<span class="text">{{ item.status }}</span>
 										</span>
-										<span class="status_ready" v-else-if="item.outreach_status === 'ready'">
+										<span class="status_ready" v-else-if="item.status === 'ready'">
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
-											<span class="text">{{ item.outreach_status }}</span>
+											<span class="text">{{ item.status }}</span>
 										</span>
 										<span class="status_pending" v-else>
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
-											<span class="text">{{ item.outreach_status }}</span>
+											<span class="text">{{ item.status }}</span>
 										</span>
 									</div>
 								</td>
@@ -148,6 +148,41 @@
 			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
 			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
+		<template v-if="showModal">
+			<v-modal position="center" :useSlot="false" marginTop="6%">
+				<template #settings>
+					<div class="modal__wrapper">
+						<div class="modal__header">
+							<div class="modal__header__btn__wrapper">
+								<div class="modal__btn__content__wrapper" @click="closeModal()">
+									<span class="text">Close</span>
+									<span class="icon">
+										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="modal__content">
+							<div class="modal__content__icon__wrapper">
+								<img src="@/assets/icons/warning-icon.svg" alt="volley warning icon" class="ml-1" svg-inline />
+							</div>
+							<h3>Your outreach export is in progress</h3>
+							<div class="modal__text__wrapper">
+								<p>
+									volley robots are currently helping import your leads to {outreach_user_name}'s account for
+									{client_name}! You can leave this screen, we'll send you an email when everything is complete!
+								</p>
+							</div>
+							<div class="modal__btn__wrapper">
+								<v-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"
+									>Return to Data Platform</v-button
+								>
+							</div>
+						</div>
+					</div>
+				</template>
+			</v-modal>
+		</template>
 	</div>
 </template>
 

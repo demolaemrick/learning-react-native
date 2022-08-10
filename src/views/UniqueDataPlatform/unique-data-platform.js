@@ -74,33 +74,6 @@ export default {
 				},
 				{
 					name: 'Seniority'
-				},
-				{
-					name: 'Function'
-				},
-				{
-					name: 'Company Headcount'
-				},
-				{
-					name: 'Company Industry'
-				},
-				{
-					name: 'Company Revenue'
-				},
-				{
-					name: 'Company  City'
-				},
-				{
-					name: 'Company State'
-				},
-				{
-					name: 'Company Country'
-				},
-				{
-					name: 'Company Keywords'
-				},
-				{
-					name: 'Company website'
 				}
 			],
 			tableHeaders2: [
@@ -138,22 +111,10 @@ export default {
 				company: 'Enyata',
 				company_ll: 'link-url',
 				company_contact_ll: 'link-url',
-				status: {
-					statusCode: 'READY',
-					message: 'Ready'
-				},
+				status: 'ready',
 				email: 'Kingsleyomin@enyata.com',
 				email_verification: 'Valid',
-				seniority: 'Manager',
-				function: 'Function',
-				company_headcount: '200',
-				company_industry: 'London',
-				company_revenue: 'London',
-				company_city: 'London',
-				company_state: 'London',
-				company_country: 'England',
-				company_keywords: 'Klam',
-				company_websites: 'Klam'
+				seniority: 'Manager'
 			},
 			tableData2: {
 				function: 'Function',
@@ -237,16 +198,8 @@ export default {
 				}
 			}
 		},
-		toggleModal(modal) {
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
+		toggleModal() {
+			this.showModal = !this.showModal;
 		},
 		openDeleteModal(e, rowId, full_name) {
 			e.stopImmediatePropagation();
@@ -260,6 +213,9 @@ export default {
 			this.page = page;
 			this.checkedContacts = [];
 			this.getHistory();
+		},
+		closeModal() {
+			this.showModal = false;
 		},
 		async getHistory() {
 			try {

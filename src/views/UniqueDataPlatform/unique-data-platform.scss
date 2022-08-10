@@ -540,3 +540,22 @@ thead.table__header {
 	font-size: 18px;
 	color: #333758;
 }
+.modal__content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	text-align: center;
+	justify-items: center;
+}
+.modal__header {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding-bottom: 15px;
+	border-bottom: none !important;
+}
+.modal__header__btn__wrapper {
+	text-align: right;
+	padding-bottom: 2rem;
+}
