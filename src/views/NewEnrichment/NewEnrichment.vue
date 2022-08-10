@@ -112,14 +112,12 @@
 					<div class="modal__wrapper">
 						<div class="modal__header">
 							<div class="modal__header__btn__wrapper">
-								<c-button class="modal__btn__close" ref="modal__btn__close" @click="closeModal()">
-									<div class="modal__btn__content__wrapper">
-										<span class="text">Close</span>
-										<span class="icon">
-											<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
-										</span>
-									</div>
-								</c-button>
+								<div class="modal__btn__content__wrapper" @click="closeModal()">
+									<span class="text">Close</span>
+									<span class="icon">
+										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="modal__content">
