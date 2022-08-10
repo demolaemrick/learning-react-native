@@ -3,11 +3,11 @@
 		<v-header />
 		<main class="main-section">
 			<div class="main_title flex flex-spaced">
-				<div class="flex flex__item-center">
+				<div class="flex flex__item-center main_title">
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
 						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 					</div>
-					<h2 class="text__title">Unique ID/tag</h2>
+					Unique ID/tag
 				</div>
 				<div class="flex flex__item-center">
 					<p class="emails-text mr-3">Emails Found: 50/100 (50%)</p>
