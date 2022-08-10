@@ -38,7 +38,11 @@
 	}
 }
 .main-section {
-	margin-block: 100px;
+	// max-width: 1000px;
+	margin: 0 auto;
+	padding: 0 3rem 3rem 3rem;
+	width: 100%;
+	position: relative;
 	.hero {
 		max-width: 535px;
 		&-title {
