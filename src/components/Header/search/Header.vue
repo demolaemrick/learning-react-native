@@ -166,6 +166,8 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	border-bottom: 1px solid #f2f2f2;
+	padding: 0 3rem !important;
 }
 .nav-item {
 	&.logo {

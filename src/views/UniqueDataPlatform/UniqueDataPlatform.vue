@@ -1,5 +1,5 @@
 <template>
-	<div class="container container--lg">
+	<div>
 		<v-header />
 		<main class="main-section">
 			<div class="text__title main_title flex flex-spaced">
@@ -16,67 +16,105 @@
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<v-table
-					:tableHeaders="tableHeaders"
-					:tableData="Array(4).fill(tableData)"
-					theme="contact__research"
-					:loading="pageLoading"
-				>
-					<template name="table-row" slot-scope="{ item }" class="pu">
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.name }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.title }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.company }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							<!-- {{ item.company_ll }} -->
-							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.outreach_status }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.email }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.email_verification }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.seniority }}
-						</td>
-
-						<!-- <td class="table__row-item" @click="clickResearch(item)">
-							<div class="table__td__status">
-								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-								<span class="status_ready" v-else-if="item.status.statusCode === 'READY'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-								<span class="status_pending" v-else>
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status.message }}</span>
-								</span>
-							</div>
-						</td> -->
-					</template>
-				</v-table>
-				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
+				<carousel :navigationEnabled="true" :perPage="1" navigationNextLabel="" navigationPrevLabel="">
+					<slide>
+						<v-table
+							:tableHeaders="tableHeaders"
+							:tableData="Array(10).fill(tableData)"
+							theme="contact__research"
+							:loading="pageLoading"
+						>
+							<template name="table-row" slot-scope="{ item }" class="pu">
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.name }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.title }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									<!-- {{ item.company_ll }} -->
+									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									<div class="table__td__status">
+										<span class="status_done" v-if="item.outreach_status === 'DONE'">
+											<span class="white__circle">
+												<span class="pin"></span>
+											</span>
+											<span class="text">{{ item.outreach_status }}</span>
+										</span>
+										<span class="status_ready" v-else-if="item.outreach_status === 'ready'">
+											<span class="white__circle">
+												<span class="pin"></span>
+											</span>
+											<span class="text">{{ item.outreach_status }}</span>
+										</span>
+										<span class="status_pending" v-else>
+											<span class="white__circle">
+												<span class="pin"></span>
+											</span>
+											<span class="text">{{ item.outreach_status }}</span>
+										</span>
+									</div>
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.email }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.email_verification }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.seniority }}
+								</td>
+							</template>
+						</v-table>
+					</slide>
+					<slide>
+						<v-table
+							:tableHeaders="tableHeaders2"
+							:tableData="Array(10).fill(tableData2)"
+							theme="contact__research"
+							:loading="pageLoading"
+						>
+							<template name="table-row" slot-scope="{ item }" class="pu">
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.function }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_headcount }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_industry }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_revenue }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_city }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_state }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_country }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_keywords }}
+								</td>
+								<td class="table__row-item" @click="clickResearch(item)">
+									{{ item.company_website }}
+								</td>
+							</template>
+						</v-table>
+					</slide>
+				</carousel>
+				<div class="table__pagination__wrapper">
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
@@ -162,5 +200,36 @@
 			}
 		}
 	}
+}
+
+.VueCarousel-navigation-next {
+	background: url('../../assets/icons/NextBtn.svg') !important;
+	background-repeat: no-repeat !important;
+}
+
+.VueCarousel-navigation-prev {
+	background: url('../../assets/icons/PrevBtn.svg') !important;
+	background-repeat: no-repeat !important;
+}
+.VueCarousel-pagination {
+	display: none !important;
+}
+.VueCarousel-navigation-button {
+	position: absolute;
+	box-sizing: border-box;
+	color: #000;
+	text-decoration: none;
+	appearance: none;
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
+	outline: none;
+	width: 32px;
+	height: 32px;
+	top: 398px;
+	background: #ffffff;
+	border: 1px solid #eaebeb;
+	border-radius: 50%;
 }
 </style>

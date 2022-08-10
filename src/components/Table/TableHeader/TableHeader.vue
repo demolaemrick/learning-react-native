@@ -1,9 +1,10 @@
+<!-- eslint-disable vue/no-parsing-error -->
 <template>
 	<thead class="table__header">
 		<tr>
 			<th
 				class="table__header-item"
-				:class="header.align ? `table--${header.align}` : null"
+				:class="header.align ? `table--${header.align}` : `table--${header.width}`"
 				v-for="header in headers"
 				:key="header.name"
 			>
