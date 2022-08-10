@@ -98,7 +98,7 @@
 							</div>
 						</template>
 
-						<div class="flex mt-2" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
+						<div class="flex mt-2 btn-flex" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
 							<c-button @click="prevStep" buttonType="outline" v-if="formPosition > 0">Back</c-button>
 							<c-button @click="submit" buttonType="primary" :disabled="invalidateNextButton || invalid">
 								<template v-if="!loading">
