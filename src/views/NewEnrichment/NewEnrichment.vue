@@ -55,7 +55,7 @@
 									<label for="">Outreach record owner</label>
 									<select id="" v-model="form.outreachOwner">
 										<option value="">Select</option>
-										<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
+										<option v-for="option in availableOptions.clientEmails" :value="option" :key="option">
 											{{ option }}
 										</option>
 									</select>
