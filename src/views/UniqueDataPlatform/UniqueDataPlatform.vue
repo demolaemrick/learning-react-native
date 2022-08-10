@@ -257,14 +257,15 @@
 	appearance: none;
 	border: none;
 	background-color: transparent;
-	padding: 0;
+	margin: 10px !important;
 	cursor: pointer;
 	outline: none;
-	width: 32px;
-	height: 32px;
+	/* width: 32px;
+	height: 32px; */
 	top: 398px;
 	background: #ffffff;
 	border: 1px solid #eaebeb;
 	border-radius: 50%;
+	opacity: none !important;
 }
 </style>
