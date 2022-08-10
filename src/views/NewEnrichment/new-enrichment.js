@@ -1,5 +1,5 @@
 import { ValidationObserver } from 'vee-validate';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import VModal from '@/components/Modal';
@@ -44,16 +44,28 @@ export default {
 		this.getSelectFieldsOptions();
 	},
 	methods: {
-		...mapMutations({
-			saveUserSession: 'auth/loginSuccess',
-			setLastSearchResult: 'auth/setLastSearchResult'
-		}),
 		...mapActions({
-			login: 'auth/login',
-			research_history: 'search_services/resear,ch_history',
+			addNewDataEnrichment: 'data_enrichment/addNewDataEnrichment',
+			getFieldsData: 'data_enrichment/getFieldsData',
 			showAlert: 'showAlert'
 		}),
-		getSelectFieldsOptions() {
+		async getSelectFieldsOptions() {
+			// this.loading = true;
+			// try {
+			// 	const { status, data } = await this.getFieldsData();
+			// 	if (status) {
+			// 		this.availableOptions = data.data;
+			// 	}
+			// } catch (error) {
+			// 	const err = { error };
+			// 	this.showAlert({
+			// 		status: 'error',
+			// 		message: err.error.response.data.message,
+			// 		showAlert: true
+			// 	});
+			// } finally {
+			// 	this.loading = false;
+			// }
 			const response = fieldsData;
 			this.availableOptions = response;
 		},
@@ -64,13 +76,27 @@ export default {
 				this.formPosition += 1;
 			}, 600);
 		},
-		submit() {
+		async submit() {
 			if (!this.isLastFormPosition) {
 				this.nextStep();
 				return;
 			}
-			console.log(this.form);
-			this.showModal = true;
+			this.loading = true;
+			try {
+				const { status } = await this.addNewDataEnrichment(this.form);
+				if (status === 200) {
+					this.showModal = true;
+				}
+			} catch (error) {
+				const err = { error };
+				this.showAlert({
+					status: 'error',
+					message: err.error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
 		},
 		prevStep() {
 			this.animation = 'animate-out';
@@ -84,11 +110,11 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			lastSearch: 'auth/getLastSearchResult'
-		}),
 		isLastFormPosition() {
 			return this.formPosition === 1;
+		},
+		invalidateNextButton() {
+			return this.form.source === '' || this.form.clientName === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
 		}
 	}
 };
