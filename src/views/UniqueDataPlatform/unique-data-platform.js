@@ -74,6 +74,33 @@ export default {
 				},
 				{
 					name: 'Seniority'
+				},
+				{
+					name: 'Function'
+				},
+				{
+					name: 'Company Headcount'
+				},
+				{
+					name: 'Company Industry'
+				},
+				{
+					name: 'Company Revenue'
+				},
+				{
+					name: 'Company  City'
+				},
+				{
+					name: 'Company State'
+				},
+				{
+					name: 'Company Country'
+				},
+				{
+					name: 'Company Keywords'
+				},
+				{
+					name: 'Company website'
 				}
 			],
 			tableHeaders2: [
@@ -111,10 +138,22 @@ export default {
 				company: 'Enyata',
 				company_ll: 'link-url',
 				company_contact_ll: 'link-url',
-				outreach_status: 'ready',
+				status: {
+					statusCode: 'READY',
+					message: 'Ready'
+				},
 				email: 'Kingsleyomin@enyata.com',
-				email_verification: 'valid',
-				seniority: 'Manager'
+				email_verification: 'Valid',
+				seniority: 'Manager',
+				function: 'Function',
+				company_headcount: '200',
+				company_industry: 'London',
+				company_revenue: 'London',
+				company_city: 'London',
+				company_state: 'London',
+				company_country: 'England',
+				company_keywords: 'Klam',
+				company_websites: 'Klam'
 			},
 			tableData2: {
 				function: 'Function',

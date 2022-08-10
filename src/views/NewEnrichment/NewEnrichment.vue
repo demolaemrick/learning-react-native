@@ -1,11 +1,15 @@
 <template>
-	<div class="container">
+	<div>
+		<v-header />
 		<main class="main">
 			<div class="form-container">
 				<div class="form-container-header">
 					<template v-if="formPosition === 0"
 						><h3>Start a new enrichment</h3>
-						<p>Choose a data source and client to start building a lead list</p></template
+						<p>
+							Choose a data source and client to start <br />
+							building a lead list
+						</p></template
 					>
 					<template v-else>
 						<h3>Details</h3>
@@ -22,24 +26,73 @@
 					</template>
 				</div>
 				<form @submit.prevent="submit" :class="animation">
-					<div class="form-container-input" v-for="(field, index) in formGroup[formPosition].fields" :key="'field' + index">
-						<div class="select-group flex flex__column" v-if="!isLastFormPosition">
-							<label for="">{{ field.label }}</label>
-							<select :name="field.label" id="">
-								<option value="">Select</option>
-							</select>
+					<template v-if="!isLastFormPosition">
+						<div class="form-container-input">
+							<div class="select-group flex flex__column">
+								<label for="">Data Source</label>
+								<select id="" v-model="form.source">
+									<option value="">Select</option>
+									<option v-for="option in availableOptions.dataSource" :value="option" :key="option">
+										{{ option }}
+									</option>
+								</select>
+							</div>
 						</div>
+						<div class="form-container-input">
+							<div class="select-group flex flex__column">
+								<label for="">Client Name</label>
+								<select id="" v-model="form.clientName">
+									<option value="">Select</option>
+									<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
+										{{ option }}
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-container-input">
+							<div class="select-group flex flex__column">
+								<label for="">Outreach record owner</label>
+								<select id="" v-model="form.outreachOwner">
+									<option value="">Select</option>
+									<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
+										{{ option }}
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-container-input">
+							<div class="select-group flex flex__column">
+								<label for="">Volley BDR owner</label>
+								<select id="" v-model="form.bdrOwner">
+									<option value="">Select</option>
+									<option v-for="option in availableOptions.bdrUsers" :value="option" :key="option">{{ option }}</option>
+								</select>
+							</div>
+						</div>
+					</template>
+					<template v-else>
+						<div class="form-container-input">
+							<text-input
+								type="text"
+								labelVisible
+								v-model="form.lickedInCookie"
+								width="100%"
+								name="Linkedin Sales Nav Cookie"
+								placeholder="Linkedin Sales Nav Cookie"
+							/>
+						</div>
+						<div class="form-container-input">
+							<text-input
+								type="text"
+								labelVisible
+								v-model="form.sourceUrl"
+								width="100%"
+								name="Linkedin Sales Nav Saved Search URL"
+								placeholder="Linkedin Sales Nav Saved Search URL"
+							/>
+						</div>
+					</template>
 
-						<text-input
-							type="email"
-							labelVisible
-							v-model="field.value"
-							width="100%"
-							:name="field.label"
-							placeholder="yourmail@email.com"
-							v-else
-						/>
-					</div>
 					<div class="flex mt-2" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
 						<c-button @click="prevStep" buttonType="outline" v-if="formPosition > 0">Back</c-button>
 						<c-button @click="submit" buttonType="primary">
@@ -54,13 +107,13 @@
 			</div>
 		</main>
 		<template v-if="showModal">
-			<v-modal position="center" :useSlot="false">
+			<v-modal position="center" :useSlot="false" marginTop="6%">
 				<template #settings>
-					<div class="config__modal__wrapper">
-						<div class="config__modal__header">
-							<div class="config__modal__header__btn__wrapper">
-								<c-button class="config__btn__close" ref="config__btn__close" @click="closeModal()">
-									<div class="btn__content__wrapper">
+					<div class="modal__wrapper">
+						<div class="modal__header">
+							<div class="modal__header__btn__wrapper">
+								<c-button class="modal__btn__close" ref="modal__btn__close" @click="closeModal()">
+									<div class="modal__btn__content__wrapper">
 										<span class="text">Close</span>
 										<span class="icon">
 											<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
@@ -69,18 +122,18 @@
 								</c-button>
 							</div>
 						</div>
-						<div class="config__modal__content">
-							<div class="config__icon__wrapper">
+						<div class="modal__content">
+							<div class="modal__content__icon__wrapper">
 								<img src="@/assets/icons/warning-icon.svg" alt="volley warning icon" class="ml-1" svg-inline />
 							</div>
 							<h3>Your run is in progress</h3>
-							<div class="config__text__wrapper">
+							<div class="modal__text__wrapper">
 								<p>
 									volley robots are currently working hard to get your data! You can close this window without affecting
 									your results – we'll email you when your list is ready!
 								</p>
 							</div>
-							<div class="config__btn__wrapper">
+							<div class="modal__btn__wrapper">
 								<c-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"
 									>Return to Data Platform</c-button
 								>

@@ -166,7 +166,7 @@
 <script src="./data-platform.js"></script>
 <style lang="scss" scoped src="./data-platform.scss"></style>
 <style lang="scss">
-.table--contact__research {
+.table--data__platform {
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
@@ -212,8 +212,10 @@
 		}
 	}
 }
-.file-uploads.file-uploads-html4 input,
-.file-uploads.file-uploads-html5 label {
-	cursor: pointer !important;
+
+.table {
+	overflow: auto;
+	display: block;
+	width: 100%;
 }
 </style>
