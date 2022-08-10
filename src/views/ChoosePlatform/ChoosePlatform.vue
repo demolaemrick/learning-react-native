@@ -1,9 +1,9 @@
 <template>
-	<div class="container">
+	<div>
 		<header class="header">
 			<logo />
 		</header>
-		<main class="main">
+		<main>
 			<div class="content-wrapper">
 				<div class="heading__text">
 					<h3 class="heading__text-lg mb-1">Choose your platform</h3>

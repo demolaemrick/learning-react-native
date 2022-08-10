@@ -3,40 +3,45 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import VModal from '@/components/Modal';
+import VHeader from '@/components/Header/search/Header';
 import PasswordInput from '@/components/Input/PasswordInput';
 import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
+import { fieldsData } from '@/data/select-data';
+
 export default {
 	name: 'NewEnrichment',
+	components: {
+		ValidationObserver,
+		TextInput,
+		CButton,
+		VModal,
+		PasswordInput,
+		Loader,
+		Logo,
+		VHeader
+	},
 	data() {
 		return {
 			form: {
-				email: null,
-				password: null
+				lickedInCookie: null,
+				searchType: 'lead',
+				source: '',
+				sourceUrl: null,
+				clientName: '',
+				outreachOwner: '',
+				bdrOwner: '',
+				refresh: false
 			},
 			loading: false,
 			formPosition: 0,
 			animation: 'animate-in',
-			formGroup: [
-				{
-					title: 'Personal Details',
-					fields: [
-						{ label: 'Data Source', value: '' },
-						{ label: 'Client Name', value: '' },
-						{ label: 'Outreach record owner', value: '' },
-						{ label: 'Volley BDR owner', value: '' }
-					]
-				},
-				{
-					title: 'Details',
-					fields: [
-						{ label: 'Sales Nav Cookie', value: '' },
-						{ label: 'Saved Search URL', value: '' }
-					]
-				}
-			],
-			showModal: false
+			showModal: false,
+			availableOptions: null
 		};
+	},
+	created() {
+		this.getSelectFieldsOptions();
 	},
 	methods: {
 		...mapMutations({
@@ -48,6 +53,10 @@ export default {
 			research_history: 'search_services/resear,ch_history',
 			showAlert: 'showAlert'
 		}),
+		getSelectFieldsOptions() {
+			const response = fieldsData;
+			this.availableOptions = response;
+		},
 		nextStep() {
 			this.animation = 'animate-out';
 			setTimeout(() => {
@@ -60,7 +69,7 @@ export default {
 				this.nextStep();
 				return;
 			}
-			console.log(this.formGroup);
+			console.log(this.form);
 			this.showModal = true;
 		},
 		prevStep() {
@@ -79,16 +88,7 @@ export default {
 			lastSearch: 'auth/getLastSearchResult'
 		}),
 		isLastFormPosition() {
-			return this.formPosition === this.formGroup.length - 1;
+			return this.formPosition === 1;
 		}
-	},
-	components: {
-		ValidationObserver,
-		TextInput,
-		CButton,
-		VModal,
-		PasswordInput,
-		Loader,
-		Logo
 	}
 };

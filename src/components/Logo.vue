@@ -14,7 +14,8 @@ export default {};
 	align-items: center;
 	cursor: pointer;
 	&-img {
-		height: 35px;
+		height: 27px;
+		width: 85px;
 	}
 }
 </style>
