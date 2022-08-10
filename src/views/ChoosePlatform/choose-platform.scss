@@ -1,86 +1,83 @@
 @import '../../assets/scss/main.scss';
 
 .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
-    width: 100%;
-    position: relative;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 40px;
+	width: 100%;
+	position: relative;
 
-    @include query(mobile, max) {
-        padding: 0 25px;
-    }
+	@include query(mobile, max) {
+		padding: 0 25px;
+	}
 }
 
 .header {
-    margin: 12% 0 33px;
-    display: flex;
-    justify-content: center;
+	margin: 12% 0 33px;
+	display: flex;
+	justify-content: center;
+	background: none !important;
 }
 
 .main {
-    margin: 78px auto 0;
-    padding: 40px 32px;
-    @include query(mobile, max) {
-        margin: 20px 0;
-    }
-    
+	margin: 78px auto 0;
+	padding: 40px 32px;
+	@include query(mobile, max) {
+		margin: 20px 0;
+	}
 }
 
 .content-wrapper {
-    width: 100%;
+	width: 100%;
 }
 
-.heading__text{
-    text-align: center;
-    margin-bottom: 32px;
-    color: $grey-text;
+.heading__text {
+	text-align: center;
+	margin-bottom: 32px;
+	color: $grey-text;
 
-    &-lg{
-        font-weight: 600;
-        font-size: 32px;
-    }
-    &-sm{
-        font-weight: 400;
-        font-size: 18px;
-    }
+	&-lg {
+		font-weight: 600;
+		font-size: 32px;
+	}
+	&-sm {
+		font-weight: 400;
+		font-size: 18px;
+	}
 }
-.flex{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 24px;
+.flex {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 24px;
 
-    @include query(mobile, max){
-        flex-direction: column;
-    }
-
-
+	@include query(mobile, max) {
+		flex-direction: column;
+	}
 }
-.platform-card{
-    padding: 20px;
-    border: 1px solid #EAEBEB;
-    border-radius: 8px;
-    max-width: 380px;
+.platform-card {
+	padding: 20px;
+	border: 1px solid #eaebeb;
+	border-radius: 8px;
+	max-width: 380px;
 
-    &__box{
-        width: 46px;
-        height: 48px;
-        background: #EAEBEB;
-        border-radius: 8px;
-        margin-bottom: 28px;
-    }
+	&__box {
+		width: 46px;
+		height: 48px;
+		background: #eaebeb;
+		border-radius: 8px;
+		margin-bottom: 28px;
+	}
 
-    h5 {
-        margin-bottom: 12px;
-        color: $black-text;
-        font-size: 20px;
-        font-weight: 500;
-    }
-    p{
-        font-size: 16px;
-        font-weight: 400;
-        color: #474E5E;
-
-    }
+	h5 {
+		margin-bottom: 12px;
+		color: $black-text;
+		font-size: 20px;
+		font-weight: 500;
+	}
+	p {
+		font-size: 16px;
+		font-weight: 400;
+		color: #474e5e;
+	}
 }
