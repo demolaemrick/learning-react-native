@@ -17,9 +17,10 @@ import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
 import debounce from 'lodash.debounce';
-import { Carousel, Slide } from 'vue-carousel';
 import NextIcon from '../../assets/icons/next-icon.svg';
 import PrevIcon from '../../assets/icons/prev-icon.svg';
+import HorizontalScroll from 'vue-horizontal-scroll';
+import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css';
 
 export default {
 	name: 'ContactResearch',
@@ -40,8 +41,7 @@ export default {
 		VHeader,
 		ConfigData,
 		SuspendedModal,
-		Carousel,
-		Slide
+		HorizontalScroll
 	},
 	data() {
 		return {
@@ -50,6 +50,10 @@ export default {
 			total: 0,
 			loading: false,
 			tableHeaders: [
+				{
+					name: '',
+					elementSlot: true
+				},
 				{
 					name: 'Name'
 				},
@@ -76,9 +80,7 @@ export default {
 				},
 				{
 					name: 'Seniority'
-				}
-			],
-			tableHeaders2: [
+				},
 				{
 					name: 'Function'
 				},
@@ -108,6 +110,7 @@ export default {
 				}
 			],
 			tableData: {
+				id: 4,
 				name: 'Kingsley Omin',
 				title: 'Product Designer',
 				company: 'Enyata',
@@ -116,9 +119,7 @@ export default {
 				status: 'ready',
 				email: 'Kingsleyomin@enyata.com',
 				email_verification: 'Valid',
-				seniority: 'Manager'
-			},
-			tableData2: {
+				seniority: 'Manager',
 				function: 'Function',
 				company_headcount: '200',
 				company_industry: 'London',
@@ -145,7 +146,9 @@ export default {
 			subscriptionDone: false,
 			showSuspendedModal: false,
 			searchQuery: '',
-			showExportModal: false
+			showExportModal: false,
+			showInfo: true,
+			hasScroll: true
 		};
 	},
 	async mounted() {
@@ -166,6 +169,17 @@ export default {
 
 		// this.pageLoading = true;
 		// await this.getHistory();
+		let app = this;
+		let table = this.$refs.table;
+		function verifyScroll() {
+			if (table.scrollWidth - 60 > table.clientWidth) {
+				app.hasScroll = true;
+			} else {
+				app.hasScroll = false;
+			}
+		}
+		verifyScroll();
+		window.addEventListener('resize', verifyScroll);
 	},
 	methods: {
 		...mapMutations({
@@ -182,6 +196,24 @@ export default {
 			refresh: 'search_services/refresh',
 			showAlert: 'showAlert'
 		}),
+
+		sortTable(data) {
+			this.sortQuery = data;
+			this.getHistory();
+		},
+
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					if (item.status.statusCode === 'READY' || item.status.statusCode === 'DONE') {
+						this.checkedContacts.push(item.rowId);
+						return item.rowId;
+					}
+				});
+			} else {
+				this.checkedContacts = [];
+			}
+		},
 
 		async RefreshResearch(e, id) {
 			try {
@@ -277,6 +309,21 @@ export default {
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;
+		},
+		wheelHorizontal(e) {
+			if (e.deltaY < 0) {
+				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft - 50;
+			} else {
+				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft + 50;
+			}
+		},
+		scrollHorizontal() {
+			if (this.$refs.table.scrollLeft > 0) {
+				this.showInfo = false;
+			}
+			if (this.$refs.table.scrollLeft == 0) {
+				this.showInfo = true;
+			}
 		}
 	},
 	computed: {

@@ -58,7 +58,6 @@ export default {
 		};
 	},
 	created() {
-		// console.log(this.activeAside);
 		this.activeTab = this.$route.meta;
 	},
 	watch: {

@@ -18,13 +18,9 @@ export default {
 	},
 	methods: {
 		goToNextPage() {
-			console.log('here');
-			// this.currPage++;
 			this.currentPage++;
-			// console.log(this.currPage);
 		},
 		goToPrevPage() {
-			// this.currPage--;
 			this.currentPage--;
 		},
 		sortTableFunc(value) {
