@@ -39,6 +39,7 @@
 	&-lg {
 		font-weight: 600;
 		font-size: 32px;
+		margin-top: 32px;
 	}
 	&-sm {
 		font-weight: 400;
@@ -56,7 +57,7 @@
 	}
 }
 .platform-card {
-	padding: 20px;
+	padding: 30px;
 	border: 1px solid #eaebeb;
 	border-radius: 8px;
 	max-width: 380px;

@@ -98,8 +98,8 @@ export default {
 					for: 'all'
 				},
 				{
-					name: 'Dashboard',
-					path: '/dashboard/users',
+					name: 'Go to Data Platform',
+					path: '/data-platform',
 					for: 'active'
 				},
 				{

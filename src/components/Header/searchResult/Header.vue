@@ -33,9 +33,9 @@
 								<li
 									class="dropdown__item"
 									v-if="loggedInUser.role !== 'user' && loggedInUser.status !== 'suspended'"
-									@click="$router.push({ path: '/dashboard/users' })"
+									@click="$router.push({ path: '/data-platform' })"
 								>
-									Dashboard
+									Go to Data Platform
 								</li>
 								<li v-if="loggedInUser.status !== 'suspended'" class="dropdown__item" @click="gotoSettings">Settings</li>
 								<li class="dropdown__item" @click="logoutUser">Logout</li>

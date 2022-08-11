@@ -1,5 +1,5 @@
 <template>
-	<div class="container container--lg">
+	<div>
 		<div class="dashboard-wrapper">
 			<v-header />
 			<div class="loader" v-if="pageLoading">

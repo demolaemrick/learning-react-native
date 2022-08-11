@@ -374,7 +374,13 @@ thead.table__header {
 }
 
 .main_title {
-	margin-bottom: 20px;
+	font-family: Karla;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 24px;
+	letter-spacing: -0.64px;
+	color: #333758;
 }
 
 .row-link {
@@ -539,4 +545,23 @@ thead.table__header {
 	font-weight: 600;
 	font-size: 18px;
 	color: #333758;
+}
+.modal__content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	text-align: center;
+	justify-items: center;
+}
+.modal__header {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding-bottom: 15px;
+	border-bottom: none !important;
+}
+.modal__header__btn__wrapper {
+	text-align: right;
+	padding-bottom: 2rem;
 }

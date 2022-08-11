@@ -170,7 +170,7 @@
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
-			cursor: pointer;
+			cursor: pointer !important;
 			&:hover {
 				background-color: #ebedfe57;
 			}
