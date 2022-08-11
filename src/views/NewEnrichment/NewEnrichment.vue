@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container container--lgs">
 		<v-header />
 		<main class="main">
 			<div class="form-container">
@@ -33,7 +33,7 @@
 									<label for="">Data Source</label>
 									<select id="" v-model="form.source">
 										<option value="">Select</option>
-										<option v-for="option in availableOptions.dataSource" :value="option" :key="option">
+										<option v-for="option in availableDataSource" :value="option" :key="option">
 											{{ option }}
 										</option>
 									</select>
@@ -42,10 +42,10 @@
 							<div class="form-container-input">
 								<div class="select-group flex flex__column">
 									<label for="">Client Name</label>
-									<select id="" v-model="form.clientName">
+									<select id="" v-model="form.client">
 										<option value="">Select</option>
-										<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
-											{{ option }}
+										<option v-for="option in availableClients" :value="option" :key="option.id">
+											{{ option.name }}
 										</option>
 									</select>
 								</div>
@@ -55,8 +55,13 @@
 									<label for="">Outreach record owner</label>
 									<select id="" v-model="form.outreachOwner">
 										<option value="">Select</option>
-										<option v-for="option in availableOptions.clientEmails" :value="option" :key="option">
-											{{ option }}
+										<option
+											v-for="option in availableClients"
+											:value="option"
+											:key="option.id"
+											style="text-decoration: capitalize"
+										>
+											{{ option.email }}
 										</option>
 									</select>
 								</div>
@@ -66,8 +71,8 @@
 									<label for="">Volley BDR owner</label>
 									<select id="" v-model="form.bdrOwner">
 										<option value="">Select</option>
-										<option v-for="option in availableOptions.bdrUsers" :value="option" :key="option">
-											{{ option }}
+										<option v-for="option in availableBdrOwners" :value="option" :key="option.id">
+											{{ option.name }}
 										</option>
 									</select>
 								</div>
@@ -118,12 +123,14 @@
 					<div class="modal__wrapper">
 						<div class="modal__header">
 							<div class="modal__header__btn__wrapper">
-								<div class="modal__btn__content__wrapper" @click="closeModal()">
-									<span class="text">Close</span>
-									<span class="icon">
-										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
-									</span>
-								</div>
+								<c-button class="modal__btn__close" ref="modal__btn__close" @click="closeModal()">
+									<div class="modal__btn__content__wrapper">
+										<span class="text">Close</span>
+										<span class="icon">
+											<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
+										</span>
+									</div>
+								</c-button>
 							</div>
 						</div>
 						<div class="modal__content">

@@ -7,7 +7,6 @@ import VHeader from '@/components/Header/search/Header';
 import PasswordInput from '@/components/Input/PasswordInput';
 import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
-import { fieldsData } from '@/data/select-data';
 
 export default {
 	name: 'NewEnrichment',
@@ -28,12 +27,13 @@ export default {
 				searchType: 'lead',
 				source: '',
 				sourceUrl: null,
-				clientName: '',
+				client: '',
 				outreachOwner: '',
 				bdrOwner: '',
 				refresh: false
 			},
 			loading: false,
+			pageIsLoading: true,
 			formPosition: 0,
 			animation: 'animate-in',
 			showModal: false,
@@ -50,26 +50,22 @@ export default {
 			showAlert: 'showAlert'
 		}),
 		async getSelectFieldsOptions() {
-			// this.loading = true;
-			// try {
-			// 	const response = await this.getFieldsData();
-			// 	console.log(response);
-
-			// 	if (status) {
-			// 		this.availableOptions = data.data;
-			// 	}
-			// } catch (error) {
-			// 	const err = { error };
-			// 	this.showAlert({
-			// 		status: 'error',
-			// 		message: err.error.response.data.message,
-			// 		showAlert: true
-			// 	});
-			// } finally {
-			// 	this.loading = false;
-			// }
-			const response = fieldsData;
-			this.availableOptions = response;
+			this.pageIsLoading = true;
+			try {
+				const { status, data } = await this.getFieldsData();
+				if (status == 200) {
+					this.availableOptions = data;
+				}
+			} catch (error) {
+				const err = { error };
+				this.showAlert({
+					status: 'error',
+					message: err.error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.pageIsLoading = false;
+			}
 		},
 		nextStep() {
 			this.animation = 'animate-out';
@@ -84,8 +80,16 @@ export default {
 				return;
 			}
 			this.loading = true;
+
+			const { client, ...rest } = this.form;
+			const payload = {
+				...rest,
+				bdrOwner: rest.bdrOwner.email,
+				clientName: client.name,
+				outreachOwner: rest.outreachOwner.email
+			};
 			try {
-				const { status } = await this.addNewDataEnrichment(this.form);
+				const { status } = await this.addNewDataEnrichment(payload);
 				if (status === 200) {
 					this.showModal = true;
 				}
@@ -117,6 +121,15 @@ export default {
 		},
 		invalidateNextButton() {
 			return this.form.source === '' || this.form.clientName === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
+		},
+		availableDataSource() {
+			return this.availableOptions?.dataSource;
+		},
+		availableClients() {
+			return this.availableOptions?.clients;
+		},
+		availableBdrOwners() {
+			return this.availableOptions?.bdrOwners;
 		}
 	}
 };

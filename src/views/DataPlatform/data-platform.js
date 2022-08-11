@@ -146,6 +146,7 @@ export default {
 		}),
 		...mapActions({
 			research_history: 'search_services/research_history',
+			enrichmentHistory: 'data_enrichment/enrichmentHistory',
 			subscribeResearch: 'search_services/subscribeResearch',
 			export_history: 'search_services/export_history',
 			bulk_research: 'search_services/bulk_research',
@@ -208,7 +209,7 @@ export default {
 					historyData.keyword = this.searchQuery;
 				}
 
-				const response = await this.research_history(historyData);
+				const response = await this.enrichmentHistory(historyData);
 				// this.history = [];
 				this.history = response.data.data.history;
 				this.count = response.data.data.count;
@@ -218,7 +219,6 @@ export default {
 				this.setContactPageData({
 					page: this.page,
 					limit: this.limit,
-					sortQuery: this.sortQuery,
 					keyword: this.searchQuery,
 					currentPage: response.data.data.currentPage,
 					count: response.data.data.count,
