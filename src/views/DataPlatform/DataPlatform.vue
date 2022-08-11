@@ -30,7 +30,7 @@
 							</ol> -->
 						</td>
 						<td class="table__row-item row-link" @click="handleRowClick(item)">
-							{{ item.sourceUrl }}
+							{{ stringElipsis(item.sourceUrl, 24) }}
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.totalContacts }}
