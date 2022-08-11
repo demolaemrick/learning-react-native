@@ -16,12 +16,12 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	getFieldsData: async ({ commit }) => {
+	getFieldsData: async ({ commit }) => {		
 		const url = 'research/data/enrichment';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
-			const response = await api.post(url, data);
+			const response = await api.get(url);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

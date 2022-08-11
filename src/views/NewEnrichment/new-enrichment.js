@@ -52,7 +52,9 @@ export default {
 		async getSelectFieldsOptions() {
 			// this.loading = true;
 			// try {
-			// 	const { status, data } = await this.getFieldsData();
+			// 	const response = await this.getFieldsData();
+			// 	console.log(response);
+
 			// 	if (status) {
 			// 		this.availableOptions = data.data;
 			// 	}
