@@ -16,7 +16,15 @@
 	text-transform: capitalize;
 	&-primary {
 		background: #3b48f7;
-		color: #fff;
+		font-family: Karla;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 15px;
+		line-height: 16px;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		color: #ffffff;
 	}
 	&-secondary {
 		background: rgba(59, 72, 247, 0.08);
