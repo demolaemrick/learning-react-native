@@ -16,7 +16,13 @@
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<carousel :navigationEnabled="true" :perPage="1" navigationNextLabel="" navigationPrevLabel="">
+				<carousel
+					:navigationEnabled="true"
+					:perPage="1"
+					:navigationNextLabel="navigationNext"
+					:navigationPrevLabel="navigationPrev"
+					:navigate-to="toggleShowButton"
+				>
 					<slide>
 						<v-table
 							:tableHeaders="tableHeaders"
@@ -237,14 +243,9 @@
 	}
 }
 
-.VueCarousel-navigation-next {
-	background: url('../../assets/icons/NextBtn.svg') !important;
-	background-repeat: no-repeat !important;
-}
-
-.VueCarousel-navigation-prev {
-	background: url('../../assets/icons/PrevBtn.svg') !important;
-	background-repeat: no-repeat !important;
+/* CAROUSEL */
+.VueCarousel-navigation-button:focus {
+	outline: none !important;
 }
 .VueCarousel-pagination {
 	display: none !important;
