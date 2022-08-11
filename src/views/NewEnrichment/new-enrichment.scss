@@ -1,39 +1,28 @@
 @import '../../assets/scss/main.scss';
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
-    width: 100%;
-    position: relative;
+.header {
+	margin: 12% 0 33px;
+	display: flex;
+	justify-content: center;
+}
 
-    @include query(mobile, max) {
-        padding: 0 25px;
-    }
-
-    .header {
-        margin: 12% 0 33px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .main {
-        max-width: 496px;
-        margin: 12% auto;
-        padding: 32px;
-        border: 1px solid #EAEBEB;
-        border-radius: 4px;
-    }
+.main {
+	max-width: 496px;
+	margin: auto;
+	padding: 32px;
+	border: 1px solid #eaebeb;
+	border-radius: 4px;
+	min-height: 0 !important;
 }
 
 .form-group {
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: #333758;
-    letter-spacing: -0.12px;
-    font-family: "Karla", sans-serif;
-    font-weight: 400;
-    position: relative;
+	margin-bottom: 24px;
+	font-size: 14px;
+	color: #333758;
+	letter-spacing: -0.12px;
+	font-family: karla, sans-serif;
+	font-weight: 400;
+	position: relative;
 }
 
 .main {
@@ -138,16 +127,14 @@
     }
 }
 
-
-
 .animation-in {
-    transform-origin: left;
-    animation: in .6s ease-in-out;
+	transform-origin: left;
+	animation: in 0.6s ease-in-out;
 }
 
 .animation-out {
-    transform-origin: bottom left;
-    animation: out .6s ease-in-out;
+	transform-origin: bottom left;
+	animation: out 0.6s ease-in-out;
 }
 
 .btn-flex{
@@ -158,59 +145,71 @@
 }
 
 // Modal
-.modal-body{
-    margin-top: 8% !important;
+.config__modal__wrapper {
+	.config__modal__header {
+		.config__modal__header__btn__wrapper {
+			display: flex;
+			justify-content: flex-end;
+
+			.config__btn__close {
+				padding: 1em;
+				border: 0;
+				background: 0;
+				outline: none;
+
+				.btn__content__wrapper {
+					.text {
+						font-family: Karla;
+						font-style: normal;
+						font-weight: normal;
+						font-size: 15px;
+						letter-spacing: -0.4px;
+						color: #333758;
+					}
+
+					.icon {
+					}
+				}
+			}
+		}
+	}
+
+	.config__modal__content {
+		padding: 1em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		.config__text__wrapper {
+			p {
+				margin: 1em 0;
+				text-align: center;
+				font-family: Karla;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+				line-height: 34px;
+				letter-spacing: -0.3px;
+				color: #202f44;
+			}
+		}
+
+		.config__btn {
+			padding: 10px 40px;
+		}
+	}
 }
-.modal__wrapper {
-    .modal__header {
-        .modal__header__btn__wrapper {
-            display: flex;
-            justify-content: flex-end;
+.modal__content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	text-align: center;
+	justify-items: center;
+}
 
-            .modal__btn__close {
-                padding: 1em;
-                border: 0;
-                background: 0;
-                outline: none;
-
-                .modal__btn__content__wrapper {
-                    .text {
-                        font-family: Karla;
-                        font-style: normal;
-                        font-weight: normal;
-                        font-size: 15px;
-                        letter-spacing: -0.4px;
-                        color: #333758;
-                    }                    
-                }
-            }
-        }
-    }
-
-    .modal__content {
-        padding: 1em;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        &__icon__wrapper{
-            margin-bottom: 27px;
-        }
-
-        .modal__text__wrapper {
-            p {
-                margin: 20px 0;
-                text-align: center;
-                font-weight: normal;
-                font-size: 18px;
-                line-height: 34px;
-                letter-spacing: -0.3px;
-                color: #202f44;
-            }
-        }
-        .modal__btn__wrapper {
-            margin-top: 4px;
-        }
-    }
+.modal__header__btn__wrapper {
+	text-align: right;
+	padding-bottom: 2rem;
 }

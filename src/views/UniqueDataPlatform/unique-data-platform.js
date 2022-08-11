@@ -17,6 +17,7 @@ import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
 import debounce from 'lodash.debounce';
+import { Carousel, Slide } from 'vue-carousel';
 
 export default {
 	name: 'ContactResearch',
@@ -36,7 +37,9 @@ export default {
 		Logo,
 		VHeader,
 		ConfigData,
-		SuspendedModal
+		SuspendedModal,
+		Carousel,
+		Slide
 	},
 	data() {
 		return {
@@ -71,7 +74,9 @@ export default {
 				},
 				{
 					name: 'Seniority'
-				},
+				}
+			],
+			tableHeaders2: [
 				{
 					name: 'Function'
 				},
@@ -85,7 +90,7 @@ export default {
 					name: 'Company Revenue'
 				},
 				{
-					name: 'Company  City'
+					name: 'Company City'
 				},
 				{
 					name: 'Company State'
@@ -97,7 +102,7 @@ export default {
 					name: 'Company Keywords'
 				},
 				{
-					name: 'Company website'
+					name: 'Company Website'
 				}
 			],
 			tableData: {
@@ -106,13 +111,12 @@ export default {
 				company: 'Enyata',
 				company_ll: 'link-url',
 				company_contact_ll: 'link-url',
-				status: {
-					statusCode: 'READY',
-					message: 'Ready'
-				},
+				status: 'ready',
 				email: 'Kingsleyomin@enyata.com',
 				email_verification: 'Valid',
-				seniority: 'Manager',
+				seniority: 'Manager'
+			},
+			tableData2: {
 				function: 'Function',
 				company_headcount: '200',
 				company_industry: 'London',
@@ -121,7 +125,7 @@ export default {
 				company_state: 'London',
 				company_country: 'England',
 				company_keywords: 'Klam',
-				company_websites: 'Klam'
+				company_website: 'Klam'
 			},
 			count: 0,
 			currentPage: 0,
@@ -194,16 +198,8 @@ export default {
 				}
 			}
 		},
-		toggleModal(modal) {
-			if (!this[modal]) {
-				this[modal] = true;
-			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
-			}
+		toggleModal() {
+			this.showModal = !this.showModal;
 		},
 		openDeleteModal(e, rowId, full_name) {
 			e.stopImmediatePropagation();
@@ -217,6 +213,9 @@ export default {
 			this.page = page;
 			this.checkedContacts = [];
 			this.getHistory();
+		},
+		closeModal() {
+			this.showModal = false;
 		},
 		async getHistory() {
 			try {

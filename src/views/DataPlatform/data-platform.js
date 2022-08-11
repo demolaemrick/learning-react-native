@@ -19,7 +19,7 @@ import csvMixins from '@/mixins/csvMixins';
 import debounce from 'lodash.debounce';
 
 export default {
-	name: 'ContactResearch',
+	name: 'DataPlatform',
 	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
@@ -49,31 +49,39 @@ export default {
 					name: 'Search ID'
 				},
 				{
-					name: 'Search Type'
+					name: 'Search Type',
+					width: 'small'
 				},
 				{
-					name: 'Parameters'
+					name: 'Parameters',
+					width: 'large'
 				},
 				{
-					name: 'Original Data Source'
+					name: 'Original Data Source',
+					width: 'small'
 				},
 				{
-					name: 'Total Contacts'
+					name: 'Total Contacts',
+					width: 'small'
 				},
 				{
-					name: 'Emails Found'
+					name: 'Emails Found',
+					width: 'small'
 				},
 				{
 					name: 'Client'
 				},
 				{
-					name: 'Outreach Owner Email'
+					name: 'Outreach Owner Email',
+					width: 'small'
 				},
 				{
-					name: 'BDR Owner'
+					name: 'BDR Owner',
+					width: 'medium'
 				},
 				{
-					name: 'Date'
+					name: 'Date',
+					width: 'medium'
 				},
 				{
 					name: 'Status'
@@ -82,12 +90,7 @@ export default {
 			tableData: {
 				search_id: 'ABc',
 				search_type: 'Lead',
-				parameters: {
-					Industry: 'finance',
-					CompanySize: '1-500',
-					Seniority: 'VP+',
-					Keywords: ''
-				},
+				parameters: { industry: 'Finance', size: '1-500', seniority: 'VP+', keywords: '' },
 				original_data_source: 'Linkedin Sales Nav Saved Search',
 				total_contacts: '500',
 				emails_found: '300',
@@ -95,10 +98,7 @@ export default {
 				outreach_owner_email: 'jane@acme.com',
 				bdr_owner: 'John Doe',
 				date: 'July 1, 2022',
-				status: {
-					statusCode: 'READY',
-					message: 'Ready'
-				}
+				status: 'ready'
 			},
 			count: 0,
 			currentPage: 0,
