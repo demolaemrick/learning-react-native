@@ -13,44 +13,44 @@
 				</div>
 			</div>
 			<div class="mt-2">
-				<v-table class="mt-2" :tableHeaders="tableHeaders" :tableData="Array(5).fill(tableData)" :loading="pageLoading">
+				<v-table class="mt-2" :tableHeaders="tableHeaders" :tableData="history" :loading="pageLoading">
 					<template slot-scope="{ item }">
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.search_id }}
+							{{ item.rowId }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.search_type }}
+							{{ item.searchType }}
 						</td>
 						<td class="table__row-item" @click="clickResearch(item)">
-							<ol>
+							<!-- <ol>
 								<li><span>Industry:</span> {{ item.parameters.industry }}</li>
 								<li><span>CompanySize: </span> {{ item.parameters.size }}</li>
 								<li><span>Seniority: </span> {{ item.parameters.seniority }}</li>
 								<li><span>Keywords:</span> {{ item.parameters.keywords }}</li>
-							</ol>
+							</ol> -->
 						</td>
-						<td class="table__row-item row-link" @click="clickResearch(item)">
-							{{ item.original_data_source }}
+						<td class="table__row-item row-link" @click="handleRowClick(item)">
+							{{ item.sourceUrl }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.total_contacts }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.totalContacts }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.emails_found }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.totalEmails }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.client }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.clientName }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.outreach_owner_email }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.outreachOwnerEmail }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.bdr_owner }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.bdrOwner }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.date }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.createdAt | moment('MMMM D, YYYY') }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
+						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
 								<span class="status_done" v-if="item.status === 'DONE'">
 									<span class="white__circle">
@@ -103,63 +103,7 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
-			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
-		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal('showModal')" maxWidth="400px">
-			<template #title>
-				<h4 class="modal__header-title">Delete Research</h4>
-			</template>
-			<template #body>
-				<div class="modal__content">
-					<p class="modal__content-text" v-if="contactToDelete.rowId">
-						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
-					</p>
-					<p class="modal__content-text" v-else>
-						Kindly confirm that you want to delete
-						{{ checkedContacts.length > 1 ? `${checkedContacts.length} researches` : `${checkedContacts.length} research` }}.
-					</p>
-					<div class="modal__content-btn">
-						<div class="cancel" @click="[toggleModal('showModal'), (deleting = false), (checkedContacts = [])]">Cancel</div>
-						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteResearch">
-							<Loader v-if="deleting" color="#ca1c1c" />
-							<span v-else>Delete</span>
-						</v-button>
-					</div>
-				</div>
-			</template>
-		</v-modal>
-
-		<v-modal
-			v-if="showExportModal"
-			position="center"
-			:toggleClass="toggleClass"
-			@close="toggleModal('showExportModal')"
-			maxWidth="400px"
-		>
-			<template #title>
-				<h4 class="modal__header-title">Export Research</h4>
-			</template>
-			<template #body>
-				<div class="modal__content">
-					<p class="modal__content-text">This action will download all your contact researches.</p>
-					<div class="modal__content-btn">
-						<div class="cancel" @click="[toggleModal('showExportModal'), (checkedContacts = [])]">Cancel</div>
-						<v-button
-							ref="exportCsvBtn"
-							class="config__btn"
-							buttonType="primary"
-							size="modal"
-							@click="[exportCSV(), toggleModal('showExportModal')]"
-						>
-							<span style="color: #fff">Continue</span>
-						</v-button>
-					</div>
-				</div>
-			</template>
-		</v-modal>
 	</div>
 </template>
 

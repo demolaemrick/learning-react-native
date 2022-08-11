@@ -25,6 +25,7 @@
 		align-items: center;
 		text-align: center;
 		color: #ffffff;
+		justify-content: center;
 	}
 	&-secondary {
 		background: rgba(59, 72, 247, 0.08);
