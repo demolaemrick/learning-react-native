@@ -18,6 +18,8 @@ import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
 import debounce from 'lodash.debounce';
 import { Carousel, Slide } from 'vue-carousel';
+import NextIcon from '../../assets/icons/next-icon.svg';
+import PrevIcon from '../../assets/icons/prev-icon.svg';
 
 export default {
 	name: 'ContactResearch',
@@ -287,6 +289,14 @@ export default {
 			if (images && images.length) {
 				return images[Math.floor(Math.random() * images.length)];
 			}
+		},
+		navigationNext() {
+			const nextIcon = NextIcon;
+			return `<img src="${nextIcon}"/>`;
+		},
+		navigationPrev() {
+			const prevIcon = PrevIcon;
+			return `<img src="${prevIcon}"/>`;
 		}
 	},
 	watch: {

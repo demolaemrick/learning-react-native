@@ -26,83 +26,89 @@
 					</template>
 				</div>
 				<form @submit.prevent="submit" :class="animation">
-					<template v-if="!isLastFormPosition">
-						<div class="form-container-input">
-							<div class="select-group flex flex__column">
-								<label for="">Data Source</label>
-								<select id="" v-model="form.source">
-									<option value="">Select</option>
-									<option v-for="option in availableOptions.dataSource" :value="option" :key="option">
-										{{ option }}
-									</option>
-								</select>
+					<ValidationObserver v-slot="{ invalid }">
+						<template v-if="!isLastFormPosition">
+							<div class="form-container-input">
+								<div class="select-group flex flex__column">
+									<label for="">Data Source</label>
+									<select id="" v-model="form.source">
+										<option value="">Select</option>
+										<option v-for="option in availableOptions.dataSource" :value="option" :key="option">
+											{{ option }}
+										</option>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-container-input">
-							<div class="select-group flex flex__column">
-								<label for="">Client Name</label>
-								<select id="" v-model="form.clientName">
-									<option value="">Select</option>
-									<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
-										{{ option }}
-									</option>
-								</select>
+							<div class="form-container-input">
+								<div class="select-group flex flex__column">
+									<label for="">Client Name</label>
+									<select id="" v-model="form.clientName">
+										<option value="">Select</option>
+										<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
+											{{ option }}
+										</option>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-container-input">
-							<div class="select-group flex flex__column">
-								<label for="">Outreach record owner</label>
-								<select id="" v-model="form.outreachOwner">
-									<option value="">Select</option>
-									<option v-for="option in availableOptions.clientCompanies" :value="option" :key="option">
-										{{ option }}
-									</option>
-								</select>
+							<div class="form-container-input">
+								<div class="select-group flex flex__column">
+									<label for="">Outreach record owner</label>
+									<select id="" v-model="form.outreachOwner">
+										<option value="">Select</option>
+										<option v-for="option in availableOptions.clientEmails" :value="option" :key="option">
+											{{ option }}
+										</option>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-container-input">
-							<div class="select-group flex flex__column">
-								<label for="">Volley BDR owner</label>
-								<select id="" v-model="form.bdrOwner">
-									<option value="">Select</option>
-									<option v-for="option in availableOptions.bdrUsers" :value="option" :key="option">{{ option }}</option>
-								</select>
+							<div class="form-container-input">
+								<div class="select-group flex flex__column">
+									<label for="">Volley BDR owner</label>
+									<select id="" v-model="form.bdrOwner">
+										<option value="">Select</option>
+										<option v-for="option in availableOptions.bdrUsers" :value="option" :key="option">
+											{{ option }}
+										</option>
+									</select>
+								</div>
 							</div>
-						</div>
-					</template>
-					<template v-else>
-						<div class="form-container-input">
-							<text-input
-								type="text"
-								labelVisible
-								v-model="form.lickedInCookie"
-								width="100%"
-								name="Linkedin Sales Nav Cookie"
-								placeholder="Linkedin Sales Nav Cookie"
-							/>
-						</div>
-						<div class="form-container-input">
-							<text-input
-								type="text"
-								labelVisible
-								v-model="form.sourceUrl"
-								width="100%"
-								name="Linkedin Sales Nav Saved Search URL"
-								placeholder="Linkedin Sales Nav Saved Search URL"
-							/>
-						</div>
-					</template>
+						</template>
+						<template v-else>
+							<div class="form-container-input">
+								<text-input
+									type="text"
+									rules="required"
+									labelVisible
+									v-model="form.lickedInCookie"
+									width="100%"
+									name="Linkedin Sales Nav Cookie"
+									placeholder="Linkedin Sales Nav Cookie"
+								/>
+							</div>
+							<div class="form-container-input">
+								<text-input
+									type="text"
+									rules="required"
+									labelVisible
+									v-model="form.sourceUrl"
+									width="100%"
+									name="Linkedin Sales Nav Saved Search URL"
+									placeholder="Linkedin Sales Nav Saved Search URL"
+								/>
+							</div>
+						</template>
 
-					<div class="flex mt-2" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
-						<c-button @click="prevStep" buttonType="outline" v-if="formPosition > 0">Back</c-button>
-						<c-button @click="submit" buttonType="primary">
-							<template v-if="!loading">
-								<template v-if="isLastFormPosition">Submit</template>
-								<template v-else>Next</template>
-							</template>
-							<Loader v-else />
-						</c-button>
-					</div>
+						<div class="flex mt-2 btn-flex" :class="formPosition > 0 ? 'flex-spaced' : 'flex-end'">
+							<c-button @click="prevStep" buttonType="outline" v-if="formPosition > 0">Back</c-button>
+							<c-button @click="submit" buttonType="primary" :disabled="invalidateNextButton || invalid">
+								<template v-if="!loading">
+									<template v-if="isLastFormPosition">Submit</template>
+									<template v-else>Next</template>
+								</template>
+								<Loader v-else />
+							</c-button>
+						</div>
+					</ValidationObserver>
 				</form>
 			</div>
 		</main>

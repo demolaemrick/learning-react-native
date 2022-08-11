@@ -34,6 +34,7 @@
 		border-radius: 4px;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 	}
 	&-warning {
 		background: #ca1b1b;

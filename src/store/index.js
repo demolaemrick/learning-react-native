@@ -7,6 +7,7 @@ import user from './modules/user/index';
 import users_management from './modules/users_management/';
 import admin_management from './modules/admin_management/';
 import search_notes from './modules/search_notes/';
+import data_enrichment from './modules/data_enrichment/';
 Vue.use(Vuex);
 
 const modules = {
@@ -15,7 +16,8 @@ const modules = {
 	user,
 	users_management,
 	search_notes,
-	admin_management
+	admin_management,
+	data_enrichment
 };
 
 const vuexPersistence = new VuexPersistence({
