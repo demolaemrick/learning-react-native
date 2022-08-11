@@ -16,29 +16,21 @@
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<horizontal-scroll>
-					<div class="info" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{ show: showInfo }">
-						<img src="@/assets/icons/next-icon.svg" alt="next-icon" />
-					</div>
-					<div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
+				<carousel
+					:navigationEnabled="true"
+					:perPage="1"
+					:navigationNextLabel="navigationNext"
+					:navigationPrevLabel="navigationPrev"
+					:navigate-to="toggleShowButton"
+				>
+					<slide>
 						<v-table
 							:tableHeaders="tableHeaders"
 							:tableData="Array(10).fill(tableData)"
 							theme="contact__research"
 							:loading="pageLoading"
-							@checkAll="checkAll"
-							@sortTable="sortTable"
-							:allchecked="checkedContacts.length === limit"
 						>
 							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
-									<input
-										type="checkbox"
-										:value="item.id"
-										v-model="checkedContacts"
-										:disabled="item.status === 'in-progress'"
-									/>
-								</td>
 								<td class="table__row-item" @click="clickResearch(item)">
 									{{ item.name }}
 								</td>
@@ -86,6 +78,17 @@
 								<td class="table__row-item" @click="clickResearch(item)">
 									{{ item.seniority }}
 								</td>
+							</template>
+						</v-table>
+					</slide>
+					<slide>
+						<v-table
+							:tableHeaders="tableHeaders2"
+							:tableData="Array(10).fill(tableData2)"
+							theme="contact__research"
+							:loading="pageLoading"
+						>
+							<template name="table-row" slot-scope="{ item }" class="pu">
 								<td class="table__row-item" @click="clickResearch(item)">
 									{{ item.function }}
 								</td>
@@ -115,11 +118,8 @@
 								</td>
 							</template>
 						</v-table>
-					</div>
-					<div class="info prev-icon" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{ show: showInfo }">
-						<img src="@/assets/icons/prev-icon.svg" alt="next-icon" />
-					</div>
-				</horizontal-scroll>
+					</slide>
+				</carousel>
 				<div class="table__pagination__wrapper">
 					<div class="title__left">
 						<span>Showing Page</span>
@@ -201,7 +201,7 @@
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
 			cursor: pointer;
-			scrollWidth &:hover {
+			&:hover {
 				background-color: #ebedfe57;
 			}
 			&-item {

@@ -1,50 +1,5 @@
 @import '../../assets/scss/main.scss';
 
-.navbar {
-	margin: 32px 0 85px;
-	display: block;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.nav-item {
-	&.logo {
-		display: flex;
-		align-items: center;
-
-		&-text {
-			line-height: 1.25;
-			letter-spacing: -0.57px;
-			font-size: 24px;
-		}
-	}
-}
-
-.nav__menu__right {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	.search__icon__wrapper {
-		margin-right: 25px;
-		cursor: pointer;
-	}
-
-	.user__menu__wrapper {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-left: 5px;
-
-		.user__dropdown__menu {
-			.dropdown__list-wrapper {
-				top: 100%;
-			}
-		}
-	}
-}
-
 .main-section {
 	margin: 0 auto;
 	padding: 0 3rem 3rem 3rem;
@@ -564,4 +519,60 @@ thead.table__header {
 .modal__header__btn__wrapper {
 	text-align: right;
 	padding-bottom: 2rem;
+}
+
+.scroll-container {
+	max-width: 768px;
+	tr th:first-child,
+	tr td:first-child {
+		position: sticky;
+		min-width: 50px;
+		left: 0;
+		background: white;
+	}
+}
+.table-holder,
+.table-responsive {
+	position: relative;
+}
+
+.table-responsive::-webkit-scrollbar {
+	height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px #333333;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+	background: #333333;
+	outline: 1px solid #333333;
+}
+
+.info {
+	position: absolute;
+	width: 200px;
+	height: 100%;
+	top: 0;
+	right: 0;
+	padding: 20px;
+	text-align: right;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 1;
+	pointer-events: none;
+}
+.prev-icon {
+	left: 0;
+	width: 100px;
+}
+
+.show {
+	opacity: 1;
+	visibility: visible;
 }

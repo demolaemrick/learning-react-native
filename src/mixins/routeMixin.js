@@ -62,7 +62,6 @@ export default {
 					}
 				});
 			});
-			// console.log(oldNews);
 
 			// return;
 			oldData.contact_insights.news = oldNews;
