@@ -16,7 +16,7 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	getFieldsData: async ({ commit }) => {		
+	getFieldsData: async ({ commit }) => {
 		const url = 'research/data/enrichment';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
