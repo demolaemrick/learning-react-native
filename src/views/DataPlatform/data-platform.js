@@ -207,7 +207,7 @@ export default {
 			// if (item.status.statusCode !== 'IN_PROGRESS') {
 			// this.$router.push({ name: 'UniqueDataPlatform', params: { rowId: item.rowId } });
 			// }
-			this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.search_id } });
+			this.$router.push({ name: 'UniqueDataPlatform', query: { id: item.rowId } });
 		}
 	},
 	computed: {

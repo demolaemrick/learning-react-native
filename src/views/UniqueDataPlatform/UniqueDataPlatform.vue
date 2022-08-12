@@ -142,7 +142,7 @@
 					>
 					</paginate>
 				</div>
-				<div v-if="history && history.length < 1">
+				<div v-if="enrichedDataHistory && enrichedDataHistory.length < 1">
 					<div class="emptyState">
 						<img src="@/assets/icons/empty-state-image.svg" svg-inline />
 						<p class="emptyState-text">No data enrichment record found</p>

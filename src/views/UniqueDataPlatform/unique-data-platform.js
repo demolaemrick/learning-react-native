@@ -16,14 +16,13 @@ import VHeader from '@/components/Header/search/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
-import debounce from 'lodash.debounce';
 import NextIcon from '../../assets/icons/next-icon.svg';
 import PrevIcon from '../../assets/icons/prev-icon.svg';
 import HorizontalScroll from 'vue-horizontal-scroll';
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css';
 
 export default {
-	name: 'ContactResearch',
+	name: 'UniqueDataPlatform',
 	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
@@ -132,7 +131,7 @@ export default {
 			},
 			count: 0,
 			currentPage: 0,
-			history: null,
+			enrichedDataHistory: null,
 			interval: null,
 			checkedContacts: [],
 			pageLoading: false,
@@ -152,6 +151,8 @@ export default {
 		};
 	},
 	async mounted() {
+		console.log('rourer', this.$router);
+		this.getEnrichedData();
 		if (this.getLoggedUser.status === 'suspended') {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
@@ -167,12 +168,10 @@ export default {
 		this.count = count;
 		this.nextPage = nextPage ? nextPage : null;
 
-		// this.pageLoading = true;
-		// await this.getHistory();
 		let app = this;
 		let table = this.$refs.table;
 		function verifyScroll() {
-			if (table.scrollWidth - 60 > table.clientWidth) {
+			if (table.scrollWidth - 60 < table.clientWidth) {
 				app.hasScroll = true;
 			} else {
 				app.hasScroll = false;
@@ -188,6 +187,7 @@ export default {
 			setContactPageData: 'user/setContactPageData'
 		}),
 		...mapActions({
+			enrichedData: 'data_enrichment/enrichedData',
 			research_history: 'search_services/research_history',
 			subscribeResearch: 'search_services/subscribeResearch',
 			export_history: 'search_services/export_history',
@@ -199,7 +199,7 @@ export default {
 
 		sortTable(data) {
 			this.sortQuery = data;
-			this.getHistory();
+			this.getEnrichedData();
 		},
 
 		checkAll(event) {
@@ -219,7 +219,7 @@ export default {
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
-					this.getHistory();
+					this.getEnrichedData();
 				}
 			} catch (error) {
 				// console.log(error);
@@ -246,43 +246,32 @@ export default {
 			// console.log(page);
 			this.page = page;
 			this.checkedContacts = [];
-			this.getHistory();
+			this.getEnrichedData();
 		},
 		closeModal() {
 			this.showModal = false;
 		},
-		async getHistory() {
+		async getEnrichedData() {
+			this.pageLoading = true;
 			try {
 				// console.log(this.searchQuery);
 				// return;
-				let historyData = {
+				let catchedEnrichData = {
 					page: this.page,
 					limit: this.limit,
-					...this.sortQuery
+					rowId: this.$router
 				};
-				if (this.searchQuery && this.searchQuery.trim().length) {
-					historyData.keyword = this.searchQuery;
-				}
+				const {
+					data: {
+						data: { enriched, count, currentPage, nextPage }
+					}
+				} = await this.enrichedData(catchedEnrichData);
 
-				const response = await this.research_history(historyData);
-				// this.history = [];
-				this.history = response.data.data.history;
-				this.count = response.data.data.count;
-				this.currentPage = response.data.data.currentPage;
-				this.total = Math.ceil(response.data.data.count / this.limit);
-				this.nextPage = response.data.data.nextPage;
-				this.setContactPageData({
-					page: this.page,
-					limit: this.limit,
-					sortQuery: this.sortQuery,
-					keyword: this.searchQuery,
-					currentPage: response.data.data.currentPage,
-					count: response.data.data.count,
-					nextPage: response.data.data.nextPage,
-					total: Math.ceil(response.data.data.count / this.limit)
-				});
-				this.checkPendngStatus();
-				return true;
+				this.enrichedDataHistory = enriched;
+				this.count = count;
+				this.currentPage = currentPage;
+				this.total = Math.ceil(count / this.limit);
+				this.nextPage = nextPage;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -345,18 +334,5 @@ export default {
 			const prevIcon = PrevIcon;
 			return `<img src="${prevIcon}"/>`;
 		}
-	},
-	watch: {
-		searchQuery: debounce(function (newVal) {
-			if (newVal) {
-				if (!this.pageLoading) {
-					this.page = 1;
-					this.getHistory();
-				}
-			} else {
-				this.page = 1;
-				this.getHistory();
-			}
-		}, 600)
 	}
 };
