@@ -1,53 +1,72 @@
 import { ValidationObserver } from 'vee-validate';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import VModal from '@/components/Modal';
+import VHeader from '@/components/Header/search/Header';
 import PasswordInput from '@/components/Input/PasswordInput';
 import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
+
 export default {
 	name: 'NewEnrichment',
+	components: {
+		ValidationObserver,
+		TextInput,
+		CButton,
+		VModal,
+		PasswordInput,
+		Loader,
+		Logo,
+		VHeader
+	},
 	data() {
 		return {
 			form: {
-				email: null,
-				password: null
+				lickedInCookie: null,
+				searchType: 'lead',
+				source: '',
+				sourceUrl: null,
+				client: '',
+				outreachOwner: '',
+				bdrOwner: '',
+				refresh: false
 			},
 			loading: false,
+			pageIsLoading: true,
 			formPosition: 0,
 			animation: 'animate-in',
-			formGroup: [
-				{
-					title: 'Personal Details',
-					fields: [
-						{ label: 'Data Source', value: '' },
-						{ label: 'Client Name', value: '' },
-						{ label: 'Outreach record owner', value: '' },
-						{ label: 'Volley BDR owner', value: '' }
-					]
-				},
-				{
-					title: 'Details',
-					fields: [
-						{ label: 'Sales Nav Cookie', value: '' },
-						{ label: 'Saved Search URL', value: '' }
-					]
-				}
-			],
-			showModal: false
+			showModal: false,
+			availableOptions: null
 		};
 	},
+	created() {
+		this.getSelectFieldsOptions();
+	},
 	methods: {
-		...mapMutations({
-			saveUserSession: 'auth/loginSuccess',
-			setLastSearchResult: 'auth/setLastSearchResult'
-		}),
 		...mapActions({
-			login: 'auth/login',
-			research_history: 'search_services/resear,ch_history',
+			addNewDataEnrichment: 'data_enrichment/addNewDataEnrichment',
+			getFieldsData: 'data_enrichment/getFieldsData',
 			showAlert: 'showAlert'
 		}),
+		async getSelectFieldsOptions() {
+			this.pageIsLoading = true;
+			try {
+				const { status, data } = await this.getFieldsData();
+				if (status == 200) {
+					this.availableOptions = data;
+				}
+			} catch (error) {
+				const err = { error };
+				this.showAlert({
+					status: 'error',
+					message: err.error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.pageIsLoading = false;
+			}
+		},
 		nextStep() {
 			this.animation = 'animate-out';
 			setTimeout(() => {
@@ -55,13 +74,35 @@ export default {
 				this.formPosition += 1;
 			}, 600);
 		},
-		submit() {
+		async submit() {
 			if (!this.isLastFormPosition) {
 				this.nextStep();
 				return;
 			}
-			console.log(this.formGroup);
-			this.showModal = true;
+			this.loading = true;
+
+			const { client, ...rest } = this.form;
+			const payload = {
+				...rest,
+				bdrOwner: rest.bdrOwner.email,
+				clientName: client.name,
+				outreachOwner: rest.outreachOwner.email
+			};
+			try {
+				const { status } = await this.addNewDataEnrichment(payload);
+				if (status === 200) {
+					this.showModal = true;
+				}
+			} catch (error) {
+				const err = { error };
+				this.showAlert({
+					status: 'error',
+					message: err.error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.loading = false;
+			}
 		},
 		prevStep() {
 			this.animation = 'animate-out';
@@ -75,20 +116,20 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			lastSearch: 'auth/getLastSearchResult'
-		}),
 		isLastFormPosition() {
-			return this.formPosition === this.formGroup.length - 1;
+			return this.formPosition === 1;
+		},
+		invalidateNextButton() {
+			return this.form.source === '' || this.form.clientName === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
+		},
+		availableDataSource() {
+			return this.availableOptions?.dataSource;
+		},
+		availableClients() {
+			return this.availableOptions?.clients;
+		},
+		availableBdrOwners() {
+			return this.availableOptions?.bdrOwners;
 		}
-	},
-	components: {
-		ValidationObserver,
-		TextInput,
-		CButton,
-		VModal,
-		PasswordInput,
-		Loader,
-		Logo
 	}
 };
