@@ -20,22 +20,22 @@
 					<div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
 						<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="contact__research" :loading="pageLoading">
 							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td class="table__row-item">{{ item.firstName }} {{ item.lastName }}</td>
+								<td class="table__row-item">{{ item.firstName || '-' }} {{ item.lastName }}</td>
 								<td class="table__row-item">
-									{{ item.title }}
+									{{ item.title || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.company }}
+									{{ item.company || '-' }}
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.company_ll }} -->
+									<!-- {{ item.company_ll|| '-'  }} -->
 									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 								</td>
 								<td class="table__row-item">
 									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 								</td>
 								<td class="table__row-item">
-									<!-- <div class="table__td__status">
+									<div class="table__td__status">
 										<span class="status_done" v-if="item.status === 'done'">
 											<span class="white__circle">
 												<span class="pin"></span>
@@ -48,49 +48,50 @@
 											</span>
 											<span class="text">{{ item.status }}</span>
 										</span>
-										<span class="status_pending" v-else>
+										<span>{{ '-' }}</span>
+										<!-- <span class="status_pending" v-else>
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
 											<span class="text">{{ item.status }}</span>
-										</span>
-									</div> -->
+										</span> -->
+									</div>
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.email }} -->
+									{{ item.email || '-' }}
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.email_verification }} -->
+									{{ item.email_verification || '-' }}
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.seniority }} -->
+									{{ item.seniority || '-' }}
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.function }} -->
+									{{ item.function || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compHeadcount }}
+									{{ item.compHeadcount || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compIndustry }}
+									{{ item.compIndustry || '-' }}
 								</td>
 								<td class="table__row-item">
-									<!-- {{ item.compRevenue }} -->
+									{{ item.compRevenue || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compCity }}
+									{{ item.compCity || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compState }}
+									{{ item.compState || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compCountry }}
+									{{ item.compCountry || '-' }}
 								</td>
 								<td class="table__row-item" v-for="(keyword, index) in item.compKeywords" :key="index">
-									{{ keyword }}
+									{{ keyword || '-' }}
 								</td>
 								<td class="table__row-item">
-									{{ item.compWebsite }}
+									{{ item.compWebsite || '-' }}
 								</td>
 							</template>
 						</v-table>
