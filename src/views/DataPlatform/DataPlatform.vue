@@ -2,80 +2,130 @@
 	<div class="container container--lg">
 		<v-header />
 		<main class="main-section">
-			<div class="text__title main_title flex flex-spaced">
-				<h2>My Data Enrichments</h2>
-				<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })">Start new enrichment</v-button>
+			<div class="contact__research__menu">
+				<div>
+					<h2 class="main_title mb-1">My Data Enrichments</h2>
+					<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
+						<div class="btn__export__csv user__menu__wrapper">
+							<v-toggle-dropdown class="user__dropdown__menu" width="185px" left="0" itemPadding="0.9rem">
+								<template #dropdown-wrapper>
+									<p class="flex action_text">
+										<span>Actions</span>
+										<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+									</p>
+								</template>
+								<template #dropdown-items>
+									<li
+										class="dropdown__item"
+										v-if="checkedDataEnrichments.length === 0"
+										:disabled="history && history.length === 0"
+									>
+										<button @click="showExportModal = true" :disabled="history && history.length === 0">
+											Export as csv
+										</button>
+									</li>
+									<li class="dropdown__item" v-else :disabled="checkedDataEnrichments.length === 0">
+										<button :disabled="checkedDataEnrichments.length === 0" @click="exportCSV">Export Contacts</button>
+									</li>
+									<li class="dropdown__item" :disabled="checkedDataEnrichments.length === 0">
+										<button
+											:disabled="checkedDataEnrichments.length === 0"
+											@click="[openDeleteModal($event, null, null)]"
+										>
+											Delete
+										</button>
+									</li>
+								</template>
+							</v-toggle-dropdown>
+						</div>
+					</div>
+				</div>
+				<div class="action__group">
+					<div class="btn__wrapper">
+						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })" :disabled="pageLoading"
+							>Start new enrichment</v-button
+						>
+					</div>
+				</div>
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
 				<v-table
+					class="mt-2"
 					:tableHeaders="tableHeaders"
-					:tableData="Array(4).fill(tableData)"
-					theme="contact__research"
+					:tableData="history"
 					:loading="pageLoading"
+					@checkAll="checkAll"
+					:allchecked="checkedDataEnrichments.length === limit"
 				>
-					<template name="table-row" slot-scope="{ item }" class="pu">
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.search_id }}
+					<template slot-scope="{ item }">
+						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
+							<input
+								type="checkbox"
+								:value="item.rowId"
+								v-model="checkedDataEnrichments"
+								:disabled="item.status === 'IN_PROGRESS' || item.status === 'IN_PROGRESS'"
+							/>
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.search_type }}
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.rowId }}
 						</td>
-						<td class="table__row-item row-link" @click="clickResearch(item)">
-							{{ item.original_data_source }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.original_data_source }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.total_contacts }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.emails_found }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.client }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.outreach_owner_email }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.bdr_owner }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							{{ item.date }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							<span class="status_ready">
-								<span class="white__circle">
-									<span class="pin"></span>
-								</span>
-								<span class="text">{{ item.status }}</span>
-							</span>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.searchType }}
 						</td>
 
-						<!-- <td class="table__row-item" @click="clickResearch(item)">
+						<td class="table__row-item row-link" @click="handleRowClick(item)">
+							{{ stringElipsis(item.sourceUrl, 24) }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.totalContacts }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.totalEmails }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.clientName }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.outreachOwnerEmail }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.bdrOwner }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.parameters || '-' }}
+							<!-- <ol>
+								<li><span>Industry:</span> {{ item.industry || '-' }}</li>
+								<li><span>CompanySize: </span> {{ item.size || '-' }}</li>
+								<li><span>Seniority: </span> {{ item.seniority || '-' }}</li>
+								<li><span>Keywords:</span> {{ item.keywords || '-' }}</li>
+							</ol> -->
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.createdAt | moment('MMMM D, YYYY') }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
-								<span class="status_done" v-if="item.status.statusCode === 'DONE'">
+								<span class="status_done" v-if="item.status === 'DONE'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
-									<span class="text">{{ item.status.message }}</span>
+									<span class="text">{{ item.status }}</span>
 								</span>
-								<span class="status_ready" v-else-if="item.status.statusCode === 'READY'">
+								<span class="status_ready" v-else-if="item.status === 'ready'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
-									<span class="text">{{ item.status.message }}</span>
+									<span class="text">{{ item.status }}</span>
 								</span>
 								<span class="status_pending" v-else>
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
-									<span class="text">{{ item.status.message }}</span>
+									<span class="text">{{ item.status }}</span>
 								</span>
 							</div>
-						</td> -->
+						</td>
 					</template>
 				</v-table>
 				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
@@ -107,10 +157,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
-			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
 	</div>
 </template>
