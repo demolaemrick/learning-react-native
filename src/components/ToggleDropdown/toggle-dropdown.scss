@@ -6,12 +6,10 @@
 		display: flex;
 		align-items: center;
 		cursor: pointer;
-
 		@include query(desktop, max) {
 			cursor: auto;
 		}
 	}
-
 	&__btn-wrapper {
 		display: flex;
 		background-color: #f8f9fb;
@@ -33,21 +31,18 @@
 			background-color: rgba(59, 72, 247, 0.05);
 			color: #3b48f7;
 		}
-
 		button {
 			width: 100%;
 			display: flex;
 			justify-content: flex-start;
 		}
 	}
-
 	&__list {
 		padding: 0;
 		margin: 5px 0;
 		border-radius: 3px;
 		box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 		background-color: #ffffff;
-
 		&-wrapper {
 			position: absolute;
 			top: 135%;
@@ -55,12 +50,10 @@
 			z-index: 7;
 			background: #fff;
 			min-width: 170px;
-
 			@include query(mobile, max) {
 				right: auto;
 			}
 		}
-
 		&:focus {
 			outline: none;
 		}

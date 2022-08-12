@@ -8,7 +8,6 @@ import users_management from './modules/users_management/';
 import admin_management from './modules/admin_management/';
 import search_notes from './modules/search_notes/';
 import data_enrichment from './modules/data_enrichment/';
-
 Vue.use(Vuex);
 
 const modules = {

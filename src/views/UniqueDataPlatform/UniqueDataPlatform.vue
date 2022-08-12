@@ -1,5 +1,5 @@
 <template>
-	<div class="container container--lg">
+	<div>
 		<v-header />
 		<main class="main-section">
 			<div class="main_title flex flex-spaced">
@@ -133,7 +133,7 @@
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
 			cursor: pointer;
-			&:hover {
+			scrollWidth &:hover {
 				background-color: #ebedfe57;
 			}
 			&-item {
@@ -173,5 +173,32 @@
 			}
 		}
 	}
+}
+
+/* CAROUSEL */
+.VueCarousel-navigation-button:focus {
+	outline: none !important;
+}
+.VueCarousel-pagination {
+	display: none !important;
+}
+.VueCarousel-navigation-button {
+	position: absolute;
+	box-sizing: border-box;
+	color: #000;
+	text-decoration: none;
+	appearance: none;
+	border: none;
+	background-color: transparent;
+	margin: 10px !important;
+	cursor: pointer;
+	outline: none;
+	/* width: 32px;
+	height: 32px; */
+	top: 398px;
+	background: #ffffff;
+	border: 1px solid #eaebeb;
+	border-radius: 50%;
+	opacity: none !important;
 }
 </style>

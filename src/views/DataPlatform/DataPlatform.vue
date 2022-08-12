@@ -1,5 +1,5 @@
 <template>
-	<div class="container container--lg">
+	<div>
 		<v-header />
 		<main class="main-section">
 			<div class="contact__research__menu">
@@ -153,11 +153,70 @@
 				<div v-if="history && history.length < 1">
 					<div class="emptyState">
 						<img src="@/assets/icons/empty-state-image.svg" svg-inline />
-						<p class="emptyState-text">No data enrichment record found</p>
+						<p class="emptyState-text">No research record found</p>
 					</div>
 				</div>
 			</div>
 		</main>
+		<!-- EXPORT MODAL -->
+		<v-modal
+			v-if="showExportModal"
+			position="center"
+			:toggleClass="toggleClass"
+			@close="toggleModal('showExportModal')"
+			maxWidth="400px"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Export as csv</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">This action will download all your data enrichments history.</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="[toggleModal('showExportModal'), (checkedDataEnrichments = [])]">Cancel</div>
+						<v-button
+							ref="exportCsvBtn"
+							class="config__btn"
+							buttonType="primary"
+							size="modal"
+							@click="[exportCSV(), toggleModal('showExportModal')]"
+						>
+							<span style="color: #fff">Continue</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
+		<!-- DELETE MODAL -->
+		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal('showModal')" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Delete Data</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<!-- <p class="modal__content-text" v-if="contactToDelete.rowId">
+						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
+					</p> -->
+					<p class="modal__content-text">
+						Kindly confirm that you want to delete
+						{{
+							checkedDataEnrichments.length > 1
+								? `${checkedDataEnrichments.length} data enrichments`
+								: `${checkedDataEnrichments.length} data enrichments`
+						}}.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="[toggleModal('showModal'), (deleting = false), (checkedDataEnrichments = [])]">
+							Cancel
+						</div>
+						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteEnrichmentData">
+							<Loader v-if="deleting" color="#ca1c1c" />
+							<span v-else>Delete</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
 	</div>
 </template>
 
@@ -171,7 +230,7 @@
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
-			cursor: pointer;
+			cursor: pointer !important;
 			&:hover {
 				background-color: #ebedfe57;
 			}
@@ -213,8 +272,10 @@
 		}
 	}
 }
-.file-uploads.file-uploads-html4 input,
-.file-uploads.file-uploads-html5 label {
-	cursor: pointer !important;
+
+.table {
+	overflow: auto;
+	display: block;
+	width: 100%;
 }
 </style>

@@ -8,27 +8,29 @@
 	@include query(mobile, max) {
 		padding: 0 25px;
 	}
-	.header{
+	.header {
 		margin: 12% 0 33px;
 		display: flex;
 		justify-content: center;
+		background: none !important;
 	}
 	.main {
 		max-width: 496px;
 		margin: 0 auto;
 		padding: 40px 32px;
-		border: 1px solid #EAEBEB;
+		border: 1px solid #eaebeb;
 		border-radius: 4px;
+		min-height: 0;
 	}
 }
-.form-group{
+.form-group {
 	margin-bottom: 24px;
-    font-size: 14px;
-    color: #333758;
-    letter-spacing: -0.12px;
-    font-family: "Karla", sans-serif;
-    font-weight: 400;
-    position: relative;
+	font-size: 14px;
+	color: #333758;
+	letter-spacing: -0.12px;
+	font-family: karla, sans-serif;
+	font-weight: 400;
+	position: relative;
 }
 .main {
 	@include flex_c;
@@ -40,33 +42,50 @@
 	.auth {
 		width: 100%;
 		p {
-			line-height: 1.67;
-			letter-spacing: -0.12px;
+			font-family: Karla;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 17px;
+			line-height: 16px;
 			text-align: center;
+			letter-spacing: -0.05px;
+			color: #333758;
 		}
 		&-header {
 			h3 {
-				letter-spacing: -0.5px;
-				text-align: center;
 				margin-bottom: 16px;
+				font-family: Karla;
+				font-style: normal;
+				font-weight: 600;
+				font-size: 32px;
+				line-height: 32px;
+				text-align: center;
+				letter-spacing: -0.761905px;
+				color: #333758;
 			}
 		}
 		&-input {
 			width: 100%;
 			margin-top: 32px;
+			font-family: Karla;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 15px !important;
+			line-height: 24px;
+			color: #333758;
 		}
 		.forgot-password {
 			text-align: right;
-			&.text-center{
+			&.text-center {
 				text-align: center;
 				margin-top: 23px;
 			}
 			a {
-				 color: #3B48F7;
-				 font-size: 15px;
+				color: #3b48f7;
+				font-size: 15px;
 			}
 		}
-		.submit{
+		.submit {
 			margin-top: 24px;
 		}
 	}
@@ -307,7 +326,6 @@
 		margin: 40px 0 0;
 	}
 }
-
 
 .tokenExpired {
 	color: rgb(182, 5, 5);
