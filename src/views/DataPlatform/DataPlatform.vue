@@ -106,7 +106,7 @@
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
-								<span class="status_done" v-if="item.status === 'DONE'">
+								<span class="status_done" v-if="item.status === 'done'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
@@ -163,8 +163,12 @@
 
 <script src="./data-platform.js"></script>
 <style lang="scss" scoped src="./data-platform.scss"></style>
-<style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style>
 <style lang="scss">
+.table {
+	overflow: auto;
+	display: block;
+	width: 100%;
+}
 .table--contact__research {
 	tbody {
 		.table__row {
