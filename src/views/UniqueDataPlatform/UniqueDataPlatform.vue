@@ -12,7 +12,7 @@
 				<p class="emails-text">Emails Found: 50/100 (50%)</p>
 			</div>
 			<div class="mt-2">
-				<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="contact__research" :loading="pageLoading">
+				<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="data__platform" :loading="pageLoading">
 					<template name="table-row" slot-scope="{ item }" class="pu">
 						<td class="table__row-item">{{ item.firstName || '-' }} {{ item.lastName }}</td>
 						<td class="table__row-item">
@@ -125,12 +125,10 @@
 <script src="./unique-data-platform.js"></script>
 <style lang="scss" scoped src="./unique-data-platform.scss"></style>
 <style lang="scss">
-.table {
+.table--data__platform {
 	overflow: auto;
 	display: block;
 	width: 100%;
-}
-.table--contact__research {
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;

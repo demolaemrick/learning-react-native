@@ -48,12 +48,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="contact__research__menu"></div>
 			<div class="mt-2">
 				<v-table
 					class="mt-2"
 					:tableHeaders="tableHeaders"
 					:tableData="history"
+					theme="data__platform"
 					:loading="pageLoading"
 					@checkAll="checkAll"
 					:allchecked="checkedDataEnrichments.length === limit"
@@ -164,12 +164,15 @@
 <script src="./data-platform.js"></script>
 <style lang="scss" scoped src="./data-platform.scss"></style>
 <style lang="scss">
-.table {
+// .table {
+// 	overflow: auto;
+// 	display: block;
+// 	width: 100%;
+// }
+.table--data__platform {
 	overflow: auto;
 	display: block;
 	width: 100%;
-}
-.table--contact__research {
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;

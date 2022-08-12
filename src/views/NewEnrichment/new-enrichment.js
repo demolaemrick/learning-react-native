@@ -3,7 +3,7 @@ import { mapActions } from 'vuex';
 import TextInput from '@/components/Input/TextInput';
 import CButton from '@/components/Button';
 import VModal from '@/components/Modal';
-import VHeader from '@/components/Header/search/Header';
+import VHeader from '@/components/Header/dataEnrichment/Header';
 import PasswordInput from '@/components/Input/PasswordInput';
 import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
