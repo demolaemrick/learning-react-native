@@ -6,7 +6,7 @@ export default {
 	 * @param {Object} data - new data enrichment payload
 	 */
 	addNewDataEnrichment: async ({ commit }, data) => {
-		const url = 'research/data/enrichment';
+		const url = 'data-research/single';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
@@ -17,7 +17,7 @@ export default {
 		}
 	},
 	getFieldsData: async ({ commit }) => {
-		const url = 'research/enrichment/data';
+		const url = 'data-research/fields';
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
@@ -29,7 +29,7 @@ export default {
 	},
 	enrichmentHistory: async ({ commit }, query) => {
 		const urlParams = new URLSearchParams(query);
-		let url = `enrichment/history?${urlParams.toString()}`;
+		let url = `data-research/history?${urlParams.toString()}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {

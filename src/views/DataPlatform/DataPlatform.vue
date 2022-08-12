@@ -74,7 +74,7 @@
 						</td>
 					</template>
 				</v-table>
-				<div class="table__pagination__wrapper">
+				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
