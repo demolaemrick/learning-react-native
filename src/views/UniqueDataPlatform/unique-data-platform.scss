@@ -1,52 +1,10 @@
 @import '../../assets/scss/main.scss';
 
-.navbar {
-    margin: 32px 0 85px;
-    display: block;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-item {
-    &.logo {
-        display: flex;
-        align-items: center;
-
-        &-text {
-            line-height: 1.25;
-            letter-spacing: -0.57px;
-            font-size: 24px;
-        }
-    }
-}
-
-.nav__menu__right {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .search__icon__wrapper {
-        margin-right: 25px;
-        cursor: pointer;
-    }
-
-    .user__menu__wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: 5px;
-
-        .user__dropdown__menu {
-            .dropdown__list-wrapper {
-                top: 100%;
-            }
-        }
-    }
-}
-
 .main-section {
-    margin-block: 100px;
+    margin: 0 auto;
+    padding: 0 3rem 3rem 3rem;
+    width: 100%;
+    position: relative;
 
     .hero {
         max-width: 535px;
@@ -82,7 +40,6 @@
             line-height: 1.56;
             letter-spacing: -0.76px;
         }
-
     }
 
     .action__group {
@@ -102,8 +59,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #FFFFFF;
-        border: 1px solid #DDE5EE;
+        background: #ffffff;
+        border: 1px solid #dde5ee;
         box-sizing: border-box;
 
         &>.user__dropdown__menu {
@@ -114,7 +71,6 @@
 
             & .dropdown__list-wrapper {
                 width: 155px;
-
             }
         }
 
@@ -126,7 +82,7 @@
                 font-size: 14px;
                 line-height: 16px;
                 letter-spacing: 0.4px;
-                color: #3A434B;
+                color: #3a434b;
                 margin-right: 15px;
             }
         }
@@ -225,7 +181,7 @@ thead.table__header {
         line-height: 24px;
         text-align: center;
         letter-spacing: 0.2px;
-        color: #2F2E80;
+        color: #2f2e80;
     }
 }
 
@@ -233,7 +189,7 @@ thead.table__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #D7DCE0;
+    border-bottom: 1px solid #d7dce0;
     padding-bottom: 15px;
 
     &-title {
@@ -365,7 +321,6 @@ thead.table__header {
         color: #989aaa;
         margin-top: 0.5em;
     }
-
 }
 
 .text__title {
@@ -373,7 +328,13 @@ thead.table__header {
 }
 
 .main_title {
-    margin-bottom: 20px;
+    font-family: Karla;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #333758;
 }
 
 .row-link {
@@ -532,11 +493,91 @@ thead.table__header {
             padding: 5px 10px;
         }
     }
-
 }
 
- .emails-text {
+.emails-text {
     font-weight: 600;
     font-size: 18px;
-     color: #333758;
- }
+    color: #333758;
+}
+
+.modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    justify-items: center;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: none !important;
+}
+
+.modal__header__btn__wrapper {
+    text-align: right;
+    padding-bottom: 2rem;
+}
+
+.scroll-container {
+    max-width: 768px;
+
+    tr th:first-child,
+    tr td:first-child {
+        position: sticky;
+        min-width: 50px;
+        left: 0;
+        background: white;
+    }
+}
+
+.table-holder,
+.table-responsive {
+    position: relative;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #333333;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #333333;
+    outline: 1px solid #333333;
+}
+
+.info {
+    position: absolute;
+    width: 200px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    text-align: right;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.prev-icon {
+    left: 0;
+    width: 100px;
+}
+
+.show {
+    opacity: 1;
+    visibility: visible;
+}
