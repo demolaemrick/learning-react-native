@@ -50,10 +50,6 @@ export default {
 			loading: false,
 			tableHeaders: [
 				{
-					name: '',
-					elementSlot: true
-				},
-				{
 					name: 'Name'
 				},
 				{

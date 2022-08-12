@@ -15,13 +15,13 @@
 			<div class="mt-2">
 				<v-table class="mt-2" :tableHeaders="tableHeaders" :tableData="history" :loading="pageLoading">
 					<template slot-scope="{ item }">
-						<td class="table__row-item" @click="clickResearch(item)">
+						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.rowId }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
+						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.searchType }}
 						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
+						<td class="table__row-item" @click="handleRowClick(item)">
 							<!-- <ol>
 								<li><span>Industry:</span> {{ item.parameters.industry }}</li>
 								<li><span>CompanySize: </span> {{ item.parameters.size }}</li>

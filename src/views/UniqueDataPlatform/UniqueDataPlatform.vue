@@ -9,10 +9,7 @@
 					</div>
 					Unique ID/tag
 				</div>
-				<div class="flex flex__item-center">
-					<p class="emails-text mr-3">Emails Found: 50/100 (50%)</p>
-					<v-button class="btn__import__contact" @click="toggleModal">Export to Outreach.io</v-button>
-				</div>
+				<p class="emails-text">Emails Found: 50/100 (50%)</p>
 			</div>
 			<div class="contact__research__menu"></div>
 			<div class="mt-2">
@@ -31,14 +28,6 @@
 							:allchecked="checkedContacts.length === limit"
 						>
 							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
-									<input
-										type="checkbox"
-										:value="item.id"
-										v-model="checkedContacts"
-										:disabled="item.status === 'in-progress'"
-									/>
-								</td>
 								<td class="table__row-item" @click="clickResearch(item)">
 									{{ item.name }}
 								</td>

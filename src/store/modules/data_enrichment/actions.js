@@ -41,7 +41,6 @@ export default {
 	},
 	enrichedData: async ({ commit }, query) => {
 		const urlParams = new URLSearchParams(query);
-		console.log('paramsid===', urlParams);
 		let url = `enrichment/history/data?${urlParams.id}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
