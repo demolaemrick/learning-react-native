@@ -20,9 +20,7 @@
 					<div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
 						<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="contact__research" :loading="pageLoading">
 							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td class="table__row-item">
-									{{ item.firstName }} {{item.lastName}}
-								</td>
+								<td class="table__row-item">{{ item.firstName }} {{ item.lastName }}</td>
 								<td class="table__row-item">
 									{{ item.title }}
 								</td>
@@ -65,7 +63,7 @@
 									<!-- {{ item.email_verification }} -->
 								</td>
 								<td class="table__row-item">
-									{{ item.seniority }}
+									<!-- {{ item.seniority }} -->
 								</td>
 								<td class="table__row-item">
 									<!-- {{ item.function }} -->

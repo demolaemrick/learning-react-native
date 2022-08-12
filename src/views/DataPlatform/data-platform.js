@@ -100,8 +100,8 @@ export default {
 			toggleClass: true,
 			showModal: false,
 			exportLoading: false,
-			sortQuery: null,
 			showSuspendedModal: false,
+			deleting: false,
 			showExportModal: false
 		};
 	},
@@ -112,6 +112,7 @@ export default {
 		...mapActions({
 			enrichmentHistory: 'data_enrichment/enrichmentHistory',
 			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
+			deleteEnrichmentHistory: 'data_enrichment/deleteEnrichmentData',
 			showAlert: 'showAlert'
 		}),
 
@@ -217,6 +218,51 @@ export default {
 					this.toggleClass = !this.toggleClass;
 				}, 500);
 			}
+		},
+		async deleteEnrichmentData() {
+			try {
+				this.deleting = true;
+				let deleteData = null;
+				if (this.checkedDataEnrichments.length) {
+					deleteData = {
+						rows: this.checkedDataEnrichments
+					};
+				}
+				const response = await this.deleteEnrichmentData(deleteData);
+				console.log(response);
+
+				const { status, statusText } = response;
+				if (status === 200 && statusText === 'OK') {
+					// this.searchQuery = '';
+					// this.page = 1;
+					await this.getHistory();
+					this.toggleModal('showModal');
+					this.showAlert({
+						status: 'success',
+						message: 'Data enrichment history deleted successfully',
+						showAlert: true
+					});
+				}
+				this.deleting = false;
+			} catch (error) {
+				console.log(error.message);
+				
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+				this.deleting = false;
+			} finally {
+				this.checkedContacts = [];
+				this.deleting = false
+			}
+		},
+		openDeleteModal(e, rowId, full_name) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+			this.contactToDelete = { rowId, full_name };
+			this.showModal = true;
 		}
 	},
 
