@@ -26,74 +26,105 @@
 }
 
 .main {
-	@include query(mobile, max) {
-		@include flexcol;
-		margin: 20px 0;
-	}
 
-	.form-container {
-		width: 100%;
+    @include query(mobile, max) {
+        @include flexcol;
+        margin: 20px 0;
+    }
 
-		&-header {
-			// max-width: 341px;
-			h3 {
-				font-size: 32px;
-				letter-spacing: -0.5px;
-				text-align: center;
-				margin-bottom: 16px;
-			}
-			p {
-				font-size: 16px;
-				font-weight: 400;
-				line-height: 1.67;
-				letter-spacing: -0.12px;
-				text-align: center;
-			}
-			.details-wrapper {
-				background: #fbfbff;
-				border-radius: 4px;
-				padding: 14px 20px;
+    .form-container {
+        width: 100%;
+       
+        &-header {
+            color: #333758;
+            h3 {
+                margin-bottom: 12px;
+                font-weight: 600;
+                font-size: 32px;
+                line-height: 32px;                           
+                text-align: center;
+                letter-spacing: -0.761905px;            
+                color: inherit;
 
-				ul {
-					display: flex;
-					flex-direction: column;
-					gap: 10px;
-					list-style-type: disc !important;
+                @include query(mobile, max){
+                    font-size: 28px;
+                }
+            }
+            p {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;            
+                text-align: center;
+                letter-spacing: -0.05px;  
+                 
+                    @include query(mobile, max) {
+                        font-size: 14px;
+                    }
+            }
+            .details-wrapper{                
+                background: #FBFBFF;
+                border-radius: 4px;
+                padding: 14px 10px;
+                
 
-					li {
-						font-size: 14px;
-						font-weight: 400;
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0 10px;
+                    gap: 10px;
+                    list-style-type: disc !important;
 
-						a {
-							color: #3b48f7;
-							text-decoration: underline;
-						}
-					}
-				}
-			}
-		}
 
-		&-input {
-			width: 100%;
-			margin-top: 32px;
+                    li {
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 20px;
+                        letter-spacing: -0.05px;
 
-			.select-group {
-				label {
-					font-size: 14px;
-					margin-bottom: 12px !important;
-					color: #989aaa;
-				}
-				select {
-					height: 48px;
-					padding-left: 16px;
-					background: #ffffff;
-					border: 1px solid #d7dce0;
-					border-radius: 4px;
-					color: #333758;
-				}
-			}
-		}
-	}
+                        a{
+                            color: #3B48F7;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-input {
+            width: 100%;
+            margin-top: 32px;
+
+            .select-group {
+                
+                label{
+                    font-weight: 500;
+                    font-size: 14px;
+                    margin-bottom: 12px !important;
+                    color: #989AAA;
+                }
+                select{
+                    height: 48px;
+                    padding-left: 16px;
+                    background: #FFFFFF;
+                    border: 1px solid #D7DCE0;
+                    border-radius: 4px;
+                    color: #333758;
+                    /* Hide browser default icon */
+                    -webkit-appearance: none;
+                    appearance: none;
+
+                    /* CUSTOM ICON */
+                    background-image: url("../../assets/icons/carret-down-light.svg");
+                    background-size: 15px;
+                    background-repeat: no-repeat;
+                    background-position: calc(100% - 16px) center;
+                   
+                }
+            }
+        }
+      
+    }
 }
 
 .animation-in {
@@ -104,6 +135,13 @@
 .animation-out {
 	transform-origin: bottom left;
 	animation: out 0.6s ease-in-out;
+}
+
+.btn-flex{
+    @include query(mobile, max){
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 // Modal

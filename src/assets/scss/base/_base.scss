@@ -4,13 +4,13 @@
 }
 
 *:disabled {
-	cursor: not-allowed!important;
+	cursor: not-allowed !important;
 }
 
 html {
 	scroll-behavior: smooth;
-  }
-  
+}
+
 body {
 	font-size: $base-font-size;
 	color: $grey-text;
@@ -68,9 +68,9 @@ hr {
 	margin-bottom: 1rem;
 }
 
-.row {
-	display: flex;
-	flex-wrap: wrap;
-	margin-right: -15px;
-	margin-left: -15px;
-}
+// .row {
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	margin-right: -15px;
+// 	margin-left: -15px;
+// }

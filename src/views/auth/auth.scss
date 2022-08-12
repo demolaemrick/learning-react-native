@@ -42,20 +42,37 @@
 	.auth {
 		width: 100%;
 		p {
-			line-height: 1.67;
-			letter-spacing: -0.12px;
+			font-family: Karla;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 17px;
+			line-height: 16px;
 			text-align: center;
+			letter-spacing: -0.05px;
+			color: #333758;
 		}
 		&-header {
 			h3 {
-				letter-spacing: -0.5px;
-				text-align: center;
 				margin-bottom: 16px;
+				font-family: Karla;
+				font-style: normal;
+				font-weight: 600;
+				font-size: 32px;
+				line-height: 32px;
+				text-align: center;
+				letter-spacing: -0.761905px;
+				color: #333758;
 			}
 		}
 		&-input {
 			width: 100%;
 			margin-top: 32px;
+			font-family: Karla;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 15px !important;
+			line-height: 24px;
+			color: #333758;
 		}
 		.forgot-password {
 			text-align: right;

@@ -1,9 +1,7 @@
 <template>
 	<header>
 		<nav class="navbar">
-			<div class="nav-item logo">
-				<logo />
-			</div>
+			<div class="nav-item logo"><logo /></div>
 			<div v-if="notglobal" class="nav__menu__right">
 				<img
 					v-if="loggedInUser.status !== 'suspended'"
@@ -161,13 +159,14 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/main.scss';
 .navbar {
-	margin: 32px 0 85px;
-	display: block;
+	width: 100%;
+	min-height: 92px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #f2f2f2;
 	padding: 0 3rem !important;
+	margin-bottom: 48px;
 }
 .nav-item {
 	&.logo {
@@ -185,19 +184,23 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	.search__icon__wrapper {
-		margin-right: 25px;
 		cursor: pointer;
 	}
 	.user__menu__wrapper {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-left: 5px;
 		.user__dropdown__menu {
+			span {
+				padding: 60px !important;
+			}
 			.dropdown__list-wrapper {
 				top: 100%;
 			}
 		}
+	}
+	.dropdown__wrapper {
+		padding: 0px !important;
 	}
 }
 </style>

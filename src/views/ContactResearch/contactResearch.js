@@ -150,7 +150,6 @@ export default {
 					this.getHistory();
 				}
 			} catch (error) {
-				// console.log(error);
 				if (error.response) {
 					this.showAlert({
 						status: 'error',

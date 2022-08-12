@@ -30,7 +30,6 @@ export default {
 	},
 	methods: {
 		onClose() {
-			console.log('here');
 			this.showDropdown = false;
 		},
 		toggleDropDown(e) {

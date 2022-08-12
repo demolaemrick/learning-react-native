@@ -8,7 +8,7 @@ import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
 import VTable from '@/components/Table';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
@@ -16,11 +16,13 @@ import VHeader from '@/components/Header/search/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
-import debounce from 'lodash.debounce';
-import { Carousel, Slide } from 'vue-carousel';
+import NextIcon from '../../assets/icons/next-icon.svg';
+import PrevIcon from '../../assets/icons/prev-icon.svg';
+import HorizontalScroll from 'vue-horizontal-scroll';
+import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css';
 
 export default {
-	name: 'ContactResearch',
+	name: 'UniqueDataPlatform',
 	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
@@ -38,8 +40,7 @@ export default {
 		VHeader,
 		ConfigData,
 		SuspendedModal,
-		Carousel,
-		Slide
+		HorizontalScroll
 	},
 	data() {
 		return {
@@ -74,9 +75,7 @@ export default {
 				},
 				{
 					name: 'Seniority'
-				}
-			],
-			tableHeaders2: [
+				},
 				{
 					name: 'Function'
 				},
@@ -105,150 +104,57 @@ export default {
 					name: 'Company Website'
 				}
 			],
-			tableData: {
-				name: 'Kingsley Omin',
-				title: 'Product Designer',
-				company: 'Enyata',
-				company_ll: 'link-url',
-				company_contact_ll: 'link-url',
-				status: 'ready',
-				email: 'Kingsleyomin@enyata.com',
-				email_verification: 'Valid',
-				seniority: 'Manager'
-			},
-			tableData2: {
-				function: 'Function',
-				company_headcount: '200',
-				company_industry: 'London',
-				company_revenue: 'London',
-				company_city: 'London',
-				company_state: 'London',
-				company_country: 'England',
-				company_keywords: 'Klam',
-				company_website: 'Klam'
-			},
 			count: 0,
 			currentPage: 0,
-			history: null,
+			enrichedDataHistory: null,
 			interval: null,
 			checkedContacts: [],
 			pageLoading: false,
 			nextPage: null,
-			toggleClass: true,
-			showModal: false,
-			contactToDelete: {},
-			exportLoading: false,
-			sortQuery: null,
-			deleting: false,
-			subscriptionDone: false,
-			showSuspendedModal: false,
-			searchQuery: '',
-			showExportModal: false
+			dataHistory: null,
+			showExportModal: false,
+			showInfo: true,
+			hasScroll: true
 		};
 	},
 	async mounted() {
+		this.getSingleResearchData();
 		if (this.getLoggedUser.status === 'suspended') {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
 		}
 
-		let { page, limit, sortQuery, keyword, currentPage, count, nextPage, total } = this.getContactPageData;
-		this.page = page;
-		this.limit = limit;
-		this.sortQuery = sortQuery ? sortQuery : null;
-		this.searchQuery = keyword;
-		this.currentPage = currentPage;
-		this.total = total;
-		this.count = count;
-		this.nextPage = nextPage ? nextPage : null;
-
-		// this.pageLoading = true;
-		// await this.getHistory();
+		let app = this;
+		let table = this.$refs.table;
+		function verifyScroll() {
+			if (table.scrollWidth - 60 < table.clientWidth) {
+				app.hasScroll = true;
+			} else {
+				app.hasScroll = false;
+			}
+		}
+		verifyScroll();
+		window.addEventListener('resize', verifyScroll);
 	},
 	methods: {
-		...mapMutations({
-			saveSearchPayload: 'search_notes/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult',
-			setContactPageData: 'user/setContactPageData'
-		}),
 		...mapActions({
-			research_history: 'search_services/research_history',
-			subscribeResearch: 'search_services/subscribeResearch',
-			export_history: 'search_services/export_history',
-			bulk_research: 'search_services/bulk_research',
-			deleteSingleResearch: 'search_services/deleteSingleResearch',
-			refresh: 'search_services/refresh',
+			getSingleResearch: 'data_enrichment/getSingleResearch',
 			showAlert: 'showAlert'
 		}),
-
-		async RefreshResearch(e, id) {
+		async getSingleResearchData() {
+			this.pageLoading = true;
 			try {
-				const response = await this.refresh({ id, userId: null });
-				if (response.status === 200) {
-					this.getHistory();
-				}
-			} catch (error) {
-				// console.log(error);
-				if (error.response) {
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-				}
-			}
-		},
-		toggleModal() {
-			this.showModal = !this.showModal;
-		},
-		openDeleteModal(e, rowId, full_name) {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-			this.contactToDelete = { rowId, full_name };
-			this.showModal = true;
-		},
+				const {
+					data: {
+						data: { data }
+					}
+				} = await this.getSingleResearch(this.$route.params.id);
 
-		clickCallback(page) {
-			// console.log(page);
-			this.page = page;
-			this.checkedContacts = [];
-			this.getHistory();
-		},
-		closeModal() {
-			this.showModal = false;
-		},
-		async getHistory() {
-			try {
-				// console.log(this.searchQuery);
-				// return;
-				let historyData = {
-					page: this.page,
-					limit: this.limit,
-					...this.sortQuery
-				};
-				if (this.searchQuery && this.searchQuery.trim().length) {
-					historyData.keyword = this.searchQuery;
-				}
-
-				const response = await this.research_history(historyData);
-				// this.history = [];
-				this.history = response.data.data.history;
-				this.count = response.data.data.count;
-				this.currentPage = response.data.data.currentPage;
-				this.total = Math.ceil(response.data.data.count / this.limit);
-				this.nextPage = response.data.data.nextPage;
-				this.setContactPageData({
-					page: this.page,
-					limit: this.limit,
-					sortQuery: this.sortQuery,
-					keyword: this.searchQuery,
-					currentPage: response.data.data.currentPage,
-					count: response.data.data.count,
-					nextPage: response.data.data.nextPage,
-					total: Math.ceil(response.data.data.count / this.limit)
-				});
-				this.checkPendngStatus();
-				return true;
+				this.dataHistory = data;
+				// this.count = count;
+				// this.currentPage = currentPage;
+				// this.total = Math.ceil(count / this.limit);
+				// this.nextPage = nextPage;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -267,14 +173,21 @@ export default {
 				return `https://${link}`;
 			}
 		},
-		clickResearch() {
-			// if (item.status.statusCode !== 'IN_PROGRESS') {
-			// 	this.$router.push({ name: 'Insights', query: { id: item.rowId } });
-			// }
-			// this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.search_id } });
+
+		wheelHorizontal(e) {
+			if (e.deltaY < 0) {
+				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft - 50;
+			} else {
+				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft + 50;
+			}
 		},
-		closeSuspendedModal() {
-			this.showSuspendedModal = false;
+		scrollHorizontal() {
+			if (this.$refs.table.scrollLeft > 0) {
+				this.showInfo = false;
+			}
+			if (this.$refs.table.scrollLeft == 0) {
+				this.showInfo = true;
+			}
 		}
 	},
 	computed: {
@@ -287,19 +200,14 @@ export default {
 			if (images && images.length) {
 				return images[Math.floor(Math.random() * images.length)];
 			}
+		},
+		navigationNext() {
+			const nextIcon = NextIcon;
+			return `<img src="${nextIcon}"/>`;
+		},
+		navigationPrev() {
+			const prevIcon = PrevIcon;
+			return `<img src="${prevIcon}"/>`;
 		}
-	},
-	watch: {
-		searchQuery: debounce(function (newVal) {
-			if (newVal) {
-				if (!this.pageLoading) {
-					this.page = 1;
-					this.getHistory();
-				}
-			} else {
-				this.page = 1;
-				this.getHistory();
-			}
-		}, 600)
 	}
 };
