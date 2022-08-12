@@ -164,11 +164,6 @@
 <script src="./data-platform.js"></script>
 <style lang="scss" scoped src="./data-platform.scss"></style>
 <style lang="scss">
-// .table {
-// 	overflow: auto;
-// 	display: block;
-// 	width: 100%;
-// }
 .table--data__platform {
 	overflow: auto;
 	display: block;
