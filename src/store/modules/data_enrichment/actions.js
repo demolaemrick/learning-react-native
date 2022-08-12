@@ -39,8 +39,9 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	getSingleResearch: async ({ commit }, rowId) => {
-		let url = `data-research/single/${rowId}`;
+	getSingleResearch: async ({ commit }, data) => {
+		const urlParams = new URLSearchParams(data.query);
+		let url = `data-research/single/${data.rowId}?${urlParams.toString()}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {

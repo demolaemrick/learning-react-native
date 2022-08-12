@@ -130,7 +130,7 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
-			this.checkedContacts = [];
+			this.checkedDataEnrichments = [];
 			this.getHistory();
 		},
 		async getHistory() {
