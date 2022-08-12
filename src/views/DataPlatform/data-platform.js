@@ -8,7 +8,7 @@ import VTab from '@/components/Tabs/Tab';
 import VToggleDropdown from '@/components/ToggleDropdown';
 import VTable from '@/components/Table';
 import { ValidationObserver } from 'vee-validate';
-import { mapMutations, mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Loader from '@/components/Loader';
 import FileUpload from 'vue-upload-component';
 import Logo from '@/components/Logo';
@@ -44,6 +44,10 @@ export default {
 			total: 0,
 			loading: false,
 			tableHeaders: [
+				{
+					name: '',
+					elementSlot: true
+				},
 				{
 					name: 'Search ID'
 				},
@@ -90,18 +94,14 @@ export default {
 			currentPage: 0,
 			history: null,
 			interval: null,
-			checkedContacts: [],
+			checkedDataEnrichments: [],
 			pageLoading: false,
 			nextPage: null,
 			toggleClass: true,
 			showModal: false,
-			contactToDelete: {},
 			exportLoading: false,
 			sortQuery: null,
-			deleting: false,
-			subscriptionDone: false,
 			showSuspendedModal: false,
-			searchQuery: '',
 			showExportModal: false
 		};
 	},
@@ -109,58 +109,25 @@ export default {
 		this.getHistory();
 	},
 	methods: {
-		...mapMutations({
-			saveSearchPayload: 'search_notes/saveSearchPayload',
-			saveSearchedResult: 'search_services/saveSearchedResult',
-			setContactPageData: 'user/setContactPageData'
-		}),
 		...mapActions({
 			enrichmentHistory: 'data_enrichment/enrichmentHistory',
-			subscribeResearch: 'search_services/subscribeResearch',
-			export_history: 'search_services/export_history',
-			bulk_research: 'search_services/bulk_research',
-			deleteSingleResearch: 'search_services/deleteSingleResearch',
-			refresh: 'search_services/refresh',
+			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
 			showAlert: 'showAlert'
 		}),
 
-		async RefreshResearch(e, id) {
-			try {
-				const response = await this.refresh({ id, userId: null });
-				if (response.status === 200) {
-					this.getHistory();
-				}
-			} catch (error) {
-				// console.log(error);
-				if (error.response) {
-					this.showAlert({
-						status: 'error',
-						message: error.response.data.message,
-						showAlert: true
-					});
-				}
-			}
-		},
-		toggleModal(modal) {
-			if (!this[modal]) {
-				this[modal] = true;
+		checkAll(event) {
+			if (event.target.checked) {
+				this.history.forEach((item) => {
+					if (item.status === 'ready' || item.status === 'done') {
+						this.checkedDataEnrichments.push(item.rowId);
+						return item.rowId;
+					}
+				});
 			} else {
-				this.toggleClass = !this.toggleClass;
-				setTimeout(() => {
-					this[modal] = !this[modal];
-					this.toggleClass = !this.toggleClass;
-				}, 500);
+				this.checkedDataEnrichments = [];
 			}
 		},
-		openDeleteModal(e, rowId, full_name) {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-			this.contactToDelete = { rowId, full_name };
-			this.showModal = true;
-		},
-
 		clickCallback(page) {
-			// console.log(page);
 			this.page = page;
 			this.checkedContacts = [];
 			this.getHistory();
@@ -168,8 +135,6 @@ export default {
 		async getHistory() {
 			this.pageLoading = true;
 			try {
-				// console.log(this.searchQuery);
-				// return;
 				let historyData = {
 					page: this.page,
 					limit: this.limit
@@ -204,12 +169,57 @@ export default {
 			}
 		},
 		handleRowClick(item) {
-			// if (item.status.statusCode !== 'IN_PROGRESS') {
-			// this.$router.push({ name: 'UniqueDataPlatform', params: { rowId: item.rowId } });
-			// }
-			this.$router.push({ name: 'UniqueDataPlatform', query: { id: item.rowId } });
+			if (item.status !== 'IN_PROGRESS') {
+				this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.rowId } });
+			}
+		},
+		async exportCSV() {
+			this.exportLoading = true;
+
+			try {
+				let exportData = null;
+				if (this.checkedDataEnrichments.length) {
+					exportData = {
+						rows: this.checkedDataEnrichments
+					};
+				}
+				const response = await this.exportDataEnrichmentsHistory(exportData);
+
+				let csvContent = 'data:text/csv;charset=utf-8,';
+				let csvData = new Blob([response.data], {
+					type: csvContent
+				});
+
+				let csvUrl = URL.createObjectURL(csvData);
+
+				const link = document.createElement('a');
+				link.setAttribute('href', csvUrl);
+				link.setAttribute('download', 'export.csv');
+				link.click();
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.exportLoading = false;
+				this.checkedDataEnrichmentss = [];
+			}
+		},
+		toggleModal(modal) {
+			if (!this[modal]) {
+				this[modal] = true;
+			} else {
+				this.toggleClass = !this.toggleClass;
+				setTimeout(() => {
+					this[modal] = !this[modal];
+					this.toggleClass = !this.toggleClass;
+				}, 500);
+			}
 		}
 	},
+
 	computed: {
 		...mapGetters({
 			getLoggedUser: 'auth/getLoggedUser',

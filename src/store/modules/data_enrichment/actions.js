@@ -39,13 +39,23 @@ export default {
 			return Promise.reject(error);
 		}
 	},
-	enrichedData: async ({ commit }, query) => {
-		const urlParams = new URLSearchParams(query);
-		let url = `enrichment/history/data?${urlParams.id}`;
+	getSingleResearch: async ({ commit }, rowId) => {
+		let url = `data-research/single/${rowId}`;
 		commit('resetReq', null, { root: true });
 		commit('reqInit', null, { root: true });
 		try {
 			const response = await api.get(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
+	exportDataEnrichmentsHistory: async ({ commit }, data) => {
+		const url = data ? 'data-research/export' : 'data-research/export-all';
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return Promise.reject(error);

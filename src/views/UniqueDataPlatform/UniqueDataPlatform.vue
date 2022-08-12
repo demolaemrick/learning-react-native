@@ -18,35 +18,27 @@
 						<img src="@/assets/icons/next-icon.svg" alt="next-icon" />
 					</div>
 					<div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
-						<v-table
-							:tableHeaders="tableHeaders"
-							:tableData="Array(10).fill(tableData)"
-							theme="contact__research"
-							:loading="pageLoading"
-							@checkAll="checkAll"
-							@sortTable="sortTable"
-							:allchecked="checkedContacts.length === limit"
-						>
+						<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="contact__research" :loading="pageLoading">
 							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.name }}
+								<td class="table__row-item">
+									{{ item.firstName }} {{item.lastName}}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
+								<td class="table__row-item">
 									{{ item.title }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
+								<td class="table__row-item">
 									{{ item.company }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
+								<td class="table__row-item">
 									<!-- {{ item.company_ll }} -->
 									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
+								<td class="table__row-item">
 									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									<div class="table__td__status">
-										<span class="status_done" v-if="item.status === 'DONE'">
+								<td class="table__row-item">
+									<!-- <div class="table__td__status">
+										<span class="status_done" v-if="item.status === 'done'">
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
@@ -64,43 +56,43 @@
 											</span>
 											<span class="text">{{ item.status }}</span>
 										</span>
-									</div>
+									</div> -->
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.email }}
+								<td class="table__row-item">
+									<!-- {{ item.email }} -->
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.email_verification }}
+								<td class="table__row-item">
+									<!-- {{ item.email_verification }} -->
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
+								<td class="table__row-item">
 									{{ item.seniority }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.function }}
+								<td class="table__row-item">
+									<!-- {{ item.function }} -->
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_headcount }}
+								<td class="table__row-item">
+									{{ item.compHeadcount }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_industry }}
+								<td class="table__row-item">
+									{{ item.compIndustry }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_revenue }}
+								<td class="table__row-item">
+									<!-- {{ item.compRevenue }} -->
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_city }}
+								<td class="table__row-item">
+									{{ item.compCity }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_state }}
+								<td class="table__row-item">
+									{{ item.compState }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_country }}
+								<td class="table__row-item">
+									{{ item.compCountry }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_keywords }}
+								<td class="table__row-item" v-for="(keyword, index) in item.compKeywords" :key="index">
+									{{ keyword }}
 								</td>
-								<td class="table__row-item" @click="clickResearch(item)">
-									{{ item.company_website }}
+								<td class="table__row-item">
+									{{ item.compWebsite }}
 								</td>
 							</template>
 						</v-table>
@@ -109,7 +101,7 @@
 						<img src="@/assets/icons/prev-icon.svg" alt="next-icon" />
 					</div>
 				</horizontal-scroll>
-				<div class="table__pagination__wrapper">
+				<div class="table__pagination__wrapper" v-if="!pageLoading && dataHistory && dataHistory.length > 0">
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
@@ -131,53 +123,14 @@
 					>
 					</paginate>
 				</div>
-				<div v-if="enrichedDataHistory && enrichedDataHistory.length < 1">
+				<div v-if="dataHistory && dataHistory.length < 1">
 					<div class="emptyState">
 						<img src="@/assets/icons/empty-state-image.svg" svg-inline />
-						<p class="emptyState-text">No data enrichment record found</p>
+						<p class="emptyState-text">No record found</p>
 					</div>
 				</div>
 			</div>
-
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
-			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
-			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
-		<template v-if="showModal">
-			<v-modal position="center" :useSlot="false" marginTop="6%">
-				<template #settings>
-					<div class="modal__wrapper">
-						<div class="modal__header">
-							<div class="modal__header__btn__wrapper">
-								<div class="modal__btn__content__wrapper" @click="closeModal()">
-									<span class="text">Close</span>
-									<span class="icon">
-										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="modal__content">
-							<div class="modal__content__icon__wrapper">
-								<img src="@/assets/icons/warning-icon.svg" alt="volley warning icon" class="ml-1" svg-inline />
-							</div>
-							<h3>Your outreach export is in progress</h3>
-							<div class="modal__text__wrapper">
-								<p>
-									volley robots are currently helping import your leads to {outreach_user_name}'s account for
-									{client_name}! You can leave this screen, we'll send you an email when everything is complete!
-								</p>
-							</div>
-							<div class="modal__btn__wrapper">
-								<v-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"
-									>Return to Data Platform</v-button
-								>
-							</div>
-						</div>
-					</div>
-				</template>
-			</v-modal>
-		</template>
 	</div>
 </template>
 

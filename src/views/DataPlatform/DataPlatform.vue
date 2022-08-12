@@ -3,7 +3,43 @@
 		<v-header />
 		<main class="main-section">
 			<div class="contact__research__menu">
-				<div class="main_title">My Data Enrichments</div>
+				<div>
+					<h2 class="main_title mb-1">My Data Enrichments</h2>
+					<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
+						<div class="btn__export__csv user__menu__wrapper">
+							<v-toggle-dropdown class="user__dropdown__menu" width="185px" left="0" itemPadding="0.9rem">
+								<template #dropdown-wrapper>
+									<p class="flex action_text">
+										<span>Actions</span>
+										<img src="@/assets/icons/arrow-dropdown-plane.svg" svg-inline />
+									</p>
+								</template>
+								<template #dropdown-items>
+									<li
+										class="dropdown__item"
+										v-if="checkedDataEnrichments.length === 0"
+										:disabled="history && history.length === 0"
+									>
+										<button @click="showExportModal = true" :disabled="history && history.length === 0">
+											Export as csv
+										</button>
+									</li>
+									<li class="dropdown__item" v-else :disabled="checkedDataEnrichments.length === 0">
+										<button :disabled="checkedDataEnrichments.length === 0" @click="exportCSV">Export Contacts</button>
+									</li>
+									<li class="dropdown__item" :disabled="checkedDataEnrichments.length === 0">
+										<button
+											:disabled="checkedDataEnrichments.length === 0"
+											@click="[openDeleteModal($event, null, null)]"
+										>
+											Delete
+										</button>
+									</li>
+								</template>
+							</v-toggle-dropdown>
+						</div>
+					</div>
+				</div>
 				<div class="action__group">
 					<div class="btn__wrapper">
 						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })"
@@ -13,8 +49,23 @@
 				</div>
 			</div>
 			<div class="mt-2">
-				<v-table class="mt-2" :tableHeaders="tableHeaders" :tableData="history" :loading="pageLoading">
+				<v-table
+					class="mt-2"
+					:tableHeaders="tableHeaders"
+					:tableData="history"
+					:loading="pageLoading"
+					@checkAll="checkAll"
+					:allchecked="checkedDataEnrichments.length === limit"
+				>
 					<template slot-scope="{ item }">
+						<td v-if="getLoggedUser.status !== 'suspended'" class="table__row-item">
+							<input
+								type="checkbox"
+								:value="item.rowId"
+								v-model="checkedDataEnrichments"
+								:disabled="item.status === 'IN_PROGRESS' || item.status === 'IN_PROGRESS'"
+							/>
+						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.rowId }}
 						</td>
@@ -104,6 +155,34 @@
 				</div>
 			</div>
 		</main>
+		<v-modal
+			v-if="showExportModal"
+			position="center"
+			:toggleClass="toggleClass"
+			@close="toggleModal('showExportModal')"
+			maxWidth="400px"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Export as csv</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<p class="modal__content-text">This action will download all your data enrichments history.</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="[toggleModal('showExportModal'), (checkedDataEnrichments = [])]">Cancel</div>
+						<v-button
+							ref="exportCsvBtn"
+							class="config__btn"
+							buttonType="primary"
+							size="modal"
+							@click="[exportCSV(), toggleModal('showExportModal')]"
+						>
+							<span style="color: #fff">Continue</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
 	</div>
 </template>
 
