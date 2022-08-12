@@ -155,6 +155,7 @@
 				</div>
 			</div>
 		</main>
+		<!-- EXPORT MODAL -->
 		<v-modal
 			v-if="showExportModal"
 			position="center"
@@ -178,6 +179,36 @@
 							@click="[exportCSV(), toggleModal('showExportModal')]"
 						>
 							<span style="color: #fff">Continue</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
+		<!-- DELETE MODAL -->
+		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal('showModal')" maxWidth="400px">
+			<template #title>
+				<h4 class="modal__header-title">Delete Data</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<!-- <p class="modal__content-text" v-if="contactToDelete.rowId">
+						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
+					</p> -->
+					<p class="modal__content-text">
+						Kindly confirm that you want to delete
+						{{
+							checkedDataEnrichments.length > 1
+								? `${checkedDataEnrichments.length} data enrichments`
+								: `${checkedDataEnrichments.length} data enrichments`
+						}}.
+					</p>
+					<div class="modal__content-btn">
+						<div class="cancel" @click="[toggleModal('showModal'), (deleting = false), (checkedDataEnrichments = [])]">
+							Cancel
+						</div>
+						<v-button :disabled="deleting" class="config__btn" buttonType="warning" size="modal" @click="deleteEnrichmentData">
+							<Loader v-if="deleting" color="#ca1c1c" />
+							<span v-else>Delete</span>
 						</v-button>
 					</div>
 				</div>

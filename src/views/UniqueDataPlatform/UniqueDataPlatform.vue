@@ -48,7 +48,7 @@
 											</span>
 											<span class="text">{{ item.status }}</span>
 										</span>
-										<span>Not available</span>
+										<span>{{ '-' }}</span>
 										<!-- <span class="status_pending" v-else>
 											<span class="white__circle">
 												<span class="pin"></span>
