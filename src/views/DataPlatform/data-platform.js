@@ -55,10 +55,7 @@ export default {
 					name: 'Search Type',
 					width: 'small'
 				},
-				{
-					name: 'Parameters',
-					width: 'large'
-				},
+
 				{
 					name: 'Original Data Source',
 					width: 'small'
@@ -81,6 +78,10 @@ export default {
 				{
 					name: 'BDR Owner',
 					width: 'medium'
+				},
+				{
+					name: 'Parameters',
+					width: 'large'
 				},
 				{
 					name: 'Date',
@@ -130,7 +131,7 @@ export default {
 		},
 		clickCallback(page) {
 			this.page = page;
-			this.checkedContacts = [];
+			this.checkedDataEnrichments = [];
 			this.getHistory();
 		},
 		async getHistory() {

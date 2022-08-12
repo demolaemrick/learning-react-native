@@ -111,6 +111,7 @@ export default {
 			checkedContacts: [],
 			pageLoading: false,
 			nextPage: null,
+			prevPage: null,
 			dataHistory: null,
 			showExportModal: false,
 			showInfo: true,
@@ -143,18 +144,26 @@ export default {
 		}),
 		async getSingleResearchData() {
 			this.pageLoading = true;
+			let researchData = {
+				query: {
+					page: this.page,
+					limit: this.limit
+				},
+				rowId: this.$route.params.id
+			};
 			try {
 				const {
 					data: {
-						data: { data }
+						data: { data, count, currentPage, nextPage, prevPage }
 					}
-				} = await this.getSingleResearch(this.$route.params.id);
+				} = await this.getSingleResearch(researchData);
 
 				this.dataHistory = data;
-				// this.count = count;
-				// this.currentPage = currentPage;
-				// this.total = Math.ceil(count / this.limit);
-				// this.nextPage = nextPage;
+				this.count = count;
+				this.currentPage = currentPage;
+				this.total = Math.ceil(count / this.limit);
+				this.nextPage = nextPage;
+				this.prevPage = prevPage;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -188,6 +197,10 @@ export default {
 			if (this.$refs.table.scrollLeft == 0) {
 				this.showInfo = true;
 			}
+		},
+		clickCallback(page) {
+			this.page = page;
+			this.getSingleResearchData();
 		}
 	},
 	computed: {

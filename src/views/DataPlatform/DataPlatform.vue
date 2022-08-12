@@ -42,7 +42,7 @@
 				</div>
 				<div class="action__group">
 					<div class="btn__wrapper">
-						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })"
+						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })" :disabled="pageLoading"
 							>Start new enrichment</v-button
 						>
 					</div>
@@ -72,14 +72,7 @@
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.searchType }}
 						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							<!-- <ol>
-								<li><span>Industry:</span> {{ item.parameters.industry }}</li>
-								<li><span>CompanySize: </span> {{ item.parameters.size }}</li>
-								<li><span>Seniority: </span> {{ item.parameters.seniority }}</li>
-								<li><span>Keywords:</span> {{ item.parameters.keywords }}</li>
-							</ol> -->
-						</td>
+
 						<td class="table__row-item row-link" @click="handleRowClick(item)">
 							{{ stringElipsis(item.sourceUrl, 24) }}
 						</td>
@@ -97,6 +90,15 @@
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.bdrOwner }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.parameters || '-' }}
+							<!-- <ol>
+								<li><span>Industry:</span> {{ item.industry || '-' }}</li>
+								<li><span>CompanySize: </span> {{ item.size || '-' }}</li>
+								<li><span>Seniority: </span> {{ item.seniority || '-' }}</li>
+								<li><span>Keywords:</span> {{ item.keywords || '-' }}</li>
+							</ol> -->
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.createdAt | moment('MMMM D, YYYY') }}
