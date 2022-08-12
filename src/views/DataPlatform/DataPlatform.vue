@@ -73,12 +73,12 @@
 							{{ item.searchType }}
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
-							<!-- <ol>
-								<li><span>Industry:</span> {{ item.parameters.industry }}</li>
-								<li><span>CompanySize: </span> {{ item.parameters.size }}</li>
-								<li><span>Seniority: </span> {{ item.parameters.seniority }}</li>
-								<li><span>Keywords:</span> {{ item.parameters.keywords }}</li>
-							</ol> -->
+							<ol>
+								<li><span>Industry:</span> {{ item.industry || '-' }}</li>
+								<li><span>CompanySize: </span> {{ item.size || '-' }}</li>
+								<li><span>Seniority: </span> {{ item.seniority || '-' }}</li>
+								<li><span>Keywords:</span> {{ item.keywords || '-' }}</li>
+							</ol>
 						</td>
 						<td class="table__row-item row-link" @click="handleRowClick(item)">
 							{{ stringElipsis(item.sourceUrl, 24) }}
