@@ -81,8 +81,8 @@
 						<td class="table__row-item">
 							{{ item.compCountry || '-' }}
 						</td>
-						<td class="table__row-item" v-for="(keyword, index) in item.compKeywords" :key="index">
-							{{ keyword || '-' }}
+						<td class="table__row-item">
+							{{ item.keywords || '-' }}
 						</td>
 						<td class="table__row-item">
 							{{ item.compWebsite || '-' }}
