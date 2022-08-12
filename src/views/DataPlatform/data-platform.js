@@ -246,7 +246,7 @@ export default {
 				this.deleting = false;
 			} catch (error) {
 				console.log(error.message);
-				
+
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,
@@ -255,7 +255,7 @@ export default {
 				this.deleting = false;
 			} finally {
 				this.checkedContacts = [];
-				this.deleting = false
+				this.deleting = false;
 			}
 		},
 		openDeleteModal(e, rowId, full_name) {
