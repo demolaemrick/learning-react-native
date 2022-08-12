@@ -1,4 +1,5 @@
 @import '../../assets/scss/main.scss';
+
 .dropdown {
 	&__wrapper {
 		// padding: 1rem;
@@ -15,9 +16,11 @@
 		border-radius: 3px;
 		position: relative;
 	}
+
 	&__text {
 		color: #85879b;
 	}
+
 	&__item {
 		margin: 0;
 		position: relative;

@@ -53,6 +53,7 @@
 					class="mt-2"
 					:tableHeaders="tableHeaders"
 					:tableData="history"
+					theme="data__platform"
 					:loading="pageLoading"
 					@checkAll="checkAll"
 					:allchecked="checkedDataEnrichments.length === limit"
@@ -105,7 +106,7 @@
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
-								<span class="status_done" v-if="item.status === 'DONE'">
+								<span class="status_done" v-if="item.status === 'done'">
 									<span class="white__circle">
 										<span class="pin"></span>
 									</span>
@@ -223,6 +224,9 @@
 <style lang="scss" scoped src="./data-platform.scss"></style>
 <style lang="scss">
 .table--data__platform {
+	overflow: auto;
+	display: block;
+	width: 100%;
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;

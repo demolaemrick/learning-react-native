@@ -67,25 +67,23 @@
 }
 
 .contact__research__menu {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-	.text__title {
-		h2 {
-			font-size: 32px;
-			line-height: 1.56;
-			letter-spacing: -0.76px;
-		}
-	}
+        h2 {
+            font-size: 24px;
+            line-height: 1.56;
+            letter-spacing: -0.76px;
+        }
 
-	.action__group {
-		display: grid;
-		grid-template-columns: auto auto;
+    .action__group {
+        display: grid;
+        grid-template-columns: auto auto;
 
-		& > .form-group {
-			margin-right: 16px;
-		}
-	}
+        &>.form-group {
+            margin-right: 16px;
+        }
+    }
 }
 
 .btn__wrapper {

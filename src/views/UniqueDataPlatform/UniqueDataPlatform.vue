@@ -11,95 +11,84 @@
 				</div>
 				<p class="emails-text">Emails Found: 50/100 (50%)</p>
 			</div>
-			<div class="contact__research__menu"></div>
 			<div class="mt-2">
-				<horizontal-scroll>
-					<div class="info" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{ show: showInfo }">
-						<img src="@/assets/icons/next-icon.svg" alt="next-icon" />
-					</div>
-					<div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
-						<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="contact__research" :loading="pageLoading">
-							<template name="table-row" slot-scope="{ item }" class="pu">
-								<td class="table__row-item">{{ item.firstName || '-' }} {{ item.lastName }}</td>
-								<td class="table__row-item">
-									{{ item.title || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.company || '-' }}
-								</td>
-								<td class="table__row-item">
-									<!-- {{ item.company_ll|| '-'  }} -->
-									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
-								</td>
-								<td class="table__row-item">
-									<img class="icon" src="@/assets/icons/link.svg" svg-inline />
-								</td>
-								<td class="table__row-item">
-									<div class="table__td__status">
-										<span class="status_done" v-if="item.status === 'done'">
-											<span class="white__circle">
-												<span class="pin"></span>
-											</span>
-											<span class="text">{{ item.status }}</span>
-										</span>
-										<span class="status_ready" v-else-if="item.status === 'ready'">
-											<span class="white__circle">
-												<span class="pin"></span>
-											</span>
-											<span class="text">{{ item.status }}</span>
-										</span>
-										<span>{{ '-' }}</span>
-										<!-- <span class="status_pending" v-else>
+				<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="data__platform" :loading="pageLoading">
+					<template name="table-row" slot-scope="{ item }" class="pu">
+						<td class="table__row-item">{{ item.firstName || '-' }} {{ item.lastName }}</td>
+						<td class="table__row-item">
+							{{ item.title || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.company || '-' }}
+						</td>
+						<td class="table__row-item">
+							<!-- {{ item.company_ll|| '-'  }} -->
+							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+						</td>
+						<td class="table__row-item">
+							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+						</td>
+						<td class="table__row-item">
+							<div class="table__td__status">
+								<span class="status_done" v-if="item.status === 'done'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status }}</span>
+								</span>
+								<span class="status_ready" v-else-if="item.status === 'ready'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status }}</span>
+								</span>
+								<span>{{ '-' }}</span>
+								<!-- <span class="status_pending" v-else>
 											<span class="white__circle">
 												<span class="pin"></span>
 											</span>
 											<span class="text">{{ item.status }}</span>
 										</span> -->
-									</div>
-								</td>
-								<td class="table__row-item">
-									{{ item.email || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.email_verification || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.seniority || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.function || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compHeadcount || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compIndustry || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compRevenue || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compCity || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compState || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compCountry || '-' }}
-								</td>
-								<td class="table__row-item" v-for="(keyword, index) in item.compKeywords" :key="index">
-									{{ keyword || '-' }}
-								</td>
-								<td class="table__row-item">
-									{{ item.compWebsite || '-' }}
-								</td>
-							</template>
-						</v-table>
-					</div>
-					<div class="info prev-icon" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{ show: showInfo }">
-						<img src="@/assets/icons/prev-icon.svg" alt="next-icon" />
-					</div>
-				</horizontal-scroll>
+							</div>
+						</td>
+						<td class="table__row-item">
+							{{ item.email || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.email_verification || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.seniority || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.function || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compHeadcount || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compIndustry || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compRevenue || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compCity || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compState || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compCountry || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.keywords || '-' }}
+						</td>
+						<td class="table__row-item">
+							{{ item.compWebsite || '-' }}
+						</td>
+					</template>
+				</v-table>
 				<div class="table__pagination__wrapper" v-if="!pageLoading && dataHistory && dataHistory.length > 0">
 					<div class="title__left">
 						<span>Showing Page</span>
@@ -135,9 +124,11 @@
 
 <script src="./unique-data-platform.js"></script>
 <style lang="scss" scoped src="./unique-data-platform.scss"></style>
-<!-- <style lang="scss" scoped src="../ContactResearch/contactresearch.scss"></style> -->
 <style lang="scss">
-.table--contact__research {
+.table--data__platform {
+	overflow: auto;
+	display: block;
+	width: 100%;
 	tbody {
 		.table__row {
 			border-bottom: 1px solid #bac2c9;
