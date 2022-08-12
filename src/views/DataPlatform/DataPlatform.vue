@@ -42,7 +42,7 @@
 				</div>
 				<div class="action__group">
 					<div class="btn__wrapper">
-						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })"
+						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })" :disabled="pageLoading"
 							>Start new enrichment</v-button
 						>
 					</div>
