@@ -221,21 +221,16 @@ export default {
 			}
 		},
 		async deleteEnrichmentData() {
+			this.deleting = true;
+			let deleteData = null;
+			if (this.checkedDataEnrichments.length) {
+				deleteData = {
+					rows: this.checkedDataEnrichments
+				};
+			}
 			try {
-				this.deleting = true;
-				let deleteData = null;
-				if (this.checkedDataEnrichments.length) {
-					deleteData = {
-						rows: this.checkedDataEnrichments
-					};
-				}
-				const response = await this.deleteEnrichmentData(deleteData);
-				console.log(response);
-
-				const { status, statusText } = response;
-				if (status === 200 && statusText === 'OK') {
-					// this.searchQuery = '';
-					// this.page = 1;
+				const { status } = await this.deleteEnrichmentHistory(deleteData);
+				if (status === 200) {
 					await this.getHistory();
 					this.toggleModal('showModal');
 					this.showAlert({
@@ -244,10 +239,7 @@ export default {
 						showAlert: true
 					});
 				}
-				this.deleting = false;
 			} catch (error) {
-				console.log(error.message);
-
 				this.showAlert({
 					status: 'error',
 					message: error.response.data.message,

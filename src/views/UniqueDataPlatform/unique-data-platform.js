@@ -124,18 +124,6 @@ export default {
 			this.tableHeaders = this.tableHeaders.slice(1);
 			this.showSuspendedModal = true;
 		}
-
-		let app = this;
-		let table = this.$refs.table;
-		function verifyScroll() {
-			if (table.scrollWidth - 60 < table.clientWidth) {
-				app.hasScroll = true;
-			} else {
-				app.hasScroll = false;
-			}
-		}
-		verifyScroll();
-		window.addEventListener('resize', verifyScroll);
 	},
 	methods: {
 		...mapActions({
@@ -180,22 +168,6 @@ export default {
 				return link;
 			} else {
 				return `https://${link}`;
-			}
-		},
-
-		wheelHorizontal(e) {
-			if (e.deltaY < 0) {
-				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft - 50;
-			} else {
-				this.$refs.table.scrollLeft = this.$refs.table.scrollLeft + 50;
-			}
-		},
-		scrollHorizontal() {
-			if (this.$refs.table.scrollLeft > 0) {
-				this.showInfo = false;
-			}
-			if (this.$refs.table.scrollLeft == 0) {
-				this.showInfo = true;
 			}
 		},
 		clickCallback(page) {
