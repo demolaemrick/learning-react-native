@@ -161,12 +161,14 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/main.scss';
 .navbar {
-	margin: 32px 0 85px;
-	display: block;
+	width: 100%;
+	min-height: 92px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #f2f2f2;
+	padding: 0 3rem !important;
+	margin-bottom: 48px;
 }
 .nav-item {
 	&.logo {
@@ -181,10 +183,8 @@ export default {
 }
 .nav__menu__right {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	.search__icon__wrapper {
-		margin-right: 25px;
 		cursor: pointer;
 	}
 	.user__menu__wrapper {

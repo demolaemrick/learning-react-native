@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container container--lg">
 		<v-header />
 		<main class="main-section">
 			<div class="contact__research__menu">

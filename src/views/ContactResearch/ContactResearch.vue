@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container container--lg">
 		<v-header />
 		<config-data
 			v-if="openConfigPage"
@@ -11,7 +11,7 @@
 			:loading="loading"
 		/>
 		<main class="main-section">
-			<div class="main_title">
+			<div class="text__title main_title">
 				<h2>Contact Research</h2>
 			</div>
 			<div class="contact__research__menu">
