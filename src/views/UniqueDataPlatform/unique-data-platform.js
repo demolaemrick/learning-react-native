@@ -16,8 +16,6 @@ import VHeader from '@/components/Header/dataEnrichment/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
-import NextIcon from '../../assets/icons/next-icon.svg';
-import PrevIcon from '../../assets/icons/prev-icon.svg';
 import HorizontalScroll from 'vue-horizontal-scroll';
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css';
 
@@ -106,16 +104,13 @@ export default {
 			],
 			count: 0,
 			currentPage: 0,
-			enrichedDataHistory: null,
-			interval: null,
 			checkedContacts: [],
 			pageLoading: false,
 			nextPage: null,
 			prevPage: null,
 			dataHistory: null,
-			showExportModal: false,
-			showInfo: true,
-			hasScroll: true
+			totalEmails: 0,
+			totalContacts: 0
 		};
 	},
 	async mounted() {
@@ -142,7 +137,7 @@ export default {
 			try {
 				const {
 					data: {
-						data: { data, count, currentPage, nextPage, prevPage }
+						data: { data, count, currentPage, nextPage, prevPage, totalContacts, totalEmails }
 					}
 				} = await this.getSingleResearch(researchData);
 
@@ -152,6 +147,8 @@ export default {
 				this.total = Math.ceil(count / this.limit);
 				this.nextPage = nextPage;
 				this.prevPage = prevPage;
+				this.totalContacts = totalContacts;
+				this.totalEmails = totalEmails;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -180,19 +177,15 @@ export default {
 			getLoggedUser: 'auth/getLoggedUser',
 			getContactPageData: 'user/getContactPageData'
 		}),
-		contactImage(item) {
-			const images = item.images;
-			if (images && images.length) {
-				return images[Math.floor(Math.random() * images.length)];
-			}
+		emailsFound() {
+			const emailCount = `${this.totalEmails > this.totalContacts ? `${this.totalContacts}+` : this.totalEmails}/${
+				this.totalContacts
+			}`;
+			return emailCount;
 		},
-		navigationNext() {
-			const nextIcon = NextIcon;
-			return `<img src="${nextIcon}"/>`;
-		},
-		navigationPrev() {
-			const prevIcon = PrevIcon;
-			return `<img src="${prevIcon}"/>`;
+		percentageOfEmailsFound() {
+			const percentage = (this.totalEmails / this.totalContacts) * 100;
+			return percentage > 100 ? `${100}%` : `${percentage}%`;
 		}
 	}
 };
