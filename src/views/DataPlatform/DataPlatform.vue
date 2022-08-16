@@ -42,7 +42,7 @@
 				</div>
 				<div class="action__group">
 					<div class="btn__wrapper">
-						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })" :disabled="pageLoading"
+						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })"
 							>Start new enrichment</v-button
 						>
 					</div>
@@ -92,14 +92,16 @@
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.bdrOwner }}
 						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.parameters || '-' }}
-							<!-- <ol>
-								<li><span>Industry:</span> {{ item.industry || '-' }}</li>
-								<li><span>CompanySize: </span> {{ item.size || '-' }}</li>
-								<li><span>Seniority: </span> {{ item.seniority || '-' }}</li>
-								<li><span>Keywords:</span> {{ item.keywords || '-' }}</li>
-							</ol> -->
+						<td class="table__row-item" @click="clickResearch(item)">
+							<template>
+								<template v-if="item.parameters">
+									<ol v-for="[key, value] of Object.entries(item.parameters)" :key="key">
+										<strong> {{ key }}: </strong>
+										<span>{{ value }}</span>
+									</ol>
+								</template>
+								<span v-else>-</span>
+							</template>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.createdAt | moment('MMMM D, YYYY') }}
