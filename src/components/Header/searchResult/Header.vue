@@ -105,11 +105,12 @@ export default {
 	position: sticky;
 	top: 0;
 	z-index: 2;
-	background-color: #fff;
+	background-color: #fff !important;
 }
 .navbar {
 	display: flex;
 	justify-content: space-between;
+	width: 100%;
 	padding: 1em;
 	align-items: center;
 	padding: 1em 3em;

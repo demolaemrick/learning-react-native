@@ -9,7 +9,10 @@
 					</div>
 					Unique ID/tag
 				</div>
-				<p class="emails-text">Emails Found: 50/100 (50%)</p>
+				<template>
+					<div v-if="pageLoading" class="emails-text--loading"></div>
+					<p v-else class="emails-text">Emails Found: {{ emailsFound }} ({{ percentageOfEmailsFound }})</p>
+				</template>
 			</div>
 			<div class="mt-2">
 				<v-table :tableHeaders="tableHeaders" :tableData="dataHistory" theme="data__platform" :loading="pageLoading">

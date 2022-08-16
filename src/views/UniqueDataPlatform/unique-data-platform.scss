@@ -524,17 +524,6 @@ thead.table__header {
     padding-bottom: 2rem;
 }
 
-.scroll-container {
-    max-width: 768px;
-
-    tr th:first-child,
-    tr td:first-child {
-        position: sticky;
-        min-width: 50px;
-        left: 0;
-        background: white;
-    }
-}
 
 .table-holder,
 .table-responsive {
@@ -581,4 +570,32 @@ thead.table__header {
 .show {
     opacity: 1;
     visibility: visible;
+}
+
+.emails-text--loading {
+    background: linear-gradient(90deg, #f8f9fb, #e2e6f3, #f8f9fb, #e2e6f3);
+    animation: skeleton 2s ease infinite;
+    background-size: 300% 100%;
+    width: 193px;
+    cursor: progress;
+}
+
+@-webkit-keyframes skeleton {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes skeleton {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
 }
