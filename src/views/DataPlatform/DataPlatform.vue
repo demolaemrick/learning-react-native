@@ -28,10 +28,7 @@
 										<button :disabled="checkedDataEnrichments.length === 0" @click="exportCSV">Export Contacts</button>
 									</li>
 									<li class="dropdown__item" :disabled="checkedDataEnrichments.length === 0">
-										<button
-											:disabled="checkedDataEnrichments.length === 0"
-											@click="[openDeleteModal($event, null, null)]"
-										>
+										<button :disabled="checkedDataEnrichments.length === 0" @click="[openDeleteModal($event, null)]">
 											Delete
 										</button>
 									</li>
@@ -130,6 +127,20 @@
 								</span>
 							</div>
 						</td>
+						<td class="table__row-item dropdown">
+							<!-- menu3dot -->
+							<div class="user__menu__wrapper">
+								<v-toggle-dropdown class="user__dropdown__menu">
+									<template #dropdown-wrapper>
+										<img src="@/assets/icons/menu3dot.svg" svg-inline />
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item" @click="[RefreshResearch($event, item.rowId)]">Refresh</li>
+										<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId)]">Delete</li>
+									</template>
+								</v-toggle-dropdown>
+							</div>
+						</td>
 					</template>
 				</v-table>
 				<div class="table__pagination__wrapper" v-if="!pageLoading && history && history.length > 0">
@@ -198,7 +209,10 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<p class="modal__content-text">
+					<p class="modal__content-text" v-if="dataToDelete.rowId">
+						Kindly confirm that you want to delete this deta enrichment.
+					</p>
+					<p class="modal__content-text" v-else>
 						Kindly confirm that you want to delete
 						{{
 							checkedDataEnrichments.length > 1

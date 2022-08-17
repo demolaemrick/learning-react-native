@@ -7,7 +7,7 @@
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
 						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 					</div>
-					Unique ID/tag
+					{{ $route.params.id }}
 				</div>
 				<template>
 					<div v-if="pageLoading" class="emails-text--loading"></div>

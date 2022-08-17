@@ -8,7 +8,7 @@
 						><h3>Start a new enrichment</h3>
 						<p>
 							Choose a data source and client to start <br />
-							building a lead list
+							building a lead list.
 						</p></template
 					>
 					<template v-else>

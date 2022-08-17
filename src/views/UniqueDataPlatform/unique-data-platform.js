@@ -60,7 +60,7 @@ export default {
 					name: 'Company Li'
 				},
 				{
-					name: 'Contact Ll'
+					name: 'Contact Li'
 				},
 				{
 					name: 'Outreach Status'

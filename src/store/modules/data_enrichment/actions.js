@@ -62,6 +62,17 @@ export default {
 			return Promise.reject(error);
 		}
 	},
+	refresh: async ({ commit }, { id, userId }) => {
+		const url = `data-research/refresh/${id}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, { userId });
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	},
 	deleteEnrichmentData: async ({ commit }, data) => {
 		const url = data.id ? `data-research/single/${data.id}` : 'data-research/bulk-delete';
 		commit('resetReq', null, { root: true });

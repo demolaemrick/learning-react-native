@@ -81,6 +81,9 @@ export default {
 				},
 				{
 					name: 'Status'
+				},
+				{
+					name: ' '
 				}
 			],
 			count: 0,
@@ -94,6 +97,7 @@ export default {
 			showModal: false,
 			exportLoading: false,
 			showSuspendedModal: false,
+			dataToDelete: {},
 			deleting: false,
 			showExportModal: false
 		};
@@ -106,6 +110,7 @@ export default {
 			enrichmentHistory: 'data_enrichment/enrichmentHistory',
 			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
 			deleteEnrichmentHistory: 'data_enrichment/deleteEnrichmentData',
+			refresh: 'data_enrichment/refresh',
 			showAlert: 'showAlert'
 		}),
 
@@ -215,9 +220,17 @@ export default {
 		async deleteEnrichmentData() {
 			this.deleting = true;
 			let deleteData = null;
-			if (this.checkedDataEnrichments.length) {
+			if (this.checkedDataEnrichments.length && !this.dataToDelete.rowId) {
 				deleteData = {
 					rows: this.checkedDataEnrichments
+				};
+				if (this.checkedDataEnrichments.length === this.limit && this.page === this.total) {
+					let page = this.page - 1;
+					this.page = page !== 0 ? page : 1;
+				}
+			} else {
+				deleteData = {
+					id: this.dataToDelete.rowId
 				};
 			}
 			try {
@@ -243,10 +256,26 @@ export default {
 				this.deleting = false;
 			}
 		},
-		openDeleteModal(e, rowId, full_name) {
+		async RefreshResearch(_, id) {
+			try {
+				const response = await this.refresh({ id, userId: null });
+				if (response.status === 200) {
+					this.getHistory();
+				}
+			} catch (error) {
+				if (error.response) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
+			}
+		},
+		openDeleteModal(e, rowId) {
 			e.stopImmediatePropagation();
 			e.stopPropagation();
-			this.contactToDelete = { rowId, full_name };
+			this.dataToDelete = { rowId };
 			this.showModal = true;
 		}
 	},

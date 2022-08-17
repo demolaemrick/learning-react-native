@@ -120,7 +120,7 @@ export default {
 			return this.formPosition === 1;
 		},
 		invalidateNextButton() {
-			return this.form.source === '' || this.form.clientName === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
+			return this.form.source === '' || this.form.client === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
 		},
 		availableDataSource() {
 			return this.availableOptions?.dataSource;
