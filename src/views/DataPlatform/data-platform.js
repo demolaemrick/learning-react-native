@@ -52,40 +52,32 @@ export default {
 					name: 'Search ID'
 				},
 				{
-					name: 'Search Type',
-					width: 'small'
+					name: 'Search Type'
 				},
 
 				{
-					name: 'Original Data Source',
-					width: 'small'
+					name: 'Original Data Source'
 				},
 				{
-					name: 'Total Contacts',
-					width: 'small'
+					name: 'Total Contacts'
 				},
 				{
-					name: 'Emails Found',
-					width: 'small'
+					name: 'Emails Found'
 				},
 				{
 					name: 'Client'
 				},
 				{
-					name: 'Outreach Owner Email',
-					width: 'small'
+					name: 'Outreach Owner Email'
 				},
 				{
-					name: 'BDR Owner',
-					width: 'medium'
+					name: 'BDR Owner'
 				},
 				{
-					name: 'Parameters',
-					width: 'large'
+					name: 'Parameters'
 				},
 				{
-					name: 'Date',
-					width: 'medium'
+					name: 'Date'
 				},
 				{
 					name: 'Status'

@@ -96,10 +96,16 @@ export default {
 					for: 'all'
 				},
 				{
+					name: 'Dashboard',
+					path: '/dashboard/users',
+					for: 'active'
+				},
+				{
 					name: 'Go to Data Platform',
 					path: '/data-platform',
 					for: 'active'
 				},
+
 				{
 					name: 'Settings',
 					path: '/settings',

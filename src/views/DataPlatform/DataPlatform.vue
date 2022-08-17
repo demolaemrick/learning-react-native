@@ -75,7 +75,9 @@
 						</td>
 
 						<td class="table__row-item row-link" @click="handleRowClick(item)">
-							{{ stringElipsis(item.sourceUrl, 24) }}
+							<a class="table__td__link" :href="validateURL(item.sourceUrl)" target="_blank">
+								<img src="@/assets/icons/link.svg" svg-inline />
+							</a>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.totalContacts }}
@@ -196,9 +198,6 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<!-- <p class="modal__content-text" v-if="contactToDelete.rowId">
-						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
-					</p> -->
 					<p class="modal__content-text">
 						Kindly confirm that you want to delete
 						{{

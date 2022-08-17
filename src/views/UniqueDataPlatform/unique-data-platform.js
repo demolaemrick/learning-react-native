@@ -57,7 +57,7 @@ export default {
 					name: 'Company'
 				},
 				{
-					name: 'Company Ll'
+					name: 'Company Li'
 				},
 				{
 					name: 'Contact Ll'
@@ -184,7 +184,11 @@ export default {
 			return emailCount;
 		},
 		percentageOfEmailsFound() {
-			const percentage = (this.totalEmails / this.totalContacts) * 100;
+			let percentage = (this.totalEmails / this.totalContacts) * 100;
+			if (typeof percentage !== Number) {
+				percentage = 0;
+			}
+
 			return percentage > 100 ? `${100}%` : `${percentage}%`;
 		}
 	}

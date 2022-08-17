@@ -23,17 +23,7 @@
 			align-items: center;
 			margin-left: 10px;
 		}
-	}
-	&--small {
-		white-space: normal;
-	}
-	&--medium {
-		width: 17% !important;
-	}
-	&--large {
-		white-space: normal;
-		width: 40% !important;
-	}
+	}	
 	&--center {
 		text-align: center;
 	}
@@ -50,7 +40,6 @@
 			padding: 22px 3px;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			text-transform: capitalize;
 			position: relative;
 			font-size: 0.875rem;
 		}
