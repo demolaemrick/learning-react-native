@@ -7,7 +7,7 @@
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
 						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 					</div>
-					Unique ID/tag
+					{{ $route.params.id }}
 				</div>
 				<template>
 					<div v-if="pageLoading" class="emails-text--loading"></div>
@@ -25,11 +25,16 @@
 							{{ item.company || '-' }}
 						</td>
 						<td class="table__row-item">
-							<!-- {{ item.company_ll|| '-'  }} -->
-							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+							<a v-if="item.companyLl" class="table__td__link" :href="validateURL(item.companyLi)" target="_blank">
+								<img src="@/assets/icons/link.svg" svg-inline />
+							</a>
+							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
-							<img class="icon" src="@/assets/icons/link.svg" svg-inline />
+							<a v-if="item.contactsLl" class="table__td__link" :href="validateURL(item.contactsLl)" target="_blank">
+								<img src="@/assets/icons/link.svg" svg-inline />
+							</a>
+							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
 							<div class="table__td__status">
@@ -45,13 +50,13 @@
 									</span>
 									<span class="text">{{ item.status }}</span>
 								</span>
-								<span>{{ '-' }}</span>
-								<!-- <span class="status_pending" v-else>
-											<span class="white__circle">
-												<span class="pin"></span>
-											</span>
-											<span class="text">{{ item.status }}</span>
-										</span> -->
+								<span class="status_pending" v-else-if="item.stause === 'pending'">
+									<span class="white__circle">
+										<span class="pin"></span>
+									</span>
+									<span class="text">{{ item.status }}</span>
+								</span>
+								<span v-else>{{ '-' }}</span>
 							</div>
 						</td>
 						<td class="table__row-item">

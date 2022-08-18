@@ -89,10 +89,17 @@ export default {
 				outreachOwner: rest.outreachOwner.email
 			};
 			try {
-				const { status } = await this.addNewDataEnrichment(payload);
-				if (status === 200) {
+				const { status, data } = await this.addNewDataEnrichment(payload);
+
+				if (status === 200 && data.status === 'success' && !data.data.status === 'ready') {
 					this.showModal = true;
+					return;
 				}
+				this.showAlert({
+					status: 'error',
+					message: 'This Linkedin Sales Nav Saved Search URL has already been used',
+					showAlert: true
+				});
 			} catch (error) {
 				const err = { error };
 				this.showAlert({
@@ -120,7 +127,7 @@ export default {
 			return this.formPosition === 1;
 		},
 		invalidateNextButton() {
-			return this.form.source === '' || this.form.clientName === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
+			return this.form.source === '' || this.form.client === '' || this.form.outreachOwner === '' || this.form.bdrOwner === '';
 		},
 		availableDataSource() {
 			return this.availableOptions?.dataSource;

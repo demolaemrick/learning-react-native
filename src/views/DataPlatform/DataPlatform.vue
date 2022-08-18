@@ -28,10 +28,7 @@
 										<button :disabled="checkedDataEnrichments.length === 0" @click="exportCSV">Export Contacts</button>
 									</li>
 									<li class="dropdown__item" :disabled="checkedDataEnrichments.length === 0">
-										<button
-											:disabled="checkedDataEnrichments.length === 0"
-											@click="[openDeleteModal($event, null, null)]"
-										>
+										<button :disabled="checkedDataEnrichments.length === 0" @click="[openDeleteModal($event, null)]">
 											Delete
 										</button>
 									</li>
@@ -75,7 +72,9 @@
 						</td>
 
 						<td class="table__row-item row-link" @click="handleRowClick(item)">
-							{{ stringElipsis(item.sourceUrl, 24) }}
+							<a class="table__td__link" :href="validateURL(item.sourceUrl)" target="_blank">
+								<img src="@/assets/icons/link.svg" svg-inline />
+							</a>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.totalContacts }}
@@ -126,6 +125,20 @@
 									</span>
 									<span class="text">{{ item.status }}</span>
 								</span>
+							</div>
+						</td>
+						<td class="table__row-item dropdown">
+							<!-- menu3dot -->
+							<div class="user__menu__wrapper">
+								<v-toggle-dropdown class="user__dropdown__menu">
+									<template #dropdown-wrapper>
+										<img src="@/assets/icons/menu3dot.svg" svg-inline />
+									</template>
+									<template #dropdown-items>
+										<li class="dropdown__item" @click="[refreshResearch($event, item.rowId)]">Refresh</li>
+										<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId)]">Delete</li>
+									</template>
+								</v-toggle-dropdown>
 							</div>
 						</td>
 					</template>
@@ -196,10 +209,10 @@
 			</template>
 			<template #body>
 				<div class="modal__content">
-					<!-- <p class="modal__content-text" v-if="contactToDelete.rowId">
-						Kindly confirm that you want to delete this research <span class="name">({{ contactToDelete.full_name }})</span>.
-					</p> -->
-					<p class="modal__content-text">
+					<p class="modal__content-text" v-if="dataToDelete.rowId">
+						Kindly confirm that you want to delete this deta enrichment.
+					</p>
+					<p class="modal__content-text" v-else>
 						Kindly confirm that you want to delete
 						{{
 							checkedDataEnrichments.length > 1

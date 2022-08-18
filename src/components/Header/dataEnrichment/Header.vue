@@ -103,6 +103,11 @@ export default {
 					for: 'active'
 				},
 				{
+					name: 'Contacts',
+					path: '/contact-research',
+					for: 'active'
+				},
+				{
 					name: 'Settings',
 					path: '/settings',
 					for: 'active'
