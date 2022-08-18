@@ -256,7 +256,7 @@ export default {
 				this.deleting = false;
 			}
 		},
-		async RefreshResearch(_, id) {
+		async refreshResearch(_, id) {
 			try {
 				const response = await this.refresh({ id, userId: null });
 				if (response.status === 200) {
