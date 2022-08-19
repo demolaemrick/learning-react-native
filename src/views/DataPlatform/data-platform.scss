@@ -66,9 +66,10 @@
 	}
 }
 
-.contact__research__menu {
+.data__enrichment__menu {
     display: flex;
     justify-content: space-between;
+	align-items: flex-end;
 
         h2 {
             font-size: 24px;

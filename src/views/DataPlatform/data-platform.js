@@ -258,7 +258,7 @@ export default {
 		},
 		async refreshResearch(_, id) {
 			try {
-				const response = await this.refresh({ id, userId: null });
+				const response = await this.refresh(id);
 				if (response.status === 200) {
 					this.getHistory();
 				}
