@@ -2,7 +2,7 @@
 	<div class="container container--lg">
 		<v-header />
 		<main class="main-section">
-			<div class="contact__research__menu">
+			<div class="data__enrichment__menu">
 				<div>
 					<h2 class="main_title mb-1">My Data Enrichments</h2>
 					<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
