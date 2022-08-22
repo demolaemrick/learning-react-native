@@ -37,7 +37,8 @@ export default {
 			formPosition: 0,
 			animation: 'animate-in',
 			showModal: false,
-			availableOptions: null
+			availableOptions: null,
+			responseData: null
 		};
 	},
 	created() {
@@ -91,15 +92,11 @@ export default {
 			try {
 				const { status, data } = await this.addNewDataEnrichment(payload);
 
-				if (status === 200 && data.status === 'success' && !data.data.status === 'ready') {
+				if (status === 200 || data.status === 'success') {
+					this.responseData = data.data;
 					this.showModal = true;
 					return;
 				}
-				this.showAlert({
-					status: 'error',
-					message: 'This Linkedin Sales Nav Saved Search URL has already been used',
-					showAlert: true
-				});
 			} catch (error) {
 				const err = { error };
 				this.showAlert({
@@ -137,6 +134,34 @@ export default {
 		},
 		availableBdrOwners() {
 			return this.availableOptions?.bdrOwners;
+		},
+		dataProgressStatus() {
+			let status;
+
+			switch (this.responseData.status) {
+				case 'ready':
+					status = 'Your research is ready';
+					break;
+				case 'in-progress':
+					status = 'Your run is in progress';
+					break;
+			}
+
+			return status;
+		},
+		dataProgressMessage() {
+			let message;
+			switch (this.responseData.status) {
+				case 'ready':
+					message = 'This research has previously been carried out and its ready.';
+					break;
+				case 'in-progress':
+					// eslint-disable-next-line
+					message = "Volley is running your research currently, we'll email you once your list is ready.";
+					break;
+			}
+
+			return message;
 		}
 	}
 };

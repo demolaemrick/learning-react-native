@@ -57,8 +57,8 @@ export default {
 			this.loading = true;
 			try {
 				const response = await this.login(this.form);
-				const { status, data, statusText } = response;
-				if (status === 200 && statusText === 'OK') {
+				const { status, data } = response;
+								if (status === 200 ) {
 					await this.saveUserSession(data.data);
 					if (data.data.role === 'admin' || data.data.role === 'superadmin') {
 						const loggedOutFromInsights = this.lastSearch?.route && this.lastSearch.email === this.form.email;

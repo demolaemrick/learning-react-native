@@ -121,26 +121,13 @@
 			<v-modal position="center" :useSlot="false" marginTop="6%">
 				<template #settings>
 					<div class="modal__wrapper">
-						<div class="modal__header">
-							<div class="modal__header__btn__wrapper">
-								<div class="modal__btn__content__wrapper" @click="closeModal()">
-									<span class="text">Close</span>
-									<span class="icon">
-										<img src="@/assets/icons/close-sign.svg" alt="close button icon" class="ml-1" svg-inline />
-									</span>
-								</div>
-							</div>
-						</div>
 						<div class="modal__content">
 							<div class="modal__content__icon__wrapper">
 								<img src="@/assets/icons/warning-icon.svg" alt="volley warning icon" class="ml-1" svg-inline />
 							</div>
-							<h3>Your run is in progress</h3>
+							<h3>{{ dataProgressStatus }}</h3>
 							<div class="modal__text__wrapper">
-								<p>
-									volley robots are currently working hard to get your data! You can close this window without affecting
-									your results – we'll email you when your list is ready!
-								</p>
+								<p>{{ dataProgressMessage }}</p>
 							</div>
 							<div class="modal__btn__wrapper">
 								<c-button @click="$router.push({ name: 'DataPlatform' })" buttonType="primary"

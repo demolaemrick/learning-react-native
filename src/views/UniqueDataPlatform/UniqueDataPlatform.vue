@@ -25,13 +25,23 @@
 							{{ item.company || '-' }}
 						</td>
 						<td class="table__row-item">
-							<a v-if="item.companyLl" class="table__td__link" :href="validateURL(item.companyLi)" target="_blank">
+							<a
+								v-if="item.linkedInCompany"
+								class="table__td__link"
+								:href="validateURL(item.linkedInCompany)"
+								target="_blank"
+							>
 								<img src="@/assets/icons/link.svg" svg-inline />
 							</a>
 							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
-							<a v-if="item.contactsLl" class="table__td__link" :href="validateURL(item.contactsLl)" target="_blank">
+							<a
+								v-if="item.linkedInPersonal"
+								class="table__td__link"
+								:href="validateURL(item.linkedInPersonal)"
+								target="_blank"
+							>
 								<img src="@/assets/icons/link.svg" svg-inline />
 							</a>
 							<span v-else>-</span>
@@ -60,10 +70,10 @@
 							</div>
 						</td>
 						<td class="table__row-item">
-							{{ item.email || '-' }}
+							{{ item.emails[0].address || '-' }}
 						</td>
 						<td class="table__row-item">
-							{{ item.email_verification || '-' }}
+							{{ item.emailVerification || '-' }}
 						</td>
 						<td class="table__row-item">
 							{{ item.seniority || '-' }}
@@ -93,7 +103,10 @@
 							{{ item.keywords || '-' }}
 						</td>
 						<td class="table__row-item">
-							{{ item.compWebsite || '-' }}
+							<a v-if="item.compWebsite" class="table__td__link" :href="validateURL(item.compWebsite)" target="_blank">
+								{{ item.compWebsite }}
+							</a>
+							<span v-else>-</span>
 						</td>
 					</template>
 				</v-table>

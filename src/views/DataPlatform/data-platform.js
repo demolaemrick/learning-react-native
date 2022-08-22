@@ -103,6 +103,22 @@ export default {
 		};
 	},
 	mounted() {
+		if (this.getLoggedUser.status === 'suspended') {
+			this.tableHeaders = this.tableHeaders.slice(1);
+			this.showSuspendedModal = true;
+		}
+
+		let { page, limit, sortQuery, keyword, currentPage, count, nextPage, total } = this.getContactPageData;
+		this.page = page;
+		this.limit = limit;
+		this.sortQuery = sortQuery ? sortQuery : null;
+		this.searchQuery = keyword;
+		this.currentPage = currentPage;
+		this.total = total;
+		this.count = count;
+		this.nextPage = nextPage ? nextPage : null;
+
+		this.pageLoading = true;
 		this.getHistory();
 	},
 	methods: {
@@ -129,10 +145,10 @@ export default {
 		clickCallback(page) {
 			this.page = page;
 			this.checkedDataEnrichments = [];
+			this.pageLoading = true;
 			this.getHistory();
 		},
 		async getHistory() {
-			this.pageLoading = true;
 			try {
 				let historyData = {
 					page: this.page,
@@ -168,7 +184,7 @@ export default {
 			}
 		},
 		handleRowClick(item) {
-			if (item.status !== 'IN_PROGRESS') {
+			if (item.status !== 'in-progress') {
 				this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.rowId } });
 			}
 		},
@@ -277,6 +293,9 @@ export default {
 			e.stopPropagation();
 			this.dataToDelete = { rowId };
 			this.showModal = true;
+		},
+		closeSuspendedModal() {
+			this.showSuspendedModal = false;
 		}
 	},
 

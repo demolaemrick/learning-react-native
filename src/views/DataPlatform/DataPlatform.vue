@@ -61,7 +61,7 @@
 								type="checkbox"
 								:value="item.rowId"
 								v-model="checkedDataEnrichments"
-								:disabled="item.status === 'IN_PROGRESS' || item.status === 'IN_PROGRESS'"
+								:disabled="item.status === 'in-progress' || item.status === 'in-progress'"
 							/>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
@@ -96,7 +96,7 @@
 								<template v-if="item.parameters">
 									<ol v-for="[key, value] of Object.entries(item.parameters)" :key="key">
 										<strong> {{ key }}: </strong>
-										<span>{{ value }}</span>
+										<span>{{ (Array.isArray(value) ? value.join(', ') : value) || '-' }}</span>
 									</ol>
 								</template>
 								<span v-else>-</span>
@@ -172,6 +172,10 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- SUSPENDED USER NOTIFICATION MODAL -->
+			<suspended-modal :show="showSuspendedModal" :close="closeSuspendedModal" :user="getLoggedUser" />
+			<!-- SUSPENDED USER NOTIFICATION MODAL -->
 		</main>
 		<!-- EXPORT MODAL -->
 		<v-modal
@@ -217,7 +221,7 @@
 						{{
 							checkedDataEnrichments.length > 1
 								? `${checkedDataEnrichments.length} data enrichments`
-								: `${checkedDataEnrichments.length} data enrichments`
+								: `${checkedDataEnrichments.length} data enrichment`
 						}}.
 					</p>
 					<div class="modal__content-btn">
@@ -254,6 +258,9 @@
 				overflow: hidden;
 				max-width: 195px;
 				text-overflow: ellipsis;
+				span {
+					font-weight: 400;
+				}
 				&.dropdown {
 					overflow: unset;
 					padding: 0.5rem;

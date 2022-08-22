@@ -185,7 +185,7 @@ export default {
 		},
 		percentageOfEmailsFound() {
 			let percentage = (this.totalEmails / this.totalContacts) * 100;
-			if (typeof percentage !== Number) {
+			if (Number.isNaN(percentage)) {
 				percentage = 0;
 			}
 
