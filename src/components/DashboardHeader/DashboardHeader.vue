@@ -24,7 +24,7 @@
 						</div>
 					</template>
 					<template #dropdown-items>
-						<li class="dropdown__item" @click="$router.push({ name: 'ContactResearch' })">Contacts</li>
+						<li class="dropdown__item" @click="$router.push({ name: 'Search' })">Go to Research Platform</li>
 						<li class="dropdown__item" @click="$router.push({ name: 'DataPlatform' })">Go to Data Platform</li>
 						<li id="logout" class="dropdown__item" @click="logoutUser">Log out</li>
 					</template>
