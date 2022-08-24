@@ -109,8 +109,11 @@ export default {
 			nextPage: null,
 			prevPage: null,
 			dataHistory: null,
+			downloading: false,
 			totalEmails: 0,
-			totalContacts: 0
+			totalContacts: 0,
+			clientName: null,
+			parameter: null
 		};
 	},
 	async mounted() {
@@ -123,6 +126,7 @@ export default {
 	methods: {
 		...mapActions({
 			getSingleResearch: 'data_enrichment/getSingleResearch',
+			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
 			showAlert: 'showAlert'
 		}),
 		async getSingleResearchData() {
@@ -137,7 +141,7 @@ export default {
 			try {
 				const {
 					data: {
-						data: { data, count, currentPage, nextPage, prevPage, totalContacts, totalEmails }
+						data: { data, count, currentPage, nextPage, prevPage, totalContacts, totalEmails, clientName, parameters }
 					}
 				} = await this.getSingleResearch(researchData);
 
@@ -149,6 +153,8 @@ export default {
 				this.prevPage = prevPage;
 				this.totalContacts = totalContacts;
 				this.totalEmails = totalEmails;
+				this.clientName = clientName;
+				this.parameter = Object.values(parameters)[0];
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -158,6 +164,31 @@ export default {
 				return error;
 			} finally {
 				this.pageLoading = false;
+			}
+		},
+		async downloadCSV() {
+			this.downloading = true;
+			try {
+				const response = await this.exportDataEnrichmentsHistory({ rows: [this.$route.params.id] });
+				let csvContent = 'data:text/csv;charset=utf-8,';
+				let csvData = new Blob([response.data], {
+					type: csvContent
+				});
+
+				let csvUrl = URL.createObjectURL(csvData);
+
+				const link = document.createElement('a');
+				link.setAttribute('href', csvUrl);
+				link.setAttribute('download', 'export.csv');
+				link.click();
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			} finally {
+				this.downloading = false;
 			}
 		},
 		validateURL(link) {
