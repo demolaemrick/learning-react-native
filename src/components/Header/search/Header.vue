@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<nav class="navbar">
-			<div class="nav-item logo"><logo /></div>
+			<div class="nav-item logo"><logo platform="research platform" /></div>
 			<div v-if="notglobal" class="nav__menu__right">
 				<img
 					v-if="loggedInUser.status !== 'suspended'"
