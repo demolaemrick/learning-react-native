@@ -23,7 +23,12 @@
 			align-items: center;
 			margin-left: 10px;
 		}
-	}	
+	}
+	&--small {
+		white-space: normal;
+	}
+
+
 	&--center {
 		text-align: center;
 	}
