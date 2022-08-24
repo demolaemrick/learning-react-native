@@ -20,7 +20,7 @@
 										v-if="checkedDataEnrichments.length === 0"
 										:disabled="history && history.length === 0"
 									>
-										<button @click="showExportModal = true" :disabled="history && history.length === 0">
+										<button @click="toggleModal('showExportModal')" :disabled="history && history.length === 0">
 											Export as csv
 										</button>
 									</li>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<div class="action__group">
-					<div class="btn__wrapper">
+					<div class="btn__wrapper" v-if="getLoggedUser.status !== 'suspended'">
 						<v-button class="btn__import__contact" @click="$router.push({ name: 'NewEnrichment' })"
 							>Start new enrichment</v-button
 						>
@@ -65,46 +65,9 @@
 							/>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.rowId }}
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.searchType }}
+							{{ item.clientName }} | {{ Object.values(item.parameters)[0] }}
 						</td>
 
-						<td class="table__row-item row-link" @click="handleRowClick(item)">
-							<a class="table__td__link" :href="validateURL(item.sourceUrl)" target="_blank">
-								<img src="@/assets/icons/link.svg" svg-inline />
-							</a>
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.totalContacts }}
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.totalEmails }}
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.clientName }}
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.outreachOwnerEmail }}
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.bdrOwner }}
-						</td>
-						<td class="table__row-item" @click="clickResearch(item)">
-							<template>
-								<template v-if="item.parameters">
-									<ol v-for="[key, value] of Object.entries(item.parameters)" :key="key">
-										<strong> {{ key }}: </strong>
-										<span>{{ (Array.isArray(value) ? value.join(', ') : value) || '-' }}</span>
-									</ol>
-								</template>
-								<span v-else>-</span>
-							</template>
-						</td>
-						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.createdAt | moment('MMMM D, YYYY') }}
-						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
 								<span class="status_done" v-if="item.status === 'done'">
@@ -127,9 +90,46 @@
 								</span>
 							</div>
 						</td>
+
+						<td class="table__row-item row-link" @click="handleRowClick(item)">
+							<a class="table__td__link" :href="validateURL(item.sourceUrl)" target="_blank">
+								<img src="@/assets/icons/link.svg" svg-inline />
+							</a>
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							<span v-if="item.status === 'in-progress'">pending</span>
+							<span v-else>{{ item.totalContacts }}</span>
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							<span v-if="item.status === 'in-progress'">pending</span>
+							<span v-else>{{ item.totalEmails }}</span>
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							<template v-if="item.parameters">
+								<ol v-for="[key, value] of Object.entries(item.parameters)" :key="key">
+									<strong> {{ key }}: </strong>
+									<span>{{ (Array.isArray(value) ? value.join(', ') : value) || '-' }}</span>
+								</ol>
+							</template>
+							<span v-else>-</span>
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.clientName }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.outreachOwnerEmail }}
+						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.bdrOwner }}
+						</td>
+
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ item.createdAt | moment('MMMM D, YYYY') }}
+						</td>
+
 						<td class="table__row-item dropdown">
 							<!-- menu3dot -->
-							<div class="user__menu__wrapper">
+							<div class="user__menu__wrapper" v-if="item.status !== 'updating'">
 								<v-toggle-dropdown class="user__dropdown__menu">
 									<template #dropdown-wrapper>
 										<img src="@/assets/icons/menu3dot.svg" svg-inline />
