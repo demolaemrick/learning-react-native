@@ -336,6 +336,8 @@ thead.table__header {
     line-height: 24px;
     letter-spacing: -0.64px;
     color: #333758;
+    text-transform: capitalize;
+    min-height: 50px;
 }
 
 .row-link {
@@ -572,7 +574,7 @@ thead.table__header {
     visibility: visible;
 }
 
-.emails-text--loading {
+.text--loading {
     background: linear-gradient(90deg, #f8f9fb, #e2e6f3, #f8f9fb, #e2e6f3);
     animation: skeleton 2s ease infinite;
     background-size: 300% 100%;

@@ -1,21 +1,26 @@
 <template>
 	<div class="logo" @click="$router.push({ name: 'Search' })">
 		<img class="logo-img" src="../assets/icons/volley_logo.png" svg-inline />
+		<span v-if="platform">{{ platform }}</span>
 	</div>
 </template>
 
 <script>
-export default {};
+export default {
+	props: { platform: { type: String } }
+};
 </script>
 
 <style lang="scss" scoped>
 .logo {
-	display: flex;
-	align-items: center;
 	cursor: pointer;
 	&-img {
 		height: 27px;
 		width: 85px;
+	}
+	span {
+		display: block;
+		margin-left: 3rem;
 	}
 }
 </style>

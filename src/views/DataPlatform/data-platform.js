@@ -52,17 +52,22 @@ export default {
 					name: 'Search ID'
 				},
 				{
-					name: 'Search Type'
-				},
-
-				{
-					name: 'Original Data Source'
+					name: 'Status'
 				},
 				{
-					name: 'Total Contacts'
+					name: 'Original Data Source',
+					width: 'small'
 				},
 				{
-					name: 'Emails Found'
+					name: 'Total Contacts',
+					width: 'small'
+				},
+				{
+					name: 'Emails Found',
+					width: 'small'
+				},
+				{
+					name: 'Parameters'
 				},
 				{
 					name: 'Client'
@@ -73,15 +78,11 @@ export default {
 				{
 					name: 'BDR Owner'
 				},
-				{
-					name: 'Parameters'
-				},
+
 				{
 					name: 'Date'
 				},
-				{
-					name: 'Status'
-				},
+
 				{
 					name: ' '
 				}
@@ -99,7 +100,8 @@ export default {
 			showSuspendedModal: false,
 			dataToDelete: {},
 			deleting: false,
-			showExportModal: false
+			showExportModal: false,
+			subscriptionDone: false
 		};
 	},
 	mounted() {
@@ -127,6 +129,7 @@ export default {
 			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
 			deleteEnrichmentHistory: 'data_enrichment/deleteEnrichmentData',
 			refresh: 'data_enrichment/refresh',
+			subscribeResearch: 'search_services/subscribeResearch',
 			showAlert: 'showAlert'
 		}),
 
@@ -165,6 +168,8 @@ export default {
 				this.currentPage = currentPage;
 				this.total = Math.ceil(count / this.limit);
 				this.nextPage = nextPage;
+
+				this.checkPendingStatus();
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -176,6 +181,45 @@ export default {
 				this.pageLoading = false;
 			}
 		},
+		async subscribe() {
+			let self = this;
+			setTimeout(() => {
+				if (!self.subscriptionDone) {
+					self.getHistory();
+				}
+			}, 120000);
+			try {
+				const response = await this.subscribeResearch();
+				if (response.status === 200) {
+					this.subscriptionDone = true;
+					await this.history.map((data) => {
+						if (data.rowId === response.data.done.rowId) {
+							data.status = response.data.done.status === 'success' ? 'ready' : response.data.done.status;
+						}
+						return data;
+					});
+					this.checkPendingStatus();
+				}
+				if (response.status >= 500) {
+					this.getHistory();
+				}
+				return true;
+			} catch (error) {
+				this.showAlert({
+					status: 'error',
+					message: error.response.data.message,
+					showAlert: true
+				});
+			}
+		},
+		async checkPendingStatus() {
+			let pendingStatus = await this.history.filter((data) => {
+				return data.status === 'in-progress' || data.status === 'updating';
+			});
+			if (pendingStatus.length > 0) {
+				this.subscribe();
+			}
+		},
 		validateURL(link) {
 			if (link.indexOf('https://') === 0 || link.indexOf('http://') === 0) {
 				return link;
@@ -183,9 +227,17 @@ export default {
 				return `https://${link}`;
 			}
 		},
+		returnFirstParameter(item) {
+			return Object.values(item.parameters)[0];
+		},
 		handleRowClick(item) {
+			const firstParameter = this.returnFirstParameter(item);
+
 			if (item.status !== 'in-progress') {
-				this.$router.push({ name: 'UniqueDataPlatform', params: { id: item.rowId } });
+				this.$router.push({
+					name: 'UniqueDataPlatform',
+					params: { id: item.rowId, clientName: item.clientName, parameter: firstParameter }
+				});
 			}
 		},
 		async exportCSV() {

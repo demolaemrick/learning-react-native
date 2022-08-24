@@ -4,7 +4,7 @@
 		<tr>
 			<th
 				class="table__header-item"
-				:class="header.align ? `table--${header.align}` : `table--${header.width}`"
+				:class="[header.align ? `table--${header.align}` : null, header.width ? `table--${header.width}` : null]"
 				v-for="header in headers"
 				:key="header.name"
 			>

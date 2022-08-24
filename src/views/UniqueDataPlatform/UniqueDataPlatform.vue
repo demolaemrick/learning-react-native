@@ -3,15 +3,25 @@
 		<v-header />
 		<main class="main-section">
 			<div class="main_title flex flex-spaced">
-				<div class="flex flex__item-center main_title">
+				<div v-if="!pageLoading" class="flex flex__item-center" style="min-height: 100px">
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
 						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
 					</div>
-					{{ $route.params.id }}
+					{{ clientName }} | {{ parameter }}
 				</div>
+				<div v-else class="text--loading"></div>
+
 				<template>
-					<div v-if="pageLoading" class="emails-text--loading"></div>
-					<p v-else class="emails-text">Emails Found: {{ emailsFound }} ({{ percentageOfEmailsFound }})</p>
+					<div v-if="pageLoading" class="text--loading"></div>
+					<div v-else class="flex flex__item-center">
+						<p class="emails-text mr-1">Emails Found: {{ emailsFound }} ({{ percentageOfEmailsFound }})</p>
+						<div class="btn__wrapper">
+							<v-button class="btn__import__contact" @click="downloadCSV">
+								<template v-if="!downloading">Download CSV</template>
+								<Loader v-else />
+							</v-button>
+						</div>
+					</div>
 				</template>
 			</div>
 			<div class="mt-2">
@@ -36,12 +46,7 @@
 							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
-							<a
-								v-if="item.linkedInPersonal"
-								class="table__td__link"
-								:href="validateURL(item.linkedInPersonal)"
-								target="_blank"
-							>
+							<a v-if="item.profileUrl" class="table__td__link" :href="validateURL(item.profileUrl)" target="_blank">
 								<img src="@/assets/icons/link.svg" svg-inline />
 							</a>
 							<span v-else>-</span>
@@ -70,7 +75,8 @@
 							</div>
 						</td>
 						<td class="table__row-item">
-							{{ item.emails[0].address || '-' }}
+							<span v-if="!item.emails || item.emails.length <= 0">-</span>
+							<span v-else> {{ item.emails[0].address || '-' }} </span>
 						</td>
 						<td class="table__row-item">
 							{{ item.emailVerification || '-' }}
@@ -146,6 +152,9 @@
 <script src="./unique-data-platform.js"></script>
 <style lang="scss" scoped src="./unique-data-platform.scss"></style>
 <style lang="scss">
+.main__title {
+	text-transform: capitalize;
+}
 .table--data__platform {
 	overflow: auto;
 	display: block;
@@ -194,32 +203,5 @@
 			}
 		}
 	}
-}
-
-/* CAROUSEL */
-.VueCarousel-navigation-button:focus {
-	outline: none !important;
-}
-.VueCarousel-pagination {
-	display: none !important;
-}
-.VueCarousel-navigation-button {
-	position: absolute;
-	box-sizing: border-box;
-	color: #000;
-	text-decoration: none;
-	appearance: none;
-	border: none;
-	background-color: transparent;
-	margin: 10px !important;
-	cursor: pointer;
-	outline: none;
-	/* width: 32px;
-	height: 32px; */
-	top: 398px;
-	background: #ffffff;
-	border: 1px solid #eaebeb;
-	border-radius: 50%;
-	opacity: none !important;
 }
 </style>

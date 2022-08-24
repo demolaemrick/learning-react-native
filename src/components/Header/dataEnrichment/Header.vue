@@ -2,7 +2,7 @@
 	<header>
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<logo />
+				<logo platform="data platform" />
 			</div>
 			<div v-if="notglobal" class="nav__menu__right">
 				<img
@@ -103,8 +103,8 @@ export default {
 					for: 'active'
 				},
 				{
-					name: 'Contacts',
-					path: '/contact-research',
+					name: 'Go to Research Platform',
+					path: '/search',
 					for: 'active'
 				},
 				{
@@ -151,7 +151,6 @@ export default {
 			const substring = '/insights?id=';
 			if (route.indexOf(substring) !== -1) {
 				this.setLastSearchResult({ email, route });
-				this.logout();
 				this.$router.push('/login');
 			} else {
 				this.logout();
@@ -175,17 +174,7 @@ export default {
 	padding: 0 3rem !important;
 	margin-bottom: 48px;
 }
-.nav-item {
-	&.logo {
-		display: flex;
-		align-items: center;
-		&-text {
-			line-height: 1.25;
-			letter-spacing: -0.57px;
-			font-size: 24px;
-		}
-	}
-}
+
 .nav__menu__right {
 	display: flex;
 	align-items: center;

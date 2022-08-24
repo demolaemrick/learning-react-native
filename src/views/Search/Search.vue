@@ -10,7 +10,7 @@
 		/>
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<logo />
+				<logo platform="research platform" />
 			</div>
 			<div class="nav__menu__right">
 				<div class="research" @click="$router.push({ name: 'ContactResearch' })">Contact List</div>
@@ -29,6 +29,8 @@
 							>
 								Dashboard
 							</li>
+							<li class="dropdown__item" @click="$router.push({ name: 'DataPlatform' })">Go to Data Platform</li>
+
 							<li class="dropdown__item" @click="gotoSettings">Settings</li>
 							<li ref="logout_user" class="dropdown__item" @click="logoutUser">Logout</li>
 						</template>
