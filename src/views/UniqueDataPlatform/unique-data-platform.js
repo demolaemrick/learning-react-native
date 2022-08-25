@@ -209,13 +209,11 @@ export default {
 			getContactPageData: 'user/getContactPageData'
 		}),
 		emailsFound() {
-			const emailCount = `${this.totalEmails > this.totalContacts ? `${this.totalContacts}+` : this.totalEmails}/${
-				this.totalContacts
-			}`;
-			return emailCount;
+			let foundEmails = this.totalEmails > this.totalContacts ? `${this.totalContacts}+` : this.totalEmails;
+			return `${foundEmails} / ${this.totalContacts}`;
 		},
 		percentageOfEmailsFound() {
-			let percentage = (this.totalEmails / this.totalContacts) * 100;
+			let percentage = ((this.totalEmails / this.totalContacts) * 100).toFixed(1);
 			if (Number.isNaN(percentage)) {
 				percentage = 0;
 			}
