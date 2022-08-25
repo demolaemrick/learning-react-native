@@ -213,9 +213,12 @@ export default {
 			return `${foundEmails} / ${this.totalContacts}`;
 		},
 		percentageOfEmailsFound() {
-			let percentage = ((this.totalEmails / this.totalContacts) * 100).toFixed(1);
+			let percentage = (this.totalEmails / this.totalContacts) * 100;
 			if (Number.isNaN(percentage)) {
 				percentage = 0;
+			}
+			if (!Number.isInteger(percentage)) {
+				percentage = percentage.toFixed(1);
 			}
 
 			return percentage > 100 ? `${100}%` : `${percentage}%`;
