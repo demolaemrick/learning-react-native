@@ -20,7 +20,8 @@ export default {
 	}
 	span {
 		display: block;
-		margin-left: 3rem;
+		text-transform: capitalize;
+		margin-top: 10px;
 	}
 }
 </style>

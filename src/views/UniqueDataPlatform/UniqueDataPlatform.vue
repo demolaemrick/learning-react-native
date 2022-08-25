@@ -5,7 +5,7 @@
 			<div class="main_title flex flex-spaced">
 				<div v-if="!pageLoading" class="flex flex__item-center" style="min-height: 100px">
 					<div class="mr-1" @click="[$router.go(-1), $forceUpdate()]">
-						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline />
+						<img class="icon" src="@/assets/icons/arrow-back.svg" svg-inline alt="back icon" />
 					</div>
 					{{ clientName }} | {{ parameter }}
 				</div>
@@ -41,13 +41,13 @@
 								:href="validateURL(item.linkedInCompany)"
 								target="_blank"
 							>
-								<img src="@/assets/icons/link.svg" svg-inline />
+								<img src="@/assets/icons/link.svg" svg-inline alt="" />
 							</a>
 							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
 							<a v-if="item.profileUrl" class="table__td__link" :href="validateURL(item.profileUrl)" target="_blank">
-								<img src="@/assets/icons/link.svg" svg-inline />
+								<img src="@/assets/icons/link.svg" svg-inline alt="" />
 							</a>
 							<span v-else>-</span>
 						</td>
@@ -140,7 +140,7 @@
 				</div>
 				<div v-if="dataHistory && dataHistory.length < 1">
 					<div class="emptyState">
-						<img src="@/assets/icons/empty-state-image.svg" svg-inline />
+						<img src="@/assets/icons/empty-state-image.svg" svg-inline alt="" />
 						<p class="emptyState-text">No record found</p>
 					</div>
 				</div>
@@ -181,6 +181,9 @@
 			cursor: not-allowed;
 		}
 	}
+}
+.icon {
+	cursor: pointer;
 }
 .pagination__list {
 	display: flex;

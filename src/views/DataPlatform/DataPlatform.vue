@@ -97,11 +97,11 @@
 							</a>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
-							<span v-if="item.status === 'in-progress'">pending</span>
+							<span v-if="item.status === 'in-progress' || item.status === 'updating'">-</span>
 							<span v-else>{{ item.totalContacts }}</span>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
-							<span v-if="item.status === 'in-progress'">pending</span>
+							<span v-if="item.status === 'in-progress' || item.status === 'updating'">-</span>
 							<span v-else>{{ item.totalEmails }}</span>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
