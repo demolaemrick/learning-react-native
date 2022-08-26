@@ -122,6 +122,9 @@
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.bdrOwner }}
 						</td>
+						<td class="table__row-item" @click="handleRowClick(item)">
+							{{ runTime(item.endTime, item.startTime) }}
+						</td>
 
 						<td class="table__row-item" @click="handleRowClick(item)">
 							{{ item.createdAt | moment('MMMM D, YYYY') }}

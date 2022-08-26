@@ -75,6 +75,9 @@ export default {
 					name: 'Seniority'
 				},
 				{
+					name: 'Company Size'
+				},
+				{
 					name: 'Function'
 				},
 				{

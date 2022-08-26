@@ -80,6 +80,9 @@
 							{{ item.seniority || '-' }}
 						</td>
 						<td class="table__row-item">
+							{{ item.compSize || '-' }}
+						</td>
+						<td class="table__row-item">
 							{{ item.function || '-' }}
 						</td>
 						<td class="table__row-item">
@@ -101,7 +104,10 @@
 							{{ item.compCountry || '-' }}
 						</td>
 						<td class="table__row-item">
-							{{ item.keywords || '-' }}
+							<template v-if="!item.compKeywords"> - </template>
+							<template v-else>
+								<span v-for="keyword in item.compKeywords" :key="keyword"> {{ keyword }}, </span>
+							</template>
 						</td>
 						<td class="table__row-item">
 							<a v-if="item.compWebsite" class="table__td__link" :href="validateURL(item.compWebsite)" target="_blank">

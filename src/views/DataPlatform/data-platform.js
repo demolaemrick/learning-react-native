@@ -16,6 +16,7 @@ import VHeader from '@/components/Header/dataEnrichment/Header';
 import ConfigData from '../ConfigImportData/ConfigImportData.vue';
 import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
+import moment from 'moment';
 
 export default {
 	name: 'DataPlatform',
@@ -78,7 +79,9 @@ export default {
 				{
 					name: 'BDR Owner'
 				},
-
+				{
+					name: 'Run Time'
+				},
 				{
 					name: 'Date'
 				},
@@ -348,6 +351,21 @@ export default {
 		},
 		closeSuspendedModal() {
 			this.showSuspendedModal = false;
+		},
+		runTime(endTime, startTime) {
+			let runTimeStr = '-';
+
+			if (startTime && endTime && moment(endTime).isValid() && moment(startTime).isValid()) {
+				let start = moment(startTime);
+				let end = moment(endTime);
+				let runTime = end.diff(start, 'seconds');
+				if (runTime <= 60) {
+					runTimeStr = `${runTime} Secs`;
+				} else {
+					runTimeStr = `${Math.floor(runTime / 60)} Mins, ${runTime % 60} Sec${runTime % 60 > 1 ? 's' : null}`;
+				}
+			}
+			return runTimeStr;
 		}
 	},
 
