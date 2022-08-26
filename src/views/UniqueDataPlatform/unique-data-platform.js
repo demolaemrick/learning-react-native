@@ -126,7 +126,7 @@ export default {
 	methods: {
 		...mapActions({
 			getSingleResearch: 'data_enrichment/getSingleResearch',
-			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
+			downloadResearchHistory: 'data_enrichment/downloadResearch',
 			showAlert: 'showAlert'
 		}),
 		async getSingleResearchData() {
@@ -169,7 +169,7 @@ export default {
 		async downloadCSV() {
 			this.downloading = true;
 			try {
-				const response = await this.exportDataEnrichmentsHistory({ rows: [this.$route.params.id] });
+				const response = await this.downloadResearchHistory(this.$route.params.id);
 				let csvContent = 'data:text/csv;charset=utf-8,';
 				let csvData = new Blob([response.data], {
 					type: csvContent
