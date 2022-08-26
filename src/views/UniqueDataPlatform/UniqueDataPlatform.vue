@@ -35,12 +35,7 @@
 							{{ item.company || '-' }}
 						</td>
 						<td class="table__row-item">
-							<a
-								v-if="item.linkedInCompany"
-								class="table__td__link"
-								:href="validateURL(item.linkedInCompany)"
-								target="_blank"
-							>
+							<a v-if="item.compLinkedIn" class="table__td__link" :href="validateURL(item.compLinkedIn)" target="_blank">
 								<img src="@/assets/icons/link.svg" svg-inline alt="" />
 							</a>
 							<span v-else>-</span>
