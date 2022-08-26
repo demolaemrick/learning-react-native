@@ -83,5 +83,16 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	downloadResearch: async ({ commit }, id) => {
+		const url = `data-research/export/${id}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url);
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };
