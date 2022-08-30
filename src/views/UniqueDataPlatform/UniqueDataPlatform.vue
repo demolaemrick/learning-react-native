@@ -47,29 +47,6 @@
 							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
-							<div class="table__td__status">
-								<span class="status_done" v-if="item.status === 'done'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status }}</span>
-								</span>
-								<span class="status_ready" v-else-if="item.status === 'ready'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status }}</span>
-								</span>
-								<span class="status_pending" v-else-if="item.stause === 'pending'">
-									<span class="white__circle">
-										<span class="pin"></span>
-									</span>
-									<span class="text">{{ item.status }}</span>
-								</span>
-								<span v-else>{{ '-' }}</span>
-							</div>
-						</td>
-						<td class="table__row-item">
 							<span v-if="!item.emails || item.emails.length <= 0">-</span>
 							<span v-else> {{ item.emails[0].address || '-' }} </span>
 						</td>

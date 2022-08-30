@@ -63,9 +63,6 @@ export default {
 					name: 'Contact Li'
 				},
 				{
-					name: 'Outreach Status'
-				},
-				{
 					name: 'Email'
 				},
 				{
