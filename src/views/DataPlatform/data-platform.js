@@ -104,7 +104,8 @@ export default {
 			dataToDelete: {},
 			deleting: false,
 			showExportModal: false,
-			subscriptionDone: false
+			subscriptionDone: false,
+			subscriptionRunTime: null
 		};
 	},
 	mounted() {
@@ -166,7 +167,9 @@ export default {
 					}
 				} = await this.enrichmentHistory(historyData);
 
-				this.history = history;
+				let sortedHistory = history.sort((a, b) => (b.updatedAt > a.updatedAt ? 1 : -1));
+
+				this.history = sortedHistory;
 				this.count = count;
 				this.currentPage = currentPage;
 				this.total = Math.ceil(count / this.limit);
@@ -198,6 +201,10 @@ export default {
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status === 'success' ? 'ready' : response.data.done.status;
+							this.subscriptionRunTime = this.runTime(
+								response.data.done.response.endTime,
+								response.data.done.response.startTime
+							);
 						}
 						return data;
 					});
@@ -362,7 +369,9 @@ export default {
 				if (runTime <= 60) {
 					runTimeStr = `${runTime} Secs`;
 				} else {
-					runTimeStr = `${Math.floor(runTime / 60)} Mins, ${runTime % 60} Sec${runTime % 60 > 1 ? 's' : null}`;
+					runTimeStr = `${Math.floor(runTime / 60)} Min${Math.floor(runTime / 60) > 1 ? 's' : ''}, ${runTime % 60} Sec${
+						runTime % 60 > 1 ? 's' : ''
+					}`;
 				}
 			}
 			return runTimeStr;

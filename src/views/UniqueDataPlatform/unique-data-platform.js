@@ -63,7 +63,7 @@ export default {
 					name: 'Contact Li'
 				},
 				{
-					name: 'Outreach Status'
+					name: 'Work Email'
 				},
 				{
 					name: 'Email'
@@ -212,8 +212,7 @@ export default {
 			getContactPageData: 'user/getContactPageData'
 		}),
 		emailsFound() {
-			let foundEmails = this.totalEmails > this.totalContacts ? `${this.totalContacts}+` : this.totalEmails;
-			return `${foundEmails} / ${this.totalContacts}`;
+			return `${this.totalEmails} / ${this.totalContacts}`;
 		},
 		percentageOfEmailsFound() {
 			let percentage = (this.totalEmails / this.totalContacts) * 100;
