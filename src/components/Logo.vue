@@ -21,7 +21,7 @@ export default {
 	span {
 		display: block;
 		text-transform: capitalize;
-		margin-top: 10px;
+		margin-top: 5px;
 	}
 }
 </style>
