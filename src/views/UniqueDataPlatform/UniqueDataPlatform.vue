@@ -47,6 +47,9 @@
 							<span v-else>-</span>
 						</td>
 						<td class="table__row-item">
+							{{ item.workEmail || '-' }}
+						</td>
+						<td class="table__row-item">
 							<span v-if="!item.emails || item.emails.length <= 0">-</span>
 							<span v-else> {{ item.emails[0].address || '-' }} </span>
 						</td>

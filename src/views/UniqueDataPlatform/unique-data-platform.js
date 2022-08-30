@@ -63,6 +63,9 @@ export default {
 					name: 'Contact Li'
 				},
 				{
+					name: 'Work Email'
+				},
+				{
 					name: 'Email'
 				},
 				{
