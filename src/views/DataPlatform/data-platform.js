@@ -166,7 +166,9 @@ export default {
 					}
 				} = await this.enrichmentHistory(historyData);
 
-				this.history = history;
+				let sortedHistory = history.sort((a, b) => (b.updatedAt > a.updatedAt ? 1 : -1));
+
+				this.history = sortedHistory;
 				this.count = count;
 				this.currentPage = currentPage;
 				this.total = Math.ceil(count / this.limit);
