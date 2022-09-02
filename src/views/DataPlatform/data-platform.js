@@ -176,6 +176,7 @@ export default {
 				this.nextPage = nextPage;
 
 				this.checkPendingStatus();
+				return true;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -193,7 +194,7 @@ export default {
 				if (!self.subscriptionDone) {
 					self.getHistory();
 				}
-			}, 60000);
+			}, 30000);
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
