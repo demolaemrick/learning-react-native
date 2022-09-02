@@ -18,6 +18,7 @@ import researchMixin from '@/mixins/research';
 import csvMixins from '@/mixins/csvMixins';
 import HorizontalScroll from 'vue-horizontal-scroll';
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css';
+import moment from 'moment';
 
 export default {
 	name: 'UniqueDataPlatform',
@@ -182,7 +183,8 @@ export default {
 
 				const link = document.createElement('a');
 				link.setAttribute('href', csvUrl);
-				link.setAttribute('download', 'export.csv');
+				let searchId = `${this.clientName}-${this.parameter}`;
+				link.setAttribute('download', `${searchId}-${moment(new Date()).format('YYYY-MM-DD')}.csv`);
 				link.click();
 			} catch (error) {
 				this.showAlert({
