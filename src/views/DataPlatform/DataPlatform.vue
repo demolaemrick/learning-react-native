@@ -127,7 +127,6 @@
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
 							<template v-if="item.status === 'in-progress' || item.status === 'updating'">-</template>
-							<template v-else-if="subscriptionRunTime">{{ subscriptionRunTime }}</template>
 							<template v-else> {{ runTime(item.endTime, item.startTime) }} </template>
 						</td>
 
