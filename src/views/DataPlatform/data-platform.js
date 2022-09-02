@@ -194,7 +194,7 @@ export default {
 				if (!self.subscriptionDone) {
 					self.getHistory();
 				}
-			}, 30000);
+			}, 60000);
 			try {
 				const response = await this.subscribeResearch();
 				if (response.status === 200) {
