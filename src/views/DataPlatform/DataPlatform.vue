@@ -65,9 +65,12 @@
 							/>
 						</td>
 						<td class="table__row-item" @click="handleRowClick(item)">
-							{{ item.clientName }} | {{ Object.values(item.parameters)[0] }}
+							{{ item.clientName }}
+							<template v-if="item.parameters">
+								<template v-if="Object.values(item.parameters)[0]"> | </template>
+								{{ Object.values(item.parameters)[0] || '' }}
+							</template>
 						</td>
-
 						<td class="table__row-item" @click="handleRowClick(item)">
 							<div class="table__td__status">
 								<span class="status_done" v-if="item.status === 'done'">

@@ -176,6 +176,7 @@ export default {
 				this.nextPage = nextPage;
 
 				this.checkPendingStatus();
+				return true;
 			} catch (error) {
 				this.showAlert({
 					status: 'error',
@@ -201,6 +202,10 @@ export default {
 					await this.history.map((data) => {
 						if (data.rowId === response.data.done.rowId) {
 							data.status = response.data.done.status === 'success' ? 'ready' : response.data.done.status;
+							data.totalContacts = response.data.done.response.totalContacts;
+							data.totalEmails = response.data.done.response.totalEmails;
+							data.parameters = response.data.done.response.parameters;
+
 							this.subscriptionRunTime = this.runTime(
 								response.data.done.response.endTime,
 								response.data.done.response.startTime
@@ -366,7 +371,9 @@ export default {
 				let start = moment(startTime);
 				let end = moment(endTime);
 				let runTime = end.diff(start, 'seconds');
-				if (runTime <= 60) {
+				if (runTime < 0) {
+					runTimeStr = 0 + ' Sec';
+				} else if (runTime <= 60) {
 					runTimeStr = `${runTime} Secs`;
 				} else {
 					runTimeStr = `${Math.floor(runTime / 60)} Min${Math.floor(runTime / 60) > 1 ? 's' : ''}, ${runTime % 60} Sec${
