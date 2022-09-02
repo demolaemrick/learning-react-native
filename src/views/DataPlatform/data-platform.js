@@ -104,8 +104,7 @@ export default {
 			dataToDelete: {},
 			deleting: false,
 			showExportModal: false,
-			subscriptionDone: false,
-			subscriptionRunTime: null
+			subscriptionDone: false
 		};
 	},
 	mounted() {
@@ -205,11 +204,8 @@ export default {
 							data.totalContacts = response.data.done.response.totalContacts;
 							data.totalEmails = response.data.done.response.totalEmails;
 							data.parameters = response.data.done.response.parameters;
-
-							this.subscriptionRunTime = this.runTime(
-								response.data.done.response.endTime,
-								response.data.done.response.startTime
-							);
+							data.startTime = response.data.done.response.startTime;
+							data.endTime = response.data.done.response.endTime;
 						}
 						return data;
 					});
