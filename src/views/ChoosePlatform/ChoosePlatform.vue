@@ -7,21 +7,20 @@
 			<div class="content-wrapper">
 				<div class="heading__text">
 					<h3 class="heading__text-lg mb-1">Choose your platform</h3>
-					<p class="heading__text-sm">Subtext goes here</p>
 				</div>
 				<div class="flex">
 					<router-link to="/contact-research">
 						<div class="platform-card">
 							<div class="platform-card__box"></div>
 							<h5>Research Platform</h5>
-							<p>Lorem ipsum dolor sit amert plerusa deauteir accumsan nibh tortor accumsan benelit.</p>
+							<p>Automate your contact research from multiple online sources.</p>
 						</div>
 					</router-link>
 					<router-link to="/data-platform">
 						<div class="platform-card">
 							<div class="platform-card__box"></div>
 							<h5>Data Platform</h5>
-							<p>Lorem ipsum dolor sit amert plerusa deauteir accumsan nibh tortor accumsan benelit.</p>
+							<p>Extract and enrich a list of contacts from your Linkedln saved search.</p>
 						</div>
 					</router-link>
 				</div>
