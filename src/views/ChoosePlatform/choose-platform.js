@@ -5,7 +5,6 @@ export default {
 	components: {
 		Logo
 	},
-	// mixins: [ScreenWidthMixin, insightMixin],
 	data() {
 		return {};
 	}
