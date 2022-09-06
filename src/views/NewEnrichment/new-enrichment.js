@@ -132,6 +132,9 @@ export default {
 		availableClients() {
 			return this.availableOptions?.clients;
 		},
+		availableOutreachOwners() {
+			return this.availableOptions?.outreachOwners;
+		},
 		availableBdrOwners() {
 			return this.availableOptions?.bdrOwners;
 		},
