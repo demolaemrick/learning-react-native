@@ -67,7 +67,7 @@ export default {
 					name: 'Work Email'
 				},
 				{
-					name: 'Email'
+					name: 'Other Emails'
 				},
 				{
 					name: 'Email Verification'
