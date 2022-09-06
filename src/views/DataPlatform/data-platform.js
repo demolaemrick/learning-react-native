@@ -216,11 +216,7 @@ export default {
 				}
 				return true;
 			} catch (error) {
-				this.showAlert({
-					status: 'error',
-					message: error.response.data.message,
-					showAlert: true
-				});
+				this.getHistory();
 			}
 		},
 		async checkPendingStatus() {
