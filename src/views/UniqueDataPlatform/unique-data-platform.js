@@ -67,7 +67,7 @@ export default {
 					name: 'Work Email'
 				},
 				{
-					name: 'Email'
+					name: 'Other Emails'
 				},
 				{
 					name: 'Email Verification'
@@ -183,7 +183,7 @@ export default {
 
 				const link = document.createElement('a');
 				link.setAttribute('href', csvUrl);
-				let searchId = `${this.clientName}-${this.parameter}`;
+				let searchId = `${this.clientName}_${this.parameter}`;
 				link.setAttribute('download', `${searchId}-${moment(new Date()).format('YYYY-MM-DD')}.csv`);
 				link.click();
 			} catch (error) {

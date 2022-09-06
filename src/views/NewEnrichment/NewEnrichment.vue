@@ -15,11 +15,13 @@
 						<h3>Details</h3>
 						<div class="details-wrapper">
 							<ul>
-								<li><router-link to="#">Watch this video</router-link> on how to get your LinkedIn Sales Nav Cookie</li>
 								<li>
-									<router-link to="#">Watch this video</router-link> to make sure your sales nav search URL is properly
-									formatted
+									<a href="https://www.loom.com/share/d6604ed11b38430a96685d1e7e624412" target="_blank"
+										>Watch this video</a
+									>
+									on how to get your LinkedIn Sales Nav Cookie
 								</li>
+								<li><a href="#">Watch this video</a> to make sure your sales nav search URL is properly formatted</li>
 								<li>Inputting the wrong cookie or search URL will result in a failed list!</li>
 							</ul>
 						</div>
@@ -56,12 +58,12 @@
 									<select id="" v-model="form.outreachOwner">
 										<option value="">Select</option>
 										<option
-											v-for="option in availableClients"
+											v-for="option in availableOutreachOwners"
 											:value="option"
 											:key="option.id"
 											style="text-decoration: capitalize"
 										>
-											{{ option.email }}
+											{{ option.outreachOwner }}
 										</option>
 									</select>
 								</div>
@@ -72,7 +74,7 @@
 									<select id="" v-model="form.bdrOwner">
 										<option value="">Select</option>
 										<option v-for="option in availableBdrOwners" :value="option" :key="option.id">
-											{{ option.name }}
+											{{ option.bdrOwner }}
 										</option>
 									</select>
 								</div>
