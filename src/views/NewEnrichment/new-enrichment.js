@@ -85,9 +85,9 @@ export default {
 			const { client, ...rest } = this.form;
 			const payload = {
 				...rest,
-				bdrOwner: rest.bdrOwner.email,
+				bdrOwner: rest.bdrOwner.bdrOwner,
 				clientName: client.name,
-				outreachOwner: rest.outreachOwner.email
+				outreachOwner: rest.outreachOwner.outreachOwner
 			};
 			try {
 				const { status, data } = await this.addNewDataEnrichment(payload);
