@@ -10,7 +10,7 @@ export default function App() {
   }
 
   function addGoalHandler() {
-    setCourseGoals(currentCourseGoals => [...currentCourseGoals, enteredGoalText]);    
+    setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, id: Math.random().toString()}]);    
   }
   return (
     <View style={styles.appContainer}>
@@ -22,13 +22,17 @@ export default function App() {
         <FlatList data={courseGoals} renderItem={(itemData) => {
           return (
             <View style={styles.goalItem}>
-              <Text style={styles.goalText}>{itemData.item}</Text>
+              <Text style={styles.goalText}>{itemData.item.text}</Text>
             </View>
-           )
-        }}>
-        </FlatList>       
+          )
+        }}
+          keyExtractor={(item) => item.id}
+          alwaysBounceVertical={false}
+        >
+        </FlatList>
       </View>
     </View>
+ 
   );
 }
 
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     padding: 8
   },
   goalsContainer: {
-    flex: 5
+    flex: 5,
   },
   goalItem: {
     margin: 8,
