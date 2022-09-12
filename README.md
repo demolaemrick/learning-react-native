@@ -9,3 +9,6 @@ expo init new-app
 ```
 cd new-app
 ```
+```
+yarn
+```
