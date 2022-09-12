@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginHorizontal: 24,
     padding: 16,
-    backgroundColor: "#4e0329",
+    backgroundColor: "#3b021f",
     borderRadius: 8,
     /* this only adds shadow to android */
     elevation: 4,
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
-    },
+  },
   /* to ensure that each flex element takes its available space */
-    buttonContainer: {
-      flex: 1,
-  }
+  buttonContainer: {
+    flex: 1,
+  },
 });
