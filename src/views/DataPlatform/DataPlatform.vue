@@ -143,6 +143,13 @@
 									</template>
 									<template #dropdown-items>
 										<li class="dropdown__item" @click="[refreshResearch($event, item.rowId)]">Refresh</li>
+										<li
+											class="dropdown__item"
+											v-if="item.status === 'cookie-expired'"
+											@click="toggleModal('showUpdateCookieModal')"
+										>
+											Update Cookie
+										</li>
 										<li class="dropdown__item" @click="[openDeleteModal($event, item.rowId)]">Delete</li>
 									</template>
 								</v-toggle-dropdown>
@@ -213,6 +220,32 @@
 				</div>
 			</template>
 		</v-modal>
+		<!-- UPDATE COOKIE MODAL -->
+		<v-modal
+			v-if="showUpdateCookieModal"
+			position="center"
+			:toggleClass="toggleClass"
+			@close="toggleModal('showUpdateCookieModal')"
+			maxWidth="400px"
+		>
+			<template #title>
+				<h4 class="modal__header-title">Update Cookie</h4>
+			</template>
+			<template #body>
+				<div class="modal__content">
+					<div class="mt-1">
+						<text-input type="text" labelVisible width="100%" name="New Cookie" />
+					</div>
+
+					<div class="modal__content-btn">
+						<v-button :disabled="updating" class="config__btn" buttonType="primary" size="modal" @click="deleteEnrichmentData">
+							<Loader v-if="updating" color="#ca1c1c" />
+							<span v-else>Update</span>
+						</v-button>
+					</div>
+				</div>
+			</template>
+		</v-modal>
 		<!-- DELETE MODAL -->
 		<v-modal v-if="showModal" position="center" :toggleClass="toggleClass" @close="toggleModal('showModal')" maxWidth="400px">
 			<template #title>
@@ -228,7 +261,7 @@
 						{{
 							checkedDataEnrichments.length > 1
 								? `${checkedDataEnrichments.length} data enrichments`
-								: `${checkedDataEnrichments.length} data enrichment`
+								: `${checkedDataEnrichments.length} data e nrichment`
 						}}.
 					</p>
 					<div class="modal__content-btn">

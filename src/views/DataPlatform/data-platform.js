@@ -1,6 +1,6 @@
 import VCheckbox from '@/components/Checkbox';
 import VButton from '@/components/Button';
-import VTextInput from '@/components/Input';
+import TextInput from '@/components/Input';
 import VModal from '@/components/Modal';
 import SuspendedModal from '@/components/SuspendedModal.vue';
 import VTabs from '@/components/Tabs';
@@ -23,7 +23,7 @@ export default {
 	mixins: [researchMixin, csvMixins],
 	components: {
 		VCheckbox,
-		VTextInput,
+		TextInput,
 		VButton,
 		VModal,
 		VTab,
@@ -104,7 +104,8 @@ export default {
 			dataToDelete: {},
 			deleting: false,
 			showExportModal: false,
-			subscriptionDone: false
+			subscriptionDone: false,
+			showUpdateCookieModal: false
 		};
 	},
 	mounted() {
