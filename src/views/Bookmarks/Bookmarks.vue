@@ -11,7 +11,7 @@
 					<h3 class="title" v-if="screenType === 'large'">Contact Insight</h3>
 				</div>
 				<div>
-					<template v-if="userBookmarks.contact_research && userBookmarks.contact_research.length > 0">
+					<template v-if="userBookmarks && userBookmarks.contact_research && userBookmarks.contact_research.length > 0">
 						<div v-for="(article, j) in userBookmarks.contact_research" :key="j">
 							<InsightCard
 								:published="article.meta.published || article.content.date || article.meta.timestamp"
@@ -40,7 +40,7 @@
 				<div class="searched__wrapper-header">
 					<h3 class="title" v-if="screenType === 'large'">Company Insight</h3>
 				</div>
-				<template v-if="userBookmarks.company_research && userBookmarks.company_research.length > 0">
+				<template v-if="userBookmarks && userBookmarks.company_research && userBookmarks.company_research.length > 0">
 					<div v-for="(article, j) in userBookmarks.company_research" :key="j">
 						<InsightCard
 							:published="article.meta.published || article.content.date || article.meta.timestamp"
