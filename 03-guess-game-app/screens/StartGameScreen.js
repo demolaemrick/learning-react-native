@@ -6,7 +6,6 @@ import Colors from "../constants/colors";
 
 function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState("");
-
   function numberInputHandler(enteredText) {
     setEnteredNumber(enteredText);
   }
