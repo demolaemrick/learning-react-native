@@ -238,7 +238,7 @@
 					</div>
 
 					<div class="modal__content-btn">
-						<v-button :disabled="updating" class="config__btn" buttonType="primary" size="modal" @click="deleteEnrichmentData">
+						<v-button :disabled="updating" class="config__btn" buttonType="primary" size="modal" @click="updateCookie(item.rowId)">
 							<Loader v-if="updating" color="#ca1c1c" />
 							<span v-else>Update</span>
 						</v-button>

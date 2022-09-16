@@ -375,6 +375,9 @@ export default {
 				}
 			}
 			return runTimeStr;
+		},
+		updateCookie(rowId) {
+			console.log(rowId);
 		}
 	},
 
