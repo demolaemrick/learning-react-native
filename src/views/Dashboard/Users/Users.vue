@@ -77,8 +77,8 @@
 					</td>
 				</template>
 			</v-table>
-			<template v-if="users && users.length">
-				<div class="table__pagination__wrapper" v-if="!usersLoading || (users && users.length)">
+			<template v-if="!usersLoading && users && users.length">
+				<div class="table__pagination__wrapper">
 					<div class="title__left">
 						<span>Showing Page</span>
 						<span>
