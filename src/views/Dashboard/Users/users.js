@@ -87,7 +87,7 @@ export default {
 			count: 0,
 			nextPage: null,
 			usersLoading: false,
-			users: [],
+			users: null,
 			stat: {
 				statusCode: 'ACTIVE',
 				message: 'Active'
@@ -146,6 +146,7 @@ export default {
 		async getAllUsers() {
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
+
 				const { status, data, statusText } = users;
 				if (status === 200 && statusText === 'OK') {
 					this.users = data.response.data;
