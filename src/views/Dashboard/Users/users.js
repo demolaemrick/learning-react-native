@@ -146,9 +146,9 @@ export default {
 		async getAllUsers() {
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
-
-				const { status, data, statusText } = users;
-				if (status === 200 && statusText === 'OK') {
+				console.log({ status: users.status, statusText: users.statusText });
+				const { status, data } = users;
+				if (status === 200) {
 					this.users = data.response.data;
 					this.count = data.response.count;
 					this.currentPage = data.response.currentPage;
@@ -159,8 +159,8 @@ export default {
 					type: 'user'
 				});
 				// console.log(resp);
-				const { status: pStatus, data: pData, statusText: pStatusText } = resp;
-				if (pStatus === 200 && pStatusText === 'OK') {
+				const { status: pStatus, data: pData } = resp;
+				if (pStatus === 200) {
 					let permissionsData = pData.data;
 
 					this.permissions = permissionsData.map((res, index) => {
