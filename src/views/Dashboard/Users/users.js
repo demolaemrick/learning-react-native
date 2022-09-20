@@ -146,7 +146,6 @@ export default {
 		async getAllUsers() {
 			try {
 				const users = await this.allUsers({ page: this.page, limit: this.limit });
-				console.log({ status: users.status, statusText: users.statusText });
 				const { status, data } = users;
 				if (status === 200) {
 					this.users = data.response.data;
