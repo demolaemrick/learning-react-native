@@ -239,13 +239,13 @@
 
 					<div class="modal__content-btn">
 						<v-button
-							:disabled="updating"
+							:disabled="updatingCookie"
 							class="config__btn"
 							buttonType="primary"
 							size="modal"
 							@click="updateCookie(item.rowId)"
 						>
-							<Loader v-if="updating" color="#ca1c1c" />
+							<Loader v-if="updatingCookie" color="#ca1c1c" />
 							<span v-else>Update</span>
 						</v-button>
 					</div>

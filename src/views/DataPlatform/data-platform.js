@@ -105,7 +105,8 @@ export default {
 			deleting: false,
 			showExportModal: false,
 			subscriptionDone: false,
-			showUpdateCookieModal: false
+			showUpdateCookieModal: false,
+			updatingCookie: false
 		};
 	},
 	mounted() {
