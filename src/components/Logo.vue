@@ -1,5 +1,5 @@
 <template>
-	<div class="logo" @click="$router.push({ name: 'Search' })">
+	<div class="logo" @click="$router.push({ name })">
 		<img class="logo-img" src="../assets/icons/volley_logo.png" svg-inline />
 		<span v-if="platform">{{ platform }}</span>
 	</div>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-	props: { platform: { type: String } }
+	props: { platform: { type: String }, name: { type: String, default: 'Search' } }
 };
 </script>
 
@@ -21,6 +21,7 @@ export default {
 	span {
 		display: block;
 		text-transform: capitalize;
+		user-select: none;
 	}
 }
 </style>
