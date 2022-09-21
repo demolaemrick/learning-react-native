@@ -94,5 +94,16 @@ export default {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	},
+	continueResearch: async ({ commit }, data) => {
+		const url = `data-research/update-cookie/${data.rowId}`;
+		commit('resetReq', null, { root: true });
+		commit('reqInit', null, { root: true });
+		try {
+			const response = await api.post(url, { lickedInCookie: data.lickedInCookie });
+			return Promise.resolve(response);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 };

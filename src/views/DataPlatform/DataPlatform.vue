@@ -146,7 +146,7 @@
 										<li
 											class="dropdown__item"
 											v-if="item.status === 'cookie-expired'"
-											@click="toggleModal('showUpdateCookieModal')"
+											@click="[toggleModal('showUpdateCookieModal', item.rowId), setResearchToUpdate(item.rowId)]"
 										>
 											Update Cookie
 										</li>
@@ -234,18 +234,18 @@
 			<template #body>
 				<div class="modal__content">
 					<div class="mt-1">
-						<text-input type="text" labelVisible width="100%" name="New Cookie" />
+						<text-input type="text" labelVisible width="100%" name="New Cookie" v-model="lickedInCookie" />
 					</div>
 
 					<div class="modal__content-btn">
 						<v-button
-							:disabled="updatingCookie"
+							:disabled="updatingCookie || !lickedInCookie"
 							class="config__btn"
 							buttonType="primary"
 							size="modal"
-							@click="updateCookie(item.rowId)"
+							@click="updateCookie"
 						>
-							<Loader v-if="updatingCookie" color="#ca1c1c" />
+							<Loader v-if="updatingCookie" color="#3B48F7" />
 							<span v-else>Update</span>
 						</v-button>
 					</div>

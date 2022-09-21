@@ -106,7 +106,9 @@ export default {
 			showExportModal: false,
 			subscriptionDone: false,
 			showUpdateCookieModal: false,
-			updatingCookie: false
+			updatingCookie: false,
+			lickedInCookie: null,
+			researchToUpdate: null
 		};
 	},
 	mounted() {
@@ -134,6 +136,7 @@ export default {
 			exportDataEnrichmentsHistory: 'data_enrichment/exportDataEnrichmentsHistory',
 			deleteEnrichmentHistory: 'data_enrichment/deleteEnrichmentData',
 			refresh: 'data_enrichment/refresh',
+			continueResearch: 'data_enrichment/continueResearch',
 			subscribeResearch: 'search_services/subscribeResearch',
 			showAlert: 'showAlert'
 		}),
@@ -377,8 +380,30 @@ export default {
 			}
 			return runTimeStr;
 		},
-		updateCookie(rowId) {
-			console.log(rowId);
+		setResearchToUpdate(rowId) {
+			this.researchToUpdate = rowId;
+		},
+		async updateCookie() {
+			this.updatingCookie = true;
+			const payload = { lickedInCookie: this.lickedInCookie, rowId: this.researchToUpdate };
+			try {
+				const response = await this.continueResearch(payload);
+				if (response.status === 200) {
+					this.toggleModal('showUpdateCookieModal');
+					this.lickedInCookie = null;
+					this.getHistory();
+				}
+			} catch (error) {
+				if (error.response) {
+					this.showAlert({
+						status: 'error',
+						message: error.response.data.message,
+						showAlert: true
+					});
+				}
+			} finally {
+				this.updatingCookie = false;
+			}
 		}
 	},
 
