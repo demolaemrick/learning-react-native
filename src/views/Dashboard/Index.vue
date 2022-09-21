@@ -46,28 +46,23 @@ export default {
 	margin: 0 auto;
 	transition: all 0.3s ease-in-out;
 }
-
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
 	.dashboard-body.active {
-		width: 75vw;
+		width: 76vw;
+		margin: 0 0 0 auto;
+	}
+}
+@media (min-width: 1160px) {
+	.dashboard-body.active {
+		width: 78vw;
 		margin: 0 0 0 auto;
 	}
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1400px) {
 	.dashboard-body.active {
 		width: 82vw;
+		margin: 0 0 0 auto;
 	}
 }
-
-@media (min-width: 1560px) {
-	.dashboard-body.active {
-		width: 85vw;
-	}
-}
-
-/* .dashboard-body.active {
-	width: 80vw;
-	margin: 0 0 0 auto;
-} */
 </style>

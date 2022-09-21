@@ -2,7 +2,7 @@
 	<header>
 		<nav class="navbar">
 			<div class="nav-item logo">
-				<logo platform="data platform" />
+				<logo platform="data platform" name="DataPlatform" />
 			</div>
 			<div v-if="notglobal" class="nav__menu__right">
 				<img
