@@ -260,7 +260,7 @@
 			<template #body>
 				<div class="modal__content">
 					<p class="modal__content-text" v-if="dataToDelete.rowId">
-						Kindly confirm that you want to delete this deta enrichment.
+						Kindly confirm that you want to delete this data enrichment.
 					</p>
 					<p class="modal__content-text" v-else>
 						Kindly confirm that you want to delete
