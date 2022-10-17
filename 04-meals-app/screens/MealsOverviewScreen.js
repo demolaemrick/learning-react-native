@@ -1,17 +1,21 @@
 import { View, Text, StyleSheet } from 'react-native';
+
 import { MEALS } from '../data/dummy-data';
 
-const MealsOverviewScreen = () => {
-    return <View>
-      <Text>Meals Overview Screen</Text>
-  </View>;
+const MealsOverviewScreen = ({ route }) => {
+  const catId = route.params.categoryId;
+  return (
+    <View>
+      <Text>Meals Overview Screen - {catId}</Text>
+    </View>
+  );
 };
 
 export default MealsOverviewScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16
-    }
-}) 
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+});
