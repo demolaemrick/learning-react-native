@@ -7,12 +7,23 @@ import {
   Platform,
 } from 'react-native';
 
-const MealItem = ({ title, imageUrl, duration, complexity, affordability }) => {
+import { useNavigation } from '@react-navigation/native';
+
+const MealItem = ({
+  id,
+  title,
+  imageUrl,
+  duration,
+  complexity,
+  affordability,
+}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.menuItem}>
       <Pressable
         android_ripple={{ color: '#ccc' }}
         style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
+        onPress={() => navigation.navigate('MealsDetail', { mealId: id })}
       >
         {/* the essence of this wrapper is to be able to add border radius to the card that was removed due to the shadow added to ios */}
         <View style={styles.innerContainer}>
