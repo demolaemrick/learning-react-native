@@ -1,11 +1,16 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-function UserScreen() {
+function UserScreen({navigation}) {
+  const openDrawerHandler = () => {
+    navigation.toggleDrawer()
+
+  }
   return (
     <View style={styles.rootContainer}>
       <Text>
         This is the <Text style={styles.highlight}>"User"</Text> screen!
       </Text>
+      <Button title="Open Drawer" onPress={openDrawerHandler} />
     </View>
   );
 }
@@ -18,7 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  highlight: {
+  highlight: {  
     fontWeight: 'bold',
     color: '#eb1064',
   },
